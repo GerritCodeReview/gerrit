@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACMX////g\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/AccountExternalId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-20T03:57:16Z",
+      "side": 1,
+      "message": "A short comment describing the purpose of these records would be appreciated.",
+      "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACMX////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/internal/InternalPasswordHasher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-20T03:57:16Z",
+      "side": 1,
+      "message": "Fortunately, cyptography has advanced quite a bit since the idea of SHA1(salt + password) came about. For example, we could use PBKDF2:\n\n - http://en.wikipedia.org/wiki/PBKDF2\n - http://stackoverflow.com/questions/2375541/password-verification-with-pbkdf2-in-java\n\nThis will make it harder for an attacker to brute force any password from the database, which may be important if the end-user shared the same password across services/sites.",
+      "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACMX////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/internal/InternalRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-20T03:57:16Z",
+      "side": 1,
+      "message": "Please do not import Id or Key classes. Use the container type e.g. Account.Id or AccountGroup.UUID. Its easier this way to figure out what the code does.",
+      "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACMX////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/internal/InternalRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-20T03:57:16Z",
+      "side": 1,
+      "message": "As a matter of style, we prefer to use nested try blocks, e.g.:\n\n  try {\n    ReviewDb db \u003d schema.open();\n    try {\n    } finally {\n      db.close();\n    }\n  } catch (OrmException err) {\n    throw new AccountException(\"Cannot connect to database\", err);\n  }\n\nThis way it is clear where the variable is initialized, what its scope is, and when it will be terminated.",
+      "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACMX////o\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-20T03:57:16Z",
+      "side": 1,
+      "message": "Why is this version bump required as part of this feature?",
+      "revId": "62c9cde9ae705e7bb787184627535035cb2b8d46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

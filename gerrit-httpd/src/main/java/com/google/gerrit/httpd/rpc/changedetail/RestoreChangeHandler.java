@@ -14,19 +14,15 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.mail.EmailException;
-import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
@@ -35,55 +31,39 @@ import com.google.inject.assistedinject.Assisted;
 
 import javax.annotation.Nullable;
 
-class RestoreChange extends Handler<ChangeDetail> {
+class RestoreChangeHandler extends Handler<ChangeDetail> {
   interface Factory {
-    RestoreChange create(PatchSet.Id patchSetId, String message);
+    RestoreChangeHandler create(PatchSet.Id patchSetId, String message);
   }
 
-  private final ChangeControl.Factory changeControlFactory;
-  private final ReviewDb db;
-  private final IdentifiedUser currentUser;
-  private final RestoredSender.Factory senderFactory;
+  private final RestoreChange.Factory restoreChangeFactory;
   private final ChangeDetailFactory.Factory changeDetailFactory;
 
   private final PatchSet.Id patchSetId;
   @Nullable
   private final String message;
 
-  private final ChangeHooks hooks;
-
   @Inject
-  RestoreChange(final ChangeControl.Factory changeControlFactory,
-      final ReviewDb db, final IdentifiedUser currentUser,
-      final RestoredSender.Factory senderFactory,
+  RestoreChangeHandler(final RestoreChange.Factory restoreChangeFactory,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
-      @Assisted @Nullable final String message, final ChangeHooks hooks) {
-    this.changeControlFactory = changeControlFactory;
-    this.db = db;
-    this.currentUser = currentUser;
-    this.senderFactory = senderFactory;
+      @Assisted @Nullable final String message) {
+    this.restoreChangeFactory = restoreChangeFactory;
     this.changeDetailFactory = changeDetailFactory;
 
     this.patchSetId = patchSetId;
     this.message = message;
-    this.hooks = hooks;
   }
 
   @Override
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
       EmailException, NoSuchEntityException, InvalidChangeOperationException,
       PatchSetInfoNotAvailableException {
-
-    final Change.Id changeId = patchSetId.getParentKey();
-    final ChangeControl control = changeControlFactory.validateFor(changeId);
-    if (!control.canRestore()) {
-      throw new NoSuchChangeException(changeId);
+    final ReviewResult result =
+        restoreChangeFactory.create(patchSetId, message).call();
+    if (result.getErrors().size() > 0) {
+      throw new NoSuchChangeException(result.getChangeId());
     }
-
-    ChangeUtil.restore(patchSetId, currentUser, message, db, senderFactory,
-        hooks);
-
-    return changeDetailFactory.create(changeId).call();
+    return changeDetailFactory.create(result.getChangeId()).call();
   }
 }

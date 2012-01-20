@@ -22,6 +22,7 @@ import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
+import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
@@ -30,6 +31,8 @@ import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
@@ -264,6 +267,12 @@ public class Daemon extends SiteProgram {
     } else {
       modules.add(new NoSshModule());
     }
+
+    AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
+    if (authConfig.getAuthType() == AuthType.OPENID) {
+      modules.add(new OpenIdModule());
+    }
+
     return sysInjector.createChildInjector(modules);
   }
 

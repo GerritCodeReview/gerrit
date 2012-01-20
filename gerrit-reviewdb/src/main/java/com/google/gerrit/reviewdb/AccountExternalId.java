@@ -27,6 +27,9 @@ public final class AccountExternalId {
    */
   public static final String SCHEME_GERRIT = "gerrit:";
 
+  /** Scheme used for INTERNAL authentication */
+  public static final String SCHEME_INTERNAL = "internal:";
+
   /** Scheme used for randomly created identities constructed by a UUID. */
   public static final String SCHEME_UUID = "uuid:";
 

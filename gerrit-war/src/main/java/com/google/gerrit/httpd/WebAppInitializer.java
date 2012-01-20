@@ -20,6 +20,9 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.httpd.auth.openid.OpenIdModule;
+import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
@@ -214,6 +217,12 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(sshInjector.getInstance(WebSshGlueModule.class));
     modules.add(CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
+
+    AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
+    if (authConfig.getAuthType() == AuthType.OPENID) {
+      modules.add(new OpenIdModule());
+    }
+
     return sysInjector.createChildInjector(modules);
   }
 

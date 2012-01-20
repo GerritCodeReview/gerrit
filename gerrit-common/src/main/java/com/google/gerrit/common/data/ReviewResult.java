@@ -49,7 +49,10 @@ public class ReviewResult {
   public static class Error {
     public static enum Type {
       /** Not permitted to abandon this change. */
-      ABANDON_NOT_PERMITTED
+      ABANDON_NOT_PERMITTED,
+
+      /** Not permitted to restore this change. */
+      RESTORE_NOT_PERMITTED
     }
 
     protected Type type;

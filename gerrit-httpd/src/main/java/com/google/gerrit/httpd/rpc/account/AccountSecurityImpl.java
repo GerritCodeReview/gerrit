@@ -46,21 +46,18 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
-import com.google.gwtjsonrpc.server.ValidToken;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -72,6 +69,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final AuthConfig authConfig;
   private final Realm realm;
   private final Provider<IdentifiedUser> user;
+  private final EmailTokenVerifier emailTokenVerifier;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final SshKeyCache sshKeyCache;
   private final AccountByEmailCache byEmailCache;
@@ -92,6 +90,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   AccountSecurityImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser, final ContactStore cs,
       final AuthConfig ac, final Realm r, final Provider<IdentifiedUser> u,
+      final EmailTokenVerifier etv,
       final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
       final AccountByEmailCache abec, final AccountCache uac,
       final AccountManager am,
@@ -107,6 +106,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     authConfig = ac;
     realm = r;
     user = u;
+    emailTokenVerifier = etv;
     registerNewEmailFactory = esf;
     sshKeyCache = skc;
     byEmailCache = abec;
@@ -308,26 +308,18 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     }
   }
 
-  public void validateEmail(final String token,
+  public void validateEmail(final String tokenString,
       final AsyncCallback<VoidResult> callback) {
     try {
-      final ValidToken t =
-          authConfig.getEmailRegistrationToken().checkToken(token, null);
-      if (t == null || t.getData() == null || "".equals(t.getData())) {
-        callback.onFailure(new IllegalStateException("Invalid token"));
-        return;
+      EmailTokenVerifier.ParsedToken token = emailTokenVerifier.decode(tokenString);
+      Account.Id currentUser = user.get().getAccountId();
+      if (currentUser.equals(token.getAccountId())) {
+        accountManager.link(currentUser, token.toAuthRequest());
+        callback.onSuccess(VoidResult.INSTANCE);
+      } else {
+        throw new EmailTokenVerifier.InvalidTokenException();
       }
-      final String newEmail = new String(Base64.decode(t.getData()), "UTF-8");
-      if (!newEmail.contains("@")) {
-        callback.onFailure(new IllegalStateException("Invalid token"));
-        return;
-      }
-      accountManager.link(user.get().getAccountId(), AuthRequest
-          .forEmail(newEmail));
-      callback.onSuccess(VoidResult.INSTANCE);
-    } catch (XsrfException e) {
-      callback.onFailure(e);
-    } catch (UnsupportedEncodingException e) {
+    } catch (EmailTokenVerifier.InvalidTokenException e) {
       callback.onFailure(e);
     } catch (AccountException e) {
       callback.onFailure(e);

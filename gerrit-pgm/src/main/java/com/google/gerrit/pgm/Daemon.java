@@ -37,6 +37,7 @@ import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -195,6 +196,7 @@ public class Daemon extends SiteProgram {
     modules.add(new WorkQueue.Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new SmtpEmailSender.Module());
+    modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PushReplication.Module());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {

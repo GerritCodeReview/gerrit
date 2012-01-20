@@ -39,7 +39,6 @@ import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
-import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.mail.RevertedSender;
@@ -94,7 +93,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(CommentSender.Factory.class);
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
-    factory(RegisterNewEmailSender.Factory.class);
     factory(PerformCreateGroup.Factory.class);
     factory(PerformRenameGroup.Factory.class);
     factory(VisibleGroups.Factory.class);

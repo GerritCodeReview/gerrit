@@ -206,7 +206,7 @@ order to validate their email address expires.
 * y, year, years (`1 year` is treated as `365 days`)
 
 +
-Default is 5 days.
+Default is 12 hours.
 
 [[auth.httpHeader]]auth.httpHeader::
 +

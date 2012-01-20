@@ -57,6 +57,13 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-openid</artifactId>
+      <version>${project.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
       <groupId>bouncycastle</groupId>
       <artifactId>bcprov-jdk15</artifactId>
       <version>140</version>

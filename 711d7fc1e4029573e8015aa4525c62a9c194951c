@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACLX///+8\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-20T15:36:18Z",
+      "side": 1,
+      "message": "s/This option enabled/Enabling this option/",
+      "revId": "711d7fc1e4029573e8015aa4525c62a9c194951c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

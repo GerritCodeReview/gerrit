@@ -17,10 +17,8 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewResult;
-import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -30,9 +28,8 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.changedetail.RestoreChange;
+import com.google.gerrit.server.changedetail.Submit;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.MergeOp;
-import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -61,7 +58,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public class ReviewCommand extends BaseCommand {
   private static final Logger log =
@@ -121,12 +117,6 @@ public class ReviewCommand extends BaseCommand {
   private IdentifiedUser currentUser;
 
   @Inject
-  private MergeQueue merger;
-
-  @Inject
-  private MergeOp.Factory opFactory;
-
-  @Inject
   private ApprovalTypes approvalTypes;
 
   @Inject
@@ -151,11 +141,12 @@ public class ReviewCommand extends BaseCommand {
   private ReplicationQueue replication;
 
   @Inject
+  private Submit.Factory submitFactory;
+
+  @Inject
   private PatchSetInfoFactory patchSetInfoFactory;
 
   private List<ApproveOption> optionList;
-
-  private Set<PatchSet.Id> toSubmit = new HashSet<PatchSet.Id>();
 
   @Override
   public final void start(final Environment env) {
@@ -210,36 +201,6 @@ public class ReviewCommand extends BaseCommand {
               + " review output above");
         }
 
-        if (!toSubmit.isEmpty()) {
-          final Set<Branch.NameKey> toMerge = new HashSet<Branch.NameKey>();
-          try {
-            for (PatchSet.Id patchSetId : toSubmit) {
-              ChangeUtil.submit(patchSetId, currentUser, db, opFactory,
-                  new MergeQueue() {
-                    @Override
-                    public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
-                      toMerge.add(branch);
-                    }
-
-                    @Override
-                    public void schedule(Branch.NameKey branch) {
-                      toMerge.add(branch);
-                    }
-
-                    @Override
-                    public void recheckAfter(Branch.NameKey branch, long delay,
-                        TimeUnit delayUnit) {
-                      toMerge.add(branch);
-                    }
-                  });
-            }
-            for (Branch.NameKey branch : toMerge) {
-              merger.merge(opFactory, branch);
-            }
-          } catch (OrmException updateError) {
-            throw new Failure(1, "one or more submits failed", updateError);
-          }
-        }
       }
     });
   }
@@ -249,7 +210,6 @@ public class ReviewCommand extends BaseCommand {
 
     final Change.Id changeId = patchSetId.getParentKey();
 
-    ReviewResult result = null;
     ChangeControl changeControl = changeControlFactory.validateFor(changeId);
 
     if (changeComment == null) {
@@ -269,75 +229,24 @@ public class ReviewCommand extends BaseCommand {
       publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage).call();
 
       if (abandonChange) {
-        result = abandonChangeFactory.create(patchSetId, changeComment).call();
+        ReviewResult result = abandonChangeFactory.create(
+            patchSetId, changeComment).call();
+        handleReviewResultErrors(result);
       } else if (restoreChange) {
-        result = restoreChangeFactory.create(patchSetId, changeComment).call();
-        if (submitChange) {
-          changeControl = changeControlFactory.validateFor(changeId);
-        }
+        ReviewResult result = restoreChangeFactory.create(
+            patchSetId, changeComment).call();
+        handleReviewResultErrors(result);
+      }
+      if (submitChange) {
+        ReviewResult result = submitFactory.create(patchSetId).call();
+        handleReviewResultErrors(result);
       }
     } catch (InvalidChangeOperationException e) {
       throw error(e.getMessage());
+    } catch (IllegalStateException e) {
+      throw error(e.getMessage());
     }
 
-    if (submitChange) {
-      List<SubmitRecord> submitResult = changeControl.canSubmit(db, patchSetId);
-      if (submitResult.isEmpty()) {
-        throw new Failure(1, "ChangeControl.canSubmit returned empty list");
-      }
-      switch (submitResult.get(0).status) {
-        case OK:
-          if (changeControl.getRefControl().canSubmit()) {
-            toSubmit.add(patchSetId);
-          } else {
-            throw error("change " + changeId + ": you do not have submit permission");
-          }
-          break;
-
-        case NOT_READY: {
-          StringBuilder msg = new StringBuilder();
-          for (SubmitRecord.Label lbl : submitResult.get(0).labels) {
-            switch (lbl.status) {
-              case OK:
-                break;
-
-              case REJECT:
-                if (msg.length() > 0) msg.append("\n");
-                msg.append("change " + changeId + ": blocked by " + lbl.label);
-                break;
-
-              case NEED:
-                if (msg.length() > 0) msg.append("\n");
-                msg.append("change " + changeId + ": needs " + lbl.label);
-                break;
-
-              case IMPOSSIBLE:
-                if (msg.length() > 0) msg.append("\n");
-                msg.append("change " + changeId + ": needs " + lbl.label
-                    + " (check project access)");
-                break;
-
-              default:
-                throw new Failure(1, "Unsupported label status " + lbl.status);
-            }
-          }
-          throw error(msg.toString());
-        }
-
-        case CLOSED:
-          throw error("change " + changeId + " is closed");
-
-        case RULE_ERROR:
-          if (submitResult.get(0).errorMessage != null) {
-            throw error("change " + changeId + ": " + submitResult.get(0).errorMessage);
-          } else {
-            throw error("change " + changeId + ": internal rule error");
-          }
-
-        default:
-          throw new Failure(1, "Unsupported status " + submitResult.get(0).status);
-      }
-    }
     if (publishPatchSet) {
       if (changeControl.isOwner() && changeControl.isVisible(db)) {
         ChangeUtil.publishDraftPatchSet(db, patchSetId);
@@ -358,20 +267,37 @@ public class ReviewCommand extends BaseCommand {
         throw error("Not permitted to delete draft patchset");
       }
     }
+  }
 
-    if (result != null) {
-      for (ReviewResult.Error resultError : result.getErrors()) {
-        switch (resultError.getType()) {
-          case ABANDON_NOT_PERMITTED:
-            writeError("error: not permitted to abandon change");
-            break;
-          case RESTORE_NOT_PERMITTED:
-            writeError("error: not permitted to restore change");
-            break;
-          default:
-            writeError("error: failure in review");
-        }
+  private void handleReviewResultErrors(final ReviewResult result) {
+    for (ReviewResult.Error resultError : result.getErrors()) {
+      String errMsg = "error: (Change-Id " + result.getChangeId() + ") ";
+      switch (resultError.getType()) {
+        case ABANDON_NOT_PERMITTED:
+          errMsg += "not permitted to abandon change";
+          break;
+        case RESTORE_NOT_PERMITTED:
+          errMsg += "not permitted to restore change";
+          break;
+        case SUBMIT_NOT_PERMITTED:
+          errMsg += "not permitted to submit change";
+          break;
+        case SUBMIT_NOT_READY:
+          errMsg += "approvals or dependencies lacking";
+          break;
+        case CHANGE_IS_CLOSED:
+          errMsg += "change is closed";
+          break;
+        case RULE_ERROR:
+          errMsg += "rule error";
+          break;
+        default:
+          errMsg += "failure in review";
       }
+      if (resultError.getMessage() != null) {
+        errMsg += ": " + resultError.getMessage();
+      }
+      writeError(errMsg);
     }
   }
 

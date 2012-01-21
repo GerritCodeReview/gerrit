@@ -52,25 +52,59 @@ public class ReviewResult {
       ABANDON_NOT_PERMITTED,
 
       /** Not permitted to restore this change. */
-      RESTORE_NOT_PERMITTED
+      RESTORE_NOT_PERMITTED,
+
+      /** Not permitted to submit this change. */
+      SUBMIT_NOT_PERMITTED,
+
+      /** Approvals or dependencies are lacking for submission. */
+      SUBMIT_NOT_READY,
+
+      /** Review operation invalid because change is closed. */
+      CHANGE_IS_CLOSED,
+
+      /** Review operation not permitted by rule. */
+      RULE_ERROR
     }
 
     protected Type type;
+    protected String message;
 
     protected Error() {
     }
 
     public Error(final Type type) {
       this.type = type;
+      this.message = null;
+    }
+
+    public Error(final Type type, final String message) {
+      this.type = type;
+      this.message = message;
     }
 
     public Type getType() {
       return type;
     }
 
+    public String getMessage() {
+      return message;
+    }
+
+    public String getMessageOrType() {
+      if (message != null) {
+        return message;
+      }
+      return "" + type;
+    }
+
     @Override
     public String toString() {
-      return type + "";
+      String ret = type + "";
+      if (message != null) {
+        ret += " " + message;
+      }
+      return ret;
     }
   }
 }

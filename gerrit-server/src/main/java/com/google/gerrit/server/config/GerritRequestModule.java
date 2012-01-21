@@ -29,6 +29,7 @@ import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.changedetail.RestoreChange;
+import com.google.gerrit.server.changedetail.Submit;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -101,5 +102,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(GroupDetailFactory.Factory.class);
     factory(GroupMembers.Factory.class);
     factory(CreateProject.Factory.class);
+    factory(Submit.Factory.class);
   }
 }

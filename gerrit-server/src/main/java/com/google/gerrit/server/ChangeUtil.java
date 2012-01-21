@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server;
 
-import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
-
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
@@ -29,7 +27,6 @@ import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
-import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
@@ -59,7 +56,6 @@ import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.NB;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -164,52 +160,6 @@ public class ChangeUtil {
 
   public static void testMerge(MergeOp.Factory opFactory, Change change) {
     opFactory.create(change.getDest()).verifyMergeability(change);
-  }
-
-  public static void submit(final PatchSet.Id patchSetId,
-      final IdentifiedUser user, final ReviewDb db,
-      final MergeOp.Factory opFactory, final MergeQueue merger)
-      throws OrmException {
-    final Change.Id changeId = patchSetId.getParentKey();
-    final PatchSetApproval approval = createSubmitApproval(patchSetId, user, db);
-
-    db.patchSetApprovals().upsert(Collections.singleton(approval));
-
-    final Change updatedChange = db.changes().atomicUpdate(changeId,
-        new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        if (change.getStatus() == Change.Status.NEW) {
-          change.setStatus(Change.Status.SUBMITTED);
-          ChangeUtil.updated(change);
-        }
-        return change;
-      }
-    });
-
-    if (updatedChange.getStatus() == Change.Status.SUBMITTED) {
-      merger.merge(opFactory, updatedChange.getDest());
-    }
-  }
-
-  public static PatchSetApproval createSubmitApproval(
-      final PatchSet.Id patchSetId, final IdentifiedUser user, final ReviewDb db
-      ) throws OrmException {
-    final List<PatchSetApproval> allApprovals =
-        new ArrayList<PatchSetApproval>(db.patchSetApprovals().byPatchSet(
-            patchSetId).toList());
-
-    final PatchSetApproval.Key akey =
-        new PatchSetApproval.Key(patchSetId, user.getAccountId(), SUBMIT);
-
-    for (final PatchSetApproval approval : allApprovals) {
-      if (akey.equals(approval.getKey())) {
-        approval.setValue((short) 1);
-        approval.setGranted();
-        return approval;
-      }
-    }
-    return new PatchSetApproval(akey, (short) 1);
   }
 
   public static Change.Id revert(final PatchSet.Id patchSetId,

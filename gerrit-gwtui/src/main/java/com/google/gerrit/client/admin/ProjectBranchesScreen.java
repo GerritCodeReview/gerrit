@@ -42,6 +42,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.HashSet;
@@ -243,7 +244,9 @@ public class ProjectBranchesScreen extends ProjectScreen {
           if (!ids.isEmpty()) {
             message.append(", <br>");
           }
-          message.append(k.getName());
+          final String escapedBranchName =
+              new SafeHtmlBuilder().append(k.getName()).asString();
+          message.append(escapedBranchName);
           ids.add(k.getNameKey());
         }
       }

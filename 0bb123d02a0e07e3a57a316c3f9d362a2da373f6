@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACQX////w\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-23T09:20:28Z",
+      "side": 1,
+      "message": "Actually the \u0027Push\u0027 access right does not have any levels anymore.\n\nThis means we probably need to rewrite the paragraph below since the described levels \u0027Update\u0027, \u0027Create\u0027 and \u0027Delete\u0027 do not exist anymore, but it\u0027s now covered by the access rights \u0027Push\u0027, \u0027Create Reference\u0027 and \u0027Push\u0027 + Force option",
+      "revId": "0bb123d02a0e07e3a57a316c3f9d362a2da373f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

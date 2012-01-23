@@ -16,6 +16,24 @@
       "revId": "0bb123d02a0e07e3a57a316c3f9d362a2da373f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACQ3////g\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-23T16:16:19Z",
+      "side": 1,
+      "message": "This is true. I forgot to make a notice of this in my change last time, but it really needs some thinking on what should replace line 287-295 below.\n\nNew change coming up for the below paragraph specifically with\n\nChange-Id: I74222b9932e14bd88d04d5a20c91476b9aaea29c",
+      "parentUuid": "AAACQX////w\u003d",
+      "revId": "0bb123d02a0e07e3a57a316c3f9d362a2da373f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,8 +19,6 @@ import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
@@ -30,7 +28,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 import java.util.Collections;
@@ -38,8 +35,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -71,39 +66,19 @@ public class ProjectCacheImpl implements ProjectCache {
   private final Cache<Project.NameKey, ProjectState> byName;
   private final Cache<ListKey,SortedSet<Project.NameKey>> list;
   private final Lock listLock;
-  private volatile long generation;
+  private final ProjectCacheClock clock;
 
   @Inject
   ProjectCacheImpl(
       final AllProjectsName allProjectsName,
       @Named(CACHE_NAME) final Cache<Project.NameKey, ProjectState> byName,
       @Named(CACHE_LIST) final Cache<ListKey, SortedSet<Project.NameKey>> list,
-      @GerritServerConfig final Config serverConfig) {
+      ProjectCacheClock clock) {
     this.allProjectsName = allProjectsName;
     this.byName = byName;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
-
-    long checkFrequencyMillis = TimeUnit.MILLISECONDS.convert(
-        ConfigUtil.getTimeUnit(serverConfig,
-            "cache", "projects", "checkFrequency",
-            5, TimeUnit.MINUTES), TimeUnit.MINUTES);
-    if (10 < checkFrequencyMillis) {
-      // Start with generation 1 (to avoid magic 0 below).
-      generation = 1;
-      Executors.newScheduledThreadPool(1).scheduleAtFixedRate(new Runnable() {
-        @Override
-        public void run() {
-          // This is not exactly thread-safe, but is OK for our use.
-          // The only thread that writes the volatile is this task.
-          generation = generation + 1;
-        }
-      }, checkFrequencyMillis, checkFrequencyMillis, TimeUnit.MILLISECONDS);
-    } else {
-      // Magic generation 0 triggers ProjectState to always
-      // check on each needsRefresh() request we make to it.
-      generation = 0;
-    }
+    this.clock = clock;
   }
 
   @Override
@@ -125,7 +100,7 @@ public class ProjectCacheImpl implements ProjectCache {
    */
   public ProjectState get(final Project.NameKey projectName) {
     ProjectState state = byName.get(projectName);
-    if (state != null && state.needsRefresh(generation)) {
+    if (state != null && state.needsRefresh(clock.read())) {
       byName.remove(projectName);
       state = byName.get(projectName);
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACQX////o\u003d",
+        "filename": "Documentation/error-prohibited-by-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-23T09:34:13Z",
+      "side": 1,
+      "message": "I think \u0027#category_pTAG\u0027 was renamed to \u0027#category_push_annotated\u0027, so I guess the link should be updated. Also the access right was renamed from \u0027Push Tag\u0027 to \u0027Push Annotated Tag\u0027.\n\ns/privileges/privilege or even better s/privileges/access right",
+      "revId": "5b75c006254fef7d80a3d4a27e5ce23c7ad8af3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

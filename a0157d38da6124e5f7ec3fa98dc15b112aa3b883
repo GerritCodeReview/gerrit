@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACRn////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-23T15:03:04Z",
+      "side": 1,
+      "message": "This is why HTML should always be built using SafeHtmlBuilder instead of StringBuilder.\n\nInstead of using SafeHtmlBuilder to escape the one string, please rewrite this method to use it instead of StringBuilder.",
+      "revId": "a0157d38da6124e5f7ec3fa98dc15b112aa3b883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

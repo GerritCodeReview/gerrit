@@ -25,6 +25,7 @@ import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
@@ -92,6 +93,11 @@ public class ErrorDialog extends PluginSafePopupPanel {
   public ErrorDialog(final SafeHtml message) {
     this();
     body.add(message.toBlockWidget());
+  }
+
+  public ErrorDialog(final Widget w) {
+    this();
+    body.add(w);
   }
 
   /** Create a dialog box to nicely format an exception. */

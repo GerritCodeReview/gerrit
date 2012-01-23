@@ -16,9 +16,11 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.common.data.GitwebLink;
@@ -26,6 +28,7 @@ import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -41,6 +44,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
@@ -260,22 +264,50 @@ public class ProjectBranchesScreen extends ProjectScreen {
               b.toSafeHtml(), new ConfirmationCallback() {
         @Override
         public void onOk() {
-          Util.PROJECT_SVC.deleteBranch(getProjectKey(), ids,
-              new GerritCallback<Set<Branch.NameKey>>() {
-                public void onSuccess(final Set<Branch.NameKey> deleted) {
-                  for (int row = 1; row < table.getRowCount();) {
-                    final Branch k = getRowItem(row);
-                    if (k != null && deleted.contains(k.getNameKey())) {
-                      table.removeRow(row);
-                    } else {
-                      row++;
-                    }
-                  }
-                }
-              });
+          deleteBranches(ids);
         }
       });
       confirmationDialog.center();
+    }
+
+    private void deleteBranches(final Set<Branch.NameKey> branchIds) {
+      Util.PROJECT_SVC.deleteBranch(getProjectKey(), branchIds,
+          new GerritCallback<Set<Branch.NameKey>>() {
+            public void onSuccess(final Set<Branch.NameKey> deleted) {
+              if (!deleted.isEmpty()) {
+                for (int row = 1; row < table.getRowCount();) {
+                  final Branch k = getRowItem(row);
+                  if (k != null && deleted.contains(k.getNameKey())) {
+                    table.removeRow(row);
+                  } else {
+                    row++;
+                  }
+                }
+              }
+
+              branchIds.removeAll(deleted);
+              if (!branchIds.isEmpty()) {
+                final VerticalPanel p = new VerticalPanel();
+                final ErrorDialog errorDialog = new ErrorDialog(p);
+                final Label l = new Label(Util.C.branchDeletionOpenChanges());
+                l.setStyleName(Gerrit.RESOURCES.css().errorDialogText());
+                p.add(l);
+                for (final Branch.NameKey branch : branchIds) {
+                  final BranchLink link =
+                      new BranchLink(branch.getParentKey(), Change.Status.NEW,
+                          branch.get(), null) {
+                    @Override
+                    public void go() {
+                      errorDialog.hide();
+                      super.go();
+                    };
+                  };
+                  p.add(link);
+                }
+                errorDialog.center();
+              }
+            }
+          });
     }
 
     void display(final List<Branch> result) {

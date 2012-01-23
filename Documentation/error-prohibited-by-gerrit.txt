@@ -12,10 +12,11 @@ In particular this error occurs:
    link:access-control.html#category_push_review['Push'] on
    `refs/for/refs/heads/*`)
 2. if you bypass code review without
-   link:access-control.html#category_push_direct['Push'] privileges
+   link:access-control.html#category_push_direct['Push'] access right
    on `refs/heads/*`
-3. if you push a signed or annotated tag without
-   link:access-control.html#category_pTAG['Push Tag'] privileges
+3. if you push an annotated tag without
+   link:access-control.html#category_push_annotated['Push Annotated Tag']
+   access right on 'refs/tags/*'
 4. if you push a lightweight tag without the access right link:access-control.html#category_create['Create
    Reference'] for the reference name 'refs/tags/*'
 

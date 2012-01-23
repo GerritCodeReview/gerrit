@@ -52,6 +52,24 @@
       "revId": "5aa7b59c0472240c0629b3069213eee973ddd59d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACP3///+s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-23T17:54:34Z",
+      "side": 1,
+      "message": "On my main Gerrit 2.1.8 server, there is a push tag +3 \"Create Any Tag\".  Strangely enough, on another 2.1.8 server, it does not exist.  This has been a mystery to me.",
+      "parentUuid": "AAACQX////4\u003d",
+      "revId": "5aa7b59c0472240c0629b3069213eee973ddd59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

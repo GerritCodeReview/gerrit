@@ -15,14 +15,12 @@
 package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -33,19 +31,16 @@ class PublishAction extends Handler<ChangeDetail> {
     PublishAction create(PatchSet.Id patchSetId);
   }
 
-  private final ReviewDb db;
+  private final PublishDraft.Factory publishFactory;
   private final ChangeDetailFactory.Factory changeDetailFactory;
-  private final ChangeControl.Factory changeControlFactory;
 
   private final PatchSet.Id patchSetId;
 
   @Inject
-  PublishAction(final ReviewDb db,
+  PublishAction(final PublishDraft.Factory publishFactory,
       final ChangeDetailFactory.Factory changeDetailFactory,
-      final ChangeControl.Factory changeControlFactory,
       @Assisted final PatchSet.Id patchSetId) {
-    this.db = db;
-    this.changeControlFactory = changeControlFactory;
+    this.publishFactory = publishFactory;
     this.changeDetailFactory = changeDetailFactory;
 
     this.patchSetId = patchSetId;
@@ -55,16 +50,10 @@ class PublishAction extends Handler<ChangeDetail> {
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
       IllegalStateException, PatchSetInfoNotAvailableException,
       NoSuchChangeException {
-
-    final Change.Id changeId = patchSetId.getParentKey();
-    final ChangeControl changeControl =
-        changeControlFactory.validateFor(changeId);
-
-    if (!changeControl.isOwner() || !changeControl.isVisible(db)) {
+    final ReviewResult result = publishFactory.create(patchSetId).call();
+    if (result.getErrors().size() > 0) {
       throw new IllegalStateException("Cannot publish patchset");
     }
-
-    ChangeUtil.publishDraftPatchSet(db, patchSetId);
-    return changeDetailFactory.create(changeId).call();
+    return changeDetailFactory.create(result.getChangeId()).call();
   }
 }

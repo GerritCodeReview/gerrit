@@ -807,6 +807,98 @@ Conversion table from 2.1.x series to 2.2.x series
 |=================================================================================
 
 
+System capabilities
+-------------------
+
+The system capabilities control actions that the administrators of
+the server can perform which usually affect the entire
+server in some way. The administrators may delegate these
+capabilities to trusted groups of users.
+
+Delegation of capabilities allows groups to be granted a subset of
+administrative capabilities without being given complete
+administrative control of the server. This makes it possible to
+keep fewer users in the administrators group, even while spreading
+much of the server administration burden out to more users.
+
+
+[[capability_administrateServer]]
+Administrate Server
+~~~~~~~~~~~~~~~~~~~
+
+
+[[capability_createAccount]]
+Create Account
+~~~~~~~~~~~~~~
+
+
+[[capability_createGroup]]
+Create Group
+~~~~~~~~~~~~
+
+
+[[capability_createProject]]
+Create Project
+~~~~~~~~~~~~~~
+
+
+[[capability_flushCaches]]
+Flush Caches
+~~~~~~~~~~~~
+
+
+[[capability_killTask]]
+Kill Task
+~~~~~~~~~
+
+
+[[capability_priority]]
+Priority
+~~~~~~~~
+
+
+[[capability_queryLimit]]
+Query Limit
+~~~~~~~~~~~
+
+Allow site administrators to configure the query limit for users to
+be above the default hard-coded value of 500.  Administrators can add
+a global block to All-Projects project.config file with group(s) that
+should have different limits:
+
+====
+   [capability]
+      queryLimit = +0..1000 group Automated Tools
+      queryLimit = +0..100 group Registered Users
+====
+
+When applying a query limit to a user the largest value granted by
+any of their groups is used.
+
+This limit applies not only to the link:cmd-query.html[`gerrit query`]
+command, but also to the web UI results pagination size.
+
+
+[[capability_startReplication]]
+Start Replication
+~~~~~~~~~~~~~~~~~
+
+
+[[capability_viewCaches]]
+View Caches
+~~~~~~~~~~~
+
+
+[[capability_viewConnections]]
+View Connections
+~~~~~~~~~~~~~~~~
+
+
+[[capability_viewQueue]]
+View Queue
+~~~~~~~~~~
+
+
 [NOTE]
 In Gerrit 2.2.x, the way to set permissions for upload has changed entirely.
 To upload a change for review is no longer a separate permission type,

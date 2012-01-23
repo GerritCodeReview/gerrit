@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACP3///+8\u003d",
+        "filename": "Documentation/error-prohibited-by-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-23T17:38:34Z",
+      "side": 1,
+      "message": "Anyway to make these 4 lines more consistent?  \n\n* 1\u00263\u00264 use \"access right\", 2 uses privileges instead.\n* 1\u00262\u00264 mention the ref, 3 does not (not sure if it should)",
+      "revId": "59de57622b595383a5c1f8a514b9ac4ba3d099e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACQH////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-01-23T09:19:10Z",
+      "side": 1,
+      "message": "I suppose you do that by capturing a group (the number one group) in the GitOverHttpServlet.URL_REGEX?\n\nCouldn\u0027t find any official Guice docs mentioning this feature.",
+      "revId": "ac59f1eeda6b43a17f5256b7cbaf589b93a603dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

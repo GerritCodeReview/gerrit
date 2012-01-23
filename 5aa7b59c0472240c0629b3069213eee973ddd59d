@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACQX////4\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-23T09:01:12Z",
+      "side": 1,
+      "message": "I think there was never a \u0027Push tag +3\u0027 access right. Only +1 and +2, right?",
+      "revId": "5aa7b59c0472240c0629b3069213eee973ddd59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

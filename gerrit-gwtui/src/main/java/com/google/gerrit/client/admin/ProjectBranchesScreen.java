@@ -16,9 +16,11 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.common.data.GitwebLink;
@@ -26,6 +28,7 @@ import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -260,22 +263,54 @@ public class ProjectBranchesScreen extends ProjectScreen {
               b.toSafeHtml(), new ConfirmationCallback() {
         @Override
         public void onOk() {
-          Util.PROJECT_SVC.deleteBranch(getProjectKey(), ids,
-              new GerritCallback<Set<Branch.NameKey>>() {
-                public void onSuccess(final Set<Branch.NameKey> deleted) {
-                  for (int row = 1; row < table.getRowCount();) {
-                    final Branch k = getRowItem(row);
-                    if (k != null && deleted.contains(k.getNameKey())) {
-                      table.removeRow(row);
-                    } else {
-                      row++;
-                    }
-                  }
-                }
-              });
+          deleteBranches(ids);
         }
       });
       confirmationDialog.center();
+    }
+
+    private void deleteBranches(final Set<Branch.NameKey> branchIds) {
+      Util.PROJECT_SVC.deleteBranch(getProjectKey(), branchIds,
+          new GerritCallback<Set<Branch.NameKey>>() {
+            public void onSuccess(final Set<Branch.NameKey> deleted) {
+              if (!deleted.isEmpty()) {
+                for (int row = 1; row < table.getRowCount();) {
+                  final Branch k = getRowItem(row);
+                  if (k != null && deleted.contains(k.getNameKey())) {
+                    table.removeRow(row);
+                  } else {
+                    row++;
+                  }
+                }
+              }
+
+              branchIds.removeAll(deleted);
+              if (!branchIds.isEmpty()) {
+                final SafeHtmlBuilder b = new SafeHtmlBuilder();
+                b.append(Util.C.branchDeletionOpenChanges());
+                b.br();
+                appendBranchOpenChangesLinks(b, branchIds);
+                new ErrorDialog(b.toSafeHtml()).center();
+              }
+            }
+
+            private void appendBranchOpenChangesLinks(final SafeHtmlBuilder b,
+                final Set<Branch.NameKey> branches) {
+              b.openElement("p");
+              for (final Branch.NameKey branch : branches) {
+                b.openAnchor();
+                final BranchLink link =
+                    new BranchLink(branch.getParentKey(), Change.Status.NEW,
+                        branch.get(), null);
+                b.setAttribute("href", "/#" + link.getTargetHistoryToken());
+                b.setAttribute("target", "_blank");
+                b.append(branch.get());
+                b.closeAnchor();
+                b.br();
+              }
+              b.closeElement("p");
+            }
+          });
     }
 
     void display(final List<Branch> result) {

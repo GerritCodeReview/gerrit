@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACQX////Q\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-23T10:03:10Z",
+      "side": 1,
+      "message": "nit: some trailing whitespaces",
+      "revId": "422d36195582c409a0b98cfaa090aff69657cab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACQX////U\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-23T10:03:10Z",
+      "side": 1,
+      "message": "[optional] maybe add a link to the section \u0027Manual Replacement Mapping\u0027 (#manual_replacement_mapping)",
+      "revId": "422d36195582c409a0b98cfaa090aff69657cab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

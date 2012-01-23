@@ -280,19 +280,26 @@ or rewritten by the pusher.
 * `refs/tags/*`: annotated tag objects pointing to any other type
 of Git object can be created.
 
-To push branches, the link:access-control.html#category_push_direct['Push']
-right must be granted to one (or more) of the user's groups.  The
-allowed levels within this category are:
+To push branches, the proper access rights must be configured first.
+Here follows a few examples of how to configure this in Gerrit:
 
 * Update: Any existing branch can be fast-forwarded to a new commit.
 This is the safest mode as commits cannot be discarded.  Creation
-of new branches is rejected.
-* Create: Implies Update, but also allows creation of a new branch
-if the name does not not already designate an existing branch name.
-* Delete: Implies Create and Update, but also allows an existing
+of new branches is rejected. Can be configured with
+link:access-control.html#category_push_direct['Push'] access.
+* Create: Allows creation of a new branch if the name does not
+already designate an existing branch name.  Needs
+link:access-control.html#category_create['Create Reference']
+configured. Please note that once created, this permission doesn't
+grant the right to update the branch with further commits (see above
+for update details).
+* Delete: Implies Update, but also allows an existing
 branch to be deleted.  Since a force push is effectively a delete
 followed by a create, but performed atomically on the server and
 logged, this also permits forced push updates to branches.
+To grant this access, configure
+link:access-control.html#category_push_direct['Push'] with the
+'Force' option ticked.
 
 To push annotated tags, the `Push Annotated Tag` project right must
 be granted to one (or more) of the user's groups.  There is only

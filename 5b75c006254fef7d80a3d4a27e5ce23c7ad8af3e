@@ -16,6 +16,24 @@
       "revId": "5b75c006254fef7d80a3d4a27e5ce23c7ad8af3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACQX////c\u003d",
+        "filename": "Documentation/error-prohibited-by-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-23T09:44:59Z",
+      "side": 1,
+      "message": "Pushed a change to fix the link [1].\n\n[1] https://gerrit-review.googlesource.com/31470",
+      "parentUuid": "AAACQX////o\u003d",
+      "revId": "5b75c006254fef7d80a3d4a27e5ce23c7ad8af3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

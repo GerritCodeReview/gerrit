@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACQ3////c\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-23T15:44:39Z",
+      "side": 1,
+      "message": "The old documentation mentions lightweight tags on it\u0027s own. In this table it looks kind of funny to have both [push tag \u0026 push br +2] and then only [push br +2] and link to another section. However, in the create reference section it\u0027s explained that this access right on refs/tags/* allows for pushing of light weight tags.",
+      "revId": "b7bd7e44deefada03e9f71bb2092b2dd95b00b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACQ3////Y\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-23T15:44:39Z",
+      "side": 1,
+      "message": "The documentation in push mentions how to delete tags, and therefore I think it should be in this table as well, even though the community generally despises tag deletion on the server..",
+      "revId": "b7bd7e44deefada03e9f71bb2092b2dd95b00b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

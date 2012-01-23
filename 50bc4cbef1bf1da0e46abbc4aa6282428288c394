@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACQn////Q\u003d",
+        "filename": "gerrit-openid/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-01-23T15:33:27Z",
+      "side": 1,
+      "message": "Done\n\nCute, .settings is in .gitignore.",
+      "parentUuid": "AAACRn////0\u003d",
+      "revId": "50bc4cbef1bf1da0e46abbc4aa6282428288c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACRn////w\u003d",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-23T15:07:12Z",
       "side": 1,
       "message": "Anything you bind in WebAppInitializer also has to be bound in the Daemon class in gerrit-pgm.",
+      "revId": "50bc4cbef1bf1da0e46abbc4aa6282428288c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACQn////M\u003d",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-01-23T15:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACRn////w\u003d",
       "revId": "50bc4cbef1bf1da0e46abbc4aa6282428288c394",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

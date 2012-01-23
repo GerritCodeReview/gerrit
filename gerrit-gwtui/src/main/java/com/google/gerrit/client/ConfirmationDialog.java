@@ -19,8 +19,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
 public class ConfirmationDialog extends AutoCenterDialogBox {
@@ -28,7 +29,7 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
 
   private Button cancelButton;
 
-  public ConfirmationDialog(final String dialogTitle, final HTML message,
+  public ConfirmationDialog(final String dialogTitle, final SafeHtml message,
       final ConfirmationCallback callback) {
     super(/* auto hide */false, /* modal */true);
     setGlassEnabled(true);
@@ -59,11 +60,12 @@ public class ConfirmationDialog extends AutoCenterDialogBox {
     buttons.add(cancelButton);
 
     final FlowPanel center = new FlowPanel();
-    center.add(message);
+    final Widget msgWidget = message.toBlockWidget();
+    center.add(msgWidget);
     center.add(buttons);
     add(center);
 
-    message.setWidth("400px");
+    msgWidget.setWidth("400px");
 
     setWidget(center);
   }

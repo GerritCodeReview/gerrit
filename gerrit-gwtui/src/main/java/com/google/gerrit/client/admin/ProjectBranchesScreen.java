@@ -40,8 +40,8 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.HashSet;
@@ -232,29 +232,32 @@ public class ProjectBranchesScreen extends ProjectScreen {
     }
 
     void deleteChecked() {
-      final StringBuilder message = new StringBuilder();
-      message.append("<b>").append(Gerrit.C.branchDeletionConfirmationMessage()).append("</b>");
-      message.append("<p>");
+      final SafeHtmlBuilder b = new SafeHtmlBuilder();
+      b.openElement("b");
+      b.append(Gerrit.C.branchDeletionConfirmationMessage());
+      b.closeElement("b");
+
+      b.openElement("p");
       final HashSet<Branch.NameKey> ids = new HashSet<Branch.NameKey>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final Branch k = getRowItem(row);
         if (k != null && table.getWidget(row, 1) instanceof CheckBox
             && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           if (!ids.isEmpty()) {
-            message.append(", <br>");
+            b.append(",").br();
           }
-          message.append(k.getName());
+          b.append(k.getName());
           ids.add(k.getNameKey());
         }
       }
-      message.append("</p>");
+      b.closeElement("p");
       if (ids.isEmpty()) {
         return;
       }
 
       ConfirmationDialog confirmationDialog =
           new ConfirmationDialog(Gerrit.C.branchDeletionDialogTitle(),
-              new HTML(message.toString()), new ConfirmationCallback() {
+              b.toSafeHtml(), new ConfirmationCallback() {
         @Override
         public void onOk() {
           Util.PROJECT_SVC.deleteBranch(getProjectKey(), ids,

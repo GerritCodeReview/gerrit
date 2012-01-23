@@ -16,6 +16,24 @@
       "revId": "ac59f1eeda6b43a17f5256b7cbaf589b93a603dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACRn////Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-23T15:20:53Z",
+      "side": 1,
+      "message": "Yes. Its apparently not documented, but on a serveRegex() capture group one is returned from getPathInfo().\n\nThis is why I was having trouble with the code before and had to wrap the request to make JGit happy. JGit\u0027s support was partially built around this assumption, that it is either bound as a standard servlet like \"/git/*\" where getPathInfo() provides the remainder, or that it was bound inside of Guice where serveRegex() can provide the group.",
+      "parentUuid": "AAACQH////0\u003d",
+      "revId": "ac59f1eeda6b43a17f5256b7cbaf589b93a603dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACRn////0\u003d",
+        "filename": "gerrit-openid/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-23T15:07:12Z",
+      "side": 1,
+      "message": "Please also copy the various .settings/ files from an existing project like gerrit-server, only the ones that are tracked by Git. These carry settings for Eclipse like line ending convention (UNIX), source code formatting rules, and compiler warning settings. If we don\u0027t set those files up in this new project Eclipse will be misconfigured in this one project, making it harder to maintain the same code style across Gerrit.",
+      "revId": "50bc4cbef1bf1da0e46abbc4aa6282428288c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACRn////w\u003d",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-23T15:07:12Z",
+      "side": 1,
+      "message": "Anything you bind in WebAppInitializer also has to be bound in the Daemon class in gerrit-pgm.",
+      "revId": "50bc4cbef1bf1da0e46abbc4aa6282428288c394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

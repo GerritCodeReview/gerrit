@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACQ3////I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-23T16:17:51Z",
+      "side": 1,
+      "message": "Is this note still relevant, now that we consider the access docs up-to-date with 2.2.x?",
+      "revId": "2b3cd552976cb2047dd1cec115516ead8021097f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

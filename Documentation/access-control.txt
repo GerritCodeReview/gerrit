@@ -807,6 +807,75 @@ Conversion table from 2.1.x series to 2.2.x series
 |=================================================================================
 
 
+System capabilities
+-------------------
+
+The system capabilities are actions that the administrators of the
+server can perform.  When executed they usually affect the entire
+server in some way. The administrators may delegate these
+capabilities to trusted super users of the system.
+
+
+[[capability_administrateServer]]
+administrateServer
+~~~~~~~~~~~~~~~~~~
+
+
+[[capability_createAccount]]
+createAccount
+~~~~~~~~~~~~~
+
+
+[[capability_createGroup]]
+createGroup
+~~~~~~~~~~~
+
+
+[[capability_createProject]]
+createProject
+~~~~~~~~~~~~~
+
+
+[[capability_flushCaches]]
+flushCaches
+~~~~~~~~~~~
+
+
+[[capability_killTask]]
+killTask
+~~~~~~~~
+
+
+[[capability_priority]]
+priority
+~~~~~~~~
+
+
+[[capability_queryLimit]]
+queryLimit
+~~~~~~~~~~
+
+
+[[capability_startReplication]]
+startReplication
+~~~~~~~~~~~~~~~~
+
+
+[[capability_viewCaches]]
+viewCaches
+~~~~~~~~~~
+
+
+[[capability_viewConnections]]
+viewConnections
+~~~~~~~~~~~~~~~
+
+
+[[capability_viewQueue]]
+viewQueue
+~~~~~~~~~
+
+
 [NOTE]
 In Gerrit 2.2.x, the way to set permissions for upload has changed entirely.
 To upload a change for review is no longer a separate permission type,

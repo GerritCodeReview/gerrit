@@ -16,6 +16,24 @@
       "revId": "2b3cd552976cb2047dd1cec115516ead8021097f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACP3///+0\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-23T17:48:15Z",
+      "side": 1,
+      "message": "It seems relevant to still mention the change, but perhaps you feel that it should now be phrased differently?  The first sentence might be better as something like:  in 2.1.x, the way to set upload permissions was... In 2.2.x it is instead...",
+      "parentUuid": "AAACQ3////I\u003d",
+      "revId": "2b3cd552976cb2047dd1cec115516ead8021097f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

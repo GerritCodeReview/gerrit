@@ -16,6 +16,24 @@
       "revId": "5aa7b59c0472240c0629b3069213eee973ddd59d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACQ3////4\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-23T09:09:24Z",
+      "side": 1,
+      "message": "Ah, looking at the docs, you\u0027re absolutetly right. But  the light weight branches are described however;\n\"To push lightweight (non annotated) tags, grant Push Branch +2 Create Branch for reference name refs/tags/*, as lightweight tags are implemented just like branches in Git.\"\nI have confused Push Branch +2 with the fictional Push Tag +3.. It was perhaps a little too late in the afternoon..\n\nAlso how to delete branches were described:\n\"To delete or overwrite an existing tag, grant Push Branch +3 Force Push Branch; Delete Branch for reference name refs/tags/*, as deleting a tag requires the same permission as deleting a branch.\"\n\nI\u0027ll submit a new change to correct this, and I also just realized that the new permissions should be linked in case you want to read more about a specific new permission.",
+      "parentUuid": "AAACQX////4\u003d",
+      "revId": "5aa7b59c0472240c0629b3069213eee973ddd59d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

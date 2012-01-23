@@ -16,7 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
-import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -216,7 +216,7 @@ public class ChangeUtil {
   public static Change.Id revert(final PatchSet.Id patchSetId,
       final IdentifiedUser user, final String message, final ReviewDb db,
       final RevertedSender.Factory revertedSenderFactory,
-      final ChangeHookRunner hooks, GitRepositoryManager gitManager,
+      final ChangeHooks hooks, GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ReplicationQueue replication, PersonIdent myIdent)
       throws NoSuchChangeException, EmailException, OrmException,
@@ -320,7 +320,7 @@ public class ChangeUtil {
   public static void restore(final PatchSet.Id patchSetId,
       final IdentifiedUser user, final String message, final ReviewDb db,
       final RestoredSender.Factory senderFactory,
-      final ChangeHookRunner hooks) throws NoSuchChangeException,
+      final ChangeHooks hooks) throws NoSuchChangeException,
       InvalidChangeOperationException, EmailException, OrmException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSet patch = db.patchSets().get(patchSetId);

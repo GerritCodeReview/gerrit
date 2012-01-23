@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
-import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
@@ -84,7 +84,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
   private final MyGroupsFactory.Factory myGroupsFactory;
 
-  private final ChangeHookRunner hooks;
+  private final ChangeHooks hooks;
 
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
@@ -100,7 +100,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
       final MyGroupsFactory.Factory myGroupsFactory,
-      final ChangeHookRunner hooks) {
+      final ChangeHooks hooks) {
     super(schema, currentUser);
     contactStore = cs;
     authConfig = ac;

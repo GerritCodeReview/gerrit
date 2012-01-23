@@ -14,14 +14,11 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;

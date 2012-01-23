@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
-import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -50,7 +50,7 @@ class RestoreChange extends Handler<ChangeDetail> {
   @Nullable
   private final String message;
 
-  private final ChangeHookRunner hooks;
+  private final ChangeHooks hooks;
 
   @Inject
   RestoreChange(final ChangeControl.Factory changeControlFactory,
@@ -58,7 +58,7 @@ class RestoreChange extends Handler<ChangeDetail> {
       final RestoredSender.Factory senderFactory,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
-      @Assisted @Nullable final String message, final ChangeHookRunner hooks) {
+      @Assisted @Nullable final String message, final ChangeHooks hooks) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;

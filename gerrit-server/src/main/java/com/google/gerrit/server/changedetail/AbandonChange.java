@@ -15,7 +15,7 @@
 
 package com.google.gerrit.server.changedetail;
 
-import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
@@ -45,7 +45,7 @@ public class AbandonChange implements Callable<ReviewResult> {
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
-  private final ChangeHookRunner hooks;
+  private final ChangeHooks hooks;
 
   private final PatchSet.Id patchSetId;
   private final String changeComment;
@@ -53,7 +53,7 @@ public class AbandonChange implements Callable<ReviewResult> {
   @Inject
   AbandonChange(final AbandonedSender.Factory abandonedSenderFactory,
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
-      final IdentifiedUser currentUser, final ChangeHookRunner hooks,
+      final IdentifiedUser currentUser, final ChangeHooks hooks,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted final String changeComment) {
     this.abandonedSenderFactory = abandonedSenderFactory;

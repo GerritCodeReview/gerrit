@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -67,7 +67,7 @@ public class PublishComments implements Callable<VoidResult> {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final FunctionState.Factory functionStateFactory;
-  private final ChangeHookRunner hooks;
+  private final ChangeHooks hooks;
 
   private final PatchSet.Id patchSetId;
   private final String messageText;
@@ -86,7 +86,7 @@ public class PublishComments implements Callable<VoidResult> {
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeControl.Factory changeControlFactory,
       final FunctionState.Factory functionStateFactory,
-      final ChangeHookRunner hooks,
+      final ChangeHooks hooks,
 
       @Assisted final PatchSet.Id patchSetId,
       @Assisted final String messageText,

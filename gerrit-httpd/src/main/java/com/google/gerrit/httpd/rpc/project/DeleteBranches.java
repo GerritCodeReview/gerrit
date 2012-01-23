@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
@@ -49,7 +49,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   private final GitRepositoryManager repoManager;
   private final ReplicationQueue replication;
   private final IdentifiedUser identifiedUser;
-  private final ChangeHookRunner hooks;
+  private final ChangeHooks hooks;
 
   private final Project.NameKey projectName;
   private final Set<Branch.NameKey> toRemove;
@@ -59,7 +59,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
       final GitRepositoryManager repoManager,
       final ReplicationQueue replication,
       final IdentifiedUser identifiedUser,
-      final ChangeHookRunner hooks,
+      final ChangeHooks hooks,
 
       @Assisted Project.NameKey name, @Assisted Set<Branch.NameKey> toRemove) {
     this.projectControlFactory = projectControlFactory;

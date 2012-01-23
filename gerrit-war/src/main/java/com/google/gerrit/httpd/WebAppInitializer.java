@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.AuthConfigModule;
@@ -184,6 +185,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new WorkQueue.Module());
+    modules.add(new ChangeHookRunner.Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());

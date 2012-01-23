@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.ChangeListener;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.ChangeEvent;
@@ -43,7 +43,7 @@ final class StreamEvents extends BaseCommand {
   private IdentifiedUser currentUser;
 
   @Inject
-  private ChangeHookRunner hooks;
+  private ChangeHooks hooks;
 
   @Inject
   @StreamCommandExecutor

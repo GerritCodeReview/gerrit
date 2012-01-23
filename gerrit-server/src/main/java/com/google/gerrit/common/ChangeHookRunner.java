@@ -46,6 +46,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -67,13 +68,19 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * This class implements hooks for certain gerrit events.
- */
+/** Spawns local executables when a hook action occurs. */
 @Singleton
-public class ChangeHookRunner {
+public class ChangeHookRunner implements ChangeHooks {
     /** A logger for this class. */
     private static final Logger log = LoggerFactory.getLogger(ChangeHookRunner.class);
+
+    public static class Module extends AbstractModule {
+      @Override
+      protected void configure() {
+        bind(ChangeHookRunner.class);
+        bind(ChangeHooks.class).to(ChangeHookRunner.class);
+      }
+    }
 
     private static class ChangeListenerHolder {
         final ChangeListener listener;
@@ -216,13 +223,6 @@ public class ChangeHookRunner {
         }
     }
 
-    /**
-     * Fire the Patchset Created Hook.
-     *
-     * @param change The change itself.
-     * @param patchSet The Patchset that was created.
-     * @throws OrmException
-     */
     public void doPatchsetCreatedHook(final Change change, final PatchSet patchSet,
           final ReviewDb db) throws OrmException {
         final PatchSetCreatedEvent event = new PatchSetCreatedEvent();
@@ -245,16 +245,6 @@ public class ChangeHookRunner {
         runHook(openRepository(change), patchsetCreatedHook, args);
     }
 
-    /**
-     * Fire the Comment Added Hook.
-     *
-     * @param change The change itself.
-     * @param patchSet The patchset this comment is related to.
-     * @param account The gerrit user who commited the change.
-     * @param comment The comment given.
-     * @param approvals Map of Approval Categories and Scores
-     * @throws OrmException
-     */
     public void doCommentAddedHook(final Change change, final Account account,
           final PatchSet patchSet, final String comment, final Map<ApprovalCategory.Id,
           ApprovalCategoryValue.Id> approvals, final ReviewDb db) throws OrmException {
@@ -290,14 +280,6 @@ public class ChangeHookRunner {
         runHook(openRepository(change), commentAddedHook, args);
     }
 
-    /**
-     * Fire the Change Merged Hook.
-     *
-     * @param change The change itself.
-     * @param account The gerrit user who commited the change.
-     * @param patchSet The patchset that was merged.
-     * @throws OrmException
-     */
     public void doChangeMergedHook(final Change change, final Account account,
           final PatchSet patchSet, final ReviewDb db) throws OrmException {
         final ChangeMergedEvent event = new ChangeMergedEvent();
@@ -318,14 +300,6 @@ public class ChangeHookRunner {
         runHook(openRepository(change), changeMergedHook, args);
     }
 
-    /**
-     * Fire the Change Abandoned Hook.
-     *
-     * @param change The change itself.
-     * @param account The gerrit user who abandoned the change.
-     * @param reason Reason for abandoning the change.
-     * @throws OrmException
-     */
     public void doChangeAbandonedHook(final Change change, final Account account,
           final String reason, final ReviewDb db) throws OrmException {
         final ChangeAbandonedEvent event = new ChangeAbandonedEvent();
@@ -346,14 +320,6 @@ public class ChangeHookRunner {
         runHook(openRepository(change), changeAbandonedHook, args);
     }
 
-    /**
-     * Fire the Change Restored Hook.
-     *
-     * @param change The change itself.
-     * @param account The gerrit user who restored the change.
-     * @param reason Reason for restoring the change.
-     * @throws OrmException
-     */
     public void doChangeRestoreHook(final Change change, final Account account,
           final String reason, final ReviewDb db) throws OrmException {
         final ChangeRestoreEvent event = new ChangeRestoreEvent();
@@ -374,23 +340,10 @@ public class ChangeHookRunner {
         runHook(openRepository(change), changeRestoredHook, args);
     }
 
-    /**
-     * Fire the Ref Updated Hook
-     * @param project The project the ref update occured on
-     * @param refUpdate An actual RefUpdate object
-     * @param account The gerrit user who moved the ref
-     */
     public void doRefUpdatedHook(final Branch.NameKey refName, final RefUpdate refUpdate, final Account account) {
       doRefUpdatedHook(refName, refUpdate.getOldObjectId(), refUpdate.getNewObjectId(), account);
     }
 
-    /**
-     * Fire the Ref Updated Hook
-     * @param refName The Branch.NameKey of the ref that was updated
-     * @param oldId The ref's old id
-     * @param newId The ref's new id
-     * @param account The gerrit user who moved the ref
-     */
     public void doRefUpdatedHook(final Branch.NameKey refName, final ObjectId oldId, final ObjectId newId, final Account account) {
       final RefUpdatedEvent event = new RefUpdatedEvent();
 

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
@@ -124,7 +124,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ReplicationQueue replication;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final ChangeHookRunner hooks;
+  private final ChangeHooks hooks;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
@@ -163,7 +163,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
       final ReplicationQueue replication,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final ChangeHookRunner hooks,
+      final ChangeHooks hooks,
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,

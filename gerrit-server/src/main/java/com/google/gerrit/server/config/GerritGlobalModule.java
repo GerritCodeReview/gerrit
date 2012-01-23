@@ -129,6 +129,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(SecureCredentialsProvider.Factory.class);
     factory(PushAllProjectsOp.Factory.class);
 
+    bind(ChangeMergeQueue.class).in(SINGLETON);
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
     factory(ReloadSubmitQueueOp.Factory.class);
 

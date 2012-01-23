@@ -29,6 +29,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.servlet.RequestScoped;
 
 import com.jcraft.jsch.HostKey;
@@ -43,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@Singleton
 public class ChangeMergeQueue implements MergeQueue {
   private static final Logger log =
       LoggerFactory.getLogger(ChangeMergeQueue.class);

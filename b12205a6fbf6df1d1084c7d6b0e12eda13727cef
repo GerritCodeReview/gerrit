@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACP3////Q\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-23T17:34:25Z",
+      "side": 1,
+      "message": "Maybe: s/are/control/",
+      "revId": "b12205a6fbf6df1d1084c7d6b0e12eda13727cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACP3////M\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-23T17:34:25Z",
+      "side": 1,
+      "message": "To go with above: s/perform. When executed they usually/perform which usually/",
+      "revId": "b12205a6fbf6df1d1084c7d6b0e12eda13727cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACP3////E\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-23T17:34:25Z",
+      "side": 1,
+      "message": "Maybe:  s/trusted super users of the system./trusted groups of users/",
+      "revId": "b12205a6fbf6df1d1084c7d6b0e12eda13727cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACP3////I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 816,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-23T17:34:25Z",
+      "side": 1,
+      "message": "I might add:\nDelegation of capabilities allows groups to be granted a subset of administrative capabilities without being given complete administrative control of the server.  This makes it possible to keep fewer users in the administrators group, even while spreading much of the server administration burden out to more users.",
+      "revId": "b12205a6fbf6df1d1084c7d6b0e12eda13727cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

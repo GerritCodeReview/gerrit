@@ -63,6 +63,9 @@ public class ReviewResult {
       /** Review operation invalid because change is closed. */
       CHANGE_IS_CLOSED,
 
+      /** The change is not visible and the current user is not the owner */
+      CHANGE_NOT_VISIBLE,
+
       /** Review operation not permitted by rule. */
       RULE_ERROR
     }

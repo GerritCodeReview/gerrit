@@ -14,7 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewResult;
@@ -29,6 +28,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.AbandonChange;
+import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -134,10 +134,10 @@ public class ReviewCommand extends BaseCommand {
   private PublishComments.Factory publishCommentsFactory;
 
   @Inject
-  private RestoreChange.Factory restoreChangeFactory;
+  private PublishDraft.Factory publishDraftFactory;
 
   @Inject
-  private ChangeHookRunner hooks;
+  private RestoreChange.Factory restoreChangeFactory;
 
   @Inject
   private GitRepositoryManager gitManager;
@@ -253,13 +253,9 @@ public class ReviewCommand extends BaseCommand {
     }
 
     if (publishPatchSet) {
-      if (changeControl.isOwner() && changeControl.isVisible(db)) {
-        ChangeUtil.publishDraftPatchSet(db, patchSetId);
-      } else {
-        throw error("Not permitted to publish draft patchset");
-      }
-    }
-    if (deleteDraftPatchSet) {
+      ReviewResult result = publishDraftFactory.create(patchSetId).call();
+      handleReviewResultErrors(result);
+    } else if (deleteDraftPatchSet) {
       if (changeControl.isOwner() && changeControl.isVisible(db)) {
         try {
           ChangeUtil.deleteDraftPatchSet(patchSetId, gitManager, replication, patchSetInfoFactory, db);
@@ -292,6 +288,9 @@ public class ReviewCommand extends BaseCommand {
           break;
         case CHANGE_IS_CLOSED:
           errMsg += "change is closed";
+          break;
+        case CHANGE_NOT_VISIBLE:
+          errMsg += "not permitted to review change";
           break;
         case RULE_ERROR:
           errMsg += "rule error";

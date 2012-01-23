@@ -375,6 +375,12 @@
   width: 100%;
   margin-top: 15px;
 }
+.errorDialog a,
+.errorDialog a:visited,
+.errorDialog a:hover {
+  color: white;
+  font-weight: bold;
+}
 
 
 /** Screen **/

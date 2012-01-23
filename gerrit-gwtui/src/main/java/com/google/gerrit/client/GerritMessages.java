@@ -24,4 +24,6 @@ public interface GerritMessages extends Messages {
   String noSuchAccountMessage(String who);
 
   String noSuchGroupMessage(String who);
+
+  String branchDeletionFailed(String branchName, String error);
 }

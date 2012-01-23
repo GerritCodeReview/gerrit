@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.DeleteBranchesResult;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
@@ -115,9 +116,10 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
 
   @Override
   public void deleteBranch(final Project.NameKey projectName,
-      final Set<Branch.NameKey> toRemove,
-      final AsyncCallback<Set<Branch.NameKey>> callback) {
-    deleteBranchesFactory.create(projectName, toRemove).to(callback);
+      final Set<Branch.NameKey> toRemove, final boolean abandonOpenChanges,
+      final AsyncCallback<DeleteBranchesResult> callback) {
+    deleteBranchesFactory.create(projectName, toRemove, abandonOpenChanges).to(
+        callback);
   }
 
   @Override

@@ -16,16 +16,21 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.common.data.DeleteBranchesResult;
 import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
 import com.google.gerrit.reviewdb.Branch;
+import com.google.gerrit.reviewdb.Branch.NameKey;
+import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -41,6 +46,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
@@ -50,6 +56,7 @@ import java.util.Set;
 
 public class ProjectBranchesScreen extends ProjectScreen {
   private BranchesTable branches;
+  private CheckBox abandonOpenChanges;
   private Button delBranch;
   private Button addBranch;
   private HintTextBox nameTxtBox;
@@ -70,6 +77,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
             if (result.getNoRepository()) {
               branches.setVisible(false);
               addPanel.setVisible(false);
+              abandonOpenChanges.setVisible(false);
               delBranch.setVisible(false);
 
               Label no = new Label(Util.C.errorNoGitRepository());
@@ -87,10 +95,12 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
   private void display(final List<Branch> listBranches) {
     branches.display(listBranches);
+    abandonOpenChanges.setVisible(branches.hasBranchCanDelete());
     delBranch.setVisible(branches.hasBranchCanDelete());
   }
 
   private void enableForm(final boolean on) {
+    abandonOpenChanges.setEnabled(on);
     delBranch.setEnabled(on);
     addBranch.setEnabled(on);
     nameTxtBox.setEnabled(on);
@@ -146,6 +156,8 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
     branches = new BranchesTable();
 
+    abandonOpenChanges = new CheckBox(Util.C.checkboxAbandonOpenChanges());
+
     delBranch = new Button(Util.C.buttonDeleteBranch());
     delBranch.addClickHandler(new ClickHandler() {
       @Override
@@ -155,7 +167,10 @@ public class ProjectBranchesScreen extends ProjectScreen {
     });
 
     add(branches);
-    add(delBranch);
+    final VerticalPanel v = new VerticalPanel();
+    v.add(abandonOpenChanges);
+    v.add(delBranch);
+    add(v);
     add(addPanel);
   }
 
@@ -234,7 +249,11 @@ public class ProjectBranchesScreen extends ProjectScreen {
     void deleteChecked() {
       final SafeHtmlBuilder b = new SafeHtmlBuilder();
       b.openElement("b");
-      b.append(Gerrit.C.branchDeletionConfirmationMessage());
+      if (abandonOpenChanges.getValue()) {
+        b.append(Gerrit.C.branchDeletionAndAbandonOpenChangesConfirmationMessage());
+      } else {
+        b.append(Gerrit.C.branchDeletionConfirmationMessage());
+      }
       b.closeElement("b");
 
       b.openElement("p");
@@ -260,22 +279,84 @@ public class ProjectBranchesScreen extends ProjectScreen {
               b.toSafeHtml(), new ConfirmationCallback() {
         @Override
         public void onOk() {
-          Util.PROJECT_SVC.deleteBranch(getProjectKey(), ids,
-              new GerritCallback<Set<Branch.NameKey>>() {
-                public void onSuccess(final Set<Branch.NameKey> deleted) {
-                  for (int row = 1; row < table.getRowCount();) {
-                    final Branch k = getRowItem(row);
-                    if (k != null && deleted.contains(k.getNameKey())) {
-                      table.removeRow(row);
-                    } else {
-                      row++;
-                    }
-                  }
-                }
-              });
+          deleteBranches(ids, abandonOpenChanges.getValue());
         }
       });
       confirmationDialog.center();
+    }
+
+    private void deleteBranches(final Set<Branch.NameKey> branchIds,
+        final boolean abandonOpenChanges) {
+      Util.PROJECT_SVC.deleteBranch(getProjectKey(), branchIds,
+          abandonOpenChanges, new GerritCallback<DeleteBranchesResult>() {
+            public void onSuccess(final DeleteBranchesResult result) {
+              final Set<NameKey> deletedBranches = result.getDeletedBranches();
+              if (!deletedBranches.isEmpty()) {
+                for (int row = 1; row < table.getRowCount();) {
+                  final Branch k = getRowItem(row);
+                  if (k != null && deletedBranches.contains(k.getNameKey())) {
+                    table.removeRow(row);
+                  } else {
+                    row++;
+                  }
+                }
+              }
+
+              if (result.hasErrors()) {
+                final SafeHtmlBuilder b = new SafeHtmlBuilder();
+                final Set<Branch.NameKey> branchesWithOpenChanges =
+                    new HashSet<Branch.NameKey>();
+                final Set<Branch.NameKey> branchesWithOpenChangesThatCannotBeAbandoned =
+                    new HashSet<Branch.NameKey>();
+                for (final DeleteBranchesResult.Error e : result.getErrors()) {
+                  switch (e.getType()) {
+                    case OPEN_CHANGES:
+                      branchesWithOpenChanges.add(e.getBranchKey());
+                      break;
+
+                    case ABANDON_FAILED:
+                      branchesWithOpenChangesThatCannotBeAbandoned.add(e
+                          .getBranchKey());
+                      break;
+
+                    default:
+                      b.append(Gerrit.M.branchDeletionFailed(e.getBranchKey()
+                          .get(), e.toString()));
+                      b.br();
+                  }
+                }
+                if (!branchesWithOpenChanges.isEmpty()) {
+                  b.append(Util.C.branchDeletionOpenChanges());
+                  b.br();
+                  appendBranchOpenChangesLinks(b, branchesWithOpenChanges);
+                }
+                if (!branchesWithOpenChangesThatCannotBeAbandoned.isEmpty()) {
+                  b.append(Util.C.branchDeletionAbandonFailed());
+                  b.br();
+                  appendBranchOpenChangesLinks(b,
+                      branchesWithOpenChangesThatCannotBeAbandoned);
+                }
+                new ErrorDialog(b.toSafeHtml()).center();
+              }
+            }
+
+            private void appendBranchOpenChangesLinks(final SafeHtmlBuilder b,
+                final Set<Branch.NameKey> branches) {
+              b.openElement("p");
+              for (final Branch.NameKey branch : branches) {
+                b.openAnchor();
+                final BranchLink link =
+                    new BranchLink(branch.getParentKey(), Change.Status.NEW,
+                        branch.get(), null);
+                b.setAttribute("href", "/#" + link.getTargetHistoryToken());
+                b.setAttribute("target", "_blank");
+                b.append(branch.get());
+                b.closeAnchor();
+                b.br();
+              }
+              b.closeElement("p");
+            }
+          });
     }
 
     void display(final List<Branch> result) {

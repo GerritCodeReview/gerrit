@@ -61,5 +61,5 @@ public interface ProjectAdminService extends RemoteJsonService {
 
   @SignInRequired
   void deleteBranch(Project.NameKey projectName, Set<Branch.NameKey> ids,
-      AsyncCallback<Set<Branch.NameKey>> callback);
+      boolean abandonOpenChanges, AsyncCallback<DeleteBranchesResult> callback);
 }

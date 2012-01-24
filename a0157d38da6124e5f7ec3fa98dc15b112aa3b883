@@ -16,6 +16,24 @@
       "revId": "a0157d38da6124e5f7ec3fa98dc15b112aa3b883",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACUn////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-24T06:47:19Z",
+      "side": 1,
+      "message": "Agreed. Using SafeHtml in the first place is better.\n\nDone.",
+      "parentUuid": "AAACRn////8\u003d",
+      "revId": "a0157d38da6124e5f7ec3fa98dc15b112aa3b883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAABp3////I\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-24T23:13:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABm3////Y\u003d",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABnX////w\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAABp3////E\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-24T23:13:17Z",
+      "side": 1,
+      "message": "Those suggestions are good, I also like:\nhttp://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html\nbut I didn\u0027t want to be too restrictive here.",
+      "parentUuid": "AAABnX////w\u003d",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABm3////U\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2011-12-05T12:35:07Z",
       "side": 1,
       "message": "The last two must be in the last paragraph i.e. after the last empty line.",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABp3////A\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-24T23:13:17Z",
+      "side": 1,
+      "message": "True, but I am not sure we need to specify that here, afterall, that should be common knowledge to anyone submitting a change to Gerrit for review.  I hope that my audience in this case would know that.",
+      "parentUuid": "AAABm3////U\u003d",
       "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "AAABp3///+8\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-24T23:13:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABoH////8\u003d",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABm3////Q\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AAABp3///+4\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-24T23:13:17Z",
+      "side": 1,
+      "message": "Changed note to include this idea.",
+      "parentUuid": "AAABm3////Q\u003d",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABm3////M\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4
@@ -116,6 +206,24 @@
       "writtenOn": "2011-12-05T12:35:07Z",
       "side": 1,
       "message": "Maybe another thing to add would be:\n\n* Do only what the commit message describes. In other words, nothing that is not strictly related to the commit message shouldn\u0027t be part of this change even if it would be a trivial thing like externalizing a string somewhere or fixing a typo on some other place. This help keep \"git blame\" more useful in the future and it also makes \"git revert\" more useful.",
+      "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACUH///3E\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-24T23:13:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABm3////M\u003d",
       "revId": "9b7ff46bc0268e8eb0d2a08a5b12adedd443d6f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

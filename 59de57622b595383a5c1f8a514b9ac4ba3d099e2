@@ -16,6 +16,24 @@
       "revId": "59de57622b595383a5c1f8a514b9ac4ba3d099e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACUn////0\u003d",
+        "filename": "Documentation/error-prohibited-by-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-24T06:58:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACP3///+8\u003d",
+      "revId": "59de57622b595383a5c1f8a514b9ac4ba3d099e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -66,11 +66,17 @@ public class ReviewResult {
       /** Not permitted to publish this draft patch set */
       PUBLISH_NOT_PERMITTED,
 
+      /** Not permitted to delete this draft patch set */
+      DELETE_NOT_PERMITTED,
+
       /** Review operation not permitted by rule. */
       RULE_ERROR,
 
       /** Review operation invalid because patch set is not a draft. */
       NOT_A_DRAFT,
+
+      /** Error writing change to git repository */
+      GIT_ERROR
     }
 
     protected Type type;

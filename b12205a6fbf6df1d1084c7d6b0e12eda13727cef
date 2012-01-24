@@ -67,6 +67,23 @@
       "revId": "b12205a6fbf6df1d1084c7d6b0e12eda13727cef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACUn////c\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-24T07:38:13Z",
+      "side": 1,
+      "message": "For all the headers: I think it would be better to format the capability name in the same way as it is displayed in the Gerrit WebUI, e.g. for this header: s/administrateServer/Administrate Server",
+      "revId": "b12205a6fbf6df1d1084c7d6b0e12eda13727cef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

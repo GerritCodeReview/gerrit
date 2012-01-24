@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACUn////k\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-24T07:32:03Z",
+      "side": 1,
+      "message": "[optional] Not sure, but I think I would remove the \u0027implies update\u0027 here. \u0027Create Reference\u0027 does not imply it, but you need to explicitly assign the \u0027Push\u0027 access right in addition (as you explained below). Since \u0027update\u0027 is already explained in the point above I think it\u0027s not needed to be repeated it here.",
+      "revId": "650209d9d98a7e5b3305005e51ebffbea652c314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACUn////o\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-24T07:32:03Z",
+      "side": 1,
+      "message": "if this text is changed can you also fix this: s/not not/not",
+      "revId": "650209d9d98a7e5b3305005e51ebffbea652c314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

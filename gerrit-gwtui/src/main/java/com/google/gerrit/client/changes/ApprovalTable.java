@@ -41,7 +41,6 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
@@ -330,15 +329,15 @@ public class ApprovalTable extends Composite {
 
           private void askForConfirmation(final String groupName,
               final int memberCount) {
-            final StringBuilder message = new StringBuilder();
-            message.append("<b>");
-            message.append(Util.M.groupManyMembersConfirmation(groupName,
-                memberCount));
-            message.append("</b>");
+            final SafeHtmlBuilder b = new SafeHtmlBuilder();
+            b.openElement("b");
+            b.append(Util.M
+                .groupManyMembersConfirmation(groupName, memberCount));
+            b.closeElement("b");
             final ConfirmationDialog confirmationDialog =
                 new ConfirmationDialog(Util.C
                     .approvalTableAddManyReviewersConfirmationDialogTitle(),
-                    new HTML(message.toString()), new ConfirmationCallback() {
+                    b.toSafeHtml(), new ConfirmationCallback() {
                       @Override
                       public void onOk() {
                         addReviewers(reviewers, true);

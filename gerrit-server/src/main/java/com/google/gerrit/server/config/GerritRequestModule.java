@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gerrit.server.changedetail.AbandonChange;
+import com.google.gerrit.server.changedetail.DeleteDraft;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
@@ -88,6 +89,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(AddReviewer.Factory.class);
     factory(AddReviewerSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
+    factory(DeleteDraft.Factory.class);
     factory(PublishComments.Factory.class);
     factory(PublishDraft.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);

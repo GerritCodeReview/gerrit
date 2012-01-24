@@ -286,37 +286,7 @@ public class ChangeUtil {
     db.changes().delete(Collections.singleton(change));
   }
 
-  public static void deleteDraftPatchSet(final PatchSet.Id patchSetId,
-      GitRepositoryManager gitManager,
-      final ReplicationQueue replication,
-      final PatchSetInfoFactory patchSetInfoFactory,
-      final ReviewDb db) throws NoSuchChangeException, OrmException,
-      PatchSetInfoNotAvailableException, IOException {
-    final Change.Id changeId = patchSetId.getParentKey();
-    final Change change = db.changes().get(changeId);
-    final PatchSet patch = db.patchSets().get(patchSetId);
-
-    deleteOnlyDraftPatchSet(patch, change, gitManager, replication, db);
-
-    List<PatchSet> restOfPatches = db.patchSets().byChange(changeId).toList();
-    if (restOfPatches.size() == 0) {
-      deleteDraftChange(patchSetId, gitManager, replication, db);
-    } else {
-      PatchSet.Id highestId = null;
-      for (PatchSet ps : restOfPatches) {
-        if (highestId == null || ps.getPatchSetId() > highestId.get()) {
-          highestId = ps.getId();
-        }
-      }
-      if (change.currentPatchSetId().equals(patchSetId)) {
-        change.removeLastPatchSetId();
-        change.setCurrentPatchSet(patchSetInfoFactory.get(db, change.currPatchSetId()));
-        db.changes().update(Collections.singleton(change));
-      }
-    }
-  }
-
-  private static void deleteOnlyDraftPatchSet(final PatchSet patch,
+  public static void deleteOnlyDraftPatchSet(final PatchSet patch,
       final Change change, GitRepositoryManager gitManager,
       final ReplicationQueue replication, final ReviewDb db)
       throws NoSuchChangeException, OrmException, IOException {

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.patch;
 
 import com.google.gerrit.common.data.ReviewerResult;
+import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.data.ApprovalSummary;
 import com.google.gerrit.common.data.ApprovalSummarySet;
 import com.google.gerrit.common.data.ApprovalTypes;
@@ -38,10 +39,10 @@ import com.google.gerrit.reviewdb.Patch.Key;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.changedetail.DeleteDraft;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -52,7 +53,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +66,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
   private final AddReviewerHandler.Factory addReviewerHandlerFactory;
   private final ChangeControl.Factory changeControlFactory;
+  private final DeleteDraft.Factory deleteDraftFactory;
   private final RemoveReviewerHandler.Factory removeReviewerHandlerFactory;
   private final FunctionState.Factory functionStateFactory;
   private final PublishComments.Factory publishCommentsFactory;
@@ -83,6 +84,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final AddReviewerHandler.Factory addReviewerHandlerFactory,
       final RemoveReviewerHandler.Factory removeReviewerHandlerFactory,
       final ChangeControl.Factory changeControlFactory,
+      final DeleteDraft.Factory deleteDraftFactory,
       final FunctionState.Factory functionStateFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
       final PublishComments.Factory publishCommentsFactory,
@@ -97,6 +99,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.addReviewerHandlerFactory = addReviewerHandlerFactory;
     this.removeReviewerHandlerFactory = removeReviewerHandlerFactory;
     this.changeControlFactory = changeControlFactory;
+    this.deleteDraftFactory = deleteDraftFactory;
     this.functionStateFactory = functionStateFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.publishCommentsFactory = publishCommentsFactory;
@@ -152,18 +155,14 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(ReviewDb db) throws OrmException, Failure {
+        ReviewResult result = null;
         try {
-          final ChangeControl cc = changeControlFactory.validateFor(psid.getParentKey());
-          if (!cc.isOwner()) {
-            throw new Failure(new NoSuchEntityException());
-          }
-          ChangeUtil.deleteDraftPatchSet(psid, gitManager, replication, patchSetInfoFactory, db);
+          result = deleteDraftFactory.create(psid).call();
         } catch (NoSuchChangeException e) {
-          throw new Failure(new NoSuchChangeException(psid.getParentKey()));
-        } catch (PatchSetInfoNotAvailableException e) {
-          throw new Failure(e);
-        } catch (IOException e) {
-          throw new Failure(e);
+          throw new Failure(new NoSuchChangeException(result.getChangeId()));
+        }
+        if (result.getErrors().size() > 0) {
+          throw new Failure(new NoSuchEntityException());
         }
         return VoidResult.INSTANCE;
       }

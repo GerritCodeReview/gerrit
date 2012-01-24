@@ -67,7 +67,10 @@ public class ReviewResult {
       CHANGE_NOT_VISIBLE,
 
       /** Review operation not permitted by rule. */
-      RULE_ERROR
+      RULE_ERROR,
+
+      /** Error writing change to git repository */
+      GIT_ERROR,
     }
 
     protected Type type;

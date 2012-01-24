@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACU3////k\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-24T14:59:26Z",
+      "side": 0,
+      "message": "Please look at both \n\nChange-ID: Ie0dc8adc2538803021dec766e00ef6ea34d4d14c \n\nand https://gerrit-review.googlesource.com/#/c/30722/3/Documentation/access-control.txt before submitting this change, as Push tag +3 have existed in the past. \n\nQuestion is, do we expect people to remember it and mention it in the table?",
+      "revId": "2b3cd552976cb2047dd1cec115516ead8021097f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

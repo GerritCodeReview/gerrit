@@ -619,15 +619,15 @@ The force option has no function when granted to a branch in the
 
 
 [[category_push_merge]]
-Upload Merge Commits
+Push Merge Commits
 ~~~~~~~~~~~~~~~~~~~~
 
-The `Push Merge` permits the user to upload merge commits. It's an
-addon to the `Push` permission, and so it won't be sufficient
-with only `Push Merge` granted for a push to happen.  Some projects
-wish to restrict merges to being created by Gerrit. By granting
-`Push` without `Push Merge`, the only merges that enter the
-system will be those created by Gerrit.
+The `Push Merge Commit` permits the user to upload merge commits.
+It's an addon to the <<category_push,Push>> access right, and so it
+won't be sufficient with only `Push Merge Commit` granted for a push
+to happen.  Some projects wish to restrict merges to being created by
+Gerrit. By granting `Push` without `Push Merge Commit`, the only
+merges that enter the system will be those created by Gerrit.
 
 
 [[category_push_annotated]]
@@ -802,7 +802,7 @@ Conversion table from 2.1.x series to 2.2.x series
 |Push Branch +3 (refs/tags/*) |<<category_push_direct,Push>> (with force on refs/tags/...)
 |Read +1                      |<<category_read,Read>>
 |Read +2                      |<<category_read,Read>> & <<category_push_review,Push>> (refs/for/refs/...)
-|Read +3                      |<<category_read,Read>> & <<category_push_review,Push>> (refs/for/refs/...) & <<category_push_merge,Push merge>>
+|Read +3                      |<<category_read,Read>> & <<category_push_review,Push>> (refs/for/refs/...) & <<category_push_merge,Push Merge Commit>>
 |Submit                       |<<category_submit,Submit>>
 |=================================================================================
 

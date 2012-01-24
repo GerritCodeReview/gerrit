@@ -551,7 +551,7 @@ member of, just like for any other user.
 Ownership over a particular branch subspace may be delegated by
 entering a branch pattern.  To delegate control over all branches
 that begin with `qa/` to the QA group, add `Owner` category
-for reference `refs/heads/qa/*`.  Members of the QA group can
+for reference `refs/heads/qa/\*`.  Members of the QA group can
 further refine access, but only for references that begin with
 `refs/heads/qa/`. See <<project_owners,project owners>> to find
 out more about this role.

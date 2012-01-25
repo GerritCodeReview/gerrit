@@ -44,4 +44,7 @@ public interface ChangeManageService extends RemoteJsonService {
 
   @SignInRequired
   void deleteDraftChange(PatchSet.Id patchSetId, AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void rebaseChange(PatchSet.Id patchSetId, AsyncCallback<ChangeDetail> callback);
 }

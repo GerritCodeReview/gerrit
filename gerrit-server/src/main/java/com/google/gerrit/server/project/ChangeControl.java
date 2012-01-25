@@ -195,6 +195,11 @@ public class ChangeControl {
         && isVisible(db);
   }
 
+  /** Can this user rebase this change? */
+  public boolean canRebase() {
+    return canAddPatchSet();
+  }
+
   /** Can this user delete this change? */
   public boolean canDelete(final ReviewDb db) throws OrmException {
     return change.getStatus() == Change.Status.DRAFT && isOwner()

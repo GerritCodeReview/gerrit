@@ -68,6 +68,23 @@
       "revId": "2a2d9c5f9caa2f0dfef2e657de9fde9e0a12484c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWX////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_62.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-25T15:28:21Z",
+      "side": 1,
+      "message": "Whatever year you created the file. A schema version like this really isn\u0027t copyrightable in the US. There is more text from the license boilerplate than there is from the schema template. :-)",
+      "revId": "2a2d9c5f9caa2f0dfef2e657de9fde9e0a12484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

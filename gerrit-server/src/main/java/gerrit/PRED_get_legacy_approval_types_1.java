@@ -78,7 +78,7 @@ class PRED_get_legacy_approval_types_1 extends Predicate.P1 {
         SymbolTerm.intern(type.getCategory().getLabelName()),
         SymbolTerm.intern(type.getCategory().getId().get()),
         SymbolTerm.intern(type.getCategory().getFunctionName()),
-        new IntegerTerm(type.getMin().getValue()),
-        new IntegerTerm(type.getMax().getValue()));
+        type.getMin() != null ? new IntegerTerm(type.getMin().getValue()) : Prolog.Nil,
+        type.getMax() != null ? new IntegerTerm(type.getMax().getValue()) : Prolog.Nil);
   }
 }

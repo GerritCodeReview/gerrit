@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACXH////w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-25T17:24:20Z",
+      "side": 1,
+      "message": "Is there any chance onStart is called in line 116 after destroy? Could I assume execute call at line 113 does not assure me when it will execute run method of 114th line? If yes, maybe an option is to verify here (after synchronized) if this.ctx is not null before proceeding.",
+      "revId": "07f05da621798f6e3ba4a0700c75aa679fdb8a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

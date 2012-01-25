@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAACW3////8\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-01-25T09:16:39Z",
+      "side": 1,
+      "message": "This could probably be a bit confusing. When most people refer to the official AOSP Gerrit Server, they normally refer to this one: android-review.googlesource.com, which is not the place to push your Gerrit patches to.",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACWn////0\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5

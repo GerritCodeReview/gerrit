@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.client.Change;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FocusWidget;
 
 public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
   public static class GerritCallback extends
@@ -26,6 +27,27 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
     @Override
     public void onSuccess(ChangeDetail detail) {
       setChangeDetail(detail);
+    }
+  }
+
+  /*
+   * GerritCallback which will re-enable a FocusWidget
+   * {@link com.google.gwt.user.client.ui.FocusWidget} if we are returning
+   * with a failed result.
+   *
+   * It is up to the caller to handle the original disabling of the Widget.
+   */
+  public static class GerritWidgetCallback extends GerritCallback {
+    private FocusWidget widget;
+
+    public GerritWidgetCallback(FocusWidget widget) {
+      this.widget = widget;
+    }
+
+    @Override
+    public void onFailure(Throwable caught) {
+      widget.setEnabled(true);
+      super.onFailure(caught);
     }
   }
 

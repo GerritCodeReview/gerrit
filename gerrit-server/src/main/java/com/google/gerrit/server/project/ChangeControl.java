@@ -199,6 +199,11 @@ public class ChangeControl {
     return isOwner() && isVisible(db);
   }
 
+  /** Can this user rebase this change? */
+  public boolean canRebase() {
+    return canAddPatchSet();
+  }
+
   /** Can this user restore this change? */
   public boolean canRestore() {
     return canAbandon(); // Anyone who can abandon the change can restore it back

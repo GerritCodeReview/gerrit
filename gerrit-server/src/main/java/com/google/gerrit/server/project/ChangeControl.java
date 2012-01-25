@@ -189,6 +189,15 @@ public class ChangeControl {
     ;
   }
 
+  /** Can this user rebase this change? */
+  public boolean canRebase() {
+    return isOwner() // owner (aka creator) of the change can rebase
+        || getRefControl().isOwner() // branch owner can rebase
+        || getProjectControl().isOwner() // project owner can rebase
+        || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
+    ;
+  }
+
   /** Can this user restore this change? */
   public boolean canRestore() {
     return canAbandon(); // Anyone who can abandon the change can restore it back

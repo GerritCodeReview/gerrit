@@ -14,7 +14,12 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -29,10 +34,13 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.mail.RebasedPatchSetSender;
+import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.AtomicUpdate;
@@ -47,8 +55,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -56,6 +65,7 @@ import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.NB;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -160,6 +170,176 @@ public class ChangeUtil {
 
   public static void testMerge(MergeOp.Factory opFactory, Change change) {
     opFactory.create(change.getDest()).verifyMergeability(change);
+  }
+
+  /**
+   * Rebases a commit against latest branch tip.
+   *
+   * @param git Repository to find commits in
+   * @param original The commit to rebase
+   * @param branchTip Tip of the branch
+   * @return CommitBuilder the newly rebased commit
+   * @throws IOException Merged failed
+   */
+  public static CommitBuilder rebaseCommits(Repository git, RevCommit original,
+      RevCommit branchTip) throws IOException {
+    final ThreeWayMerger merger = MergeStrategy.RESOLVE.newMerger(git, true);
+    merger.merge(original, branchTip);
+
+    final CommitBuilder rebasedCommitBuilder = new CommitBuilder();
+
+    rebasedCommitBuilder.setTreeId(merger.getResultTreeId());
+    rebasedCommitBuilder.setParentId(branchTip);
+    rebasedCommitBuilder.setAuthor(original.getAuthorIdent());
+    rebasedCommitBuilder.setMessage(original.getFullMessage());
+
+    return rebasedCommitBuilder;
+  }
+
+  public static void rebaseChange(final PatchSet.Id patchSetId,
+      final IdentifiedUser user, final ReviewDb db,
+      RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
+      final ChangeHookRunner hooks, GitRepositoryManager gitManager,
+      final PatchSetInfoFactory patchSetInfoFactory,
+      final ReplicationQueue replication, PersonIdent myIdent,
+      final ChangeControl.Factory changeControlFactory,
+      final ApprovalTypes approvalTypes) throws NoSuchChangeException,
+      EmailException, OrmException, MissingObjectException,
+      IncorrectObjectTypeException, IOException,
+      PatchSetInfoNotAvailableException {
+
+    final Change.Id changeId = patchSetId.getParentKey();
+    if (!changeControlFactory.validateFor(changeId).canAddPatchSet()) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    final Change change = db.changes().get(changeId);
+    final Repository git;
+    try {
+      git = gitManager.openRepository(change.getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(changeId, e);
+    };
+
+    final RevWalk revWalk = new RevWalk(git);
+
+    try {
+      final PatchSet originalPatchSet = db.patchSets().get(patchSetId);
+      final RevCommit originalCommit =
+          revWalk.parseCommit(ObjectId.fromString(originalPatchSet
+              .getRevision().get()));
+
+      if (originalCommit.getParentCount() != 1) {
+        // We are here due to either:
+        // A. This is a merge commit (Multiple parents)
+        // B. There is no commits on the destination branch (No parents)
+        throw new IOException(
+            "Only patch sets with exactly one parent can be rebased. Parents: "
+            + Arrays.toString(originalCommit.getParents()));
+      }
+
+      final RevCommit parentCommit = originalCommit.getParent(0);
+
+      final RevCommit branchTipCommit = revWalk.parseCommit(
+          git.getRef(change.getDest().get()).getObjectId());
+
+      if (branchTipCommit.equals(parentCommit)) {
+        // Our parent is already the same as branch tip
+        throw new IOException(
+            "Change is already up to date.");
+      }
+
+      if (!revWalk.isMergedInto(parentCommit, branchTipCommit)) {
+        // Our parent is not reachable from our destination branch.
+        // Most likely we have a dependency to another change.
+        // TODO Allow us to rebase against an OUTDATED change that
+        // we are dependent on.
+        throw new IOException(
+            "The commit parent is not reachable from our destination branch.");
+      }
+
+      CommitBuilder rebasedCommitBuilder =
+          rebaseCommits(git, originalCommit, branchTipCommit);
+
+      rebasedCommitBuilder.setCommitter(myIdent);
+
+      final ObjectInserter oi = git.newObjectInserter();
+      ObjectId rebasedCommitId;
+      try {
+        rebasedCommitId = oi.insert(rebasedCommitBuilder);
+        oi.flush();
+      } finally {
+        oi.release();
+      }
+
+      change.nextPatchSetId();
+      final PatchSet rebasedPatchSet = new PatchSet(change.currPatchSetId());
+      rebasedPatchSet.setCreatedOn(change.getCreatedOn());
+      rebasedPatchSet.setUploader(user.getAccountId());
+      rebasedPatchSet.setRevision(new RevId(rebasedCommitId.getName()));
+      db.patchSets().insert(Collections.singleton(rebasedPatchSet));
+
+      final PatchSetInfo info =
+          patchSetInfoFactory.get(revWalk.parseCommit(rebasedCommitId),
+              rebasedPatchSet.getId());
+      change.setCurrentPatchSet(info);
+      ChangeUtil.touch(change, db);
+
+      final RefUpdate ru = git.updateRef(rebasedPatchSet.getRefName());
+      ru.setNewObjectId(rebasedCommitId);
+      ru.disableRefLog();
+      if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+        throw new IOException("Failed to create ref "
+            + rebasedPatchSet.getRefName() + " in " + git.getDirectory() + ": "
+            + ru.getResult());
+      }
+      replication.scheduleUpdate(change.getProject(), ru.getName());
+
+      final ChangeMessage cmsg =
+          new ChangeMessage(new ChangeMessage.Key(changeId,
+              ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
+      cmsg.setMessage("Patch Set " + patchSetId.get() + ": Rebased");
+      db.changeMessages().insert(Collections.singleton(cmsg));
+
+      final Set<Account.Id> oldReviewers = new HashSet<Account.Id>();
+      final Set<Account.Id> oldCC = new HashSet<Account.Id>();
+      final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
+
+      for (PatchSetApproval a : db.patchSetApprovals().byChange(change.getId())) {
+        haveApprovals.add(a.getAccountId());
+
+        if (a.getValue() != 0) {
+          oldReviewers.add(a.getAccountId());
+        } else {
+          oldCC.add(a.getAccountId());
+        }
+
+        // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
+        if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+          final ApprovalType type = approvalTypes.byId(a.getCategoryId());
+          if (a.getPatchSetId().equals(patchSetId)
+              && type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
+            // If there was a negative vote on the prior patch set, carry it
+            // into this patch set.
+            db.patchSetApprovals().insert(
+                Collections.singleton(new PatchSetApproval(
+                    rebasedPatchSet.getId(), a)));
+          }
+        }
+      }
+
+      final ReplacePatchSetSender cm = rebasedPatchSetSenderFactory.create(change);
+      cm.setFrom(user.getAccountId());
+      cm.setPatchSet(rebasedPatchSet);
+      cm.addReviewers(oldReviewers);
+      cm.addExtraCC(oldCC);
+      cm.send();
+
+      hooks.doPatchsetCreatedHook(change, rebasedPatchSet, db);
+    } finally {
+      revWalk.release();
+      git.close();
+    }
   }
 
   public static Change.Id revert(final PatchSet.Id patchSetId,

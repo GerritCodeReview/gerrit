@@ -28,6 +28,7 @@ public class ChangeDetail {
   protected AccountInfoCache accounts;
   protected boolean allowsAnonymous;
   protected boolean canAbandon;
+  protected boolean canRebase;
   protected boolean canRestore;
   protected boolean canRevert;
   protected boolean canDeleteDraft;
@@ -69,6 +70,14 @@ public class ChangeDetail {
 
   public void setCanAbandon(final boolean a) {
     canAbandon = a;
+  }
+
+  public boolean canRebase() {
+    return canRebase;
+  }
+
+  public void setCanRebase(final boolean a) {
+    canRebase = a;
   }
 
   public boolean canRestore() {

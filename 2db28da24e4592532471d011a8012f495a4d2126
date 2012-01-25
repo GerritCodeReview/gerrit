@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACWn////E\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T12:38:22Z",
+      "side": 1,
+      "message": "Does it make sense to also include the Change.Id into the Error so that it\u0027s possible to know for which change the error occurred?",
+      "revId": "2db28da24e4592532471d011a8012f495a4d2126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWn////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T12:38:22Z",
+      "side": 1,
+      "message": "Is 2011 correct or should it be 2012?",
+      "revId": "2db28da24e4592532471d011a8012f495a4d2126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWn////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T12:38:22Z",
+      "side": 1,
+      "message": "this comment should probably be removed",
+      "revId": "2db28da24e4592532471d011a8012f495a4d2126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWn////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T12:38:22Z",
+      "side": 1,
+      "message": "maybe \u0027lbl.status\u0027 should be included into the exception text, so that it\u0027s possible to find out what was the unsupported status",
+      "revId": "2db28da24e4592532471d011a8012f495a4d2126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T12:38:22Z",
+      "side": 1,
+      "message": "\u0027break;\u0027 missing here?",
+      "revId": "2db28da24e4592532471d011a8012f495a4d2126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWn////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T12:38:22Z",
+      "side": 1,
+      "message": "maybe \u0027submitRecord.status\u0027 should be included into the exception text, so that it\u0027s possible to find out what was the unsupported status",
+      "revId": "2db28da24e4592532471d011a8012f495a4d2126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWn////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T12:38:22Z",
+      "side": 1,
+      "message": "can we break the loop here as soon as we have found an approval?",
+      "revId": "2db28da24e4592532471d011a8012f495a4d2126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWn////A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T12:38:22Z",
+      "side": 1,
+      "message": "For all the message it would be nice to inlcude the ID of the change into the message so that it\u0027s possible to know for which change the error occurred (see also my inline comment in ReviewResult). I think before your change the Change.Id was included in the error messages.",
+      "revId": "2db28da24e4592532471d011a8012f495a4d2126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

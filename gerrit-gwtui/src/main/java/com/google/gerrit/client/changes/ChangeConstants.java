@@ -111,6 +111,8 @@ public interface ChangeConstants extends Constants {
   String patchSetInfoParents();
   String initialCommit();
 
+  String buttonRebaseChange();
+
   String buttonRevertChangeBegin();
   String buttonRevertChangeSend();
   String buttonRevertChangeCancel();

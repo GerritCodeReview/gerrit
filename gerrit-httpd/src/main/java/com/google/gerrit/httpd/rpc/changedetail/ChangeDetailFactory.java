@@ -129,6 +129,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet());
 
+    detail.setCanRebase(detail.getChange().getStatus().isOpen() && control.canRebase());
+
     detail.setCanEdit(control.getRefControl().canWrite());
 
     if (detail.getChange().getStatus().isOpen()) {

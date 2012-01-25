@@ -34,6 +34,24 @@
       "revId": "2b3cd552976cb2047dd1cec115516ead8021097f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACU3////Q\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-25T13:28:03Z",
+      "side": 1,
+      "message": "I was more into the idea of removing it, since this particular version of the docs cover 2.2.x. I\u0027m fine leaving it as is too, unless you ask me to rewrite it. It\u0027s easy enough to do, so just let me know if you want en upload for that.",
+      "parentUuid": "AAACP3///+0\u003d",
+      "revId": "2b3cd552976cb2047dd1cec115516ead8021097f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

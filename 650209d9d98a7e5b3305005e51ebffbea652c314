@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACU3////I\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-25T16:31:31Z",
+      "side": 1,
+      "message": "I had a similar thought myself when I rewrote it, but it seems I forgot to act upon that. The fact that you also considered this makes it a strong enough case to do it, no? :-)\n\nI hope the new wording is better, even if it still refers to update.\n\nDone(-ish)",
+      "parentUuid": "AAACUn////k\u003d",
+      "revId": "650209d9d98a7e5b3305005e51ebffbea652c314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACUn////o\u003d",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-24T07:32:03Z",
       "side": 1,
       "message": "if this text is changed can you also fix this: s/not not/not",
+      "revId": "650209d9d98a7e5b3305005e51ebffbea652c314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACU3////E\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-25T16:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACUn////o\u003d",
       "revId": "650209d9d98a7e5b3305005e51ebffbea652c314",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

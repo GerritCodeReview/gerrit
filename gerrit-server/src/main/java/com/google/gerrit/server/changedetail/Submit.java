@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -49,6 +50,7 @@ public class Submit implements Callable<ReviewResult> {
   private final MergeOp.Factory opFactory;
   private final MergeQueue merger;
   private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
   private final IdentifiedUser currentUser;
 
   private final PatchSet.Id patchSetId;
@@ -56,12 +58,13 @@ public class Submit implements Callable<ReviewResult> {
   @Inject
   Submit(final ChangeControl.Factory changeControlFactory,
       final MergeOp.Factory opFactory, final MergeQueue merger,
-      final ReviewDb db, final IdentifiedUser currentUser,
-      @Assisted final PatchSet.Id patchSetId) {
+      final ReviewDb db, final GitRepositoryManager repoManager,
+      final IdentifiedUser currentUser, @Assisted final PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.opFactory = opFactory;
     this.merger = merger;
     this.db = db;
+    this.repoManager = repoManager;
     this.currentUser = currentUser;
 
     this.patchSetId = patchSetId;
@@ -80,7 +83,8 @@ public class Submit implements Callable<ReviewResult> {
       throw new NoSuchChangeException(changeId);
     }
 
-    List<SubmitRecord> submitResult = control.canSubmit(db, patchSetId);
+    List<SubmitRecord> submitResult =
+        control.canSubmit(db, repoManager, patchSetId);
     if (submitResult.isEmpty()) {
       throw new IllegalStateException(
           "ChangeControl.canSubmit returned empty list");

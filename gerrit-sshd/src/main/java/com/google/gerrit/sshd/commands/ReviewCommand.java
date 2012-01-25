@@ -120,6 +120,9 @@ public class ReviewCommand extends BaseCommand {
   private ReviewDb db;
 
   @Inject
+  private GitRepositoryManager repoManager;
+
+  @Inject
   private IdentifiedUser currentUser;
 
   @Inject
@@ -296,7 +299,8 @@ public class ReviewCommand extends BaseCommand {
     }
 
     if (submitChange) {
-      List<SubmitRecord> submitResult = changeControl.canSubmit(db, patchSetId);
+      List<SubmitRecord> submitResult =
+          changeControl.canSubmit(db, repoManager, patchSetId);
       if (submitResult.isEmpty()) {
         throw new Failure(1, "ChangeControl.canSubmit returned empty list");
       }
@@ -341,6 +345,11 @@ public class ReviewCommand extends BaseCommand {
 
         case CLOSED:
           throw error("change " + changeId + " is closed");
+
+        case DEST_BRANCH_NOT_FOUND:
+          throw error("destination branch "
+              + changeControl.getChange().getDest().get() + " of change "
+              + changeId + " not found");
 
         case RULE_ERROR:
           if (submitResult.get(0).errorMessage != null) {

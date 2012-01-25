@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -40,6 +41,7 @@ class SubmitAction extends Handler<ChangeDetail> {
   }
 
   private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
   private final MergeQueue merger;
   private final IdentifiedUser user;
   private final ChangeDetailFactory.Factory changeDetailFactory;
@@ -49,13 +51,16 @@ class SubmitAction extends Handler<ChangeDetail> {
   private final PatchSet.Id patchSetId;
 
   @Inject
-  SubmitAction(final ReviewDb db, final MergeQueue mq,
+  SubmitAction(final ReviewDb db,
+      final GitRepositoryManager repoManager,
+      final MergeQueue mq,
       final IdentifiedUser user,
       final ChangeDetailFactory.Factory changeDetailFactory,
       final ChangeControl.Factory changeControlFactory,
       final MergeOp.Factory opFactory,
       @Assisted final PatchSet.Id patchSetId) {
     this.db = db;
+    this.repoManager = repoManager;
     this.merger = mq;
     this.user = user;
     this.changeControlFactory = changeControlFactory;
@@ -74,7 +79,8 @@ class SubmitAction extends Handler<ChangeDetail> {
     final ChangeControl changeControl =
         changeControlFactory.validateFor(changeId);
 
-    List<SubmitRecord> result = changeControl.canSubmit(db, patchSetId);
+    List<SubmitRecord> result =
+        changeControl.canSubmit(db, repoManager, patchSetId);
     if (result.isEmpty()) {
       throw new IllegalStateException("Cannot submit");
     }
@@ -108,6 +114,9 @@ class SubmitAction extends Handler<ChangeDetail> {
 
       case CLOSED:
         throw new IllegalStateException("Change is closed");
+
+      case DEST_BRANCH_NOT_FOUND:
+        throw new IllegalStateException("Destination branch not found");
 
       case RULE_ERROR:
         if (result.get(0).errorMessage != null) {

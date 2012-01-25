@@ -26,6 +26,7 @@ import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
@@ -40,9 +41,12 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -263,7 +267,8 @@ public class ChangeControl {
     return false;
   }
 
-  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
+  public List<SubmitRecord> canSubmit(ReviewDb db,
+      GitRepositoryManager repoManager, PatchSet.Id patchSetId) {
     if (change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
@@ -272,6 +277,24 @@ public class ChangeControl {
 
     if (!patchSetId.equals(change.currentPatchSetId())) {
       return ruleError("Patch set " + patchSetId + " is not current");
+    }
+
+    // check that destination branch exists
+    try {
+      final Repository repo = repoManager.openRepository(change.getProject());
+      try {
+        if (repo.getRef(change.getDest().get()) == null) {
+          SubmitRecord rec = new SubmitRecord();
+          rec.status = SubmitRecord.Status.DEST_BRANCH_NOT_FOUND;
+          return Collections.singletonList(rec);
+        }
+      } catch (IOException e) {
+        return ruleError(e.getMessage());
+      } finally {
+        repo.close();
+      }
+    } catch (RepositoryNotFoundException e) {
+      return ruleError(e.getMessage());
     }
 
     try {

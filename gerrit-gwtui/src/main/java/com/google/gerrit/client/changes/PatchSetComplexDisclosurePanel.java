@@ -551,6 +551,19 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       });
       actionsPanel.add(b);
     }
+
+    if (changeDetail.canRebase()) {
+      final Button b = new Button(Util.C.buttonRebaseChange());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          Util.MANAGE_SVC.rebaseChange(patchSet.getId(),
+              new ChangeDetailCache.GerritWidgetCallback(b));
+        }
+      });
+      actionsPanel.add(b);
+    }
   }
 
   private void populateDiffAllActions(final PatchSetDetail detail) {

@@ -229,7 +229,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     if (! c.isLatest()) {
       s += " [OUTDATED]";
       table.getRowFormatter().addStyleName(row, Gerrit.RESOURCES.css().outdated());
+    } else {
+      table.getRowFormatter().removeStyleName(row, Gerrit.RESOURCES.css().outdated());
     }
+
     table.setWidget(row, C_SUBJECT, new TableChangeLink(s, c));
     table.setWidget(row, C_OWNER, link(c.getOwner()));
     table.setWidget(row, C_PROJECT, new ProjectLink(c.getProject().getKey(), c

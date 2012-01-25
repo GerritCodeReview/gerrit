@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAACWX////4\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-25T15:09:13Z",
+      "side": 1,
+      "message": "Change this to \"agreement on file with the project\"",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWX////0\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-25T15:09:13Z",
+      "side": 1,
+      "message": "Use https://gerrit-review.googlesource.com/static/cla_individual.html",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWX////w\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-25T15:09:13Z",
+      "side": 1,
+      "message": "Use https://gerrit-review.googlesource.com/static/cla_corporate.html",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACW3////8\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5
@@ -13,6 +64,57 @@
       "writtenOn": "2012-01-25T09:16:39Z",
       "side": 1,
       "message": "This could probably be a bit confusing. When most people refer to the official AOSP Gerrit Server, they normally refer to this one: android-review.googlesource.com, which is not the place to push your Gerrit patches to.",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWX////s\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-25T15:09:13Z",
+      "side": 1,
+      "message": "Agreed, this should not say AOSP here.",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWX////o\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-25T15:09:13Z",
+      "side": 1,
+      "message": "Not all users have +1 Verified permission right now. Its a wider base than the Gerrit submitters, but new contributors won\u0027t be able to do this.",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWX////k\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-25T15:09:13Z",
+      "side": 1,
+      "message": "We may start with...\n\nSometimes I look at bigger issues first. Sometimes the simple nit picky stuff gets too much in the way. :-)",
       "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

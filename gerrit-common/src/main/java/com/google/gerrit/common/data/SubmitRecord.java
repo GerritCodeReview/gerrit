@@ -32,6 +32,9 @@ public class SubmitRecord {
     /** The change has been closed. */
     CLOSED,
 
+    /** The destination branch is not found, e.g. it was deleted. */
+    DEST_BRANCH_NOT_FOUND,
+
     /**
      * An internal server error occurred preventing computation.
      * <p>

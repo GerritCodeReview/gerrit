@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -49,6 +50,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
 
   private final PatchSetInfoFactory infoFactory;
   private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
   private final ChangeControl.Factory changeControlFactory;
   private final ApprovalTypes approvalTypes;
   private final AccountInfoCacheFactory aic;
@@ -63,12 +65,14 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   @Inject
   PatchSetPublishDetailFactory(final PatchSetInfoFactory infoFactory,
       final ReviewDb db,
+      final GitRepositoryManager repoManager,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeControl.Factory changeControlFactory,
       final ApprovalTypes approvalTypes,
       final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
     this.infoFactory = infoFactory;
     this.db = db;
+    this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.approvalTypes = approvalTypes;
     this.aic = accountInfoCacheFactory.create();
@@ -119,7 +123,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
           .toList();
 
       boolean couldSubmit = false;
-      List<SubmitRecord> submitRecords = control.canSubmit(db, patchSetId);
+      List<SubmitRecord> submitRecords =
+          control.canSubmit(db, repoManager, patchSetId);
       for (SubmitRecord rec : submitRecords) {
         if (rec.status == SubmitRecord.Status.OK) {
           couldSubmit = true;

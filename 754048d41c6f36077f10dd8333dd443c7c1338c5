@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACWn////0\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T07:23:31Z",
+      "side": 1,
+      "message": "nit: indention needs one more space",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWn////4\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T07:23:31Z",
+      "side": 1,
+      "message": "It looks like you added this point twice, here and also as last point in this list.",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWn////w\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-25T07:23:31Z",
+      "side": 1,
+      "message": "same point as above?",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -432,6 +432,10 @@ public final class Change {
     lastUpdatedOn = new Timestamp(System.currentTimeMillis());
   }
 
+  public int getNumberOfPatchSets() {
+    return nbrPatchSets;
+  }
+
   public String getSortKey() {
     return sortKey;
   }

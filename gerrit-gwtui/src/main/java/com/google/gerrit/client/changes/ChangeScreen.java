@@ -344,6 +344,8 @@ public class ChangeScreen extends Screen
     }
 
     dependenciesPanel.setOpen(depsOpen);
+    dependenciesPanel.getHeader().clear();
+
     if (outdated > 0) {
       dependenciesPanel.getHeader().add(new InlineLabel(
         Util.M.outdatedHeader(outdated)));

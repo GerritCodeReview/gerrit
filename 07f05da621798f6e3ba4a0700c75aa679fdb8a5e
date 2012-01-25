@@ -16,6 +16,24 @@
       "revId": "07f05da621798f6e3ba4a0700c75aa679fdb8a5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACWX///+k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-25T19:12:18Z",
+      "side": 1,
+      "message": "I don\u0027t believe that destroy can be run before onStart has completed.",
+      "parentUuid": "AAACXH////w\u003d",
+      "revId": "07f05da621798f6e3ba4a0700c75aa679fdb8a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

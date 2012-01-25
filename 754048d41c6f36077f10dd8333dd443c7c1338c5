@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAACXH////8\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-25T10:49:56Z",
+      "side": 1,
+      "message": "Great point here! I think maybe it would be a good idea to provide another example here. Something like:\n\nAnother example: if a new feature is implemented and it is a larger one, try to identify if it can be split in smaller logical features.",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACWn////0\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5

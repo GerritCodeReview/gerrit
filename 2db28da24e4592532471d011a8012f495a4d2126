@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAACY3////0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-26T17:21:50Z",
+      "side": 1,
+      "message": "No, you are right. I missed that the Change.Id is already contained in the ReviewResult. Then of course it\u0027s not needed to have it in the errors again.",
+      "parentUuid": "AAACV3///+0\u003d",
+      "revId": "2db28da24e4592532471d011a8012f495a4d2126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACWn////g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
         "patchSetId": 1
@@ -276,6 +294,24 @@
       "side": 1,
       "message": "See my inline comment on ReviewResult about implementation.",
       "parentUuid": "AAACWn////A\u003d",
+      "revId": "2db28da24e4592532471d011a8012f495a4d2126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACY3////w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-26T17:21:50Z",
+      "side": 1,
+      "message": "OK I see, but if we have the Change.Id already in the result we may just print it out at least once? Well, just a proposal, I\u0027m also fine with leaving it as it is.",
+      "parentUuid": "AAACV3///+Y\u003d",
       "revId": "2db28da24e4592532471d011a8012f495a4d2126",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

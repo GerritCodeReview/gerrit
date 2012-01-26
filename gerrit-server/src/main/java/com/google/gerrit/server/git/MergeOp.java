@@ -1078,7 +1078,7 @@ public class MergeOp {
         }
 
         case CLEAN_PICK: {
-          setMerged(c, message(c, txt));
+          setMerged(c, message(c, txt + " as " + commit.name()));
           merged.add(commit);
           break;
         }

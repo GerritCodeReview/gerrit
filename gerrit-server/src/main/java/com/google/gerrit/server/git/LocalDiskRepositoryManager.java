@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -323,5 +324,21 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         relativeGitPath.substring(0, relativeGitPath.length() - 1
             - gitDir.getName().length());
     return getProjectName(prefix, gitDir.getName());
+  }
+
+  public boolean branchExists(final Project.NameKey name,
+      final Branch.NameKey branch) {
+    try {
+      final Repository repo = openRepository(name);
+      try {
+        return repo.getRef(branch.get()) != null;
+      } finally {
+        repo.close();
+      }
+    } catch (IOException e) {
+      log.error("Failed to check existence of branch " + branch.get()
+          + " in project " + name.get(), e);
+      return false;
+    }
   }
 }

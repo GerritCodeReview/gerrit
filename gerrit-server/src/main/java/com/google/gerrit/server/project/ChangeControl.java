@@ -26,6 +26,7 @@ import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
@@ -202,7 +203,10 @@ public class ChangeControl {
   }
 
   /** Can this user restore this change? */
-  public boolean canRestore() {
+  public boolean canRestore(final GitRepositoryManager repoManager) {
+    if (!repoManager.branchExists(change.getProject(), change.getDest())) {
+      return false;
+    }
     return canAbandon(); // Anyone who can abandon the change can restore it back
   }
 

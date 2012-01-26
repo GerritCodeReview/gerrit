@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -44,6 +45,7 @@ public class RestoreChange implements Callable<ReviewResult> {
   private final RestoredSender.Factory restoredSenderFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
   private final IdentifiedUser currentUser;
   private final ChangeHooks hooks;
 
@@ -53,12 +55,13 @@ public class RestoreChange implements Callable<ReviewResult> {
   @Inject
   RestoreChange(final RestoredSender.Factory restoredSenderFactory,
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
-      final IdentifiedUser currentUser, final ChangeHooks hooks,
-      @Assisted final PatchSet.Id patchSetId,
+      final GitRepositoryManager repoManager, final IdentifiedUser currentUser,
+      final ChangeHooks hooks, @Assisted final PatchSet.Id patchSetId,
       @Assisted final String changeComment) {
     this.restoredSenderFactory = restoredSenderFactory;
     this.changeControlFactory = changeControlFactory;
     this.db = db;
+    this.repoManager = repoManager;
     this.currentUser = currentUser;
     this.hooks = hooks;
 
@@ -75,7 +78,7 @@ public class RestoreChange implements Callable<ReviewResult> {
     result.setChangeId(changeId);
     final ChangeControl control = changeControlFactory.validateFor(changeId);
     final PatchSet patch = db.patchSets().get(patchSetId);
-    if (!control.canRestore()) {
+    if (!control.canRestore(repoManager)) {
       result.addError(new ReviewResult.Error(
           ReviewResult.Error.Type.RESTORE_NOT_PERMITTED));
     } else if (patch == null) {

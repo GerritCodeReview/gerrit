@@ -71,6 +71,9 @@ public class ReviewResult {
 
       /** Review operation invalid because patch set is not a draft. */
       NOT_A_DRAFT,
+
+      /** The destination branch does not exist */
+      DEST_BRANCH_NOT_FOUND
     }
 
     protected Type type;

@@ -48,6 +48,7 @@ import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -209,8 +210,9 @@ public class ReviewCommand extends BaseCommand {
     });
   }
 
-  private void approveOne(final PatchSet.Id patchSetId) throws
-      NoSuchChangeException, OrmException, EmailException, Failure {
+  private void approveOne(final PatchSet.Id patchSetId)
+      throws NoSuchChangeException, OrmException, EmailException, Failure,
+      RepositoryNotFoundException, IOException {
 
     final Change.Id changeId = patchSetId.getParentKey();
 
@@ -296,6 +298,9 @@ public class ReviewCommand extends BaseCommand {
           break;
         case NOT_A_DRAFT:
           errMsg += "change is not a draft";
+          break;
+        case DEST_BRANCH_NOT_FOUND:
+          errMsg += "destination branch not found";
           break;
         default:
           errMsg += "failure in review";

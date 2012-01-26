@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.inject.Singleton;
 
@@ -105,4 +106,17 @@ public interface GitRepositoryManager {
    */
   public abstract void setProjectDescription(Project.NameKey name,
       final String description);
+
+  /**
+   * Checks whether the specified branch exists.
+   *
+   * @param branch the branch for which it should be checked if it exists
+   * @return <code>true</code> if the specified branch exists, otherwise
+   *         <code>false</code>
+   * @throws RepositoryNotFoundException the repository of the branch's project
+   *         does not exist.
+   * @throws IOException error while retrieving the branch from the repository.
+   */
+  public boolean branchExists(Branch.NameKey branch)
+      throws RepositoryNotFoundException, IOException;
 }

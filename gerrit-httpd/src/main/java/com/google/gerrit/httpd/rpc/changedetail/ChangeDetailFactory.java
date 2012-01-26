@@ -36,6 +36,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -47,8 +48,10 @@ import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -71,6 +74,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private final AccountInfoCacheFactory aic;
   private final AnonymousUser anonymousUser;
   private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
 
   private final Change.Id changeId;
 
@@ -85,6 +89,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   ChangeDetailFactory(final ApprovalTypes approvalTypes,
       final FunctionState.Factory functionState,
       final PatchSetDetailFactory.Factory patchSetDetail, final ReviewDb db,
+      final GitRepositoryManager repoManager,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final AnonymousUser anonymousUser,
@@ -95,6 +100,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     this.functionState = functionState;
     this.patchSetDetail = patchSetDetail;
     this.db = db;
+    this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
     this.anonymousUser = anonymousUser;
     this.aic = accountInfoCacheFactory.create();
@@ -107,7 +113,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
   @Override
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
-      PatchSetInfoNotAvailableException, NoSuchChangeException {
+      PatchSetInfoNotAvailableException, NoSuchChangeException,
+      RepositoryNotFoundException, IOException {
     control = changeControlFactory.validateFor(changeId);
     final Change change = control.getChange();
     final PatchSet patch = db.patchSets().get(change.currentPatchSetId());
@@ -123,7 +130,9 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setCanAbandon(change.getStatus() != Change.Status.DRAFT && change.getStatus().isOpen() && control.canAbandon());
     detail.setCanPublish(control.canPublish(db));
-    detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED && control.canRestore());
+    detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED
+        && control.canRestore()
+        && repoManager.branchExists(change.getDest()));
     detail.setCanDeleteDraft(control.canDelete(db));
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));

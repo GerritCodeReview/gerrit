@@ -76,7 +76,10 @@ public class ReviewResult {
       NOT_A_DRAFT,
 
       /** Error writing change to git repository */
-      GIT_ERROR
+      GIT_ERROR,
+
+      /** The destination branch does not exist */
+      DEST_BRANCH_NOT_FOUND
     }
 
     protected Type type;

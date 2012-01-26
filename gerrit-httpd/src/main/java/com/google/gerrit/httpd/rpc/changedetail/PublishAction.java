@@ -26,6 +26,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
+import java.io.IOException;
+
 class PublishAction extends Handler<ChangeDetail> {
   interface Factory {
     PublishAction create(PatchSet.Id patchSetId);
@@ -49,7 +53,7 @@ class PublishAction extends Handler<ChangeDetail> {
   @Override
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
       IllegalStateException, PatchSetInfoNotAvailableException,
-      NoSuchChangeException {
+      NoSuchChangeException, RepositoryNotFoundException, IOException {
     final ReviewResult result = publishFactory.create(patchSetId).call();
     if (result.getErrors().size() > 0) {
       throw new IllegalStateException("Cannot publish patchset");

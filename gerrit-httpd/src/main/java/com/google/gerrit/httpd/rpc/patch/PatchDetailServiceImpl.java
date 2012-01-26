@@ -52,6 +52,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -165,6 +168,10 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         } catch (NoSuchEntityException e) {
           throw new Failure(e);
         } catch (PatchSetInfoNotAvailableException e) {
+          throw new Failure(e);
+        } catch (RepositoryNotFoundException e) {
+          throw new Failure(e);
+        } catch (IOException e) {
           throw new Failure(e);
         }
       }

@@ -27,6 +27,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
+import java.io.IOException;
+
 class SubmitAction extends Handler<ChangeDetail> {
   interface Factory {
     SubmitAction create(PatchSet.Id patchSetId);
@@ -50,7 +54,8 @@ class SubmitAction extends Handler<ChangeDetail> {
   @Override
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
       IllegalStateException, InvalidChangeOperationException,
-      PatchSetInfoNotAvailableException, NoSuchChangeException {
+      PatchSetInfoNotAvailableException, NoSuchChangeException,
+      RepositoryNotFoundException, IOException {
     final ReviewResult result =
         submitFactory.create(patchSetId).call();
     if (result.getErrors().size() > 0) {

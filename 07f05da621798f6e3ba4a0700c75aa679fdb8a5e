@@ -34,6 +34,24 @@
       "revId": "07f05da621798f6e3ba4a0700c75aa679fdb8a5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACXn////I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-26T03:04:47Z",
+      "side": 1,
+      "message": "I don\u0027t think MINA SSHD can call destroy() until after start() completed normally, as destroy() is about trying to kill a running task after it has begun execution with start.\n\nHowever, we made it improbable here because destroy() has a guard for cmd !\u003d null, and cmd is only set inside of onStart() after the startExecutor was able to consume the Runnable we enqueued. So even if MINA SSHD breaks the apparent contract and calls destroy() before start() is able to copy the ctx into its local variable, destroy() won\u0027t clear ctx.",
+      "parentUuid": "AAACWX///+k\u003d",
+      "revId": "07f05da621798f6e3ba4a0700c75aa679fdb8a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

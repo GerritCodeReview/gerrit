@@ -193,7 +193,10 @@ public class ChangeControl {
   }
 
   /** Can this user restore this change? */
-  public boolean canRestore() {
+  public boolean canRestore(final GitRepositoryManager repoManager) {
+    if (!branchExists(repoManager, change)) {
+      return false;
+    }
     return canAbandon(); // Anyone who can abandon the change can restore it back
   }
 

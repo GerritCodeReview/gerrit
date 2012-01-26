@@ -284,7 +284,7 @@ public class ReviewCommand extends BaseCommand {
       }
 
       if (restoreChange) {
-        if (changeControl.canRestore()) {
+        if (changeControl.canRestore(repoManager)) {
           ChangeUtil.restore(patchSetId, currentUser, changeComment, db,
               restoredSenderFactory, hooks);
         } else {

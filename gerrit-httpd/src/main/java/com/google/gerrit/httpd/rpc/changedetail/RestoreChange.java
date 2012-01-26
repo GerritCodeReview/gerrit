@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -42,6 +43,7 @@ class RestoreChange extends Handler<ChangeDetail> {
 
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
   private final IdentifiedUser currentUser;
   private final RestoredSender.Factory senderFactory;
   private final ChangeDetailFactory.Factory changeDetailFactory;
@@ -54,13 +56,15 @@ class RestoreChange extends Handler<ChangeDetail> {
 
   @Inject
   RestoreChange(final ChangeControl.Factory changeControlFactory,
-      final ReviewDb db, final IdentifiedUser currentUser,
+      final ReviewDb db, final GitRepositoryManager repoManager,
+      final IdentifiedUser currentUser,
       final RestoredSender.Factory senderFactory,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message, final ChangeHooks hooks) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
+    this.repoManager = repoManager;
     this.currentUser = currentUser;
     this.senderFactory = senderFactory;
     this.changeDetailFactory = changeDetailFactory;
@@ -77,7 +81,7 @@ class RestoreChange extends Handler<ChangeDetail> {
 
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);
-    if (!control.canRestore()) {
+    if (!control.canRestore(repoManager)) {
       throw new NoSuchChangeException(changeId);
     }
 

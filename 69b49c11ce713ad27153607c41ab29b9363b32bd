@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACYH////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-26T17:07:33Z",
+      "side": 1,
+      "message": "s/messaage/message",
+      "revId": "69b49c11ce713ad27153607c41ab29b9363b32bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACY3////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-26T17:07:33Z",
+      "side": 1,
+      "message": "\u0027hooks\u0027 seems not to be needed anymore, it should probably be removed",
+      "revId": "69b49c11ce713ad27153607c41ab29b9363b32bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

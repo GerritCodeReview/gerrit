@@ -17,12 +17,15 @@ package com.google.gerrit.server.changedetail;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ReviewResult;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -33,6 +36,12 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.LockFile;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.Callable;
 
 public class RestoreChange implements Callable<ReviewResult> {
@@ -44,6 +53,7 @@ public class RestoreChange implements Callable<ReviewResult> {
   private final RestoredSender.Factory restoredSenderFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
   private final IdentifiedUser currentUser;
   private final ChangeHooks hooks;
 
@@ -53,12 +63,13 @@ public class RestoreChange implements Callable<ReviewResult> {
   @Inject
   RestoreChange(final RestoredSender.Factory restoredSenderFactory,
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
-      final IdentifiedUser currentUser, final ChangeHooks hooks,
-      @Assisted final PatchSet.Id patchSetId,
+      final GitRepositoryManager repoManager, final IdentifiedUser currentUser,
+      final ChangeHooks hooks, @Assisted final PatchSet.Id patchSetId,
       @Assisted final String changeComment) {
     this.restoredSenderFactory = restoredSenderFactory;
     this.changeControlFactory = changeControlFactory;
     this.db = db;
+    this.repoManager = repoManager;
     this.currentUser = currentUser;
     this.hooks = hooks;
 
@@ -68,54 +79,82 @@ public class RestoreChange implements Callable<ReviewResult> {
 
   @Override
   public ReviewResult call() throws EmailException,
-      InvalidChangeOperationException, NoSuchChangeException, OrmException {
+      InvalidChangeOperationException, NoSuchChangeException, OrmException,
+      RepositoryNotFoundException, IOException {
     final ReviewResult result = new ReviewResult();
 
     final Change.Id changeId = patchSetId.getParentKey();
     result.setChangeId(changeId);
     final ChangeControl control = changeControlFactory.validateFor(changeId);
-    final PatchSet patch = db.patchSets().get(patchSetId);
     if (!control.canRestore()) {
       result.addError(new ReviewResult.Error(
           ReviewResult.Error.Type.RESTORE_NOT_PERMITTED));
-    } else if (patch == null) {
+      return result;
+    }
+
+    final PatchSet patch = db.patchSets().get(patchSetId);
+    if (patch == null) {
       throw new NoSuchChangeException(changeId);
-    } else {
+    }
 
-      // Create a message to accompany the restored change
-      final ChangeMessage cmsg =
-          new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
-              .messageUUID(db)), currentUser.getAccountId(), patchSetId);
-      final StringBuilder msgBuf =
-          new StringBuilder("Patch Set " + patchSetId.get() + ": Restored");
-      if (changeComment != null && changeComment.length() > 0) {
-        msgBuf.append("\n\n");
-        msgBuf.append(changeComment);
-      }
-      cmsg.setMessage(msgBuf.toString());
-
-      // Restore the change
-      final Change updatedChange = db.changes().atomicUpdate(changeId,
-          new AtomicUpdate<Change>() {
-        @Override
-        public Change update(Change change) {
-          if (change.getStatus() == Change.Status.ABANDONED
-              && change.currentPatchSetId().equals(patchSetId)) {
-            change.setStatus(Change.Status.NEW);
-            ChangeUtil.updated(change);
-            return change;
-          } else {
-            return null;
-          }
+    final Project.NameKey project = control.getChange().getProject();
+    final Branch.NameKey destBranch = control.getChange().getDest();
+    final Repository repo = repoManager.openRepository(project);
+    try {
+      final LockFile refLock =
+          new LockFile(new File(repo.getDirectory(), destBranch.get()),
+              repo.getFS());
+      try {
+        if (!refLock.lock()) {
+          throw new InvalidChangeOperationException(
+              "cannot lock destination branch " + destBranch.get());
         }
-      });
+        if (!repoManager.branchExists(project, destBranch)) {
+          result.addError(new ReviewResult.Error(
+              ReviewResult.Error.Type.DEST_BRANCH_NOT_FOUND, destBranch.get()));
+          return result;
+        }
 
-      ChangeUtil.updatedChange(
-          db, currentUser, updatedChange, cmsg, restoredSenderFactory,
-         "Change is not abandoned or patchset is not latest");
+        // Create a message to accompany the restored change
+        final ChangeMessage cmsg =
+            new ChangeMessage(new ChangeMessage.Key(changeId,
+                ChangeUtil.messageUUID(db)), currentUser.getAccountId(),
+                patchSetId);
+        final StringBuilder msgBuf =
+            new StringBuilder("Patch Set " + patchSetId.get() + ": Restored");
+        if (changeComment != null && changeComment.length() > 0) {
+          msgBuf.append("\n\n");
+          msgBuf.append(changeComment);
+        }
+        cmsg.setMessage(msgBuf.toString());
 
-      hooks.doChangeRestoreHook(updatedChange, currentUser.getAccount(),
-                                changeComment, db);
+        // Restore the change
+        final Change updatedChange =
+            db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+              @Override
+              public Change update(Change change) {
+                if (change.getStatus() == Change.Status.ABANDONED
+                    && change.currentPatchSetId().equals(patchSetId)) {
+                  change.setStatus(Change.Status.NEW);
+                  ChangeUtil.updated(change);
+                  return change;
+                } else {
+                  return null;
+                }
+              }
+            });
+
+        ChangeUtil.updatedChange(db, currentUser, updatedChange, cmsg,
+            restoredSenderFactory,
+            "Change is not abandoned or patchset is not latest");
+
+        hooks.doChangeRestoreHook(updatedChange, currentUser.getAccount(),
+            changeComment, db);
+      } finally {
+        refLock.unlock();
+      }
+    } finally {
+      repo.close();
     }
 
     return result;

@@ -28,6 +28,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
+import java.io.IOException;
+
 import javax.annotation.Nullable;
 
 class RestoreChangeHandler extends Handler<ChangeDetail> {
@@ -57,7 +61,8 @@ class RestoreChangeHandler extends Handler<ChangeDetail> {
   @Override
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
       EmailException, NoSuchEntityException, InvalidChangeOperationException,
-      PatchSetInfoNotAvailableException {
+      PatchSetInfoNotAvailableException, RepositoryNotFoundException,
+      IOException {
     final ReviewResult result =
         restoreChangeFactory.create(patchSetId, message).call();
     if (result.getErrors().size() > 0) {

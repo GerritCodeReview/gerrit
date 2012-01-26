@@ -712,6 +712,7 @@ In order to submit, all approval categories (such as `Verified` and
 `Code Review`, above) must enable submit, and also must not block it.
 See above for details on each category.
 
+
 [[category_makeoneup]]
 Your Category Here
 ~~~~~~~~~~~~~~~~~~
@@ -778,6 +779,30 @@ like `Verified`, but has different names/labels:
 The new column will appear at the end of the table (in position 3),
 and `-1 Do not have copyright` will block submit, while `+1 Copyright
 clear` is required to enable submit.
+
+
+Examples of typical roles in a project
+--------------------------------------
+
+Below follows a set of typical roles on a server and which access
+rights these roles typically should be granted. You may see them as
+general guide lines for a typical way to set up your project on a
+brand new Gerrit instance.
+
+[[examples_contributor]]
+Contributor
+~~~~~~~~~~~
+
+This is the typical user on a public server. They are able to read
+your project and upload new changes to it. They are able to give
+feedback on other changes as well, but are unable to block or approve
+any changes.
+
+Suggested access rights to grant:
+
+* <<category_read,`Read`>> on 'refs/heads/\*' and 'refs/tags/*'
+* <<category_push,`Push`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
+* <<category_label-Code-Review,`Code review`>> with range '-1' to '+1'
 
 
 [[conversion_table]]

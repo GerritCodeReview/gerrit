@@ -73,12 +73,15 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         "c-path", "refs/heads/master"));
     sectionsToReturn.put("d", new SubmoduleSection("ssh://localhost/d",
         "d-parent/the-d-folder", "refs/heads/test"));
+    sectionsToReturn.put("e", new SubmoduleSection("ssh://localhost/e.git", "e",
+        "."));
 
     final Map<String, String> reposToBeFound = new HashMap<String, String>();
     reposToBeFound.put("a", "a");
     reposToBeFound.put("b", "b");
     reposToBeFound.put("c", "test/c");
     reposToBeFound.put("d", "d");
+    reposToBeFound.put("e", "e");
 
     final Branch.NameKey superBranchNameKey =
         new Branch.NameKey(new Project.NameKey("super-project"),
@@ -98,6 +101,9 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     expectedSubscriptions.add(new SubmoduleSubscription(superBranchNameKey,
         new Branch.NameKey(new Project.NameKey("d"), "refs/heads/test"),
         "d-parent/the-d-folder"));
+    expectedSubscriptions
+        .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
+            new Project.NameKey("e"), "refs/heads/master"), "e"));
 
     execute(superBranchNameKey, sectionsToReturn, reposToBeFound,
         expectedSubscriptions);
@@ -116,12 +122,15 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         "c-path", "refs/heads/master"));
     sectionsToReturn.put("d", new SubmoduleSection("ssh://localhost/d",
         "d-parent/the-d-folder", "refs/heads/test"));
+    sectionsToReturn.put("e", new SubmoduleSection("ssh://localhost/e.git", "e",
+        "."));
 
     // "b" will not be in this list
     final Map<String, String> reposToBeFound = new HashMap<String, String>();
     reposToBeFound.put("a", "a");
     reposToBeFound.put("c", "test/c");
     reposToBeFound.put("d", "d");
+    reposToBeFound.put("e", "e");
 
     final Branch.NameKey superBranchNameKey =
         new Branch.NameKey(new Project.NameKey("super-project"),
@@ -138,6 +147,9 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
     expectedSubscriptions.add(new SubmoduleSubscription(superBranchNameKey,
         new Branch.NameKey(new Project.NameKey("d"), "refs/heads/test"),
         "d-parent/the-d-folder"));
+    expectedSubscriptions
+        .add(new SubmoduleSubscription(superBranchNameKey, new Branch.NameKey(
+            new Project.NameKey("e"), "refs/heads/master"), "e"));
 
     execute(superBranchNameKey, sectionsToReturn, reposToBeFound,
         expectedSubscriptions);
@@ -202,6 +214,10 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         while (fromIndex > 0) {
           fromIndex = urlExtractedPath.lastIndexOf('/', fromIndex - 1);
           projectNameCandidate = urlExtractedPath.substring(fromIndex + 1);
+          if (projectNameCandidate.endsWith(".git"))
+          {
+            projectNameCandidate = projectNameCandidate.substring(0, projectNameCandidate.length() - 4);
+          }
           if (projectNameCandidate.equals(reposToBeFound.get(id))) {
             expect(repoManager.list()).andReturn(
                 new TreeSet<Project.NameKey>(Collections

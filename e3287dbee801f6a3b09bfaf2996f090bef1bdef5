@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACbH////0\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T08:18:37Z",
+      "side": 1,
+      "message": "s/in/in the",
+      "revId": "e3287dbee801f6a3b09bfaf2996f090bef1bdef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH////s\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T08:18:37Z",
+      "side": 1,
+      "message": "s/when inside/when being inside",
+      "revId": "e3287dbee801f6a3b09bfaf2996f090bef1bdef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH////w\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T08:18:37Z",
+      "side": 1,
+      "message": "s/inside/inside the",
+      "revId": "e3287dbee801f6a3b09bfaf2996f090bef1bdef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH////o\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T08:18:37Z",
+      "side": 1,
+      "message": "s/to/to the",
+      "revId": "e3287dbee801f6a3b09bfaf2996f090bef1bdef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH////k\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T08:18:37Z",
+      "side": 1,
+      "message": "not sure if I understand it correctly, should it be: \"one should then commit the modified gitlink for \u0027a\u0027 in the \u0027super project\"?",
+      "revId": "e3287dbee801f6a3b09bfaf2996f090bef1bdef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH////g\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T08:18:37Z",
+      "side": 1,
+      "message": "not sure if I correctly understand what \"commit \u0027a\u0027 gitlink\" means, should it be: \"and commit the modified gitlink for \u0027a\u0027\"",
+      "revId": "e3287dbee801f6a3b09bfaf2996f090bef1bdef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH////c\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T08:18:37Z",
+      "side": 1,
+      "message": "s/add branch field/add a branch field",
+      "revId": "e3287dbee801f6a3b09bfaf2996f090bef1bdef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH////U\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T08:18:37Z",
+      "side": 1,
+      "message": "s/updating subscribed/updating the subscribed",
+      "revId": "e3287dbee801f6a3b09bfaf2996f090bef1bdef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH////I\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T08:18:37Z",
+      "side": 1,
+      "message": "s/removing/to remove\n\ns/of .gitmodules file/of the .gitmodules file",
+      "revId": "e3287dbee801f6a3b09bfaf2996f090bef1bdef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACan////I\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACWX////4\u003d",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACWX////0\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAACan////A\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACWX////0\u003d",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACWX////w\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2012-01-25T15:09:13Z",
       "side": 1,
       "message": "Use https://gerrit-review.googlesource.com/static/cla_corporate.html",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACan////E\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACWX////w\u003d",
       "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AAACan///+8\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACWX////s\u003d",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACWX////o\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5
@@ -98,6 +170,24 @@
       "writtenOn": "2012-01-25T15:09:13Z",
       "side": 1,
       "message": "Not all users have +1 Verified permission right now. Its a wider base than the Gerrit submitters, but new contributors won\u0027t be able to do this.",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACan///+4\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "I originally meant to indicate that by the \"if you can\" part, but I have now attempted to make that clearer.",
+      "parentUuid": "AAACWX////o\u003d",
       "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AAACan///+0\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "The \"we\" above was meant to be the authors of this doc and how they would proceed to explain the guidelines... I changed it to \"Let\u0027s start with\" , maybe that makes more sense.",
+      "parentUuid": "AAACWX////k\u003d",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACbH////Q\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5
@@ -132,6 +240,24 @@
       "writtenOn": "2012-01-27T08:15:01Z",
       "side": 1,
       "message": "before all other sections we have 2 blank lines, maybe there should be also 2 blank lines before this section?",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACan///+w\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH////Q\u003d",
       "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "AAACan///+g\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH////8\u003d",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACXH////8\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5
@@ -166,6 +310,24 @@
       "writtenOn": "2012-01-25T10:49:56Z",
       "side": 1,
       "message": "Great point here! I think maybe it would be a good idea to provide another example here. Something like:\n\nAnother example: if a new feature is implemented and it is a larger one, try to identify if it can be split in smaller logical features.",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACan///+c\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "Done (added to the first point)",
+      "parentUuid": "AAACXH////8\u003d",
       "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "AAACan///+k\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACWn////0\u003d",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACWn////4\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5
@@ -206,6 +386,24 @@
     },
     {
       "key": {
+        "uuid": "AAACan///+o\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACWn////4\u003d",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACWn////w\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5
@@ -217,6 +415,24 @@
       "writtenOn": "2012-01-25T07:23:31Z",
       "side": 1,
       "message": "same point as above?",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACan///+s\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T23:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACWn////w\u003d",
       "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACb3////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-27T09:43:25Z",
+      "side": 1,
+      "message": "Inconsistently cased headline (compared to my previous changes anyway); I\u0027ll fix this in case there\u0027s a need for another patch set.",
+      "revId": "b6604b1323c05640a425ea86cba4b25e8aadbb28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

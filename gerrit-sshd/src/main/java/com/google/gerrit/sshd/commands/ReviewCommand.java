@@ -14,7 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewResult;
@@ -30,13 +29,12 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.AbandonChange;
+import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.ReplicationQueue;
-import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
-import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.patch.PublishComments;
@@ -138,19 +136,13 @@ public class ReviewCommand extends BaseCommand {
   private AbandonChange.Factory abandonChangeFactory;
 
   @Inject
-  private AbandonedSender.Factory abandonedSenderFactory;
-
-  @Inject
   private FunctionState.Factory functionStateFactory;
 
   @Inject
   private PublishComments.Factory publishCommentsFactory;
 
   @Inject
-  private RestoredSender.Factory restoredSenderFactory;
-
-  @Inject
-  private ChangeHooks hooks;
+  private RestoreChange.Factory restoreChangeFactory;
 
   @Inject
   private GitRepositoryManager gitManager;
@@ -278,15 +270,8 @@ public class ReviewCommand extends BaseCommand {
 
       if (abandonChange) {
         result = abandonChangeFactory.create(patchSetId, changeComment).call();
-      }
-
-      if (restoreChange) {
-        if (changeControl.canRestore()) {
-          ChangeUtil.restore(patchSetId, currentUser, changeComment, db,
-              restoredSenderFactory, hooks);
-        } else {
-          throw error("Not permitted to restore change");
-        }
+      } else if (restoreChange) {
+        result = restoreChangeFactory.create(patchSetId, changeComment).call();
         if (submitChange) {
           changeControl = changeControlFactory.validateFor(changeId);
         }
@@ -379,6 +364,10 @@ public class ReviewCommand extends BaseCommand {
         switch (resultError.getType()) {
           case ABANDON_NOT_PERMITTED:
             writeError("error: not permitted to abandon change");
+            break;
+          case RESTORE_NOT_PERMITTED:
+            writeError("error: not permitted to restore change");
+            break;
           default:
             writeError("error: failure in review");
         }

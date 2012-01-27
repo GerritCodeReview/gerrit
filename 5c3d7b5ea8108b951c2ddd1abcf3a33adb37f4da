@@ -85,6 +85,24 @@
       "revId": "5c3d7b5ea8108b951c2ddd1abcf3a33adb37f4da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACaX///+4\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-27T16:23:57Z",
+      "side": 1,
+      "message": "I think it is mostly used for projects which can\u0027t put Change-Id lines in the commit messages, for example changes destined for upstream Linux.",
+      "parentUuid": "AAACbH///+8\u003d",
+      "revId": "5c3d7b5ea8108b951c2ddd1abcf3a33adb37f4da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

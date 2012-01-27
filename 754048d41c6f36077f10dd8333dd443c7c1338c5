@@ -121,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "AAACbH////8\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T07:32:49Z",
+      "side": 1,
+      "message": "[optional] For the examples given in the command documentation we use a slighty different formatting, there we surround the example block by \u0027\u003d\u003d\u003d\u003d\u0027. For the sake of consistency we could use the same formatting here.",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACXH////8\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5

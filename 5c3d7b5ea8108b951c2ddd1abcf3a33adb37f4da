@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACb3////w\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-27T09:46:36Z",
+      "side": 1,
+      "message": "I sneaked this missing line into this change, but forgot to add it to the commit message.\nRealize now, that it\u0027s not acceptable, but OTOH it feels just silly to make a new change with a single empty line in it.\n\nPlease advice what I should do..",
+      "revId": "5c3d7b5ea8108b951c2ddd1abcf3a33adb37f4da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

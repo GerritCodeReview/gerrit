@@ -121,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "AAACbH////Q\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-27T08:15:01Z",
+      "side": 1,
+      "message": "before all other sections we have 2 blank lines, maybe there should be also 2 blank lines before this section?",
+      "revId": "754048d41c6f36077f10dd8333dd443c7c1338c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACbH////8\u003d",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5

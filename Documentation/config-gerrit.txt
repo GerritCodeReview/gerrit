@@ -2244,6 +2244,16 @@ repositories under its control.
 
 * link:config-replication.html[Git Replication/Mirroring]
 
+File `etc/peer_keys`
+--------------------
+
+The optional file `'$site_path'/etc/peer_keys` controls who can
+login as the 'Gerrit Code Review' user, required for the link:cmd-suexec.html[suexec]
+command.
+
+The format is one Base-64 encoded public key per line.
+
+
 Database system_config
 ----------------------
 

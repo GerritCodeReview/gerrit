@@ -841,6 +841,44 @@ Optional access rights to grant:
 * <<category_push_merge,`Push merge commit`>> to 'refs/heads/*'
 
 
+[[examples_cisystem]]
+CI system
+~~~~~~~~~
+
+A typical Continous Integration system should be able to download new changes
+to build and then leave a verdict somehow.
+
+As an example, the popular
+link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[gerrit-trigger plugin]
+for Jenkins/Hudson can set labels at:
+
+* The start of a build.
+* A successful build.
+* An unstable build (tests fails).
+* A failed build.
+
+Usually the range chosen for this verdict is the verify label.  Depending on
+the size of your project and discipline of involved developers you might want
+to limit access right to the +1 `Verify` label to the CI system only.  That
+way it's guaranteed that submitted commits always have built (and tested)
+successfully.
+
+If the build doesn't complete successfully the CI system can set the
+`Verify` label to -1.  However that means that a failed build will block
+submit of the change even if someone else sets `Verify` +1.  Depending on the
+project and how much the CI system can be trusted for accurate results, a
+blocking label might not be feasible.  A recommended alternative is to set the
+label `Code-review` to -1 instead, as it isn't a blocking label but still
+shows a red label in the Gerrit UI.
+
+Suggested access rights to grant, that won't block changes:
+
+* <<category_read,`Read`>> on 'refs/heads/\*' and 'refs/tags/*'
+* <<category_push,`Push`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
+* <<category_label-Code-Review,`Label: Code review`>> with range '-1' to '+1'
+* <<category_label-Verified,`Label: Verify`>> with range '0' to '+1'
+
+
 [[conversion_table]]
 Conversion table from 2.1.x series to 2.2.x series
 --------------------------------------------------

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACdX////g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-01-30T19:57:28Z",
+      "side": 1,
+      "message": "Ick on the formatting here. Thanks Git.\n\nI do this by setting up the local branch names nicely:\n\n  git config merge.summary true\n  git checkout master\n  git reset --hard origin/master\n  git branch -f stable origin/stable\n  git merge stable",
+      "revId": "7b7dece2d77779b975adec6086589c5bfb524b8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

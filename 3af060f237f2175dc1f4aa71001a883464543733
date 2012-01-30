@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACbH///88\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-30T12:06:14Z",
+      "side": 1,
+      "message": "s/and and/and",
+      "revId": "3af060f237f2175dc1f4aa71001a883464543733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH///84\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-30T12:06:14Z",
+      "side": 1,
+      "message": "3 of the \u0027~\u0027 characters are too much. This actually leads to a surprising formatting. It causes the whole text below until \u0027Canonical Web Url\u0027 to be displayed in a gray box.",
+      "revId": "3af060f237f2175dc1f4aa71001a883464543733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

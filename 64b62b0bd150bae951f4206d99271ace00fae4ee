@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACcX///+0\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-30T17:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACa3////w\u003d",
+      "revId": "64b62b0bd150bae951f4206d99271ace00fae4ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACa3////s\u003d",
         "filename": "Documentation/user-submodules.txt",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-30T15:41:55Z",
       "side": 1,
       "message": "Again, the command should probably have some formatting instead of quotes. Se above.",
+      "revId": "64b62b0bd150bae951f4206d99271ace00fae4ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACcX///+w\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-01-30T17:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACa3////s\u003d",
       "revId": "64b62b0bd150bae951f4206d99271ace00fae4ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACa3////w\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-30T15:41:55Z",
+      "side": 1,
+      "message": "I think that in many other places of the documentation commands that you run are either put inside a listing block [1] or an example block [2]. I would suggest you to consider that also for this document.\n\nIn the documentation I\u0027ve created I\u0027ve chosen the example block, but I leave this up to you - the output seems very similar between the two when generating HTML.\n\n[1] http://www.methods.co.nz/asciidoc/asciidoc.css-embedded.html#X65\n\n[2] http://www.methods.co.nz/asciidoc/asciidoc.css-embedded.html#X48\n\nSo, the example could look like this:\n\n\u003d\u003d\u003d\u003d\ngit submodule add ssh://server/a a\n\u003d\u003d\u003d\u003d",
+      "revId": "64b62b0bd150bae951f4206d99271ace00fae4ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACa3////s\u003d",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-30T15:41:55Z",
+      "side": 1,
+      "message": "Again, the command should probably have some formatting instead of quotes. Se above.",
+      "revId": "64b62b0bd150bae951f4206d99271ace00fae4ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

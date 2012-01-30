@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACdH///+4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///+A\u003d",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACbH///98\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-30T10:15:13Z",
       "side": 1,
       "message": "This import is not used anymore, can you remove it?",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACdH///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///98\u003d",
       "revId": "4094522c78ce24452804549d018cf48cef2367a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAACdH///+w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///94\u003d",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACbH///9Q\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-01-30T10:15:13Z",
       "side": 1,
       "message": "[optional] The message of the IllegalStateException may get displayed to the end user in the Gerrit WebUI. E.g. when the user clicks on the \u0027Publish and Submit\u0027 button although the change is not ready for submit, the following message is displayed:\n\n  Cannot submit SUBMIT_NOT_READY change 172: needs Verified; change 172: needs Code-Review\n\nThe \u0027SUBMIT_NOT_READY\u0027 looks a bit displaced here. This is why I would propose to something like this:\n\n  final ReviewResult.Error error \u003d result.getErrors().get(0);\n  if (error.getMessage() !\u003d null) {\n    throw new IllegalStateException(\"Cannot submit: \" + error.getMessage());\n  } else {\n      throw new IllegalStateException(\"Cannot submit: \" + error);\n  }",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACdH///+s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///9Q\u003d",
       "revId": "4094522c78ce24452804549d018cf48cef2367a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAACdH///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///90\u003d",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACbH///9w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2012-01-30T10:15:13Z",
       "side": 1,
       "message": "This import is not used anymore, can you remove it?",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACdH///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///9w\u003d",
       "revId": "4094522c78ce24452804549d018cf48cef2367a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAACdH///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///9s\u003d",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACbH///9o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
         "patchSetId": 5
@@ -132,6 +258,24 @@
       "writtenOn": "2012-01-30T10:15:13Z",
       "side": 1,
       "message": "[optional] Why are you throwing an InvalidChangeOperationException here? In the old code in SubmitAction it was an IllegalStateException that was thrown in this case.\n\nIf I understand the code in ChangeControl#canSubmit(...) correctly it should actually not happen that the submitResult is empty. An IllegalStateException seems to be more appropriate for this case than an InvalidChangeOperationException that indicates that the change operation is currently not valid.\n\nWell, it\u0027s maybe not important, but since this is a refactoring change I tend to leave the exception as it was.",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACdH///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///9o\u003d",
       "revId": "4094522c78ce24452804549d018cf48cef2367a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAACdH///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///9k\u003d",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACbH///9g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
         "patchSetId": 5
@@ -166,6 +328,24 @@
       "writtenOn": "2012-01-30T10:15:13Z",
       "side": 1,
       "message": "[optional] same question as above when comparing this code to as it was in SubmitAction, why was the IllegalStateException changed to InvalidChangeOperationException?",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACdH///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Submit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///9g\u003d",
       "revId": "4094522c78ce24452804549d018cf48cef2367a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAACdH///+Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///9c\u003d",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACbH///9Y\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 5
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "AAACdH///+M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACbH///9Y\u003d",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACbH///9U\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 5
@@ -217,6 +433,24 @@
       "writtenOn": "2012-01-30T10:15:13Z",
       "side": 1,
       "message": "[optional] Thanks for adding the Change.Id on my proposal.\n\nAfter reviewing this change once more, I understood that the Change.Id is actually included in the message that is returned by \u0027resultError.getMessage()\u0027 and like that it\u0027s also included in the errMsg. I somehow missed this before, means I\u0027m now also feeling that it\u0027s not really needed to include the Change.Id here once more. So, if you like you may remove it again. Sorry for my confusion.",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACdH///+I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-01-30T17:42:11Z",
+      "side": 1,
+      "message": "resultError may not actually have a message (and I\u0027m not sure under what circumstances that message will come with a change-id).  maybe we should just leave it like this?",
+      "parentUuid": "AAACbH///9U\u003d",
       "revId": "4094522c78ce24452804549d018cf48cef2367a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

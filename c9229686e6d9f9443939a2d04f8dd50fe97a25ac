@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACbH///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-30T07:26:59Z",
+      "side": 1,
+      "message": "That will be nice.\n\nDone.",
+      "parentUuid": "AAACCH////0\u003d",
+      "revId": "c9229686e6d9f9443939a2d04f8dd50fe97a25ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACCX///8k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-13T19:02:11Z",
       "side": 1,
       "message": "nit: you could combine the above 2 lines to eliminate pList.",
+      "revId": "c9229686e6d9f9443939a2d04f8dd50fe97a25ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-30T07:26:59Z",
+      "side": 1,
+      "message": "I will keep it so as to use its size.",
+      "parentUuid": "AAACCX///8k\u003d",
       "revId": "c9229686e6d9f9443939a2d04f8dd50fe97a25ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAACbH///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-30T07:26:59Z",
+      "side": 1,
+      "message": "That will be fine.\n\nDone.",
+      "parentUuid": "AAACCH////w\u003d",
+      "revId": "c9229686e6d9f9443939a2d04f8dd50fe97a25ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACCH////4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-01-13T14:26:37Z",
       "side": 1,
       "message": "Since Project doesn\u0027t implement the Comparable interface you need to provide a Comparator to the TreeSet that compares projects by name, otherwise the projects will not be sorted correctly.",
+      "revId": "c9229686e6d9f9443939a2d04f8dd50fe97a25ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-01-30T07:26:59Z",
+      "side": 1,
+      "message": "Thanks a lot!\n\nDone.",
+      "parentUuid": "AAACCH////4\u003d",
       "revId": "c9229686e6d9f9443939a2d04f8dd50fe97a25ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

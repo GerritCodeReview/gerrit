@@ -64,9 +64,9 @@ You can choose from different versions to download from here:
 
 * http://code.google.com/p/gerrit/downloads/list[A list of releases available]
 
-This tutorial is based on version 2.2.1, and you can download that from this link
+This tutorial is based on version 2.2.2, and you can download that from this link
 
-* http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.2.1.war[Link to the 2.2.1 war archive]
+* http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.2.2.war[Link to the 2.2.2 war archive]
 
 
 [[initialization]]
@@ -89,14 +89,16 @@ gerrit2@host:~$
 When the init is complete, you can review your settings in the
 file `'$site_path/etc/gerrit.config'`.
 
-Installation is complete and you're ready to start up Gerrit!
+An important setting will be the canonicalWebUrl which will
+be needed later to access gerrit's web interface.
 
 ----
-gerrit2@host:~$ $site_path/bin/gerrit.sh start
-Starting Gerrit Code Review: OK
-Waiting for server to start ... OK
-----
 
+gerrit2@host:~$ cat ~/gerrit_testsite/etc/gerrit.config | grep canonical
+canonicalWebUrl = http://localhost:8080/
+gerrit2@host:~$
+
+----
 [[usersetup]]
 The first user
 --------------
@@ -156,8 +158,8 @@ user@host:~$
 Registering your key in Gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Open a browser and enter the canonical url you used above when initializing
-Gerrit.
+Open a browser and enter the canonical url you got before when
+initializing Gerrit.
 
 ----
 Canonical URL                  [http://localhost:8080/]: 
@@ -204,11 +206,11 @@ Verify that the ssh connection works for you.
   Hi user, you have successfully connected over SSH.
 
   Unfortunately, interactive shells are disabled.
-    To clone a hosted Git repository, use:
+  To clone a hosted Git repository, use:
 
   git clone ssh://user@localhost:29418/REPOSITORY_NAME.git
 
-  user@host:~$
+user@host:~$
 ----
 
 Project creation

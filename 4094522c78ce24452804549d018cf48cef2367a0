@@ -454,6 +454,24 @@
       "revId": "4094522c78ce24452804549d018cf48cef2367a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACbH///8c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-31T06:54:22Z",
+      "side": 1,
+      "message": "OK, I guess you are right and it\u0027s better to keep it printed out.\n\nBut before submitting the change, I will slightly change the message above. What we are printing out is the Change.Id, which is the short number identifying a change (e.g. used in the URL of the change). It is different from the (long) Change-Id which is contained in the commit message. When printing out the Change.Id aka change number in other places (e.g. in com.google.gerrit.server.changedetail.Submit) we just format it as\n\n  \"change \" + changeId\n\nI would do here the same to avoid confusion with the Change-Id that is contained in the commit message.\n\nSorry that you have to rebase your other changes then once more!",
+      "parentUuid": "AAACdH///+I\u003d",
+      "revId": "4094522c78ce24452804549d018cf48cef2367a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

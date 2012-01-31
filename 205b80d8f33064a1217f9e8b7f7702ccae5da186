@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACa3///+k\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-31T14:21:06Z",
+      "side": 1,
+      "message": "The project.config example shouldn\u0027t be in here, it should be saved for the page that describes project.config file rather.",
+      "revId": "205b80d8f33064a1217f9e8b7f7702ccae5da186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

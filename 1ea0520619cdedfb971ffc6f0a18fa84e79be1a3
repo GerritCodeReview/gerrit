@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACfH////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010232
+      },
+      "writtenOn": "2012-01-31T19:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACe3////4\u003d",
+      "revId": "1ea0520619cdedfb971ffc6f0a18fa84e79be1a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACe3////0\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/SubmoduleSectionParserTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-31T19:05:11Z",
       "side": 1,
       "message": "Curly braces go on the end of the opening line.",
+      "revId": "1ea0520619cdedfb971ffc6f0a18fa84e79be1a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACfH////0\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/util/SubmoduleSectionParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010232
+      },
+      "writtenOn": "2012-01-31T19:09:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACe3////0\u003d",
       "revId": "1ea0520619cdedfb971ffc6f0a18fa84e79be1a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

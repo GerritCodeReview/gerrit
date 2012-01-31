@@ -100,8 +100,16 @@ public class QueryProcessor {
     includePatchSets = on;
   }
 
+  public boolean getIncludePatchSets() {
+    return includePatchSets;
+  }
+
   public void setIncludeCurrentPatchSet(boolean on) {
     includeCurrentPatchSet = on;
+  }
+
+  public boolean getIncludeCurrentPatchSet() {
+    return includeCurrentPatchSet;
   }
 
   public void setIncludeApprovals(boolean on) {
@@ -114,6 +122,10 @@ public class QueryProcessor {
 
   public void setIncludeFiles(boolean on) {
     includeFiles = on;
+  }
+
+  public boolean getIncludeFiles() {
+    return includeFiles;
   }
 
   public void setIncludeCommitMessage(boolean on) {

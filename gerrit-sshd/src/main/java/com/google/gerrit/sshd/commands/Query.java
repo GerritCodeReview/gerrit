@@ -76,9 +76,17 @@ class Query extends BaseCommand {
       public void run() throws Exception {
         processor.setOutput(out, QueryProcessor.OutputFormat.TEXT);
         parseCommandLine();
+        verifyCommandLine();
         processor.query(join(query, " "));
       }
     });
+  }
+
+  private void verifyCommandLine() throws UnloggedFailure {
+    if (processor.getIncludeFiles() &&
+        !(processor.getIncludePatchSets() || processor.getIncludeCurrentPatchSet())) {
+      throw new UnloggedFailure(1, "--files option needs --patch-sets or --current-patch-set");
+    }
   }
 
   private static String join(List<String> list, String sep) {

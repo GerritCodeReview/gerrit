@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACa3////Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-31T13:02:06Z",
+      "side": 1,
+      "message": "I don\u0027t think the comment gives enough hint of which version reference you\u0027ve updated.\n\nAlso, I\u0027d like if your test results with the new war file was mentioned here as well.",
+      "revId": "05b990d9db0653b3a20e56e6f3102e5a0819d9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACa3////U\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-31T13:02:06Z",
+      "side": 1,
+      "message": "I wrote this tutorial specifically on version 2.2.1, and that\u0027s a point for me, I can only guarantee it to work with 2.2.1. Otherwise there are dynamic links to \"latest\" release as well.\n\nSo, just to be certain, did you test the tutorial in it\u0027s entirety before uploading this patch? If this wasn\u0027t specifically tested we shouldn\u0027t enumerate the numbers either.",
+      "revId": "05b990d9db0653b3a20e56e6f3102e5a0819d9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACa3////M\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-31T13:02:06Z",
+      "side": 1,
+      "message": "For example, is this output still the same?",
+      "revId": "05b990d9db0653b3a20e56e6f3102e5a0819d9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACa3////I\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-01-31T13:02:06Z",
+      "side": 1,
+      "message": "Is this output still the same?",
+      "revId": "05b990d9db0653b3a20e56e6f3102e5a0819d9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -513,15 +513,16 @@ public class Gerrit implements EntryPoint {
     });
     JumpKeys.register(body);
 
-    if ("".equals(History.getToken())) {
-      if (isSignedIn()) {
-        display(PageLinks.MINE);
-      } else {
-        display(PageLinks.toChangeQuery("status:open"));
-      }
-    } else {
-      display(History.getToken());
+    String token = History.getToken();
+    if (token.isEmpty()) {
+      token = isSignedIn()
+          ? PageLinks.MINE
+          : PageLinks.toChangeQuery("status:open");
     }
+    if (signInAnchor != null) {
+      signInAnchor.setHref(loginRedirect(token));
+    }
+    display(token);
   }
 
   public static void refreshMenuBar() {
@@ -609,7 +610,7 @@ public class Gerrit implements EntryPoint {
           if (cfg.getRegisterUrl() != null) {
             menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
           }
-          signInAnchor = anchor(C.menuSignIn(), loginRedirect(""));
+          signInAnchor = anchor(C.menuSignIn(), loginRedirect(History.getToken()));
           menuRight.add(signInAnchor);
           break;
 

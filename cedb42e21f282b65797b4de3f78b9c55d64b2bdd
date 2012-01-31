@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACe3///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-31T21:35:43Z",
+      "side": 1,
+      "message": "I suspect that here too you may have a race, if the branch is deleted during the restore.  \n\nI also wonder about the appropriateness of adding this sort of sanity check here, the comment on line 56 says \"Access control management\", and this does not seem like an access control type of decision.  But, I am torn, obviously it is nice to have one place to ask the canRestore() question for things like enabling/disabling buttons, I don\u0027t know whether there is a better place, Shawn?",
+      "revId": "cedb42e21f282b65797b4de3f78b9c55d64b2bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -805,6 +805,42 @@ Suggested access rights to grant:
 * <<category_label-Code-Review,`Code review`>> with range '-1' to '+1'
 
 
+[[examples_developer]]
+Developer
+~~~~~~~~~
+
+This is the typical core developer on a public server.  They are able
+to read the project, upload changes to a branch.  They are allowed to
+push merge commits to merge branches together.  Also, they are allowed
+to forge author identity, thus handling commits belonging to others
+than themselves, effectively allowing them to transfer commits
+between different branches.
+
+They are furthermore able to code review and verify commits, and
+eventually submit them.  If you have an automated CI system that
+builds all uploaded patch sets you might want to skip the
+verification rights for the developer and let the CI system do that
+exclusively.
+
+Suggested access rights to grant:
+
+* <<category_read,`Read`>> on 'refs/heads/\*' and 'refs/tags/*'
+* <<category_push,`Push`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
+* <<category_push_merge,`Push merge commit`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
+* <<category_forge_author,`Forge Author Identity`>>
+* <<category_label-Code-Review,`Label: Code review`>> with range '-2' to '+2'
+* <<category_label-Verified,`Label: Verify`>> with range '-1' to '+1'
+* <<category_submit,`Submit`>>
+
+If the project is small or the developers are seasoned it might make
+sense to give them the freedom to push commits directly to a branch.
+
+Optional access rights to grant:
+
+* <<category_push,`Push`>> to 'refs/heads/*'
+* <<category_push_merge,`Push merge commit`>> to 'refs/heads/*'
+
+
 [[conversion_table]]
 Conversion table from 2.1.x series to 2.2.x series
 --------------------------------------------------

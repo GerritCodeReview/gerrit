@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACe3///+4\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-31T21:07:03Z",
+      "side": 1,
+      "message": "The description below sound more like the description of an integrator than a developer.  I suspect that devs usually only get the default Registered Users stuff.",
+      "revId": "987f9f2a97df9d559b0049828ead9c47018eae0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

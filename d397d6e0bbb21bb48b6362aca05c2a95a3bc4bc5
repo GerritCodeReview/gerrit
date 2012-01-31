@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACe3///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-31T21:19:57Z",
+      "side": 1,
+      "message": "I am concerned that this is not the right place to add this check (although, it may be good to add it here also?).  Checking for  branch existence here is racy, the branch could still be deleted after this check (especially when you consider the delay in the mergequeue), but before merging and thus I think that the branch could still get created.",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACe3///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-31T21:19:57Z",
+      "side": 1,
+      "message": "Perhaps the repoManager should be injected instead?  I forget why the ReviewDb is passed in to all these methods instead of being injected, (perhaps to limit the # of DB connections) any ideas?",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

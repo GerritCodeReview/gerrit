@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACbH///8k\u003d",
+        "filename": "Documentation/cmd-ls-members.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-31T12:45:07Z",
+      "side": 1,
+      "message": "Yes, the list of included groups is also flat.\n\nI\u0027ve clarified this above in the documentation of the \u0027--recursive\u0027 option.\n\nDone.",
+      "parentUuid": "AAACJ3////8\u003d",
+      "revId": "057b501707efdfd423733bb1dc12edff7cc3ec43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACJ3////4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembersList.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-01-19T15:18:17Z",
       "side": 1,
       "message": "this implementation is OK if instances are short lived.\nIf the instances would be cached and reused and compared to newly loaded instance then this implementation may bring wrong results as the (recursive) structure may change over time.\n\nThis may be documented in the javadoc of this class.",
+      "revId": "057b501707efdfd423733bb1dc12edff7cc3ec43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACa3////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembersList.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-31T12:45:07Z",
+      "side": 1,
+      "message": "You are right, if the instances of this class are not short living only, the implementation of this equals method may return wrong results. I\u0027ve now fixed this by removing the equals, hashCode and compareTo method from this class. They were just here to ensure correct sorting of GroupMembersList instances when they are added to a TreeSet. For this sorting I now explicitly create a comparator when instanciating the TreeSet. This is cleaner as it doesn\u0027t require this equals method here. At the places where we populate the TreeSet\u0027s it is also ensured that no 2 instances of GroupMembersList for the same AccountGroup are added.\n\nAnyway I\u0027ve added some Javadoc for this class.\n\nDone.",
+      "parentUuid": "AAACJ3////4\u003d",
       "revId": "057b501707efdfd423733bb1dc12edff7cc3ec43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAACa3////g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-31T12:45:07Z",
+      "side": 1,
+      "message": "You are right, I forgot to fix this in this class.\n\nDone.",
+      "parentUuid": "AAACJ3////w\u003d",
+      "revId": "057b501707efdfd423733bb1dc12edff7cc3ec43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACJ3////0\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-01-19T15:18:17Z",
       "side": 1,
       "message": "the code in the else branch is longer and harder to read than the code in the \"then\" branch although, semantically, they are doing the same thing: populate the unresolvedGroups map.\n\nActually the else branch is the non-recursive case which should even be simpler than the recursive case.\n\nThe code works properly but the interface of the GroupMemberList could better support the non-recursive case.",
+      "revId": "057b501707efdfd423733bb1dc12edff7cc3ec43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACa3////c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-01-31T12:45:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACJ3////0\u003d",
       "revId": "057b501707efdfd423733bb1dc12edff7cc3ec43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

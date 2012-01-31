@@ -30,7 +30,7 @@ Most distributions come with Java today. Do you already have Java installed?
   $ java -version
   java version "1.6.0_26"
   Java(TM) SE Runtime Environment (build 1.6.0_26-b03-384-10M3425)
-    Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02-384, mixed mode)
+  Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02-384, mixed mode)
 ----
 
 If Java isn't installed, get it:
@@ -46,8 +46,8 @@ We will run the service as a non privileged user on your system.
 First create the user and then become the user:
 
 ----
-  sudo adduser gerrit2
-  sudo su gerrit2
+  $ sudo adduser gerrit2
+  $ sudo su gerrit2
 ----
 
 If you don't have root privileges you could skip this step and run gerrit
@@ -64,9 +64,9 @@ You can choose from different versions to download from here:
 
 * http://code.google.com/p/gerrit/downloads/list[A list of releases available]
 
-This tutorial is based on version 2.2.1, and you can download that from this link
+This tutorial is based on version 2.2.2, and you can download that from this link
 
-* http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.2.1.war[Link to the 2.2.1 war archive]
+* http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.2.2.war[Link to the 2.2.2 war archive]
 
 
 [[initialization]]
@@ -76,27 +76,25 @@ Initialize the Site
 It's time to run the initialization, and with the batch switch enabled, we don't have to answer any questions at all:
 
 ----
-
-gerrit2@host:~$ java -jar gerrit.war init --batch -d ~/gerrit_testsite
-Generating SSH host key ... rsa(simple)... done
-Initialized /home/gerrit2/gerrit_testsite
-Executing /home/gerrit2/gerrit_testsite/bin/gerrit.sh start
-Starting Gerrit Code Review: OK
-gerrit2@host:~$
-
+  gerrit2@host:~$ java -jar gerrit.war init --batch -d ~/gerrit_testsite
+  Generating SSH host key ... rsa(simple)... done
+  Initialized /home/gerrit2/gerrit_testsite
+  Executing /home/gerrit2/gerrit_testsite/bin/gerrit.sh start
+  Starting Gerrit Code Review: OK
+  gerrit2@host:~$
 ----
 
 When the init is complete, you can review your settings in the
 file `'$site_path/etc/gerrit.config'`.
 
-Installation is complete and you're ready to start up Gerrit!
+An important setting will be the canonicalWebUrl which will
+be needed later to access gerrit's web interface.
 
 ----
-gerrit2@host:~$ $site_path/bin/gerrit.sh start
-Starting Gerrit Code Review: OK
-Waiting for server to start ... OK
+  gerrit2@host:~$ cat ~/gerrit_testsite/etc/gerrit.config | grep canonical
+  canonicalWebUrl = http://localhost:8080/
+  gerrit2@host:~$
 ----
-
 [[usersetup]]
 The first user
 --------------
@@ -111,8 +109,9 @@ Check whether there are any ssh keys already. You're looking for two files,
 id_rsa and id_rsa.pub.
 
 ----
-user@host:~$ ls .ssh
-authorized_keys  config  id_rsa  id_rsa.pub  known_hosts
+  user@host:~$ ls .ssh
+  authorized_keys  config  id_rsa  id_rsa.pub  known_hosts
+  user@host:~$
 ----
 
 If you have the files, you may skip the key generating step.
@@ -127,40 +126,39 @@ SSH key generation
 *They will be overwritten!*
 
 ----
-user@host:~$ ssh-keygen -t rsa
-Generating public/private rsa key pair.
-Enter file in which to save the key (/home/user/.ssh/id_rsa): 
-Created directory '/home/user/.ssh'.
-Enter passphrase (empty for no passphrase): 
-Enter same passphrase again: 
-Your identification has been saved in /home/user/.ssh/id_rsa.
-Your public key has been saved in /home/user/.ssh/id_rsa.pub.
-The key fingerprint is:
-00:11:22:00:11:22:00:11:44:00:11:22:00:11:22:99 user@host
-The key's randomart image is:
-+--[ RSA 2048]----+
-|     ..+.*=+oo.*E|
-|      u.OoB.. . +|
-|       ..*.      |
-|       o         |
-|      . S ..     |
-|                 |
-|                 |
-|          ..     |
-|                 |
-+-----------------+
-
-user@host:~$
+  user@host:~$ ssh-keygen -t rsa
+  Generating public/private rsa key pair.
+  Enter file in which to save the key (/home/user/.ssh/id_rsa):
+  Created directory '/home/user/.ssh'.
+  Enter passphrase (empty for no passphrase):
+  Enter same passphrase again:
+  Your identification has been saved in /home/user/.ssh/id_rsa.
+  Your public key has been saved in /home/user/.ssh/id_rsa.pub.
+  The key fingerprint is:
+  00:11:22:00:11:22:00:11:44:00:11:22:00:11:22:99 user@host
+  The key's randomart image is:
+  +--[ RSA 2048]----+
+  |     ..+.*=+oo.*E|
+  |      u.OoB.. . +|
+  |       ..*.      |
+  |       o         |
+  |      . S ..     |
+  |                 |
+  |                 |
+  |          ..     |
+  |                 |
+  +-----------------+
+  user@host:~$
 ----
 
 Registering your key in Gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Open a browser and enter the canonical url you used above when initializing
-Gerrit.
+Open a browser and enter the canonical url you got before when
+initializing Gerrit.
 
 ----
-Canonical URL                  [http://localhost:8080/]: 
+  Canonical URL                [http://localhost:8080/]:
 ----
 
 Register a new account in Gerrit through the web interface with the
@@ -182,8 +180,9 @@ That's the key we generated above, and it's time to make sure that Gerrit knows
 about our new key and can identify us by it.
 
 ----
-user@host:~$ cat .ssh/id_rsa.pub
-ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA5E785mWtMckorP5v40PyFeui9T50dKpaGYw67Mlv2J3aGBG3tS0qBQxKEpiV0J4+W0RgQHbWfNqdUYen9bC5VVH/GatYWkpL9TjjUcHzF1rX3Eyv7PHuHLAyd/8Zdv6R3saF+hNpp1JW0BSa7HXzK7iNCVA3kBuBthxeGh3OoFbaXHn1zwwVQw8I5+Lp9OOIY7sJEsM/kW699XDV6z2zlkByNVEp45j+g26x5rCnGS8GJM7A0uHsaWJddO6TiyR6/2SOBF1VtKw49XLTQcmDInFAZzUsAZSDKlfYloPkpA6YdqeG0eJqau+jtzuigydoVj4j9xidcJ9HtxZcJNuraw== user@host
+  user@host:~$ cat .ssh/id_rsa.pub
+  ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA5E785mWtMckorP5v40PyFeui9T50dKpaGYw67Mlv2J3aGBG3tS0qBQxKEpiV0J4+W0RgQHbWfNqdUYen9bC5VVH/GatYWkpL9TjjUcHzF1rX3Eyv7PHuHLAyd/8Zdv6R3saF+hNpp1JW0BSa7HXzK7iNCVA3kBuBthxeGh3OoFbaXHn1zwwVQw8I5+Lp9OOIY7sJEsM/kW699XDV6z2zlkByNVEp45j+g26x5rCnGS8GJM7A0uHsaWJddO6TiyR6/2SOBF1VtKw49XLTQcmDInFAZzUsAZSDKlfYloPkpA6YdqeG0eJqau+jtzuigydoVj4j9xidcJ9HtxZcJNuraw== user@host
+  user@host:~$
 ----
 
 Copy the string starting with ssh-rsa to your clipboard and then paste it
@@ -193,18 +192,18 @@ are entered in the middle of the RSA string.
 Verify that the ssh connection works for you.
 
 ----
- user@host:~$ ssh user@localhost -p 29418
- The authenticity of host '[localhost]:29418 ([127.0.0.1]:29418)' can't be established.
- RSA key fingerprint is db:07:3d:c2:94:25:b5:8d:ac:bc:b5:9e:2f:95:5f:4a.
- Are you sure you want to continue connecting (yes/no)? yes
- Warning: Permanently added '[localhost]:29418' (RSA) to the list of known hosts.
+  user@host:~$ ssh user@localhost -p 29418
+  The authenticity of host '[localhost]:29418 ([127.0.0.1]:29418)' can't be established.
+  RSA key fingerprint is db:07:3d:c2:94:25:b5:8d:ac:bc:b5:9e:2f:95:5f:4a.
+  Are you sure you want to continue connecting (yes/no)? yes
+  Warning: Permanently added '[localhost]:29418' (RSA) to the list of known hosts.
 
   ****    Welcome to Gerrit Code Review    ****
 
   Hi user, you have successfully connected over SSH.
 
   Unfortunately, interactive shells are disabled.
-    To clone a hosted Git repository, use:
+  To clone a hosted Git repository, use:
 
   git clone ssh://user@localhost:29418/REPOSITORY_NAME.git
 
@@ -232,10 +231,10 @@ This is done via the SSH port:
   user@host:~$
 ----
 
-This will create a test repository to work with.
+This will create a repository that you could clone to work with.
 
-Previous project exist
-~~~~~~~~~~~~~~~~~~~~~~
+Already existing project
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 The other alternative is if you already have a git project that you
 want to try out Gerrit on.
@@ -246,24 +245,30 @@ First you have to create the project, this is done via the SSH port:
   user@host:~$
 ----
 
+You need to make sure that at least initially your account is granted
+"Create Reference" privileges for the refs/heads/* reference.
+This is done via the web interface in the Admin/Projects/Access page
+that correspond to your project.
+
 After that it's time to upload the previous history to the server:
 
 ----
   user@host:~/my-project$ git push ssh://user@localhost:29418/demo-project *:*
-    Counting objects: 2011, done.
-    Writing objects: 100% (2011/2011), 456293 bytes, done.
-    Total 2011 (delta 0), reused 0 (delta 0)
-    * [new branch]      master -> master
-
+  Counting objects: 2011, done.
+  Writing objects: 100% (2011/2011), 456293 bytes, done.
+  Total 2011 (delta 0), reused 0 (delta 0)
+  To ssh://user@localhost:29418/demo-project
+   * [new branch]      master -> master
+  user@host:~/my-project$
 ----
 
-This will create a test repository to work with.
+This will create a repository that you could clone to work with.
 
 
 My first change
 ---------------
 
-Download a local clone of the repository
+Download a local clone of the repository and move into it
 
 ----
   user@host:~$ git clone ssh://user@host:29418/demo-project
@@ -271,18 +276,20 @@ Download a local clone of the repository
   remote: Counting objects: 2, done
   remote: Finding sources: 100% (2/2)
   remote: Total 2 (delta 0), reused 0 (delta 0)
-  user@host:~$
+  user@host:~$ cd demo-project
+  user@host:~/demo-project$
 ----
 
 Then make a change to it and upload it as a reviewable change in Gerrit.
 
 ----
-  date > testfile.txt
-  git add testfile.txt
-  git commit -m "My pretty test commit"
-    [master ff643a5] My pretty test commit
-    1 files changed, 1 insertions(+), 0 deletions(-)
-    create mode 100644 testfile.txt
+  user@host:~/demo-project$ date > testfile.txt
+  user@host:~/demo-project$ git add testfile.txt
+  user@host:~/demo-project$ git commit -m "My pretty test commit"
+  [master ff643a5] My pretty test commit
+   1 files changed, 1 insertions(+), 0 deletions(-)
+   create mode 100644 testfile.txt
+  user@host:~/demo-project$
 ----
 
 Usually when you push to a remote git, you push to the reference
@@ -291,16 +298,17 @@ virtual branch representing "code review before submittal to branch".
 This virtual name space is known as /refs/for/<branch>
 
 ----
-  git push origin HEAD:refs/for/master
-    Counting objects: 4, done.
-    Writing objects: 100% (3/3), 293 bytes, done.
-    Total 3 (delta 0), reused 0 (delta 0)
-    remote: 
-    remote: New Changes:
-    remote:   http://localhost:8080/1
-    remote: 
-    To ssh://user@localhost:29418/demo-project
-     * [new branch]      HEAD -> refs/for/master
+  user@host:~/demo-project$ git push origin HEAD:refs/for/master
+  Counting objects: 4, done.
+  Writing objects: 100% (3/3), 293 bytes, done.
+  Total 3 (delta 0), reused 0 (delta 0)
+  remote:
+  remote: New Changes:
+  remote:   http://localhost:8080/1
+  remote:
+  To ssh://user@localhost:29418/demo-project
+   * [new branch]      HEAD -> refs/for/master
+  user@host:~/demo-project$
 ----
 
 You should now be able to access your change by browsing to the http URL

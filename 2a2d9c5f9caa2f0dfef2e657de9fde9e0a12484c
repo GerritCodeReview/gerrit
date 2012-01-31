@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACdn////Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-31T01:09:57Z",
+      "side": 1,
+      "message": "Good catch, fixed.",
+      "parentUuid": "AAACCH////M\u003d",
+      "revId": "2a2d9c5f9caa2f0dfef2e657de9fde9e0a12484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACCH////I\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAACCX///5g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-31T01:09:57Z",
+      "side": 1,
+      "message": "For a manual review, the user must click on the reviewed checkbox to force a DB update (the else is the manual review and non first views).\n\nAdded break...",
+      "parentUuid": "AAACEn////8\u003d",
+      "revId": "2a2d9c5f9caa2f0dfef2e657de9fde9e0a12484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACCH////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_62.java",
         "patchSetId": 1
@@ -82,6 +118,24 @@
       "writtenOn": "2012-01-25T15:28:21Z",
       "side": 1,
       "message": "Whatever year you created the file. A schema version like this really isn\u0027t copyrightable in the US. There is more text from the license boilerplate than there is from the schema template. :-)",
+      "revId": "2a2d9c5f9caa2f0dfef2e657de9fde9e0a12484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACdn////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_62.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-01-31T01:09:57Z",
+      "side": 1,
+      "message": "Sure.  But the other similar noop templates have that notice, do you want me to remove it?",
+      "parentUuid": "AAACWX////c\u003d",
       "revId": "2a2d9c5f9caa2f0dfef2e657de9fde9e0a12484c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

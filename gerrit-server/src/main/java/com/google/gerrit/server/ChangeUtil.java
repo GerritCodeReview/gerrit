@@ -403,12 +403,7 @@ public class ChangeUtil {
     }
     db.changeMessages().insert(Collections.singleton(cmsg));
 
-    final List<PatchSetApproval> approvals =
-        db.patchSetApprovals().byChange(change.getId()).toList();
-    for (PatchSetApproval a : approvals) {
-      a.cache(change);
-    }
-    db.patchSetApprovals().update(approvals);
+    ApprovalsUtil.syncChangeStatus(db, change);
 
     // Email the reviewers
     final ReplyToChangeSender cm = senderFactory.create(change);

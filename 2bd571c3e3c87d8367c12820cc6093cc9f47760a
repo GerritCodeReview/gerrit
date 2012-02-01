@@ -190,6 +190,24 @@
     },
     {
       "key": {
+        "uuid": "AAACi3////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T18:41:01Z",
+      "side": 1,
+      "message": "I meant the timeout since it is a new feature.  The plan is not to have it project based, but rather to simply move most of the server config stuff into the all-projects config file so that it lives in a git repo and is version controlled.  For an example, perhaps look at the global capabilities stuff, that is now stored in all-projects.",
+      "parentUuid": "AAACfn////o\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -382,6 +400,24 @@
     },
     {
       "key": {
+        "uuid": "AAACi3////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T18:41:01Z",
+      "side": 1,
+      "message": "I guess I see no reason to change what the hook outputs, is there a simpler way to just shove it all directly in the StringBuffer?",
+      "parentUuid": "AAACfn////c\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3///+8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
         "patchSetId": 3
@@ -411,6 +447,24 @@
       "side": 1,
       "message": "I am happy to rename it. I used update as I thought the hook was analogous to git\u0027s update hooks.",
       "parentUuid": "AAACf3///+8\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACi3////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T18:41:01Z",
+      "side": 1,
+      "message": "Yeah, but most of the hooks here are more Gerrit based than git based (note the doRefUpfatedHook on line 116).  Which brings up an important point which you may or may not realize:  while I won\u0027t tell you which hooks you should implement, I suspect that this particular hook is less useful than you might believe, let me explain.\n\nAs you can see, most of the hooks here are based on Gerrit data structures, and for people who want to monitor uploads, they likely will need to at least tie the upload to a change and this does not allow them to do so (there is no direct unique connection between a git commit id and a gerrit change).  So, I suspect that for some things this may be OK (like checking the author\u0027s email address, or other simple things like that), but anything which requires looking at the change for which a patchset might be destined, it will not be possible to do that reliably with this hook.  With this in mind, perhaps you may desire to also add changeUpdateHook at a later date, a hook which operates further up in the ReceiveCommits stack?",
+      "parentUuid": "AAACfn////M\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

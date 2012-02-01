@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACgn////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-01T08:17:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is correct. In the old version of the ReviewCommand publishing the draft patch set was only done when \"changeControl.isOwner() \u0026\u0026 changeControl.isVisible(db)\". This means the user had to be owner of change AND the change had to be visible to the user. This means if either of these conditions is not true, we should fail with an error here. This is why I think the condition here should be actually\n\n   !control.isVisible(db) || !control.isOwner()\n\nShouldn\u0027t it?",
+      "revId": "45cc801d708a108a470ea681dd56b6b2ec94fc76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACgn////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-01T08:17:21Z",
+      "side": 1,
+      "message": "If I\u0027m right with my comment above, I would maybe rename the error to something like \u0027PUBLISH_NOT_PERMITTED\u0027.",
+      "revId": "45cc801d708a108a470ea681dd56b6b2ec94fc76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

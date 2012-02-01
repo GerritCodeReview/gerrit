@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACiH////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-02-01T17:21:56Z",
+      "side": 1,
+      "message": "I was pretty confused because\nin ReviewCommand it was:\n  if (changeControl.isOwner() \u0026\u0026 changeControl.isVisible(db))\n    // publish\n  else\n    // error\n\nin PublishAction it was:\n  if (!changeControl.isOwner() \u0026\u0026 !changeControl.isVisible(db))\n    // error\n  else\n    // publish\n\nBut those aren\u0027t opposites of eachother, so it\u0027s not really clear what the intent was.  I went with what PublishAction said because that made a little more sense to me.\n\nLet me know what you want to do.",
+      "parentUuid": "AAACgn////8\u003d",
+      "revId": "45cc801d708a108a470ea681dd56b6b2ec94fc76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACgn////4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-01T08:17:21Z",
       "side": 1,
       "message": "If I\u0027m right with my comment above, I would maybe rename the error to something like \u0027PUBLISH_NOT_PERMITTED\u0027.",
+      "revId": "45cc801d708a108a470ea681dd56b6b2ec94fc76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACiH////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-02-01T17:21:56Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll wait for your comments on the previous issue and see what you think.",
+      "parentUuid": "AAACgn////4\u003d",
       "revId": "45cc801d708a108a470ea681dd56b6b2ec94fc76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

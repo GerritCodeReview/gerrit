@@ -1830,12 +1830,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     change.setStatus(Change.Status.MERGED);
     ChangeUtil.updated(change);
 
-    final List<PatchSetApproval> approvals =
-        db.patchSetApprovals().byChange(change.getId()).toList();
-    for (PatchSetApproval a : approvals) {
-      a.cache(change);
-    }
-    db.patchSetApprovals().update(approvals);
+    ApprovalsUtil.syncChangeStatus(db, change);
 
     final StringBuilder msgBuf = new StringBuilder();
     msgBuf.append("Change has been successfully pushed");

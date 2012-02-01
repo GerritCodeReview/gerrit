@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "AAACfn////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-01T14:45:33Z",
+      "side": 1,
+      "message": "Do you mean both the hook script name and the timeout?\nCan you give me an example of all-projects config? Is it the plan to have all server config project based?",
+      "parentUuid": "AAACf3///+s\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -183,6 +201,24 @@
       "writtenOn": "2012-02-01T06:58:32Z",
       "side": 1,
       "message": "Why not also return the output up until this point?",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACfn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-01T14:45:33Z",
+      "side": 1,
+      "message": "I can append the current output",
+      "parentUuid": "AAACf3////E\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +259,24 @@
     },
     {
       "key": {
+        "uuid": "AAACfn////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-01T14:45:33Z",
+      "side": 1,
+      "message": "You right the task should be cancelled. However, the script may continue. Not sure there is a way to clean this up?",
+      "parentUuid": "AAACf3///+o\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -234,6 +288,24 @@
       "writtenOn": "2012-02-01T06:58:32Z",
       "side": 1,
       "message": "I think you need an else to close the repo here.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACfn////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-01T14:45:33Z",
+      "side": 1,
+      "message": "Will add",
+      "parentUuid": "AAACf3////M\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +329,24 @@
     },
     {
       "key": {
+        "uuid": "AAACfn////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-01T14:45:33Z",
+      "side": 1,
+      "message": "Will see what I can do",
+      "parentUuid": "AAACf3////A\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -274,6 +364,24 @@
     },
     {
       "key": {
+        "uuid": "AAACfn////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-01T14:45:33Z",
+      "side": 1,
+      "message": "So just use \\n?",
+      "parentUuid": "AAACf3////Y\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3///+8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
         "patchSetId": 3
@@ -285,6 +393,24 @@
       "writtenOn": "2012-02-01T06:58:32Z",
       "side": 1,
       "message": "Perhaps this hook should he called refUpdateHook instead?  I can easily imagine that other higher level update hooks (changeUpdateHook) will likely be desired in the future.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACfn////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-01T14:45:33Z",
+      "side": 1,
+      "message": "I am happy to rename it. I used update as I thought the hook was analogous to git\u0027s update hooks.",
+      "parentUuid": "AAACf3///+8\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -319,6 +445,24 @@
       "writtenOn": "2012-02-01T06:58:32Z",
       "side": 1,
       "message": "Nit: bracket on same line as if.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACfn////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-01T14:45:33Z",
+      "side": 1,
+      "message": "Sorry, I will get used to the style :-)",
+      "parentUuid": "AAACf3///+4\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACf3////0\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Suggestion: \"of the update hook, hooks\"",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3///+w\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Seems like too many ~s",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////w\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Nit: lots of trailing spaces.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////s\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "suggestions:\n\n...with a non zero...\n\n...rejected, and the output...",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////o\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Suggestion: so it is recommended that it not block...",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////k\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "A default timeout...",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////g\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "This timeout value...",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////c\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "This piece should probably be documented in the config section and linked to from here.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Nit: no tabs.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Since this is a new config, it should probably go in the all-projects config instead of the server config.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Why not also return the output up until this point?",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Nit: wrap sooner",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Are you intentionnaly not cancelling the task or the process here?  The docs should probably explain what happens on a timeout.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "I think you need an else to close the repo here.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "This class is an awfull lot of copy and pasted code from HookTask, anyway to make this class share more code with HookTask instead?",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "We probably dont want the separator to change based on the server, I believe that we are making an effort to always use newlines in the ssh outputs.  Or, perhpas we should just output whatever the hook outputs?",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Perhaps this hook should he called refUpdateHook instead?  I can easily imagine that other higher level update hooks (changeUpdateHook) will likely be desired in the future.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "No need to repeat the code in comments",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACf3///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-01T06:58:32Z",
+      "side": 1,
+      "message": "Nit: bracket on same line as if.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

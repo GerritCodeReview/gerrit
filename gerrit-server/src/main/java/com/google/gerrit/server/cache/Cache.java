@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.cache;
 
-import java.util.concurrent.TimeUnit;
-
-
 /**
  * A fast in-memory and/or on-disk based cache.
  *
@@ -35,12 +32,4 @@ public interface Cache<K, V> {
 
   /** Remove all cached items. */
   public void removeAll();
-
-  /**
-   * Get the time an element will survive in the cache.
-   *
-   * @param unit desired units of the return value.
-   * @return time an item can live before being purged.
-   */
-  public long getTimeToLive(TimeUnit unit);
 }

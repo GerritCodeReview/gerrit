@@ -15,7 +15,6 @@
 package com.google.gerrit.server.cache;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 /**
  * An infinitely sized cache backed by java.util.ConcurrentHashMap.
@@ -45,10 +44,5 @@ public class ConcurrentHashMapCache<K, V> implements Cache<K, V> {
   @Override
   public void removeAll() {
     map.clear();
-  }
-
-  @Override
-  public long getTimeToLive(TimeUnit unit) {
-    return 0;
   }
 }

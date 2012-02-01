@@ -21,16 +21,21 @@ import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt64;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
+import static com.google.gerrit.httpd.CacheBasedWebSession.MAX_AGE_MINUTES;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.server.cache.Cache;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -47,13 +52,19 @@ class WebSessionManager {
     return System.currentTimeMillis();
   }
 
+  private final long sessionMaxAgeMillis;
   private final SecureRandom prng;
   private final Cache<Key, Val> self;
 
   @Inject
-  WebSessionManager(@Named(CACHE_NAME) final Cache<Key, Val> cache) {
+  WebSessionManager(@GerritServerConfig Config cfg,
+      @Named(CACHE_NAME) final Cache<Key, Val> cache) {
     prng = new SecureRandom();
     self = cache;
+
+    sessionMaxAgeMillis = MINUTES.toMillis(ConfigUtil.getTimeUnit(cfg,
+        "cache", CACHE_NAME, "maxAge",
+        MAX_AGE_MINUTES, MINUTES));
   }
 
   Key createKey(final Account.Id who) {
@@ -90,7 +101,7 @@ class WebSessionManager {
     // early but also avoids us needing to refresh the cookie on
     // every single request.
     //
-    final long halfAgeRefresh = self.getTimeToLive(MILLISECONDS) >>> 1;
+    final long halfAgeRefresh = sessionMaxAgeMillis >>> 1;
     final long minRefresh = MILLISECONDS.convert(1, HOURS);
     final long refresh = Math.min(halfAgeRefresh, minRefresh);
     final long refreshCookieAt = now() + refresh;
@@ -114,7 +125,7 @@ class WebSessionManager {
       // Client may store the cookie until we would remove it from our
       // own cache, after which it will certainly be invalid.
       //
-      return (int) self.getTimeToLive(SECONDS);
+      return (int) MILLISECONDS.toSeconds(sessionMaxAgeMillis);
     } else {
       // Client should not store the cookie, as the user asked for us
       // to not remember them long-term. Sending -1 as the age will

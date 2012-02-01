@@ -14,8 +14,6 @@
 
 package com.google.gerrit.ehcache;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import com.google.gerrit.server.cache.Cache;
 
 import net.sf.ehcache.CacheException;
@@ -24,8 +22,6 @@ import net.sf.ehcache.Element;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * A fast in-memory and/or on-disk based cache.
@@ -76,12 +72,6 @@ final class SimpleCache<K, V> implements Cache<K, V> {
 
   public void removeAll() {
     self.removeAll();
-  }
-
-  @Override
-  public long getTimeToLive(final TimeUnit unit) {
-    final long maxAge = self.getCacheConfiguration().getTimeToLiveSeconds();
-    return unit.convert(maxAge, SECONDS);
   }
 
   @Override

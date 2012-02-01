@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.cache;
 
-import java.util.concurrent.TimeUnit;
-
 /** Proxy around a cache which has not yet been created. */
 public final class ProxyCache<K, V> implements Cache<K, V> {
   private volatile Cache<K, V> self;
@@ -26,10 +24,6 @@ public final class ProxyCache<K, V> implements Cache<K, V> {
 
   public V get(K key) {
     return self.get(key);
-  }
-
-  public long getTimeToLive(TimeUnit unit) {
-    return self.getTimeToLive(unit);
   }
 
   public void put(K key, V value) {

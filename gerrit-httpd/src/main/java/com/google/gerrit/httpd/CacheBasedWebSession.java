@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
@@ -42,6 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestScoped
 public final class CacheBasedWebSession implements WebSession {
   private static final String ACCOUNT_COOKIE = "GerritAccount";
+  static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);
 
   public static Module module() {
     return new CacheModule() {
@@ -52,7 +54,7 @@ public final class CacheBasedWebSession implements WebSession {
             new TypeLiteral<Cache<Key, Val>>() {};
         disk(type, cacheName) //
             .memoryLimit(1024) // reasonable default for many sites
-            .maxAge(12, HOURS) // expire sessions if they are inactive
+            .maxAge(MAX_AGE_MINUTES, MINUTES) // expire sessions if they are inactive
             .evictionPolicy(EvictionPolicy.LRU) // keep most recently used
         ;
         bind(WebSessionManager.class);

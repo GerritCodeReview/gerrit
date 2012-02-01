@@ -14,8 +14,6 @@
 
 package com.google.gerrit.ehcache;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.EntryCreator;
 
@@ -26,8 +24,6 @@ import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * A decorator for {@link Cache} which automatically constructs missing entries.
@@ -109,12 +105,6 @@ class PopulatingCache<K, V> implements Cache<K, V> {
 
   public void put(K key, V value) {
     self.put(new Element(key, value));
-  }
-
-  @Override
-  public long getTimeToLive(final TimeUnit unit) {
-    final long maxAge = self.getCacheConfiguration().getTimeToLiveSeconds();
-    return unit.convert(maxAge, SECONDS);
   }
 
   @Override

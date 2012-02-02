@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAACj3////0\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010304
+      },
+      "writtenOn": "2012-02-02T11:51:37Z",
+      "side": 1,
+      "message": "I am afraid this tutorial doesn\u0027t work for version 2.2.1 either; as the messages do not match and the batch initialization skips downloading the cryptographic jar which is needed to get the embedded ssh working.\n\nmy intention was to get it updated to reflect the version number of the release as it looks otherwise out of place as part of the documentation files included with the 2.2.2 release (and accessible from the web page).\n\nwould a complete rewrite for 2.2.2 worth considering as an option that could be backported, or is better then to leave it AS-IS and to be used just as a generic guideline?",
+      "parentUuid": "AAACa3////U\u003d",
+      "revId": "05b990d9db0653b3a20e56e6f3102e5a0819d9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACa3////M\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2012-01-31T13:02:06Z",
       "side": 1,
       "message": "For example, is this output still the same?",
+      "revId": "05b990d9db0653b3a20e56e6f3102e5a0819d9a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACj3////4\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010304
+      },
+      "writtenOn": "2012-02-02T11:51:37Z",
+      "side": 1,
+      "message": "matches the output for 2.2.2 but not the one for 2.2.1.  on the same hand and considering that the container is started as shown by this message, the next set of instructions asking for it to be started are likely to fail as well, but were IMHO instructive enough to be useful on their own by showing how to call the init script",
+      "parentUuid": "AAACa3////M\u003d",
       "revId": "05b990d9db0653b3a20e56e6f3102e5a0819d9a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

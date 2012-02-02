@@ -60,7 +60,7 @@ class PublishAction extends Handler<ChangeDetail> {
     final ChangeControl changeControl =
         changeControlFactory.validateFor(changeId);
 
-    if (!changeControl.isOwner() && !changeControl.isVisible(db)) {
+    if (!changeControl.canPublish(db)) {
       throw new IllegalStateException("Cannot publish patchset");
     }
 

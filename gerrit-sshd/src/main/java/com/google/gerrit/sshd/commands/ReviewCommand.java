@@ -248,7 +248,7 @@ public class ReviewCommand extends BaseCommand {
     }
 
     if (publishPatchSet) {
-      if (changeControl.isOwner() && changeControl.isVisible(db)) {
+      if (changeControl.canPublish(db)) {
         ChangeUtil.publishDraftPatchSet(db, patchSetId);
       } else {
         throw error("Not permitted to publish draft patchset");

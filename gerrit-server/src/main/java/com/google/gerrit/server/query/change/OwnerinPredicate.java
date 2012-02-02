@@ -25,18 +25,18 @@ import com.google.inject.Provider;
 class OwnerinPredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final AccountGroup.Id id;
+  private final AccountGroup.UUID uuid;
 
   OwnerinPredicate(Provider<ReviewDb> dbProvider,
-    IdentifiedUser.GenericFactory userFactory, AccountGroup.Id id) {
-    super(ChangeQueryBuilder.FIELD_OWNERIN, id.toString());
+    IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
+    super(ChangeQueryBuilder.FIELD_OWNERIN, uuid.toString());
     this.dbProvider = dbProvider;
     this.userFactory = userFactory;
-    this.id = id;
+    this.uuid = uuid;
   }
 
-  AccountGroup.Id getAccountGroupId() {
-    return id;
+  AccountGroup.UUID getAccountGroupUUID() {
+    return uuid;
   }
 
   @Override
@@ -47,7 +47,7 @@ class OwnerinPredicate extends OperatorPredicate<ChangeData> {
     }
     final IdentifiedUser owner = userFactory.create(dbProvider,
       change.getOwner());
-    return owner.getEffectiveGroups().contains(id);
+    return owner.getEffectiveGroups().contains(uuid);
   }
 
   @Override

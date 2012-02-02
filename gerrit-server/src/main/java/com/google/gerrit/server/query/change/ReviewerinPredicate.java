@@ -25,18 +25,18 @@ import com.google.inject.Provider;
 class ReviewerinPredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final AccountGroup.Id id;
+  private final AccountGroup.UUID uuid;
 
   ReviewerinPredicate(Provider<ReviewDb> dbProvider,
-    IdentifiedUser.GenericFactory userFactory, AccountGroup.Id id) {
-    super(ChangeQueryBuilder.FIELD_REVIEWERIN, id.toString());
+    IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
+    super(ChangeQueryBuilder.FIELD_REVIEWERIN, uuid.toString());
     this.dbProvider = dbProvider;
     this.userFactory = userFactory;
-    this.id = id;
+    this.uuid = uuid;
   }
 
-  AccountGroup.Id getAccountGroupId() {
-    return id;
+  AccountGroup.UUID getAccountGroupUUID() {
+    return uuid;
   }
 
   @Override
@@ -44,7 +44,7 @@ class ReviewerinPredicate extends OperatorPredicate<ChangeData> {
     for (PatchSetApproval p : object.approvals(dbProvider)) {
       final IdentifiedUser reviewer = userFactory.create(dbProvider,
         p.getAccountId());
-      if (reviewer.getEffectiveGroups().contains(id)) {
+      if (reviewer.getEffectiveGroups().contains(uuid)) {
         return true;
       }
     }

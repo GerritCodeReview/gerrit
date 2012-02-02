@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAClX////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListMembersCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-02T09:56:04Z",
+      "side": 1,
+      "message": "this println survived :-)",
+      "revId": "890bc5ed9c4ede3915406abe336b47ff932d0f7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAClX////4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-02T09:56:04Z",
+      "side": 1,
+      "message": "you probably wanted to write:\n\nable to detect cycles in the graph of TreeNode\u0027s\n\ninstead of:\n\nable to detect recursions",
+      "revId": "890bc5ed9c4ede3915406abe336b47ff932d0f7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAClX////0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-02T09:56:04Z",
+      "side": 1,
+      "message": "Instead of:\n\nRecursive nodes\n\nI would rather write:\n\nTreeNode\u0027s already printed but reached again via a cycle in the graph",
+      "revId": "890bc5ed9c4ede3915406abe336b47ff932d0f7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAClX////w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-02T09:56:04Z",
+      "side": 1,
+      "message": "s/recursion/cycle",
+      "revId": "890bc5ed9c4ede3915406abe336b47ff932d0f7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

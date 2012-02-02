@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAClH////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-02T18:35:27Z",
+      "side": 1,
+      "message": "I\u0027ve found some time to play around with drafts and to look a bit more into the details. I\u0027m now quite certain that the code in PublishAction is wrong. Only the change owner should be allowed to publish the change. In addition the change visibility has to be checked, because a change is not visible to the change owner if the project state is HIDDEN (and then publish should not be possible).\n\nThis means the correct code here is:\n\n  if (!changeControl.isOwner() || !changeControl.isVisible(db))\n    // error\n  else\n    // publish\n\nIf we leave the code as it is, a reviewer that was added for a draft change would be able to publish it.\n\nHowever I think it\u0027s important to not mix a bug-fix and refactoring within one change. Can you please make a seperate change which only fixes the code in PublishAction and then rebase this change onto it? In this change (which is then rebased onto the bug-fix change) the above line should then of course be fixed as well.",
+      "parentUuid": "AAAChX////w\u003d",
+      "revId": "45cc801d708a108a470ea681dd56b6b2ec94fc76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACgn////4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
         "patchSetId": 3

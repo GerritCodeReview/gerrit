@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -1830,12 +1831,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     change.setStatus(Change.Status.MERGED);
     ChangeUtil.updated(change);
 
-    final List<PatchSetApproval> approvals =
-        db.patchSetApprovals().byChange(change.getId()).toList();
-    for (PatchSetApproval a : approvals) {
-      a.cache(change);
-    }
-    db.patchSetApprovals().update(approvals);
+    ApprovalsUtil.syncChangeStatus(db, change);
 
     final StringBuilder msgBuf = new StringBuilder();
     msgBuf.append("Change has been successfully pushed");

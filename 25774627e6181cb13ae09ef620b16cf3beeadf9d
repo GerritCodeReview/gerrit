@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACn3////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-03T11:44:29Z",
+      "side": 1,
+      "message": "\u0027currentUser\u0027 seems not to be used, can you please remove it?",
+      "revId": "25774627e6181cb13ae09ef620b16cf3beeadf9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACn3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-03T11:44:29Z",
+      "side": 1,
+      "message": "The changeId needs to be set for the result\n\n  result.setChangeId(changeId);\n\notherwise it is not available when printing an error message In ReviewCommand, e.g. the output would be like this:\n\n  error: (change null) not permitted to publish change\n\nThe missing changeId will even cause an exception when trying to publish a draft change from the WebUI, because in PublishAction we do\n\n  return changeDetailFactory.create(result.getChangeId()).call();\n\nand the changeId parameter is not Nullable\n\n  1) null returned by binding at com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory$Factory.create()\n  but parameter 9 of com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory.\u003cinit\u003e() is not @Nullable\n   while locating com.google.gerrit.reviewdb.Change$Id annotated with @com.google.inject.assistedinject.Assisted(value\u003d)\n     for parameter 9 at com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory.\u003cinit\u003e(ChangeDetailFactory.java:85)\n   while locating com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory\n \n 1 error \tat com.google.inject.InjectorImpl$4.get(InjectorImpl.java:767)\n \tat com.google.inject.assistedinject.FactoryProvider2.invoke(FactoryProvider2.java:218)\n \tat $Proxy103.create(Unknown Source)\n \tat com.google.gerrit.httpd.rpc.changedetail.PublishAction.call(PublishAction.java:57)\n \tat com.google.gerrit.httpd.rpc.changedetail.PublishAction.call(PublishAction.java:1)\n...",
+      "revId": "25774627e6181cb13ae09ef620b16cf3beeadf9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

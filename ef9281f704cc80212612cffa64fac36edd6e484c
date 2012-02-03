@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACn3////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-03T08:42:27Z",
+      "side": 1,
+      "message": "Maybe you could also mention that the code as it was allowed reviewers of the draft change to publish it and that the behaviour in PublishAction was inconsistent with the behaviour of the ReviewCommand?",
+      "revId": "ef9281f704cc80212612cffa64fac36edd6e484c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

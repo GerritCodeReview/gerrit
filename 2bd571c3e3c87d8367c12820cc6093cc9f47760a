@@ -208,6 +208,24 @@
     },
     {
       "key": {
+        "uuid": "AAACpX////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-05T22:14:39Z",
+      "side": 1,
+      "message": "So do you think the timeout should be added to the global capabilities like the query limit parameter. This seem a little strange to me as these values seem more related to access control. I guess I could see having an All-Projects \"Settings\" added to menu along with \"General\" and \"Access\"?",
+      "parentUuid": "AAACi3////g\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3

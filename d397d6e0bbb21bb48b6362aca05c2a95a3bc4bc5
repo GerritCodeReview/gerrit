@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACp3////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-02-06T10:49:53Z",
+      "side": 1,
+      "message": "I agree with Martin. I think there should also be a check if the dest branch still exists on MergeOp. I am not so certain if it would be 100% sure a check on MergeOp. I think maybe there would be still a chance to one remove a dest branch during MergeOp.merge execution.",
+      "parentUuid": "AAACe3///+w\u003d",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACe3///+s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3

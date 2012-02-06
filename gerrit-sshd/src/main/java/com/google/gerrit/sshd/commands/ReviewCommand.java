@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.AbandonChange;
+import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -130,6 +131,9 @@ public class ReviewCommand extends BaseCommand {
 
   @Inject
   private PublishComments.Factory publishCommentsFactory;
+
+  @Inject
+  private PublishDraft.Factory publishDraftFactory;
 
   @Inject
   private RestoreChange.Factory restoreChangeFactory;
@@ -248,13 +252,9 @@ public class ReviewCommand extends BaseCommand {
     }
 
     if (publishPatchSet) {
-      if (changeControl.canPublish(db)) {
-        ChangeUtil.publishDraftPatchSet(db, patchSetId);
-      } else {
-        throw error("Not permitted to publish draft patchset");
-      }
-    }
-    if (deleteDraftPatchSet) {
+      ReviewResult result = publishDraftFactory.create(patchSetId).call();
+      handleReviewResultErrors(result);
+    } else if (deleteDraftPatchSet) {
       if (changeControl.isOwner() && changeControl.isVisible(db)) {
         try {
           ChangeUtil.deleteDraftPatchSet(patchSetId, gitManager, replication, patchSetInfoFactory, db);
@@ -287,6 +287,9 @@ public class ReviewCommand extends BaseCommand {
           break;
         case CHANGE_IS_CLOSED:
           errMsg += "change is closed";
+          break;
+        case PUBLISH_NOT_PERMITTED:
+          errMsg += "not permitted to publish change";
           break;
         case RULE_ERROR:
           errMsg += "rule error";

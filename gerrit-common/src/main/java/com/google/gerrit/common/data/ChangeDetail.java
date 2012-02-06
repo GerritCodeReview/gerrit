@@ -29,6 +29,7 @@ public class ChangeDetail {
   protected boolean allowsAnonymous;
   protected boolean canAbandon;
   protected boolean canPublish;
+  protected boolean canDelete;
   protected boolean canRestore;
   protected boolean canRevert;
   protected boolean canDeleteDraft;
@@ -78,6 +79,14 @@ public class ChangeDetail {
 
   public void setCanPublish(final boolean a) {
     canPublish = a;
+  }
+
+  public boolean canDelete() {
+    return canDelete;
+  }
+
+  public void setCanDelete(final boolean a) {
+    canDelete = a;
   }
 
   public boolean canRestore() {

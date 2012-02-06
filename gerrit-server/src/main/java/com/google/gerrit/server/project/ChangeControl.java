@@ -189,7 +189,13 @@ public class ChangeControl {
     ;
   }
 
+  /** Can this user publish this change? */
   public boolean canPublish(final ReviewDb db) throws OrmException {
+    return isOwner() && isVisible(db);
+  }
+
+  /** Can this user delete this change? */
+  public boolean canDelete(final ReviewDb db) throws OrmException {
     return isOwner() && isVisible(db);
   }
 

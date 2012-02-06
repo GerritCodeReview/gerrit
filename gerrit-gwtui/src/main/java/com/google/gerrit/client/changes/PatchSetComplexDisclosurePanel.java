@@ -178,11 +178,13 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
             populateActions(detail);
           }
         }
-        if (detail.getPatchSet().isDraft() && changeDetail.canPublish()) {
-          populatePublishAction();
-        }
-        if (canDeletePatchSet(detail)) {
-          populateDeleteDraftPatchSetAction();
+        if (detail.getPatchSet().isDraft()) {
+          if (changeDetail.canPublish()) {
+            populatePublishAction();
+          }
+          if (changeDetail.canDelete()) {
+            populateDeleteDraftPatchSetAction();
+          }
         }
       }
       populateDiffAllActions(detail);
@@ -706,17 +708,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       }
     }
     changeScreen.update(result);
-  }
-
-  private boolean canDeletePatchSet(PatchSetDetail detail) {
-    if (!detail.getPatchSet().isDraft()) {
-      return false;
-    }
-    // If the draft PS is the only one in a draft change, just delete the change.
-    if (changeDetail.getPatchSets().size() <= 1) {
-      return false;
-    }
-    return true;
   }
 
   public PatchSet getPatchSet() {

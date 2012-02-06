@@ -178,7 +178,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
             populateActions(detail);
           }
         }
-        if (detail.getPatchSet().isDraft()) {
+        if (detail.getPatchSet().isDraft() && changeDetail.canPublish()) {
           populatePublishAction();
         }
         if (canDeletePatchSet(detail)) {

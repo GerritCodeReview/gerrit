@@ -189,6 +189,10 @@ public class ChangeControl {
     ;
   }
 
+  public boolean canPublish(final ReviewDb db) throws OrmException {
+    return isOwner() && isVisible(db);
+  }
+
   /** Can this user restore this change? */
   public boolean canRestore() {
     return canAbandon(); // Anyone who can abandon the change can restore it back

@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.changedetail;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
@@ -50,6 +51,7 @@ public class MoveChange implements Callable<VoidResult> {
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
   private final ChangeMovedSender.Factory senderFactory;
+  private final ChangeHookRunner hooks;
 
   private final PatchSet.Id patchSetId;
   private final String branch;
@@ -58,8 +60,8 @@ public class MoveChange implements Callable<VoidResult> {
 
   @Inject
   MoveChange(final ChangeControl.Factory changeControlFactory, final ReviewDb db,
-      final IdentifiedUser currentUser,
-      final ChangeMovedSender.Factory senderFactory, 
+      final IdentifiedUser currentUser, final ChangeHookRunner hooks,
+      final ChangeMovedSender.Factory senderFactory,
       final @Assisted PatchSet.Id patchSetId,
       final @Assisted("branch") String branch,
       final @Assisted("message") @Nullable String changeComment) {
@@ -67,6 +69,7 @@ public class MoveChange implements Callable<VoidResult> {
     this.db = db;
     this.currentUser = currentUser;
     this.senderFactory = senderFactory;
+    this.hooks = hooks;
 
     this.patchSetId = patchSetId;
     this.branch = branch;
@@ -123,6 +126,9 @@ public class MoveChange implements Callable<VoidResult> {
     cm.setFrom(currentUser.getAccountId());
     cm.setChangeMessage(cmsg);
     cm.send();
+
+    hooks.doChangeMovedHook(updatedChange, currentUser.getAccount(),
+        changeComment, db);
 
     return VoidResult.INSTANCE;
   }

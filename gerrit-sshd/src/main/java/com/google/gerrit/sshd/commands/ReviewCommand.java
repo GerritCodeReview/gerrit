@@ -101,6 +101,10 @@ public class ReviewCommand extends BaseCommand {
   @Option(name = "--submit", aliases = "-s", usage = "submit the patch set")
   private boolean submitChange;
 
+  @Option(name = "--sync", usage = "fail immediately if dependencies are " +
+      "unavailable instead of queueing patch set(s) for asynchronous handling")
+  private boolean sync = false;
+
   @Option(name = "--force-message", usage = "publish the message, "
       + "even if the label score cannot be applied due to change being closed")
   private boolean forceMessage = false;
@@ -188,7 +192,7 @@ public class ReviewCommand extends BaseCommand {
         boolean ok = true;
         for (final PatchSet.Id patchSetId : patchSetIds) {
           try {
-            approveOne(patchSetId);
+            ok = ok && approveOne(patchSetId);
           } catch (UnloggedFailure e) {
             ok = false;
             writeError("error: " + e.getMessage() + "\n");
@@ -209,12 +213,13 @@ public class ReviewCommand extends BaseCommand {
     });
   }
 
-  private void approveOne(final PatchSet.Id patchSetId) throws
+  private boolean approveOne(final PatchSet.Id patchSetId) throws
       NoSuchChangeException, OrmException, EmailException, Failure {
 
     final Change.Id changeId = patchSetId.getParentKey();
 
     ChangeControl changeControl = changeControlFactory.validateFor(changeId);
+    boolean ok = true;
 
     if (changeComment == null) {
       changeComment = "";
@@ -235,15 +240,17 @@ public class ReviewCommand extends BaseCommand {
       if (abandonChange) {
         ReviewResult result = abandonChangeFactory.create(
             patchSetId, changeComment).call();
-        handleReviewResultErrors(result);
+        ok = ok && handleReviewResultErrors(result);
       } else if (restoreChange) {
         ReviewResult result = restoreChangeFactory.create(
             patchSetId, changeComment).call();
-        handleReviewResultErrors(result);
+        ok = ok && handleReviewResultErrors(result);
       }
+
       if (submitChange) {
-        ReviewResult result = submitFactory.create(patchSetId).call();
-        handleReviewResultErrors(result);
+        ReviewResult result = submitFactory.create(
+            patchSetId, sync).call();
+        ok = ok && handleReviewResultErrors(result);
       }
     } catch (InvalidChangeOperationException e) {
       throw error(e.getMessage());
@@ -253,7 +260,7 @@ public class ReviewCommand extends BaseCommand {
 
     if (publishPatchSet) {
       ReviewResult result = publishDraftFactory.create(patchSetId).call();
-      handleReviewResultErrors(result);
+      ok = ok && handleReviewResultErrors(result);
     } else if (deleteDraftPatchSet) {
       if (changeControl.isOwner() && changeControl.isVisible(db)) {
         try {
@@ -267,9 +274,11 @@ public class ReviewCommand extends BaseCommand {
         throw error("Not permitted to delete draft patchset");
       }
     }
+
+    return ok;
   }
 
-  private void handleReviewResultErrors(final ReviewResult result) {
+  private boolean handleReviewResultErrors(final ReviewResult result) {
     for (ReviewResult.Error resultError : result.getErrors()) {
       String errMsg = "error: (change " + result.getChangeId() + ") ";
       switch (resultError.getType()) {
@@ -298,10 +307,11 @@ public class ReviewCommand extends BaseCommand {
           errMsg += "failure in review";
       }
       if (resultError.getMessage() != null) {
-        errMsg += ": " + resultError.getMessage();
+        errMsg += ": " + resultError.getMessage() + "\n";
       }
       writeError(errMsg);
     }
+    return result.getErrors().isEmpty();
   }
 
   private Set<PatchSet.Id> parsePatchSetId(final String patchIdentity)

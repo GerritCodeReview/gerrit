@@ -20,6 +20,7 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.server.changedetail.Submit;
+import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -50,9 +51,10 @@ class SubmitAction extends Handler<ChangeDetail> {
   @Override
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
       IllegalStateException, InvalidChangeOperationException,
-      PatchSetInfoNotAvailableException, NoSuchChangeException {
+      PatchSetInfoNotAvailableException, NoSuchChangeException,
+      MergeException {
     final ReviewResult result =
-        submitFactory.create(patchSetId).call();
+        submitFactory.create(patchSetId, false).call();
     if (result.getErrors().size() > 0) {
       throw new IllegalStateException(
           "Cannot submit " + result.getErrors().get(0).getMessageOrType());

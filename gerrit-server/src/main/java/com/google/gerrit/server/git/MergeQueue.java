@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.reviewdb.Branch;
 
 import java.util.concurrent.TimeUnit;
 
 public interface MergeQueue {
-  void merge(MergeOp.Factory mof, Branch.NameKey branch);
+  void merge(MergeOp.Factory mof, Branch.NameKey branch, boolean sync)
+      throws MergeException;
 
   void schedule(Branch.NameKey branch);
 

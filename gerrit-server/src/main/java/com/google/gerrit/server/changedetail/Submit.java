@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -42,7 +43,7 @@ import java.util.List;
 public class Submit implements Callable<ReviewResult> {
 
   public interface Factory {
-    Submit create(PatchSet.Id patchSetId);
+    Submit create(PatchSet.Id patchSetId, boolean sync);
   }
 
   private final ChangeControl.Factory changeControlFactory;
@@ -52,12 +53,14 @@ public class Submit implements Callable<ReviewResult> {
   private final IdentifiedUser currentUser;
 
   private final PatchSet.Id patchSetId;
+  private final boolean sync;
 
   @Inject
   Submit(final ChangeControl.Factory changeControlFactory,
       final MergeOp.Factory opFactory, final MergeQueue merger,
       final ReviewDb db, final IdentifiedUser currentUser,
-      @Assisted final PatchSet.Id patchSetId) {
+      @Assisted final PatchSet.Id patchSetId,
+      @Assisted final boolean sync) {
     this.changeControlFactory = changeControlFactory;
     this.opFactory = opFactory;
     this.merger = merger;
@@ -65,6 +68,7 @@ public class Submit implements Callable<ReviewResult> {
     this.currentUser = currentUser;
 
     this.patchSetId = patchSetId;
+    this.sync = sync;
   }
 
   @Override
@@ -181,7 +185,12 @@ public class Submit implements Callable<ReviewResult> {
       });
 
       if (updatedChange.getStatus() == Change.Status.SUBMITTED) {
-        merger.merge(opFactory, updatedChange.getDest());
+        try {
+          merger.merge(opFactory, updatedChange.getDest(), sync);
+        } catch (MergeException e) {
+          result.addError(new ReviewResult.Error(
+            ReviewResult.Error.Type.SUBMIT_NOT_READY, e.getMessage()));
+        }
       }
     }
     return result;

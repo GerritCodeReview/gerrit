@@ -23,6 +23,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -93,9 +94,10 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   @Override
-  public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
+  public void merge(MergeOp.Factory mof, Branch.NameKey branch,
+      boolean sync) throws MergeException {
     if (start(branch)) {
-      mergeImpl(mof, branch);
+      mergeImpl(mof, branch, sync);
     }
   }
 
@@ -173,9 +175,12 @@ public class ChangeMergeQueue implements MergeQueue {
     e.needMerge = false;
   }
 
-  private void mergeImpl(MergeOp.Factory opFactory, Branch.NameKey branch) {
+  private void mergeImpl(MergeOp.Factory opFactory, Branch.NameKey branch,
+      boolean sync) throws MergeException {
     try {
-      opFactory.create(branch).merge();
+      opFactory.create(branch, sync).merge();
+    } catch (MergeException e) {
+      throw e;
     } catch (Throwable e) {
       log.error("Merge attempt for " + branch + " failed", e);
     } finally {
@@ -189,7 +194,7 @@ public class ChangeMergeQueue implements MergeQueue {
       PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
       try {
         try {
-          bgFactory.get().create(branch).merge();
+          bgFactory.get().create(branch, false).merge();
         } finally {
           ctx.cleanup.run();
         }

@@ -417,8 +417,12 @@ public abstract class ChangeEmail extends OutgoingEmail {
       authors.add(patchSet.getUploader());
     }
     if (patchSetInfo != null) {
-      authors.add(patchSetInfo.getAuthor().getAccount());
-      authors.add(patchSetInfo.getCommitter().getAccount());
+      if (patchSetInfo.getAuthor().getAccount() != null) {
+        authors.add(patchSetInfo.getAuthor().getAccount());
+      }
+      if (patchSetInfo.getCommitter().getAccount() != null) {
+        authors.add(patchSetInfo.getCommitter().getAccount());
+      }
     }
     return authors;
   }

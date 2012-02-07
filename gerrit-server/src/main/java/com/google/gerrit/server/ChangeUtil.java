@@ -158,7 +158,7 @@ public class ChangeUtil {
   }
 
   public static void testMerge(MergeOp.Factory opFactory, Change change) {
-    opFactory.create(change.getDest()).verifyMergeability(change);
+    opFactory.create(change.getDest(), false).verifyMergeability(change);
   }
 
   public static Change.Id revert(final PatchSet.Id patchSetId,

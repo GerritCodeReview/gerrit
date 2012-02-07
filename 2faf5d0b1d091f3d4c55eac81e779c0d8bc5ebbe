@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACr3////c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-07T15:23:40Z",
+      "side": 1,
+      "message": "s/comments/comment",
+      "revId": "2faf5d0b1d091f3d4c55eac81e779c0d8bc5ebbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACr3////Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-07T15:23:40Z",
+      "side": 1,
+      "message": "Since there is a Gerrit issue [1] for this bug, can you please add a reference to this bug as footer?\n\n  Bug: issue 871\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d871",
+      "revId": "2faf5d0b1d091f3d4c55eac81e779c0d8bc5ebbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

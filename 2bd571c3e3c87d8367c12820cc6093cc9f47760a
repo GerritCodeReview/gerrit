@@ -226,6 +226,24 @@
     },
     {
       "key": {
+        "uuid": "AAACq3////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-07T01:22:35Z",
+      "side": 1,
+      "message": "I don\u0027t think it is something we want to tie to a group (global capabilities), or to a group/ref (acls), but I do think it still belongs in the config file.  I suspect that creating a separate hook section in the file would be good.  I was just using the global capabilities as an example of something that used All-projects even though it wasn\u0027t project specific.  Have a \u0027Settings\" section might not be bad, but perhaps instead of adding such a thing to the All-Projects project, perhaps it should simply live as a sub-menu under the admin menu next to \"Groups\" and \"Projects\", perhaps call it \"Server\", or \"Config\"?  \n\nBut, I am not suggesting that you need to implement that for this change, only that the config should get stored in the new place, and that some thought be put into how that would be laid out, likely taking into consideration the future types of things that will need to be supported by this new section (such as the filenames of the hooks).",
+      "parentUuid": "AAACpX////8\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3

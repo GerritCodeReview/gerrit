@@ -37,6 +37,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
@@ -113,7 +114,7 @@ import javax.annotation.Nullable;
  */
 public class MergeOp {
   public interface Factory {
-    MergeOp create(Branch.NameKey branch);
+    MergeOp create(Branch.NameKey branch, boolean sync);
   }
 
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
@@ -158,6 +159,7 @@ public class MergeOp {
   private CodeReviewCommit mergeTip;
   private Set<RevCommit> alreadyAccepted;
   private RefUpdate branchUpdate;
+  private boolean sync;
 
   private final ChangeHooks hooks;
   private final AccountCache accountCache;
@@ -178,7 +180,7 @@ public class MergeOp {
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHooks hooks, final AccountCache accountCache,
       final TagCache tagCache, final CreateCodeReviewNotes.Factory crnf,
-      final SubmoduleOp.Factory subOpFactory) {
+      final SubmoduleOp.Factory subOpFactory, @Assisted final boolean sync) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -200,6 +202,7 @@ public class MergeOp {
 
     this.myIdent = myIdent;
     destBranch = branch;
+    this.sync = sync;
     toMerge = new ArrayList<CodeReviewCommit>();
     commits = new HashMap<Change.Id, CodeReviewCommit>();
   }
@@ -1092,20 +1095,20 @@ public class MergeOp {
         case CRISS_CROSS_MERGE:
         case CANNOT_CHERRY_PICK_ROOT:
         case NOT_FAST_FORWARD: {
-          setNew(c, message(c, txt));
+          setNew(c, message(c, txt), true);
           break;
         }
 
         case MISSING_DEPENDENCY: {
           final Capable capable = isSubmitStillPossible(commit);
           if (capable != Capable.OK) {
-            sendMergeFail(c, message(c, capable.getMessage()), false);
+            setNew(c, message(c, capable.getMessage()), false);
           }
           break;
         }
 
         default:
-          setNew(c, message(c, "Unspecified merge failure: " + s.name()));
+          setNew(c, message(c, "Unspecified merge failure: " + s.name()), true);
           break;
       }
     }
@@ -1167,7 +1170,7 @@ public class MergeOp {
 
     final long now = System.currentTimeMillis();
     final long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
-    if (submitStillPossible && now < waitUntil) {
+    if (submitStillPossible && now < waitUntil && !sync) {
       // If we waited a short while we might still be able to get
       // this change submitted. Reschedule an attempt in a bit.
       //
@@ -1412,8 +1415,12 @@ public class MergeOp {
     }
   }
 
-  private void setNew(Change c, ChangeMessage msg) {
-    sendMergeFail(c, msg, true);
+  private void setNew(Change c, ChangeMessage msg, boolean makeNew)
+      throws MergeException {
+    sendMergeFail(c, msg, makeNew);
+    if (sync) {
+      throw new MergeException(msg.getMessage());
+    }
   }
 
   private void sendMergeFail(Change c, ChangeMessage msg, final boolean makeNew) {

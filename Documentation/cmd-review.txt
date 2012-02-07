@@ -12,6 +12,7 @@ SYNOPSIS
   [--project <PROJECT>]
   [--message <MESSAGE>]
   [--force-message]
+  [--sync]
   [--submit]
   [--abandon | --restore]
   [--publish]
@@ -80,6 +81,22 @@ successfully, even if the label could not be changed.
 -s::
 	Submit the specified patch set(s) for merging.
 	(option is mutually exclusive with --abandon)
+
+--sync::
+	Modify the behavior of '--submit' by forcing dependencies to be
+	evaluated immediately:
+
+	--submit places merge-candidates onto a queue, allowing those
+	which fail due to dependency errors some time to have
+	their dependencies arrive in-system.  After a timeout,
+	changes which continue to have unsatisfied dependencies are
+	marked as failed.  Without --sync, the return code from a
+	submit reflects the success or failure of queueing
+	the change for eventual processing.
+
+	With the --sync flag, --submit immediately fails any submitted patch
+	with an unresolved dependency. The return code reflects success or
+	failure of merging the patch set(s) to the branch.
 
 --publish::
 	Publish the specified draft patch set(s).

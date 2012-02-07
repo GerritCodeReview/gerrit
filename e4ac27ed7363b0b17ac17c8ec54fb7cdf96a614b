@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACr3////k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-07T15:02:51Z",
+      "side": 1,
+      "message": "remove \u0027with\u0027 from this sentence?",
+      "revId": "e4ac27ed7363b0b17ac17c8ec54fb7cdf96a614b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACr3////o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-07T15:02:51Z",
+      "side": 1,
+      "message": "I think we still want a \u0027Delete Draft Patch Set\u0027 button for every draft patch set (see my inline comment in PatchSetComplexDisclosurePanel). I think that these delete buttons disappeared is rather due to a bug in ChangeDetailFactory.",
+      "revId": "e4ac27ed7363b0b17ac17c8ec54fb7cdf96a614b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACr3////4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-07T15:02:51Z",
+      "side": 1,
+      "message": "If to add this method I would name it \u0027canDeleteDraftPatchSet\u0027 and rename the existing method \u0027canDeleteDraft\u0027 to \u0027canDeleteDraftChange\u0027.\n\nSince both actions, deleting a draft patch set and deleting a draft change, require the same permissions, maybe it\u0027s just enough to only have the existing \u0027canDeleteDraft\u0027 method?",
+      "revId": "e4ac27ed7363b0b17ac17c8ec54fb7cdf96a614b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACr3////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-07T15:02:51Z",
+      "side": 1,
+      "message": "There are two delete buttons:\n  1. \u0027Delete Draft Change\u0027 -\u003e deletes the complete change and all it\u0027s patch sets\n  2. \u0027Delete Draft Patch Set\u0027 -\u003e deletes only this one patch set, but not the change itself\n\nIf I understand the old code correctly, the idea is:\n\n1) for a change that has only a single patch set which is a draft, there should be only the \u0027Delete Draft Change\u0027 button since deleting the only patch set means that the change is deleted\n\n2) for a change that has several patch sets which are all drafts, the \u0027Delete Patch Set Draft\u0027 button should be displayed for every patch set and in addition the \u0027Delete Draft Change\u0027 button should be available on the last patch set\n\n3) for a change that has several patch sets from which some are drafts, the \u0027Delete Patch Set Draft\u0027 button should be displayed for every draft patch set. The \u0027Delete Draft Change\u0027 button should not be displayed because at least one patch set is already published and though the change as a whole is not a draft anymore and cannot be deleted (this was not true in all cases, which is why I proposed a bug-fix for this [1]).\n\nCurrently \u0027changeDetail.canDelete()\u0027 always returns false because it wasn\u0027t set (see my inline comment in ChangeDetailFactory), but even if it was set correctly we should show the \u0027Delete Draft Patch Set\u0027 button only if \u0027changeDetail.getPatchSets().size() \u003e 1\u0027 (the check that was done in the now deleted method \u0027canDeletePatchSet(PatchSetDetail detail)\u0027) to support the above described case 1)\n\n[1] https://gerrit-review.googlesource.com/32312",
+      "revId": "e4ac27ed7363b0b17ac17c8ec54fb7cdf96a614b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACr3////0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-07T15:02:51Z",
+      "side": 1,
+      "message": "Looks like the wrong setter is called.\n\ns/setCanPublish/setCanDelete",
+      "revId": "e4ac27ed7363b0b17ac17c8ec54fb7cdf96a614b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -81,8 +81,7 @@ public class PublishDraft implements Callable<ReviewResult> {
             new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
-            if (change.getStatus() == Change.Status.DRAFT
-                && change.currentPatchSetId().equals(patchSetId)) {
+            if (change.getStatus() == Change.Status.DRAFT) {
               change.setStatus(Change.Status.NEW);
               ChangeUtil.updated(change);
               return change;

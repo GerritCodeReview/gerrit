@@ -76,7 +76,12 @@ public class ReviewResult {
       NOT_A_DRAFT,
 
       /** Error writing change to git repository */
-      GIT_ERROR
+      GIT_ERROR,
+
+      /** A synchronous submit can't be performed now, as merges are running
+       * in the background.  Try again later.
+       */
+      SYNC_SUBMIT_CONFLICT,
     }
 
     protected Type type;

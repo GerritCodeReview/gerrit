@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -42,7 +43,7 @@ import java.util.List;
 public class Submit implements Callable<ReviewResult> {
 
   public interface Factory {
-    Submit create(PatchSet.Id patchSetId);
+    Submit create(PatchSet.Id patchSetId, boolean sync);
   }
 
   private final ChangeControl.Factory changeControlFactory;
@@ -52,12 +53,14 @@ public class Submit implements Callable<ReviewResult> {
   private final IdentifiedUser currentUser;
 
   private final PatchSet.Id patchSetId;
+  private final boolean sync;
 
   @Inject
   Submit(final ChangeControl.Factory changeControlFactory,
       final MergeOp.Factory opFactory, final MergeQueue merger,
       final ReviewDb db, final IdentifiedUser currentUser,
-      @Assisted final PatchSet.Id patchSetId) {
+      @Assisted final PatchSet.Id patchSetId,
+      @Assisted final boolean sync) {
     this.changeControlFactory = changeControlFactory;
     this.opFactory = opFactory;
     this.merger = merger;
@@ -65,6 +68,7 @@ public class Submit implements Callable<ReviewResult> {
     this.currentUser = currentUser;
 
     this.patchSetId = patchSetId;
+    this.sync = sync;
   }
 
   @Override
@@ -168,22 +172,47 @@ public class Submit implements Callable<ReviewResult> {
       }
       db.patchSetApprovals().upsert(Collections.singleton(approval));
 
-      final Change updatedChange = db.changes().atomicUpdate(changeId,
-          new AtomicUpdate<Change>() {
-        @Override
-        public Change update(Change change) {
-          if (change.getStatus() == Change.Status.NEW) {
-            change.setStatus(Change.Status.SUBMITTED);
-            ChangeUtil.updated(change);
-          }
-          return change;
-        }
-      });
-
+      final Change updatedChange = setChangeStatus(changeId, Change.Status.NEW,
+          Change.Status.SUBMITTED);
       if (updatedChange.getStatus() == Change.Status.SUBMITTED) {
-        merger.merge(opFactory, updatedChange.getDest());
+        try {
+          if (sync) {
+            if (!merger.merge(opFactory, updatedChange)) {
+              // If a synchronous merge failed to start, reset the change
+              // back to 'new' and tell the caller to try again.  Such race
+              // conditions should be extremely rare.
+              setChangeStatus(changeId, Change.Status.SUBMITTED,
+                  Change.Status.NEW);
+              result.addError(new ReviewResult.Error(
+                  ReviewResult.Error.Type.SYNC_SUBMIT_CONFLICT,
+                  "Unable to submit change synchronously due to background " +
+                  "merge in progress.  Please wait and try again."));
+            }
+          } else {
+            merger.merge(opFactory, updatedChange.getDest());
+          }
+        } catch (MergeException e) {
+          result.addError(new ReviewResult.Error(
+            ReviewResult.Error.Type.SUBMIT_NOT_READY, e.getMessage()));
+        }
       }
     }
     return result;
+  }
+
+  private Change setChangeStatus(Change.Id changeId,
+      final Change.Status statusFrom,
+      final Change.Status statusTo) throws OrmException {
+    return db.changes().atomicUpdate(changeId,
+    new AtomicUpdate<Change>() {
+      @Override
+      public Change update(Change change) {
+        if (change.getStatus() == statusFrom) {
+          change.setStatus(statusTo);
+          ChangeUtil.updated(change);
+        }
+        return change;
+      }
+    });
   }
 }

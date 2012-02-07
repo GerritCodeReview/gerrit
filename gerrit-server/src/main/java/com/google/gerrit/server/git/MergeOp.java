@@ -37,6 +37,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
@@ -263,15 +264,21 @@ public class MergeOp {
     }
   }
 
-  public void merge() throws MergeException {
+  public void merge(Change change) throws MergeException {
+    boolean sync = (change != null);
     setDestProject();
     try {
       openSchema();
       openRepository();
-      submitted = schema.changes().submitted(destBranch).toList();
+      if (sync) {
+        submitted = new ArrayList<Change>();
+        submitted.add(change);
+      } else {
+        submitted = schema.changes().submitted(destBranch).toList();
+      }
       preMerge();
       updateBranch();
-      updateChangeStatus();
+      updateChangeStatus(sync);
       updateSubscriptions();
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
@@ -284,6 +291,19 @@ public class MergeOp {
       }
       schema.close();
       schema = null;
+    }
+    // Submitting one change can unblock others which could be
+    // stranded if no recheck jobs are pending.  Avoid this by planning
+    // a second pass when single changes are submitted.
+    //
+    if (sync) {
+      try {
+        merge(null);
+      } catch (MergeException e) {
+        // Since we have succeeded in merging the change of interest, any
+        // exceptions thrown on followup merges are not relevant to the caller.
+        // Squash them.
+      }
     }
   }
 
@@ -1055,7 +1075,7 @@ public class MergeOp {
     return isMergeable;
   }
 
-  private void updateChangeStatus() throws MergeException {
+  private void updateChangeStatus(final boolean sync) throws MergeException {
     List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
 
     for (final Change c : submitted) {
@@ -1092,20 +1112,21 @@ public class MergeOp {
         case CRISS_CROSS_MERGE:
         case CANNOT_CHERRY_PICK_ROOT:
         case NOT_FAST_FORWARD: {
-          setNew(c, message(c, txt));
+          setNew(c, message(c, txt), true, sync);
           break;
         }
 
         case MISSING_DEPENDENCY: {
-          final Capable capable = isSubmitStillPossible(commit);
+          final Capable capable = isSubmitStillPossible(commit, sync);
           if (capable != Capable.OK) {
-            sendMergeFail(c, message(c, capable.getMessage()), false);
+            setNew(c, message(c, capable.getMessage()), false, sync);
           }
           break;
         }
 
         default:
-          setNew(c, message(c, "Unspecified merge failure: " + s.name()));
+          setNew(c, message(c, "Unspecified merge failure: " + s.name()), true,
+              sync);
           break;
       }
     }
@@ -1136,7 +1157,8 @@ public class MergeOp {
     }
   }
 
-  private Capable isSubmitStillPossible(final CodeReviewCommit commit) {
+  private Capable isSubmitStillPossible(final CodeReviewCommit commit,
+      boolean sync) {
     final Capable capable;
     final Change c = commit.change;
     if (commit.missing == null) {
@@ -1167,7 +1189,7 @@ public class MergeOp {
 
     final long now = System.currentTimeMillis();
     final long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
-    if (submitStillPossible && now < waitUntil) {
+    if (submitStillPossible && now < waitUntil && !sync) {
       // If we waited a short while we might still be able to get
       // this change submitted. Reschedule an attempt in a bit.
       //
@@ -1412,8 +1434,12 @@ public class MergeOp {
     }
   }
 
-  private void setNew(Change c, ChangeMessage msg) {
-    sendMergeFail(c, msg, true);
+  private void setNew(Change c, ChangeMessage msg, boolean makeNew,
+      boolean sync) throws MergeException {
+    sendMergeFail(c, msg, makeNew);
+    if (sync) {
+      throw new MergeException(msg.getMessage());
+    }
   }
 
   private void sendMergeFail(Change c, ChangeMessage msg, final boolean makeNew) {

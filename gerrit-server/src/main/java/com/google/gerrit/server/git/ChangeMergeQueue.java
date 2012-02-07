@@ -18,11 +18,13 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.reviewdb.Branch;
+import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -96,6 +98,13 @@ public class ChangeMergeQueue implements MergeQueue {
   public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
     if (start(branch)) {
       mergeImpl(mof, branch);
+    }
+  }
+
+  @Override
+  public void merge(MergeOp.Factory mof, Change change) throws MergeException {
+    if (start(change.getDest())) {
+      mergeImpl(mof, change);
     }
   }
 
@@ -175,7 +184,21 @@ public class ChangeMergeQueue implements MergeQueue {
 
   private void mergeImpl(MergeOp.Factory opFactory, Branch.NameKey branch) {
     try {
-      opFactory.create(branch).merge();
+      opFactory.create(branch).merge(null);
+    } catch (Throwable e) {
+      log.error("Merge attempt for " + branch + " failed", e);
+    } finally {
+      finish(branch);
+    }
+  }
+
+  private void mergeImpl(MergeOp.Factory opFactory, Change change)
+      throws MergeException {
+    Branch.NameKey branch = change.getDest();
+    try {
+      opFactory.create(branch).merge(change);
+    } catch (MergeException e) {
+      throw e;
     } catch (Throwable e) {
       log.error("Merge attempt for " + branch + " failed", e);
     } finally {
@@ -189,7 +212,7 @@ public class ChangeMergeQueue implements MergeQueue {
       PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
       try {
         try {
-          bgFactory.get().create(branch).merge();
+          bgFactory.get().create(branch).merge(null);
         } finally {
           ctx.cleanup.run();
         }

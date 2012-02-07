@@ -294,6 +294,9 @@ public class ReviewCommand extends BaseCommand {
         case RULE_ERROR:
           errMsg += "rule error";
           break;
+        case NOT_A_DRAFT:
+          errMsg += "change is not a draft";
+          break;
         default:
           errMsg += "failure in review";
       }

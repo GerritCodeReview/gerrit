@@ -57,8 +57,13 @@ public class PublishDraft implements Callable<ReviewResult> {
     result.setChangeId(changeId);
     final ChangeControl control = changeControlFactory.validateFor(changeId);
     final PatchSet patch = db.patchSets().get(patchSetId);
-    if (patch == null || !patch.isDraft()) {
+    if (patch == null) {
       throw new NoSuchChangeException(changeId);
+    }
+    if (!patch.isDraft()) {
+      result.addError(new ReviewResult.Error(
+          ReviewResult.Error.Type.NOT_A_DRAFT));
+      return result;
     }
 
     if (!control.canPublish(db)) {

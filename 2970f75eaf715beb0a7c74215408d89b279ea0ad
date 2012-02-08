@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACuX////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-08T03:00:06Z",
+      "side": 1,
+      "message": "Would it perhaps make more sense to simply prevent an old patchset from being published?",
+      "revId": "2970f75eaf715beb0a7c74215408d89b279ea0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,40 @@
       "revId": "687c639fa1bc86c6a18b70a229e0d0f0e2098580",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACxH////s\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-08T19:14:00Z",
+      "side": 1,
+      "message": "s/exist/exists/",
+      "revId": "687c639fa1bc86c6a18b70a229e0d0f0e2098580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACxH////w\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-08T19:14:00Z",
+      "side": 1,
+      "message": "The last 2 command blocks do not have a user@host prefix in front of the commands, perhaps they should?",
+      "revId": "687c639fa1bc86c6a18b70a229e0d0f0e2098580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

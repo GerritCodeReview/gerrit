@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACt3////E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-08T01:21:16Z",
+      "side": 1,
+      "message": "This table could probably use some key bindings to navigate it and select an entry.",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACt3////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-08T01:21:16Z",
+      "side": 1,
+      "message": "Could this be put on line 91 instead, it feels awkward to add it to the vp panel inside this function, it makes the layout become intertwined with the creation.  Moving this to line 91 would also allow vp to become a local variable to that function making it a layout-only detail hidden from the rest of the screen.",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACt3////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-08T01:21:16Z",
+      "side": 1,
+      "message": "Perhaps you can use a GerritCallback instead?  This way I think it would handle the failures for you instead of covering them up (or was it intended to cover them up?)",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACt3////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-08T01:21:16Z",
+      "side": 1,
+      "message": "I know this class came in on a different change, but I feel like it would be better called SuggestParentCandidates.  RetrieveParentCandidates seems inaccurate, because every project is actually a candidate, and we just want to retrieve a list of suggestions here, not all the candidates.",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACt3////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-08T01:21:16Z",
+      "side": 1,
+      "message": "nit: \"nameKeys\" might make a better variable name.",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACt3////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-08T01:21:16Z",
+      "side": 1,
+      "message": "nit: \"projects\" or \"candidates\" might make a better variable name.",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

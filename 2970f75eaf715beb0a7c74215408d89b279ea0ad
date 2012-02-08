@@ -16,6 +16,24 @@
       "revId": "2970f75eaf715beb0a7c74215408d89b279ea0ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACun////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-08T05:26:24Z",
+      "side": 1,
+      "message": "I have to admit, I\u0027m still not certain about all the aspects of working with drafts.\n\nAt least right now it\u0027s possible to publish old draft patch sets, and this is just a fix to make it work correctly.\n\nYou may be right that it makes not much sense to publish old draft patch set, but then I\u0027m wondering if we disallow publishing of old draft patch sets, what\u0027s then the use of having several draft patch sets for one change? If the only action you can do for the old draft patch sets is to delete them, maybe we should not have them at all? Actually I was expecting that it would be possible to update draft patch set, but it looks like the only thing you can do is upload a new draft patch set and delete the old one. Maybe that\u0027s ok since there might be review comments on the old draft patch set that should not get lost. Maybe these review comments would be a motivation for publishing an old draft patch set. Maybe there was an interesting discussion that led to a new patch set and which you want to publish so that other users can see it as well?",
+      "parentUuid": "AAACuX////8\u003d",
+      "revId": "2970f75eaf715beb0a7c74215408d89b279ea0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

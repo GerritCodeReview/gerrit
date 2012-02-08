@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACw3////o\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-08T19:10:13Z",
+      "side": 1,
+      "message": "While we are at it, can we fix the spacing here also, lines 198-211, 233-234, 247-248, 254-258, 271-276, 282-287, 296-305 probably do not need any leading space (it looks weird in the html output)?  You could probably strip the trailing spaces on 300 and 303 too! :)",
+      "revId": "687c639fa1bc86c6a18b70a229e0d0f0e2098580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

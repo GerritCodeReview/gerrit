@@ -27,6 +27,7 @@ public class SshSession {
 
   private final TestAccount account;
   private Session session;
+  private String error;
 
   public SshSession(TestAccount account) {
     this.account = account;
@@ -40,11 +41,22 @@ public class SshSession {
       InputStream in = channel.getInputStream();
       channel.connect();
 
-      Scanner s = new Scanner(in).useDelimiter("\\A");
+      Scanner s = new Scanner(channel.getErrStream()).useDelimiter("\\A");
+      error =  s.hasNext() ? s.next() : null;
+
+      s = new Scanner(in).useDelimiter("\\A");
       return s.hasNext() ? s.next() : "";
     } finally {
       channel.disconnect();
     }
+  }
+
+  public boolean hasError() {
+    return error != null;
+  }
+
+  public String getError() {
+    return error;
   }
 
   public void close() {

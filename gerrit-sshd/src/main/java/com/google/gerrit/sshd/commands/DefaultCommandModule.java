@@ -47,6 +47,7 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, ShowQueue.class);
     command(gerrit, StreamEvents.class);
     command(gerrit, VersionCommand.class);
+    command(gerrit, GarbageCollectionCommand.class);
 
     command(gerrit, "plugin").toProvider(new DispatchCommandProvider(plugin));
 

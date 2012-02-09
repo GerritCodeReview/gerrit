@@ -67,7 +67,10 @@ public class ReviewResult {
       PUBLISH_NOT_PERMITTED,
 
       /** Review operation not permitted by rule. */
-      RULE_ERROR
+      RULE_ERROR,
+
+      /** Review operation invalid because patch set is not a draft. */
+      NOT_A_DRAFT,
     }
 
     protected Type type;

@@ -61,7 +61,7 @@ class DeleteDraftChange extends Handler<VoidResult> {
 
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);
-    if (!control.isOwner()) {
+    if (!control.canDelete(db)) {
       throw new NoSuchChangeException(changeId);
     }
 

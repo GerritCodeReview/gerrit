@@ -255,7 +255,7 @@ public class ReviewCommand extends BaseCommand {
       ReviewResult result = publishDraftFactory.create(patchSetId).call();
       handleReviewResultErrors(result);
     } else if (deleteDraftPatchSet) {
-      if (changeControl.isOwner() && changeControl.isVisible(db)) {
+      if (changeControl.canDelete(db)) {
         try {
           ChangeUtil.deleteDraftPatchSet(patchSetId, gitManager, replication, patchSetInfoFactory, db);
         } catch (PatchSetInfoNotAvailableException e) {

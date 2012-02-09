@@ -397,7 +397,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (g == null) {
       throw error("Group " + group + " not found");
     }
-    return new OwnerinPredicate(args.dbProvider, args.userFactory, g.getId());
+    return new OwnerinPredicate(args.dbProvider, args.userFactory, g.getGroupUUID());
   }
 
   @Operator
@@ -425,7 +425,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (g == null) {
       throw error("Group " + group + " not found");
     }
-    return new ReviewerinPredicate(args.dbProvider, args.userFactory, g.getId());
+    return new ReviewerinPredicate(args.dbProvider, args.userFactory, g.getGroupUUID());
   }
 
   @Operator

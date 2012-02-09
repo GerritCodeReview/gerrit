@@ -102,6 +102,9 @@ link:cmd-create-project.html[gerrit create-project]::
 link:cmd-flush-caches.html[gerrit flush-caches]::
 	Flush some/all server caches from memory.
 
+link:cmd-gc.html[gerrit gc]::
+	Run the Git garbage collection.
+
 link:cmd-gsql.html[gerrit gsql]::
 	Administrative interface to active database.
 

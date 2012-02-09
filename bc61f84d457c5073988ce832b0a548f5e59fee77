@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC0H////Y\u003d",
+        "filename": "Documentation/cmd-ls-members.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-09T22:03:54Z",
+      "side": 1,
+      "message": "s/prints as output/outputs/",
+      "revId": "bc61f84d457c5073988ce832b0a548f5e59fee77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H////c\u003d",
+        "filename": "Documentation/cmd-ls-members.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-09T22:03:54Z",
+      "side": 1,
+      "message": "s/member/members/\n\nYou might want to word wrap just a few characters earlier.",
+      "revId": "bc61f84d457c5073988ce832b0a548f5e59fee77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H////U\u003d",
+        "filename": "Documentation/cmd-ls-members.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-09T22:03:54Z",
+      "side": 1,
+      "message": "s/seen/be seen/  s/a account/an account/\n\nOr, rewrite as:\n\nThe flat lists contain all accounts/included groups that are either direct or indirect\nmembers of the specified group, but from the flat list it is impossible to discern specifically whether they are direct or indirect members.",
+      "revId": "bc61f84d457c5073988ce832b0a548f5e59fee77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembersList.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-09T22:03:54Z",
+      "side": 1,
+      "message": "Nit: My pref would be to eliminate the unneeded elses (117,120) since there are returns.",
+      "revId": "bc61f84d457c5073988ce832b0a548f5e59fee77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H////M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-09T22:03:54Z",
+      "side": 1,
+      "message": "s/as tree/as a tree/",
+      "revId": "bc61f84d457c5073988ce832b0a548f5e59fee77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H////I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-09T22:03:54Z",
+      "side": 1,
+      "message": "s/as tree/as a tree/",
+      "revId": "bc61f84d457c5073988ce832b0a548f5e59fee77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H////A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeNode.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-09T22:03:54Z",
+      "side": 1,
+      "message": "I feel like I asked this before, but I can\u0027t find it, so maybe I didn\u0027t:  is this interface perhaps better off as a static interface inside TreeFormatter (since it is fairly tied to it)?",
+      "revId": "bc61f84d457c5073988ce832b0a548f5e59fee77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

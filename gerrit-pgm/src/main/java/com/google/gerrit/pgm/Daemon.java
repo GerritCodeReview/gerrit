@@ -33,6 +33,7 @@ import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
 import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter;
 import com.google.gerrit.pgm.util.ErrorLogFile;
+import com.google.gerrit.pgm.util.GarbageCollectionLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -163,6 +164,7 @@ public class Daemon extends SiteProgram {
       throw die("Cannot combine --slave and --enable-httpd");
     }
 
+    manager.add(GarbageCollectionLogFile.start(getSitePath()));
     if (consoleLog) {
     } else {
       manager.add(ErrorLogFile.start(getSitePath()));

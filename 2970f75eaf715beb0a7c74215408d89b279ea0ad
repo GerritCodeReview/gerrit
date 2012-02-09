@@ -34,6 +34,24 @@
       "revId": "2970f75eaf715beb0a7c74215408d89b279ea0ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H////o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-09T21:37:52Z",
+      "side": 1,
+      "message": "I think I miss understood, ignore my message.",
+      "parentUuid": "AAACun////4\u003d",
+      "revId": "2970f75eaf715beb0a7c74215408d89b279ea0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

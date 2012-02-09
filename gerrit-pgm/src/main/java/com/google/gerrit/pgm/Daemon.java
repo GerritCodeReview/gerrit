@@ -33,6 +33,7 @@ import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
 import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter;
 import com.google.gerrit.pgm.util.ErrorLogFile;
+import com.google.gerrit.pgm.util.GarbageCollectionLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -166,6 +167,7 @@ public class Daemon extends SiteProgram {
     if (consoleLog) {
     } else {
       manager.add(ErrorLogFile.start(getSitePath()));
+      manager.add(GarbageCollectionLogFile.start(getSitePath()));
     }
 
     try {

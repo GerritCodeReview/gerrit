@@ -1373,6 +1373,14 @@ Access Database
 Allow users to access the database using the `gsql` command.
 
 
+[[capability_runGarbageCollection]]
+Run Garbage Collection
+~~~~~~~~~~~~~~~~~~~~~~
+
+Allow users to run the Git Garbage Collection for the repositories of
+all projects.
+
+
 [[capability_startReplication]]
 Start Replication
 ~~~~~~~~~~~~~~~~~

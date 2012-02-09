@@ -76,6 +76,7 @@ Administrator that has authenticated with digest authentication:
     "flushCaches": true,
     "viewConnections": true,
     "viewQueue": true,
+    "runGC": true,
     "startReplication": true
   }
 ----
@@ -313,6 +314,9 @@ link:access-control.html#capability_viewConnections[View Connections]
 capability.
 |`viewQueue`         |not set if `false`|Whether the user has the
 link:access-control.html#capability_viewQueue[View Queue] capability.
+|`runGC`  |not set if `false`|Whether the user has the
+link:access-control.html#capability_runGarbageCollection[Run Garbage
+Collection] capability.
 |`startReplication`  |not set if `false`|Whether the user has the
 link:access-control.html#capability_startReplication[Start Replication]
 capability.

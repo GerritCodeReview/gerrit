@@ -23,6 +23,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.git.BanCommit;
+import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.patch.RemoveReviewer;
@@ -57,5 +58,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(RemoveReviewer.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);
+    factory(GarbageCollection.Factory.class);
   }
 }

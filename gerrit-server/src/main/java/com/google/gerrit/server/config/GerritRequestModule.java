@@ -32,6 +32,7 @@ import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
+import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ReceiveCommits;
@@ -107,5 +108,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(CreateProject.Factory.class);
     factory(Submit.Factory.class);
     factory(RetrieveParentCandidates.Factory.class);
+    factory(GarbageCollection.Factory.class);
   }
 }

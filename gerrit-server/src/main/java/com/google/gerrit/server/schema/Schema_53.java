@@ -28,8 +28,11 @@ import static com.google.gerrit.common.data.Permission.SUBMIT;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.SubmitActionSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.common.data.SubmitActionSection.SubmitType;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
@@ -173,6 +176,14 @@ class Schema_53 extends SchemaVersion {
         config.getAccessSections().clear();
         convertRights(config);
 
+        // Set the submit action associated with the project.
+        final SubmitActionSection sas = new SubmitActionSection(RefConfigSection.ALL);
+        sas.setSubmitType(SubmitType.valueOf(config.getProject().getSubmitType()));
+        sas.setUseContentMerge(config.getProject().isUseContentMerge()
+            ? SubmitActionSection.UseContentMerge.TRUE
+            : SubmitActionSection.UseContentMerge.FALSE);
+        config.replace(sas);
+
         // Grant out read on the config branch by default.
         //
         if (config.getProject().getNameKey().equals(systemConfig.wildProjectName)) {
@@ -205,16 +216,21 @@ class Schema_53 extends SchemaVersion {
 
     switch (rs.getString("submit_type").charAt(0)) {
       case 'F':
-        project.setSubmitType(Project.SubmitType.FAST_FORWARD_ONLY);
+        project.setSubmitType(SubmitActionSection.SubmitType.FAST_FORWARD_ONLY
+            .toString());
         break;
       case 'M':
-        project.setSubmitType(Project.SubmitType.MERGE_IF_NECESSARY);
+        project
+            .setSubmitType(SubmitActionSection.SubmitType.MERGE_IF_NECESSARY
+                .toString());
         break;
       case 'A':
-        project.setSubmitType(Project.SubmitType.MERGE_ALWAYS);
+        project.setSubmitType(SubmitActionSection.SubmitType.MERGE_ALWAYS
+            .toString());
         break;
       case 'C':
-        project.setSubmitType(Project.SubmitType.CHERRY_PICK);
+        project.setSubmitType(SubmitActionSection.SubmitType.CHERRY_PICK
+            .toString());
         break;
       default:
         throw new OrmException("Unsupported submit_type="

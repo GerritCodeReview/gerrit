@@ -1,0 +1,136 @@
+Gerrit Code Review - Submit Actions
+=====================================
+
+A submit action is the action used by Gerrit to submit
+an approved change to its destination branch. Supported options are:
++
+* FAST_FORWARD_ONLY: produces a strictly linear history.
+* MERGE_IF_NECESSARY: create a merge commit when required.
+* MERGE_ALWAYS: always create a merge commit.
+* CHERRY_PICK: always cherry-pick the commit.
+
+Submit Actions in Gerrit are based on reference namespace
+patterns. They can be set on a single reference name to match
+one branch (e.g. `refs/heads/master`), or on a reference
+namespace (e.g. `refs/heads/*`) to match any branch starting
+with that prefix. So a submit action with `refs/heads/*` will
+match `refs/heads/master` and `refs/heads/experimental`, etc.
+
+Reference names can also be described with a regular expression
+by prefixing the reference name with `^`.  For example
+`^refs/heads/[a-z]{1,8}` matches all lower case branch names
+between 1 and 8 characters long.  Within a regular expression `.`
+is a wildcard matching any character, but may be escaped as `\.`.
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library]
+is used for evaluation of regular expression submit action
+rules. See the library documentation for details on this
+particular regular expression flavor.
+
+Project Submit Action Lists
+----------------------------
+
+A system wide submit action list affecting all projects is stored in
+project "`All-Projects`".  This inheritance can be configured
+through link:cmd-set-project-parent.html[gerrit set-project-parent].
+
+Per-project submit action lists are also supported.
+
+All Projects
+~~~~~~~~~~~~
+
+Any submit action granted to `All-Projects` is automatically
+inherited by every other project in the same Gerrit instance.
+
+Only members of the group `Administrators` may edit the submit
+action list for `All-Projects`.
+
+If submit action list for `All-Projects` does not have a
+section to refs/*, a section to refs/* is added having
+MERGE_IF_NECESSARY type.
+
+Per-Project
+~~~~~~~~~~~
+
+The per-project submit action list is evaluated before the global
+`All-Projects` list, permitting override capability to project owners.
+
+This way, if to `All-Projects` we have:
+  [submit refs/*]
+    action = mergeIfNecessary
+  [submit refs/heads/master]
+    action = cherryPick
+  [submit refs/heads/integration]
+    action = fastForwardOnly
+
+And then in a project called 'A' we have:
+  [submit refs/*]
+    action = fastForwardOnly
+  [submit refs/heads/master]
+    action = fastForwardOnly
+
+Finally, in a project called 'B', having 'A' as the parent:
+  [submit refs/*]
+    action = cherryPick
+
+Considering patchsets being merged on Project B:
+* To refs/heads/development branch, use cherryPick
+* To refs/heads/master branch, use fastForwardOnly
+* To refs/heads/integration, use fastForwardOnly
+
+Use Content Merge
+----------------------------
+
+If enabled for a submit action, Gerrit will try to perform
+a 3-way merge of text file content when a file has been
+modified by both the destination branch and the change being
+submitted. This option only takes effect if submit type is not
+FAST_FORWARD_ONLY.
+
+Example of how to enable it for a submit action:
+  [submit refs/*]
+    mergeContent = true
+    action = mergeIfNecessary
+
+It does not have default value. To disable it to a submit action,
+one should fill it with false value.
+
+If submit action list for `All-Projects` does not have a section
+to refs/*, a section to refs/* is added having MERGE_IF_NECESSARY
+type with use content merge disabled.
+
+Partial Definition of a Submit Action
+----------------------------
+
+A submit section could define only the action or only if
+use content merge is enabled/disabled.
+
+This way, if to `All-Projects` we have:
+  [submit refs/*]
+    action = mergeIfNecessary
+    mergeContent = false
+  [submit refs/heads/master]
+    action = cherryPick
+    mergeContent = true
+  [submit refs/heads/integration]
+    action = fastForwardOnly
+
+And then in a project called 'A' we have:
+  [submit refs/heads/master]
+    mergeContent = false
+
+Finally, in a project called 'B', having 'A' as the parent:
+  [submit refs/heads/master]
+    action = cherryPick
+
+Considering patchsets being merged on Project B:
+* To refs/heads/development branch, use mergeIfNecessary, use content merge disabled
+* To refs/heads/master branch, use cherryPick, use content merge disabled
+
+If in the submit action list for `All-Projects` there is a partial definition
+of one to refs/*, it modifies it to have MERGE_IF_NECESSARY action (if not
+defined) or to have use merge content disabled (if not defined).
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

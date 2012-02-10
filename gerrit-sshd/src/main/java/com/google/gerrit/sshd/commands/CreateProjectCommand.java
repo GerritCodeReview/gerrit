@@ -14,10 +14,10 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.data.SubmitActionSection.SubmitType;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
@@ -131,7 +131,7 @@ final class CreateProjectCommand extends BaseCommand {
             args.newParent = newParent;
             args.permissionsOnly = permissionsOnly;
             args.projectDescription = projectDescription;
-            args.submitType = submitType;
+            args.submitType = submitType.toString();
             args.contributorAgreements = contributorAgreements;
             args.signedOffBy = signedOffBy;
             args.contentMerge = contentMerge;

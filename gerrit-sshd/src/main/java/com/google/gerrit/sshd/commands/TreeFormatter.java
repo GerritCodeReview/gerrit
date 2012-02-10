@@ -85,4 +85,10 @@ public class TreeFormatter {
     }
     stdout.print("\n");
   }
+
+  public static interface TreeNode {
+    public String getDisplayName();
+    public boolean isVisible();
+    public SortedSet<? extends TreeNode> getChildren();
+  }
 }

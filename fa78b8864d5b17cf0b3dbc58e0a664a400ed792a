@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAACzn////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T04:21:56Z",
+      "side": 1,
+      "message": "I think maybe just rebase?",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -70,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "AAACzn////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T04:21:56Z",
+      "side": 1,
+      "message": "No need to hide the change\u0027s existence here.",
+      "parentUuid": "AAACyn////s\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -81,6 +116,40 @@
       "writtenOn": "2012-02-09T13:33:35Z",
       "side": 1,
       "message": "Reuse the ChangeControl instance instead of loading the change again.",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzn////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T04:21:56Z",
+      "side": 1,
+      "message": "Why convert the exception to something less accurate?",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzn////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T04:21:56Z",
+      "side": 1,
+      "message": "You need to start a separate try block right after 219 with the finally to close the repo.",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -115,6 +184,40 @@
       "writtenOn": "2012-02-09T13:33:35Z",
       "side": 1,
       "message": "I think here you are not protected against another thread that, for example, receives a new commit for the same change.\nIMO, you have to ensure that this thread is the only one updating this change.\n\nLook at the ReceiveCommit for an example.\n\nWould be nice if Shawn confirms what I wrote here :-)",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzn////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T04:21:56Z",
+      "side": 1,
+      "message": "This loop probably deserves to be a function in the new ApprovalsUtil class, then you can share it with ReceiveCommits.  I suspect that there are other sections which you have copied here which could likely also find a nice new home outside of ReceiveCommits (and would help reduce its size) that you could then share.",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzn////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T04:21:56Z",
+      "side": 1,
+      "message": "Any reason to not move these closer to the last use of these vars?",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

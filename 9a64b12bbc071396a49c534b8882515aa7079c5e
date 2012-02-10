@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACyX///88\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T15:34:21Z",
+      "side": 1,
+      "message": "This check should disappear. JGit should provide a GC API that accepts a org.eclipse.jgit.lib.Repository and that then takes care to invoke the correct GC implementation for the repository type (e.g. invoke the org.eclipse.jgit.storage.file.GC if it is a FileRepository).",
+      "revId": "9a64b12bbc071396a49c534b8882515aa7079c5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

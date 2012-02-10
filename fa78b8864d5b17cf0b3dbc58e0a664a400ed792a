@@ -284,6 +284,24 @@
     },
     {
       "key": {
+        "uuid": "AAACyn///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T16:19:20Z",
+      "side": 1,
+      "message": "Martin: Ok. Thanks. I\u0027ll fix.",
+      "parentUuid": "AAACzn///+U\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -372,6 +390,24 @@
     },
     {
       "key": {
+        "uuid": "AAACyn///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T16:19:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACzn///+Q\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACzn////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -419,6 +455,24 @@
       "side": 1,
       "message": "Because if line 224 throws an exception the git repo will not be closed (could be a runtime exception).",
       "parentUuid": "AAACzX////I\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyn///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T16:19:20Z",
+      "side": 1,
+      "message": "Ok. I was under the impression that RevWalk constructor would not throw anything. But yeah. There can be RuntimeExceptions. No reason not to take the safe road. I\u0027ll fix.",
+      "parentUuid": "AAACzn///+M\u003d",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -542,6 +596,24 @@
       "side": 1,
       "message": "Yeah, it may not be easy, but I think the approvals are likely the easiest candidate.  Not that you have to do this, but I was thinking that perhaps many of the atomic change operations could be assembled into a separate helper utility eventually, it might help make them more readable to have them together and eventually they might even share some implementations.",
       "parentUuid": "AAACzX////Q\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyn///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T16:19:20Z",
+      "side": 1,
+      "message": "I\u0027m still fighting a bit with this one. We\u0027ll see what I can do during the weekend.",
+      "parentUuid": "AAACzn///+I\u003d",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

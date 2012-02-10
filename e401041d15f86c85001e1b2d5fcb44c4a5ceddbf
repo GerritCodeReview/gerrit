@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACyX///9A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T15:34:13Z",
+      "side": 1,
+      "message": "OK, if nobody objects, I\u0027m removing this TODO for now.",
+      "parentUuid": "AAACyn////M\u003d",
+      "revId": "e401041d15f86c85001e1b2d5fcb44c4a5ceddbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////I\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GarbageCollectionProgressMonitor.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-10T13:06:27Z",
       "side": 1,
       "message": "I wouldn\u0027t create this interface (and its implementation class). \nThis looks like too much just to achieve one print line in the output of the gc command (start/stop for a project).\n\nI would just pass the printwriter GarbageCollection.run method and use it to print the current project name.\n\nIn addition, the ProgressMonitor abstraction is independent of the concrete task. We specialize it with TextProgressMonitor or ThreadSafeProgressMonitor... but I haven\u0027t seen any specialization by task it was used for.\n\nHowever, this is just my personal preference.",
+      "revId": "e401041d15f86c85001e1b2d5fcb44c4a5ceddbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX///9M\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GarbageCollectionProgressMonitor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T15:34:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACyn////I\u003d",
       "revId": "e401041d15f86c85001e1b2d5fcb44c4a5ceddbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAACyX///9I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T15:34:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACyn////A\u003d",
+      "revId": "e401041d15f86c85001e1b2d5fcb44c4a5ceddbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////E\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-02-10T13:06:27Z",
       "side": 1,
       "message": "I don\u0027t like the name of this method.Maybe: doGC or runGC or startGC?",
+      "revId": "e401041d15f86c85001e1b2d5fcb44c4a5ceddbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX///9E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/GarbageCollectionCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T15:34:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACyn////E\u003d",
       "revId": "e401041d15f86c85001e1b2d5fcb44c4a5ceddbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

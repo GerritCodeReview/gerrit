@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAACzX////4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeManageService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACyn////8\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACzn////w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-10T04:21:56Z",
       "side": 1,
       "message": "I think maybe just rebase?",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzX////0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Sure. But it looks a bit strange against \"Abandon Change\".",
+      "parentUuid": "AAACzn////w\u003d",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAACzX////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACyn////0\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAACzX////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Yup. Done.",
+      "parentUuid": "AAACyn////w\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyX///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2012-02-10T10:32:05Z",
       "side": 1,
       "message": "I\u0027m getting here a NullPointerException when I try to rebase a change and the rebase cannot succeed due to a conflict (I modified the same file in the same place in two changes, submitted the one change and then tried to rebase the other):\n\njava.lang.NullPointerException\n\tat org.eclipse.jgit.lib.CommitBuilder.setTreeId(CommitBuilder.java:109)\n\tat com.google.gerrit.server.ChangeUtil.rebaseCommits(ChangeUtil.java:191)\n\tat com.google.gerrit.server.ChangeUtil.rebaseChange(ChangeUtil.java:262)\n\tat com.google.gerrit.httpd.rpc.changedetail.RebaseChange.call(RebaseChange.java:102)\n\tat com.google.gerrit.httpd.rpc.changedetail.RebaseChange.call(RebaseChange.java:1)\n\tat com.google.gerrit.httpd.rpc.Handler.to(Handler.java:65)\n\tat com.google.gerrit.httpd.rpc.changedetail.ChangeManageServiceImpl.rebaseChange(ChangeManageServiceImpl.java:62)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\nThe NPE occurs because merger.getResultTreeId() returns null.\n\nAs result the UI shows \u0027Internal Server Error\u0027 as error message. I would rather expect to see an error message that says that the rebase failed due to conflicts.",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzX////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Yup. I\u0027ll fix.",
+      "parentUuid": "AAACyX///+M\u003d",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +212,42 @@
     },
     {
       "key": {
+        "uuid": "AAACzX////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Saša: Done",
+      "parentUuid": "AAACyn////s\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzX////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Martin: Since it is a public static method, I cannot know for certain how it will be used by other devs, manipulated through the RPC, or utilized in future commands. And since I cannot know for sure that it will be not used on changes someone cannot see, I do not want to end up in a situation where this method could be used to evaluate the existence of certain changes.\n\nSimilar precautions where made in the Revert-methods.\n\nI\u0027m pretty sure I have seen similar precautions somewhere in the code base. \n\nBut if you think I\u0027m being a bit overcautious let me know and I\u0027ll change to a InvalidChangeOperationException or something.",
+      "parentUuid": "AAACzn////s\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -133,6 +259,24 @@
       "writtenOn": "2012-02-09T13:33:35Z",
       "side": 1,
       "message": "Reuse the ChangeControl instance instead of loading the change again.",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzX////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACyn////o\u003d",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "AAACzX////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Same answer as above",
+      "parentUuid": "AAACzn////o\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACzn////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -167,6 +329,24 @@
       "writtenOn": "2012-02-10T04:21:56Z",
       "side": 1,
       "message": "You need to start a separate try block right after 219 with the finally to close the repo.",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzX////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure I follow. Would you mind elaborate why this is needed?",
+      "parentUuid": "AAACzn////k\u003d",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -190,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "AAACzX////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Heh. Agreed. :)",
+      "parentUuid": "AAACyn////k\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -201,6 +399,24 @@
       "writtenOn": "2012-02-09T13:33:35Z",
       "side": 1,
       "message": "I think here you are not protected against another thread that, for example, receives a new commit for the same change.\nIMO, you have to ensure that this thread is the only one updating this change.\n\nLook at the ReceiveCommit for an example.\n\nWould be nice if Shawn confirms what I wrote here :-)",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzX////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "Yes. You are right.",
+      "parentUuid": "AAACyn////g\u003d",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -224,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "AAACzX////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "I tried to lift it out to a separate helper method, but due to all needed variables and mixed functionality (getting the old reviewers for the mail PLUS transfering the reviews) it ended up looking even more like a mess. I\u0027ll try to do some refactoring (the ApprovalsUtil did not exist in my previous base).",
+      "parentUuid": "AAACzn////g\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACzn////c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -235,6 +469,24 @@
       "writtenOn": "2012-02-10T04:21:56Z",
       "side": 1,
       "message": "Any reason to not move these closer to the last use of these vars?",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzX////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-10T15:33:41Z",
+      "side": 1,
+      "message": "There are variables I instantiate in the scope of the try{} that I want to be able to access - without the need to declare them outside of the try{}-scope. I just thinks it reads a little better. But I\u0027ll see if I can make it a little better.",
+      "parentUuid": "AAACzn////c\u003d",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

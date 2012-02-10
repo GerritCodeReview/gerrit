@@ -14,10 +14,10 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.gerrit.common.data.SubmitActionSection.SubmitType;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -73,7 +73,7 @@ public class CreateProjectHandler extends Handler<VoidResult> {
       }
     }
     args.projectDescription = "";
-    args.submitType = SubmitType.MERGE_IF_NECESSARY;
+    args.submitType = SubmitType.MERGE_IF_NECESSARY.toString();
     args.branch = Constants.MASTER;
     args.createEmptyCommit = emptyCommit;
     args.permissionsOnly = permissionsOnly;

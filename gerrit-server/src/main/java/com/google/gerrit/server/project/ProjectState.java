@@ -17,8 +17,11 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.common.CollectionsUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.SubmitActionSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.errors.InvalidNameException;
+import com.google.gerrit.common.errors.NoSuchRefPatternMatches;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.rules.PrologEnvironment;
@@ -28,6 +31,7 @@ import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.util.MostSpecificComparator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -41,9 +45,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /** Cached information on a project. */
 public class ProjectState {
@@ -139,6 +145,10 @@ public class ProjectState {
     }
   }
 
+  public boolean isRevisionOutOfDate(final ProjectConfig projectConfig) {
+    return !config.getRevision().equals(projectConfig.getRevision());
+  }
+
   /**
    * @return cached computation of all global capabilities. This should only be
    *         invoked on the state from {@link ProjectCache#getAllProjects()}.
@@ -211,6 +221,117 @@ public class ProjectState {
     } while (s != null);
     all.addAll(projectCache.getAllProjects().getLocalAccessSections());
     return all;
+  }
+
+  /** Get the submit actions that pertain only to this project. */
+  public Collection<SubmitActionSection> getLocalSubmitActionSections() {
+    return getConfig().getSubmitActionSections();
+  }
+
+  /** Get the submit actions this project inherits. */
+  public Collection<SubmitActionSection> getInheritedSubmitActionSections() {
+    if (isAllProjects) {
+      return Collections.emptyList();
+    }
+
+    List<SubmitActionSection> inherited =
+        new ArrayList<SubmitActionSection>();
+    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    Project.NameKey parent = getProject().getParent();
+
+    while (parent != null && seen.add(parent)) {
+      ProjectState s = projectCache.get(parent);
+      if (s != null) {
+        inherited.addAll(s.getLocalSubmitActionSections());
+        parent = s.getProject().getParent();
+      } else {
+        break;
+      }
+    }
+
+    // Wild project is the parent, or the root of the tree
+    if (parent == null) {
+      ProjectState s = projectCache.get(allProjectsName);
+      if (s != null) {
+        inherited.addAll(s.getLocalSubmitActionSections());
+      }
+    }
+
+    return inherited;
+  }
+
+  /** Get both local and inherited submit action sections. */
+  public List<SubmitActionSection> getAllSubmitActionSections() {
+    List<SubmitActionSection> all = new ArrayList<SubmitActionSection>();
+    all.addAll(getLocalSubmitActionSections());
+    all.addAll(getInheritedSubmitActionSections());
+    return all;
+  }
+
+  public SubmitActionSection getMostSpecificSubmitAction(
+      final String destBranch) throws NoSuchRefPatternMatches,
+      InvalidNameException {
+    final List<SubmitActionSection> refSubmitActions =
+        new ArrayList<SubmitActionSection>(getAllSubmitActionSections());
+
+    final List<SubmitActionSection> refSubmitActionMatchers =
+        filterRefSubmitActions(refSubmitActions, destBranch);
+
+    if (refSubmitActionMatchers.size() == 0) {
+      throw new NoSuchRefPatternMatches(destBranch);
+    } else {
+      Collections.sort(refSubmitActions, new Comparator<SubmitActionSection>() {
+        @Override
+        public int compare(SubmitActionSection a, SubmitActionSection b) {
+          MostSpecificComparator regexComparator =
+              new MostSpecificComparator(destBranch);
+          return regexComparator.compare(a.getName(), b.getName());
+        }
+      });
+
+      final SubmitActionSection mostSpecific =
+          new SubmitActionSection(refSubmitActions.get(0).getName());
+
+      for (SubmitActionSection section : refSubmitActions) {
+        if (mostSpecific.getSubmitType() == null
+            && section.getSubmitType() != null) {
+          mostSpecific.setSubmitType(section.getSubmitType());
+        }
+        if (mostSpecific.isUseContentMerge() == null
+            && section.isUseContentMerge() != null) {
+          mostSpecific.setUseContentMerge(section.isUseContentMerge());
+        }
+        if (mostSpecific.getSubmitType() != null
+            && mostSpecific.isUseContentMerge() != null) {
+          break;
+        }
+      }
+
+      return mostSpecific;
+    }
+  }
+
+  private List<SubmitActionSection> filterRefSubmitActions(
+      final List<SubmitActionSection> submitActions, final String destBranch)
+      throws InvalidNameException {
+    final List<SubmitActionSection> matchers =
+        new ArrayList<SubmitActionSection>();
+
+    for (SubmitActionSection submitAction : submitActions) {
+      if (RefControl.isRE(submitAction.getName())) {
+        if (Pattern.compile(submitAction.getName()).matcher(destBranch).matches()) {
+          matchers.add(submitAction);
+        }
+      } else if (submitAction.getName().endsWith("/*")) {
+        if (destBranch.startsWith(submitAction.getName().substring(0,
+            submitAction.getName().length() - 1))) {
+          matchers.add(submitAction);
+        }
+      } else if (submitAction.getName().equals(destBranch)) {
+        matchers.add(submitAction);
+      }
+    }
+    return matchers;
   }
 
   /**

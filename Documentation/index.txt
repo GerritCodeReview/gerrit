@@ -17,6 +17,7 @@ User Guide
 * link:user-changeid.html[Change-Id Lines]
 * link:user-signedoffby.html[Signed-off-by Lines]
 * link:access-control.html[Access Controls]
+* link:submit-action.html[Submit Actions]
 * link:error-messages.html[Error Messages]
 * link:user-submodules.html[Subscribing to Git Submodules]
 

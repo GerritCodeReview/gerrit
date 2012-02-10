@@ -16,7 +16,6 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.SubmitType;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class CreateProjectArgs {
   public List<AccountGroup.UUID> ownerIds;
   public ProjectControl newParent;
   public String projectDescription;
-  public SubmitType submitType;
+  public String submitType;
   public boolean contributorAgreements;
   public boolean signedOffBy;
   public boolean permissionsOnly;

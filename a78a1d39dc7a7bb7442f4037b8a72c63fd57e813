@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACyX///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/DeleteDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T09:28:43Z",
+      "side": 1,
+      "message": "\u0027DeleteDraft\u0027 as class name looks a bit too generic to me (e.g. we have draft comments, draft changes and draft patch sets), maybe \u0027DeleteDraftPatchSet\u0027 would be better as name (although this is getting already pretty long...)? Alternatively you may just add a JavaDoc comment for the class to clarify which kind of drafts this class is about.",
+      "revId": "a78a1d39dc7a7bb7442f4037b8a72c63fd57e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/DeleteDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T09:28:43Z",
+      "side": 1,
+      "message": "\u0027currentUser\u0027 seems not be used, can you please remove it?",
+      "revId": "a78a1d39dc7a7bb7442f4037b8a72c63fd57e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/DeleteDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T09:28:43Z",
+      "side": 1,
+      "message": "The change was already loaded when instantiating the ChangeControl, no need to load it again:\n\n  final Change change \u003d control.getChange();",
+      "revId": "a78a1d39dc7a7bb7442f4037b8a72c63fd57e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/DeleteDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T09:28:43Z",
+      "side": 1,
+      "message": "I think it would make sense to include the exception message into the Error (looking at ChangeUtil#deleteOnlyDraftPatchSet the message e.g. could say which ref could not be deleted):\n\n  result.addError(new ReviewResult.Error(ReviewResult.Error.Type.GIT_ERROR, e.getMessage()));\n\nThis would help to differentiate this GIT_ERROR from the GIT_ERROR below.",
+      "revId": "a78a1d39dc7a7bb7442f4037b8a72c63fd57e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/DeleteDraft.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T09:28:43Z",
+      "side": 1,
+      "message": "Maybe include the exception message into the error here too.",
+      "revId": "a78a1d39dc7a7bb7442f4037b8a72c63fd57e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX///+g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T09:28:43Z",
+      "side": 1,
+      "message": "This import is now not used anymore, can you please remove it?",
+      "revId": "a78a1d39dc7a7bb7442f4037b8a72c63fd57e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX///+c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T09:28:43Z",
+      "side": 1,
+      "message": "\u0027gitManager\u0027 is now not used anymore, can you please remove it?",
+      "revId": "a78a1d39dc7a7bb7442f4037b8a72c63fd57e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX///+Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T09:28:43Z",
+      "side": 1,
+      "message": "\u0027patchSetInfoFactory\u0027 is now not used anymore, can you please remove it?",
+      "revId": "a78a1d39dc7a7bb7442f4037b8a72c63fd57e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX///+U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T09:28:43Z",
+      "side": 1,
+      "message": "[optional] since this error may also occur when only a patch set should be deleted you may change the message to\n\n  not permitted to delete change/patch set",
+      "revId": "a78a1d39dc7a7bb7442f4037b8a72c63fd57e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

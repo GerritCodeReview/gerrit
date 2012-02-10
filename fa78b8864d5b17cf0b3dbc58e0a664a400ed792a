@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAACzn///+Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T16:09:27Z",
+      "side": 1,
+      "message": "U can leave, I was just thinking of review.",
+      "parentUuid": "AAACzX////0\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -248,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "AAACzn///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T16:09:27Z",
+      "side": 1,
+      "message": "I beliveve that the validateFor() call will already throw the exception to hide the Change if users shouldn\u0027t see it.",
+      "parentUuid": "AAACzX////k\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -318,6 +354,24 @@
     },
     {
       "key": {
+        "uuid": "AAACzn///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T16:09:27Z",
+      "side": 1,
+      "message": "I think that as long as you have already called validateFor() above here that you can assume that the user may see the change.",
+      "parentUuid": "AAACzX////c\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACzn////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -347,6 +401,24 @@
       "side": 1,
       "message": "I\u0027m not sure I follow. Would you mind elaborate why this is needed?",
       "parentUuid": "AAACzn////k\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzn///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T16:09:27Z",
+      "side": 1,
+      "message": "Because if line 224 throws an exception the git repo will not be closed (could be a runtime exception).",
+      "parentUuid": "AAACzX////I\u003d",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -452,6 +524,24 @@
       "side": 1,
       "message": "I tried to lift it out to a separate helper method, but due to all needed variables and mixed functionality (getting the old reviewers for the mail PLUS transfering the reviews) it ended up looking even more like a mess. I\u0027ll try to do some refactoring (the ApprovalsUtil did not exist in my previous base).",
       "parentUuid": "AAACzn////g\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACzn///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-10T16:09:27Z",
+      "side": 1,
+      "message": "Yeah, it may not be easy, but I think the approvals are likely the easiest candidate.  Not that you have to do this, but I was thinking that perhaps many of the atomic change operations could be assembled into a separate helper utility eventually, it might help make them more readable to have them together and eventually they might even share some implementations.",
+      "parentUuid": "AAACzX////Q\u003d",
       "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

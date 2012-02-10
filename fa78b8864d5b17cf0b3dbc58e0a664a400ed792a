@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAACyX///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T10:32:05Z",
+      "side": 1,
+      "message": "I\u0027m getting here a NullPointerException when I try to rebase a change and the rebase cannot succeed due to a conflict (I modified the same file in the same place in two changes, submitted the one change and then tried to rebase the other):\n\njava.lang.NullPointerException\n\tat org.eclipse.jgit.lib.CommitBuilder.setTreeId(CommitBuilder.java:109)\n\tat com.google.gerrit.server.ChangeUtil.rebaseCommits(ChangeUtil.java:191)\n\tat com.google.gerrit.server.ChangeUtil.rebaseChange(ChangeUtil.java:262)\n\tat com.google.gerrit.httpd.rpc.changedetail.RebaseChange.call(RebaseChange.java:102)\n\tat com.google.gerrit.httpd.rpc.changedetail.RebaseChange.call(RebaseChange.java:1)\n\tat com.google.gerrit.httpd.rpc.Handler.to(Handler.java:65)\n\tat com.google.gerrit.httpd.rpc.changedetail.ChangeManageServiceImpl.rebaseChange(ChangeManageServiceImpl.java:62)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\nThe NPE occurs because merger.getResultTreeId() returns null.\n\nAs result the UI shows \u0027Internal Server Error\u0027 as error message. I would rather expect to see an error message that says that the rebase failed due to conflicts.",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAACyX////g\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T06:46:23Z",
+      "side": 1,
+      "message": "When generating the html, this is not rendered as a link, but the text just stays as it is.\n\nTo make it render as a link simply remove the \u0027link:\u0027 in front of the URL [1].\n\nThe \u0027link\u0027 macro is mainly used for internal links and requires a caption in square brackets [2]:\n\n  link:\u003ctarget\u003e[\u003ccaption\u003e]\n\n[1] http://www.methods.co.nz/asciidoc/asciidoc.html#_urls\n\n[2] http://www.methods.co.nz/asciidoc/asciidoc.html#_linking_to_local_documents",
+      "revId": "a282423ab39f5e23034e67aaa3dedafd2d4d6f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX////c\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T06:46:23Z",
+      "side": 1,
+      "message": "same here, both lines above are not rendered as links",
+      "revId": "a282423ab39f5e23034e67aaa3dedafd2d4d6f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAACyX////Y\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-10T06:46:23Z",
+      "side": 1,
+      "message": "one more link that needs to be fixed",
+      "revId": "a282423ab39f5e23034e67aaa3dedafd2d4d6f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

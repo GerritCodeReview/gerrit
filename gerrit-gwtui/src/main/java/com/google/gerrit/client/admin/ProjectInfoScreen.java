@@ -20,8 +20,8 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.common.data.MergeStrategySection.SubmitType;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -122,7 +122,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     projectOptionsPanel.add(new SmallHeading(Util.C.headingProjectOptions()));
 
     submitType = new ListBox();
-    for (final Project.SubmitType type : Project.SubmitType.values()) {
+    for (final SubmitType type : SubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
     }
     submitType.addChangeHandler(new ChangeHandler() {
@@ -160,7 +160,7 @@ public class ProjectInfoScreen extends ProjectScreen {
    * content merge the useContentMerge checkbox gets disabled.
    */
   private void setEnabledForUseContentMerge() {
-    if (SubmitType.FAST_FORWARD_ONLY.equals(Project.SubmitType
+    if (SubmitType.FAST_FORWARD_ONLY.equals(SubmitType
         .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
       useContentMerge.setEnabled(false);
       useContentMerge.setValue(false);
@@ -184,7 +184,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     add(agreementsPanel);
   }
 
-  private void setSubmitType(final Project.SubmitType newSubmitType) {
+  private void setSubmitType(final SubmitType newSubmitType) {
     int index = -1;
     if (submitType != null) {
       for (int i = 0; i < submitType.getItemCount(); i++) {
@@ -224,7 +224,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     useSignedOffBy.setValue(project.isUseSignedOffBy());
     useContentMerge.setValue(project.isUseContentMerge());
     requireChangeID.setValue(project.isRequireChangeID());
-    setSubmitType(project.getSubmitType());
+    setSubmitType(SubmitType.valueOf(project.getSubmitType()));
     setState(project.getState());
 
     saveProject.setEnabled(false);
@@ -237,8 +237,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     project.setUseContentMerge(useContentMerge.getValue());
     project.setRequireChangeID(requireChangeID.getValue());
     if (submitType.getSelectedIndex() >= 0) {
-      project.setSubmitType(Project.SubmitType.valueOf(submitType
-          .getValue(submitType.getSelectedIndex())));
+      project.setSubmitType(submitType.getValue(submitType.getSelectedIndex()));
     }
     if (state.getSelectedIndex() >= 0) {
       project.setState(Project.State.valueOf(state

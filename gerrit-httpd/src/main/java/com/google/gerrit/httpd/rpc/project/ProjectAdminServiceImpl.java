@@ -16,12 +16,15 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ListBranchesResult;
+import com.google.gerrit.common.data.MergeStrategySection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.common.data.ProjectList;
+import com.google.gerrit.common.data.ProjectMergeStrategies;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.NameKey;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
@@ -34,6 +37,7 @@ import java.util.Set;
 class ProjectAdminServiceImpl implements ProjectAdminService {
   private final AddBranch.Factory addBranchFactory;
   private final ChangeProjectAccess.Factory changeProjectAccessFactory;
+  private final ChangeMergeStrategies.Factory changeRefMergeStrategies;
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
   private final DeleteBranches.Factory deleteBranchesFactory;
   private final ListBranches.Factory listBranchesFactory;
@@ -42,10 +46,12 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final CreateProjectHandler.Factory createProjectHandlerFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
+  private final ProjectMergeStrategiesFactory.Factory projectMergeStrategiesFactory;
 
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
       final ChangeProjectAccess.Factory changeProjectAccessFactory,
+      final ChangeMergeStrategies.Factory changeRefMergeStrategies,
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
       final DeleteBranches.Factory deleteBranchesFactory,
       final ListBranches.Factory listBranchesFactory,
@@ -53,9 +59,11 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final VisibleProjectDetails.Factory visibleProjectDetailsFactory,
       final ProjectAccessFactory.Factory projectAccessFactory,
       final ProjectDetailFactory.Factory projectDetailFactory,
-      final CreateProjectHandler.Factory createNewProjectFactory) {
+      final CreateProjectHandler.Factory createNewProjectFactory,
+      final ProjectMergeStrategiesFactory.Factory projectMergeStrategiesFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectAccessFactory = changeProjectAccessFactory;
+    this.changeRefMergeStrategies = changeRefMergeStrategies;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
     this.listBranchesFactory = listBranchesFactory;
@@ -64,6 +72,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     this.projectAccessFactory = projectAccessFactory;
     this.projectDetailFactory = projectDetailFactory;
     this.createProjectHandlerFactory = createNewProjectFactory;
+    this.projectMergeStrategiesFactory = projectMergeStrategiesFactory;
   }
 
   @Override
@@ -80,6 +89,12 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   public void projectDetail(final Project.NameKey projectName,
       final AsyncCallback<ProjectDetail> callback) {
     projectDetailFactory.create(projectName).to(callback);
+  }
+
+  @Override
+  public void projectMergeStrategies(final NameKey projectName,
+      AsyncCallback<ProjectMergeStrategies> callback) {
+    projectMergeStrategiesFactory.create(projectName).to(callback);
   }
 
   @Override
@@ -105,6 +120,14 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       base = null;
     }
     changeProjectAccessFactory.create(projectName, base, sections, msg).to(cb);
+  }
+
+  @Override
+  public void changeMergeStrategies(final NameKey projectName,
+      String baseRevision, String msg, List<MergeStrategySection> sections,
+      AsyncCallback<VoidResult> callback) {
+    final ObjectId base = ObjectId.fromString(baseRevision);
+    changeRefMergeStrategies.create(projectName, base, sections, msg).to(callback);
   }
 
   @Override

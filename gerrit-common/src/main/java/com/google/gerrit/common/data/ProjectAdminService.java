@@ -40,12 +40,20 @@ public interface ProjectAdminService extends RemoteJsonService {
       boolean emptyCommit, boolean permissionsOnly,
       AsyncCallback<VoidResult> callback);
 
+  void projectMergeStrategies(Project.NameKey projectName,
+      AsyncCallback<ProjectMergeStrategies> callback);
+
   void projectAccess(Project.NameKey projectName,
       AsyncCallback<ProjectAccess> callback);
 
   @SignInRequired
   void changeProjectSettings(Project update,
       AsyncCallback<ProjectDetail> callback);
+
+  @SignInRequired
+  void changeMergeStrategies(Project.NameKey projectName, String baseRevision,
+      String message, List<MergeStrategySection> sections,
+      AsyncCallback<VoidResult> callback);
 
   @SignInRequired
   void changeProjectAccess(Project.NameKey projectName, String baseRevision,

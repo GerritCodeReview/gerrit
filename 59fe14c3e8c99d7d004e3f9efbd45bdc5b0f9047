@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC1H///+Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1007027
+      },
+      "writtenOn": "2012-02-12T00:11:11Z",
+      "side": 1,
+      "message": "As badly as I want this change, this feels like it could cause a regression.\n\nImagine I didn\u0027t have \"--sync\" and I am trying to submit or review multiple changes. This looks like it would prevent subsequent changes to not be attempted if the first one fails.",
+      "revId": "59fe14c3e8c99d7d004e3f9efbd45bdc5b0f9047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

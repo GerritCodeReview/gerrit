@@ -51,6 +51,40 @@
       "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC1H///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1007027
+      },
+      "writtenOn": "2012-02-12T03:23:45Z",
+      "side": 1,
+      "message": "On top of moving this check elsewhere, seems like the right thing is to let the branch be recreated _IF_ the submitter has the right to create branches.",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC1H///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1007027
+      },
+      "writtenOn": "2012-02-12T03:23:45Z",
+      "side": 1,
+      "message": "Assuming a method like this doesn\u0027t already exist, I would think this implementation would live on GitRepositoryManager and would have a signature like:\n\nboolean branchExists(Project p, Branch b);\n\n(I don\u0027t know the object model well enough, just guessing that change.getDest() is a \"Branch\" or some similar class.",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

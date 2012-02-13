@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC13////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-02-13T06:42:11Z",
+      "side": 1,
+      "message": "Originally to my understanding, the watchers should be the person who watch the whole project. And subsriber should be the person who book the notification email for a certain branch. Am I right? If not, I will change the name. Thank you for your comments",
+      "parentUuid": "AAACzn////U\u003d",
+      "revId": "39de535a54548586d1a7a176f638bc1bec6409fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACzn////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-10T04:40:25Z",
       "side": 1,
       "message": "Nit: No need for the elses since there are returns above them.",
+      "revId": "39de535a54548586d1a7a176f638bc1bec6409fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC13////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-02-13T06:42:11Z",
+      "side": 1,
+      "message": "You are totally right. I have already changed this. Thanks a lot for your comment:)",
+      "parentUuid": "AAACzn////Q\u003d",
       "revId": "39de535a54548586d1a7a176f638bc1bec6409fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC13////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-02-13T06:42:11Z",
+      "side": 1,
+      "message": "Good eyes. Thank you:)",
+      "parentUuid": "AAACzn////M\u003d",
+      "revId": "39de535a54548586d1a7a176f638bc1bec6409fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACzn////I\u003d",
         "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ModifyBranch.vm",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-02-10T04:40:25Z",
       "side": 1,
       "message": "I think you need an if around this, not all servers have ssh enabled.",
+      "revId": "39de535a54548586d1a7a176f638bc1bec6409fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC13////U\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ModifyBranch.vm",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-02-13T06:42:11Z",
+      "side": 1,
+      "message": "Yes, you are right. So it seems that I will use $email.sshHost as judgement condition to decide if I should use these words or not.",
+      "parentUuid": "AAACzn////I\u003d",
       "revId": "39de535a54548586d1a7a176f638bc1bec6409fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

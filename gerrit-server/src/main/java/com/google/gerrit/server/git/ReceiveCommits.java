@@ -74,7 +74,6 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
@@ -99,7 +98,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 /** Receives change upload using the Git receive-pack protocol. */
-public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
+public class ReceiveCommits implements PreReceiveHook {
   private static final Logger log =
       LoggerFactory.getLogger(ReceiveCommits.class);
 
@@ -340,11 +339,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       createNewChanges();
     }
     doReplaces();
-  }
 
-  @Override
-  public void onPostReceive(final ReceiveSession rs,
-      final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand c : commands) {
       if (c.getResult() == Result.OK) {
         switch (c.getType()) {
@@ -531,8 +526,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canCreate(rs.getRevWalk(), obj)) {
       validateNewCommits(ctl, cmd);
-
-      // Let the core receive process handle it
+      cmd.execute(rs);
     } else {
       reject(cmd, "can not create new references");
     }
@@ -546,7 +540,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
 
       validateNewCommits(ctl, cmd);
-      // Let the core receive process handle it
+      cmd.execute(rs);
     } else {
       reject(cmd, "can not update the reference as a fast forward");
     }
@@ -574,7 +568,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private void parseDelete(final ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canDelete()) {
-      // Let the core receive process handle it
+      cmd.execute(rs);
     } else {
       reject(cmd, "can not delete references");
     }
@@ -602,7 +596,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     if (ctl.canForceUpdate()) {
-      // Let the core receive process handle it
+      cmd.execute(rs);
     } else {
       cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD, " need '"
           + PermissionRule.FORCE_PUSH + "' privilege.");

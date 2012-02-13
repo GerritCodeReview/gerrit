@@ -204,50 +204,54 @@ public class ReviewCommand extends BaseCommand {
 
     final Change.Id changeId = patchSetId.getParentKey();
 
-    ChangeControl changeControl = changeControlFactory.validateFor(changeId);
-
-    if (changeComment == null) {
-      changeComment = "";
-    }
-
-    Set<ApprovalCategoryValue.Id> aps = new HashSet<ApprovalCategoryValue.Id>();
-    for (ApproveOption ao : optionList) {
-      Short v = ao.value();
-      if (v != null) {
-        assertScoreIsAllowed(patchSetId, changeControl, ao, v);
-        aps.add(new ApprovalCategoryValue.Id(ao.getCategoryId(), v));
-      }
-    }
-
     try {
-      publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage).call();
+      ChangeControl changeControl = changeControlFactory.validateFor(changeId);
 
-      if (abandonChange) {
-        final ReviewResult result = abandonChangeFactory.create(
-            patchSetId, changeComment).call();
+      if (changeComment == null) {
+        changeComment = "";
+      }
+
+      Set<ApprovalCategoryValue.Id> aps = new HashSet<ApprovalCategoryValue.Id>();
+      for (ApproveOption ao : optionList) {
+        Short v = ao.value();
+        if (v != null) {
+          assertScoreIsAllowed(patchSetId, changeControl, ao, v);
+          aps.add(new ApprovalCategoryValue.Id(ao.getCategoryId(), v));
+        }
+      }
+
+      try {
+        publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage).call();
+
+        if (abandonChange) {
+          final ReviewResult result = abandonChangeFactory.create(
+              patchSetId, changeComment).call();
+          handleReviewResultErrors(result);
+        } else if (restoreChange) {
+          final ReviewResult result = restoreChangeFactory.create(
+              patchSetId, changeComment).call();
+          handleReviewResultErrors(result);
+        }
+        if (submitChange) {
+          final ReviewResult result = submitFactory.create(patchSetId).call();
+          handleReviewResultErrors(result);
+        }
+      } catch (InvalidChangeOperationException e) {
+        throw error(e.getMessage());
+      } catch (IllegalStateException e) {
+        throw error(e.getMessage());
+      }
+
+      if (publishPatchSet) {
+        final ReviewResult result = publishDraftFactory.create(patchSetId).call();
         handleReviewResultErrors(result);
-      } else if (restoreChange) {
-        final ReviewResult result = restoreChangeFactory.create(
-            patchSetId, changeComment).call();
+      } else if (deleteDraftPatchSet) {
+        final ReviewResult result =
+            deleteDraftPatchSetFactory.create(patchSetId).call();
         handleReviewResultErrors(result);
       }
-      if (submitChange) {
-        final ReviewResult result = submitFactory.create(patchSetId).call();
-        handleReviewResultErrors(result);
-      }
-    } catch (InvalidChangeOperationException e) {
-      throw error(e.getMessage());
-    } catch (IllegalStateException e) {
-      throw error(e.getMessage());
-    }
-
-    if (publishPatchSet) {
-      final ReviewResult result = publishDraftFactory.create(patchSetId).call();
-      handleReviewResultErrors(result);
-    } else if (deleteDraftPatchSet) {
-      final ReviewResult result =
-          deleteDraftPatchSetFactory.create(patchSetId).call();
-      handleReviewResultErrors(result);
+    } catch (NoSuchChangeException e) {
+      throw error("no such change " + changeId.get());
     }
   }
 

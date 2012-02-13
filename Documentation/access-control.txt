@@ -833,8 +833,6 @@ much of the server administration burden out to more users.
 Below you find a list of capabilities available:
 
 
-* Administrate Server
-
 * Create Account
 
 * Create Group
@@ -854,6 +852,16 @@ Below you find a list of capabilities available:
 * View Connections
 
 * View Queue
+
+
+[[capability_administrateServer]]
+Administrate Server
+~~~~~~~~~~~~~~~~~~~
+
+This is in effect the owner and administrator role of the Gerrit
+instance.  Any members of a group granted this capability will be
+able to grant any access right to any group. They will also have all
+capabilities granted to them automatically.
 
 
 [[capability_queryLimit]]

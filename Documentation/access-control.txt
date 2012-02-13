@@ -833,8 +833,6 @@ much of the server administration burden out to more users.
 Below you find a list of capabilities available:
 
 
-* Create Account
-
 * Create Group
 
 * Create Project
@@ -862,6 +860,17 @@ This is in effect the owner and administrator role of the Gerrit
 instance.  Any members of a group granted this capability will be
 able to grant any access right to any group. They will also have all
 capabilities granted to them automatically.
+
+
+[[capability_createAccount]]
+Create Account
+~~~~~~~~~~~~~~
+
+Allow link:cmd-create-account.html['account creation over the ssh prompt'].
+This capability allows the granted group members to create non-interactive
+service accounts.  These service accounts are generally used for automation
+and made to be members of the
+link:access-control.html#non-interactive_users['Non-Interactive users'] group.
 
 
 [[capability_queryLimit]]

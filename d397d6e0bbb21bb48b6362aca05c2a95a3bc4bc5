@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC2n////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-13T15:12:14Z",
+      "side": 1,
+      "message": "You are right, this check also needs to be done when we do the actual merge.",
+      "parentUuid": "AAACp3////8\u003d",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACe3///+s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "writtenOn": "2012-01-31T21:19:57Z",
       "side": 1,
       "message": "Perhaps the repoManager should be injected instead?  I forget why the ReviewDb is passed in to all these methods instead of being injected, (perhaps to limit the # of DB connections) any ideas?",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC2n////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-13T15:12:14Z",
+      "side": 1,
+      "message": "Can it be injected? Note that ChangeControl is not instantiated by Guice, but just \"normaly\" by invoking it\u0027s constructor.",
+      "parentUuid": "AAACe3///+s\u003d",
       "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC2n////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-13T15:12:14Z",
+      "side": 1,
+      "message": "Not sure if I agree here. At the moment a user that has permissions to create branches has two ways to create a branch.\n\n1. create the branch via the Gerrit WebUI\n\n2. push the new branch to the central repository bypassing code review.\n\nHowever it is not possible to push a change for review for a non-existing branch. I think it\u0027s not intuitive that submitting a change would recreate a branch that somebody else deleted before. I prefer this to fail with a proper error message. If the submitter thinks that the branch should be recreated he can just create the branch and then submit the change. I think this is cleaner and not too much overhead since this situation is expected to occur only seldomly.",
+      "parentUuid": "AAAC1H///+Q\u003d",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAC1H///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -82,6 +136,24 @@
       "writtenOn": "2012-02-12T03:23:45Z",
       "side": 1,
       "message": "Assuming a method like this doesn\u0027t already exist, I would think this implementation would live on GitRepositoryManager and would have a signature like:\n\nboolean branchExists(Project p, Branch b);\n\n(I don\u0027t know the object model well enough, just guessing that change.getDest() is a \"Branch\" or some similar class.",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC2n////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-13T15:12:14Z",
+      "side": 1,
+      "message": "Moving this method into GitRepositoryManager sounds like a good idea. I\u0027ll have a look if it fits there.",
+      "parentUuid": "AAAC1H///+M\u003d",
       "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

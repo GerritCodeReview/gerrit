@@ -833,8 +833,6 @@ Below you find a list of capabilities available, some are not yet
 explained in detail:
 
 
-* Create Account
-
 * Create Group
 
 * Create Project
@@ -866,6 +864,17 @@ IMPORTANT: If you grant the access right <<category_owner,`Owner`>> on
 `All-Projects`, members of that group will be able to give
 themselves the Administrate server role and thus have full
 server access.
+
+
+[[capability_createAccount]]
+Create Account
+~~~~~~~~~~~~~~
+
+Allow account creation over the ssh prompt. This ability allows the
+granted group members to create non-interactive service accounts mainly
+for automation. Such a user should also be a member of the
+link:access-control.html#non-interactive_users['Non-Interactive users']
+group.
 
 
 [[capability_queryLimit]]

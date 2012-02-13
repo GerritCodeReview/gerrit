@@ -215,7 +215,7 @@ public class GitOverHttpServlet extends GitServlet {
       }
 
       if (!pc.allRefsAreVisible()) {
-        up.setRefFilter(new VisibleRefFilter(tagCache, repo, pc, db.get(), true));
+        up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, repo, pc, db.get(), true));
       }
 
       next.doFilter(request, response);

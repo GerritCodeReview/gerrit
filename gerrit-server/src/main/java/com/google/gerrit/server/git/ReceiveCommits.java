@@ -207,9 +207,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(true);
-      rp.setRefFilter(new VisibleRefFilter(tagCache, repo, projectControl, db, false));
+      rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, repo, projectControl, db, false));
     }
-    rp.setRefFilter(new ReceiveCommitsRefFilter(rp.getRefFilter()));
+    rp.setAdvertiseRefsHook(new ReceiveCommitsAdvertiseRefsHook(rp.getAdvertiseRefsHook()));
 
     rp.setPreReceiveHook(this);
     rp.setPostReceiveHook(this);

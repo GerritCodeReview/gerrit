@@ -252,10 +252,11 @@ public class GitOverHttpServlet extends GitServlet {
 
       final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
       final ReceiveCommits rc = factory.create(pc, db);
-      rc.getReceivePack().setRefLogIdent(user.newRefLogIdent());
+      final ReceivePack rp = (ReceivePack) rc.getReceiveSession();
+      rp.setRefLogIdent(user.newRefLogIdent());
       req.setAttribute(ATT_RC, rc);
       session.get().setAccessPath(AccessPath.GIT);
-      return rc.getReceivePack();
+      return rp;
     }
   }
 
@@ -275,7 +276,7 @@ public class GitOverHttpServlet extends GitServlet {
         "GET".equalsIgnoreCase(((HttpServletRequest) request).getMethod());
 
       ReceiveCommits rc = (ReceiveCommits) request.getAttribute(ATT_RC);
-      ReceivePack rp = rc.getReceivePack();
+      ReceivePack rp = (ReceivePack) rc.getReceiveSession();
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       Project.NameKey projectName = pc.getProject().getNameKey();
 

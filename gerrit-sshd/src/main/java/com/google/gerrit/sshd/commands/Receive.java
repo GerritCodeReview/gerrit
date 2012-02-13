@@ -82,7 +82,7 @@ final class Receive extends AbstractGitCommand {
     receive.addReviewers(reviewerId);
     receive.addExtraCC(ccId);
 
-    final ReceivePack rp = receive.getReceivePack();
+    final ReceivePack rp = (ReceivePack) receive.getReceiveSession();
     rp.setRefLogIdent(currentUser.newRefLogIdent());
     rp.setTimeout(config.getTimeout());
     rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());

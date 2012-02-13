@@ -79,6 +79,7 @@ import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.ReceiveSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -225,8 +226,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     ccId.addAll(who);
   }
 
-  /** @return the ReceivePack instance to speak the native Git protocol. */
-  public ReceivePack getReceivePack() {
+  /** @return the ReceiveSession instance to speak the native Git protocol. */
+  public ReceiveSession getReceiveSession() {
     return rp;
   }
 
@@ -315,7 +316,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   @Override
-  public void onPreReceive(final ReceivePack arg0,
+  public void onPreReceive(final ReceiveSession rs,
       final Collection<ReceiveCommand> commands) {
     parseCommands(commands);
     if (newChange != null
@@ -326,7 +327,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   @Override
-  public void onPostReceive(final ReceivePack arg0,
+  public void onPostReceive(final ReceiveSession rs,
       final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand c : commands) {
       if (c.getResult() == Result.OK) {
@@ -1673,7 +1674,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       sb.append("ERROR:  " + canonicalWebUrl + "#" + PageLinks.SETTINGS_CONTACT + "\n");
     }
     sb.append("\n");
-    getReceivePack().sendMessage(sb.toString());
+    getReceiveSession().sendMessage(sb.toString());
   }
 
   private void warnMalformedMessage(RevCommit c) {

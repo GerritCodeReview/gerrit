@@ -501,7 +501,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       actionsPanel.add(b);
     }
 
-    if (changeDetail.canDeleteDraft()) {
+    if (changeDetail.getChange().getStatus() == Change.Status.DRAFT
+        && changeDetail.canDeleteDraft()) {
       final Button b = new Button(Util.C.buttonDeleteDraftChange());
       b.addClickHandler(new ClickHandler() {
         @Override

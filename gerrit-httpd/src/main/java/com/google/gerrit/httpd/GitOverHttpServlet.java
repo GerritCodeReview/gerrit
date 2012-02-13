@@ -252,7 +252,7 @@ public class GitOverHttpServlet extends GitServlet {
 
       final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
       final ReceiveCommits rc = factory.create(pc, db);
-      final ReceivePack rp = (ReceivePack) rc.getReceiveSession();
+      ReceivePack rp = rc.setNewReceivePack();
       rp.setRefLogIdent(user.newRefLogIdent());
       req.setAttribute(ATT_RC, rc);
       session.get().setAccessPath(AccessPath.GIT);

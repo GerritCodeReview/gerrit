@@ -137,9 +137,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final ProjectControl projectControl;
   private final Project project;
   private final Repository repo;
-  private final ReceivePack rp;
   private final NoteMap rejectCommits;
 
+  private ReceiveSession rs;
   private ReceiveCommand newChange;
   private Branch.NameKey destBranch;
   private RefControl destBranchCtl;
@@ -196,15 +196,23 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
     this.repo = repo;
-    this.rp = new ReceivePack(repo);
     this.rejectCommits = loadRejectCommitsMap();
 
     this.subOpFactory = subOpFactory;
+  }
 
+  public ReceivePack setNewReceivePack() {
+    if (rs != null) {
+      throw new IllegalStateException("ReceiveSession already configured");
+    }
+    ReceivePack rp = new ReceivePack(repo);
+    rs = rp;
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
     rp.setCheckReceivedObjects(true);
+    rp.setRefLogIdent(
+        ((IdentifiedUser) projectControl.getCurrentUser()).newRefLogIdent());
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(true);
@@ -214,6 +222,14 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     rp.setPreReceiveHook(this);
     rp.setPostReceiveHook(this);
+    return rp;
+  }
+
+  public void setReceiveSession(final ReceiveSession rs) {
+    if (this.rs != null) {
+      throw new IllegalStateException("ReceiveSession already configured");
+    }
+    this.rs = rs;
   }
 
   /** Add reviewers for new (or updated) changes. */
@@ -228,7 +244,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   /** @return the ReceiveSession instance to speak the native Git protocol. */
   public ReceiveSession getReceiveSession() {
-    return rp;
+    return rs;
   }
 
   /** Scan part of history and include it in the advertisement. */
@@ -272,8 +288,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     final int max = maxExtraSize / haveLineLen;
 
     // Scan history until the advertisement is full.
-    Set<ObjectId> alreadySending = rp.getAdvertisedObjects();
-    RevWalk rw = rp.getRevWalk();
+    Set<ObjectId> alreadySending = rs.getAdvertisedObjects();
+    RevWalk rw = rs.getRevWalk();
     for (ObjectId haveId : alreadySending) {
       try {
         rw.markStart(rw.parseCommit(haveId));
@@ -302,7 +318,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       log.error("Error trying to advertise history on " + project.getNameKey(), err);
     }
     rw.reset();
-    rp.getAdvertisedObjects().addAll(toInclude);
+    rs.getAdvertisedObjects().addAll(toInclude);
   }
 
   /** Determine if the user can upload commits. */
@@ -375,17 +391,17 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
       final String url = canonicalWebUrl;
-      rp.sendMessage("");
-      rp.sendMessage("New Changes:");
+      rs.sendMessage("");
+      rs.sendMessage("New Changes:");
       for (final Change c : allNewChanges) {
         if (c.getStatus() == Change.Status.DRAFT) {
-          rp.sendMessage("  " + url + c.getChangeId() + " [DRAFT]");
+          rs.sendMessage("  " + url + c.getChangeId() + " [DRAFT]");
         }
         else {
-          rp.sendMessage("  " + url + c.getChangeId());
+          rs.sendMessage("  " + url + c.getChangeId());
         }
       }
-      rp.sendMessage("");
+      rs.sendMessage("");
     }
   }
 
@@ -467,9 +483,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
               ProjectConfig cfg = new ProjectConfig(project.getNameKey());
               cfg.load(repo, cmd.getNewId());
               if (!cfg.getValidationErrors().isEmpty()) {
-                rp.sendError("Invalid project configuration:");
+                rs.sendError("Invalid project configuration:");
                 for (ValidationError err : cfg.getValidationErrors()) {
-                  rp.sendError("  " + err.getMessage());
+                  rs.sendError("  " + err.getMessage());
                 }
                 reject(cmd, "invalid project configuration");
                 log.error("User " + currentUser.getUserName()
@@ -500,7 +516,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private void parseCreate(final ReceiveCommand cmd) {
     RevObject obj;
     try {
-      obj = rp.getRevWalk().parseAny(cmd.getNewId());
+      obj = rs.getRevWalk().parseAny(cmd.getNewId());
     } catch (IOException err) {
       log.error("Invalid object " + cmd.getNewId().name() + " for "
           + cmd.getRefName() + " creation", err);
@@ -513,7 +529,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.canCreate(rp.getRevWalk(), obj)) {
+    if (ctl.canCreate(rs.getRevWalk(), obj)) {
       validateNewCommits(ctl, cmd);
 
       // Let the core receive process handle it
@@ -539,7 +555,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private boolean isCommit(final ReceiveCommand cmd) {
     RevObject obj;
     try {
-      obj = rp.getRevWalk().parseAny(cmd.getNewId());
+      obj = rs.getRevWalk().parseAny(cmd.getNewId());
     } catch (IOException err) {
       log.error("Invalid object " + cmd.getNewId().name() + " for "
           + cmd.getRefName(), err);
@@ -567,7 +583,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private void parseRewind(final ReceiveCommand cmd) {
     RevCommit newObject;
     try {
-      newObject = rp.getRevWalk().parseCommit(cmd.getNewId());
+      newObject = rs.getRevWalk().parseCommit(cmd.getNewId());
     } catch (IncorrectObjectTypeException notCommit) {
       newObject = null;
     } catch (IOException err) {
@@ -667,10 +683,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     // commits and the target branch head.
     //
     try {
-      final RevWalk walk = rp.getRevWalk();
+      final RevWalk walk = rs.getRevWalk();
 
       final RevCommit tip = walk.parseCommit(newChange.getNewId());
-      Ref targetRef = rp.getAdvertisedRefs().get(destBranchName);
+      Ref targetRef = rs.getAdvertisedRefs().get(destBranchName);
       if (targetRef == null || targetRef.getObjectId() == null) {
         // The destination branch does not yet exist. Assume the
         // history being sent for review will start it and thus
@@ -713,7 +729,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         return NoteMap.newEmptyMap();
       }
 
-      RevWalk rw = rp.getRevWalk();
+      RevWalk rw = rs.getRevWalk();
       RevCommit map = rw.parseCommit(ref.getObjectId());
       return NoteMap.read(rw.getObjectReader(), map);
     } catch (IOException badMap) {
@@ -731,7 +747,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     final RevCommit newCommit;
     try {
-      newCommit = rp.getRevWalk().parseCommit(cmd.getNewId());
+      newCommit = rs.getRevWalk().parseCommit(cmd.getNewId());
     } catch (IOException e) {
       log.error("Cannot parse " + cmd.getNewId().name() + " as commit", e);
       reject(cmd, "invalid commit");
@@ -783,7 +799,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private void createNewChanges() {
     final List<RevCommit> toCreate = new ArrayList<RevCommit>();
-    final RevWalk walk = rp.getRevWalk();
+    final RevWalk walk = rs.getRevWalk();
     walk.reset();
     walk.sort(RevSort.TOPO);
     walk.sort(RevSort.REVERSE, true);
@@ -1046,7 +1062,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private PatchSet.Id doReplace(final ReplaceRequest request)
       throws IOException, OrmException {
     final RevCommit c = request.newCommit;
-    rp.getRevWalk().parseBody(c);
+    rs.getRevWalk().parseBody(c);
     warnMalformedMessage(c);
 
     final Account.Id me = currentUser.getAccountId();
@@ -1110,13 +1126,13 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
 
       try {
-        final RevCommit prior = rp.getRevWalk().parseCommit(commitId);
+        final RevCommit prior = rs.getRevWalk().parseCommit(commitId);
 
         // Don't allow a change to directly depend upon itself. This is a
         // very common error due to users making a new commit rather than
         // amending when trying to address review comments.
         //
-        if (rp.getRevWalk().isMergedInto(prior, c)) {
+        if (rs.getRevWalk().isMergedInto(prior, c)) {
           reject(request.cmd, "squash commits first");
           return null;
         }
@@ -1133,7 +1149,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         // of the commit was modified.
         //
         if (priorPatchSet.equals(ps.getId()) && c.getTree() == prior.getTree()) {
-          rp.getRevWalk().parseBody(prior);
+          rs.getRevWalk().parseBody(prior);
           final boolean messageEq =
               eq(c.getFullMessage(), prior.getFullMessage());
           final boolean parentsEq = parentsEqual(c, prior);
@@ -1143,7 +1159,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             reject(request.cmd, "no changes made");
             return null;
           } else {
-            ObjectReader reader = rp.getRevWalk().getObjectReader();
+            ObjectReader reader = rs.getRevWalk().getObjectReader();
             StringBuilder msg = new StringBuilder();
             msg.append("(W) ");
             msg.append(reader.abbreviate(c).name());
@@ -1158,7 +1174,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             if (!parentsEq) {
               msg.append(", was rebased");
             }
-            rp.sendMessage(msg.toString());
+            rs.sendMessage(msg.toString());
           }
         }
       } catch (IOException e) {
@@ -1327,7 +1343,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     final RefUpdate ru = repo.updateRef(ps.getRefName());
     ru.setNewObjectId(c);
     ru.disableRefLog();
-    if (ru.update(rp.getRevWalk()) != RefUpdate.Result.NEW) {
+    if (ru.update(rs.getRevWalk()) != RefUpdate.Result.NEW) {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
     }
@@ -1430,7 +1446,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private boolean isMergedInto(final RevCommit commit, final Ref ref)
       throws IOException {
-    final RevWalk rw = rp.getRevWalk();
+    final RevWalk rw = rs.getRevWalk();
     return rw.isMergedInto(commit, rw.parseCommit(ref.getObjectId()));
   }
 
@@ -1458,7 +1474,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   private void validateNewCommits(RefControl ctl, ReceiveCommand cmd) {
-    final RevWalk walk = rp.getRevWalk();
+    final RevWalk walk = rs.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
@@ -1496,7 +1512,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
       final RevCommit c) throws MissingObjectException, IOException {
-    rp.getRevWalk().parseBody(c);
+    rs.getRevWalk().parseBody(c);
     final PersonIdent committer = c.getCommitterIdent();
     final PersonIdent author = c.getAuthorIdent();
 
@@ -1563,7 +1579,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         if (project.isRequireChangeID()) {
           String errMsg = "missing Change-Id in commit message";
           reject(cmd, errMsg);
-          rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+          rs.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
           return false;
         }
       } else if (idList.size() > 1) {
@@ -1575,7 +1591,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           final String errMsg =
               "missing or invalid Change-Id line format in commit message";
           reject(cmd, errMsg);
-          rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+          rs.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
           return false;
         }
       }
@@ -1593,9 +1609,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         ProjectConfig cfg = new ProjectConfig(project.getNameKey());
         cfg.load(repo, cmd.getNewId());
         if (!cfg.getValidationErrors().isEmpty()) {
-          rp.sendError("Invalid project configuration:");
+          rs.sendError("Invalid project configuration:");
           for (ValidationError err : cfg.getValidationErrors()) {
-            rp.sendError("  " + err.getMessage());
+            rs.sendError("  " + err.getMessage());
           }
           reject(cmd, "invalid project configuration");
           log.error("User " + currentUser.getUserName()
@@ -1678,7 +1694,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   private void warnMalformedMessage(RevCommit c) {
-    ObjectReader reader = rp.getRevWalk().getObjectReader();
+    ObjectReader reader = rs.getRevWalk().getObjectReader();
     if (65 < c.getShortMessage().length()) {
       AbbreviatedObjectId id;
       try {
@@ -1686,7 +1702,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       } catch (IOException err) {
         id = c.abbreviate(6);
       }
-      rp.sendMessage("(W) " + id.name() //
+      rs.sendMessage("(W) " + id.name() //
           + ": commit subject >65 characters; use shorter first paragraph");
     }
 
@@ -1707,13 +1723,13 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       } catch (IOException err) {
         id = c.abbreviate(6);
       }
-      rp.sendMessage("(W) " + id.name() //
+      rs.sendMessage("(W) " + id.name() //
           + ": commit message lines >70 characters; manually wrap lines");
     }
   }
 
   private void autoCloseChanges(final ReceiveCommand cmd) {
-    final RevWalk rw = rp.getRevWalk();
+    final RevWalk rw = rs.getRevWalk();
     try {
       rw.reset();
       rw.markStart(rw.parseCommit(cmd.getNewId()));

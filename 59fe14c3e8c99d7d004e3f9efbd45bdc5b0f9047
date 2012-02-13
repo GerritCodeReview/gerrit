@@ -16,6 +16,24 @@
       "revId": "59fe14c3e8c99d7d004e3f9efbd45bdc5b0f9047",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC3H////4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010367
+      },
+      "writtenOn": "2012-02-13T18:22:07Z",
+      "side": 1,
+      "message": "How so?\n\nThe check of \u0027ok\u0027 is outside the patchSetIds loop, so all patchSetIds are evaluated before the ok result is checked.\n\nTo verify this, I created a patch tree:\n\n base - 1,1 - 2,1\n         \\\n           3,1\n\nAnd issued the following:\n\n ssh gerrit-dev gerrit approve --verified +1 --code-review +2 3,1\n ssh gerrit-dev gerrit approve --verified +1 --code-review +2 2,1\n ssh gerrit-dev gerrit approve --submit 2,1 3,1\n\nAs I would expect, change 2 goes into the fifteen-minute dependency-wait queue and change 3 merges immediately.\n\nIs this not the desired behavior?",
+      "parentUuid": "AAAC1H///+Y\u003d",
+      "revId": "59fe14c3e8c99d7d004e3f9efbd45bdc5b0f9047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,8 +25,8 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.ReceivePack;
-import org.eclipse.jgit.transport.RefFilter;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
@@ -82,7 +82,7 @@ final class Receive extends AbstractGitCommand {
     receive.addReviewers(reviewerId);
     receive.addExtraCC(ccId);
 
-    final ReceivePack rp = receive.getReceivePack();
+    final ReceivePack rp = (ReceivePack) receive.getReceiveSession();
     rp.setRefLogIdent(currentUser.newRefLogIdent());
     rp.setTimeout(config.getTimeout());
     rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
@@ -97,17 +97,17 @@ final class Receive extends AbstractGitCommand {
       msg.append("Unpack error on project \""
           + projectControl.getProject().getName() + "\":\n");
 
-      msg.append("  RefFilter: " + rp.getRefFilter());
-      if (rp.getRefFilter() == RefFilter.DEFAULT) {
+      msg.append("  AdvertiseRefsHook: " + rp.getAdvertiseRefsHook());
+      if (rp.getAdvertiseRefsHook() == AdvertiseRefsHook.DEFAULT) {
         msg.append("DEFAULT");
-      } else if (rp.getRefFilter() instanceof VisibleRefFilter) {
+      } else if (rp.getAdvertiseRefsHook() instanceof VisibleRefFilter) {
         msg.append("VisibleRefFilter");
       } else {
-        msg.append(rp.getRefFilter().getClass());
+        msg.append(rp.getAdvertiseRefsHook().getClass());
       }
       msg.append("\n");
 
-      if (rp.getRefFilter() instanceof VisibleRefFilter) {
+      if (rp.getAdvertiseRefsHook() instanceof VisibleRefFilter) {
         Map<String, Ref> adv = rp.getAdvertisedRefs();
         msg.append("  Visible references (" + adv.size() + "):\n");
         for (Ref ref : adv.values()) {

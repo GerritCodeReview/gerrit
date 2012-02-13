@@ -45,8 +45,8 @@ final class Upload extends AbstractGitCommand {
 
     final UploadPack up = new UploadPack(repo);
     if (!projectControl.allRefsAreVisible()) {
-      up.setRefFilter(new VisibleRefFilter(tagCache, repo, projectControl,
-          db.get(), true));
+      up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, repo,
+          projectControl, db.get(), true));
     }
     up.setPackConfig(config.getPackConfig());
     up.setTimeout(config.getTimeout());

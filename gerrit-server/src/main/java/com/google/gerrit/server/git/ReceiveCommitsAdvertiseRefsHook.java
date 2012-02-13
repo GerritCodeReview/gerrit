@@ -15,27 +15,38 @@
 package com.google.gerrit.server.git;
 
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.transport.RefFilter;
+import org.eclipse.jgit.transport.AdvertiseRefsHook;
+import org.eclipse.jgit.transport.ReceiveSession;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
+import org.eclipse.jgit.transport.UploadSession;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /** Exposes only the non refs/changes/ reference names. */
-class ReceiveCommitsRefFilter implements RefFilter {
-  private final RefFilter base;
+class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
+  private final AdvertiseRefsHook base;
 
-  public ReceiveCommitsRefFilter(RefFilter base) {
-    this.base = base != null ? base : RefFilter.DEFAULT;
+  public ReceiveCommitsAdvertiseRefsHook(AdvertiseRefsHook base) {
+    this.base = base != null ? base : AdvertiseRefsHook.DEFAULT;
   }
 
   @Override
-  public Map<String, Ref> filter(Map<String, Ref> refs) {
+  public void advertiseRefs(UploadSession us) {
+    throw new UnsupportedOperationException(
+        "ReceiveCommitsAdvertiseRefsHook cannot be used for UploadSession");
+  }
+
+  @Override
+  public void advertiseRefs(ReceiveSession rs)
+      throws ServiceMayNotContinueException {
+    base.advertiseRefs(rs);
     HashMap<String, Ref> r = new HashMap<String, Ref>();
-    for (Map.Entry<String, Ref> e : refs.entrySet()) {
+    for (Map.Entry<String, Ref> e : rs.getAdvertisedRefs().entrySet()) {
       if (!e.getKey().startsWith("refs/changes/")) {
         r.put(e.getKey(), e.getValue());
       }
     }
-    return base.filter(r);
+    rs.setAdvertisedRefs(r, rs.getAdvertisedObjects());
   }
 }

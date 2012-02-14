@@ -16,6 +16,23 @@
       "revId": "c1f336d257c94f1a6667de5d0d84a641cb595a65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC2n////E\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-14T08:38:14Z",
+      "side": 1,
+      "message": "It\u0027s good to have this warning, but if I remember correctly we discussed it once with Shawn [1] and the conclusion was that it should actually not be possible to assign the owner privilege on the wild project in order to avoid this problem. I\u0027ve made a fix for this [2]. Maybe anyone can review and verify it? Fixing the problem would be better than having this warning.\n\n[1] https://gerrit-review.googlesource.com/#/c/30381/3/Documentation/access-control.txt\n\n[2] https://gerrit-review.googlesource.com/30462",
+      "revId": "c1f336d257c94f1a6667de5d0d84a641cb595a65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

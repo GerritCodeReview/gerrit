@@ -614,9 +614,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
       public void onClick(final ClickEvent event) {
         b.setEnabled(false);
         PatchUtil.DETAIL_SVC.deleteDraftPatchSet(patchSet.getId(),
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(VoidResult result) {
-                Gerrit.display(PageLinks.MINE);
+            new GerritCallback<ChangeDetail>() {
+              public void onSuccess(final ChangeDetail result) {
+                changeScreen.update(result);
               }
 
               @Override

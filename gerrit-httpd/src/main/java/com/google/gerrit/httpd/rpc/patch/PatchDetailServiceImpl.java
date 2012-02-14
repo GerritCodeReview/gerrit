@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.patch;
 
+import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.data.ApprovalSummary;
@@ -24,6 +25,7 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.AccountPatchReview;
@@ -43,6 +45,7 @@ import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -75,6 +78,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final GitRepositoryManager gitManager;
   private final ReplicationQueue replication;
+  private final ChangeDetailFactory.Factory changeDetailFactory;
 
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
@@ -91,7 +95,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final SaveDraft.Factory saveDraftFactory,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitRepositoryManager gitManager,
-      final ReplicationQueue replication) {
+      final ReplicationQueue replication,
+      final ChangeDetailFactory.Factory changeDetailFactory) {
     super(schema, currentUser);
     this.approvalTypes = approvalTypes;
 
@@ -107,6 +112,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.gitManager = gitManager;
     this.replication = replication;
+    this.changeDetailFactory = changeDetailFactory;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -152,19 +158,23 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   }
 
   public void deleteDraftPatchSet(final PatchSet.Id psid,
-      final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(ReviewDb db) throws OrmException, Failure {
+      final AsyncCallback<ChangeDetail> callback) {
+    run(callback, new Action<ChangeDetail>() {
+      public ChangeDetail run(ReviewDb db) throws OrmException, Failure {
         ReviewResult result = null;
         try {
           result = deleteDraftPatchSetFactory.create(psid).call();
+          if (result.getErrors().size() > 0) {
+            throw new Failure(new NoSuchEntityException());
+          }
+          return changeDetailFactory.create(result.getChangeId()).call();
         } catch (NoSuchChangeException e) {
           throw new Failure(new NoSuchChangeException(result.getChangeId()));
+        } catch (NoSuchEntityException e) {
+          throw new Failure(e);
+        } catch (PatchSetInfoNotAvailableException e) {
+          throw new Failure(e);
         }
-        if (result.getErrors().size() > 0) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        return VoidResult.INSTANCE;
       }
     });
   }

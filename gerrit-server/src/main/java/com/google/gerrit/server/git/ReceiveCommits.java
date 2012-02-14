@@ -74,6 +74,8 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
+import org.eclipse.jgit.transport.AdvertiseRefsHook;
+import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
@@ -217,7 +219,10 @@ public class ReceiveCommits implements PreReceiveHook {
       rp.setCheckReferencedObjectsAreReachable(true);
       rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, repo, projectControl, db, false));
     }
-    rp.setAdvertiseRefsHook(new ReceiveCommitsAdvertiseRefsHook(rp.getAdvertiseRefsHook()));
+    List<AdvertiseRefsHook> hooks = new ArrayList<AdvertiseRefsHook>(2);
+    hooks.add(rp.getAdvertiseRefsHook());
+    hooks.add(new ReceiveCommitsAdvertiseRefsHook());
+    rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(hooks));
 
     rp.setPreReceiveHook(this);
     return rp;

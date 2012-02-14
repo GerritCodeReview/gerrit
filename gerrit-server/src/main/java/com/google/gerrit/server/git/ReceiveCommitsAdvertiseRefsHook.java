@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.ReceiveSession;
-import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadSession;
 
 import java.util.HashMap;
@@ -25,12 +24,6 @@ import java.util.Map;
 
 /** Exposes only the non refs/changes/ reference names. */
 public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
-  private final AdvertiseRefsHook base;
-
-  public ReceiveCommitsAdvertiseRefsHook(AdvertiseRefsHook base) {
-    this.base = base != null ? base : AdvertiseRefsHook.DEFAULT;
-  }
-
   @Override
   public void advertiseRefs(UploadSession us) {
     throw new UnsupportedOperationException(
@@ -38,9 +31,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   }
 
   @Override
-  public void advertiseRefs(ReceiveSession rs)
-      throws ServiceMayNotContinueException {
-    base.advertiseRefs(rs);
+  public void advertiseRefs(ReceiveSession rs) {
     HashMap<String, Ref> r = new HashMap<String, Ref>();
     for (Map.Entry<String, Ref> e : rs.getAdvertisedRefs().entrySet()) {
       if (!e.getKey().startsWith("refs/changes/")) {

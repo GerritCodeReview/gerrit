@@ -67,6 +67,23 @@
       "revId": "191fbe38a476f497652fc0c7873f2f6ba8709196",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC2n///+8\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-14T08:42:48Z",
+      "side": 1,
+      "message": "nit: in all other places in this document we format the All-Projects like this:\n\n  `All-Projects`\n\nMaybe also project.config should be formatted the same way.",
+      "revId": "191fbe38a476f497652fc0c7873f2f6ba8709196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

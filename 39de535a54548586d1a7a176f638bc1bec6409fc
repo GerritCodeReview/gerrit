@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC5n///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T20:52:31Z",
+      "side": 1,
+      "message": "I admit I am not sure, could you show me an example where subscribers is used in that way in the code base?  For example, if I look in CreateChangeSender I see bccWatchers() and it does a filter on all the watches and filters them by NotifyType.NEW_CHANGES.  I see that this is different than what you are doing, there they are not filtering by branch, they are filtering by type of event.  But, if you look at ChangeEmail getWatches(), it seems to call add() with each project watcher and then add() (right below it) will filter the watchers by branch I think?  It seems like you should be using the same mechanisms as seen by these 2 classes for filtering by filters and by type?  If those are not adequate (they might not be) let me know (and help me understand why they are not).  Thanks.",
+      "parentUuid": "AAAC13////Y\u003d",
+      "revId": "39de535a54548586d1a7a176f638bc1bec6409fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACzn////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 5

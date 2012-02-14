@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC4X////8\u003d",
+        "filename": "SUBMITTING_PATCHES",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010459
+      },
+      "writtenOn": "2012-02-14T06:40:14Z",
+      "side": 0,
+      "message": "I guess it should say HTTPS here instead of SSH.",
+      "revId": "b917a2ac5a6b88210d3d044a894bf394c1195a59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

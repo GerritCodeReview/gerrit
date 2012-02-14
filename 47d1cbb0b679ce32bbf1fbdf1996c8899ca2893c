@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC5n////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T17:14:04Z",
+      "side": 1,
+      "message": "Is there a specific case that this IOException catches which you specifically want to cover up and return false with?  If so, could you put a comment about it, and maybe why it is OK to \"cover it up\"?   I ask since any other exceptions, will not get covered up.  I assume that can only be runtimeexceptions, but I am curious why they would get different treatment than an IOException?",
+      "revId": "47d1cbb0b679ce32bbf1fbdf1996c8899ca2893c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

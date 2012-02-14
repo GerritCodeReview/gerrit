@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC0H///90\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T01:04:41Z",
+      "side": 1,
+      "message": "I am not sure this makes sense to no longer point users to the repo upload --replace yet.  I suspect that users will still need this feature for a long time since many users cannot add changeids to their changes (linux kernel).  But I do think it is a good idea to mention it here, and not in the first paragraph.",
+      "revId": "a1a60df5d65dd6b337510be6056a6a2101f1eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

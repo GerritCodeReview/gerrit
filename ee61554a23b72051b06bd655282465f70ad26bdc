@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC5n///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T22:41:06Z",
+      "side": 1,
+      "message": "What about refs/meta/config?  Should this perhaps just be limited to refs/heads instead?\n\nOops, sorry, I see that you didn\u0027t make this code, but perhaps it should be fixed anyway (in another change?)",
+      "revId": "ee61554a23b72051b06bd655282465f70ad26bdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

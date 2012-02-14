@@ -24,17 +24,13 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.AbandonChange;
+import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.EmailException;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -124,6 +120,9 @@ public class ReviewCommand extends BaseCommand {
   private ChangeControl.Factory changeControlFactory;
 
   @Inject
+  private DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
+
+  @Inject
   private AbandonChange.Factory abandonChangeFactory;
 
   @Inject
@@ -139,16 +138,7 @@ public class ReviewCommand extends BaseCommand {
   private RestoreChange.Factory restoreChangeFactory;
 
   @Inject
-  private GitRepositoryManager gitManager;
-
-  @Inject
-  private ReplicationQueue replication;
-
-  @Inject
   private Submit.Factory submitFactory;
-
-  @Inject
-  private PatchSetInfoFactory patchSetInfoFactory;
 
   private List<ApproveOption> optionList;
 
@@ -233,16 +223,16 @@ public class ReviewCommand extends BaseCommand {
       publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage).call();
 
       if (abandonChange) {
-        ReviewResult result = abandonChangeFactory.create(
+        final ReviewResult result = abandonChangeFactory.create(
             patchSetId, changeComment).call();
         handleReviewResultErrors(result);
       } else if (restoreChange) {
-        ReviewResult result = restoreChangeFactory.create(
+        final ReviewResult result = restoreChangeFactory.create(
             patchSetId, changeComment).call();
         handleReviewResultErrors(result);
       }
       if (submitChange) {
-        ReviewResult result = submitFactory.create(patchSetId).call();
+        final ReviewResult result = submitFactory.create(patchSetId).call();
         handleReviewResultErrors(result);
       }
     } catch (InvalidChangeOperationException e) {
@@ -252,20 +242,12 @@ public class ReviewCommand extends BaseCommand {
     }
 
     if (publishPatchSet) {
-      ReviewResult result = publishDraftFactory.create(patchSetId).call();
+      final ReviewResult result = publishDraftFactory.create(patchSetId).call();
       handleReviewResultErrors(result);
     } else if (deleteDraftPatchSet) {
-      if (changeControl.canDelete(db)) {
-        try {
-          ChangeUtil.deleteDraftPatchSet(patchSetId, gitManager, replication, patchSetInfoFactory, db);
-        } catch (PatchSetInfoNotAvailableException e) {
-          throw error("Error retrieving draft patchset: " + patchSetId);
-        } catch (IOException e) {
-          throw error("Error deleting draft patchset: " + patchSetId);
-        }
-      } else {
-        throw error("Not permitted to delete draft patchset");
-      }
+      final ReviewResult result =
+          deleteDraftPatchSetFactory.create(patchSetId).call();
+      handleReviewResultErrors(result);
     }
   }
 
@@ -291,11 +273,17 @@ public class ReviewCommand extends BaseCommand {
         case PUBLISH_NOT_PERMITTED:
           errMsg += "not permitted to publish change";
           break;
+        case DELETE_NOT_PERMITTED:
+          errMsg += "not permitted to delete change/patch set";
+          break;
         case RULE_ERROR:
           errMsg += "rule error";
           break;
         case NOT_A_DRAFT:
           errMsg += "change is not a draft";
+          break;
+        case GIT_ERROR:
+          errMsg += "error writing change to git repository";
           break;
         default:
           errMsg += "failure in review";

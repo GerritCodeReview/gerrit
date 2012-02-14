@@ -5,7 +5,7 @@ Short Version:
  - Make sure all code is under the Apache License, 2.0.
  - Publish your changes for review:
 
-   git push ssh://review.source.android.com:29418/tools/gerrit.git HEAD:refs/for/master
+   git push https://gerrit-review.googlesource.com/gerrit HEAD:refs/for/master
 
 
 Long Version:
@@ -55,23 +55,22 @@ Do not email your patches to anyone.
 
 Instead, login to the Gerrit Code Review tool at:
 
-  https://review.source.android.com/
+  https://gerrit-review.googlesource.com/
 
 Ensure you have completed one of the necessary contributor
 agreements, providing documentation to the project maintainers that
 they have right to redistribute your work under the Apache License:
 
-  https://review.source.android.com/#settings,agreements
+  https://gerrit-review.googlesource.com/#/settings/agreements
 
-Ensure you have registered one or more SSH public keys, so you can
-push your commits directly over SSH:
+Ensure you have obtained a unique HTTP password to identify yourself:
 
-  https://review.source.android.com/#settings,ssh-keys
+  https://gerrit-review.googlesource.com/#/settings/http-password
 
-Push your patches over SSH to the review server, possibly through
+Push your patches over HTTPS to the review server, possibly through
 a remembered remote to make this easier in the future:
 
-   git config remote.review.url ssh://review.source.android.com:29418/tools/gerrit.git
+   git config remote.review.url https://google-review.googlesource.com/gerrit
    git config remote.review.push HEAD:refs/for/master
 
    git push review

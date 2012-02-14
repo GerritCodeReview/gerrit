@@ -124,7 +124,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setCanAbandon(change.getStatus() != Change.Status.DRAFT && change.getStatus().isOpen() && control.canAbandon());
     detail.setCanPublish(control.canPublish(db));
     detail.setCanRestore(change.getStatus() == Change.Status.ABANDONED && control.canRestore());
-    detail.setCanDeleteDraft(control.canDelete(db));
+    detail.setCanDeleteDraft(control.canDeleteDraft(db));
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));
 

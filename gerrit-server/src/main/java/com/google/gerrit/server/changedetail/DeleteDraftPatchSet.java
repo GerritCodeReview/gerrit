@@ -80,7 +80,7 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
       return result;
     }
 
-    if (!control.canDelete(db)) {
+    if (!control.canDeleteDraft(db)) {
       result.addError(new ReviewResult.Error(
           ReviewResult.Error.Type.DELETE_NOT_PERMITTED));
       return result;

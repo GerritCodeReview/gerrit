@@ -44,8 +44,21 @@ public interface PatchDetailService extends RemoteJsonService {
   @SignInRequired
   void deleteDraft(PatchLineComment.Key key, AsyncCallback<VoidResult> callback);
 
+  /**
+   * Deletes the specified draft patch set. If the draft patch set is the only
+   * patch set of the change, then also the change gets deleted.
+   *
+   * @param psid ID of the draft patch set that should be deleted
+   * @param callback callback to report the result of the draft patch set
+   *        deletion operation; if the draft patch set was successfully deleted
+   *        {@link AsyncCallback#onSuccess(Object)} is invoked and the change
+   *        details are passed as parameter; if the change gets deleted because
+   *        the draft patch set that was deleted was the only patch set in the
+   *        change, then <code>null</code> is passed as result to
+   *        {@link AsyncCallback#onSuccess(Object)}
+   */
   @SignInRequired
-  void deleteDraftPatchSet(PatchSet.Id psid, AsyncCallback<VoidResult> callback);
+  void deleteDraftPatchSet(PatchSet.Id psid, AsyncCallback<ChangeDetail> callback);
 
   @SignInRequired
   void publishComments(PatchSet.Id psid, String message,

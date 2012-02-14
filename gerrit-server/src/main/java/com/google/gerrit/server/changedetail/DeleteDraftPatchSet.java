@@ -98,6 +98,7 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
     if (restOfPatches.size() == 0) {
       try {
         ChangeUtil.deleteDraftChange(patchSetId, gitManager, replication, db);
+        result.setChangeId(null);
       } catch (IOException e) {
         result.addError(new ReviewResult.Error(
             ReviewResult.Error.Type.GIT_ERROR, e.getMessage()));

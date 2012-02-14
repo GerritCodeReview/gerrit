@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC0H///+I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T00:20:06Z",
+      "side": 1,
+      "message": "s/ability/capability/\n\nnit:double space after period",
+      "revId": "c669b55c4ad5324aa9430e825b47ab9ec67b19f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H///+E\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T00:20:06Z",
+      "side": 1,
+      "message": "Suggestion.\n\n...create non-interactive service.  These service accounts are generally used for automation and made to be members of...",
+      "revId": "c669b55c4ad5324aa9430e825b47ab9ec67b19f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

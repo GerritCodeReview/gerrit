@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC2n///+g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-14T09:25:47Z",
+      "side": 1,
+      "message": "Yeah, line 182 seems to be the more suitable place to handle this exception.\n\nDone.",
+      "parentUuid": "AAAC0H///98\u003d",
+      "revId": "a8ff56854f326174ad887c52a13b83a74c23f110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAC1H///94\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-13T17:11:07Z",
       "side": 1,
       "message": "Should this be final?",
+      "revId": "a8ff56854f326174ad887c52a13b83a74c23f110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC2n///+k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-14T09:25:47Z",
+      "side": 1,
+      "message": "Yes, this could be final, but on Martin\u0027s suggestion I\u0027m now catching the exception in line 182 and then this code here stays unchanged. This means adding final here is now not really related to my change anymore, this is why I\u0027m leaving it as is.",
+      "parentUuid": "AAAC1H///94\u003d",
       "revId": "a8ff56854f326174ad887c52a13b83a74c23f110",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

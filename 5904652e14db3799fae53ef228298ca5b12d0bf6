@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC5n///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T21:11:35Z",
+      "side": 1,
+      "message": "This naming seems confusing to me, it sounds like a setter, but it has no args.  I looks more like a getter()?  Maybe it should be named createReceivePack()?",
+      "revId": "5904652e14db3799fae53ef228298ca5b12d0bf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

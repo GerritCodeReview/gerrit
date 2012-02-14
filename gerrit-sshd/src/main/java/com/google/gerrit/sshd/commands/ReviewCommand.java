@@ -182,6 +182,9 @@ public class ReviewCommand extends BaseCommand {
           } catch (UnloggedFailure e) {
             ok = false;
             writeError("error: " + e.getMessage() + "\n");
+          } catch (NoSuchChangeException e) {
+            ok = false;
+            writeError("no such change " + patchSetId.getParentKey().get());
           } catch (Exception e) {
             ok = false;
             writeError("fatal: internal server error while approving "

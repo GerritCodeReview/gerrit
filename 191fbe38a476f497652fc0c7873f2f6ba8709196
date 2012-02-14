@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC0H///+Y\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T00:12:57Z",
+      "side": 1,
+      "message": "Was this delete intentional?",
+      "revId": "191fbe38a476f497652fc0c7873f2f6ba8709196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H///+k\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T00:12:57Z",
+      "side": 1,
+      "message": "nit:double space after period",
+      "revId": "191fbe38a476f497652fc0c7873f2f6ba8709196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H///+g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T00:12:57Z",
+      "side": 1,
+      "message": "nit:double space after period",
+      "revId": "191fbe38a476f497652fc0c7873f2f6ba8709196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC0H///+c\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-14T00:12:57Z",
+      "side": 1,
+      "message": "I wouldn\u0027t bother with the section after the comma.",
+      "revId": "191fbe38a476f497652fc0c7873f2f6ba8709196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

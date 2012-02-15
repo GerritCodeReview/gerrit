@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC8H////w\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.2.2.1.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-15T18:19:27Z",
+      "side": 1,
+      "message": "Not really worth mentioning, but you can submit this way if you want.",
+      "revId": "4e9b8aa2fb22f2cb21e00cb66f5fc4228ee239e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

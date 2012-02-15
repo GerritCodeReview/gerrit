@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC5n///9M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010014
+      },
+      "writtenOn": "2012-02-15T09:32:37Z",
+      "side": 1,
+      "message": "Hmm, seems you are right Martin. It is called watcher in change mail, so it should be watcher in Branch Email. The name should be identical. I have already changed it. Thanks a lot for your reminding:)",
+      "parentUuid": "AAAC5n///+k\u003d",
+      "revId": "39de535a54548586d1a7a176f638bc1bec6409fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACzn////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/BranchEmail.java",
         "patchSetId": 5

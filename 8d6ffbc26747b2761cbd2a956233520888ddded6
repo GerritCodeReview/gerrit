@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC7n////w\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.2.2.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-02-15T17:33:51Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be gerrit-2.2.2.1.war in the first part of the url?",
+      "revId": "8d6ffbc26747b2761cbd2a956233520888ddded6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC8n////o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-15T23:09:49Z",
+      "side": 1,
+      "message": "Since the two different error cases are mutually exclusive, I wonder if creating error types is not overkill?  You could just use the old method of reporting the branches which got deleted and make the assumption on the caller side of why the others weren\u0027t deleted.",
+      "revId": "cea9d5eb814e5332bca8cac2d63761eb8170733a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

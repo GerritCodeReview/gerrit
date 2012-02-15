@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /** Exposes only the non refs/changes/ reference names. */
-class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
+public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   private final AdvertiseRefsHook base;
 
   public ReceiveCommitsAdvertiseRefsHook(AdvertiseRefsHook base) {

@@ -16,6 +16,24 @@
       "revId": "47d1cbb0b679ce32bbf1fbdf1996c8899ca2893c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC7H////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-15T12:55:29Z",
+      "side": 1,
+      "message": "Honestly I was not really thinking about this. I guess the main reason why I caught the exception here, was to make the usage of the method more comfortable, since the caller would not need to deal with the checked exception. I\u0027ll have a closer look at how exceptions are handled in the other methods and then do the same here.",
+      "parentUuid": "AAAC5n////w\u003d",
+      "revId": "47d1cbb0b679ce32bbf1fbdf1996c8899ca2893c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

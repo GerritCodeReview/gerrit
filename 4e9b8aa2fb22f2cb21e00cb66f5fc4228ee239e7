@@ -16,6 +16,24 @@
       "revId": "4e9b8aa2fb22f2cb21e00cb66f5fc4228ee239e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC73////k\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.2.2.1.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-15T18:28:18Z",
+      "side": 1,
+      "message": "Agreed, that is pretty lame.",
+      "parentUuid": "AAAC8H////w\u003d",
+      "revId": "4e9b8aa2fb22f2cb21e00cb66f5fc4228ee239e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

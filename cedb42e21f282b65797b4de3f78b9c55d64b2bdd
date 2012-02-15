@@ -16,6 +16,24 @@
       "revId": "cedb42e21f282b65797b4de3f78b9c55d64b2bdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC7H////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-15T12:51:00Z",
+      "side": 1,
+      "message": "Ah, sorry, I really missed this one! I\u0027ve read it when you was posting it, but it was out of my mind when I pushed the last patch set. Turns out to be good thing to mark everything as \u0027done\u0027, this way it was obvious that I missed this one.\n\nI\u0027m afraid that you are right about the race condition. It should be the same problem as with merge. I should indeed check it once more when doing the actual restore.\n\nIf this class is the right place for such kind of sanity checks is already more difficult to answer. I agree that this is class is intended for access control checks, so this check for the branch existence is not really fitting in here. On the other hand I like to have this one place to control enabling/disabling of the buttons and this is why I\u0027ve put this coding here. I\u0027m curious if we can find a better place for this.",
+      "parentUuid": "AAACe3///+k\u003d",
+      "revId": "cedb42e21f282b65797b4de3f78b9c55d64b2bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC7H////0\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-15T05:54:24Z",
+      "side": 1,
+      "message": "Although I did not expect any issues, I generated the documentation to check the formatting. Unexpectedly the formatting of the above two lined is wrong, as it interprets the \u0027*\u0027s in the refs as bold formatting for the enclosed text...\n\nTo get correct formatting the \u0027*\u0027 in the first ref in each line needs to be escaped:\n\n  * \u003c\u003ccategory_read,`Read`\u003e\u003e on \u0027refs/heads/\\*\u0027 and \u0027refs/tags/*\u0027\n  * \u003c\u003ccategory_push,`Push`\u003e\u003e to \u0027refs/for/refs/heads/\\*\u0027 and \u0027refs/changes/*\u0027\n\nStrange, I actually thought escaping of \u0027*\u0027 is not needed anymore.",
+      "revId": "52fd6f5eb812d832bf757676ec476797b4b58eaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

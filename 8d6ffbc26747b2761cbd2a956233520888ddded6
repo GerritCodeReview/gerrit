@@ -16,6 +16,24 @@
       "revId": "8d6ffbc26747b2761cbd2a956233520888ddded6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC73////s\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.2.2.1.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-15T18:16:07Z",
+      "side": 1,
+      "message": "Good catch, thanks!  My mind must still be in a daze from that mogul clinic I took this weekend, having to relearn to turn a new way all over again. :)",
+      "parentUuid": "AAAC7n////w\u003d",
+      "revId": "8d6ffbc26747b2761cbd2a956233520888ddded6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

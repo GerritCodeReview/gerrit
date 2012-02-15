@@ -16,6 +16,24 @@
       "revId": "1ef4de1dbcc1bce9b56f984f7d7f35e1eda7f22f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC7H////Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TreeFormatter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-15T15:05:25Z",
+      "side": 1,
+      "message": "I wonder who submitted these guidelines ;-)\n\nSure, I will fix it!",
+      "parentUuid": "AAAC5n///+A\u003d",
+      "revId": "1ef4de1dbcc1bce9b56f984f7d7f35e1eda7f22f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

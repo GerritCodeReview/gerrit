@@ -549,6 +549,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC43////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-16T15:10:56Z",
+      "side": 1,
+      "message": "Regarding the Atomicity, I tried using the same approach/pattern as Brad did in MergeOp in his \"Show latest patchset with cherry-picked merge\"-change (31050f2).",
+      "parentUuid": "AAACyn////g\u003d",
+      "revId": "fa78b8864d5b17cf0b3dbc58e0a664a400ed792a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACzn////g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1

@@ -28,6 +28,9 @@ public interface GerritResources extends ClientBundle {
   @Source("arrowRight.gif")
   public ImageResource arrowRight();
 
+  @Source("editText.png")
+  public ImageResource edit();
+
   @Source("starOpen.gif")
   public ImageResource starOpen();
 

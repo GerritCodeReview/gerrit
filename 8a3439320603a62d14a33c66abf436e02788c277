@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC63////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-16T07:18:41Z",
+      "side": 1,
+      "message": "reference \n\npublic class ProjectsTable extends NavigationTable\u003cProject\u003e {\n\n  public ProjectsTable() {\n    keysNavigation.add(new PrevKeyCommand(0, \u0027k\u0027, Util.C.projectListPrev()));\n    keysNavigation.add(new NextKeyCommand(0, \u0027j\u0027, Util.C.projectListNext()));\n    keysNavigation.add(new OpenKeyCommand(0, \u0027o\u0027, Util.C.projectListOpen()));\n    keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,\n                                                  Util.C.projectListOpen()));\n    ...\n\n\n   if I am right, this is what you want .  right?",
+      "parentUuid": "AAACt3////E\u003d",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACt3////g\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-08T01:21:16Z",
       "side": 1,
       "message": "Could this be put on line 91 instead, it feels awkward to add it to the vp panel inside this function, it makes the layout become intertwined with the creation.  Moving this to line 91 would also allow vp to become a local variable to that function making it a layout-only detail hidden from the rest of the screen.",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC63////0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-16T07:18:41Z",
+      "side": 1,
+      "message": "Great idea!\n\nDone.",
+      "parentUuid": "AAACt3////g\u003d",
       "revId": "8a3439320603a62d14a33c66abf436e02788c277",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC63////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-16T07:18:41Z",
+      "side": 1,
+      "message": "oh, this is a gift from you! I like this comments!\n\nDone.",
+      "parentUuid": "AAACt3////c\u003d",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACt3////I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2012-02-08T01:21:16Z",
       "side": 1,
       "message": "I know this class came in on a different change, but I feel like it would be better called SuggestParentCandidates.  RetrieveParentCandidates seems inaccurate, because every project is actually a candidate, and we just want to retrieve a list of suggestions here, not all the candidates.",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC63////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-16T07:18:41Z",
+      "side": 1,
+      "message": "I like your idea!\n\nDone",
+      "parentUuid": "AAACt3////I\u003d",
       "revId": "8a3439320603a62d14a33c66abf436e02788c277",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC63////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-16T07:18:41Z",
+      "side": 1,
+      "message": "Right!\n\nDone.",
+      "parentUuid": "AAACt3////M\u003d",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACt3////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
         "patchSetId": 7
@@ -98,6 +188,24 @@
       "writtenOn": "2012-02-08T01:21:16Z",
       "side": 1,
       "message": "nit: \"projects\" or \"candidates\" might make a better variable name.",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC63////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-16T07:18:41Z",
+      "side": 1,
+      "message": "Right!\n\nDone.",
+      "parentUuid": "AAACt3////Q\u003d",
       "revId": "8a3439320603a62d14a33c66abf436e02788c277",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -96,6 +96,13 @@ public interface ChangeConstants extends Constants {
   String changeInfoBlockCanMergeYes();
   String changeInfoBlockCanMergeNo();
 
+  String buttonAlterBranch();
+  String buttonAlterBranchBegin();
+  String buttonAlterBranchSend();
+  String buttonAlterBranchCancel();
+  String headingAlterBranchMessage();
+  String alterBranchTitle();
+
   String includedInTableBranch();
   String includedInTableTag();
 

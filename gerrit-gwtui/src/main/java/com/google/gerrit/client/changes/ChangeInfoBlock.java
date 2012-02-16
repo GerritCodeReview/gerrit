@@ -17,16 +17,26 @@ package com.google.gerrit.client.changes;
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
+import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountInfoCache;
+import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
@@ -94,8 +104,7 @@ public class ChangeInfoBlock extends Composite {
 
     table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
     table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
-    table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), chg
-        .getProject(), chg.getStatus(), dst.get(), null));
+    table.setWidget(R_BRANCH, 1, branch(chg));
     table.setWidget(R_TOPIC, 1, new BranchLink(chg.getTopic(),
         chg.getProject(), chg.getStatus(), dst.get(), chg.getTopic()));
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
@@ -116,5 +125,67 @@ public class ChangeInfoBlock extends Composite {
     fp.add(new ChangeLink(Util.C.changePermalink(), chg.getId()));
     fp.add(new CopyableLabel(ChangeLink.permalink(chg.getId()), false));
     table.setWidget(R_PERMALINK, 1, fp);
+  }
+
+  public Widget branch(final Change chg) {
+    final Branch.NameKey dst = chg.getDest();
+
+    FlowPanel fp = new FlowPanel();
+    fp.add(new BranchLink(dst.getShortName(), chg.getProject(), chg.getStatus(),
+        dst.get(), null));
+
+    final Image edit = new Image(Gerrit.RESOURCES.edit());
+    edit.addClickHandler(new  ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        new MoveChangeDialog(chg).center();
+      }
+    });
+    fp.add(edit);
+
+    return fp;
+  }
+
+  private class MoveChangeDialog extends CommentedActionDialog<ChangeDetail> {
+    ListBox destinations;
+    Change change;
+
+    MoveChangeDialog(Change chg) {
+      super(Util.C.alterBranchTitle(), Util.C.headingAlterBranchMessage(),
+          new ChangeDetailCache.IgnoreErrorCallback());
+      change = chg;
+
+      destinations = new ListBox();
+      panel.insert(destinations, 0);
+      panel.insert(new InlineLabel("Alter destination branch to:"), 0);
+    }
+
+    @Override
+    protected void onLoad() {
+      super.onLoad();
+      Util.DETAIL_SVC.listDestinationBranches(change.getProject(),
+        new GerritCallback<ListBranchesResult>() {
+          @Override
+          public void onSuccess(final ListBranchesResult result) {
+            if (!result.getNoRepository()) {
+              for (Branch dest : result.getBranches()) {
+                // refs/heads/master -> master
+                String ref = dest.getName().replaceFirst("^refs/heads/", "");
+                if (!ref.equals(dest.getName()) &&
+                    !dest.getNameKey().equals(change.getDest())) {
+                  destinations.addItem(dest.getShortName());
+                }
+              }
+            }
+          }
+        });
+    }
+
+    @Override
+    public void onSend() {
+      String dest = destinations.getItemText(destinations.getSelectedIndex());
+      Util.MANAGE_SVC.moveChange(change.currPatchSetId(), dest,
+        getMessageText(), createCallback());
+    }
   }
 }

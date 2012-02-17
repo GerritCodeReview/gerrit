@@ -16,6 +16,24 @@
       "revId": "a1a60df5d65dd6b337510be6056a6a2101f1eecf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC/H////4\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-02-17T09:20:08Z",
+      "side": 1,
+      "message": "The --replace option have since long been gone in repo.\n\nhttps://gerrit-review.googlesource.com/#/c/18533/\n\nMerged Oct 29, 2010 9:13 PM\n\nAre you suggesting that someone would still be using such an old repo version that we cant remove its reference in this documentation?",
+      "parentUuid": "AAAC0H///90\u003d",
+      "revId": "a1a60df5d65dd6b337510be6056a6a2101f1eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBH////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-02-17T16:56:19Z",
+      "side": 1,
+      "message": "We have a new internal patchset for this change modifying the terminology, even in the source code. In the commit message and in the documentation, we refer now to \"submit action section\", instead of \"merge strategy section\".",
+      "parentUuid": "AAADAH////M\u003d",
+      "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH////I\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBH////w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-02-17T16:56:19Z",
+      "side": 1,
+      "message": "We have renamed it to SubmitActionSection. What do you think about this name? About the \"Section\" suffix, I could not understand your point, please, could you clarify it? Notice we are in fact using this class instance to represent submit action section in the project.config file.",
+      "parentUuid": "AAADAH////I\u003d",
+      "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2012-02-17T16:45:17Z",
       "side": 1,
       "message": "Looking at the MostSpecificComparator code it may be difficult for a project owner to find out which \"merge strategy\" (actually submit action) applies to particular branch.\n\nI propose to extend the Branches table (Admin \u003e Projects \u003e project \u003e Branches) with a new column \u0027Submit Action\u0027. Project owners will use this screen to verify that their project.config configuration for the submit action works as intended.",
+      "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBH////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-02-17T16:56:19Z",
+      "side": 1,
+      "message": "I see your point here. We do have another change, on top of this, providing the edition in UI of the submit actions. We are also working on modifying the terminology on it to \"submit action\". Would you agree on introducing your suggestion in the UI change? In this change the UI is supposed to not indicate the submit actions based on ref patterns.",
+      "parentUuid": "AAADAH////E\u003d",
       "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

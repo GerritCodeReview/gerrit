@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn///+s\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T18:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADBX////o\u003d",
+      "revId": "183717622797313b12b29f769d6426c92c70c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADBX////k\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-17T17:18:12Z",
       "side": 1,
       "message": "s/. A/  A/  (nit: double space after periods, a few in this paragraph)",
+      "revId": "183717622797313b12b29f769d6426c92c70c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn///+w\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T18:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADBX////k\u003d",
       "revId": "183717622797313b12b29f769d6426c92c70c58b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T18:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADBX////g\u003d",
+      "revId": "183717622797313b12b29f769d6426c92c70c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADBX////c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T18:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADBX////c\u003d",
+      "revId": "183717622797313b12b29f769d6426c92c70c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADBX////Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2012-02-17T17:18:12Z",
       "side": 1,
       "message": "nit: no need for else since it follows a continue.",
+      "revId": "183717622797313b12b29f769d6426c92c70c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T18:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADBX////Y\u003d",
       "revId": "183717622797313b12b29f769d6426c92c70c58b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

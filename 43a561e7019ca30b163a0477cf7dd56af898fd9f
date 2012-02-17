@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADA3////w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-17T14:20:11Z",
+      "side": 1,
+      "message": "That\u0027s not my line :/",
+      "parentUuid": "AAADAH////0\u003d",
+      "revId": "43a561e7019ca30b163a0477cf7dd56af898fd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH////w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-17T13:21:19Z",
       "side": 1,
       "message": "I think this is already possible with just one additional line of code. Let\u0027s first look at an example commit graph where the parentCommit is not reachable from the (new) base:\n\n o\n | o original\n |/\n o parentCommit\n | o base\n |/\n o\n\nTo achieve the rebase we need to cherry-pick the original on top of the base. This can be done by using the parent of the cherry-picked commit (the parrentCommit in the example) as the merge base. \n\nIf you instantiate the merger before this if statement and then here just add:\n\n merger.setBase(parentCommit);\n\nthen the:\n\n merger.merge(original, base)\n\nwill actually create a tree that is the result of cherry picking of original on top of base.",
+      "revId": "43a561e7019ca30b163a0477cf7dd56af898fd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADA3////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-17T14:20:11Z",
+      "side": 1,
+      "message": "Cool. I\u0027ll absolutely do some testing on this and will hopefully return soon with a new PatchSet.",
+      "parentUuid": "AAADAH////w\u003d",
       "revId": "43a561e7019ca30b163a0477cf7dd56af898fd9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

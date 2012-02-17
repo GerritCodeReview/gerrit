@@ -67,6 +67,24 @@
       "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADAH///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-17T19:35:49Z",
+      "side": 1,
+      "message": "Ok, just found it, in the successor change :-)",
+      "parentUuid": "AAADAH///+0\u003d",
+      "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

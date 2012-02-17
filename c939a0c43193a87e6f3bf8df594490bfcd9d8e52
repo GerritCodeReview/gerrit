@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADAH////A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/MoveChangeHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-17T19:34:18Z",
+      "side": 1,
+      "message": "is 2009 correct?",
+      "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADAH///+8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/MoveChangeHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-17T19:34:18Z",
+      "side": 1,
+      "message": "Maybe this check should be moved into the MoveChange#call() method?",
+      "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADAH///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-17T19:34:18Z",
+      "side": 1,
+      "message": "I think there is a constant that can be used for \u0027refs/heads\u0027",
+      "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADAH///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-17T19:34:18Z",
+      "side": 1,
+      "message": "Should there be an email notification send here?",
+      "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

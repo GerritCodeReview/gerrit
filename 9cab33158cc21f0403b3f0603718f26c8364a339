@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADAH///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-17T19:52:00Z",
+      "side": 1,
+      "message": "nit: trailing whitespace?",
+      "revId": "9cab33158cc21f0403b3f0603718f26c8364a339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADAH///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeMovedSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-17T19:52:00Z",
+      "side": 1,
+      "message": "s/being move/being moved",
+      "revId": "9cab33158cc21f0403b3f0603718f26c8364a339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADAH///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeMovedSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-17T19:52:00Z",
+      "side": 1,
+      "message": "If I remember correctly it\u0027s possible to have watches based on refs.\nIf the change is moved from branch A to branch B would an e-mail notification be also sent to someone only watching branch A?",
+      "revId": "9cab33158cc21f0403b3f0603718f26c8364a339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

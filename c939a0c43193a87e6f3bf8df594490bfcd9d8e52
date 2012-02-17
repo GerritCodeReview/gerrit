@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBX///+c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/MoveChangeHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-17T21:34:19Z",
+      "side": 1,
+      "message": "Copied from RestoreChangeHandler, probably not enough code to warrant a date change (might not even be enough code to warrant copyright).",
+      "parentUuid": "AAADAH////A\u003d",
+      "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH///+8\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/MoveChangeHandler.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBX///+g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/MoveChangeHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-17T21:34:19Z",
+      "side": 1,
+      "message": "Done. OK, but honestly, I am starting to loose myself again, what is the purpose of these handlers if they just call the MoveChange directly?",
+      "parentUuid": "AAADAH///+8\u003d",
+      "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH///+4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-02-17T19:34:18Z",
       "side": 1,
       "message": "I think there is a constant that can be used for \u0027refs/heads\u0027",
+      "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBX///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-17T21:34:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADAH///+4\u003d",
       "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn////0\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3////0\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3///+w\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-01T06:58:32Z",
       "side": 1,
       "message": "Seems like too many ~s",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn////8\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3///+w\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn////4\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3////w\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////s\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2012-02-01T06:58:32Z",
       "side": 1,
       "message": "suggestions:\n\n...with a non zero...\n\n...rejected, and the output...",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn////w\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3////s\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn////s\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3////o\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////k\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2012-02-01T06:58:32Z",
       "side": 1,
       "message": "A default timeout...",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn////o\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3////k\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn////k\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3////g\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////c\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 3
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn////g\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3////c\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -149,6 +293,24 @@
       "writtenOn": "2012-02-01T06:58:32Z",
       "side": 1,
       "message": "Nit: no tabs.",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3////I\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -279,6 +441,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Ouput is now returned until timeout ...",
+      "parentUuid": "AAACfn////Y\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -290,6 +470,24 @@
       "writtenOn": "2012-02-01T06:58:32Z",
       "side": 1,
       "message": "Nit: wrap sooner",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3////U\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -331,6 +529,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACfn////k\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -366,6 +582,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "I have actually refactored where to repo is opened and closed for all hooks. The repo is now opened and closed in the runHook(...) method. It makes more sense to me that way.",
+      "parentUuid": "AAACfn////E\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3////A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -395,6 +629,24 @@
       "side": 1,
       "message": "Will see what I can do",
       "parentUuid": "AAACf3////A\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACfn////g\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -448,6 +700,24 @@
       "side": 1,
       "message": "I guess I see no reason to change what the hook outputs, is there a simpler way to just shove it all directly in the StringBuffer?",
       "parentUuid": "AAACfn////c\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACi3////c\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -525,6 +795,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBn////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACi3////E\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACf3///+0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -536,6 +824,24 @@
       "writtenOn": "2012-02-01T06:58:32Z",
       "side": 1,
       "message": "No need to repeat the code in comments",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACf3///+0\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -571,6 +877,24 @@
       "side": 1,
       "message": "Sorry, I will get used to the style :-)",
       "parentUuid": "AAACf3///+4\u003d",
+      "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBn///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-02-17T14:57:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAACfn////I\u003d",
       "revId": "2bd571c3e3c87d8367c12820cc6093cc9f47760a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADAH////M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-17T16:45:17Z",
+      "side": 1,
+      "message": "We do not really have a \"merge strategy section\".\nAs I see from your example above we have \"submit\" sections. Right?\n\nIMO this is a misleading terminology. It is also reflected in the coding (MergeStrategySection class).",
+      "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADAH////I\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-17T16:45:17Z",
+      "side": 1,
+      "message": "I wouldn\u0027t call it MergeStrategySection. Specifically, the \"Section\" suffix indicates that we have such a section in the project.config file.\n\nMaybe you can name it:\n\n RefPatternMergeStrategy.\n\nHowever, looking at the Gerrit documentation:\nhttps://gerrit-review.googlesource.com/Documentation/project-setup.html#submit_type\n\nI think we use \"Submit Action\" name to describe what you call \"Merge Strategy\".\nTherefore, my final proposal for the name of this class would be:\n\n RefPatternSubmitAction",
+      "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADAH////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-17T16:45:17Z",
+      "side": 1,
+      "message": "Looking at the MostSpecificComparator code it may be difficult for a project owner to find out which \"merge strategy\" (actually submit action) applies to particular branch.\n\nI propose to extend the Branches table (Admin \u003e Projects \u003e project \u003e Branches) with a new column \u0027Submit Action\u0027. Project owners will use this screen to verify that their project.config configuration for the submit action works as intended.",
+      "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBX///+4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-17T18:27:43Z",
+      "side": 1,
+      "message": "Yes, that is the type of thing I was hoping for.",
+      "parentUuid": "AAAC63////s\u003d",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACt3////g\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/CreateProjectScreen.java",
         "patchSetId": 7
@@ -177,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "AAADBX///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-17T18:27:43Z",
+      "side": 1,
+      "message": "Did you not yet upload this fix?",
+      "parentUuid": "AAAC63////g\u003d",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACt3////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
         "patchSetId": 7
@@ -206,6 +242,24 @@
       "side": 1,
       "message": "Right!\n\nDone.",
       "parentUuid": "AAACt3////Q\u003d",
+      "revId": "8a3439320603a62d14a33c66abf436e02788c277",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBX////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RetrieveParentCandidates.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-17T18:27:43Z",
+      "side": 1,
+      "message": "Did you not yet upload this fix?",
+      "parentUuid": "AAAC63////k\u003d",
       "revId": "8a3439320603a62d14a33c66abf436e02788c277",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

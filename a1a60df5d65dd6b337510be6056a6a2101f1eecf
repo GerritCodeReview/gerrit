@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAC/H////w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-02-17T16:24:49Z",
+      "side": 1,
+      "message": "According to Martins suggestion:\ns/deprecation of/the removal of the/",
+      "revId": "a1a60df5d65dd6b337510be6056a6a2101f1eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAC0H///90\u003d",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 3
@@ -49,6 +66,24 @@
       "side": 1,
       "message": "OK.  I might suggest changing the commit message to us a stronger explanation than deprecated then since that implies that --replace still works.",
       "parentUuid": "AAAC/H////4\u003d",
+      "revId": "a1a60df5d65dd6b337510be6056a6a2101f1eecf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC/H////s\u003d",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-02-17T16:24:49Z",
+      "side": 1,
+      "message": "Ah, of course. Thanks for the suggestion, sometimes we miss the nuances/meaning of words. I think we can fix that.",
+      "parentUuid": "AAADBX////4\u003d",
       "revId": "a1a60df5d65dd6b337510be6056a6a2101f1eecf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

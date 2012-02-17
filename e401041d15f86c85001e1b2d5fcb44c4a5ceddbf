@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAADAX////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-17T13:29:26Z",
+      "side": 1,
+      "message": "I think for now it\u0027s ok to have no such locking in Gerrit. Only Gerrit administrators (and special users with the \u0027Run GC\u0027 capability) can trigger the garbage collection. This is a very limited set of users and it\u0027s expected that they know what it means to run the garbage collection. They should be able to take care not to run the garbage collection in parallel multiple times on the same repository. And if they do, it\u0027s their fault if performance gets bad.\n\nNevertheless I think it\u0027s an important point that should be mentioned in the documentation of the garabage collection command. In patch set 6 I\u0027ve now updated the gc documentation and explicitly say there that running gc is expensive and that it should not be run in parallel on one repository.\n\nDo you think that this is sufficient for now?",
+      "parentUuid": "AAAC/3////8\u003d",
+      "revId": "e401041d15f86c85001e1b2d5fcb44c4a5ceddbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////I\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GarbageCollectionProgressMonitor.java",
         "patchSetId": 1

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC/3////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2012-02-17T10:41:19Z",
+      "side": 1,
+      "message": "It\u0027s ok to remove locking. But keep in mind that running parallel gc\u0027s on the same repo does not make sense. It\u0027s nonsens and it\u0027s one of the most expensive operations in JGit. If you still don\u0027t want to lock that\u0027s ok for me.",
+      "parentUuid": "AAACyX///9A\u003d",
+      "revId": "e401041d15f86c85001e1b2d5fcb44c4a5ceddbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACyn////I\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GarbageCollectionProgressMonitor.java",
         "patchSetId": 1

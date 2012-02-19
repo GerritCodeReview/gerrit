@@ -592,9 +592,8 @@ link:cmd-flush-caches.html[gerrit flush-caches].
 +
 Default is 5 minutes.
 
-
 [[changeMerge]]Section changeMerge
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Controls whether or not the mergeability test of changes is
 enabled.  If enabled, when the change page is loaded, the test is
@@ -606,11 +605,10 @@ the result.
   test = true
 ----
 
-+
 By default this is false (test is not enabled).
 
 [[commentlink]]Section commentlink
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Comment links are find/replace strings applied to change descriptions,
 patch comments, and in-line code comments to turn set strings into
 hyperlinks.  One common use is for linking to bug-tracking systems.
@@ -1136,7 +1134,7 @@ using the property 'gitweb.pathSeparator'.
 Valid values are the characters '*', '(' and ')'.
 
 [[hooks]]Section hooks
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 See also link:config-hooks.html[Hooks].
 
@@ -2157,7 +2155,7 @@ Defaults to 0 seconds, wait indefinitely.
 
 
 [[upload]]Section upload
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
 Sets the group of users allowed to execute 'upload-pack' on the
 server, 'upload-pack' is what runs on the server during a user's
 fetch, clone or repo sync command.
@@ -2206,7 +2204,7 @@ By default "Anonymous Coward" is used.
 
 
 File `etc/secure.config`
--------------------------
+------------------------
 The optional file `'$site_path'/etc/secure.config` overrides (or
 supplements) the settings supplied by `'$site_path'/etc/gerrit.config`.
 The file should be readable only by the daemon process and can be

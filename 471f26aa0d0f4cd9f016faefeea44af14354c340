@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC/H////g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-19T22:56:54Z",
+      "side": 1,
+      "message": "Internal JIRA ticket number, replaced with a better commit message",
+      "parentUuid": "AAABOH////o\u003d",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABOH////0\u003d",
         "filename": "Documentation/cmd-index.txt",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAC/H////c\u003d",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-19T22:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABOH////0\u003d",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABOH////w\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitGitManager.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2011-10-27T15:22:23Z",
       "side": 1,
       "message": "The new configuration parameter \u0027archivePath\u0027 should be described in the Gerrit documentation in config-gerrit.txt",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC/H////Y\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitGitManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-19T22:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABOH////w\u003d",
       "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +142,42 @@
     },
     {
       "key": {
+        "uuid": "AAAC/H////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-19T22:56:54Z",
+      "side": 1,
+      "message": "All the projects that are archived on a same day are stored in that day\u0027s folder.",
+      "parentUuid": "AAABOX////w\u003d",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC/H////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-19T22:56:54Z",
+      "side": 1,
+      "message": "I now create the same directory structure before appending the timestamp",
+      "parentUuid": "AAABOH////s\u003d",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABOH////4\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterCommandModule.java",
         "patchSetId": 1
@@ -99,6 +189,24 @@
       "writtenOn": "2011-10-27T15:22:23Z",
       "side": 1,
       "message": "The ArchiveProject class is not contained in this change. Did you forget to add it?",
+      "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC/H////M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterCommandModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-19T22:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAABOH////4\u003d",
       "revId": "471f26aa0d0f4cd9f016faefeea44af14354c340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

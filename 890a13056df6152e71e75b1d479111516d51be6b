@@ -16,6 +16,24 @@
       "revId": "890a13056df6152e71e75b1d479111516d51be6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC/H///+0\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitGitManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-20T21:12:55Z",
+      "side": 1,
+      "message": "Nope, forgot to cherry-pick that one. Thanks for noticing, fixed.",
+      "parentUuid": "AAADA3////U\u003d",
+      "revId": "890a13056df6152e71e75b1d479111516d51be6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

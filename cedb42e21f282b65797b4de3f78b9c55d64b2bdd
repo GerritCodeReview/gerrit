@@ -34,6 +34,24 @@
       "revId": "cedb42e21f282b65797b4de3f78b9c55d64b2bdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADA3////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-20T15:07:19Z",
+      "side": 1,
+      "message": "I\u0027ve now decided to not do the check for the branch existence in this class. I think it\u0027s cleaner to do here only the access control checks, as it was intended for this class.\n\nIn the new patch set 4 I\u0027m now locking the branch for the restore operation, so that now there should be no race condition anymore.\n\nDone.",
+      "parentUuid": "AAAC7H////g\u003d",
+      "revId": "cedb42e21f282b65797b4de3f78b9c55d64b2bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

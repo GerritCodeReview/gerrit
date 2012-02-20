@@ -16,6 +16,24 @@
       "revId": "28c64477804dfad869c347f26fc2a58e6bfb6e86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC/H////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-20T10:55:01Z",
+      "side": 1,
+      "message": "It is. The first part in receiveCommits makes sure autoClose changes is not called during a push. This line however is to make sure the merge operation succeeds when the change is reviewed and submitted, without it the commit will be added to \u0027alreadyAccepted\u0027 and will be marked uninteresting during revWalk, and status will be \u0027merge pending\u0027.",
+      "parentUuid": "AAADBn///+M\u003d",
+      "revId": "28c64477804dfad869c347f26fc2a58e6bfb6e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

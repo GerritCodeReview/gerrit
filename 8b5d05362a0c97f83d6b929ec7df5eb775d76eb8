@@ -72,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "AAAC/n///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectSettings.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-20T15:03:40Z",
+      "side": 1,
+      "message": "I assume you want to push a new patch set as the UI change is already there but this code is still not removed.\n\nShall we wait with the review until then?",
+      "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 8
@@ -101,6 +118,24 @@
       "side": 1,
       "message": "I see your point here. We do have another change, on top of this, providing the edition in UI of the submit actions. We are also working on modifying the terminology on it to \"submit action\". Would you agree on introducing your suggestion in the UI change? In this change the UI is supposed to not indicate the submit actions based on ref patterns.",
       "parentUuid": "AAADAH////E\u003d",
+      "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC/n////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-20T15:03:40Z",
+      "side": 1,
+      "message": "It is OK for me if the UI change comes in a follow-up change.",
+      "parentUuid": "AAADBH////s\u003d",
       "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

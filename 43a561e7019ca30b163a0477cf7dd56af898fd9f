@@ -140,6 +140,24 @@
       "revId": "43a561e7019ca30b163a0477cf7dd56af898fd9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADA3////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-02-20T08:59:08Z",
+      "side": 1,
+      "message": "copyVetoApprovalsToLatestPatchSet sounds nice. Lets go for that one.",
+      "parentUuid": "AAADA3////k\u003d",
+      "revId": "43a561e7019ca30b163a0477cf7dd56af898fd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

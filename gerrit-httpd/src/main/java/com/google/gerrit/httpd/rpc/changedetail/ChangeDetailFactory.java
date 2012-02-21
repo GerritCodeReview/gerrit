@@ -149,7 +149,9 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
             aic.want(lbl.appliedBy);
           }
         }
-        if (rec.status == SubmitRecord.Status.OK && control.getRefControl().canSubmit()) {
+        if (rec.status == SubmitRecord.Status.OK
+            && control.getRefControl().canSubmit()
+            && repoManager.branchExists(change.getProject(), change.getDest())) {
           detail.setCanSubmit(true);
         }
       }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADEH////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-21T13:55:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAC/n///+g\u003d",
+      "revId": "d29f3b3a90af2b037f06f5fc9717950597f6c793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAC/n///+Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-21T13:03:12Z",
       "side": 1,
       "message": "I don\u0027t know if this convenience method deserves to be public method of the GitRepositoryManager.\n\nHaving an instance of GitRepositoryManger we can test the branch existence by:\n\n gitRepositoryManager.openRepository(name).getRef(branch)\n\nand this is actually what you are doing in the implementation of this method.",
+      "revId": "d29f3b3a90af2b037f06f5fc9717950597f6c793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADEH////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-21T13:55:56Z",
+      "side": 1,
+      "message": "It was proposed by Eric to provide this method here [1].\n\nI actually think it\u0027s a good idea and would like to keep it. The code would be not that easy as you propose because one has to ensure in a finally block that the repository is closed. For this change there are only 2 usages, but [1] adds another 2 usages, so I think it\u0027s worth to have this convenience method.\n\nDo you think it would be better to inline it in all the places where it is used?\n\n[1] https://gerrit-review.googlesource.com/31642",
+      "parentUuid": "AAAC/n///+Y\u003d",
       "revId": "d29f3b3a90af2b037f06f5fc9717950597f6c793",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

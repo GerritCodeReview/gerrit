@@ -101,6 +101,9 @@ public class ReviewCommand extends BaseCommand {
       + "even if the label score cannot be applied due to change being closed")
   private boolean forceMessage = false;
 
+  @Option(name = "--suppress-mails", usage = "Prevent notifications from being sent by mail")
+  private boolean suppressMails = false;
+
   @Option(name = "--publish", usage = "publish a draft patch set")
   private boolean publishPatchSet;
 
@@ -223,15 +226,15 @@ public class ReviewCommand extends BaseCommand {
     }
 
     try {
-      publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage).call();
+      publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage, suppressMails).call();
 
       if (abandonChange) {
         final ReviewResult result = abandonChangeFactory.create(
-            patchSetId, changeComment).call();
+            patchSetId, changeComment, suppressMails).call();
         handleReviewResultErrors(result);
       } else if (restoreChange) {
         final ReviewResult result = restoreChangeFactory.create(
-            patchSetId, changeComment).call();
+            patchSetId, changeComment, suppressMails).call();
         handleReviewResultErrors(result);
       }
       if (submitChange) {

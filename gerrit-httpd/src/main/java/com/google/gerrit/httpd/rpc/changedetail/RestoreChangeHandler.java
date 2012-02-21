@@ -59,7 +59,7 @@ class RestoreChangeHandler extends Handler<ChangeDetail> {
       EmailException, NoSuchEntityException, InvalidChangeOperationException,
       PatchSetInfoNotAvailableException {
     final ReviewResult result =
-        restoreChangeFactory.create(patchSetId, message).call();
+        restoreChangeFactory.create(patchSetId, message, false).call();
     if (result.getErrors().size() > 0) {
       throw new NoSuchChangeException(result.getChangeId());
     }

@@ -152,7 +152,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       }
       if (detail.getChange().getStatus().isOpen()
           && rec.status == SubmitRecord.Status.OK
-          && control.getRefControl().canSubmit()) {
+          && control.getRefControl().canSubmit()
+          && ProjectUtil.branchExists(repoManager, change.getDest())) {
         detail.setCanSubmit(true);
       }
     }

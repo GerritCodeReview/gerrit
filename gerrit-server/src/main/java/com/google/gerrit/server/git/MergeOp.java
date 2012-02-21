@@ -345,6 +345,18 @@ public class MergeOp {
         branchTip = null;
       }
 
+      try {
+        final Ref destRef = repo.getRef(destBranch.get());
+        if (destRef == null) {
+          throw new MergeException("Destination branch \""
+              + branchUpdate.getRef().getName() + "\" does not exist");
+        }
+        branchUpdate.setExpectedOldObjectId(destRef.getObjectId());
+      } catch (IOException e) {
+        throw new MergeException(
+            "Failed to check existence of destination branch", e);
+      }
+
       for (final Ref r : repo.getAllRefs().values()) {
         if (r.getName().startsWith(Constants.R_HEADS)
             || r.getName().startsWith(Constants.R_TAGS)) {

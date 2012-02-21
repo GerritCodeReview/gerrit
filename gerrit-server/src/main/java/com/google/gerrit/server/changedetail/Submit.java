@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -34,6 +35,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,6 +51,7 @@ public class Submit implements Callable<ReviewResult> {
   private final MergeOp.Factory opFactory;
   private final MergeQueue merger;
   private final ReviewDb db;
+  private final GitRepositoryManager repoManager;
   private final IdentifiedUser currentUser;
 
   private final PatchSet.Id patchSetId;
@@ -56,12 +59,13 @@ public class Submit implements Callable<ReviewResult> {
   @Inject
   Submit(final ChangeControl.Factory changeControlFactory,
       final MergeOp.Factory opFactory, final MergeQueue merger,
-      final ReviewDb db, final IdentifiedUser currentUser,
-      @Assisted final PatchSet.Id patchSetId) {
+      final ReviewDb db, final GitRepositoryManager repoManager,
+      final IdentifiedUser currentUser, @Assisted final PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.opFactory = opFactory;
     this.merger = merger;
     this.db = db;
+    this.repoManager = repoManager;
     this.currentUser = currentUser;
 
     this.patchSetId = patchSetId;
@@ -69,7 +73,8 @@ public class Submit implements Callable<ReviewResult> {
 
   @Override
   public ReviewResult call() throws IllegalStateException,
-      InvalidChangeOperationException, NoSuchChangeException, OrmException {
+      InvalidChangeOperationException, NoSuchChangeException, OrmException,
+      IOException {
     final ReviewResult result = new ReviewResult();
 
     final PatchSet patch = db.patchSets().get(patchSetId);
@@ -145,6 +150,14 @@ public class Submit implements Callable<ReviewResult> {
               "Unsupported SubmitRecord.status + (" + submitRecord.status
               + ")");
       }
+    }
+
+    if (!repoManager.branchExists(control.getChange().getDest())) {
+      result.addError(new ReviewResult.Error(
+          ReviewResult.Error.Type.DEST_BRANCH_NOT_FOUND,
+          "Destination branch \"" + control.getChange().getDest().get()
+              + "\" not found."));
+      return result;
     }
 
     // Submit the change if we can

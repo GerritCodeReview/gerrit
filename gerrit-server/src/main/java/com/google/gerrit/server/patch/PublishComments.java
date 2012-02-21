@@ -57,7 +57,9 @@ public class PublishComments implements Callable<VoidResult> {
 
   public interface Factory {
     PublishComments create(PatchSet.Id patchSetId, String messageText,
-        Set<ApprovalCategoryValue.Id> approvals, boolean forceMessage);
+        Set<ApprovalCategoryValue.Id> approvals,
+        @Assisted("forceMessage") boolean forceMessage,
+        @Assisted("suppressMails") boolean suppressMails);
   }
 
   private final ReviewDb db;
@@ -73,6 +75,7 @@ public class PublishComments implements Callable<VoidResult> {
   private final String messageText;
   private final Set<ApprovalCategoryValue.Id> approvals;
   private final boolean forceMessage;
+  private final boolean suppressMails;
 
   private Change change;
   private PatchSet patchSet;
@@ -91,7 +94,8 @@ public class PublishComments implements Callable<VoidResult> {
       @Assisted final PatchSet.Id patchSetId,
       @Assisted final String messageText,
       @Assisted final Set<ApprovalCategoryValue.Id> approvals,
-      @Assisted final boolean forceMessage) {
+      @Assisted("forceMessage") final boolean forceMessage,
+      @Assisted("suppressMails") final boolean suppressMails) {
     this.db = db;
     this.user = user;
     this.types = approvalTypes;
@@ -105,6 +109,7 @@ public class PublishComments implements Callable<VoidResult> {
     this.messageText = messageText;
     this.approvals = approvals;
     this.forceMessage = forceMessage;
+    this.suppressMails = suppressMails;
   }
 
   @Override
@@ -138,7 +143,9 @@ public class PublishComments implements Callable<VoidResult> {
       db.rollback();
     }
 
-    email();
+    if (!suppressMails) {
+      email();
+    }
     fireHook();
     return VoidResult.INSTANCE;
   }

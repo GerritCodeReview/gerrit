@@ -1000,6 +1000,18 @@ public class MergeOp {
         }
       }
 
+      try {
+        final Ref destRef = repo.getRef(branchUpdate.getRef().getName());
+        if (destRef == null) {
+          throw new MergeException("Destination branch \""
+              + branchUpdate.getRef().getName() + "\" does not exist");
+        }
+        branchUpdate.setExpectedOldObjectId(destRef.getObjectId());
+      } catch (IOException e) {
+        throw new MergeException(
+            "Failed to check existence of destination branch", e);
+      }
+
       branchUpdate.setForceUpdate(false);
       branchUpdate.setNewObjectId(mergeTip);
       branchUpdate.setRefLogMessage("merged", true);

@@ -587,7 +587,7 @@ public class ChangeUtil {
   public static <T extends ReplyToChangeSender> void updatedChange(
       final ReviewDb db, final IdentifiedUser user, final Change change,
       final ChangeMessage cmsg, ReplyToChangeSender.Factory<T> senderFactory,
-      final String err) throws NoSuchChangeException,
+      final boolean suppressMails, final String err) throws NoSuchChangeException,
       InvalidChangeOperationException, EmailException, OrmException {
     if (change == null) {
       throw new InvalidChangeOperationException(err);
@@ -596,11 +596,13 @@ public class ChangeUtil {
 
     ApprovalsUtil.syncChangeStatus(db, change);
 
-    // Email the reviewers
-    final ReplyToChangeSender cm = senderFactory.create(change);
-    cm.setFrom(user.getAccountId());
-    cm.setChangeMessage(cmsg);
-    cm.send();
+    // Email the reviewers if requested.
+    if (!suppressMails) {
+      final ReplyToChangeSender cm = senderFactory.create(change);
+      cm.setFrom(user.getAccountId());
+      cm.setChangeMessage(cmsg);
+      cm.send();
+    }
   }
 
   public static String sortKey(long lastUpdated, int id){

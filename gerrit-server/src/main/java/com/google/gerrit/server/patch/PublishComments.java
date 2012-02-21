@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
@@ -60,7 +61,9 @@ public class PublishComments implements Callable<VoidResult> {
 
   public interface Factory {
     PublishComments create(PatchSet.Id patchSetId, String messageText,
-        Set<ApprovalCategoryValue.Id> approvals, boolean forceMessage);
+        Set<ApprovalCategoryValue.Id> approvals,
+        @Assisted("forceMessage") boolean forceMessage,
+        @Assisted("suppressMails") boolean suppressMails);
   }
 
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -79,6 +82,7 @@ public class PublishComments implements Callable<VoidResult> {
   private final String messageText;
   private final Set<ApprovalCategoryValue.Id> approvals;
   private final boolean forceMessage;
+  private final boolean suppressMails;
 
   private Change change;
   private PatchSet patchSet;
@@ -100,7 +104,8 @@ public class PublishComments implements Callable<VoidResult> {
       @Assisted final PatchSet.Id patchSetId,
       @Assisted final String messageText,
       @Assisted final Set<ApprovalCategoryValue.Id> approvals,
-      @Assisted final boolean forceMessage) {
+      @Assisted("forceMessage") final boolean forceMessage,
+      @Assisted("suppressMails") final boolean suppressMails) {
     this.schemaFactory = sf;
     this.db = db;
     this.user = user;
@@ -117,11 +122,18 @@ public class PublishComments implements Callable<VoidResult> {
     this.messageText = messageText;
     this.approvals = approvals;
     this.forceMessage = forceMessage;
+    this.suppressMails = suppressMails;
   }
 
   @Override
   public VoidResult call() throws NoSuchChangeException,
-      InvalidChangeOperationException, OrmException {
+      InvalidChangeOperationException, OrmException, PermissionDeniedException {
+    if (suppressMails && !user.getCapabilities().canSilenceEmail()) {
+      throw new PermissionDeniedException(String.format(
+        "%s does not have \"Silence email\" capability.",
+        user.getUserName()));
+    }
+
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl ctl = changeControlFactory.validateFor(changeId);
     change = ctl.getChange();
@@ -312,7 +324,7 @@ public class PublishComments implements Callable<VoidResult> {
   }
 
   private void email() {
-    if (message == null) {
+    if (message == null || suppressMails) {
       return;
     }
 

@@ -17,12 +17,14 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewResult;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
@@ -97,6 +99,10 @@ public class ReviewCommand extends BaseCommand {
       + "even if the label score cannot be applied due to change being closed")
   private boolean forceMessage = false;
 
+  @Option(name = "--suppress-mails", usage = "Prevent notifications from being "
+      + "sent by mail when publishing a comment, abandonning or restoring a change.")
+  private boolean suppressMails = false;
+
   @Option(name = "--publish", usage = "publish a draft patch set")
   private boolean publishPatchSet;
 
@@ -105,6 +111,9 @@ public class ReviewCommand extends BaseCommand {
 
   @Inject
   private ReviewDb db;
+
+  @Inject
+  private IdentifiedUser currentUser;
 
   @Inject
   private ApprovalTypes approvalTypes;
@@ -136,31 +145,15 @@ public class ReviewCommand extends BaseCommand {
       public void run() throws Failure {
         initOptionList();
         parseCommandLine();
-        if (abandonChange) {
-          if (restoreChange) {
-            throw error("abandon and restore actions are mutually exclusive");
-          }
-          if (submitChange) {
-            throw error("abandon and submit actions are mutually exclusive");
-          }
-          if (publishPatchSet) {
-            throw error("abandon and publish actions are mutually exclusive");
-          }
-          if (deleteDraftPatchSet) {
-            throw error("abandon and delete actions are mutually exclusive");
-          }
+
+        if (suppressMails && !currentUser.getCapabilities().canSilenceEmail()) {
+          String msg = String.format(
+            "fatal: %s does not have \"Silence email\" capability.",
+            currentUser.getUserName());
+          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
         }
-        if (publishPatchSet) {
-          if (restoreChange) {
-            throw error("publish and restore actions are mutually exclusive");
-          }
-          if (submitChange) {
-            throw error("publish and submit actions are mutually exclusive");
-          }
-          if (deleteDraftPatchSet) {
-            throw error("publish and delete actions are mutually exclusive");
-          }
-        }
+
+        detectIncompatibleOptions();
 
         boolean ok = true;
         for (final PatchSet.Id patchSetId : patchSetIds) {
@@ -189,6 +182,38 @@ public class ReviewCommand extends BaseCommand {
     });
   }
 
+  private void detectIncompatibleOptions() throws UnloggedFailure {
+    if (abandonChange) {
+      if (restoreChange) {
+        throw error("abandon and restore actions are mutually exclusive");
+      }
+      if (submitChange) {
+        throw error("abandon and submit actions are mutually exclusive");
+      }
+      if (publishPatchSet) {
+        throw error("abandon and publish actions are mutually exclusive");
+      }
+      if (deleteDraftPatchSet) {
+        throw error("abandon and delete actions are mutually exclusive");
+      }
+    }
+    if (publishPatchSet) {
+      if (restoreChange) {
+        throw error("publish and restore actions are mutually exclusive");
+      }
+      if (submitChange) {
+        throw error("publish and submit actions are mutually exclusive");
+      }
+      if (deleteDraftPatchSet) {
+        throw error("publish and delete actions are mutually exclusive");
+      }
+    }
+    if (suppressMails && submitChange) {
+      throw error("suppress mails option and submit action are mutually"
+          + " exclusive");
+    }
+  }
+
   private void approveOne(final PatchSet.Id patchSetId) throws
       NoSuchChangeException, OrmException, EmailException, Failure {
 
@@ -205,15 +230,15 @@ public class ReviewCommand extends BaseCommand {
     }
 
     try {
-      publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage).call();
+      publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage, suppressMails).call();
 
       if (abandonChange) {
         final ReviewResult result = abandonChangeFactory.create(
-            patchSetId, changeComment).call();
+            patchSetId, changeComment, suppressMails).call();
         handleReviewResultErrors(result);
       } else if (restoreChange) {
         final ReviewResult result = restoreChangeFactory.create(
-            patchSetId, changeComment).call();
+            patchSetId, changeComment, suppressMails).call();
         handleReviewResultErrors(result);
       }
       if (submitChange) {
@@ -223,6 +248,8 @@ public class ReviewCommand extends BaseCommand {
     } catch (InvalidChangeOperationException e) {
       throw error(e.getMessage());
     } catch (IllegalStateException e) {
+      throw error(e.getMessage());
+    } catch (PermissionDeniedException e) {
       throw error(e.getMessage());
     }
 

@@ -63,6 +63,9 @@ public class GlobalCapability {
   /** Maximum result limit per executed query. */
   public static final String QUERY_LIMIT = "queryLimit";
 
+  /** Can silence notification email. */
+  public static final String SILENCE_EMAIL = "silenceEmail";
+
   /** Forcefully restart replication to any configured destination. */
   public static final String START_REPLICATION = "startReplication";
 
@@ -89,6 +92,7 @@ public class GlobalCapability {
     NAMES_ALL.add(KILL_TASK);
     NAMES_ALL.add(PRIORITY);
     NAMES_ALL.add(QUERY_LIMIT);
+    NAMES_ALL.add(SILENCE_EMAIL);
     NAMES_ALL.add(START_REPLICATION);
     NAMES_ALL.add(VIEW_CACHES);
     NAMES_ALL.add(VIEW_CONNECTIONS);

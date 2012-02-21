@@ -17,6 +17,7 @@ package com.google.gerrit.server.changedetail;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ReviewResult;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -46,7 +47,8 @@ import javax.annotation.Nullable;
 public class RestoreChange implements Callable<ReviewResult> {
 
   public interface Factory {
-    RestoreChange create(Change.Id changeId, String changeComment);
+    RestoreChange create(Change.Id changeId, String changeComment,
+        boolean suppressMails);
   }
 
   private final RestoredSender.Factory restoredSenderFactory;
@@ -58,13 +60,15 @@ public class RestoreChange implements Callable<ReviewResult> {
 
   private final Change.Id changeId;
   private final String changeComment;
+  private final boolean suppressMails;
 
   @Inject
   RestoreChange(final RestoredSender.Factory restoredSenderFactory,
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
       final GitRepositoryManager repoManager, final IdentifiedUser currentUser,
       final ChangeHooks hooks, @Assisted final Change.Id changeId,
-      @Assisted @Nullable final String changeComment) {
+      @Assisted @Nullable final String changeComment,
+      @Assisted final boolean suppressMails) {
     this.restoredSenderFactory = restoredSenderFactory;
     this.changeControlFactory = changeControlFactory;
     this.db = db;
@@ -74,12 +78,18 @@ public class RestoreChange implements Callable<ReviewResult> {
 
     this.changeId = changeId;
     this.changeComment = changeComment;
+    this.suppressMails = suppressMails;
   }
 
   @Override
   public ReviewResult call() throws EmailException,
       InvalidChangeOperationException, NoSuchChangeException, OrmException,
-      RepositoryNotFoundException, IOException {
+      RepositoryNotFoundException, PermissionDeniedException, IOException {
+    if (suppressMails && !currentUser.getCapabilities().canSilenceEmail()) {
+      throw new PermissionDeniedException(String.format(
+        "%s does not have \"Silence email\" capability.",
+        currentUser.getUserName()));
+    }
     final ReviewResult result = new ReviewResult();
     result.setChangeId(changeId);
 
@@ -134,7 +144,7 @@ public class RestoreChange implements Callable<ReviewResult> {
 
     ChangeUtil.updatedChange(
         db, currentUser, updatedChange, cmsg, restoredSenderFactory,
-        "Change is not abandoned or patchset is not latest");
+        suppressMails, "Change is not abandoned or patchset is not latest");
 
     hooks.doChangeRestoreHook(updatedChange, currentUser.getAccount(),
                               changeComment, db);

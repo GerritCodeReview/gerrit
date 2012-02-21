@@ -12,6 +12,7 @@ SYNOPSIS
   [--project <PROJECT>]
   [--message <MESSAGE>]
   [--force-message]
+  [--suppress-mails]
   [--submit]
   [--abandon | --restore]
   [--publish]
@@ -62,6 +63,18 @@ of the build).
 +
 If the message is posted successfully, the cmd will return
 successfully, even if the label could not be changed.
+
+[[suppress_mails]]
+--suppress-mails::
+	Option which prevent Gerrit from sending notification mails
+	when publishing a comment, abandoning or restoring a
+	change.
++
+Used by some scripts/CI-systems that do not want to send numerous
+mails for each command they perform.
++
+This option is available only to users with capability
+link:access-control.html#capability_silenceEmail[ silence email].
 
 --help::
 -h::

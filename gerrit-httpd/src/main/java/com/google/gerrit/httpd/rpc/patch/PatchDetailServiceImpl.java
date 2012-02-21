@@ -181,7 +181,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   public void publishComments(final PatchSet.Id psid, final String msg,
       final Set<ApprovalCategoryValue.Id> tags,
       final AsyncCallback<VoidResult> cb) {
-    Handler.wrap(publishCommentsFactory.create(psid, msg, tags, false)).to(cb);
+    Handler.wrap(publishCommentsFactory.create(psid, msg, tags, false, false)).to(cb);
   }
 
   /**

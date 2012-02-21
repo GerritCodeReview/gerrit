@@ -130,6 +130,12 @@ public class CapabilityControl {
       || canAdministrateServer();
   }
 
+  /** @return true if the user can silence email. */
+  public boolean canSilenceEmail() {
+    return canPerform(GlobalCapability.SILENCE_EMAIL)
+        || canAdministrateServer();
+  }
+
   /** @return true if the user can force replication to any configured destination. */
   public boolean canStartReplication() {
     return canPerform(GlobalCapability.START_REPLICATION)

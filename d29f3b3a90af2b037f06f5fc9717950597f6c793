@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAC/n///+g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-21T13:03:12Z",
+      "side": 1,
+      "message": "You can rewrite this as:\n\n Reject restoring change if its destination branch does not exist\n\nand then remove the last paragraph from this commit message.",
+      "revId": "d29f3b3a90af2b037f06f5fc9717950597f6c793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAC/n///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-21T13:03:12Z",
+      "side": 1,
+      "message": "I don\u0027t know if this convenience method deserves to be public method of the GitRepositoryManager.\n\nHaving an instance of GitRepositoryManger we can test the branch existence by:\n\n gitRepositoryManager.openRepository(name).getRef(branch)\n\nand this is actually what you are doing in the implementation of this method.",
+      "revId": "d29f3b3a90af2b037f06f5fc9717950597f6c793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

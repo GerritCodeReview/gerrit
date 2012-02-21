@@ -1122,6 +1122,15 @@ any of their groups is used.
 This limit applies not only to the link:cmd-query.html[`gerrit query`]
 command, but also to the web UI results pagination size.
 
+[[capability_silenceEmail]]
+Silence Email
+~~~~~~~~~~~~~
+
+Allows silencing emails sent when updating a change.  This capability allows
+the granted group to link:cmd-review.html#suppress_mails[ use the
+suppress-mails option of review command].
+
+This capability should be reserved for batch users.
 
 [[capability_startReplication]]
 Start Replication

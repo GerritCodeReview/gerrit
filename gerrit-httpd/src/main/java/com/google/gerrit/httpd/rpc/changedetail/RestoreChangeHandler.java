@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc.changedetail;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.changedetail.RestoreChange;
@@ -57,9 +58,9 @@ class RestoreChangeHandler extends Handler<ChangeDetail> {
   @Override
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
       EmailException, NoSuchEntityException, InvalidChangeOperationException,
-      PatchSetInfoNotAvailableException {
+      PatchSetInfoNotAvailableException, PermissionDeniedException {
     final ReviewResult result =
-        restoreChangeFactory.create(patchSetId, message).call();
+        restoreChangeFactory.create(patchSetId, message, false).call();
     if (result.getErrors().size() > 0) {
       throw new NoSuchChangeException(result.getChangeId());
     }

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAADEH////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-21T13:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAC2n////0\u003d",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAACe3///+s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 3
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Can it be injected? Note that ChangeControl is not instantiated by Guice, but just \"normaly\" by invoking it\u0027s constructor.",
       "parentUuid": "AAACe3///+s\u003d",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADEH////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-21T13:56:31Z",
+      "side": 1,
+      "message": "not applicable anymore",
+      "parentUuid": "AAAC2n////w\u003d",
       "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -154,6 +190,24 @@
       "side": 1,
       "message": "Moving this method into GitRepositoryManager sounds like a good idea. I\u0027ll have a look if it fits there.",
       "parentUuid": "AAAC1H///+M\u003d",
+      "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADEH////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-21T13:56:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAC2n////s\u003d",
       "revId": "d397d6e0bbb21bb48b6362aca05c2a95a3bc4bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

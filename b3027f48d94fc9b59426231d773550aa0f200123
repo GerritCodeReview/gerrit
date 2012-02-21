@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADBH////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-21T18:02:36Z",
+      "side": 1,
+      "message": "Could this failure be due to someone else holding the lock?  If so, should we be looping for that case to attempt to lock again?\n\nAlso, shouldn\u0027t this be before the try on 108?  If not, will the finally attempt to unlock the failed lock on 136?",
+      "revId": "b3027f48d94fc9b59426231d773550aa0f200123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBH////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-21T18:02:36Z",
+      "side": 1,
+      "message": "You probably tested against this already, but it seems like this might always return true due to the lock above?",
+      "revId": "b3027f48d94fc9b59426231d773550aa0f200123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADBH////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-21T18:02:36Z",
+      "side": 1,
+      "message": "getParentKey() on the Branch.NameKey should return the Project.NameKey, so you don\u0027t really need the name parameter here.",
+      "revId": "b3027f48d94fc9b59426231d773550aa0f200123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

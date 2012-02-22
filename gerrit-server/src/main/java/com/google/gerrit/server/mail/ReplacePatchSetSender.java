@@ -67,6 +67,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     add(RecipientType.TO, reviewers);
     add(RecipientType.CC, extraCC);
     rcptToAuthors(RecipientType.CC);
+    bccStarredBy();
   }
 
   @Override

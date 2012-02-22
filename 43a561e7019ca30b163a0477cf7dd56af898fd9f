@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAADIn////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-22T17:43:54Z",
+      "side": 1,
+      "message": "Perhaps you should mention issue 1035 here?",
+      "revId": "43a561e7019ca30b163a0477cf7dd56af898fd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH////0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
         "patchSetId": 2

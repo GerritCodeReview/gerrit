@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADHH////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-22T08:20:57Z",
+      "side": 1,
+      "message": "You already have an instance of Repository available here (line 101). Instead of opening the repository again (in the branchExists method) this existing Repository instance could be reused here:\n\n if (repo.getRef(destBranch.get()) !\u003d null) {",
+      "revId": "7e45b6d1d9c08ad1aafc5f5eaebfd4f3b7f5b2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

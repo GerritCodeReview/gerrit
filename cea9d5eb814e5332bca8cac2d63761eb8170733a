@@ -16,6 +16,23 @@
       "revId": "cea9d5eb814e5332bca8cac2d63761eb8170733a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADHH////w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-22T09:32:10Z",
+      "side": 1,
+      "message": "In the previous while loop you removed those branches that must not be deleted. Now you are going to delete those that are still in the \"toRemove\" set.\n\nHowever, there is a window of vulnerability here as, between the check above and the deletion below, a new change may be created for a branch present in the \"toRemove\" set. \n\nWe need a kind of lock that would prevent creation of a new change for a target branch. I don\u0027t know if Gerrit provides this kind of lock right now?",
+      "revId": "cea9d5eb814e5332bca8cac2d63761eb8170733a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

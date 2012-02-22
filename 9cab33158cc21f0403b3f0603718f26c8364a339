@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADJX////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-22T21:38:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADAH///+g\u003d",
+      "revId": "9cab33158cc21f0403b3f0603718f26c8364a339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeMovedSender.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAADJX////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeMovedSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-22T21:38:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADAH///+k\u003d",
+      "revId": "9cab33158cc21f0403b3f0603718f26c8364a339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH///+c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeMovedSender.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-02-17T19:52:00Z",
       "side": 1,
       "message": "If I remember correctly it\u0027s possible to have watches based on refs.\nIf the change is moved from branch A to branch B would an e-mail notification be also sent to someone only watching branch A?",
+      "revId": "9cab33158cc21f0403b3f0603718f26c8364a339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADJX////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeMovedSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-22T21:38:43Z",
+      "side": 1,
+      "message": "No, it will not send it to someone only watching the original branch A, and I am not sure that we want to.  I would make the argument that all the filters are based on the updated change only, not on the original.  So for example if someone restores a change, and someone had a filter on closed changes (I think they can do that right?), we do not send them an email even though the original state of the change was closed (abandoned).  \n\nI\u0027ll admit that moving a change is different, and an argument could be made that perhaps some users did want to get a notification in that case (although, I suspect that most won\u0027t).  To do this might require a lot of rethinking about original versus updated changes in filters.  Perhaps there are other cases where users care about the original change?  I suspect that if we eventually can alter topic branches, the same thing might come up.  \n\nTo be honest, after looking at the code, I can\u0027t think of a good simple solution to this and I would rather not implement it.  I suggest that we simply delay figuring out how to deal with this problem until/if someone comes along and cares.  I do think it is justifiably a separate feature to do so, perhaps one which generically allows users to filter on the original change (which may not be so hard to implement, but is probably not worth it).",
+      "parentUuid": "AAADAH///+c\u003d",
       "revId": "9cab33158cc21f0403b3f0603718f26c8364a339",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

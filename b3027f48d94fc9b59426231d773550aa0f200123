@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADG3////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-22T07:45:25Z",
+      "side": 1,
+      "message": "Yes, if refLock.lock() returns false it means that the lock is held by somebody else. In the new patch set I\u0027m now retrying several times to gain the lock.\n\nYes, you are right, it\u0027s cleaner to have this before the try on 108. I\u0027ve now move it there, although calling unlock() without having the lock would not really harm. Internally unlock() would only unlock if we hold the lock and else do nothing.\n\nDone.",
+      "parentUuid": "AAADBH////M\u003d",
+      "revId": "b3027f48d94fc9b59426231d773550aa0f200123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADBH////I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAADG3////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-22T07:45:25Z",
+      "side": 1,
+      "message": "It\u0027s not always true, because creating the locking only fails if somebody else is holding the lock. If this is not the case, it succeeds even if the branch is not existing.",
+      "parentUuid": "AAADBH////I\u003d",
+      "revId": "b3027f48d94fc9b59426231d773550aa0f200123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADBH////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2012-02-21T18:02:36Z",
       "side": 1,
       "message": "getParentKey() on the Branch.NameKey should return the Project.NameKey, so you don\u0027t really need the name parameter here.",
+      "revId": "b3027f48d94fc9b59426231d773550aa0f200123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADG3////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-22T07:45:25Z",
+      "side": 1,
+      "message": "Right! Without the Project.NameKey parameter it looks better now.\n\nDone.",
+      "parentUuid": "AAADBH////E\u003d",
       "revId": "b3027f48d94fc9b59426231d773550aa0f200123",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

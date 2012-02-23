@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADMn////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010579
+      },
+      "writtenOn": "2012-02-23T16:55:15Z",
+      "side": 1,
+      "message": "Since we are trolling all branches at this point, only looking at one branch will effectively mark all other branches\u0027 commit history as unacceptable and any dependancies contained therein as missing. As long as we now assume all dependancies are also in the destination branch, and we are not reviewing a merge commit, we should be Ok. Do we allow reviewing a merge commit?",
+      "revId": "0b9415abe93426433669302d880c76dfb83e5435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

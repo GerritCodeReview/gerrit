@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADNX////c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-23T23:38:17Z",
+      "side": 1,
+      "message": "s/was/are/",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNX////Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-23T23:38:17Z",
+      "side": 1,
+      "message": "Any reason to not use psIdNew instead of patchSet.getId()? That reads a little simpler for me.\n\nAlso, I think calling this on line 122 and calling toPatchList directly on line 128 might be clearer and avoids the null check in getFilteredPatchList.",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNX////Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-23T23:38:17Z",
+      "side": 1,
+      "message": "nit: s/result/fileList/",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNX////U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-23T23:38:17Z",
+      "side": 1,
+      "message": "I think this would read better if getFileListBy returned a Set and you called result.addAll(getFileListBy(...)) on lines 202 and 204.",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNX////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-23T23:38:17Z",
+      "side": 1,
+      "message": "Perhaps this can just be toFilteredPatchList or just toPatchList since this is really toPatchList but with a filter? Up to you.",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

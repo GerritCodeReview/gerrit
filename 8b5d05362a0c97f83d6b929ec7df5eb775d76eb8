@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAADK3////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectSettings.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-02-23T11:43:38Z",
+      "side": 1,
+      "message": "The intention is that this change provides the submit action based on a ref pattern, if edited in project.config file, but it does not change the UI and the ability to set it to a project. Please, refer to the commit message about it. I will try to modify the commit message to be more clear about it, it was something decided in the past during review of the feature.",
+      "parentUuid": "AAAC/n///+0\u003d",
+      "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 8

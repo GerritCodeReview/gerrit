@@ -137,6 +137,51 @@ public class QueryProcessor {
     this.outputFormat = fmt;
   }
 
+  public List<ChangeData> fetchChangeData(final String queryString)
+      throws OrmException, QueryParseException {
+    final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
+    Predicate<ChangeData> s = compileQuery(queryString, visibleToMe);
+    List<ChangeData> results = new ArrayList<ChangeData>();
+    HashSet<Change.Id> want = new HashSet<Change.Id>();
+    for (ChangeData d : ((ChangeDataSource) s).read()) {
+      if (d.hasChange()) {
+        // Checking visibleToMe here should be unnecessary, the
+        // query should have already performed it. But we don't
+        // want to trust the query rewriter that much yet.
+        //
+        if (visibleToMe.match(d)) {
+          results.add(d);
+        }
+      } else {
+        want.add(d.getId());
+      }
+    }
+
+    if (!want.isEmpty()) {
+      for (Change c : db.get().changes().get(want)) {
+        ChangeData d = new ChangeData(c);
+        if (visibleToMe.match(d)) {
+          results.add(d);
+        }
+      }
+    }
+
+    Collections.sort(results, new Comparator<ChangeData>() {
+      @Override
+      public int compare(ChangeData a, ChangeData b) {
+        return b.getChange().getSortKey().compareTo(
+            a.getChange().getSortKey());
+      }
+    });
+
+    int limit = limit(s);
+    if (limit < results.size()) {
+      results = results.subList(0, limit);
+    }
+
+    return results;
+  }
+
   public void query(String queryString) throws IOException {
     out = new PrintWriter( //
         new BufferedWriter( //
@@ -153,46 +198,7 @@ public class QueryProcessor {
         final QueryStats stats = new QueryStats();
         stats.runTimeMilliseconds = System.currentTimeMillis();
 
-        final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
-        Predicate<ChangeData> s = compileQuery(queryString, visibleToMe);
-        List<ChangeData> results = new ArrayList<ChangeData>();
-        HashSet<Change.Id> want = new HashSet<Change.Id>();
-        for (ChangeData d : ((ChangeDataSource) s).read()) {
-          if (d.hasChange()) {
-            // Checking visibleToMe here should be unnecessary, the
-            // query should have already performed it. But we don't
-            // want to trust the query rewriter that much yet.
-            //
-            if (visibleToMe.match(d)) {
-              results.add(d);
-            }
-          } else {
-            want.add(d.getId());
-          }
-        }
-
-        if (!want.isEmpty()) {
-          for (Change c : db.get().changes().get(want)) {
-            ChangeData d = new ChangeData(c);
-            if (visibleToMe.match(d)) {
-              results.add(d);
-            }
-          }
-        }
-
-        Collections.sort(results, new Comparator<ChangeData>() {
-          @Override
-          public int compare(ChangeData a, ChangeData b) {
-            return b.getChange().getSortKey().compareTo(
-                a.getChange().getSortKey());
-          }
-        });
-
-        int limit = limit(s);
-        if (limit < results.size()) {
-          results = results.subList(0, limit);
-        }
-
+        List<ChangeData> results = fetchChangeData(queryString);
         for (ChangeData d : results) {
           ChangeAttribute c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());

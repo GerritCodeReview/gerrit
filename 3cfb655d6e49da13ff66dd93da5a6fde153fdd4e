@@ -16,6 +16,24 @@
       "revId": "3cfb655d6e49da13ff66dd93da5a6fde153fdd4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADLX////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-23T14:00:23Z",
+      "side": 1,
+      "message": "Good catch. Done.",
+      "parentUuid": "AAADLX////8\u003d",
+      "revId": "3cfb655d6e49da13ff66dd93da5a6fde153fdd4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

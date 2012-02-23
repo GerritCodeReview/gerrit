@@ -1,0 +1,95 @@
+Making a Gerrit Sub Project Release
+===================================
+
+Preparing a New Gerrit Subproject Snapshot for Publishing
+---------------------------------------------------------
+
+* You will need to have the following in the pom.xml to make it deployable to:
+gerrit-maven-repository.googlecode.com
+----
+  <distributionManagement>
+    <snapshotRepository>
+      <id>gerrit-snapshot-repository</id>
+      <name>gerrit Snapshot Repository</name>
+      <url>dav:https://gerrit-maven-repository.googlecode.com/svn/</url>
+      <uniqueVersion>true</uniqueVersion>
+    </snapshotRepository>
+
+    <repository>
+      <id>gerrit-maven-repository</id>
+      <name>gerrit Maven Repository</name>
+      <url>dav:https://gerrit-maven-repository.googlecode.com/svn/</url>
+      <uniqueVersion>true</uniqueVersion>
+    </repository>
+  </distributionManagement>
+----
+
+
+* Since ubuntu maven is incomplete, also add this to the pom.xml:
+
+----
+  <build>
+   <extensions>
+        <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>1.0-beta-6</version>
+        </extension>
+    </extensions>
+  </build>
+----
+
+
+* Add your username and password to your ~/.m2/settings.xml file:
+
+----
+  <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+      <server>
+        <id>gerrit-maven-repository</id>
+          <username>JohnDoe@example.com</username>
+          <password>OpenSessame</password>
+      </server>
+
+      <server>
+        <id>gerrit-snapshot-repository</id>
+          <username>JohnDoe@example.com</username>
+          <password>OpenSessame</password>
+      </server>
+    </servers>
+  </settings>
+----
+
+
+Making a Gerrit Subproject Snapshot
+-----------------------------------
+
+* First build and deploy the latest snapshot and ensure that Gerrit builds
+with this snapshot
+
+* Deploy the snapshot:
+
+----
+  mvn deploy
+----
+
+
+Making a Gerrit Subproject Release
+----------------------------------
+
+* First deploy (and test) the latest snapshot for this subprojects
+
+* Update the top level pom.xml in the subproject to reflect the new project
+version (the exact value of the tag you will create below)
+
+* Commit the pom change and push to the project's repo refs/for/<master/stable>
+
+* Tag the version you just pushed (and push the tag)
+
+* Deploy the new release:
+
+----
+ mvn deploy
+----

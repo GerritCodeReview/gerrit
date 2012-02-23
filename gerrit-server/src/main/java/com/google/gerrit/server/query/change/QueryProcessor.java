@@ -77,6 +77,7 @@ public class QueryProcessor {
   private boolean includeComments;
   private boolean includeFiles;
   private boolean includeCommitMessage;
+  private boolean includeDependencies;
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
@@ -126,6 +127,14 @@ public class QueryProcessor {
 
   public boolean getIncludeFiles() {
     return includeFiles;
+  }
+
+  public void setIncludeDependencies(boolean on) {
+    includeDependencies = on;
+  }
+
+  public boolean getIncludeDependencies() {
+    return includeDependencies;
   }
 
   public void setIncludeCommitMessage(boolean on) {
@@ -240,6 +249,10 @@ public class QueryProcessor {
                 eventFactory.addPatchSetComments(attribute,  d.comments(db));
               }
             }
+          }
+
+          if (includeDependencies) {
+            eventFactory.addDependencies(c, d.getChange());
           }
 
           show(c);
@@ -367,7 +380,20 @@ public class QueryProcessor {
       out.print('\n');
     } else if (value instanceof Collection) {
       out.print('\n');
+      boolean firstElement = true;
       for (Object thing : ((Collection<?>) value)) {
+        // The name of the collection was initially printed at the beginning
+        // of this routine.  Beginning at the second sub-element, reprint
+        // the collection name so humans can separate individual elements
+        // with less strain and error.
+        //
+        if (firstElement) {
+          firstElement = false;
+        } else {
+          out.print(indent);
+          out.print(field);
+          out.print(":\n");
+        }
         if (isPrimitive(thing)) {
           out.print(' ');
           out.print(value);

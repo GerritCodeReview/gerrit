@@ -16,6 +16,24 @@
       "revId": "0b9415abe93426433669302d880c76dfb83e5435",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNX////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-23T18:15:10Z",
+      "side": 1,
+      "message": "We do allow reviewing merge commits.\n\nPerhaps what we need to do is ensure that one line of dependencies are all on the destination branch, but for any other line they can be on any other branch.  Seems tricky, but it might work?",
+      "parentUuid": "AAADMn////s\u003d",
+      "revId": "0b9415abe93426433669302d880c76dfb83e5435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,6 +15,7 @@ SYNOPSIS
   [--files]
   [--comments]
   [--commit-message]
+  [--dependencies]
   [--]
   <query>
   [limit:<n>]
@@ -74,6 +75,10 @@ OPTIONS
 
 --commit-message::
 	Include the full commit message in the change description.
+
+--dependencies::
+	Show information about patch sets which depend on, or are needed by,
+	each patch set.
 
 limit:<n>::
 	Maximum number of results to return.  This is actually a

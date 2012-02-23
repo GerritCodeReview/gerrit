@@ -1,0 +1,212 @@
+Making a Gerrit Release
+=======================
+
+[NOTE]
+========================================================================
+This document is meant primarily for Gerrit maintainers
+who have been given approval and submit status to the Gerrit
+projects.  Additionally, maintainers should be given owner
+status to the Gerrit web site.
+========================================================================
+
+To make a Gerrit release involves a great deal of complex
+tasks and it is easy to miss a step so this document should
+hopefuly serve as both a how to for those new to the process
+and as a checklist for those already familiar with these
+tasks.
+
+
+Gerrit Release Type
+-------------------
+
+Here are some guidelines on release approaches depending on the
+type of release you want to make (stable-fix, stable, RC0, RC1...).
+
+Stable
+~~~~~~
+
+A stable release is generally built from the master branch and may need to
+undergo some stabilization before releasing the final release.
+
+* Propose the release with any plans/objectives to the mailing list
+
+* Create a Gerrit RC0
+
+* If needed create a Gerrit RC1
+
+[NOTE]
+========================================================================
+You may let in a few features to this release
+========================================================================
+
+* If needed create a Gerrit RC2
+
+[NOTE]
+========================================================================
+There should be no new features in this release, only bug fixes
+========================================================================
+
+* Finally create the stable release (no RC)
+
+
+Stable-Fix
+~~~~~~~~~~
+
+Stable-fix releases should likely only contain bug fixes and doc updates.
+
+* Propose the release with any plans/objectives to the mailing list
+
+* This type of release does not need any RCs, release when the objectives
+  are met
+
+
+
+Create the Actual Release
+---------------------------
+
+Prepare the Subprojects
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Publish the latest snapshot for all subprojects
+* Freeze all subprojects and link:dev-release-subproject.html[publish]
+  them!
+
+
+Prepare Gerrit
+~~~~~~~~~~~~~~
+
+* Update the top level pom in Gerrit to ensure that none of the Subprojects
+  point to snapshot releases
+
+* Update the poms for the Gerrit version, push for review, get merged
+
+====
+ tools/version.sh --snapshot=2.3
+====
+
+* Tag
+
+====
+ git tag -a -m "gerrit 2.2.2-rc0" v2.2.2-rc0
+ git tag -a -m "gerrit 2.2.2.1" v2.2.2.1
+====
+
+* Build
+
+====
+ ./tools/release.sh
+====
+
+* Sanity check WAR
+
+
+Publish to the Project Locations
+--------------------------------
+
+War File
+~~~~~~~~
+
+* Upload WAR to code.google.com/p/gerrit (manual web browser)
+
+* Update labels:
+** new war: [release-candidate], featured...
+** old war: deprecated
+
+Tag
+~~~
+
+* Push the New Tag
+
+====
+ git push google refs/tags/v2.2.2.1:refs/tags/v2.2.2.1
+====
+
+
+Docs
+~~~~
+
+====
+ make -C Documentation PRIOR=2.2.2 update
+ make -C ReleaseNotes update
+====
+
+(no +PRIOR=+... if updating the same release again during RCs)
+
+* Point the main page to the new docs
+* Point the main page to the new ReleaseNotes
+
+[NOTE]
+========================================================================
+The docs makefile does an svn cp of the prior revision of the docs to branch
+the docs so you have less to upload on the new docs.
+
+User and password from here:
+
+    https://code.google.com/hosting/settings
+
+(required overriding svn username on command line)
+========================================================================
+
+
+Issues
+~~~~~~
+
+====
+ How do the issues get updated?  Do you run a script to do
+ this?  When do you do it, after the final 2.2.2 is released?
+====
+
+By hand.
+
+Our current process is an issue should be updated to say Status =
+Submitted, FixedIn-2.2.2 once the change is submitted, but before the
+release.
+
+After the release is actually made, you can search in Google Code for
+``Status=Submitted FixedIn=2.2.2'' and then batch update these changes
+to say Status=Released. Make sure the pulldown says ``All Issues''
+because Status=Submitted is considered a closed issue.
+
+
+Mailing List
+~~~~~~~~~~~~
+
+----
+To: Repo and Gerrit Discussion <repo-discuss@googlegroups.com>
+Subject: Announce: Gerrit 2.2.2.1  (Stable bug fix update)
+
+I am pleased to announce Gerrit Code Review 2.2.2.1.
+
+Download:
+
+  http://code.google.com/p/gerrit/downloads/list
+
+
+This release is a stable bug fix release with some
+documentation updates including a new "Contributing to
+Gerrit" doc:
+
+  http://gerrit-documentation.googlecode.com/svn/Documentation/2.2.2/dev-contributing.html
+
+
+To read more about the bug fixes:
+
+  http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/ReleaseNotes-2.2.2.1.html
+
+-Martin
+----
+
+
+Merging Stable Fixes to master
+------------------------------
+
+After every stable-fix release, stable should be merged to master to
+ensure that none of the fixes ever get lost.
+
+====
+ git config merge.summary true
+ git checkout master
+ git reset --hard origin/master
+ git branch -f stable origin/stable
+ git merge stable
+====

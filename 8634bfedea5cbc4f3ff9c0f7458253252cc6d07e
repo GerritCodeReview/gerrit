@@ -33,6 +33,23 @@
       "revId": "8634bfedea5cbc4f3ff9c0f7458253252cc6d07e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADMH////A\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-23T20:55:25Z",
+      "side": 1,
+      "message": "You can shorten this to just the tag name:\n\n  git push google v2.2.2.1",
+      "revId": "8634bfedea5cbc4f3ff9c0f7458253252cc6d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

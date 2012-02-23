@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADMH////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-23T20:40:10Z",
+      "side": 1,
+      "message": "I would prefer not to abbreviate reviewed as revd. When I read revd I was thinking about revision or something not reviewed.\n\nCan I suggest hasBeenReviewed or wasMarkedReviewed?",
+      "revId": "a93caf8214f4d15ac3f43ff5161318157df3ffc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADMH////Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-23T20:40:10Z",
+      "side": 1,
+      "message": "We don\u0027t hyphenate label names.",
+      "revId": "a93caf8214f4d15ac3f43ff5161318157df3ffc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

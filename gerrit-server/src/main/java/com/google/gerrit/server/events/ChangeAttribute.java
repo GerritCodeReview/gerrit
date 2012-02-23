@@ -39,4 +39,7 @@ public class ChangeAttribute {
     public List<TrackingIdAttribute> trackingIds;
     public PatchSetAttribute currentPatchSet;
     public List<PatchSetAttribute> patchSets;
+
+    public List<DependencyAttribute> dependsOn;
+    public List<DependencyAttribute> neededBy;
 }

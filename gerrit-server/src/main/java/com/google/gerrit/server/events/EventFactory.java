@@ -16,19 +16,25 @@ package com.google.gerrit.server.events;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.RevId;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.TrackingId;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -37,7 +43,11 @@ import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -47,16 +57,18 @@ public class EventFactory {
   private final Provider<String> urlProvider;
   private final ApprovalTypes approvalTypes;
   private final PatchListCache patchListCache;
+  private final SchemaFactory<ReviewDb> schema;
 
   @Inject
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       ApprovalTypes approvalTypes,
-      PatchListCache patchListCache) {
+      PatchListCache patchListCache, SchemaFactory<ReviewDb> schema) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
     this.patchListCache = patchListCache;
+    this.schema = schema;
   }
 
   /**
@@ -108,6 +120,65 @@ public class EventFactory {
     a.sortKey = change.getSortKey();
     a.open = change.getStatus().isOpen();
     a.status = change.getStatus();
+  }
+
+  public void addDependencies(ChangeAttribute ca, Change change) {
+    ca.dependsOn = new ArrayList<DependencyAttribute>();
+    ca.neededBy = new ArrayList<DependencyAttribute>();
+    try {
+      final ReviewDb db = schema.open();
+      try {
+        final PatchSet.Id psId = change.currentPatchSetId();
+        for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
+          for (PatchSet p :
+              db.patchSets().byRevision(a.getAncestorRevision())) {
+            Change c = db.changes().get(p.getId().getParentKey());
+            ca.dependsOn.add(newDependsOn(c, p));
+          }
+        }
+
+        final RevId revId = db.patchSets().get(psId).getRevision();
+        for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(revId)) {
+          final PatchSet p = db.patchSets().get(a.getPatchSet());
+          final Change c = db.changes().get(p.getId().getParentKey());
+          ca.neededBy.add(newNeededBy(c, p));
+        }
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+      // Squash DB exceptions and leave dependency lists partially filled.
+    }
+    // Remove empty lists so a confusing label won't be displayed in the output.
+    if (ca.dependsOn.isEmpty()) {
+      ca.dependsOn = null;
+    }
+    if (ca.neededBy.isEmpty()) {
+      ca.neededBy = null;
+    }
+  }
+
+  private DependencyAttribute newDependsOn(Change c, PatchSet ps) {
+    DependencyAttribute d = newDependencyAttribute(c, ps);
+    if (c.currPatchSetId().equals(ps.getId())) {
+      d.isCurrentPatchSet = "true";
+    } else {
+      d.isCurrentPatchSet = "false";
+    }
+    return d;
+  }
+
+  private DependencyAttribute newNeededBy(Change c, PatchSet ps) {
+    return newDependencyAttribute(c, ps);
+  }
+
+  private DependencyAttribute newDependencyAttribute(Change c, PatchSet ps) {
+    DependencyAttribute d = new DependencyAttribute();
+    d.number = c.getId().toString();
+    d.id = c.getKey().toString();
+    d.revision = ps.getRevision().get();
+    d.ref = ps.getRefName();
+    return d;
   }
 
   public void addTrackingIds(ChangeAttribute a, Collection<TrackingId> ids) {

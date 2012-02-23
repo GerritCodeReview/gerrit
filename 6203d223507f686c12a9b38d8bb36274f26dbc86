@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADLX////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-23T08:38:47Z",
+      "side": 1,
+      "message": "This import seems to be unused. Can you remove it?",
+      "revId": "6203d223507f686c12a9b38d8bb36274f26dbc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADLX////o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ListenableOldValue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-23T08:38:47Z",
+      "side": 1,
+      "message": "nit: one blank line too much",
+      "revId": "6203d223507f686c12a9b38d8bb36274f26dbc86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

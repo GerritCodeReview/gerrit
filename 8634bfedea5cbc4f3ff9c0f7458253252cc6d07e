@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADNX////s\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-23T20:54:36Z",
+      "side": 1,
+      "message": "Doc needs a link from the index",
+      "revId": "8634bfedea5cbc4f3ff9c0f7458253252cc6d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNX////o\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-23T20:54:36Z",
+      "side": 1,
+      "message": "Lines 26-31 are out of place, not sure if they should go up front, maybe a section describing the intent of the release types?",
+      "revId": "8634bfedea5cbc4f3ff9c0f7458253252cc6d07e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

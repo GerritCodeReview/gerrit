@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADQX////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-24T20:17:52Z",
+      "side": 1,
+      "message": "Although I see that this var is still used, it feels kinda of strange now to have 2 signals to indicate that a change is synchronous, this var and passing a null to merge().  Is there a way to eliminate the need for this var now and only depend on the null signal instead?",
+      "revId": "ad55a8e50ae6a7bee69eac238c0f6a3350d7f980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADQX////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-24T20:17:52Z",
+      "side": 1,
+      "message": "Suggestion:  I think it might actually be clearer to not use a doTwoPassMerge boolean but rather to check for if change!\u003dnull instead since the second test will more clearly indicate why we are running merge again.  You could then move the comment on 280-282 to here directly.",
+      "revId": "ad55a8e50ae6a7bee69eac238c0f6a3350d7f980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADQX////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-24T20:17:52Z",
+      "side": 1,
+      "message": "Suggestion: \"Since we have succeeded in merging the change of interest, any exceptions thrown on followup merges are not relevant to the caller, squash them.\"",
+      "revId": "ad55a8e50ae6a7bee69eac238c0f6a3350d7f980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

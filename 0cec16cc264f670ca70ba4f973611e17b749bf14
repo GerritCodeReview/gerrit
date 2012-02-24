@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADP3////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-02-24T07:05:59Z",
+      "side": 1,
+      "message": "you forgot to rename \u0027revd\u0027 to \u0027isReviewed\u0027 in this line -\u003e doesn\u0027t compile",
+      "revId": "0cec16cc264f670ca70ba4f973611e17b749bf14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

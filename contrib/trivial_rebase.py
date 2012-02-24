@@ -93,8 +93,8 @@ def GetApprovals(changeId, patchset, server, port):
 
   Returns a list of approval dicts"""
   sql_query = ("\"SELECT value,account_id,category_id FROM patch_set_approvals "
-               "WHERE change_id = (SELECT change_id FROM changes WHERE "
-               "patch_set_id = %s AND change_key = \'%s\') AND value <> 0\""
+               "WHERE patch_set_id = %s AND change_id = (SELECT change_id FROM "
+               "changes WHERE change_key = \'%s\') AND value <> 0\""
                % ((patchset - 1), changeId))
   gsql_out = GsqlQuery(sql_query, server, port)
   approvals = []

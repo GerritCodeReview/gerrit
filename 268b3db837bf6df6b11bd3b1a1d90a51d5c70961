@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAADQH////8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-24T07:41:27Z",
+      "side": 1,
+      "message": "patchSet.getId()  is old code . but s/patchSet.getId()/psIdNew  is better.\n\npatches is a final variable.  we cannot call this line twice  on line 122 and 128 .",
+      "parentUuid": "AAADNX////Y\u003d",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADNX////Q\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 1

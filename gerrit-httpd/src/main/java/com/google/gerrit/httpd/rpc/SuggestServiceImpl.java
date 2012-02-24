@@ -28,6 +28,8 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountControl;
+import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupMembers;
@@ -61,11 +63,10 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final GroupControl.Factory groupControlFactory;
   private final GroupMembers.Factory groupMembersFactory;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final Provider<CurrentUser> currentUser;
-  private final SuggestAccountsEnum suggestAccounts;
+  private final AccountControl.Factory accountControlFactory;
   private final Config cfg;
   private final GroupCache groupCache;
-
+  private final boolean suggestAccounts;
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
@@ -75,6 +76,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final GroupMembers.Factory groupMembersFactory,
       final IdentifiedUser.GenericFactory userFactory,
       final Provider<CurrentUser> currentUser,
+      final AccountControl.Factory accountControlFactory,
       @GerritServerConfig final Config cfg, final GroupCache groupCache) {
     super(schema, currentUser);
     this.projectControlFactory = projectControlFactory;
@@ -83,11 +85,23 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     this.groupControlFactory = groupControlFactory;
     this.groupMembersFactory = groupMembersFactory;
     this.userFactory = userFactory;
-    this.currentUser = currentUser;
-    this.suggestAccounts =
-        cfg.getEnum("suggest", null, "accounts", SuggestAccountsEnum.ALL);
+    this.accountControlFactory = accountControlFactory;
     this.cfg = cfg;
     this.groupCache = groupCache;
+
+    if ("OFF".equals(cfg.getString("suggest", null, "accounts"))) {
+      this.suggestAccounts = false;
+    } else {
+      boolean suggestAccounts;
+      try {
+        AccountVisibility av =
+            cfg.getEnum("suggest", null, "accounts", AccountVisibility.ALL);
+        suggestAccounts = (av != AccountVisibility.NONE);
+      } catch (IllegalArgumentException err) {
+        suggestAccounts = cfg.getBoolean("suggest", null, "accounts", true);
+      }
+      this.suggestAccounts = suggestAccounts;
+    }
   }
 
   public void suggestProjectNameKey(final String query, final int limit,
@@ -124,7 +138,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private List<AccountInfo> suggestAccount(final ReviewDb db,
       final String query, final Boolean active, final int limit)
       throws OrmException {
-    if (suggestAccounts == SuggestAccountsEnum.OFF) {
+    if (!suggestAccounts) {
       return Collections.<AccountInfo> emptyList();
     }
 
@@ -166,42 +180,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     if (active != null && active != account.isActive()) {
       return;
     }
-    switch (suggestAccounts) {
-      case ALL:
-        map.put(account.getId(), info);
-        break;
-      case SAME_GROUP: {
-        Set<AccountGroup.UUID> usersGroups = groupsOf(account);
-        usersGroups.remove(AccountGroup.ANONYMOUS_USERS);
-        usersGroups.remove(AccountGroup.REGISTERED_USERS);
-        for (AccountGroup.UUID myGroup : currentUser.get().getEffectiveGroups()) {
-          if (usersGroups.contains(myGroup)) {
-            map.put(account.getId(), info);
-            break;
-          }
-        }
-        break;
-      }
-      case VISIBLE_GROUP: {
-        Set<AccountGroup.UUID> usersGroups = groupsOf(account);
-        usersGroups.remove(AccountGroup.ANONYMOUS_USERS);
-        usersGroups.remove(AccountGroup.REGISTERED_USERS);
-        for (AccountGroup.UUID usersGroup : usersGroups) {
-          try {
-            if (groupControlFactory.controlFor(usersGroup).isVisible()) {
-              map.put(account.getId(), info);
-              break;
-            }
-          } catch (NoSuchGroupException e) {
-            continue;
-          }
-        }
-        break;
-      }
-      case OFF:
-        break;
-      default:
-        throw new IllegalStateException("Bad SuggestAccounts " + suggestAccounts);
+    if (accountControlFactory.get().canSee(account)) {
+      map.put(account.getId(), info);
     }
   }
 

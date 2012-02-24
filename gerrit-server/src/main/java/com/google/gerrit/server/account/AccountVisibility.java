@@ -1,4 +1,4 @@
-// Copyright (C) 2011 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.rpc;
+package com.google.gerrit.server.account;
 
-public enum SuggestAccountsEnum {
+/** Visibility level of other accounts to a given user. */
+public enum AccountVisibility {
+  /** All accounts are visible to all users. */
   ALL,
+
+  /** Accounts sharing a group with the given user. */
   SAME_GROUP,
+
+  /** Accounts in a group that is visible to the given user. */
   VISIBLE_GROUP,
-  OFF;
+
+  /**
+   * Other accounts are not visible to the given user unless they are explicitly
+   * collaborating on a change.
+   */
+  NONE;
 }

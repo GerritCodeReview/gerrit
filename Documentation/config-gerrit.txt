@@ -24,6 +24,27 @@ Sample `etc/gerrit.config`:
   diskbuffer = 10 m
 ----
 
+[[accounts]]Section accounts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[accounts.visibility]]::
++
+Controls visibility of other users' dashboard pages and
+completion suggestions to web users.
++
+If `ALL`, all users are visible to all other users, even
+anonymous users.
++
+If `SAME_GROUP`, only users who are also members of a group the
+current user is a member of are visible.
++
+If `VISIBLE_GROUP`, only users who are members of at least one group
+that is visible to the current user are visible.
++
+If `NONE`, no users other than the current user are visible.
++
+Default is `ALL`.
+
 [[addreviewer]]Section addreviewer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -2012,19 +2033,20 @@ By default, all supported MACs are available.
 
 [[suggest.accounts]]::
 +
-If `ALL`, all matching user accounts will be offered as
-completion suggestions when adding a reviewer to a change,
-or a user to a group.
+If `true`, visible user accounts (according to the value of
+`accounts.visibility`) will be offered as completion suggestions
+when adding a reviewer to a change, or a user to a group.
 +
-If `SAME_GROUP`, only users who are also members of a group the
-current user is a member of will be offered.
+If `false`, account suggestion is disabled.
 +
-If `VISIBLE_GROUP`, only users who are members of at least one group
-that is visible to the current user will be offered.
+Older configurations may also have one of the `accounts.visibility`
+values for this field, including `OFF` as a synonym for `NONE`. If
+`accounts.visibility` is also set, that value overrides this one;
+otherwise, this value applies to both `suggest.accounts` and
+`accounts.visibility`.
 +
-If `OFF`, no account suggestions are given.
-+
-Default is `ALL`.
+New configurations should prefer the boolean value for this field
+and an enum value for `accounts.visibility`.
 
 [[theme]] Section theme
 ~~~~~~~~~~~~~~~~~~~~~~~

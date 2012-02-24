@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.StarredChange;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -83,6 +84,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final Provider<CurrentUser> currentUser;
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
+  private final AccountControl.Factory accountControlFactory;
 
   private final ChangeQueryBuilder.Factory queryBuilder;
   private final Provider<ChangeQueryRewriter> queryRewriter;
@@ -92,12 +94,14 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
+      final AccountControl.Factory accountControlFactory,
       final ChangeQueryBuilder.Factory queryBuilder,
       final Provider<ChangeQueryRewriter> queryRewriter) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
+    this.accountControlFactory = accountControlFactory;
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
   }
@@ -217,7 +221,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
           Failure {
         final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
         final Account user = ac.get(target);
-        if (user == null) {
+        if (user == null || !accountControlFactory.get().canSee(user)) {
           throw new Failure(new NoSuchEntityException());
         }
 

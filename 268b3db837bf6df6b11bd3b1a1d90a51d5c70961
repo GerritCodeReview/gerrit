@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAADNX///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-24T15:39:20Z",
+      "side": 1,
+      "message": "Yes, I know patchSet.getId() was old, but you changed the line so I felt free to comment on it. :-)\n\nfileList is a final variable and you call it on lines 122 and 128... you\u0027re still only setting it once (once in the if or once in the else).",
+      "parentUuid": "AAADQH////8\u003d",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADNX////Q\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 1

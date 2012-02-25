@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADOX///+4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-25T18:02:43Z",
+      "side": 1,
+      "message": "I like this solution much better, but it appears now that this path here is no longer really used and your new error path has to do extra work to mimick this.  This has me thinking of a possible more generic solution, bear with me.\n\nWhat if we created a new generic RpcResult\u003cR,E\u003e which held a result and/or an Exception.  You could then put the ListBranchesResult in the result, and still have a place to store an Exception which I think could now maintain its type (if defined in the common package).  This would allow you to move some of the code from your new AddBranchResult back to the old Exception (mainly the Type enum and any other error needed stuff).  And finally the other generic piece that would help is to make a new generic GerritRpcResultCallback which extends GerritCallback\u003cR extends RpcResult\u003cR, E\u003e\u003e and takes a look at R to see if the Result and/or the exception are null or not.  And perhaps it then would call the onSuccess(R) and/or onFailure(E) as appropriate, sometimes calling both?  Or maybe we add a third method, onFailureResult(R, E) which it calls instead of the other 2 in the case that neither R nor E are null?\n\nMy thinking is that Gerrit currently does not support some error cases well enough, sometimes there are errors in services which need to be reported to users, but nevertheless the service does still cause a change which deserves a screen update to a new Result, this third new method would support such a case perhpas?  And this new generic framework might allow us to better report exceptions in cases such as your change here?  There are probably some pieces missing in my explanation or my idea, but it feels like it should work?",
+      "revId": "0106c7a649dfa601edbcfb29a1e2d3db472bd17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

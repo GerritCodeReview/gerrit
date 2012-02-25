@@ -1,0 +1,454 @@
+Release notes for Gerrit 2.3
+============================
+
+Gerrit 2.3 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.3.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.3.war]
+
+Schema Change
+-------------
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+*WARNING:* Upgrading to 2.3.x requires the server be first upgraded
+to 2.1.7 (or a later 2.1.x version), and then to 2.3.x.
+
+If you are upgrading from 2.2.x.x, you may ignore this warning and
+upgrade directly to 2.3.x.
+
+
+New Features
+------------
+Drafts
+~~~~~~
+* New draft statuses and magic branches
++
+Adds draft status to Change. DRAFT status in change occurs before NEW
+and will be for a change that is not meant for review (yet).
+Also adds magic branches refs/drafts/ and refs/publish/ that
+will handle whether or not a patchset is a draft or goes straight to
+review. refs/for/ should be deprecated in favor of explicitly marking
+a patchset as a draft or directly to review.
+
+* Draft patchset and change visibility in UI
++
+If a patchset is a draft, adds a (DRAFT) label next to the revision
+(or gitweb link if it exists). If a change is a draft, adds a (DRAFT)
+next to the subject and changes the status appropriately.
+
+* Publish draft patchsets in UI and SSH
++
+Adds Publish button to draft patchsets in UI and an option to
+publish draft patchsets in the review ssh command. Publishing a draft
+patchset makes it visible. Publishing a draft patchset in a draft
+change irreversibly upgrades the change status to NEW.
+
+* Delete draft changes and patchsets
++
+Adds ability to delete draft changes and patchsets that are not meant
+or fit for code review. Deleting a draft patchset also deletes the
+corresponding ref from the repository and decrements the next patch
+set number for the change if necessary. Deleting a draft change
+deletes all of its (draft) patchsets.
+
+* Add pushing drafts to refs/drafts/
++
+Pushing to refs/drafts/ will now push a draft patchset. If this is the
+first patch set, change created will be in draft status. Pushing a
+draft patchset to a draft change keeps it in draft status. Pushing
+a non-draft patchset (with refs/publish/ or refs/for/, they do the
+same thing) to a draft change turns it into a non-draft change.
+Draft patchsets cannot be submitted.
+
+* When pushing changes as drafts, output [DRAFT] next to the change link
+
+
+Web
+~~~
+* issue 203 Create project through web interface
++
+Add a new panel in the Admin->Projects Screen.  It
+enables the users that are allowed to create projects
+via command-line to create them also via web interface.
+
+* Suggest parent for 'create-project' in the UI.
++
+Add a list of parent suggestions for 'create project'
+in the UI, so the user can select a parent for the new
+project from a list of projects that are already parents to
+other projects.
+
+* issue 981 Fix diffs skipping one line
++
+Don't show '... skipping 1 common line ...'.  The text to show this
+takes up just as much space as showing the line which was skipped.
+
+* issue 18 Support expanding lines of context in diff
++
+Allow lines of context which were skipped in the side-by-side diff
+view to be expanded.  This makes it easier to get more code context
+when needed but not show huge amounts of unneeded data.
+
+* Move checkbox to mark file as reviewed into title bar
+
+* Redirect the user to the reverted change (when reverting).
+
+* On group rename update the group name in the page title
+
+* In ProjectAccessScreen add link to history of project.config in gitweb
+
+* Removed superfluous 'comment' for patch history table.
+
+* Make OpenID login images transparent
+
+* Disable SSH Keys in the web UI if SSHD is disabled
+
+
+SSH
+~~~
+* Adds --description (-d) option to ls-projects
++
+Allows listing of projects together with their respective
+description.
+
+* ls-projects: new option to list all accessible projects
++
+Add a new option '--all' to the 'ls-projects' SSH command to display
+all projects that are accessible by the calling user account. Besides
+the projects that the calling user account has been granted 'READ'
+access to, this includes all projects that are owned by the calling
+user account (even if for these projects the 'READ' access right is
+not assigned to the calling user account).
+
+* Suggest parent for 'create-project' in the SSH command
++
+Add an option '--suggest-parents' which will print out
+a list of projects that are already parents to another
+projects, thus it can help user to find a suitable
+parent for the new project.
+
+* Support reparenting all children of a parent project
++
+This change adds a new option to the 'set-project-parent' command that
+allows reparenting all child projects of one parent project to another
+parent project.
+
+* set-parent-project: evict child projects from project cache
+
+* Add ssh command to list groups.
+
+* ls-groups: add option to list groups for a project
++
+Add an option to the ls-groups SSH command that allows to list only
+those groups for which any permission is assigned to a project.
+
+* ls-groups: Add option to only list groups that are visible to all
+
+* ls-groups: Support listing groups by group type
+
+* ls-groups: Support listing of groups for a user
+
+* Add new SSH command to rename groups
+
+* Support for --file option for ssh queries.
++
+Allows user to list files and attributes (ADDED,
+MODIFIED, DELETED, RENAMED, COPIED) when querying for
+patch sets.
+
+* Output full commit message in query results
+
+* Option for SSHD review-cmd to always publish the message.
++
+"--force-message" option for the SSHD review command,
+which allows Gerrit to publish the "--message", even if the
+labels could not be applied due to change being closed.
+
+
+Config
+~~~~~~
+* issue 349 Apply states for projects (active, readonly and hidden)
++
+Active state indicates the project is regular and is the default value.
++
+Read Only means that users can see the project if read permission is
+granted, but all modification operations are disabled.
++
+Hidden means the project is not visible for those who are not owners
+
+* Enable case insensitive login to Gerrit WebUI for LDAP authentication
++
+Gerrit treats user names as case sensitive, while some LDAP servers
+don't. On first login to Gerrit the user enters his user name and
+Gerrit queries LDAP for it. Since LDAP is case-insensitive with regards
+to  the username, the LDAP authentication succeeds regardless in
+which case the user typed in his user name. The username is stored in
+Gerrit exactly as entered by the user. For further logins the user
+always has to use the same case. If the user specifies his user name in
+a different case Gerrit tries to create a new account which fails with
+"Cannot assign user name ... to account ...; name already in use.".
+This error occurs because the LDAP query resolves to the same LDAP
+user and storing the username for SSH (which is by default always
+lower case) fails because such an entry exists already for the first
+account that the user created.
++
+This change introduces a new configuration parameter that converts the
+user name always to lower case before doing the LDAP authentication.
+By this the login to the Gerrit WebUI gets case insensitive. If this
+configuration parameter is set, the user names for all existing
+accounts have to be converted to lower case. This change includes a
+server program to do this conversion.
+
+* Enable case insensitive authentication for git operations
++
+A new configuration parameter is introduced that converts the username
+that is received to authenticate a git operation to lower case for
+looking up the user account in Gerrit.
++
+By setting this parameter a case insensitive authentication for the
+git operations can be achieved, if it is ensured that the usernames in
+Gerrit (scheme 'username') are stored in lower case (e.g. if the
+parameter 'ldap.accountSshUserName' is set to
+'${sAMAccountName.toLowerCase}').
+
+* Support replication to local folder
+
+* Read timeout parameter for LDAP connections: ldap.readTimeout
++
+This helps prevent a very slow LDAP server from blocking
+all SSH command creation threads.
+
+* Introduce a git maxObjectSizeLimit in the [recieve] config
++
+This limits the size of uploaded files
+
+* Make 'Anonymous Coward' configurable
+
+* Add property to configure path separator in URLs for a gitweb service
+
+* Customize link-name pointing to gitweb-service.
++
+Previously the link to the external gitweb-type
+pages said "(gitweb)" regardless if using cgit
+or a custom service.
+
+* Support gitweb.type=disabled
+
+* rules.enable: Support disabling per project prolog rules in gerrit.config
+
+* Allow site administrators to define Git-over-HTTP mirror URL
+
+* Allow sshd.listenAddress = off to disable the daemon
+
+* daemon: Allow httpd without sshd
+
+* Allow disabling certain features of HostPageServlet
++
+These features are: user agent detection and automatic refresh
+logic associated with the site header, footer and CSS.
+
+
+Dev
+~~~
+* Fix 'No source code is available for type org.eclipse.jgit.lib.Constants'
+
+* Fix miscellaneous compiler warnings
+
+* Add entries to .gitignore for m2e settings/preference files
+
+* Package source JARs for antlr, httpd, server
+
+* pom.xml: change gerrit-war's dependency on gerrit-main to runtime
++
+This only seems to matter to IntelliJ, since the Main class is
+provided to the war via an overlay in gerrit-war/pom.xml
+
+* Fixed the full name of the MAVEN2_CLASSPATH_CONTAINER
++
+Fixes java.lang.NoClassDefFoundError: com/google/gwt/dev/DevMode
+
+
+Miscellaneous
+~~~~~~~~~~~~~
+* Allow superprojects to subscribe to submodules updates
++
+The feature introduced in this commit allows superprojects to
+subscribe to submodules updates.
++
+When a commit is merged to a project, the commit content is scanned
+to identify if it registers submodules (if the commit contains new
+gitlinks and .gitmodules file with required info) and if so, a new
+submodule subscription is registered.
++
+When a new commit of a registered submodule is merged, gerrit
+automatically updates the subscribers to the submodule with new
+commit having the updated gitlinks.
++
+The most notable benefit of the feature is to not require
+to push/merge commits of super projects (subscribers) with gitlinks
+whenever a project being a submodule is updated. It is only
+required to push commits with gitlinks when they are created
+(and in this case it is also required to push .gitmodules file).
+
+* Allow Realm to participate when linking an account identity
++
+When linking a new user identity to an exisiting account, permit the
+Realm to observe the new incoming identity and the current account,
+and to alter the request. This enables a Realm to observe when a
+user verifies a new email address link.
+
+* issue 871 Show latest patchset with cherry-picked merge
++
+When a change is published via the cherry-pick merge strategy,
+show the final commit as a patchset in the change history.
+This now makes it possible to search for the cherry-picked SHA1.
+
+* issue 871 Display hash of the cherry-pick merge in comment
+
+* Added more verbose messages when changes are being rejected
+
+* Display proper error message when LDAP is unavailable
+
+* Clarify error msg when user's not allowed to '--force push'.
+
+* ContainerAuthFilter: fail with FORBIDDEN if username not set
+
+* Resolve 'Project Owners' group if it is included into another group
+
+* Hide SSH URL in email footers if SSH is disabled
+
+* Sort the jar files from the war before adding to classpath.
+
+* Apply user preferences when loading site
+
+* Ensure HttpLog can always get the user identity
+
+* Prevent comments spam for abandoned commit
++
+If some change was abandoned but later submitted (e.g. by
+cherry-picking it to a another branch) then pushing a new branch
+that contains this change no longer adds a new comment.
+
+* Make Address, EmailHeader visible to other EmailSenders
+
+* Use transactions to handle comments when possible
+
+* Try to use transactions when creating changes
+
+* gerrit.sh: disown doesn't accept pid as a argument, fix script
+
+* gerrit.sh: detach gerrit properly so it won't keep bad ssh sessions open.
+
+* Cache list of all groups in the group cache
+
+* issue 1161 Evict project in user cache on save of project meta data
+
+* Ensure that the site paths are resolved to their canonical form (for Windows)
+
+* Connect Velocity to slf4j
+
+* Expose project permissionOnly status via JSON-RPC
+
+* Make HEAD of All-Projects point to refs/meta/config
+
+* issue 1158 Added support for European style dates
+
+* Make macros in email templates local to the template
+
+* Support http://server/project for Git access
+
+* Use _ instead of $ for implementation-detail Prolog predicates
+
+* Update the Sign In anchor with current URL
++
+Always update the href of the Sign In anchor in the menu bar with
+the current page URL after /login/, making the redirect process
+bring users back to the current view after sign in.
+
+* Improve validation of email registration tokens
+
+
+Upgrades
+--------
+* Upgrade to gwtorm 1.2
+
+* Upgrade to JGit 1.1.0.201109151100-r.119-gb4495d1
++
+This is needed because of this change:
+https://gerrit-review.googlesource.com/#/c/30450/
+
+* Support Velocity 1.5 (as well as previous 1.6.4)
+
+
+Bug Fixes
+---------
+* Avoid NPE when group is missing
+
+* Do not fail with NPE if context path of request is null
+
+* Fix NPE in set-project-parent command if parent is not specified
+
+* Only send mail to author and committer if they are registered to prevent an NPE
+
+* Avoid potential NPE when querying the queue.
+
+* Allow loading Project Access when there is no refs/meta/config
+
+* Fix calculation of project name if repo is not existing
++
+If a project inherits from a non existing parent, prevent a
+StringIndexOutOfBoundsException.
+
+* Fix: Supress "Error on refs/cache-automerge" warnings.
+
+* Don't allow registering for cleanup after cleanup runs
++
+This prevents leaking a database connection.
+
+* issue 807 Fix: Tags are not replicated properly
+
+* Prevent smtp rejected users from rejecting emails for all users
+
+* Fix token saving redirect in container auth
++
+Update the jump page that redirects users from /#TOKEN to
+/login/TOKEN.  This forces using the container based
+authentication.  Also correct "/login//" to be just "/login/".
+
+* Use custom error messages for Git-over-HTTP
++
+Ensure clients see messages related to contributor agreement not
+being activated even if they push over HTTP.
+
+* Avoid double key event for GroupReferenceBox
+
+* Fix git push authentication over HTTP
+
+* Fix http://login/ redirect bug
+
+* Fix missing targets in /login/ URLs
+
+* set-project-parent: if update of 1 project fails continue with others
+
+* Verify the case of the project name before opening git repository
+
+* Update top level SUBMITTING_PATCHES URLs
+
+
+Documentation
+-------------
+* Some updates to the design docs
+
+* cmd-index: Fix link to documentation of rename-group command
+
+* Update documentation for testing SSH connection
+
+* Bypass review updated with 2.2.x permissions
+
+* Add documentation for 'peer_keys'
+
+* Improve 'Push Merge Commit' access right documentation
+
+* Access control: capabilities

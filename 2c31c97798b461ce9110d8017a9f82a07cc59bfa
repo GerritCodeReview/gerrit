@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADOX///+w\u003d",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-25T22:32:25Z",
+      "side": 1,
+      "message": "This should probably explain how to deploy it locally first.  Then how to delete it from your local maven repo so that you can test the upstream version after you deploy it.",
+      "revId": "2c31c97798b461ce9110d8017a9f82a07cc59bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADOX///+s\u003d",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-25T22:32:25Z",
+      "side": 1,
+      "message": "It might not actually be exact, I think it removes the leading \"v\".",
+      "revId": "2c31c97798b461ce9110d8017a9f82a07cc59bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADOX///+o\u003d",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-25T22:32:25Z",
+      "side": 1,
+      "message": "This us not mentioned in the snapshot section, both of these sections should likely be brought together so that they match more closely.",
+      "revId": "2c31c97798b461ce9110d8017a9f82a07cc59bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADOX///+k\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-25T22:32:25Z",
+      "side": 1,
+      "message": "Links to subdocument, or somehow embed them here.",
+      "revId": "2c31c97798b461ce9110d8017a9f82a07cc59bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADOX///+g\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-25T22:32:25Z",
+      "side": 1,
+      "message": "This note is related to line 59",
+      "revId": "2c31c97798b461ce9110d8017a9f82a07cc59bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

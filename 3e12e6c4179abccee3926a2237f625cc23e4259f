@@ -16,6 +16,23 @@
       "revId": "3e12e6c4179abccee3926a2237f625cc23e4259f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADQX///+0\u003d",
+        "filename": "tools/gitlog2asciidoc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-02-25T01:47:20Z",
+      "side": 1,
+      "message": "This script has a few problems.\n\n* It will throw away any error returned by gitlog2asciidoc.py.\n* It will clobber any existing file named gitlog. If we really can\u0027t just pipe the \"git log\" output to gitlog2asciidoc.py we should at least use mktemp to generate a new file.\n* If the execution is interrupted, the gitlog file is left behind.\n* It assumes that it\u0027s being run from the tools directory. Running it from the root directory (\"tools/gitlog2asciidoc.sh\") will cause line 8 to fail, and because of the first bullet this won\u0027t even be reported.\n* Having the Python script to read its input from a file with a hardcoded name is not a very good interface.\n\nWhy not just rewrite gitlog2asciidoc.py to read input from stdin and rewrite this script to a single command?\n\n git log --reverse --no-merges $1..$2 --format\u003d\u0027* %s%n+%n%b\u0027 \\\n     | python $(dirname $0)/gitlog2asciidoc.py\n\nOh, but we should also ensure that $1 and $2 are non-empty before attempting to invoke \"git log\".\n\n if [ -z \"$1\" -o -z \"$2\" ] ; then\n     echo \"Usage: $(basename $0) \u003csince\u003e \u003cuntil\u003e\" \u003e\u00262\n     exit 1\n fi\n\nI\u0027d also prefer if the Python script contained a suitable hashbang at the top so we won\u0027t have to invoke the script by explicitly specifying the interpreter.",
+      "revId": "3e12e6c4179abccee3926a2237f625cc23e4259f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

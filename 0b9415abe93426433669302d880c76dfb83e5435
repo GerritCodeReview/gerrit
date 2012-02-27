@@ -52,6 +52,24 @@
       "revId": "0b9415abe93426433669302d880c76dfb83e5435",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADRH////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-27T01:44:26Z",
+      "side": 1,
+      "message": "[option] resolve \u0027merge pending \u0027 in markCleanMerges() method , e.g.  allocate cut point between 669  and 670. \n\n (just suggestion ,not ever test if it can resolve the issue George reported).",
+      "parentUuid": "AAADMn////k\u003d",
+      "revId": "0b9415abe93426433669302d880c76dfb83e5435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

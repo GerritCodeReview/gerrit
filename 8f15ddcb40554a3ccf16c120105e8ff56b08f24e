@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADSn////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-27T16:48:41Z",
+      "side": 1,
+      "message": "I can\u0027t lock the reference using LockFile at Google. We don\u0027t have a filesystem. We don\u0027t have LockFile support.\n\nAnd really, is this actually necessary? We don\u0027t lock a branch when we upload changes to it. So there is already a slight race condition where a branch can be deleted at the same time that changes are being created on it for review, leaving those branches orphaned.",
+      "revId": "8f15ddcb40554a3ccf16c120105e8ff56b08f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADSn////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-27T16:48:41Z",
+      "side": 1,
+      "message": "I would prefer not to add this to the GitRepositoryManager interface. We\u0027ll implement it the same way at Google using the open, getRef, close that you put into LocalDiskRepositoryManager.\n\nMaybe move that to a static utility method?",
+      "revId": "8f15ddcb40554a3ccf16c120105e8ff56b08f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

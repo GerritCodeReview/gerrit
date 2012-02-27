@@ -16,6 +16,109 @@
       "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADPH///9U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-27T16:34:35Z",
+      "side": 1,
+      "message": "Like Bruce Zu I am equally torn about the message footer. It might be OK to keep, but the name is too generic. The constant name should be more descriptive about what is wrong.\n\nWe also runt he risk of printing this multiple times in a session if there are multiple failures. It might be better to define an instance member boolean that is set on permission failures, and then print this message only once when the boolean is set after all ReceiveCommands have been processed inside of onPreReceive.",
+      "parentUuid": "AAADLX////0\u003d",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADPH///9c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-27T16:34:35Z",
+      "side": 1,
+      "message": "It may be worth expanding this to include say:\n\n  + \"who also have \u0027Push\u0027 rights on \" + GitRepositoryManager.REF_CONFIG",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADPH///9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-27T16:34:35Z",
+      "side": 1,
+      "message": "see below about reject()",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADPH///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-27T16:34:35Z",
+      "side": 1,
+      "message": "I would prefer to put the longer explanation on rp.sendMessage() and use a shorter message in reject() (see below).",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADPH///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-27T16:34:35Z",
+      "side": 1,
+      "message": "Same as below about reject using shorter messages.",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADPH///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-27T16:34:35Z",
+      "side": 1,
+      "message": "I like to keep the message passed to reject short. This appears in the Git output with a large line prefix, so anything over a few characters tends to cause the line to wrap.\n\nMaybe we can shorten this to:\n\n  reject(cmd, String.format(\"%s cannot upload review\",\n    destBranchCtrl.getCurrentUser().getUserName()));\n\nUnfortunately the gerrit-review.googlesource.com server has no concept of username. So this will report \"null cannot upload review\" on our servers. We may need to fix this within the Google specific environment.",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

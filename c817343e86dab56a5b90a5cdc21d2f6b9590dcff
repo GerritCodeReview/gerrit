@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADPH///9w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-27T16:26:26Z",
+      "side": 1,
+      "message": "I don\u0027t want to use query parameters for this. I think the better approach is to embed the base in the URL. For example this page\u0027s current URL is:\n\n  https://gerrit-review.googlesource.com/#/c/33090/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java\n\nIf we were comparing patch set 1 and patch set 3 of this change, the URL should then instead be:\n\n  https://gerrit-review.googlesource.com/#/c/33090/1..3/gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java\n\nIt turns out this is a very, very ancient bug in Gerrit Code Review. I can\u0027t find the stupid issue right now, but there is an issue saying we don\u0027t remember the base patch set in the URL, making it impossible to copy-and-paste the URL to a co-worker to show them the same diff you are looking at.\n\nIn doing this change, we should then make all diff pages change their URL to the 1..3 syntax when comparing patch set 1 to patch set 3.",
+      "revId": "c817343e86dab56a5b90a5cdc21d2f6b9590dcff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADPH///90\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-02-27T16:26:26Z",
+      "side": 1,
+      "message": "Don\u0027t add a space at the start of a line like this. :-)",
+      "revId": "c817343e86dab56a5b90a5cdc21d2f6b9590dcff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

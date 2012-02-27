@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADQ3////g\u003d",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-27T20:47:51Z",
+      "side": 1,
+      "message": "I think we can get this using the --all-approvals flag to gerrit query now as well. Room for future improvement if anyone was looking for it...",
+      "revId": "b7b202049d1285df8647ea1816f698c0a7b29d72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

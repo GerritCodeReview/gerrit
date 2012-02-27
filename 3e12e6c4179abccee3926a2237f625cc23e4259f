@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAADQn////s\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-02-27T03:58:12Z",
+      "side": 1,
+      "message": "While there are a few commonly used footers (Tested-by, Suggested-by, ...), people can really put anything there. I think Martin\u0027s suggestion of deleting header-looking lines at the end of the commit message is reasonable.",
+      "parentUuid": "AAADPH///+Y\u003d",
+      "revId": "3e12e6c4179abccee3926a2237f625cc23e4259f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADQX///+4\u003d",
         "filename": "tools/gitlog2asciidoc.sh",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I don\u0027t need this script anymore since I figure out how to run git log in python.  How can I remove this file from the next push?",
       "parentUuid": "AAADQX///+4\u003d",
+      "revId": "3e12e6c4179abccee3926a2237f625cc23e4259f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADQn////w\u003d",
+        "filename": "tools/gitlog2asciidoc.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-02-27T03:58:12Z",
+      "side": 1,
+      "message": "Just run \"git rm\" to delete the file, then \"git commit --amend\" to amend the commit.",
+      "parentUuid": "AAADRn////0\u003d",
       "revId": "3e12e6c4179abccee3926a2237f625cc23e4259f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

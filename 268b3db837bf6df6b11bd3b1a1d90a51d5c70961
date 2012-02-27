@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADRH////c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-27T04:55:07Z",
+      "side": 1,
+      "message": "Thanks!\n\nDone.",
+      "parentUuid": "AAADNX////c\u003d",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADNX////Y\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 1
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAADRH////o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-27T04:55:07Z",
+      "side": 1,
+      "message": "aha , I got your idea. great !\n\nDone",
+      "parentUuid": "AAADNX///+0\u003d",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADNX////Q\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 1
@@ -83,6 +119,24 @@
       "writtenOn": "2012-02-23T23:38:17Z",
       "side": 1,
       "message": "nit: s/result/fileList/",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADRH////k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-27T04:55:07Z",
+      "side": 1,
+      "message": "fine! \n\nDone",
+      "parentUuid": "AAADNX////Q\u003d",
       "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -106,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "AAADRH////g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-27T04:55:07Z",
+      "side": 1,
+      "message": "good sensor !\n\nDone.",
+      "parentUuid": "AAADNX////U\u003d",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADNX////M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
         "patchSetId": 1
@@ -117,6 +189,24 @@
       "writtenOn": "2012-02-23T23:38:17Z",
       "side": 1,
       "message": "Perhaps this can just be toFilteredPatchList or just toPatchList since this is really toPatchList but with a filter? Up to you.",
+      "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADRH////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-27T04:55:07Z",
+      "side": 1,
+      "message": "OK.\n\nDone!",
+      "parentUuid": "AAADNX////M\u003d",
       "revId": "268b3db837bf6df6b11bd3b1a1d90a51d5c70961",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

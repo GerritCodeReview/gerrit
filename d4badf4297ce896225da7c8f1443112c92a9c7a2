@@ -343,6 +343,24 @@
     },
     {
       "key": {
+        "uuid": "AAADQn///+o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-02-28T19:21:21Z",
+      "side": 1,
+      "message": "I should modify toDelete to be a set of SubmitSection. Agree.",
+      "parentUuid": "AAADNH///+Y\u003d",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADNH///+U\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
         "patchSetId": 10
@@ -354,6 +372,24 @@
       "writtenOn": "2012-02-28T15:29:26Z",
       "side": 1,
       "message": "Isn\u0027t this condition always true for the members of the toDelete set?\n\nIf something was put into toDelete set then the if statement (104-105) evaluated as false which means that\n\n projectControl.controlForRef(name).isOwner()\n\nwas true for all section names in the toDelete set.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADQn///+s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-02-28T19:21:21Z",
+      "side": 1,
+      "message": "You are right.",
+      "parentUuid": "AAADNH///+U\u003d",
       "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

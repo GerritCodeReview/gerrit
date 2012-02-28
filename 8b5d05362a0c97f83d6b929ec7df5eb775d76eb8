@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAADNH////o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/MergeStrategySection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T08:00:51Z",
+      "side": 1,
+      "message": "\u003e  Notice we are in fact using this class instance to represent submit action section in the project.config file.\n\nAs I see, from your example in the commit message, there is \"submit\" section. The \"action\" is only one of the properties of the submit section. \n\nWhat about naming it SubmitSection?",
+      "parentUuid": "AAADBH////w\u003d",
+      "revId": "8b5d05362a0c97f83d6b929ec7df5eb775d76eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAC/n///+0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeProjectSettings.java",
         "patchSetId": 8

@@ -291,6 +291,24 @@
     },
     {
       "key": {
+        "uuid": "AAADQn///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003770
+      },
+      "writtenOn": "2012-02-28T19:09:31Z",
+      "side": 1,
+      "message": "It was intentional. Maybe a better name is \"ChangeSubmitSections\". What do you think?",
+      "parentUuid": "AAADNH///+Q\u003d",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADNH///+c\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
         "patchSetId": 10

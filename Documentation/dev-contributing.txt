@@ -148,6 +148,8 @@ Here are some guidelines that Gerrit uses:
     be near each other baring a good reason not to.
   * If you are using assisted injection, the factory for your class
     should be before the instance members.
+  * Annotations should go before language keywords (final, private...) +
+    Example: @Assisted @Nullable final type varName
   * Imports should be mostly aphabetical (uppercase sorts before
     all lowercase, which means classes come before packages at the
     same level).

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAADQn////M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-28T15:00:42Z",
+      "side": 1,
+      "message": "Could you describe the approach used to fix things here? Specifically it would be nice to get an explanation of the new url format.  Thanks.",
+      "revId": "c817343e86dab56a5b90a5cdc21d2f6b9590dcff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADPH///9w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 1

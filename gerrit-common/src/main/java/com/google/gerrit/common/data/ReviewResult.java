@@ -76,7 +76,13 @@ public class ReviewResult {
       NOT_A_DRAFT,
 
       /** Error writing change to git repository */
-      GIT_ERROR
+      GIT_ERROR,
+
+      /** Error parsing parameters */
+      PARAM_ERROR,
+
+      /** Patchset identifier Matches too many or few patchsets */
+      PATCHSET_MATCH_ERROR,
     }
 
     protected Type type;

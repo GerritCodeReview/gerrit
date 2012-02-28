@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADNH////g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "s/use merge content/mergeContent/",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH////I\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "Adjust the length of the underline to the length of the title.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH////E\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "Adjust the length of the underline to the length of the title.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH////c\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "s/if to/if in/",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH////Y\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "Do we need quotes about the ref?\n\n [submit \"refs/*\"]\n\nLooking at Git config files it seems like quotes are always used at this place.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH////A\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "Adjust the length of the underline to the length of the title.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH////U\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "If it doesn\u0027t have a default value then what will happen if there are conflicts, action is mergeIfNecessary and the mergeContent is not specified?\n\nAlso, I propose:\ns/disable it to a submit action/disable it for a submit section/",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH////Q\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "s/one should fill it with false value/set it to false/",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH////M\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "This means, that indeed there is a default value (false) for the mergeContent. Right?\n\nThen I would propose to remove the sentence above which says that there is no default value.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+4\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "s/Action/Section",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+8\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "Adjust the length of the underline to the length of the title.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+0\u003d",
+        "filename": "Documentation/submit-action.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "s#of one to ref/*#of a submit section for \"refs/*\"#",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitActionSection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "If this class represents the submit section then I think a better name would be \"SubmitSection\"?",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitActionSection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "I propose to name this inner type just \"Action\".\nIf the outer class is named \"SubmitSection\" then referencing this class looks like:\n\n SubmitSection.Action action\n\nwhich more consistent than:\n\n SubmitActionSection.SubmitType\n\nAlso, these constants we name \"submit actions\" in our documentation:\nhttps://gerrit-review.googlesource.com/Documentation/project-setup.html",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitActionSection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "Why not use a boolean here? Or Boolean if you need null value.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitActionSection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "For enums you don\u0027t have to use the equals method as JVM guarantees one instance of each contant. Use the \"\u003d\u003d\" operator to check equality of two enum constants.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "Did you want to use plural form for the class name or was this a typo?",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "s/submitActionSections/submitSections",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "Why putting section name into the toDelete set instead of the section object?\nAt line 117 the name is used to get the (same) section object that you already had in hands here.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADNH///+U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T15:29:26Z",
+      "side": 1,
+      "message": "Isn\u0027t this condition always true for the members of the toDelete set?\n\nIf something was put into toDelete set then the if statement (104-105) evaluated as false which means that\n\n projectControl.controlForRef(name).isOwner()\n\nwas true for all section names in the toDelete set.",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

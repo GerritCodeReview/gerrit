@@ -309,6 +309,24 @@
     },
     {
       "key": {
+        "uuid": "AAADTX////k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T19:45:16Z",
+      "side": 1,
+      "message": "I agree. ChangeSubmitSections is the right name.",
+      "parentUuid": "AAADQn///+0\u003d",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADNH///+c\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
         "patchSetId": 10
@@ -390,6 +408,24 @@
       "side": 1,
       "message": "You are right.",
       "parentUuid": "AAADNH///+U\u003d",
+      "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADTX////o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ChangeSubmitActions.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-02-28T19:45:16Z",
+      "side": 1,
+      "message": "Actually, I am wrong!\n\nAt line 112 you are removing from the toDelete set and not adding to it (as I imagined during the review).\n\nSo, the condition:\n\n projectControl.controlForRef(name).isOwner()\n\nis true for the *removed* elements of the toDelete set but we don\u0027t know for those that remained in the set and must check here again just as you did it!\n\nSorry for misleading comment.",
+      "parentUuid": "AAADQn///+s\u003d",
       "revId": "d4badf4297ce896225da7c8f1443112c92a9c7a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

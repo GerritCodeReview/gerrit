@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAADX3////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-29T18:49:16Z",
+      "side": 1,
+      "message": "Printing the message multiple times doesn\u0027t look too good. I handled that in a different way, (see patchset 1).\n\nI changed the constant name to COMMAND_REJECTION_MESSAGE_FOOTER, comments welcome.",
+      "parentUuid": "AAADPH///9U\u003d",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADPH///9c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2012-02-27T16:34:35Z",
       "side": 1,
       "message": "It may be worth expanding this to include say:\n\n  + \"who also have \u0027Push\u0027 rights on \" + GitRepositoryManager.REF_CONFIG",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADTX////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-29T18:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADPH///9c\u003d",
       "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AAADTX////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-29T18:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADPH///9Y\u003d",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADPH///9g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -82,6 +136,24 @@
       "writtenOn": "2012-02-27T16:34:35Z",
       "side": 1,
       "message": "I would prefer to put the longer explanation on rp.sendMessage() and use a shorter message in reject() (see below).",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADTX////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-29T18:49:16Z",
+      "side": 1,
+      "message": "I have to disagree on this one. This line explains the situation in one sentence and we don\u0027t need sendMessage in this very case.\n\nI shortened it, please see patchset 2.",
+      "parentUuid": "AAADPH///9g\u003d",
       "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AAADTX////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-29T18:49:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADPH///9k\u003d",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADPH///9o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -116,6 +206,24 @@
       "writtenOn": "2012-02-27T16:34:35Z",
       "side": 1,
       "message": "I like to keep the message passed to reject short. This appears in the Git output with a large line prefix, so anything over a few characters tends to cause the line to wrap.\n\nMaybe we can shorten this to:\n\n  reject(cmd, String.format(\"%s cannot upload review\",\n    destBranchCtrl.getCurrentUser().getUserName()));\n\nUnfortunately the gerrit-review.googlesource.com server has no concept of username. So this will report \"null cannot upload review\" on our servers. We may need to fix this within the Google specific environment.",
+      "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADTX////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-02-29T18:49:16Z",
+      "side": 1,
+      "message": "Shortened it, regarding usernames, please see the new method displayName.",
+      "parentUuid": "AAADPH///9o\u003d",
       "revId": "99b5e5a12da3d3d3dcbac0e1d1a4b90bc5b30d69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

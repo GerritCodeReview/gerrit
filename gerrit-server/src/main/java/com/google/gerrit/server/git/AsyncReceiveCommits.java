@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.git.ReceiveCommits.MessageSender;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.Assisted;
@@ -32,18 +33,14 @@ import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /** Hook that delegates to {@link ReceiveCommits} in a worker thread. */
 public class AsyncReceiveCommits implements PreReceiveHook {
   private static final Logger log =
       LoggerFactory.getLogger(AsyncReceiveCommits.class);
-
-  private final ReceiveCommits rc;
-  private final Executor executor;
-  private final ScopePropagator scopePropagator;
 
   public interface Factory {
     AsyncReceiveCommits create(ProjectControl projectControl,
@@ -75,7 +72,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     @Override
     public void run() {
-      rc.processCommands(commands);
+      rc.processCommands(commands, progress);
     }
 
     @Override
@@ -99,6 +96,35 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     }
   }
 
+  private class MessageSenderOutputStream extends OutputStream {
+    private final MessageSender messageSender = rc.getMessageSender();
+
+    @Override
+    public void write(int b) {
+      messageSender.sendBytes(new byte[]{(byte)b});
+    }
+
+    @Override
+    public void write(byte[] what, int off, int len) {
+      messageSender.sendBytes(what, off, len);
+    }
+
+    @Override
+    public void write(byte[] what) {
+      messageSender.sendBytes(what);
+    }
+
+    @Override
+    public void flush() {
+      messageSender.flush();
+    }
+  }
+
+  private final ReceiveCommits rc;
+  private final Executor executor;
+  private final ScopePropagator scopePropagator;
+  private final MultiProgressMonitor progress;
+
   @Inject
   AsyncReceiveCommits(final ReceiveCommits.Factory factory,
       @ReceiveCommitsExecutor final Executor executor,
@@ -109,29 +135,25 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.scopePropagator = scopePropagator;
     rc = factory.create(projectControl, repo);
     rc.getReceivePack().setPreReceiveHook(this);
+
+    progress = new MultiProgressMonitor(
+        new MessageSenderOutputStream(), "Updating changes");
   }
 
   @Override
   public void onPreReceive(final ReceivePack rp,
       final Collection<ReceiveCommand> commands) {
-    Future<?> workerFuture = executor.submit(new Worker(commands),
-        scopePropagator);
-    Exception err = null;
     try {
-      workerFuture.get();
+      progress.begin(executor.submit(new Worker(commands),
+          scopePropagator));
     } catch (ExecutionException e) {
-      err = e;
-    } catch (InterruptedException e) {
-      err = e;
-    }
-    if (err != null) {
-      log.warn("Error in ReceiveCommits", err);
+      log.warn("Error in ReceiveCommits", e);
       rc.getMessageSender().sendError("internal error while processing changes");
       // ReceiveCommits has tried its best to catch errors, so anything at this
       // point is very bad.
       for (final ReceiveCommand c : commands) {
         if (c.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
-          ReceiveCommits.reject(c, "internal error");
+          rc.reject(c, "internal error");
         }
       }
     }

@@ -70,6 +70,41 @@
       "revId": "0b9415abe93426433669302d880c76dfb83e5435",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADXn////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-29T20:25:44Z",
+      "side": 1,
+      "message": "Why are you using startsWith(destBranch.get()) instead of equals(destBranch.get())?",
+      "parentUuid": "AAADRH////w\u003d",
+      "revId": "0b9415abe93426433669302d880c76dfb83e5435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADXn////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-29T20:25:44Z",
+      "side": 1,
+      "message": "Should this check go away also?",
+      "revId": "0b9415abe93426433669302d880c76dfb83e5435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

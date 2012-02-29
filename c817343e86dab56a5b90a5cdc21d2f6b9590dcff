@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAADXn////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-29T17:29:37Z",
+      "side": 1,
+      "message": "Yes, I just meant that it would be good to include that in the commit message on the next patchset so that future reviewers have a head start.",
+      "parentUuid": "AAADRX////k\u003d",
+      "revId": "c817343e86dab56a5b90a5cdc21d2f6b9590dcff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADPH///9w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 1

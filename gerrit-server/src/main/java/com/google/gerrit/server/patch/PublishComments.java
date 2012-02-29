@@ -151,7 +151,8 @@ public class PublishComments implements Callable<VoidResult> {
     db.patchComments().update(drafts);
   }
 
-  private void publishApprovals(ChangeControl ctl) throws OrmException {
+  private void publishApprovals(ChangeControl ctl)
+      throws InvalidChangeOperationException, OrmException {
     ChangeUtil.updated(change);
 
     final Set<ApprovalCategory.Id> dirty = new HashSet<ApprovalCategory.Id>();
@@ -189,10 +190,9 @@ public class PublishComments implements Callable<VoidResult> {
         functionState.normalize(types.byId(a.getCategoryId()), a);
       }
       if (o != a.getValue()) {
-        // Value changed, ensure we update the database.
-        //
-        a.setGranted();
-        dirty.add(a.getCategoryId());
+        throw new InvalidChangeOperationException(
+            types.byId(a.getCategoryId()).getCategory().getLabelName()
+            + "=" + o + " not permitted");
       }
       if (!ins.contains(a)) {
         upd.add(a);

@@ -21,10 +21,8 @@ import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
@@ -32,11 +30,9 @@ import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PublishComments;
-import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.OrmException;
@@ -111,22 +107,13 @@ public class ReviewCommand extends BaseCommand {
   private ReviewDb db;
 
   @Inject
-  private IdentifiedUser currentUser;
-
-  @Inject
   private ApprovalTypes approvalTypes;
-
-  @Inject
-  private ChangeControl.Factory changeControlFactory;
 
   @Inject
   private DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
 
   @Inject
   private AbandonChange.Factory abandonChangeFactory;
-
-  @Inject
-  private FunctionState.Factory functionStateFactory;
 
   @Inject
   private PublishComments.Factory publishCommentsFactory;
@@ -205,10 +192,6 @@ public class ReviewCommand extends BaseCommand {
   private void approveOne(final PatchSet.Id patchSetId) throws
       NoSuchChangeException, OrmException, EmailException, Failure {
 
-    final Change.Id changeId = patchSetId.getParentKey();
-
-    ChangeControl changeControl = changeControlFactory.validateFor(changeId);
-
     if (changeComment == null) {
       changeComment = "";
     }
@@ -217,7 +200,6 @@ public class ReviewCommand extends BaseCommand {
     for (ApproveOption ao : optionList) {
       Short v = ao.value();
       if (v != null) {
-        assertScoreIsAllowed(patchSetId, changeControl, ao, v);
         aps.add(new ApprovalCategoryValue.Id(ao.getCategoryId(), v));
       }
     }
@@ -360,22 +342,6 @@ public class ReviewCommand extends BaseCommand {
       return true;
     }
     return projectControl.getProject().getNameKey().equals(change.getProject());
-  }
-
-  private void assertScoreIsAllowed(final PatchSet.Id patchSetId,
-      final ChangeControl changeControl, ApproveOption ao, Short v)
-      throws UnloggedFailure {
-    final PatchSetApproval psa =
-        new PatchSetApproval(new PatchSetApproval.Key(patchSetId, currentUser
-            .getAccountId(), ao.getCategoryId()), v);
-    final FunctionState fs =
-        functionStateFactory.create(changeControl, patchSetId,
-            Collections.<PatchSetApproval> emptyList());
-    psa.setValue(v);
-    fs.normalize(approvalTypes.byId(psa.getCategoryId()), psa);
-    if (v != psa.getValue()) {
-      throw error(ao.name() + "=" + ao.value() + " not permitted");
-    }
   }
 
   private void initOptionList() {

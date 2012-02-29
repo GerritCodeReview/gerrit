@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADZH////4\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-29T23:18:16Z",
+      "side": 1,
+      "message": "s/documents/document/",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZH////0\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-29T23:18:16Z",
+      "side": 1,
+      "message": "s/but/built?/",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZH////w\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-29T23:18:16Z",
+      "side": 1,
+      "message": "s/rcs/RCs?/\n\nYou use a mix of lowercase and uppercase for RC. Maybe pick one and stick with it?",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZH////s\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-29T23:18:16Z",
+      "side": 1,
+      "message": "main page being something on code.google.com?",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZH////o\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-29T23:18:16Z",
+      "side": 1,
+      "message": "s/does an/does a/",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZH////k\u003d",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-02-29T23:18:16Z",
+      "side": 1,
+      "message": "s/Subjectproject/Subproject/",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

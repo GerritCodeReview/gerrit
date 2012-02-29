@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class ListBranches extends Handler<ListBranchesResult> {
+public class ListBranches extends Handler<ListBranchesResult> {
   interface Factory {
     ListBranches create(@Assisted Project.NameKey name);
   }
@@ -51,7 +51,7 @@ class ListBranches extends Handler<ListBranchesResult> {
   private final Project.NameKey projectName;
 
   @Inject
-  ListBranches(final ProjectControl.Factory projectControlFactory,
+  protected ListBranches(final ProjectControl.Factory projectControlFactory,
       final GitRepositoryManager repoManager,
 
       @Assisted final Project.NameKey name) {
@@ -109,7 +109,7 @@ class ListBranches extends Handler<ListBranchesResult> {
           //
           String target = ref.getTarget().getName();
           RefControl targetRefControl = pctl.controlForRef(target);
-          if (!targetRefControl.isVisible()) {
+          if (!isListedRef(targetRefControl)) {
             continue;
           }
           if (target.startsWith(Constants.R_HEADS)) {
@@ -154,6 +154,10 @@ class ListBranches extends Handler<ListBranchesResult> {
       branches.add(0, headBranch);
     }
     return new ListBranchesResult(branches, pctl.canAddRefs(), false);
+  }
+
+  protected boolean isListedRef(RefControl targetRefControl) {
+    return targetRefControl.isVisible();
   }
 
   private Branch createBranch(final Ref ref, final RefControl refControl,

@@ -16,6 +16,24 @@
       "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADXH////8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-29T05:41:15Z",
+      "side": 1,
+      "message": "besides  \u0027both patchset ids\u0027, \n it would also need  \u0027patchListCache\u0027 ,\u0027db\u0027, and \u0027changeControlFactory\u0027.\n but please reference Line 124 , Line 211 and Line194, I am a bit confused  as I \n think these 3 lines related business logic should be in current Class.\n If I am right , PatchList should not provide business logic related method, \n at least it looks like that  by far.",
+      "parentUuid": "AAADQ3////M\u003d",
+      "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

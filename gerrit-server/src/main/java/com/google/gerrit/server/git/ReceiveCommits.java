@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
+
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
@@ -84,6 +87,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -118,6 +122,7 @@ public class ReceiveCommits implements PreReceiveHook {
     void sendMessage(String what);
     void sendError(String what);
     void sendBytes(byte[] what);
+    void sendBytes(byte[] what, int off, int len);
   }
 
   private class ReceivePackMessageSender implements MessageSender {
@@ -134,6 +139,28 @@ public class ReceiveCommits implements PreReceiveHook {
     @Override
     public void sendBytes(byte[] what) {
       rp.sendBytes(what);
+    }
+
+    @Override
+    public void sendBytes(byte[] what, int off, int len) {
+      rp.sendBytes(what, off, len);
+    }
+  }
+
+  private class MessageSenderOutputStream extends OutputStream {
+    @Override
+    public void write(int b) {
+      messageSender.sendBytes(new byte[]{(byte)b});
+    }
+
+    @Override
+    public void write(byte[] what, int off, int len) {
+      messageSender.sendBytes(what, off, len);
+    }
+
+    @Override
+    public void write(byte[] what) {
+      messageSender.sendBytes(what);
     }
   }
 
@@ -181,6 +208,7 @@ public class ReceiveCommits implements PreReceiveHook {
   private final SubmoduleOp.Factory subOpFactory;
 
   private MessageSender messageSender;
+  private Task commandProgress;
 
   @Inject
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
@@ -351,19 +379,29 @@ public class ReceiveCommits implements PreReceiveHook {
   @Override
   public void onPreReceive(final ReceivePack arg0,
       final Collection<ReceiveCommand> commands) {
+    MultiProgressMonitor progress = new MultiProgressMonitor(
+        new MessageSenderOutputStream(), "Updating changes");
+    Task newProgress = progress.beginSubTask("new", UNKNOWN);
+    Task replaceProgress = progress.beginSubTask("updated", UNKNOWN);
+    Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
+    commandProgress = progress.beginSubTask("refs", commands.size());
+
     parseCommands(commands);
     if (newChange != null
         && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
-      createNewChanges();
+      createNewChanges(newProgress);
     }
-    doReplaces();
+    newProgress.end();
+
+    doReplaces(replaceProgress);
+    replaceProgress.end();
 
     for (final ReceiveCommand c : commands) {
       if (c.getResult() == Result.OK) {
         switch (c.getType()) {
           case CREATE:
             if (isHead(c)) {
-              autoCloseChanges(c);
+              autoCloseChanges(c, closeProgress);
             }
             break;
 
@@ -373,13 +411,13 @@ public class ReceiveCommits implements PreReceiveHook {
                 c.getOldId(),
                 c.getNewId());
             if (isHead(c)) {
-              autoCloseChanges(c);
+              autoCloseChanges(c, closeProgress);
             }
             break;
 
           case UPDATE_NONFASTFORWARD:
             if (isHead(c)) {
-              autoCloseChanges(c);
+              autoCloseChanges(c, closeProgress);
             }
             break;
         }
@@ -399,8 +437,12 @@ public class ReceiveCommits implements PreReceiveHook {
           Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
           hooks.doRefUpdatedHook(destBranch, c.getOldId(), c.getNewId(), currentUser.getAccount());
         }
+        commandProgress.update(1);
       }
     }
+    closeProgress.end();
+    commandProgress.end();
+    progress.end();
 
     if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
       final String url = canonicalWebUrl;
@@ -478,7 +520,7 @@ public class ReceiveCommits implements PreReceiveHook {
           continue;
       }
 
-      if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED){
+      if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
         continue;
       }
 
@@ -809,7 +851,7 @@ public class ReceiveCommits implements PreReceiveHook {
     return true;
   }
 
-  private void createNewChanges() {
+  private void createNewChanges(Task progress) {
     final List<RevCommit> toCreate = new ArrayList<RevCommit>();
     final RevWalk walk = rp.getRevWalk();
     walk.reset();
@@ -923,6 +965,7 @@ public class ReceiveCommits implements PreReceiveHook {
         reject(newChange, "database error");
         return;
       }
+      progress.update(1);
     }
     newChange.setResult(ReceiveCommand.Result.OK);
   }
@@ -1049,10 +1092,11 @@ public class ReceiveCommits implements PreReceiveHook {
         || candidateFooterLine.matches(TESTED_BY);
   }
 
-  private void doReplaces() {
+  private void doReplaces(Task progress) {
     for (final ReplaceRequest request : replaceByChange.values()) {
       try {
         doReplace(request);
+        progress.update(1);
       } catch (IOException err) {
         log.error("Error computing replacement patch for change "
             + request.ontoChange + ", commit " + request.newCommit.name(), err);
@@ -1740,7 +1784,7 @@ public class ReceiveCommits implements PreReceiveHook {
     }
   }
 
-  private void autoCloseChanges(final ReceiveCommand cmd) {
+  private void autoCloseChanges(final ReceiveCommand cmd, final Task progress) {
     final RevWalk rw = rp.getRevWalk();
     try {
       rw.reset();
@@ -1759,6 +1803,7 @@ public class ReceiveCommits implements PreReceiveHook {
         if (ref != null) {
           rw.parseBody(c);
           closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
+          progress.update(1);
           continue;
         }
 
@@ -1776,6 +1821,7 @@ public class ReceiveCommits implements PreReceiveHook {
         final PatchSet.Id psi = doReplace(req);
         if (psi != null) {
           closeChange(req.cmd, psi, req.newCommit);
+          progress.update(1);
         }
       }
 
@@ -1933,12 +1979,13 @@ public class ReceiveCommits implements PreReceiveHook {
     return new RevId(src.getId().name());
   }
 
-  private static void reject(final ReceiveCommand cmd) {
+  private void reject(final ReceiveCommand cmd) {
     reject(cmd, "prohibited by Gerrit");
   }
 
-  private static void reject(final ReceiveCommand cmd, final String why) {
+  private void reject(final ReceiveCommand cmd, final String why) {
     cmd.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON, why);
+    commandProgress.update(1);
   }
 
   private static boolean isHead(final Ref ref) {

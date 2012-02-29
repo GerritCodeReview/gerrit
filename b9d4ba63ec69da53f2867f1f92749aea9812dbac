@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAADXn////s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-29T17:30:34Z",
+      "side": 1,
+      "message": "Tiny nit: s/compare/compares/",
+      "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADQ3////M\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 2

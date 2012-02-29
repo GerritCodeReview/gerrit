@@ -34,6 +34,24 @@
       "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADXn////8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-02-29T17:26:15Z",
+      "side": 1,
+      "message": "The problem you are really trying to solve is to take the intersection of 2 PatchLists.  In my opinion, getting the intersection is business logic that only the PatchLists (or below) should understand, this should not be exposed outside (above) of the PatchLists.  On the other hand, getting those PatchLists from the DB or cache does not belong inside PatchLists, and I believe that this is what you are (rightly so) concerned with.\n\nIf you look closely, you are creating/getting 3 PatchLists, the first one on line 121, the 2nd and 3rd are gotten on the two passes through getFileListBy() on line 210.  But, aren\u0027t the first one and second one almost the same (not sure how the keyFor(diffPrefs.getIgnoreWhitespace()) affects things)?  In the first case, you go to the DB and validate with controls on line 104-110, then again on line 209-211, mostly the same logic.\n\nSo, why not start by getting the 2 PatchLists (you can get the second on inside the if on 115 in PatchSetDetailFactory), and then somehow telling the PatchLists to intersect?  Perhaps this is as simple as having a toPatchList(PatchSet.Id, PatchList) method on PatchList?  \n\nThis approach seems like it might also help set the stage for doing what you are doing on the hunk level eventually instead of just at the file level (if anyone wanted to tackle that in the future)?",
+      "parentUuid": "AAADXH////8\u003d",
+      "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
+
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
@@ -119,6 +122,7 @@ public class ReceiveCommits {
     void sendError(String what);
     void sendBytes(byte[] what);
     void sendBytes(byte[] what, int off, int len);
+    void flush();
   }
 
   private class ReceivePackMessageSender implements MessageSender {
@@ -134,17 +138,22 @@ public class ReceiveCommits {
 
     @Override
     public void sendBytes(byte[] what) {
-      try {
-        rp.getMessageOutputStream().write(what);
-      } catch (IOException e) {
-        // Ignore write failures (matching JGit behavior).
-      }
+      sendBytes(what, 0, what.length);
     }
 
     @Override
     public void sendBytes(byte[] what, int off, int len) {
       try {
         rp.getMessageOutputStream().write(what, off, len);
+      } catch (IOException e) {
+        // Ignore write failures (matching JGit behavior).
+      }
+    }
+
+    @Override
+    public void flush() {
+      try {
+        rp.getMessageOutputStream().flush();
       } catch (IOException e) {
         // Ignore write failures (matching JGit behavior).
       }
@@ -206,6 +215,10 @@ public class ReceiveCommits {
   private final SubmoduleOp.Factory subOpFactory;
 
   private final List<Message> messages = new ArrayList<Message>();
+  private Task newProgress;
+  private Task replaceProgress;
+  private Task closeProgress;
+  private Task commandProgress;
   private MessageSender messageSender;
 
   @Inject
@@ -406,14 +419,23 @@ public class ReceiveCommits {
     }
   }
 
-  void processCommands(final Collection<ReceiveCommand> commands) {
+  void processCommands(final Collection<ReceiveCommand> commands,
+      final MultiProgressMonitor progress) {
     try {
+      newProgress = progress.beginSubTask("new", UNKNOWN);
+      replaceProgress = progress.beginSubTask("updated", UNKNOWN);
+      closeProgress = progress.beginSubTask("closed", UNKNOWN);
+      commandProgress = progress.beginSubTask("refs", commands.size());
+
       parseCommands(commands);
       if (newChange != null
           && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
         createNewChanges();
       }
+      newProgress.end();
+
       doReplaces();
+      replaceProgress.end();
 
       for (final ReceiveCommand c : commands) {
         if (c.getResult() == Result.OK) {
@@ -456,8 +478,12 @@ public class ReceiveCommits {
             Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
             hooks.doRefUpdatedHook(destBranch, c.getOldId(), c.getNewId(), currentUser.getAccount());
           }
+          commandProgress.update(1);
         }
       }
+      closeProgress.end();
+      commandProgress.end();
+      progress.end();
 
       if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
         final String url = canonicalWebUrl;
@@ -538,7 +564,7 @@ public class ReceiveCommits {
           continue;
       }
 
-      if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED){
+      if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
         continue;
       }
 
@@ -983,6 +1009,7 @@ public class ReceiveCommits {
         reject(newChange, "database error");
         return;
       }
+      newProgress.update(1);
     }
     newChange.setResult(ReceiveCommand.Result.OK);
   }
@@ -1124,6 +1151,7 @@ public class ReceiveCommits {
     for (final ReplaceRequest request : replaceByChange.values()) {
       try {
         doReplace(request);
+        replaceProgress.update(1);
       } catch (IOException err) {
         log.error("Error computing replacement patch for change "
             + request.ontoChange + ", commit " + request.newCommit.name(), err);
@@ -1841,6 +1869,7 @@ public class ReceiveCommits {
         if (ref != null) {
           rw.parseBody(c);
           closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
+          closeProgress.update(1);
           continue;
         }
 
@@ -1858,6 +1887,7 @@ public class ReceiveCommits {
         final PatchSet.Id psi = doReplace(req);
         if (psi != null) {
           closeChange(req.cmd, psi, req.newCommit);
+          closeProgress.update(1);
         }
       }
 
@@ -2026,12 +2056,13 @@ public class ReceiveCommits {
     return new RevId(src.getId().name());
   }
 
-  private static void reject(final ReceiveCommand cmd) {
+  private void reject(final ReceiveCommand cmd) {
     reject(cmd, "prohibited by Gerrit");
   }
 
-  static void reject(final ReceiveCommand cmd, final String why) {
+  void reject(final ReceiveCommand cmd, final String why) {
     cmd.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON, why);
+    commandProgress.update(1);
   }
 
   private static boolean isHead(final Ref ref) {

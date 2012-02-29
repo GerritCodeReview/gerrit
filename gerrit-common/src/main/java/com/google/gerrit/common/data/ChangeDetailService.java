@@ -18,6 +18,7 @@ import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.AccountDiffPreference;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
@@ -37,4 +38,8 @@ public interface ChangeDetailService extends RemoteJsonService {
   @SignInRequired
   void patchSetPublishDetail(PatchSet.Id key,
       AsyncCallback<PatchSetPublishDetail> callback);
+
+  @SignInRequired
+  void listDestinationBranches(Project.NameKey projectName,
+      AsyncCallback<ListBranchesResult> callback);
 }

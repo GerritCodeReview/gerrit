@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADRX////k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-02-29T02:28:26Z",
+      "side": 1,
+      "message": "e.g. current url is \nhttps://gerrit-review.googlesource.com/#/c/33090/1//COMMIT_MSG\n\nit is default comparing to \u0027Base\u0027\n\nif comparing happens between 5 and 2 then the url  will be \n\nhttps://gerrit-review.googlesource.com/#/c/33090/5//COMMIT_MSG?patchSetToDiffWith\u003d2\n\nShawn provide a new resolution, please reference to his commentshttps://gerrit-review.googlesource.com/#/c/33090/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java\n . \nI think it is dry and concise I like it and plan to carry it out. Ok?",
+      "parentUuid": "AAADQn////M\u003d",
+      "revId": "c817343e86dab56a5b90a5cdc21d2f6b9590dcff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADPH///9w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 1

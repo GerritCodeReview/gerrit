@@ -40,6 +40,7 @@ import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.PushAllProjectsOp;
+import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.SecureCredentialsProvider;
 import com.google.gerrit.server.git.TagCache;
@@ -111,6 +112,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new AccessControlModule());
     install(new GitModule());
     install(new PrologModule());
+    install(new ReceiveCommits.Module());
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(CapabilityControl.Factory.class);

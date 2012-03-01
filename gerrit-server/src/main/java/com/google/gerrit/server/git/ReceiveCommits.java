@@ -39,7 +39,9 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
@@ -53,12 +55,16 @@ import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -93,6 +99,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -112,6 +120,22 @@ public class ReceiveCommits implements PreReceiveHook {
 
   public interface Factory {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
+  }
+
+  public static class Module extends AbstractModule {
+    @Override
+    public void configure() {
+    }
+
+    @Provides
+    @Singleton
+    @ReceiveCommitsExecutor
+    WorkQueue.Executor getExecutor(@GerritServerConfig final Config config,
+        final WorkQueue queues) {
+      int poolSize = config.getInt("gerrit", "receive", "threadPoolSize",
+          Runtime.getRuntime().availableProcessors());
+      return queues.createQueue(poolSize, "ReceiveCommits");
+    }
   }
 
   public interface MessageSender {
@@ -170,6 +194,8 @@ public class ReceiveCommits implements PreReceiveHook {
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
+  private final Executor executor;
+  private final ScopePropagator scopePropagator;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -208,6 +234,8 @@ public class ReceiveCommits implements PreReceiveHook {
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
+      @ReceiveCommitsExecutor final Executor executor,
+      final ScopePropagator scopePropagator,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
@@ -231,6 +259,8 @@ public class ReceiveCommits implements PreReceiveHook {
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
+    this.executor = executor;
+    this.scopePropagator = scopePropagator;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -366,6 +396,34 @@ public class ReceiveCommits implements PreReceiveHook {
   @Override
   public void onPreReceive(final ReceivePack arg0,
       final Collection<ReceiveCommand> commands) {
+    Future<?> workerFuture = executor.submit(new Runnable() {
+        @Override
+        public void run() {
+          processCommands(commands);
+        }
+      }, scopePropagator);
+    Exception err = null;
+    try {
+      workerFuture.get();
+    } catch (ExecutionException e) {
+      err = e;
+    } catch (InterruptedException e) {
+      err = e;
+    }
+    if (err != null) {
+      log.warn("Error in ReceiveCommits", err);
+      messageSender.sendError("internal error while processing changes");
+      // processCommands has tried its best to catch errors, so anything at this
+      // point is very bad.
+      for (final ReceiveCommand c : commands) {
+        if (c.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
+          reject(c, "internal error");
+        }
+      }
+    }
+  }
+
+  private void processCommands(final Collection<ReceiveCommand> commands) {
     parseCommands(commands);
     if (newChange != null
         && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {

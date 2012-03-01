@@ -33,10 +33,10 @@ import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
@@ -79,10 +79,10 @@ public class GerritRequestModule extends FactoryModule {
     bind(AccountControl.Factory.class).in(SINGLETON);
 
     factory(ChangeQueryBuilder.Factory.class);
-    factory(ReceiveCommits.Factory.class);
     factory(SubmoduleOp.Factory.class);
     factory(MergeOp.Factory.class);
     factory(CreateCodeReviewNotes.Factory.class);
+    install(new AsyncReceiveCommits.Module());
 
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.

@@ -77,7 +77,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
-import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
@@ -100,7 +99,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 /** Receives change upload using the Git receive-pack protocol. */
-public class ReceiveCommits implements PreReceiveHook {
+public class ReceiveCommits {
   private static final Logger log =
       LoggerFactory.getLogger(ReceiveCommits.class);
 
@@ -111,7 +110,7 @@ public class ReceiveCommits implements PreReceiveHook {
   private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
-  public interface Factory {
+  interface Factory {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
   }
 
@@ -261,8 +260,6 @@ public class ReceiveCommits implements PreReceiveHook {
     advHooks.add(rp.getAdvertiseRefsHook());
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
-
-    rp.setPreReceiveHook(this);
   }
 
   /** Add reviewers for new (or updated) changes. */
@@ -278,6 +275,17 @@ public class ReceiveCommits implements PreReceiveHook {
   /** Set a message sender for this operation. */
   public void setMessageSender(final MessageSender ms) {
     messageSender = ms != null ? ms : new ReceivePackMessageSender();
+  }
+
+  MessageSender getMessageSender() {
+    if (messageSender == null) {
+      setMessageSender(null);
+    }
+    return messageSender;
+  }
+
+  Project getProject() {
+    return project;
   }
 
   /** @return the ReceivePack instance to speak the native Git protocol. */
@@ -369,9 +377,7 @@ public class ReceiveCommits implements PreReceiveHook {
     return MagicBranch.checkMagicBranchRefs(repo, project);
   }
 
-  @Override
-  public void onPreReceive(final ReceivePack arg0,
-      final Collection<ReceiveCommand> commands) {
+  void processCommands(final Collection<ReceiveCommand> commands) {
     parseCommands(commands);
     if (newChange != null
         && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
@@ -1991,7 +1997,7 @@ public class ReceiveCommits implements PreReceiveHook {
     reject(cmd, "prohibited by Gerrit");
   }
 
-  private static void reject(final ReceiveCommand cmd, final String why) {
+  static void reject(final ReceiveCommand cmd, final String why) {
     cmd.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON, why);
   }
 

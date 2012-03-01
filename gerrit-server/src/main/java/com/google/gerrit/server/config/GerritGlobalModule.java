@@ -42,10 +42,13 @@ import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.PushAllProjectsOp;
+import com.google.gerrit.server.git.ReceiveCommitsExecutor;
+import com.google.gerrit.server.git.ReceiveCommitsExecutorProvider;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.SecureCredentialsProvider;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
 import com.google.gerrit.server.mail.VelocityRuntimeProvider;
@@ -147,5 +150,9 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ProjectControl.GenericFactory.class);
     factory(FunctionState.Factory.class);
     factory(ReplicationUser.Factory.class);
+
+    bind(WorkQueue.Executor.class).annotatedWith(ReceiveCommitsExecutor.class)
+        .toProvider(ReceiveCommitsExecutorProvider.class)
+        .in(SINGLETON);
   }
 }

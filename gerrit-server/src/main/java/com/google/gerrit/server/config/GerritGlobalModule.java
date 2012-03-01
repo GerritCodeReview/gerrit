@@ -38,6 +38,7 @@ import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
@@ -113,6 +114,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new AccessControlModule());
     install(new GitModule());
     install(new PrologModule());
+    install(new AsyncReceiveCommits.Module());
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(CapabilityControl.Factory.class);

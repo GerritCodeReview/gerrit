@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
@@ -39,7 +40,7 @@ import java.util.Set;
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 final class Receive extends AbstractGitCommand {
   @Inject
-  private ReceiveCommits.Factory factory;
+  private AsyncReceiveCommits.Factory factory;
 
   @Inject
   private IdentifiedUser currentUser;
@@ -69,7 +70,8 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: receive-pack not permitted on this server");
     }
 
-    final ReceiveCommits receive = factory.create(projectControl, repo);
+    final ReceiveCommits receive = factory.create(projectControl, repo)
+        .getReceiveCommits();
 
     Capable r = receive.canUpload();
     if (r != Capable.OK) {

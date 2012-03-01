@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADaX///+4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADZn////8\u003d",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADZn////4\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-01T02:03:19Z",
       "side": 1,
       "message": "Doc?",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADaX///+8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADZn////4\u003d",
       "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAADaX////A\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADZn////0\u003d",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADZn////Y\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-01T02:03:19Z",
       "side": 1,
       "message": "space after exception name before {",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADaX///+s\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADZn////Y\u003d",
       "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAADaX///+o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADZn////U\u003d",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADZn////w\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2012-03-01T02:03:19Z",
       "side": 1,
       "message": "nit, only one space after void before method name",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADaX///+0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADZn////w\u003d",
       "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAADaX///+k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADZn////s\u003d",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADZn////o\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2012-03-01T02:03:19Z",
       "side": 1,
       "message": "doc?",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADaX///+g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADZn////o\u003d",
       "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAADaX///+c\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADZn////k\u003d",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADZn////M\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2012-03-01T02:03:19Z",
       "side": 1,
       "message": "Should we do any more validation than this?",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADaX///+Y\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Now that we are going to parse the JSON out into different fields, it makes sense to.  Before I thought it might make more sense to put the burden on the class that handles the object.",
+      "parentUuid": "AAADZn////M\u003d",
       "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAADc3////4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "Implementing \"fail\" would be a future step, but we could support \"skip\" and \"skip-labels\" (with \"skip\" being the default) now.\n\nI think I would rather call this something that describes the value a little better.  Maybe \"closed_action\", \"if_closed_action\", or \"if_closed_recourse\".  I\u0027m going to call it \"closed_action\" for now.  Let me know if you want me to change it back to \"if_closed\".",
+      "parentUuid": "AAADZn////c\u003d",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADZn////Q\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
         "patchSetId": 2
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "AAADc3////8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "I believe you suggested that we provide both for now (going to the /submit url would automatically populate the action field with \"submit\").  That way the current review command would still have all the functionality it currently does until fully deprecated.\n\nLet me know if you want me to change that.",
+      "parentUuid": "AAADZn////Q\u003d",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADZn////g\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
         "patchSetId": 2
@@ -217,6 +433,24 @@
       "writtenOn": "2012-03-01T02:03:19Z",
       "side": 1,
       "message": "I don\u0027t remember us creating this as a top level object. I thought it was going to be a top level array.",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADaX///+U\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-01T23:15:01Z",
+      "side": 1,
+      "message": "That is what we said, and I can change it back if you want.  It\u0027s been my experience with providing similar apis that it\u0027s better to have an object at the top level so that you can always add an optional parameter later on that won\u0027t break client code.\n\nExample: we may want an optional `xsrf` parameter depending on whether we are using this from the web interface or the command line.  We also may want a `timeout` parameter that could tell the service to abort if the job is taking too long etc.",
+      "parentUuid": "AAADZn////g\u003d",
       "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

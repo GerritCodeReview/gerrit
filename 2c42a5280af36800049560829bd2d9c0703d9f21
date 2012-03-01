@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADYn///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T07:18:43Z",
+      "side": 1,
+      "message": "Will this have an impact on the number of possible required db connections?",
+      "revId": "2c42a5280af36800049560829bd2d9c0703d9f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADYn///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T07:18:43Z",
+      "side": 1,
+      "message": "No need to set to null?",
+      "revId": "2c42a5280af36800049560829bd2d9c0703d9f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADYn///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T07:18:43Z",
+      "side": 1,
+      "message": "It might be simpler to eliminate this variable and to simply return wherever it is currently being set.",
+      "revId": "2c42a5280af36800049560829bd2d9c0703d9f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADYn///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T07:18:43Z",
+      "side": 1,
+      "message": "Maybe save the large indented block by reversing the if and simply returning?",
+      "revId": "2c42a5280af36800049560829bd2d9c0703d9f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADYn///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T07:18:43Z",
+      "side": 1,
+      "message": "This looks like it could be a static class.  If so, it should go at the top, probably around line 108.  Any reason to make it final?",
+      "revId": "2c42a5280af36800049560829bd2d9c0703d9f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADYn///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T07:18:43Z",
+      "side": 1,
+      "message": "Style: needs spaces between \u0027if\u0027 and \u0027(\u0027.",
+      "revId": "2c42a5280af36800049560829bd2d9c0703d9f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADYn///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T07:18:43Z",
+      "side": 1,
+      "message": "Style: keep the spaces and brackets.",
+      "revId": "2c42a5280af36800049560829bd2d9c0703d9f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADYn///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T07:18:43Z",
+      "side": 1,
+      "message": "Should this class override the cancel method to kill the process also?  If not, I believe that it could continue forever.",
+      "revId": "2c42a5280af36800049560829bd2d9c0703d9f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADYn///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHooks.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T07:18:43Z",
+      "side": 1,
+      "message": "Style: no blank line here.",
+      "revId": "2c42a5280af36800049560829bd2d9c0703d9f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

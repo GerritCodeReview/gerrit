@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADZn////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/Review.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:13:08Z",
+      "side": 1,
+      "message": "Arrrrrgh. I\u0027d rather get the QueryProcessor to return you patch sets.",
+      "revId": "0bcd0473730b149e8b8d8fc7f34d17e925505994",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

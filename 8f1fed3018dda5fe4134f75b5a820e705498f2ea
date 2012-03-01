@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADZ3////w\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T05:44:26Z",
+      "side": 1,
+      "message": "s/generates reformat/reformats/",
+      "revId": "8f1fed3018dda5fe4134f75b5a820e705498f2ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZ3////s\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T05:44:26Z",
+      "side": 1,
+      "message": "You can get rid of this now.",
+      "revId": "8f1fed3018dda5fe4134f75b5a820e705498f2ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZ3////k\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T05:44:26Z",
+      "side": 1,
+      "message": "Ideally, this would output the file named appropriately into the appropriate Gerrit dir (ReleaseNotes/ReleaseNotes-\u003cversion\u003e.txt).  Although we don\u0027t want that version to include any \"-rcX\" in it.",
+      "revId": "8f1fed3018dda5fe4134f75b5a820e705498f2ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

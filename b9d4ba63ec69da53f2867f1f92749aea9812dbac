@@ -69,6 +69,24 @@
       "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADXH////w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-01T02:02:44Z",
+      "side": 1,
+      "message": "Hi Martin\n your idea make my heart thrilled, very good resolution! I will create a new patch set accordingly .\n\nBy the way, about \u0027aren\u0027t the first one and second one almost the same ?\u0027\n answer is no. in short , see a case:\n a change have a 3 patch sets. Rebase happens between set 3 and patch set 2 .\n now let\u0027s diff patch set 3 and patch set 2 . \n here \n  -\u0027the first one\u0027     is diff 3 and 2 , \n  -\u0027the second one\u0027    is diff 3 and \u0027Base\u0027, \n  -\u0027the third one\u0027     is diff 2 and \u0027Base\u0027.",
+      "parentUuid": "AAADXn////8\u003d",
+      "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

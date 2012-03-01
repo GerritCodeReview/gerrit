@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADcH////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-01T15:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADIn////4\u003d",
+      "revId": "43a561e7019ca30b163a0477cf7dd56af898fd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH////0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "Cool. I\u0027ll absolutely do some testing on this and will hopefully return soon with a new PatchSet.",
       "parentUuid": "AAADAH////w\u003d",
+      "revId": "43a561e7019ca30b163a0477cf7dd56af898fd9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADcH////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-01T15:19:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADA3////0\u003d",
       "revId": "43a561e7019ca30b163a0477cf7dd56af898fd9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

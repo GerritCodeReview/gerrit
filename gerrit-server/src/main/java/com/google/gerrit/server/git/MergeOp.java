@@ -150,8 +150,8 @@ public class MergeOp {
   private final List<CodeReviewCommit> toMerge;
   private List<Change> submitted;
   private final Map<Change.Id, CodeReviewCommit> commits;
-  private ReviewDb schema;
-  private Repository db;
+  private ReviewDb db;
+  private Repository repo;
   private RevWalk rw;
   private RevFlag CAN_MERGE;
   private CodeReviewCommit branchTip;
@@ -208,7 +208,7 @@ public class MergeOp {
     try {
       setDestProject();
       openRepository();
-      final Ref destBranchRef = db.getRef(destBranch.get());
+      final Ref destBranchRef = repo.getRef(destBranch.get());
       submitted = new ArrayList<Change>();
       submitted.add(change);
 
@@ -230,7 +230,7 @@ public class MergeOp {
           change.setLastSha1MergeTested(new RevId(""));
         }
         change.setMergeable(isMergeable(change));
-        schema.changes().update(Collections.singleton(change));
+        db.changes().update(Collections.singleton(change));
       }
     } catch (MergeException e) {
       log.error("Test merge attempt for change: " + change.getId()
@@ -242,10 +242,10 @@ public class MergeOp {
       log.error("Test merge attempt for change: " + change.getId()
           + " failed", e);
     } finally {
-      if (schema != null) {
-        schema.close();
+      if (db != null) {
+        db.close();
       }
-      schema = null;
+      db = null;
     }
   }
 
@@ -258,8 +258,8 @@ public class MergeOp {
   }
 
   private void openSchema() throws OrmException {
-    if (schema == null) {
-      schema = schemaFactory.open();
+    if (db == null) {
+      db = schemaFactory.open();
     }
   }
 
@@ -268,7 +268,7 @@ public class MergeOp {
     try {
       openSchema();
       openRepository();
-      submitted = schema.changes().submitted(destBranch).toList();
+      submitted = db.changes().submitted(destBranch).toList();
       preMerge();
       updateBranch();
       updateChangeStatus();
@@ -279,11 +279,11 @@ public class MergeOp {
       if (rw != null) {
         rw.release();
       }
-      if (db != null) {
-        db.close();
+      if (repo != null) {
+        repo.close();
       }
-      schema.close();
-      schema = null;
+      db.close();
+      db = null;
     }
   }
 
@@ -310,13 +310,13 @@ public class MergeOp {
   private void openRepository() throws MergeException {
     final Project.NameKey name = destBranch.getParentKey();
     try {
-      db = repoManager.openRepository(name);
+      repo = repoManager.openRepository(name);
     } catch (RepositoryNotFoundException notGit) {
       final String m = "Repository \"" + name.get() + "\" unknown.";
       throw new MergeException(m, notGit);
     }
 
-    rw = new RevWalk(db) {
+    rw = new RevWalk(repo) {
       @Override
       protected RevCommit createCommit(final AnyObjectId id) {
         return new CodeReviewCommit(id);
@@ -331,7 +331,7 @@ public class MergeOp {
     alreadyAccepted = new HashSet<RevCommit>();
 
     try {
-      branchUpdate = db.updateRef(destBranch.get());
+      branchUpdate = repo.updateRef(destBranch.get());
       if (branchUpdate.getOldObjectId() != null) {
         branchTip =
             (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
@@ -340,7 +340,7 @@ public class MergeOp {
         branchTip = null;
       }
 
-      for (final Ref r : db.getAllRefs().values()) {
+      for (final Ref r : repo.getAllRefs().values()) {
         if (r.getName().startsWith(Constants.R_HEADS)
             || r.getName().startsWith(Constants.R_TAGS)) {
           try {
@@ -357,7 +357,7 @@ public class MergeOp {
 
   private void validateChangeList() throws MergeException {
     final Set<ObjectId> tips = new HashSet<ObjectId>();
-    for (final Ref r : db.getAllRefs().values()) {
+    for (final Ref r : repo.getAllRefs().values()) {
       tips.add(r.getObjectId());
     }
 
@@ -372,7 +372,7 @@ public class MergeOp {
 
       final PatchSet ps;
       try {
-        ps = schema.patchSets().get(chg.currentPatchSetId());
+        ps = db.patchSets().get(chg.currentPatchSetId());
       } catch (OrmException e) {
         throw new MergeException("Cannot query the database", e);
       }
@@ -501,11 +501,11 @@ public class MergeOp {
       // Settings for this project allow us to try and
       // automatically resolve conflicts within files if needed.
       // Use ResolveMerge and instruct to operate in core.
-      m = MergeStrategy.RESOLVE.newMerger(db, true);
+      m = MergeStrategy.RESOLVE.newMerger(repo, true);
     } else {
       // No auto conflict resolving allowed. If any of the
       // affected files was modified, merge will fail.
-      m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+      m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repo);
     }
 
     try {
@@ -688,11 +688,11 @@ public class MergeOp {
         // Settings for this project allow us to try and
         // automatically resolve conflicts within files if needed.
         // Use ResolveMerge and instruct to operate in core.
-        m = MergeStrategy.RESOLVE.newMerger(db, true);
+        m = MergeStrategy.RESOLVE.newMerger(repo, true);
       } else {
         // No auto conflict resolving allowed. If any of the
         // affected files was modified, merge will fail.
-        m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+        m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repo);
       }
 
       try {
@@ -807,7 +807,7 @@ public class MergeOp {
     List<PatchSetApproval> approvalList = null;
     try {
       approvalList =
-          schema.patchSetApprovals().byPatchSet(n.patchsetId).toList();
+          db.patchSetApprovals().byPatchSet(n.patchsetId).toList();
       Collections.sort(approvalList, new Comparator<PatchSetApproval>() {
         public int compare(final PatchSetApproval a, final PatchSetApproval b) {
           return a.getGranted().compareTo(b.getGranted());
@@ -893,7 +893,7 @@ public class MergeOp {
     final CodeReviewCommit newCommit = (CodeReviewCommit) rw.parseCommit(id);
 
     n.change =
-        schema.changes().atomicUpdate(n.change.getId(),
+        db.changes().atomicUpdate(n.change.getId(),
             new AtomicUpdate<Change>() {
               @Override
               public Change update(Change change) {
@@ -907,10 +907,10 @@ public class MergeOp {
     ps.setUploader(submitAudit.getAccountId());
     ps.setRevision(new RevId(id.getName()));
     insertAncestors(ps.getId(), newCommit);
-    schema.patchSets().insert(Collections.singleton(ps));
+    db.patchSets().insert(Collections.singleton(ps));
 
     n.change =
-        schema.changes().atomicUpdate(n.change.getId(),
+        db.changes().atomicUpdate(n.change.getId(),
             new AtomicUpdate<Change>() {
               @Override
               public Change update(Change change) {
@@ -922,7 +922,7 @@ public class MergeOp {
 
     if (approvalList != null) {
       for (PatchSetApproval a : approvalList) {
-        schema.patchSetApprovals().insert(
+        db.patchSetApprovals().insert(
             Collections.singleton(new PatchSetApproval(ps.getId(), a)));
       }
     }
@@ -945,7 +945,7 @@ public class MergeOp {
       a.setAncestorRevision(new RevId(src.getParent(p).getId().name()));
       toInsert.add(a);
     }
-    schema.patchSetAncestors().insert(toInsert);
+    db.patchSetAncestors().insert(toInsert);
   }
 
   private ObjectId commit(final Merger m, final CommitBuilder mergeCommit)
@@ -992,7 +992,7 @@ public class MergeOp {
       if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
         try {
           ProjectConfig cfg = new ProjectConfig(destProject.getNameKey());
-          cfg.load(db, mergeTip);
+          cfg.load(repo, mergeTip);
         } catch (Exception e) {
           throw new MergeException("Submit would store invalid"
               + " project configuration " + mergeTip.name() + " for "
@@ -1111,7 +1111,7 @@ public class MergeOp {
     }
 
     CreateCodeReviewNotes codeReviewNotes =
-        codeReviewNotesFactory.create(schema, db);
+        codeReviewNotesFactory.create(db, repo);
     try {
       codeReviewNotes.create(merged, computeAuthor(merged));
     } catch (CodeReviewNoteCreationException e) {
@@ -1124,7 +1124,7 @@ public class MergeOp {
   private void updateSubscriptions() throws MergeException {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       SubmoduleOp subOp =
-          subOpFactory.create(destBranch, mergeTip, rw, db, destProject,
+          subOpFactory.create(destBranch, mergeTip, rw, repo, destProject,
               submitted, commits);
       try {
         subOp.update();
@@ -1236,11 +1236,11 @@ public class MergeOp {
     if (commit.patchsetId == null) {
       try {
         List<PatchSet> matches =
-            schema.patchSets().byRevision(new RevId(commit.name())).toList();
+            db.patchSets().byRevision(new RevId(commit.name())).toList();
         if (matches.size() == 1) {
           final PatchSet ps = matches.get(0);
           commit.patchsetId = ps.getId();
-          commit.change = schema.changes().get(ps.getId().getParentKey());
+          commit.change = db.changes().get(ps.getId().getParentKey());
         }
       } catch (OrmException e) {
       }
@@ -1250,7 +1250,7 @@ public class MergeOp {
   private boolean isAlreadySent(final Change c, final String prefix) {
     try {
       final List<ChangeMessage> msgList =
-          schema.changeMessages().byChange(c.getId()).toList();
+          db.changeMessages().byChange(c.getId()).toList();
       if (msgList.size() > 0) {
         final ChangeMessage last = msgList.get(msgList.size() - 1);
         if (last.getAuthor() == null && last.getMessage().startsWith(prefix)) {
@@ -1274,7 +1274,7 @@ public class MergeOp {
   private ChangeMessage message(final Change c, final String body) {
     final String uuid;
     try {
-      uuid = ChangeUtil.messageUUID(schema);
+      uuid = ChangeUtil.messageUUID(db);
     } catch (OrmException e) {
       return null;
     }
@@ -1292,7 +1292,7 @@ public class MergeOp {
     PatchSetApproval submitter = null;
     try {
       final List<PatchSetApproval> approvals =
-          schema.patchSetApprovals().byPatchSet(c).toList();
+          db.patchSetApprovals().byPatchSet(c).toList();
       for (PatchSetApproval a : approvals) {
         if (a.getValue() > 0
             && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
@@ -1315,7 +1315,7 @@ public class MergeOp {
     final PatchSet.Id merged = commit.change.currentPatchSetId();
 
     try {
-      schema.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+      db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
         @Override
         public Change update(Change c) {
           c.setStatus(Change.Status.MERGED);
@@ -1328,7 +1328,7 @@ public class MergeOp {
             // Go back to the patch set that was actually merged.
             //
             try {
-              c.setCurrentPatchSet(patchSetInfoFactory.get(schema, merged));
+              c.setCurrentPatchSet(patchSetInfoFactory.get(db, merged));
             } catch (PatchSetInfoNotAvailableException e1) {
               log.error("Cannot read merged patch set " + merged, e1);
             }
@@ -1352,7 +1352,7 @@ public class MergeOp {
     try {
       c.setStatus(Change.Status.MERGED);
       final List<PatchSetApproval> approvals =
-          schema.patchSetApprovals().byChange(changeId).toList();
+          db.patchSetApprovals().byChange(changeId).toList();
       final FunctionState fs = functionState.create(
           changeControlFactory.controlFor(
               c,
@@ -1372,7 +1372,7 @@ public class MergeOp {
         }
         a.cache(c);
       }
-      schema.patchSetApprovals().update(approvals);
+      db.patchSetApprovals().update(approvals);
     } catch (NoSuchChangeException err) {
       log.warn("Cannot normalize approvals for change " + changeId, err);
     } catch (OrmException err) {
@@ -1384,7 +1384,7 @@ public class MergeOp {
         msg.setAuthor(submitter.getAccountId());
       }
       try {
-        schema.changeMessages().insert(Collections.singleton(msg));
+        db.changeMessages().insert(Collections.singleton(msg));
       } catch (OrmException err) {
         log.warn("Cannot store message on change", err);
       }
@@ -1395,7 +1395,7 @@ public class MergeOp {
       if (submitter != null) {
         cm.setFrom(submitter.getAccountId());
       }
-      cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()));
+      cm.setPatchSet(db.patchSets().get(c.currentPatchSetId()));
       cm.send();
     } catch (OrmException e) {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
@@ -1406,7 +1406,7 @@ public class MergeOp {
     try {
       hooks.doChangeMergedHook(c, //
           accountCache.get(submitter.getAccountId()).getAccount(), //
-          schema.patchSets().get(c.currentPatchSetId()), schema);
+          db.patchSets().get(c.currentPatchSetId()), db);
     } catch (OrmException ex) {
       log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
     }
@@ -1418,14 +1418,14 @@ public class MergeOp {
 
   private void sendMergeFail(Change c, ChangeMessage msg, final boolean makeNew) {
     try {
-      schema.changeMessages().insert(Collections.singleton(msg));
+      db.changeMessages().insert(Collections.singleton(msg));
     } catch (OrmException err) {
       log.warn("Cannot record merge failure message", err);
     }
 
     if (makeNew) {
       try {
-        schema.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
+        db.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
           @Override
           public Change update(Change c) {
             if (c.getStatus().isOpen()) {
@@ -1441,7 +1441,7 @@ public class MergeOp {
       }
     } else {
       try {
-        ChangeUtil.touch(c, schema);
+        ChangeUtil.touch(c, db);
       } catch (OrmException err) {
         log.warn("Cannot update change timestamp", err);
       }
@@ -1453,7 +1453,7 @@ public class MergeOp {
       if (submitter != null) {
         cm.setFrom(submitter.getAccountId());
       }
-      cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()));
+      cm.setPatchSet(db.patchSets().get(c.currentPatchSetId()));
       cm.setChangeMessage(msg);
       cm.send();
     } catch (OrmException e) {

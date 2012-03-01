@@ -242,7 +242,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--commit", event.patchSet.revision);
         addArg(args, "--patchset", event.patchSet.number);
 
-        runHook(openRepository(change), patchsetCreatedHook, args);
+        runHook(change.getProject(), patchsetCreatedHook, args);
     }
 
     public void doCommentAddedHook(final Change change, final Account account,
@@ -277,7 +277,7 @@ public class ChangeHookRunner implements ChangeHooks {
             addArg(args, "--" + approval.getKey().get(), Short.toString(approval.getValue().get()));
         }
 
-        runHook(openRepository(change), commentAddedHook, args);
+        runHook(change.getProject(), commentAddedHook, args);
     }
 
     public void doChangeMergedHook(final Change change, final Account account,
@@ -297,7 +297,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--submitter", getDisplayName(account));
         addArg(args, "--commit", event.patchSet.revision);
 
-        runHook(openRepository(change), changeMergedHook, args);
+        runHook(change.getProject(), changeMergedHook, args);
     }
 
     public void doChangeAbandonedHook(final Change change, final Account account,
@@ -317,7 +317,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--abandoner", getDisplayName(account));
         addArg(args, "--reason", reason == null ? "" : reason);
 
-        runHook(openRepository(change), changeAbandonedHook, args);
+        runHook(change.getProject(), changeAbandonedHook, args);
     }
 
     public void doChangeRestoreHook(final Change change, final Account account,
@@ -337,7 +337,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--restorer", getDisplayName(account));
         addArg(args, "--reason", reason == null ? "" : reason);
 
-        runHook(openRepository(change), changeRestoredHook, args);
+        runHook(change.getProject(), changeRestoredHook, args);
     }
 
     public void doRefUpdatedHook(final Branch.NameKey refName, final RefUpdate refUpdate, final Account account) {
@@ -362,7 +362,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--submitter", getDisplayName(account));
       }
 
-      runHook(openRepository(refName.getParentKey()), refUpdatedHook, args);
+      runHook(refName.getParentKey(), refUpdatedHook, args);
     }
 
     public void doClaSignupHook(Account account, ContributorAgreement cla) {
@@ -448,18 +448,14 @@ public class ChangeHookRunner implements ChangeHooks {
   /**
    * Run a hook.
    *
-   * @param repo repository to run the hook for.
+   * @param project used to open repository to run the hook for.
    * @param hook the hook to execute.
    * @param args Arguments to use to run the hook.
    */
-  private synchronized void runHook(Repository repo, File hook,
+  private synchronized void runHook(Project.NameKey project, File hook,
       List<String> args) {
-    if (repo != null) {
-      if (hook.exists()) {
-        hookQueue.execute(new HookTask(repo, hook, args));
-      } else {
-        repo.close();
-      }
+    if (project != null && hook.exists()) {
+      hookQueue.execute(new HookTask(project, hook, args));
     }
   }
 
@@ -470,18 +466,19 @@ public class ChangeHookRunner implements ChangeHooks {
   }
 
   private final class HookTask implements Runnable {
-    private final Repository repo;
+    private final Project.NameKey project;
     private final File hook;
     private final List<String> args;
 
-    private HookTask(Repository repo, File hook, List<String> args) {
-      this.repo = repo;
+    private HookTask(Project.NameKey project, File hook, List<String> args) {
+      this.project = project;
       this.hook = hook;
       this.args = args;
     }
 
     @Override
     public void run() {
+      Repository repo = null;
       try {
         final List<String> argv = new ArrayList<String>(1 + args.size());
         argv.add(hook.getAbsolutePath());
@@ -489,6 +486,11 @@ public class ChangeHookRunner implements ChangeHooks {
 
         final ProcessBuilder pb = new ProcessBuilder(argv);
         pb.redirectErrorStream(true);
+
+        if (project != null) {
+          repo = openRepository(project);
+        }
+
         if (repo != null) {
           pb.directory(repo.getDirectory());
 

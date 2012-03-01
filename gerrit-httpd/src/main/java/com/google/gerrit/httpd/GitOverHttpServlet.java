@@ -22,6 +22,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.TagCache;
@@ -231,11 +232,12 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
-    private final ReceiveCommits.Factory factory;
+    private final AsyncReceiveCommits.Factory factory;
     private final Provider<WebSession> session;
 
     @Inject
-    ReceiveFactory(ReceiveCommits.Factory factory, Provider<WebSession> session) {
+    ReceiveFactory(AsyncReceiveCommits.Factory factory,
+        Provider<WebSession> session) {
       this.factory = factory;
       this.session = session;
     }
@@ -251,7 +253,7 @@ public class GitOverHttpServlet extends GitServlet {
       }
 
       final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
-      final ReceiveCommits rc = factory.create(pc, db);
+      final ReceiveCommits rc = factory.create(pc, db).getReceiveCommits();
       rc.getReceivePack().setRefLogIdent(user.newRefLogIdent());
       req.setAttribute(ATT_RC, rc);
       session.get().setAccessPath(AccessPath.GIT);

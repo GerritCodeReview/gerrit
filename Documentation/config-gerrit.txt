@@ -1675,7 +1675,8 @@ By default, 1.
 This section is used to set who can execute the 'receive-pack' and
 to limit the maximum Git object size that 'receive-pack' will accept.
 'receive-pack' is what runs on the server during a user's push or
-repo upload command.
+repo upload command. It also contains some advanced options for tuning the
+behavior of Gerrit's 'receive-pack' mechanism.
 
 ----
 [receive]
@@ -1705,6 +1706,13 @@ from pushing objects which are too large to Gerrit.
 Default is zero.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+[[receive.threadPoolSize]]receive.threadPoolSize::
++
+Maximum size of the thread pool in which the change data in received packs is
+processed.
++
+Defaults to the number of available CPUs according to the Java runtime.
 
 
 [[repository]]Section repository

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADcn////E\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeManageService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T20:54:15Z",
+      "side": 1,
+      "message": "Not part of my patch. :(",
+      "parentUuid": "AAADcX////s\u003d",
+      "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADcX////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-01T17:23:57Z",
       "side": 1,
       "message": "This sentence seems broken. Maybe \u0027denied for\u0027 or \u0027denied while trying to move\u0027",
+      "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADcn////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T20:54:15Z",
+      "side": 1,
+      "message": "To be honest, I prefer the simpler wording.  I am not sure why you think it is broken though?",
+      "parentUuid": "AAADcX////o\u003d",
       "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAADcn////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T20:54:15Z",
+      "side": 1,
+      "message": "This is pretty much copied from other similar classes, so I would prefer to follow their patterns for now.  I have no problems with a cleanup patch though if it keeps the related classes similar.",
+      "parentUuid": "AAADcX////k\u003d",
+      "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADcX////g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-01T17:23:57Z",
       "side": 1,
       "message": "Nit: you can use !changeComment.isEmpty()",
+      "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADcn////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-01T20:54:15Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "AAADcX////g\u003d",
       "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

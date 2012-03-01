@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADZn////8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "You can\u0027t use gson in the common package, its not available in GWT land. Whee.\n\nYou might have to put this into gerrit-server instead. That actually might be more correct, we are only going to be parsing these parameters from JSON text inside of the server.",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "Doc?",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "Unnecessary since the default constructor is also empty.",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////Y\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "space after exception name before {",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////U\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "In my opinion, you should do the validation inside of update, and you should have the subclass implementation copy the data out of the Gson object into structures that are easier to work with at command execution time. That way we aren\u0027t parsing the JSON data twice and don\u0027t have to worry about conversion code falling out of sync with the validation code.\n\nSo in the case of ReviewParams you should have a ReviewItem class that has a bunch of fields like query, message, force_message that you parse the JSON into during validation, and ReviewParams has a List\u003cReviewItem\u003e.",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RequestParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "nit, only one space after void before method name",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////s\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "2012?",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "doc?",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "super constructor is implicitly called so not necessary.",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////M\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "Should we do any more validation than this?",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////c\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "This is a horrible name. I get why you chose to match the SSH command line flags. But its ugly. Maybe another name would be better and we deprecate --force-message in SSH?\n\n \"if_closed\"\u003d\"{skip, skip-labels, fail}\"\n\n  --if-closed\u003d{skip, skip-labels, fail}\n\n  skip: Do not update the change.\n\n  skip-labels: Comment on the change with messages, but do not update the labels.\n\n  fail: Fail fast the command and do not modify any changes.\n\nBut I could live with force_message.",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////Q\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "I thought we were going to make the action implicit by the URL handler this was fed to, or the SSH command name used to start the operation. So action should never appear in the JSON input.",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADZn////g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ReviewParams.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-01T02:03:19Z",
+      "side": 1,
+      "message": "I don\u0027t remember us creating this as a top level object. I thought it was going to be a top level array.",
+      "revId": "50473b0e52a9e48d32e9f573a2b8f9c023531411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

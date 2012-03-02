@@ -33,6 +33,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
@@ -170,6 +171,21 @@ public class WorkQueue {
           0.75f, // load factor
           corePoolSize + 4 // concurrency level
           );
+    }
+
+    /**
+     * Submit a runnable to run in the same scope as the calling thread.
+     * <p>
+     * This method blindly copies request-scoped objects from the calling thread
+     * to the child thread. Note that request-scoped objects may not be
+     * threadsafe, so exercise appropriate caution when using this method.
+     *
+     * @param runnable runnable to submit.
+     * @param scopePropagator scope propagation implementation.
+     * @return a Future representing pending completion of the runnable.
+     */
+    public Future<?> submit(Runnable runnable, ScopePropagator scopePropagator) {
+      return submit(scopePropagator.wrapInCurrentScope(runnable));
     }
 
     @Override

@@ -24,6 +24,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 class PerThreadRequestScope {
+  static class Propagator
+      extends AbstractScopePropagator<PerThreadRequestScope> {
+    @Override
+    protected PerThreadRequestScope getCurrentContext() {
+      return getContext();
+    }
+
+    @Override
+    protected PerThreadRequestScope setContext(PerThreadRequestScope ctx) {
+      return set(ctx);
+    }
+  }
+
   private static final ThreadLocal<PerThreadRequestScope> current =
       new ThreadLocal<PerThreadRequestScope>();
 

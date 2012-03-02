@@ -36,10 +36,12 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
+import com.google.gerrit.server.git.ScopePropagator;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
+import com.google.inject.servlet.GuiceServletScopePropagator;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
 
@@ -112,6 +114,8 @@ public class WebModule extends FactoryModule {
       default:
         throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
     }
+
+    bind(ScopePropagator.class).to(GuiceServletScopePropagator.class);
 
     install(new UrlModule());
     install(new UiRpcModule());

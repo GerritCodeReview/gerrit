@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAADf3////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/DependencyAttribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-02T15:50:35Z",
+      "side": 1,
+      "message": "boolean - see EventFactory class",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADf3////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-02T15:50:35Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADf3////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-02T15:50:35Z",
+      "side": 1,
+      "message": "These 3 new imports are unused",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADf3////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-02T15:50:35Z",
+      "side": 1,
+      "message": "This one as well",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADXH////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 1
@@ -13,6 +81,57 @@
       "writtenOn": "2012-03-01T09:19:38Z",
       "side": 1,
       "message": "Similar code to traverse dependencies is also found in ChangeDetailFactory and also soon in my Rebase-feature (an upcoming patch set). I\u0027m thinking we should refactor out the dependency related code to it\u0027s own place and make it a bit more reusable. I can imagine more features needs to deal with change dependencies. Nothing you should change in this patchset, just an observation :)",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADf3////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-02T15:50:35Z",
+      "side": 1,
+      "message": "Do we need constant time random access in these lists? Linear lists should be LinkedList.",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADf3////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-02T15:50:35Z",
+      "side": 1,
+      "message": "Why not store them in a boolean?\n\nDependencyAttribute d \u003d newDependencyAttribute(c, ps);\nd.isCurrentPatchSet \u003d c.currPatchSetId().equals(ps.getId());\nreturn d;",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADf3////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-02T15:50:35Z",
+      "side": 1,
+      "message": "Unrelated to your change, naming a variable \u0027thing\u0027 is quite extra ordinary.",
       "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

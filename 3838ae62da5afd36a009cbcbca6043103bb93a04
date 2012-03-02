@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADhH////I\u003d",
+        "filename": "Documentation/cmd-create-group.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-02T21:56:43Z",
+      "side": 1,
+      "message": "s/specificed/specified/\n\nI believe it\u0027s the members that become visible to all.",
+      "revId": "3838ae62da5afd36a009cbcbca6043103bb93a04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

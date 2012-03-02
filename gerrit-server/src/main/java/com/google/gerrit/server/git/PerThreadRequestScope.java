@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -24,10 +25,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 class PerThreadRequestScope {
+  static class Propagator
+      extends ThreadLocalRequestScopePropagator<PerThreadRequestScope> {
+    Propagator() {
+      super(REQUEST, current);
+    }
+
+    @Override
+    protected PerThreadRequestScope continuingContext(
+        PerThreadRequestScope ctx) {
+      return new PerThreadRequestScope();
+    }
+  }
+
   private static final ThreadLocal<PerThreadRequestScope> current =
       new ThreadLocal<PerThreadRequestScope>();
 
-  private static PerThreadRequestScope getContext() {
+  private static PerThreadRequestScope requireContext() {
     final PerThreadRequestScope ctx = current.get();
     if (ctx == null) {
       throw new OutOfScopeException("Not in command/request");
@@ -45,7 +59,7 @@ class PerThreadRequestScope {
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
       return new Provider<T>() {
         public T get() {
-          return getContext().get(key, creator);
+          return requireContext().get(key, creator);
         }
 
         @Override

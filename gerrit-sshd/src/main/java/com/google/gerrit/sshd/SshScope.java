@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -93,21 +94,32 @@ class SshScope {
   static class ContextProvider implements Provider<Context> {
     @Override
     public Context get() {
-      return getContext();
+      return requireContext();
     }
   }
 
   static class SshSessionProvider implements Provider<SshSession> {
     @Override
     public SshSession get() {
-      return getContext().getSession();
+      return requireContext().getSession();
+    }
+  }
+
+  static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
+    Propagator() {
+      super(REQUEST, current);
+    }
+
+    @Override
+    protected Context continuingContext(Context ctx) {
+      return ctx.subContext(ctx.getSession(), ctx.getCommandLine());
     }
   }
 
   private static final ThreadLocal<Context> current =
       new ThreadLocal<Context>();
 
-  private static Context getContext() {
+  private static Context requireContext() {
     final Context ctx = current.get();
     if (ctx == null) {
       throw new OutOfScopeException("Not in command/request");
@@ -126,7 +138,7 @@ class SshScope {
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
       return new Provider<T>() {
         public T get() {
-          return getContext().get(key, creator);
+          return requireContext().get(key, creator);
         }
 
         @Override

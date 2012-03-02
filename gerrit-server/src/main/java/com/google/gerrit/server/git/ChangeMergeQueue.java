@@ -24,6 +24,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -65,6 +66,8 @@ public class ChangeMergeQueue implements MergeQueue {
       @Override
       protected void configure() {
         bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
+        bind(RequestScopePropagator.class)
+            .to(PerThreadRequestScope.Propagator.class);
         install(new GerritRequestModule());
 
         bind(CurrentUser.class).to(IdentifiedUser.class);

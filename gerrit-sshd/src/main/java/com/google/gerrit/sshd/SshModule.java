@@ -48,6 +48,7 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.servlet.RequestScoped;
+import com.google.inject.servlet.ScopePropagator;
 
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.server.CommandFactory;
@@ -61,6 +62,7 @@ public class SshModule extends FactoryModule {
   @Override
   protected void configure() {
     bindScope(RequestScoped.class, SshScope.REQUEST);
+    bind(ScopePropagator.class).to(SshScope.Propagator.class);
 
     configureRequestScope();
     configureCmdLineParser();

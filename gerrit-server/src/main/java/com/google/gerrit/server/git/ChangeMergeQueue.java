@@ -31,6 +31,7 @@ import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.RequestScoped;
+import com.google.inject.servlet.ScopePropagator;
 
 import com.jcraft.jsch.HostKey;
 
@@ -65,6 +66,7 @@ public class ChangeMergeQueue implements MergeQueue {
       @Override
       protected void configure() {
         bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
+        bind(ScopePropagator.class).to(PerThreadRequestScope.Propagator.class);
         install(new GerritRequestModule());
 
         bind(CurrentUser.class).to(IdentifiedUser.class);

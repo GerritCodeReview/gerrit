@@ -104,6 +104,24 @@
       "revId": "e02a295f38f9605589f866e5ffb8d9ef14b15a72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADg3////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010367
+      },
+      "writtenOn": "2012-03-02T22:54:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADUX////w\u003d",
+      "revId": "e02a295f38f9605589f866e5ffb8d9ef14b15a72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

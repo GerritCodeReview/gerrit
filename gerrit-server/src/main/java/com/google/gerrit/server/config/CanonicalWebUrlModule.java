@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import static com.google.inject.Scopes.SINGLETON;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 
@@ -31,7 +29,6 @@ public abstract class CanonicalWebUrlModule extends AbstractModule {
     // running in an HTTP environment.
     //
     final Class<? extends Provider<String>> provider = provider();
-    bind(provider).in(SINGLETON);
     bind(String.class).annotatedWith(CanonicalWebUrl.class)
         .toProvider(provider);
   }

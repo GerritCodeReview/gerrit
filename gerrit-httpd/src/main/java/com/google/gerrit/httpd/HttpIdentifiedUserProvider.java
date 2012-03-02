@@ -22,16 +22,16 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
 class HttpIdentifiedUserProvider implements Provider<IdentifiedUser> {
-  private final WebSession session;
+  private final Provider<CurrentUser> currUserProvider;
 
   @Inject
-  HttpIdentifiedUserProvider(WebSession session) {
-    this.session = session;
+  HttpIdentifiedUserProvider(Provider<CurrentUser> currUserProvider) {
+    this.currUserProvider = currUserProvider;
   }
 
   @Override
   public IdentifiedUser get() {
-    CurrentUser user = session.getCurrentUser();
+    CurrentUser user = currUserProvider.get();
     if (user instanceof IdentifiedUser) {
       return (IdentifiedUser) user;
     }

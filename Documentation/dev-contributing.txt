@@ -43,6 +43,24 @@ Reviewers don't want to seem like nags and pester you if you
 haven't replied or made a fix, so it helps them know if you
 missed it or decided against it.
 
+Setup
+-----
+
+Make sure you Obtain your HTTP Authentication password:
+
+ * https://www.googlesource.com/new-password
+
+Follow the "Staying Authenticated" instructions and
+configure your netrc file. In Linux, it should be in ~/.netrc
+while in Windows it should be in ~/_netrc
+
+Finally, clone the gerrit repository:
+
+====
+  git clone https://gerrit-review.googlesource.com/gerrit
+====
+
+
 
 Review Criteria
 ---------------

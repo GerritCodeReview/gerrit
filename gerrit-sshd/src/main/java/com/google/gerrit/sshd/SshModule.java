@@ -32,6 +32,7 @@ import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.sshd.args4j.AccountGroupIdHandler;
 import com.google.gerrit.sshd.args4j.AccountGroupUUIDHandler;
 import com.google.gerrit.sshd.args4j.AccountIdHandler;
@@ -57,6 +58,7 @@ public class SshModule extends FactoryModule {
   @Override
   protected void configure() {
     bindScope(RequestScoped.class, SshScope.REQUEST);
+    bind(RequestScopePropagator.class).to(SshScope.Propagator.class);
 
     configureRequestScope();
     configureCmdLineParser();

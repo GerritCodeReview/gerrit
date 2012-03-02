@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADg3////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/DependencyAttribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010367
+      },
+      "writtenOn": "2012-03-02T23:19:12Z",
+      "side": 1,
+      "message": "This is a String in order to allow for tri-state output.  Since \u0027isCurrent\u0027 doesn\u0027t make sense for neededBy entries, empty strings allow this field to be left out of the neededBy output.  If it were boolean, we\u0027d have to have something there, even when it didn\u0027t make sense, no?",
+      "parentUuid": "AAADf3////M\u003d",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADf3////U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-02T15:50:35Z",
       "side": 1,
       "message": "Unused",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADg3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010367
+      },
+      "writtenOn": "2012-03-02T23:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADf3////U\u003d",
       "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAADg3////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010367
+      },
+      "writtenOn": "2012-03-02T23:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADf3////E\u003d",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADf3////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-02T15:50:35Z",
       "side": 1,
       "message": "This one as well",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADg3////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010367
+      },
+      "writtenOn": "2012-03-02T23:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADf3////Q\u003d",
       "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAADg3////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010367
+      },
+      "writtenOn": "2012-03-02T23:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADf3////Y\u003d",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADf3////c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 1
@@ -115,6 +205,24 @@
       "writtenOn": "2012-03-02T15:50:35Z",
       "side": 1,
       "message": "Why not store them in a boolean?\n\nDependencyAttribute d \u003d newDependencyAttribute(c, ps);\nd.isCurrentPatchSet \u003d c.currPatchSetId().equals(ps.getId());\nreturn d;",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADg3////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1010367
+      },
+      "writtenOn": "2012-03-02T23:19:12Z",
+      "side": 1,
+      "message": "The strings allow the neededBy output to omit this field entirely instead of producing a meaningless and confusing boolean.",
+      "parentUuid": "AAADf3////c\u003d",
       "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

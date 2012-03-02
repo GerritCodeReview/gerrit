@@ -19,6 +19,7 @@ import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
+import com.google.inject.servlet.AbstractScopePropagator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -101,6 +102,18 @@ class SshScope {
     @Override
     public SshSession get() {
       return getContext().getSession();
+    }
+  }
+
+  static class Propagator extends AbstractScopePropagator<Context> {
+    @Override
+    protected Context getCurrentContext() {
+      return getContext();
+    }
+
+    @Override
+    protected Context setContext(Context ctx) {
+      return set(ctx);
     }
   }
 

@@ -13,6 +13,7 @@ SYNOPSIS
   [--description <DESC>]
   [--member <USERNAME>]
   [--group <GROUP>]
+  [--visible-to-all]
   <GROUP>
 
 DESCRIPTION
@@ -56,6 +57,9 @@ Description values containing spaces should be quoted in single quotes
 --group::
 	Group name to include in the group.  Multiple --group options may
 	be specified to include more initial groups.
+
+--visible-to-all::
+	If specified, the group members will be visible to all users.
 
 EXAMPLES
 --------

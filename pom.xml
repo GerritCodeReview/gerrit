@@ -67,6 +67,7 @@ limitations under the License.
 
   <modules>
     <module>gerrit-patch-commonsnet</module>
+    <module>gerrit-patch-guice-servlet</module>
     <module>gerrit-patch-jgit</module>
 
     <module>gerrit-util-cli</module>

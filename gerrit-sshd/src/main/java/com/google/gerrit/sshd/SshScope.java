@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.git.AbstractScopePropagator;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -101,6 +102,18 @@ class SshScope {
     @Override
     public SshSession get() {
       return getContext().getSession();
+    }
+  }
+
+  static class Propagator extends AbstractScopePropagator<Context> {
+    @Override
+    protected Context getCurrentContext() {
+      return getContext();
+    }
+
+    @Override
+    protected Context setContext(Context ctx) {
+      return set(ctx);
     }
   }
 

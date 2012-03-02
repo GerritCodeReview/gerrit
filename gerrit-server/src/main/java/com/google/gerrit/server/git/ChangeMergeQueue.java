@@ -65,6 +65,7 @@ public class ChangeMergeQueue implements MergeQueue {
       @Override
       protected void configure() {
         bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
+        bind(ScopePropagator.class).to(PerThreadRequestScope.Propagator.class);
         install(new GerritRequestModule());
 
         bind(CurrentUser.class).to(IdentifiedUser.class);

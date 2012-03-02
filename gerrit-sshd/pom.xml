@@ -70,5 +70,11 @@ limitations under the License.
       <artifactId>gerrit-ehcache</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-patch-guice-servlet</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

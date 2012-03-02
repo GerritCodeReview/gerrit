@@ -19,11 +19,25 @@ import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
+import com.google.inject.servlet.AbstractScopePropagator;
 
 import java.util.HashMap;
 import java.util.Map;
 
 class PerThreadRequestScope {
+  static class Propagator
+      extends AbstractScopePropagator<PerThreadRequestScope> {
+    @Override
+    protected PerThreadRequestScope getCurrentContext() {
+      return getContext();
+    }
+
+    @Override
+    protected PerThreadRequestScope setContext(PerThreadRequestScope ctx) {
+      return set(ctx);
+    }
+  }
+
   private static final ThreadLocal<PerThreadRequestScope> current =
       new ThreadLocal<PerThreadRequestScope>();
 

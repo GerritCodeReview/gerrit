@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADhH///+4\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-02T23:30:21Z",
+      "side": 1,
+      "message": "Hmm, don\u0027t know why I didn\u0027t think of this before, but just those two commands don\u0027t get you a gerrit repo to play with. Do we want more here, or are we assuming the readers can at least clone the repo without instructions?",
+      "revId": "58aa163c437a12c82cb61d4a4c8f1254bf83a52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

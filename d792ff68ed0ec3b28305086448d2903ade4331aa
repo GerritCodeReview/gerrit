@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAADf3////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-02T15:03:43Z",
+      "side": 1,
+      "message": "It will read something like : Permission denied moving change c4324 destination to master branch.\n\nI know it is just an exception message, but, well, it sounds rather \u0027different\u0027, don\u0027t you think?",
+      "parentUuid": "AAADcn////A\u003d",
+      "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADcX////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 3
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "This is pretty much copied from other similar classes, so I would prefer to follow their patterns for now.  I have no problems with a cleanup patch though if it keeps the related classes similar.",
       "parentUuid": "AAADcX////k\u003d",
+      "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADf3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-02T15:03:43Z",
+      "side": 1,
+      "message": "I see your point but do we need to inherit the naming, coding patterns, etc.. if we can do better. Should we postpone all the changes to one big refactor or start somewhere, like here?",
+      "parentUuid": "AAADcn////M\u003d",
       "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

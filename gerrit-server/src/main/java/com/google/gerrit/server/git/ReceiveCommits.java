@@ -41,6 +41,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -104,6 +105,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -234,8 +236,10 @@ public class ReceiveCommits implements PreReceiveHook {
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
+
   private final Executor executor;
   private final ScopePropagator scopePropagator;
+  private final long timeoutMillis;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -266,6 +270,7 @@ public class ReceiveCommits implements PreReceiveHook {
 
   @Inject
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
+      @GerritServerConfig final Config cfg,
       final AccountResolver accountResolver,
       final CreateChangeSender.Factory createChangeSenderFactory,
       final MergedSender.Factory mergedSenderFactory,
@@ -301,8 +306,13 @@ public class ReceiveCommits implements PreReceiveHook {
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
+
     this.executor = executor;
     this.scopePropagator = scopePropagator;
+    this.timeoutMillis = ConfigUtil.getTimeUnit(
+        cfg, "gerrit", "receive", "timeout",
+        TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES),
+        TimeUnit.MILLISECONDS);
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -450,7 +460,7 @@ public class ReceiveCommits implements PreReceiveHook {
         public void run() {
           processCommands(commands, progress);
         }
-      }, scopePropagator));
+      }, scopePropagator), timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (ExecutionException e) {
       log.warn("Error in ReceiveCommits", e);
       sendMessages();

@@ -16,6 +16,24 @@
       "revId": "58aa163c437a12c82cb61d4a4c8f1254bf83a52b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADg3///+8\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1005169
+      },
+      "writtenOn": "2012-03-03T00:37:56Z",
+      "side": 1,
+      "message": "Nasser: should I just say this:\n\n    57 Finally, clone the gerrit repository:\n    58\n    59 \u003d\u003d\u003d\u003d\n    60   git clone https://gerrit-review.googlesource.com/gerrit\n    61 \u003d\u003d\u003d\u003d",
+      "parentUuid": "AAADhH///+4\u003d",
+      "revId": "58aa163c437a12c82cb61d4a4c8f1254bf83a52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

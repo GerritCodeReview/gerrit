@@ -15,6 +15,8 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.ReceiveCommits.MessageSender;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.project.ProjectControl;
@@ -24,6 +26,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.Inject;
 import com.google.inject.PrivateModule;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -34,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /** Hook that delegates to {@link ReceiveCommits} in a worker thread. */
 public class AsyncReceiveCommits implements PreReceiveHook {
@@ -119,9 +123,11 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final Executor executor;
   private final RequestScopePropagator scopePropagator;
   private final MultiProgressMonitor progress;
+  private final long timeoutMillis;
 
   @Inject
-  AsyncReceiveCommits(final ReceiveCommits.Factory factory,
+  AsyncReceiveCommits(@GerritServerConfig final Config cfg,
+      final ReceiveCommits.Factory factory,
       @ReceiveCommitsExecutor final Executor executor,
       final RequestScopePropagator scopePropagator,
       @Assisted final ProjectControl projectControl,
@@ -133,14 +139,20 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     progress = new MultiProgressMonitor(
         new MessageSenderOutputStream(), "Updating changes");
+
+    timeoutMillis = ConfigUtil.getTimeUnit(
+        cfg, "receive", null, "timeout",
+        TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES),
+        TimeUnit.MILLISECONDS);
   }
 
   @Override
   public void onPreReceive(final ReceivePack rp,
       final Collection<ReceiveCommand> commands) {
     try {
-      progress.begin(executor.submit(
-          scopePropagator.wrap(new Worker(commands))));
+      progress.begin(
+          executor.submit(scopePropagator.wrap(new Worker(commands))),
+          timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (ExecutionException e) {
       log.warn("Error in ReceiveCommits", e);
       rc.getMessageSender().sendError("internal error while processing changes");

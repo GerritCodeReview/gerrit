@@ -1714,6 +1714,14 @@ processed.
 +
 Defaults to the number of available CPUs according to the Java runtime.
 
+[[receive.timeout]]receive.timeout::
++
+Overall timeout on the time taken to process the change data in received packs.
+Only includes the time processing Gerrit changes and updating references, not
+the time to index the pack.
++
+Default is 1 minute.
+
 
 [[repository]]Section repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

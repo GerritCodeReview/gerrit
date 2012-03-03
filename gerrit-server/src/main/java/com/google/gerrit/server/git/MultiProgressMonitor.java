@@ -133,6 +133,15 @@ public class MultiProgressMonitor {
   }
 
   /**
+   * Begin a task managed by a {@link Future}, with no timeout.
+   *
+   * @see #begin(Future, long, TimeUnit)
+   */
+  public void begin(final Future<?> workerFuture) throws ExecutionException {
+    begin(workerFuture, 0, null);
+  }
+
+  /**
    * Begin a task managed by a {@link Future}.
    * <p>
    * Must be called from the main thread, <em>not</em> the worker thread. Once
@@ -142,11 +151,23 @@ public class MultiProgressMonitor {
    *
    * @param workerFuture a future that returns when the worker thread is
    *     finished.
-   *
+   * @param timeoutTime overall timeout for the task; the future is forcefully
+   *     cancelled if the task exceeds the timeout. Non-positive values indicate
+   *     no timeout.
+   * @param timeoutUnit unit for overall task timeout.
    * @throws ExecutionException if this thread or the worker thread was
    *     interrupted, the worker was cancelled, or the worker timed out.
    */
-  public void begin(Future<?> workerFuture) throws ExecutionException {
+  public void begin(final Future<?> workerFuture, final long timeoutTime,
+      final TimeUnit timeoutUnit) throws ExecutionException {
+    long overallStart = System.nanoTime();
+    long deadline;
+    if (timeoutTime > 0) {
+      deadline = overallStart + NANOSECONDS.convert(timeoutTime, timeoutUnit);
+    } else {
+      deadline = 0;
+    }
+
     synchronized (this) {
       long left = maxIntervalNanos;
       while (!done) {
@@ -159,7 +180,17 @@ public class MultiProgressMonitor {
 
         // Send an update on every wakeup (manual or spurious), but only move
         // the spinner every maxInterval.
-        left -= System.nanoTime() - start;
+        long now = System.nanoTime();
+
+        if (deadline > 0 && now > deadline) {
+          log.warn(String.format(
+              "MultiProgressMonitor worker killed after %sms",
+              TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS)));
+          workerFuture.cancel(true);
+          break;
+        }
+
+        left -= now - start;
         if (left <= 0) {
           moveSpinner();
           left = maxIntervalNanos;

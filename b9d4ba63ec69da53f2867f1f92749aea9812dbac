@@ -87,6 +87,24 @@
       "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADiX////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-03T16:53:16Z",
+      "side": 1,
+      "message": "Thanks for clarifying that, it should have been obvious, but I missed it. Unfortunately, the more I understand this, the more I think that this is being done at the wrong place. The first one is really what we want, and the first one should probably be fixed to return the proper file list in the first place! I think that you should likely push this logic further down into the stack so that it needn\u0027t be worked around on every display here.  To do this, the cache piece which fetches a PatchList should probably be modified.",
+      "parentUuid": "AAADXH////w\u003d",
+      "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADhX///+8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-03T01:46:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADaX////8\u003d",
+      "revId": "b6e976eb7ad35e0baf9eaa3370b1bccde24501d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADaX////w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
         "patchSetId": 2

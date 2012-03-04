@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAABP3////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-04T05:00:44Z",
+      "side": 1,
+      "message": "Since we already had an internal bike shedding discussing about this the same day this patch was submitted at the hackathon, it is obvious that this is a real problem.  Part of the complaint stems from the fact that people are mistaking the two publish buttons and sometimes pressing the wrong one.  It was unclear how to prevent such mistakes while still keeping the convenience of the dual action (publish and submit) button.\n\nI liked Gutaf\u0027s version a bit better (+ instead of And, and on 2 lines).  But we could not reach a concensus about this actually being clearer.  I think some serious thought needs to be put into this screen to improve it, but I don\u0027t know how. \n\nSome  improvements to consider which may help inspire some redirection is to make the comment saveable in case you are not ready to publish it yet.  I almost feel like this comment should be considered a log and there should be a separate per PS comment which gets displayed inline with each PS on the change screen (to help separate review type of comments from activity stuff on the change).\n\nI am not suggesting that you need to do this, just that I don\u0027t think this change is the right direction to improve things here and that I admit that I don\u0027t know what the right direction is.  I am hoping that someone else can perhaps see through the clouds and point the way.",
+      "revId": "50c3589301f0a19c171d35c730a583cf66d87af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

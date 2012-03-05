@@ -151,6 +151,16 @@ public class ReceiveCommits {
     }
   }
 
+  private static class Message {
+    private final String message;
+    private final boolean isError;
+
+    private Message(final String message, final boolean isError) {
+      this.message = message;
+      this.isError = isError;
+    }
+  }
+
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
@@ -195,6 +205,7 @@ public class ReceiveCommits {
 
   private final SubmoduleOp.Factory subOpFactory;
 
+  private final List<Message> messages = new ArrayList<Message>();
   private MessageSender messageSender;
 
   @Inject
@@ -377,71 +388,93 @@ public class ReceiveCommits {
     return MagicBranch.checkMagicBranchRefs(repo, project);
   }
 
+  private void addMessage(String message) {
+    messages.add(new Message(message, false));
+  }
+
+  private void addError(String error) {
+    messages.add(new Message(error, true));
+  }
+
+  private void sendMessages() {
+    for (Message m : messages) {
+      if (m.isError) {
+        messageSender.sendError(m.message);
+      } else {
+        messageSender.sendMessage(m.message);
+      }
+    }
+  }
+
   void processCommands(final Collection<ReceiveCommand> commands) {
-    parseCommands(commands);
-    if (newChange != null
-        && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
-      createNewChanges();
-    }
-    doReplaces();
+    try {
+      parseCommands(commands);
+      if (newChange != null
+          && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
+        createNewChanges();
+      }
+      doReplaces();
 
-    for (final ReceiveCommand c : commands) {
-      if (c.getResult() == Result.OK) {
-        switch (c.getType()) {
-          case CREATE:
-            if (isHead(c)) {
-              autoCloseChanges(c);
-            }
-            break;
+      for (final ReceiveCommand c : commands) {
+        if (c.getResult() == Result.OK) {
+          switch (c.getType()) {
+            case CREATE:
+              if (isHead(c)) {
+                autoCloseChanges(c);
+              }
+              break;
 
-          case UPDATE: // otherwise known as a fast-forward
-            tagCache.updateFastForward(project.getNameKey(),
-                c.getRefName(),
-                c.getOldId(),
-                c.getNewId());
-            if (isHead(c)) {
-              autoCloseChanges(c);
-            }
-            break;
+            case UPDATE: // otherwise known as a fast-forward
+              tagCache.updateFastForward(project.getNameKey(),
+                  c.getRefName(),
+                  c.getOldId(),
+                  c.getNewId());
+              if (isHead(c)) {
+                autoCloseChanges(c);
+              }
+              break;
 
-          case UPDATE_NONFASTFORWARD:
-            if (isHead(c)) {
-              autoCloseChanges(c);
-            }
-            break;
-        }
+            case UPDATE_NONFASTFORWARD:
+              if (isHead(c)) {
+                autoCloseChanges(c);
+              }
+              break;
+          }
 
-        if (isConfig(c)) {
-          projectCache.evict(project);
-          ProjectState ps = projectCache.get(project.getNameKey());
-          repoManager.setProjectDescription(project.getNameKey(), //
-              ps.getProject().getDescription());
-        }
+          if (isConfig(c)) {
+            projectCache.evict(project);
+            ProjectState ps = projectCache.get(project.getNameKey());
+            repoManager.setProjectDescription(project.getNameKey(), //
+                ps.getProject().getDescription());
+          }
 
-        if (!MagicBranch.isMagicBranch(c.getRefName())) {
-          // We only schedule direct refs updates for replication.
-          // Change refs are scheduled when they are created.
-          //
-          replication.scheduleUpdate(project.getNameKey(), c.getRefName());
-          Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
-          hooks.doRefUpdatedHook(destBranch, c.getOldId(), c.getNewId(), currentUser.getAccount());
+          if (!MagicBranch.isMagicBranch(c.getRefName())) {
+            // We only schedule direct refs updates for replication.
+            // Change refs are scheduled when they are created.
+            //
+            replication.scheduleUpdate(project.getNameKey(), c.getRefName());
+            Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
+            hooks.doRefUpdatedHook(destBranch, c.getOldId(), c.getNewId(), currentUser.getAccount());
+          }
         }
       }
-    }
 
-    if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
-      final String url = canonicalWebUrl;
-      messageSender.sendMessage("");
-      messageSender.sendMessage("New Changes:");
-      for (final Change c : allNewChanges) {
-        if (c.getStatus() == Change.Status.DRAFT) {
-          messageSender.sendMessage("  " + url + c.getChangeId() + " [DRAFT]");
+      if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
+        final String url = canonicalWebUrl;
+        addMessage("");
+        addMessage("New Changes:");
+        for (final Change c : allNewChanges) {
+          if (c.getStatus() == Change.Status.DRAFT) {
+            addMessage("  " + url + c.getChangeId() + " [DRAFT]");
+          }
+          else {
+            addMessage("  " + url + c.getChangeId());
+          }
         }
-        else {
-          messageSender.sendMessage("  " + url + c.getChangeId());
-        }
+        addMessage("");
       }
-      messageSender.sendMessage("");
+    } finally {
+      sendMessages();
     }
   }
 
@@ -523,9 +556,9 @@ public class ReceiveCommits {
               ProjectConfig cfg = new ProjectConfig(project.getNameKey());
               cfg.load(repo, cmd.getNewId());
               if (!cfg.getValidationErrors().isEmpty()) {
-                messageSender.sendError("Invalid project configuration:");
+                addError("Invalid project configuration:");
                 for (ValidationError err : cfg.getValidationErrors()) {
-                  messageSender.sendError("  " + err.getMessage());
+                  addError("  " + err.getMessage());
                 }
                 reject(cmd, "invalid project configuration");
                 log.error("User " + currentUser.getUserName()
@@ -1224,7 +1257,7 @@ public class ReceiveCommits {
             if (!parentsEq) {
               msg.append(", was rebased");
             }
-            messageSender.sendMessage(msg.toString());
+            addMessage(msg.toString());
           }
         }
       } catch (IOException e) {
@@ -1640,7 +1673,7 @@ public class ReceiveCommits {
         if (project.isRequireChangeID()) {
           String errMsg = "missing Change-Id in commit message";
           reject(cmd, errMsg);
-          messageSender.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+          addMessage(getFixedCommitMsgWithChangeId(errMsg, c));
           return false;
         }
       } else if (idList.size() > 1) {
@@ -1652,7 +1685,7 @@ public class ReceiveCommits {
           final String errMsg =
               "missing or invalid Change-Id line format in commit message";
           reject(cmd, errMsg);
-          messageSender.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+          addMessage(getFixedCommitMsgWithChangeId(errMsg, c));
           return false;
         }
       }
@@ -1670,9 +1703,9 @@ public class ReceiveCommits {
         ProjectConfig cfg = new ProjectConfig(project.getNameKey());
         cfg.load(repo, cmd.getNewId());
         if (!cfg.getValidationErrors().isEmpty()) {
-          messageSender.sendError("Invalid project configuration:");
+          addError("Invalid project configuration:");
           for (ValidationError err : cfg.getValidationErrors()) {
-            messageSender.sendError("  " + err.getMessage());
+            addError("  " + err.getMessage());
           }
           reject(cmd, "invalid project configuration");
           log.error("User " + currentUser.getUserName()
@@ -1751,7 +1784,7 @@ public class ReceiveCommits {
       sb.append("ERROR:  " + canonicalWebUrl + "#" + PageLinks.SETTINGS_CONTACT + "\n");
     }
     sb.append("\n");
-    messageSender.sendMessage(sb.toString());
+    addMessage(sb.toString());
   }
 
   private void warnMalformedMessage(RevCommit c) {
@@ -1763,7 +1796,7 @@ public class ReceiveCommits {
       } catch (IOException err) {
         id = c.abbreviate(6);
       }
-      messageSender.sendMessage("(W) " + id.name() //
+      addMessage("(W) " + id.name() //
           + ": commit subject >65 characters; use shorter first paragraph");
     }
 
@@ -1784,7 +1817,7 @@ public class ReceiveCommits {
       } catch (IOException err) {
         id = c.abbreviate(6);
       }
-      messageSender.sendMessage("(W) " + id.name() //
+      addMessage("(W) " + id.name() //
           + ": commit message lines >70 characters; manually wrap lines");
     }
   }

@@ -105,6 +105,24 @@
       "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADj3////4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-05T02:16:32Z",
+      "side": 1,
+      "message": "exactly right ! \n I plan to modify the get() method of  PatchListCacheImpl class \n\n  public PatchList get(final PatchListKey key) {\n     return fileCache.get(key);\n   }\n\n and hope we can reach an identity of views there. :)",
+      "parentUuid": "AAADiX////s\u003d",
+      "revId": "b9d4ba63ec69da53f2867f1f92749aea9812dbac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

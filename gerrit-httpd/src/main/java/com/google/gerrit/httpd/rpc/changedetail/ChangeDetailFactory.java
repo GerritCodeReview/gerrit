@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -161,7 +160,6 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private void loadPatchSets() throws OrmException {
     ResultSet<PatchSet> source = db.patchSets().byChange(changeId);
     List<PatchSet> patches = new ArrayList<PatchSet>();
-    CurrentUser user = control.getCurrentUser();
     for (PatchSet ps : source) {
       if (control.isPatchVisible(ps, db)) {
         patches.add(ps);

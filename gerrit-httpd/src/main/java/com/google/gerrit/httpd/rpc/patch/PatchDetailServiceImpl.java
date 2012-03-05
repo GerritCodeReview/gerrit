@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Patch.Key;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
@@ -75,9 +74,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final PublishComments.Factory publishCommentsFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
-  private final PatchSetInfoFactory patchSetInfoFactory;
-  private final GitRepositoryManager gitManager;
-  private final ReplicationQueue replication;
   private final ChangeDetailFactory.Factory changeDetailFactory;
 
   @Inject
@@ -109,9 +105,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.publishCommentsFactory = publishCommentsFactory;
     this.saveDraftFactory = saveDraftFactory;
-    this.patchSetInfoFactory = patchSetInfoFactory;
-    this.gitManager = gitManager;
-    this.replication = replication;
     this.changeDetailFactory = changeDetailFactory;
   }
 

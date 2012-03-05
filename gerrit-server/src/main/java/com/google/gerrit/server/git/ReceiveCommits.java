@@ -175,6 +175,16 @@ public class ReceiveCommits implements PreReceiveHook {
     }
   }
 
+  private static class Message {
+    private final String message;
+    private final boolean isError;
+
+    private Message(final String message, final boolean isError) {
+      this.message = message;
+      this.isError = isError;
+    }
+  }
+
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
@@ -220,6 +230,7 @@ public class ReceiveCommits implements PreReceiveHook {
 
   private final SubmoduleOp.Factory subOpFactory;
 
+  private final List<Message> messages = new ArrayList<Message>();
   private MessageSender messageSender;
 
   @Inject
@@ -412,13 +423,31 @@ public class ReceiveCommits implements PreReceiveHook {
     }
     if (err != null) {
       log.warn("Error in ReceiveCommits", err);
-      messageSender.sendError("internal error while processing changes");
+      addError("internal error while processing changes");
       // processCommands has tried its best to catch errors, so anything at this
       // point is very bad.
       for (final ReceiveCommand c : commands) {
         if (c.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
           reject(c, "internal error");
         }
+      }
+    }
+  }
+
+  private void addMessage(String message) {
+    messages.add(new Message(message, false));
+  }
+
+  private void addError(String error) {
+    messages.add(new Message(error, true));
+  }
+
+  private void sendMessages() {
+    for (Message m : messages) {
+      if (m.isError) {
+        messageSender.sendError(m.message);
+      } else {
+        messageSender.sendMessage(m.message);
       }
     }
   }
@@ -477,18 +506,20 @@ public class ReceiveCommits implements PreReceiveHook {
 
     if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
       final String url = canonicalWebUrl;
-      messageSender.sendMessage("");
-      messageSender.sendMessage("New Changes:");
+      addMessage("");
+      addMessage("New Changes:");
       for (final Change c : allNewChanges) {
         if (c.getStatus() == Change.Status.DRAFT) {
-          messageSender.sendMessage("  " + url + c.getChangeId() + " [DRAFT]");
+          addMessage("  " + url + c.getChangeId() + " [DRAFT]");
         }
         else {
-          messageSender.sendMessage("  " + url + c.getChangeId());
+          addMessage("  " + url + c.getChangeId());
         }
       }
-      messageSender.sendMessage("");
+      addMessage("");
     }
+
+    sendMessages();
   }
 
   private Account.Id toAccountId(final String nameOrEmail) throws OrmException,
@@ -569,9 +600,9 @@ public class ReceiveCommits implements PreReceiveHook {
               ProjectConfig cfg = new ProjectConfig(project.getNameKey());
               cfg.load(repo, cmd.getNewId());
               if (!cfg.getValidationErrors().isEmpty()) {
-                messageSender.sendError("Invalid project configuration:");
+                addError("Invalid project configuration:");
                 for (ValidationError err : cfg.getValidationErrors()) {
-                  messageSender.sendError("  " + err.getMessage());
+                  addError("  " + err.getMessage());
                 }
                 reject(cmd, "invalid project configuration");
                 log.error("User " + currentUser.getUserName()
@@ -1259,7 +1290,7 @@ public class ReceiveCommits implements PreReceiveHook {
             if (!parentsEq) {
               msg.append(", was rebased");
             }
-            messageSender.sendMessage(msg.toString());
+            addMessage(msg.toString());
           }
         }
       } catch (IOException e) {
@@ -1664,7 +1695,7 @@ public class ReceiveCommits implements PreReceiveHook {
         if (project.isRequireChangeID()) {
           String errMsg = "missing Change-Id in commit message";
           reject(cmd, errMsg);
-          messageSender.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+          addMessage(getFixedCommitMsgWithChangeId(errMsg, c));
           return false;
         }
       } else if (idList.size() > 1) {
@@ -1676,7 +1707,7 @@ public class ReceiveCommits implements PreReceiveHook {
           final String errMsg =
               "missing or invalid Change-Id line format in commit message";
           reject(cmd, errMsg);
-          messageSender.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+          addMessage(getFixedCommitMsgWithChangeId(errMsg, c));
           return false;
         }
       }
@@ -1694,9 +1725,9 @@ public class ReceiveCommits implements PreReceiveHook {
         ProjectConfig cfg = new ProjectConfig(project.getNameKey());
         cfg.load(repo, cmd.getNewId());
         if (!cfg.getValidationErrors().isEmpty()) {
-          messageSender.sendError("Invalid project configuration:");
+          addError("Invalid project configuration:");
           for (ValidationError err : cfg.getValidationErrors()) {
-            messageSender.sendError("  " + err.getMessage());
+            addError("  " + err.getMessage());
           }
           reject(cmd, "invalid project configuration");
           log.error("User " + currentUser.getUserName()
@@ -1775,7 +1806,7 @@ public class ReceiveCommits implements PreReceiveHook {
       sb.append("ERROR:  " + canonicalWebUrl + "#" + PageLinks.SETTINGS_CONTACT + "\n");
     }
     sb.append("\n");
-    messageSender.sendMessage(sb.toString());
+    addMessage(sb.toString());
   }
 
   private void warnMalformedMessage(RevCommit c) {
@@ -1787,7 +1818,7 @@ public class ReceiveCommits implements PreReceiveHook {
       } catch (IOException err) {
         id = c.abbreviate(6);
       }
-      messageSender.sendMessage("(W) " + id.name() //
+      addMessage("(W) " + id.name() //
           + ": commit subject >65 characters; use shorter first paragraph");
     }
 
@@ -1808,7 +1839,7 @@ public class ReceiveCommits implements PreReceiveHook {
       } catch (IOException err) {
         id = c.abbreviate(6);
       }
-      messageSender.sendMessage("(W) " + id.name() //
+      addMessage("(W) " + id.name() //
           + ": commit message lines >70 characters; manually wrap lines");
     }
   }

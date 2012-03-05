@@ -76,7 +76,11 @@ class HistoryTable extends FancyFlexTable<Patch> {
     table.setText(3, 0, Util.C.patchTableColumnComments());
     fmt.setStyleName(3, 0, Gerrit.RESOURCES.css().dataHeader());
 
-    table.setText(0, 1, PatchUtil.C.patchBase());
+    if (screen.getPatchSetDetail().getInfo().getParents().size() > 1) {
+      table.setText(0, 1, PatchUtil.C.patchBaseAutoMerge());
+    } else {
+      table.setText(0, 1, PatchUtil.C.patchBase());
+    }
     fmt.setStyleName(0, 1, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topMostCell());
     fmt.setStyleName(1, 1, Gerrit.RESOURCES.css().dataCell());

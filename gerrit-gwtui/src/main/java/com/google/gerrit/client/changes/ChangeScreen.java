@@ -250,7 +250,6 @@ public class ChangeScreen extends Screen {
         }
       }
     });
-    patchesList.addItem(Util.C.baseDiffItem());
 
     patchesGrid = new Grid(1, 2);
     patchesGrid.setStyleName(Gerrit.RESOURCES.css().selectPatchSetOldVersion());
@@ -312,6 +311,11 @@ public class ChangeScreen extends Screen {
     neededBy.display(detail.getNeededBy());
     approvals.display(detail);
 
+    if (detail.getCurrentPatchSetDetail().getInfo().getParents().size() > 1) {
+      patchesList.addItem(Util.C.autoMerge());
+    } else {
+      patchesList.addItem(Util.C.baseDiffItem());
+    }
     for (PatchSet pId : detail.getPatchSets()) {
       if (patchesList != null) {
         patchesList.addItem(Util.M.patchSetHeader(pId.getPatchSetId()), pId

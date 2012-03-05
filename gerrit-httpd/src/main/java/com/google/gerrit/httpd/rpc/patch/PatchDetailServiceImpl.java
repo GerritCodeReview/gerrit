@@ -41,9 +41,6 @@ import com.google.gerrit.reviewdb.Patch.Key;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReplicationQueue;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
@@ -89,9 +86,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
       final PublishComments.Factory publishCommentsFactory,
       final SaveDraft.Factory saveDraftFactory,
-      final PatchSetInfoFactory patchSetInfoFactory,
-      final GitRepositoryManager gitManager,
-      final ReplicationQueue replication,
       final ChangeDetailFactory.Factory changeDetailFactory) {
     super(schema, currentUser);
     this.approvalTypes = approvalTypes;

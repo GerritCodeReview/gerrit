@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAADj3////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/MoveChangeHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-05T22:16:25Z",
+      "side": 1,
+      "message": "Yes, many of these handlers are quite thin and I\u0027m not sure if I would be able to justify their existence. I think it would be worth to think about whether we really need them.\n\nBut I think that having the canMoveTo(branch) check inside the MoveChange#call() method makes sense, because if you would e.g. call the logic in MoveChange from an SSH command you would also need to do this check.",
+      "parentUuid": "AAADBX///+g\u003d",
+      "revId": "c939a0c43193a87e6f3bf8df594490bfcd9d8e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADAH///+4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 1

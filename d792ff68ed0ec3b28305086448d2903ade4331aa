@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAADiX///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-05T17:18:24Z",
+      "side": 1,
+      "message": "Ah, sorry, I thought it said \"change\u0027s\"...  reworded.",
+      "parentUuid": "AAADf3////o\u003d",
+      "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADcX////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 3
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "I see your point but do we need to inherit the naming, coding patterns, etc.. if we can do better. Should we postpone all the changes to one big refactor or start somewhere, like here?",
       "parentUuid": "AAADcn////M\u003d",
+      "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADiX///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-05T17:18:24Z",
+      "side": 1,
+      "message": "Such changes would definitely belong in a separate refactor.  The more granular such stylistic changes, the more easy for them to get yay/nayed independently.",
+      "parentUuid": "AAADf3////s\u003d",
       "revId": "d792ff68ed0ec3b28305086448d2903ade4331aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

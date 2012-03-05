@@ -124,6 +124,7 @@ public interface ChangeConstants extends Constants {
   String abandonChangeTitle();
   String oldVersionHistory();
   String baseDiffItem();
+  String autoMerge();
 
   String buttonReview();
   String buttonPublishCommentsSend();

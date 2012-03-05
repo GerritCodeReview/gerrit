@@ -16,6 +16,24 @@
       "revId": "50c3589301f0a19c171d35c730a583cf66d87af8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADjH////0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-05T14:49:10Z",
+      "side": 1,
+      "message": ":) Yeah. I cant help feeling I have tried pretty much every possible combination of sizes, position and wording for the submit button, but I still have not found anything that really looks and feels OK (and simultaneously helps the user not pushing the wrong button). I think Martin have a good point; perhaps there are better places to rearrange and tweak to make this part of the UI more intuitive for the end user.\n\nMartin wrote:\n\u003e \"I almost feel like this comment should be considered a log and there should be a separate per PS comment which gets displayed inline with each PS on the change screen (to help separate review type of comments from activity stuff on the change).\"\n\nI like this idea.",
+      "parentUuid": "AAABP3////8\u003d",
+      "revId": "50c3589301f0a19c171d35c730a583cf66d87af8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

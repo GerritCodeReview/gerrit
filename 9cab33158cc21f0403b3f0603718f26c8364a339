@@ -104,6 +104,24 @@
       "revId": "9cab33158cc21f0403b3f0603718f26c8364a339",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADj3////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeMovedSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-05T22:50:30Z",
+      "side": 1,
+      "message": "Sorry, to take so long to answer. I was some days out of office and now I\u0027m awfully behind my mailbox...\n\nIt\u0027s all fine with me to leave it as it is. I don\u0027t see this as something important. This question just came to my mind while reviewing and I was interested in what you think about it. You are right that this is more a general question whether we want to send notifications for the original changes or not. For now I would not do this, I think it would confuse people more than it would help them.",
+      "parentUuid": "AAADJX////8\u003d",
+      "revId": "9cab33158cc21f0403b3f0603718f26c8364a339",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

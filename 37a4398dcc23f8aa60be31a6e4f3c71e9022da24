@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAADjX////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AbstractScopePropagator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T15:32:06Z",
+      "side": 1,
+      "message": "Paranoia. ISTM it\u0027s more likely to be a programming error than intentional.",
+      "parentUuid": "AAADi3///+k\u003d",
+      "revId": "37a4398dcc23f8aa60be31a6e4f3c71e9022da24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADi3///+s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScopePropagator.java",
         "patchSetId": 5
@@ -47,6 +65,24 @@
       "writtenOn": "2012-03-06T15:23:22Z",
       "side": 1,
       "message": "is the git package really the right place for guice glue?",
+      "revId": "37a4398dcc23f8aa60be31a6e4f3c71e9022da24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADjX////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScopePropagator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T15:32:06Z",
+      "side": 1,
+      "message": "I\u0027m happy to move this wherever; any suggestions?",
+      "parentUuid": "AAADi3///+s\u003d",
       "revId": "37a4398dcc23f8aa60be31a6e4f3c71e9022da24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

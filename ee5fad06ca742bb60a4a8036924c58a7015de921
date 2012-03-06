@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "AAADjX////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T15:27:44Z",
+      "side": 1,
+      "message": "I\u0027m not sure how what you describe is a filter pattern, but yeah, I was thinking something along these lines. I\u0027m 50/50 on making ReceiveCommits (that actually does the work) actually implement PreReceiveHook vs. having a different public method (e.g. processCommands()). Any thoughts there?",
+      "parentUuid": "AAADi3////A\u003d",
+      "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADi3///+0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 6

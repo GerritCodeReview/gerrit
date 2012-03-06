@@ -16,6 +16,24 @@
       "revId": "363b4a1a18dc96eb782ecc13fa460ee3683991a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADjX////Y\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1702,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T15:23:53Z",
+      "side": 1,
+      "message": "I should clarify that this timer only applies to the Gerrit Code Review-specific parts of the push, that is, only the stuff after the \"resolving deltas\" phase. I\u0027m guessing for the kernel that you may push a large pack, which takes a long time to index, but doesn\u0027t actually modify very much Gerrit database state. Is that accurate?",
+      "parentUuid": "AAADiX///9U\u003d",
+      "revId": "363b4a1a18dc96eb782ecc13fa460ee3683991a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

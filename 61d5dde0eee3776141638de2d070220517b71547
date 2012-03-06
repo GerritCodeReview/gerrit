@@ -52,6 +52,24 @@
       "revId": "61d5dde0eee3776141638de2d070220517b71547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADjX///+o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetsBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-03-06T17:16:50Z",
+      "side": 0,
+      "message": "Done\n\nhttps://gerrit-review.googlesource.com/#/c/33646",
+      "parentUuid": "AAADh3///+o\u003d",
+      "revId": "61d5dde0eee3776141638de2d070220517b71547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

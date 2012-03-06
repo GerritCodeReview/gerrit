@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADh3///+s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-06T16:09:20Z",
+      "side": 1,
+      "message": "What about getting this into the table at the top of a patch view when you click the Patch Sets button in the menu header and get the table of radio boxes?\n\nThis change only impacts the pull down menu on the change screen.",
+      "revId": "abc818c3791e00849f8b50d3e476d9cfbeb42fcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

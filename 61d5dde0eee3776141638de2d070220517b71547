@@ -34,6 +34,24 @@
       "revId": "61d5dde0eee3776141638de2d070220517b71547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADh3///+o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetsBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-06T16:09:20Z",
+      "side": 0,
+      "message": "Brad, please pull this into its own change. If you were already editing this class I would be more OK with dropping dead code in the same commit, but you aren\u0027t, so please make this its own commit.",
+      "parentUuid": "AAADjn////g\u003d",
+      "revId": "61d5dde0eee3776141638de2d070220517b71547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

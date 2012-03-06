@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADi3///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AbstractScopePropagator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-06T15:23:22Z",
+      "side": 1,
+      "message": "tostring stuff and all of that",
+      "revId": "37a4398dcc23f8aa60be31a6e4f3c71e9022da24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADi3///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AbstractScopePropagator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-06T15:23:22Z",
+      "side": 1,
+      "message": "Why is this disallowed?",
+      "revId": "37a4398dcc23f8aa60be31a6e4f3c71e9022da24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADi3///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScopePropagator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-06T15:23:22Z",
+      "side": 1,
+      "message": "is the git package really the right place for guice glue?",
+      "revId": "37a4398dcc23f8aa60be31a6e4f3c71e9022da24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADi3///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ScopePropagator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-06T15:23:22Z",
+      "side": 1,
+      "message": "See my remarks in your background receive commits change, we should have toString() on this runnable delegate to the target runnable, and possibly include the user state too so show-queue has better reporting.",
+      "revId": "37a4398dcc23f8aa60be31a6e4f3c71e9022da24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADi3///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-06T15:23:22Z",
+      "side": 1,
+      "message": "This might be that special runnable I was alluding to elsewhere in my comments.",
+      "revId": "37a4398dcc23f8aa60be31a6e4f3c71e9022da24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

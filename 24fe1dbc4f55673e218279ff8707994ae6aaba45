@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADkX///+o\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-06T11:54:30Z",
+      "side": 1,
+      "message": "Please note that asciidoc will concatinate the two lines above. If you want to have a line break between the two lines (and it looks like this was intended) then the only way I found working is to add \u0027 +\u0027 to the end of the first line:\n\n  * Annotations should go before language keywords (final, private...) +\n    Example: @Assisted @Nullable final type varName",
+      "revId": "24fe1dbc4f55673e218279ff8707994ae6aaba45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

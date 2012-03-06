@@ -16,6 +16,24 @@
       "revId": "61d5dde0eee3776141638de2d070220517b71547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADjn////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetsBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-06T15:34:27Z",
+      "side": 0,
+      "message": "I am all for removing dead code. However, probably such changes require separate commit(s)?",
+      "parentUuid": "AAADjX////s\u003d",
+      "revId": "61d5dde0eee3776141638de2d070220517b71547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

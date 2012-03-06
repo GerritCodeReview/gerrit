@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADi3///94\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T20:36:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADi3///+8\u003d",
+      "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADi3///+4\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-06T15:14:56Z",
       "side": 1,
       "message": "It may be worth pointing out this is executing after the pack has been fully drained off the wire, validated, and stored locally. So we really are now local CPU and local IO bound with no network latency to the client. Thus matching available CPUs is a pretty good estimate. If threads are stalling for IO, your system is IO swamped and more threads may not help.",
+      "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADi3///90\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T20:36:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADi3///+4\u003d",
       "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAADi3///9w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T20:36:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADiX///9I\u003d",
+      "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADi3////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-06T15:14:56Z",
       "side": 1,
       "message": "This is \"receive\", null, \"threadPoolSize\" according to the documentation update.",
+      "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADi3///9s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T20:36:27Z",
+      "side": 1,
+      "message": "Done (moved to a different class, in which I paid attention to ordering)",
+      "parentUuid": "AAADi3////E\u003d",
       "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AAADi3///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T20:36:27Z",
+      "side": 1,
+      "message": "Done. Hopefully the assisted injection didn\u0027t make this too messy.",
+      "parentUuid": "AAADjX////Q\u003d",
+      "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADi3///+0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 6
@@ -116,6 +206,24 @@
       "writtenOn": "2012-03-06T15:14:56Z",
       "side": 1,
       "message": "Anytime you put an object into the queue system, you should implement toString() to return a description that can appear in the `gerrit show-queue` command. The default is going to be some useless ReceiveCommits$52@c0ffee19231 name, which doesn\u0027t really tell the admin anything. At least do something simple like return \"receive-commits\".\n\nI don\u0027t remember how we do this, but we also have a way to attach a user identity to the object in the queue, which shows up in its own column in the show-queue command. It might be worth doing that here, since we always have an authenticated user. That way if an admin is getting a complaint from a user about their push and they check show-queue they can see if there is a session pending or on a thread.",
+      "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADi3///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T20:36:27Z",
+      "side": 1,
+      "message": "I just returned \"receive-commits\". ShowQueue additionally formats this with the task ID, start time, and project name.",
+      "parentUuid": "AAADi3///+0\u003d",
       "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

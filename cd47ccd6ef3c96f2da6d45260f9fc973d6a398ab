@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADi3///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-06T15:34:12Z",
+      "side": 1,
+      "message": "load t.count into a variable and use it here. since its volatile it could change out of from under you while you format this line, leading to inconsistent formatting, e.g. \"5% (7/100)\".",
+      "revId": "cd47ccd6ef3c96f2da6d45260f9fc973d6a398ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADi3///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-06T15:34:12Z",
+      "side": 1,
+      "message": "Just declare all of these fields and avoid passing them around.",
+      "revId": "cd47ccd6ef3c96f2da6d45260f9fc973d6a398ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

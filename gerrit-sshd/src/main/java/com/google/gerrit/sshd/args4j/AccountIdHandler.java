@@ -37,13 +37,12 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AccountManager accountManager;
   private final AuthType authType;
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
   @Inject
   public AccountIdHandler(final AccountResolver accountResolver,
       final AccountManager accountManager,
       final AuthConfig authConfig,
       @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
-      @Assisted final Setter setter) {
+      @Assisted final Setter<Account.Id> setter) {
     super(parser, option, setter);
     this.accountResolver = accountResolver;
     this.accountManager = accountManager;

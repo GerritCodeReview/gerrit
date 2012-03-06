@@ -28,10 +28,10 @@ import org.kohsuke.args4j.spi.Setter;
 import java.net.SocketAddress;
 
 public class SocketAddressHandler extends OptionHandler<SocketAddress> {
-  @SuppressWarnings({"unchecked", "rawtypes"})
+
   @Inject
   public SocketAddressHandler(@Assisted final CmdLineParser parser,
-      @Assisted final OptionDef option, @Assisted final Setter setter) {
+      @Assisted final OptionDef option, @Assisted final Setter<SocketAddress> setter) {
     super(parser, option, setter);
   }
 

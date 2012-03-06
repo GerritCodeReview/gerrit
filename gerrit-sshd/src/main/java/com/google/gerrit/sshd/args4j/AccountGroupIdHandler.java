@@ -29,11 +29,10 @@ import org.kohsuke.args4j.spi.Setter;
 public class AccountGroupIdHandler extends OptionHandler<AccountGroup.Id> {
   private final GroupCache groupCache;
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
   @Inject
   public AccountGroupIdHandler(final GroupCache groupCache,
       @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
-      @Assisted final Setter setter) {
+      @Assisted final Setter<AccountGroup.Id> setter) {
     super(parser, option, setter);
     this.groupCache = groupCache;
   }

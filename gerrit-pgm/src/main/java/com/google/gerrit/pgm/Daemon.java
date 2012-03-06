@@ -25,6 +25,7 @@ import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.pgm.http.jetty.GetUserFilter;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
 import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter;
@@ -274,6 +275,7 @@ public class Daemon extends SiteProgram {
     if (authConfig.getAuthType() == AuthType.OPENID) {
       modules.add(new OpenIdModule());
     }
+    modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
 
     return sysInjector.createChildInjector(modules);
   }

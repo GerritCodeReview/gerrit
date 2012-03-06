@@ -29,7 +29,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-import com.google.inject.assistedinject.FactoryProvider;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.servlet.RequestScoped;
 
 import com.jcraft.jsch.Session;
@@ -436,8 +436,7 @@ public class PushReplication implements ReplicationQueue {
           bind(PushReplication.ReplicationConfig.class).toInstance(
               ReplicationConfig.this);
           bind(RemoteConfig.class).toInstance(remote);
-          bind(PushOp.Factory.class).toProvider(
-              FactoryProvider.newFactory(PushOp.Factory.class, PushOp.class));
+          install(new FactoryModuleBuilder().build(PushOp.Factory.class));
         }
       }).getInstance(PushOp.Factory.class);
     }

@@ -30,12 +30,11 @@ import org.kohsuke.args4j.spi.Setter;
 public class ProjectControlHandler extends OptionHandler<ProjectControl> {
   private final ProjectControl.Factory projectControlFactory;
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
   @Inject
   public ProjectControlHandler(
       final ProjectControl.Factory projectControlFactory,
       @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
-      @Assisted final Setter setter) {
+      @Assisted final Setter<ProjectControl> setter) {
     super(parser, option, setter);
     this.projectControlFactory = projectControlFactory;
   }

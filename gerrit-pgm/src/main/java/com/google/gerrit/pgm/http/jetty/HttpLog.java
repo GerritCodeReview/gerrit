@@ -17,8 +17,6 @@ package com.google.gerrit.pgm.http.jetty;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Provider;
-import com.google.inject.servlet.GuiceHelper;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.AsyncAppender;
@@ -55,11 +53,8 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   private static final String P_USER_AGENT = "User-Agent";
 
   private final AsyncAppender async;
-  private final Provider<CurrentUser> userProvider;
 
-  HttpLog(final SitePaths site, final Provider<CurrentUser> userProvider) {
-    this.userProvider = userProvider;
-
+  HttpLog(final SitePaths site) {
     final DailyRollingFileAppender dst = new DailyRollingFileAppender();
     dst.setName(LOG_NAME);
     dst.setLayout(new MyLayout());
@@ -91,15 +86,11 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
   @Override
   public void log(final Request req, final Response rsp) {
-    GuiceHelper.runInContext(req, rsp, new Runnable() {
-      @Override
-      public void run() {
-        doLog(req, rsp);
-      }
-    });
+    CurrentUser user = (CurrentUser) req.getAttribute(GetUserFilter.REQ_ATTR_KEY);
+    doLog(req, rsp, user);
   }
 
-  private void doLog(Request req, Response rsp) {
+  private void doLog(Request req, Response rsp, CurrentUser user) {
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
         null, // logger (optional)
@@ -119,7 +110,6 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
       uri = uri + "?" + qs;
     }
 
-    CurrentUser user = userProvider.get();
     if (user instanceof IdentifiedUser) {
       IdentifiedUser who = (IdentifiedUser) user;
       if (who.getUserName() != null && !who.getUserName().isEmpty()) {

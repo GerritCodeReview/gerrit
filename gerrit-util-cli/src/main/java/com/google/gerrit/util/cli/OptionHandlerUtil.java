@@ -15,8 +15,13 @@
 package com.google.gerrit.util.cli;
 
 import com.google.inject.Key;
+import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
-import com.google.inject.internal.MoreTypes.ParameterizedTypeImpl;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.google.inject.util.Types;
+
+import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Setter;
 
 import java.lang.reflect.Type;
 
@@ -25,10 +30,21 @@ public class OptionHandlerUtil {
   /** Generate a key for an {@link OptionHandlerFactory} in Guice. */
   @SuppressWarnings("unchecked")
   public static <T> Key<OptionHandlerFactory<T>> keyFor(final Class<T> valueType) {
-    final Type factoryType =
-        new ParameterizedTypeImpl(null, OptionHandlerFactory.class, valueType);
+    final Type factoryType = Types.newParameterizedType(OptionHandlerFactory.class, valueType);
+    return (Key<OptionHandlerFactory<T>>) Key.get(factoryType);
+  }
 
-    return (Key<OptionHandlerFactory<T>>) Key.get(TypeLiteral.get(factoryType));
+  @SuppressWarnings("unchecked")
+  private static <T> Key<OptionHandler<T>> handlerOf(Class<T> type) {
+    final Type handlerType = Types.newParameterizedTypeWithOwner(null, OptionHandler.class, type);
+    return (Key<OptionHandler<T>>) Key.get(handlerType);
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <T> Module moduleFor(final Class<T> type, Class<? extends OptionHandler<T>> impl) {
+    return new FactoryModuleBuilder()
+        .implement(handlerOf(type), impl)
+        .build(keyFor(type));
   }
 
   private OptionHandlerUtil() {

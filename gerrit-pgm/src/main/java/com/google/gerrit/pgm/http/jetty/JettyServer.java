@@ -20,16 +20,13 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.reviewdb.AuthType;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
-import com.google.inject.servlet.GuiceHelper;
 import com.google.inject.servlet.GuiceServletContextListener;
 
 import org.eclipse.jetty.io.EndPoint;
@@ -67,10 +64,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class JettyServer {
@@ -112,7 +105,7 @@ public class JettyServer {
 
   @Inject
   JettyServer(@GerritServerConfig final Config cfg, final SitePaths site,
-      final JettyEnv env, final Provider<CurrentUser> userProvider)
+      final JettyEnv env)
       throws MalformedURLException, IOException {
     this.site = site;
 
@@ -122,24 +115,8 @@ public class JettyServer {
 
     Handler app = makeContext(env, cfg);
     if (cfg.getBoolean("httpd", "requestlog", !reverseProxy)) {
-      RequestLogHandler handler = new RequestLogHandler() {
-        @Override
-        public void handle(String target, Request baseRequest,
-            final HttpServletRequest req, final HttpServletResponse rsp)
-            throws IOException, ServletException {
-          // Force the user to construct, so it's available to our HttpLog
-          // later on when the request gets logged out to the access file.
-          //
-          GuiceHelper.runInContext(req, rsp, new Runnable() {
-            @Override
-            public void run() {
-              userProvider.get();
-            }
-          });
-          super.handle(target, baseRequest, req, rsp);
-        }
-      };
-      handler.setRequestLog(new HttpLog(site, userProvider));
+      RequestLogHandler handler = new RequestLogHandler();
+      handler.setRequestLog(new HttpLog(site));
       handler.setHandler(app);
       app = handler;
     }
@@ -164,7 +141,7 @@ public class JettyServer {
     final int acceptors = cfg.getInt("httpd", "acceptorThreads", 2);
     final AuthType authType = ConfigUtil.getEnum(cfg, "auth", null, "type", AuthType.OPENID);
 
-    reverseProxy = true;
+    reverseProxy = isReverseProxied(listenUrls);
     final Connector[] connectors = new Connector[listenUrls.length];
     for (int idx = 0; idx < listenUrls.length; idx++) {
       final URI u = listenUrls[idx];
@@ -179,7 +156,6 @@ public class JettyServer {
       }
 
       if ("http".equals(u.getScheme())) {
-        reverseProxy = false;
         defaultPort = 80;
         c = new SelectChannelConnector();
       } else if ("https".equals(u.getScheme())) {
@@ -198,7 +174,6 @@ public class JettyServer {
           ssl.setNeedClientAuth(true);
         }
 
-        reverseProxy = false;
         defaultPort = 443;
         c = ssl;
 
@@ -256,7 +231,16 @@ public class JettyServer {
     return connectors;
   }
 
-  private URI[] listenURLs(final Config cfg) {
+  static boolean isReverseProxied(final URI[] listenUrls) {
+    for (URI u : listenUrls) {
+      if ("http".equals(u.getScheme()) || "https".equals(u.getScheme())) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  static URI[] listenURLs(final Config cfg) {
     String[] urls = cfg.getStringList("httpd", null, "listenurl");
     if (urls.length == 0) {
       urls = new String[] {"http://*:8080/"};

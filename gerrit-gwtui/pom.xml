@@ -37,7 +37,6 @@ limitations under the License.
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
-      <version>${gwtVersion}</version>
     </dependency>
 
     <dependency>

@@ -2,15 +2,13 @@
 
 package com.google.gerrit.server.contact;
 
-import static com.google.inject.Scopes.SINGLETON;
-
 import com.google.gerrit.server.contact.ContactStoreConnection;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.FactoryProvider;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import org.eclipse.jgit.util.IO;
 
@@ -27,11 +25,9 @@ public class HttpContactStoreConnection implements ContactStoreConnection {
     return new AbstractModule() {
       @Override
       protected void configure() {
-        bind(ContactStoreConnection.Factory.class)
-            .toProvider(FactoryProvider.newFactory(
-                ContactStoreConnection.Factory.class,
-                HttpContactStoreConnection.class))
-            .in(SINGLETON);
+        install(new FactoryModuleBuilder()
+            .implement(ContactStoreConnection.class, HttpContactStoreConnection.class)
+            .build(ContactStoreConnection.Factory.class));
       }
     };
   }

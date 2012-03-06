@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADkX///+w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CommentedActionDialog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-06T10:33:44Z",
+      "side": 1,
+      "message": "[optional] wrap this line",
+      "revId": "53be56b3c2a2abf6f87858a048cc4b3b4d8a287a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

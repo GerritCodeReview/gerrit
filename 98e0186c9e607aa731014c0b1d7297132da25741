@@ -16,6 +16,23 @@
       "revId": "98e0186c9e607aa731014c0b1d7297132da25741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADkX///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-06T14:35:40Z",
+      "side": 1,
+      "message": "Should we also allow to move a change to a new branch if it is in state \u0027Submitted, Merge Pending\u0027?\n\nIf not, then this should probably fail with a proper error message. At the moment the error says \"Change is closed or patchset is not latest\", which is not true in this since the change is still open when it is in \u0027Submitted, Merge Pending\u0027 state.\n\nAlso if not, the UI change [1] should then take care to not offer the \u0027move change\u0027 action on changes that are in state \u0027Submitted, Merge Pending\u0027.\n\n[1] https://gerrit-review.googlesource.com/32800",
+      "revId": "98e0186c9e607aa731014c0b1d7297132da25741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

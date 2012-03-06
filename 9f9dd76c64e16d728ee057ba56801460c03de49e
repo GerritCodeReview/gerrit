@@ -16,6 +16,24 @@
       "revId": "9f9dd76c64e16d728ee057ba56801460c03de49e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADjX///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T15:32:45Z",
+      "side": 1,
+      "message": "It definitely should.",
+      "parentUuid": "AAADkX///+g\u003d",
+      "revId": "9f9dd76c64e16d728ee057ba56801460c03de49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -42,11 +42,7 @@ import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.ProjectNode;
 import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.gerrit.util.cli.CmdLineParser;
-import com.google.gerrit.util.cli.OptionHandlerFactory;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
-import com.google.inject.Key;
-import com.google.inject.TypeLiteral;
-import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.servlet.RequestScoped;
 
 import org.apache.sshd.common.KeyPairProvider;
@@ -129,14 +125,6 @@ public class SshModule extends FactoryModule {
 
   private <T> void registerOptionHandler(Class<T> type,
       Class<? extends OptionHandler<T>> impl) {
-    final Key<OptionHandlerFactory<T>> key = OptionHandlerUtil.keyFor(type);
-
-    final TypeLiteral<OptionHandlerFactory<T>> factoryType =
-        new TypeLiteral<OptionHandlerFactory<T>>() {};
-
-    final TypeLiteral<? extends OptionHandler<T>> implType =
-        TypeLiteral.get(impl);
-
-    bind(key).toProvider(FactoryProvider.newFactory(factoryType, implType));
+    install(OptionHandlerUtil.moduleFor(type, impl));
   }
 }

@@ -37,14 +37,13 @@ import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.cache.ConcurrentHashMapCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gwtorm.client.SchemaFactory;
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.assistedinject.FactoryProvider;
 
 import junit.framework.TestCase;
 
@@ -294,18 +293,14 @@ public class RefControlTest extends TestCase {
       }
     };
 
-    Injector injector = Guice.createInjector(new AbstractModule() {
+    Injector injector = Guice.createInjector(new FactoryModule() {
       @Override
       protected void configure() {
-        bind(Config.class) //
-            .annotatedWith(GerritServerConfig.class) //
+        bind(Config.class)
+            .annotatedWith(GerritServerConfig.class)
             .toInstance(new Config());
 
-        bind(CapabilityControl.Factory.class)
-            .toProvider(FactoryProvider.newFactory(
-              CapabilityControl.Factory.class,
-              CapabilityControl.class));
-
+        factory(CapabilityControl.Factory.class);
         bind(ProjectCache.class).toInstance(projectCache);
       }
     });

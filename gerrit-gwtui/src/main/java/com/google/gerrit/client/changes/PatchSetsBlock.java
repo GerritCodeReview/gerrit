@@ -79,12 +79,6 @@ public class PatchSetsBlock extends Composite {
     currentPatchSetId = currps.getId();
     patchSets = detail.getPatchSets();
 
-    final List<PatchSet.Id> changePatchSets = new ArrayList<PatchSet.Id>();
-
-    for (final PatchSet ps : patchSets) {
-      changePatchSets.add(ps.getId());
-    }
-
     if (Gerrit.isSignedIn()) {
       final AccountGeneralPreferences p =
           Gerrit.getUserAccount().getGeneralPreferences();

@@ -34,6 +34,24 @@
       "revId": "58aa163c437a12c82cb61d4a4c8f1254bf83a52b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADiX///9o\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-06T05:46:40Z",
+      "side": 1,
+      "message": "Yeah, I think that\u0027s better than what\u0027s there now. Seems like it\u0027s asking for at least a pointer to the \"Uploading Changes\" doc though.",
+      "parentUuid": "AAADg3///+8\u003d",
+      "revId": "58aa163c437a12c82cb61d4a4c8f1254bf83a52b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

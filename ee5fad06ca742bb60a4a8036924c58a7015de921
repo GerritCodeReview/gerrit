@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADiX///9I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-06T14:55:16Z",
+      "side": 1,
+      "message": "This belongs after the interface defs (line 148).\n\n https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_code_organization",
+      "revId": "ee5fad06ca742bb60a4a8036924c58a7015de921",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

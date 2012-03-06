@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADiX///9U\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1702,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-06T06:24:42Z",
+      "side": 1,
+      "message": "Is this a reasonable default? What\u0027s the time look like for a change upload to the Linux kernel? I think we\u0027ve seen times in the 10m range.",
+      "revId": "363b4a1a18dc96eb782ecc13fa460ee3683991a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

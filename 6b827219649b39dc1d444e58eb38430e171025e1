@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADlX////w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-06T15:42:50Z",
+      "side": 1,
+      "message": "s/mentionned/mentioned",
+      "revId": "6b827219649b39dc1d444e58eb38430e171025e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADlX////8\u003d",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-06T15:42:50Z",
+      "side": 1,
+      "message": "nit: s/to send/from sending",
+      "revId": "6b827219649b39dc1d444e58eb38430e171025e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADlX////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-06T15:42:50Z",
+      "side": 1,
+      "message": "Optional:\nSince email() already have check for empty message, I think this suppressMails check could also be moved from here to inside the email() method. But it is probably just a style preference.",
+      "revId": "6b827219649b39dc1d444e58eb38430e171025e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

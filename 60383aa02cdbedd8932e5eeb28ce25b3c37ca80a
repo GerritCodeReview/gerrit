@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADkX////c\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-06T07:57:13Z",
+      "side": 1,
+      "message": "You have to escape this first \u0027~\u0027 character with \u0027\\\u0027, otherwise asciidoc understands it as instruction to make the text in between the two \u0027~\u0027 subscripted [1]. However the second \u0027~\u0027 below must not be escaped. Sometimes it\u0027s a bit tricky to get the formatting with asciidoc right...\n\n[1] http://www.methods.co.nz/asciidoc/asciidoc.html#_superscripts_and_subscripts",
+      "revId": "60383aa02cdbedd8932e5eeb28ce25b3c37ca80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADkX////k\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-06T07:57:13Z",
+      "side": 1,
+      "message": "Not sure if this is the correct URL for cloning. If I execute it I get the following:\n\n  $ git clone https://gerrit-review.googlesource.com/gerrit\n  Cloning into gerrit...\n  fatal: remote error: Use https://gerrit.googlesource.com/gerrit for fetch/clone\n\nAs the error message is saying the URL for clone and fetch should be\n  https://gerrit-review.googlesource.com/gerrit\n\nOnly for push it\u0027s the URL that you have given above:\n  https://gerrit-review.googlesource.com/gerrit",
+      "revId": "60383aa02cdbedd8932e5eeb28ce25b3c37ca80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

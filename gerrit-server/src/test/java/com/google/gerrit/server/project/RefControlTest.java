@@ -44,7 +44,7 @@ import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.assistedinject.FactoryProvider;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import junit.framework.TestCase;
 
@@ -301,11 +301,7 @@ public class RefControlTest extends TestCase {
             .annotatedWith(GerritServerConfig.class) //
             .toInstance(new Config());
 
-        bind(CapabilityControl.Factory.class)
-            .toProvider(FactoryProvider.newFactory(
-              CapabilityControl.Factory.class,
-              CapabilityControl.class));
-
+        install(new FactoryModuleBuilder().build(CapabilityControl.Factory.class));
         bind(ProjectCache.class).toInstance(projectCache);
       }
     });

@@ -52,6 +52,24 @@
       "revId": "363b4a1a18dc96eb782ecc13fa460ee3683991a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADjX///+0\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1702,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-06T15:47:53Z",
+      "side": 1,
+      "message": "Largely, protecting against broken code in ReceiveCommits (which is kind of a rat\u0027s nest) and/or the database backend (which this code doesn\u0027t really control). We\u0027re trying to kill code in infinite loops, so this should be set to a high default. Maybe 1m is too low.",
+      "parentUuid": "AAADiX///88\u003d",
+      "revId": "363b4a1a18dc96eb782ecc13fa460ee3683991a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

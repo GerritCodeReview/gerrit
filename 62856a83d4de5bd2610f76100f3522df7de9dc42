@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADon////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-07T12:26:53Z",
+      "side": 1,
+      "message": "I think it\u0027s not correct to throw an exception here.\n\nIf I understand the code correctly, (o !\u003d a.getValue()) just checks if the approval of the user has changed.\n\n\u0027o\u0027 is the value of the old (already existing) approval of the user for this category. See above, we have all old approvals of the user in \u0027mine\u0027, from \u0027mine\u0027 we retrieve the approval \u0027a\u0027 for the category for which a new value should be set and \u0027o\u0027 is just the value of \u0027a\u0027.\n\nAfter having stored the old approval value in \u0027o\u0027 we set the new value on \u0027a\u0027 and normalize it, afterwards \u0027a.getValue()\u0027 returns the new approval value that we are about to set.\n\nThis means if (o !\u003d a.getValue()) it doesn\u0027t mean that the approval value is invalid, but that the new value is different from the old one and the new value has to be saved. I guess the old code was just ensuring this by marking the approval as dirty.\n\nI believe that the exception should be thrown in case (want.get() !\u003d a.getValue()) because it means that the value that we wanted to set was changed by the normalization, which means it was outside of the allowed range.\n\nWhen trying out to set an invalid approval value, I noticed that in the ReviewCommand this is detected already very early and we are not reaching this code here (when parsing the paramaters in the ReviewCommand an ApprovalOption is instanciated for each approval and the ApprovalOption class checks on parsing of the value that it is within the allowed range). Anyway I think it makes sense to have this check here once again, to be safe in case this code is invoked from another caller.",
+      "revId": "62856a83d4de5bd2610f76100f3522df7de9dc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADpH////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-07T12:26:53Z",
+      "side": 1,
+      "message": "currentUser is now not used anymore and can be removed",
+      "revId": "62856a83d4de5bd2610f76100f3522df7de9dc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADon////w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-07T12:26:53Z",
+      "side": 1,
+      "message": "This variable is now not used anymore and can be removed.",
+      "revId": "62856a83d4de5bd2610f76100f3522df7de9dc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

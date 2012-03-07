@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gwtorm.client.ResultSet;
+import com.google.gwtorm.server.ResultSet;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,8 +16,8 @@ package com.google.gerrit.rules;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.inject.AbstractModule;
 
 import java.util.ArrayList;

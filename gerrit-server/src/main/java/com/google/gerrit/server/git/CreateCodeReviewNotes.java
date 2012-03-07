@@ -18,16 +18,16 @@ import static com.google.gerrit.server.git.GitRepositoryManager.REFS_NOTES_REVIE
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

@@ -14,18 +14,18 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.reviewdb.AccountExternalId;
-import com.google.gerrit.reviewdb.AccountSshKey;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;

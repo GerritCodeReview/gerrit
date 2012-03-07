@@ -14,9 +14,9 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 import java.util.ArrayList;
 import java.util.Collections;

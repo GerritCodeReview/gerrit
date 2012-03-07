@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.client.Change;
 
 import java.util.List;
 

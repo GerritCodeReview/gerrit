@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SystemConfig;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.SystemConfig;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

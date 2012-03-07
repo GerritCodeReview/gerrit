@@ -24,8 +24,8 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
-import com.google.gerrit.reviewdb.Patch;
-import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;

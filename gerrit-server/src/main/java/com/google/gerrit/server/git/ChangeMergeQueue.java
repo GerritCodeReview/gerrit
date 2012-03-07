@@ -17,8 +17,8 @@ package com.google.gerrit.server.git;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;

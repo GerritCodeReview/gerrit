@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.OperatorPredicate;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 
 class IsStarredByPredicate extends OperatorPredicate<ChangeData> implements

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;

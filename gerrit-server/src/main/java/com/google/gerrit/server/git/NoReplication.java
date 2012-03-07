@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 
 /** A disabled {@link ReplicationQueue}. */
 public final class NoReplication implements ReplicationQueue {

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.client.Change;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -16,8 +16,8 @@ package com.google.gerrit.server.auth.ldap;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;

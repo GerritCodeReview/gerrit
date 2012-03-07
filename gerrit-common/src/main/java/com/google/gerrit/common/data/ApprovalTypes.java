@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
 
 import java.util.HashMap;
 import java.util.List;

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd.args4j;
 
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

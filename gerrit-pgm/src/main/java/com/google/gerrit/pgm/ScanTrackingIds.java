@@ -18,16 +18,16 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_U
 
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 

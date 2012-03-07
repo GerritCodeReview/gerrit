@@ -21,7 +21,7 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.reviewdb.AccountSshKey;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;

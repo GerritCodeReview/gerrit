@@ -21,7 +21,7 @@ import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.SingleListChangeInfo;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;

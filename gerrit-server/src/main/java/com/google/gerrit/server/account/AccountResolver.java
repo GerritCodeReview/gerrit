@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountExternalId;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gwtorm.client.OrmException;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

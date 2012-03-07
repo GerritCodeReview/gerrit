@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;

@@ -15,20 +15,20 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountExternalId;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupMember;
-import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
-import com.google.gerrit.reviewdb.AccountSshKey;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.gwtorm.client.OrmDuplicateKeyException;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;

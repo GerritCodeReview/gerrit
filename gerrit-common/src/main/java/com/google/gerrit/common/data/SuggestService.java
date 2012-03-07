@@ -14,8 +14,8 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;

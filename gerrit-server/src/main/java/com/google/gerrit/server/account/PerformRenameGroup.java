@@ -17,13 +17,13 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupName;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupName;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.RenameGroupOp;
-import com.google.gwtorm.client.OrmDuplicateKeyException;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import java.util.Collections;

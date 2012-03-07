@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;

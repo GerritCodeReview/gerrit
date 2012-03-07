@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_GERRIT;
-import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_MAILTO;
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_MAILTO;
 
-import com.google.gerrit.reviewdb.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 
 /**
  * Information for {@link AccountManager#authenticate(AuthRequest)}.

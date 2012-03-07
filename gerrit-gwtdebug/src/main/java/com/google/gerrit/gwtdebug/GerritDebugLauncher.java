@@ -23,11 +23,11 @@ import com.google.gwt.dev.shell.jetty.JettyNullLogger;
 
 import org.mortbay.component.AbstractLifeCycle;
 import org.mortbay.jetty.AbstractConnector;
+import org.mortbay.jetty.HttpFields.Field;
 import org.mortbay.jetty.Request;
 import org.mortbay.jetty.RequestLog;
 import org.mortbay.jetty.Response;
 import org.mortbay.jetty.Server;
-import org.mortbay.jetty.HttpFields.Field;
 import org.mortbay.jetty.handler.RequestLogHandler;
 import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.webapp.WebAppClassLoader;

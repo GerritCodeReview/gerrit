@@ -16,18 +16,18 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupInclude;
-import com.google.gerrit.reviewdb.AccountGroupIncludeAudit;
-import com.google.gerrit.reviewdb.AccountGroupMember;
-import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
-import com.google.gerrit.reviewdb.AccountGroupName;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeAudit;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
+import com.google.gerrit.reviewdb.client.AccountGroupName;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gwtorm.client.OrmDuplicateKeyException;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.PersonIdent;

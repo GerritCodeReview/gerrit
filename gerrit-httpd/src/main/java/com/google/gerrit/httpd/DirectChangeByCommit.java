@@ -3,7 +3,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -11,7 +11,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

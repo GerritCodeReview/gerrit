@@ -22,7 +22,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountDashboardInfo;
 import com.google.gerrit.common.data.AccountInfo;
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.client.Account;
 
 
 public class AccountDashboardScreen extends Screen implements ChangeListScreen {

@@ -24,7 +24,7 @@ import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;

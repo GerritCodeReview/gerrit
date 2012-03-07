@@ -15,19 +15,19 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.ReviewerResult;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.RevId;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;

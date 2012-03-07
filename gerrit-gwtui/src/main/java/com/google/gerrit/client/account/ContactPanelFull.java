@@ -16,8 +16,8 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.OnEditEnabler;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.ContactInformation;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;

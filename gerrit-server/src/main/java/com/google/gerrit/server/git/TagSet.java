@@ -17,8 +17,8 @@ package com.google.gerrit.server.git;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.AnyObjectId;

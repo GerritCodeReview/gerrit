@@ -20,9 +20,9 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
-import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.SubmoduleSubscription;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.git.GitRepositoryManager;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;

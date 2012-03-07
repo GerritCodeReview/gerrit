@@ -19,11 +19,11 @@ import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.PrettyFormatter;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
-import com.google.gerrit.reviewdb.AccountDiffPreference;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Patch;
-import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
-import com.google.gerrit.reviewdb.Patch.ChangeType;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 
 import org.eclipse.jgit.diff.Edit;
 

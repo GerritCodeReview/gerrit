@@ -17,7 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ChangeDetail;
-import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;

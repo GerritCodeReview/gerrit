@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.config;
 
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import com.google.inject.BindingAnnotation;
 
 import java.lang.annotation.Retention;
-
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Marker on a {@code Set&lt;AccountGroup.Id>} for the configured groups which

@@ -16,14 +16,14 @@
 package com.google.gerrit.server.changedetail;
 
 import com.google.gerrit.common.data.ReviewResult;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gwtorm.client.AtomicUpdate;
-import com.google.gwtorm.client.OrmException;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwtorm.server.AtomicUpdate;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

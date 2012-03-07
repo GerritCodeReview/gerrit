@@ -18,7 +18,7 @@ import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;

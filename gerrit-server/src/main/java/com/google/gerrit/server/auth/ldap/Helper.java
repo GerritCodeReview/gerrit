@@ -15,7 +15,7 @@
 package com.google.gerrit.server.auth.ldap;
 
 import com.google.gerrit.common.data.ParameterizedString;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.ConfigUtil;

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.server.git.PushReplication.ReplicationConfig.*;
+import static com.google.gerrit.server.git.PushReplication.ReplicationConfig.encode;
+import static com.google.gerrit.server.git.PushReplication.ReplicationConfig.needsUrlEncoding;
+
 import junit.framework.TestCase;
 
 import org.eclipse.jgit.transport.URIish;

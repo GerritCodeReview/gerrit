@@ -15,7 +15,7 @@
 package com.google.gerrit.pgm;
 
 import com.google.gerrit.pgm.util.AbstractProgram;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.schema.java.JavaSchemaModel;
 
 import org.eclipse.jgit.storage.file.LockFile;

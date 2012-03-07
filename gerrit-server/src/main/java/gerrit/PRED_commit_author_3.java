@@ -14,8 +14,8 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.PatchSetInfo;
-import com.google.gerrit.reviewdb.UserIdentity;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.rules.StoredValues;
 
 import com.googlecode.prolog_cafe.lang.Operation;

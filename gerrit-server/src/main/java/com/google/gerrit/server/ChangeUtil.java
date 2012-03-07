@@ -15,13 +15,13 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ChangeMessage;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.PatchSetInfo;
-import com.google.gerrit.reviewdb.RevId;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.TrackingId;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.client.TrackingId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -34,8 +34,8 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gwtorm.client.OrmConcurrencyException;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmConcurrencyException;
+import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;

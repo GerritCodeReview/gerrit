@@ -17,14 +17,14 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.OperatorPredicate;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
 import java.util.regex.Matcher;

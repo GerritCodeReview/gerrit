@@ -16,11 +16,11 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.AccountAgreement;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupAgreement;
-import com.google.gerrit.reviewdb.ContributorAgreement;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.AccountAgreement;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupAgreement;
+import com.google.gerrit.reviewdb.client.ContributorAgreement;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.inject.Inject;

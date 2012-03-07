@@ -19,17 +19,17 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SubmoduleSubscription;
-import com.google.gerrit.reviewdb.SubmoduleSubscriptionAccess;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.SubmoduleSubscriptionAccess;
 import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.SchemaFactory;
-import com.google.gwtorm.client.impl.ListResultSet;
+import com.google.gwtorm.server.ListResultSet;
+import com.google.gwtorm.server.ResultSet;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Provider;
 

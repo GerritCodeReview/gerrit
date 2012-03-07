@@ -16,7 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.ProjectAdminService;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 

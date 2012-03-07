@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 
 import java.util.Collections;
 import java.util.HashMap;

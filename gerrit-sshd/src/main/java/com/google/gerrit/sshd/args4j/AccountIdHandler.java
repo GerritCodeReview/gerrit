@@ -14,14 +14,14 @@
 
 package com.google.gerrit.sshd.args4j;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

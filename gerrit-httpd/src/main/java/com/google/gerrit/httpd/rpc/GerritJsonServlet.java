@@ -21,7 +21,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.JsonServlet;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

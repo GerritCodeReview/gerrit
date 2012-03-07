@@ -15,15 +15,15 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.SignInRequired;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountDiffPreference;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
-import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.client.RpcImpl.Version;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.List;
 import java.util.Set;

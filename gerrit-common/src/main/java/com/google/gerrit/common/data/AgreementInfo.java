@@ -14,9 +14,9 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.AccountAgreement;
-import com.google.gerrit.reviewdb.AccountGroupAgreement;
-import com.google.gerrit.reviewdb.ContributorAgreement;
+import com.google.gerrit.reviewdb.client.AccountAgreement;
+import com.google.gerrit.reviewdb.client.AccountGroupAgreement;
+import com.google.gerrit.reviewdb.client.ContributorAgreement;
 
 import java.util.List;
 import java.util.Map;

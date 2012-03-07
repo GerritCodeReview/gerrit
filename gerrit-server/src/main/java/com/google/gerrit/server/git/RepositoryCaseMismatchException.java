@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.NameKey;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 

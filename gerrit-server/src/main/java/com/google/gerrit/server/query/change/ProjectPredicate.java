@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
 class ProjectPredicate extends OperatorPredicate<ChangeData> {

@@ -16,7 +16,7 @@ package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeManageService;
-import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;

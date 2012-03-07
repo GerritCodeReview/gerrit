@@ -17,9 +17,9 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 
 /** Link to the open changes of a project. */
 public class BranchLink extends InlineHyperlink {

@@ -15,8 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.ui.NavigationTable;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;

@@ -18,8 +18,8 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.common.data.PatchSetDetail;
-import com.google.gerrit.reviewdb.Patch;
-import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
 
 public class PatchLink extends InlineHyperlink {
   protected PatchSet.Id base;

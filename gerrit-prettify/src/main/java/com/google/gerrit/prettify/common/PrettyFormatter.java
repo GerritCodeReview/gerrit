@@ -14,7 +14,7 @@
 
 package com.google.gerrit.prettify.common;
 
-import com.google.gerrit.reviewdb.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 

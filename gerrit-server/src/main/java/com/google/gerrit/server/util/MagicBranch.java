@@ -15,7 +15,7 @@
 package com.google.gerrit.server.util;
 
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;

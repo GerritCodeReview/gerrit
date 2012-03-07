@@ -29,7 +29,7 @@
 
 package com.google.gerrit.server.ioutil;
 
-import com.google.gerrit.reviewdb.CodedEnum;
+import com.google.gerrit.reviewdb.client.CodedEnum;
 
 import org.eclipse.jgit.util.IO;
 

@@ -17,9 +17,9 @@ package com.google.gerrit.server.config;
 import static com.google.gerrit.server.config.ConfigUtil.groupsFor;
 import static java.util.Collections.unmodifiableSet;
 
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

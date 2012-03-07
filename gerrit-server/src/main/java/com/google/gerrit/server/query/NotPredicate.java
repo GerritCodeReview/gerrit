@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query;
 
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 
 import java.util.Collection;
 import java.util.Collections;

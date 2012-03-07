@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.auth.ldap;
 import com.google.gerrit.common.auth.userpass.LoginResult;
 import com.google.gerrit.common.auth.userpass.UserPassAuthService;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountUserNameException;

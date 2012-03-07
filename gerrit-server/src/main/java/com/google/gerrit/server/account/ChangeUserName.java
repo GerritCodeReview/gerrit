@@ -14,18 +14,18 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountExternalId;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.client.VoidResult;
-import com.google.gwtorm.client.OrmDuplicateKeyException;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;

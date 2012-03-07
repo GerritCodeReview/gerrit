@@ -22,10 +22,10 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.State;
-import com.google.gerrit.reviewdb.Project.SubmitType;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.State;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupCache;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;

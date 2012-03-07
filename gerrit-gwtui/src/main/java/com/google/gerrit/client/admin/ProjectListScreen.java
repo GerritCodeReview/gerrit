@@ -22,7 +22,7 @@ import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ProjectList;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.VerticalPanel;
 

@@ -17,9 +17,9 @@ package com.google.gerrit.sshd;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;

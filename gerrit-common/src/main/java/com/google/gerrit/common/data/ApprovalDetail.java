@@ -14,9 +14,9 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;

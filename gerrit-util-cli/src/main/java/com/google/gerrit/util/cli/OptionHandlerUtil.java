@@ -16,12 +16,10 @@ package com.google.gerrit.util.cli;
 
 import com.google.inject.Key;
 import com.google.inject.Module;
-import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.util.Types;
 
 import org.kohsuke.args4j.spi.OptionHandler;
-import org.kohsuke.args4j.spi.Setter;
 
 import java.lang.reflect.Type;
 

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 
 interface Paginated {
   int limit();

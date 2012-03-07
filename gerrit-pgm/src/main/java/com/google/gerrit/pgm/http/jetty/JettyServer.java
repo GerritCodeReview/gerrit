@@ -19,7 +19,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.lifecycle.LifecycleListener;
-import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;

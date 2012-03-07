@@ -17,7 +17,7 @@ package com.google.gerrit.client.account;
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;

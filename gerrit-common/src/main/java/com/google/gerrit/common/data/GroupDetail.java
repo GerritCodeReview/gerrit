@@ -14,9 +14,9 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.AccountGroupInclude;
-import com.google.gerrit.reviewdb.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 
 import java.util.List;
 

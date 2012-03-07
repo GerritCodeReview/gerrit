@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Project;
 
 class AdvertisedObjectsCacheKey {
   private final Account.Id account;

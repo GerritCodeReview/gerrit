@@ -16,7 +16,7 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.common.errors.CorruptEntityException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
-import com.google.gerrit.reviewdb.Patch;
+import com.google.gerrit.reviewdb.client.Patch;
 
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;

@@ -16,7 +16,7 @@ package com.google.gerrit.rules;
 
 import static com.googlecode.prolog_cafe.lang.PrologMachineCopy.save;
 
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;

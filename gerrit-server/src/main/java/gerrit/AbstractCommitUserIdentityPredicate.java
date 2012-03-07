@@ -14,8 +14,8 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.UserIdentity;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.UserIdentity;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.Operation;

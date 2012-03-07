@@ -14,16 +14,16 @@
 
 package com.google.gerrit.httpd.raw;
 
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Patch;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

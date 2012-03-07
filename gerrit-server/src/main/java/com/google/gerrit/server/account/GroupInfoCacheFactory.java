@@ -16,7 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GroupInfo;
 import com.google.gerrit.common.data.GroupInfoCache;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;

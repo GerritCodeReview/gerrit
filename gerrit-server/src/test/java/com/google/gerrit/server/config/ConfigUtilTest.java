@@ -15,7 +15,10 @@
 package com.google.gerrit.server.config;
 
 import static java.util.concurrent.TimeUnit.DAYS;
-import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import junit.framework.TestCase;
 

@@ -20,7 +20,7 @@ import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.ReviewerInfo;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 

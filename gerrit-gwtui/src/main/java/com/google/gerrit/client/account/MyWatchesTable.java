@@ -19,15 +19,15 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
-import com.google.gerrit.reviewdb.AccountProjectWatch;
-import com.google.gerrit.reviewdb.Change.Status;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;

@@ -15,8 +15,8 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;

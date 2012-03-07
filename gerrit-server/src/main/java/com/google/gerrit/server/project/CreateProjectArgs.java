@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.SubmitType;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 
 import java.util.List;
 

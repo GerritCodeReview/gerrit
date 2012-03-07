@@ -25,8 +25,8 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;

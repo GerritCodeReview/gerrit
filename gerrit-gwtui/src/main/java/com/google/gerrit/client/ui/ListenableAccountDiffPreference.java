@@ -17,7 +17,7 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.reviewdb.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 public class ListenableAccountDiffPreference

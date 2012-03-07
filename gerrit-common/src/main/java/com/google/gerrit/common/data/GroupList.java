@@ -14,8 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.common.data.GroupDetail;
-
 import java.util.List;
 
 public class GroupList {

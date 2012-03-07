@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.NameKey;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

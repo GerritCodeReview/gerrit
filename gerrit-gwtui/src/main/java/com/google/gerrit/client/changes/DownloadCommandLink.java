@@ -15,7 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;

@@ -17,7 +17,7 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.FileTypeRegistry;

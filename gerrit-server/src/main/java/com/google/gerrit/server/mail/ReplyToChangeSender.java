@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.client.Change;
 
 /** Alert a user to a reply to a change, usually commentary made during review. */
 public abstract class ReplyToChangeSender extends ChangeEmail {

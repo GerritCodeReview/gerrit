@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 
 public interface ChangeDataSource {
   /** @return an estimate of the number of results from {@link #read()}. */

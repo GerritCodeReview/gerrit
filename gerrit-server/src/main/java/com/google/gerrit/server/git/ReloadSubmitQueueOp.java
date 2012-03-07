@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.slf4j.Logger;

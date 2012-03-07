@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

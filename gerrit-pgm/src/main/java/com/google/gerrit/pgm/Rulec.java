@@ -18,7 +18,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_
 
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.rules.PrologCompiler;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.GitRepositoryManager;

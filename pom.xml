@@ -52,7 +52,7 @@ limitations under the License.
     <gwtexpuiVersion>1.2.5</gwtexpuiVersion>
     <gwtVersion>2.3.0</gwtVersion>
     <slf4jVersion>1.6.1</slf4jVersion>
-    <guiceVersion>2.0</guiceVersion>
+    <guiceVersion>3.0</guiceVersion>
     <jettyVersion>7.2.1.v20101111</jettyVersion>
 
     <gwt.compileReport>false</gwt.compileReport>
@@ -486,6 +486,11 @@ limitations under the License.
         <type>pom</type>
         <exclusions>
           <exclusion>
+            <!-- conflicts with our use of guice 3.0 -->
+            <groupId>com.google.code.guice</groupId>
+            <artifactId>guice</artifactId>
+          </exclusion>
+          <exclusion>
             <!-- jug-1.1 is LGPL, and the source has been lost -->
             <groupId>jug</groupId>
             <artifactId>jug</artifactId>
@@ -557,19 +562,19 @@ limitations under the License.
       </dependency>
 
       <dependency>
-        <groupId>com.google.code.guice</groupId>
+        <groupId>com.google.inject</groupId>
         <artifactId>guice</artifactId>
         <version>${guiceVersion}</version>
       </dependency>
 
       <dependency>
-        <groupId>com.google.code.guice</groupId>
+        <groupId>com.google.inject.extensions</groupId>
         <artifactId>guice-servlet</artifactId>
         <version>${guiceVersion}</version>
       </dependency>
 
       <dependency>
-        <groupId>com.google.code.guice</groupId>
+        <groupId>com.google.inject.extensions</groupId>
         <artifactId>guice-assistedinject</artifactId>
         <version>${guiceVersion}</version>
       </dependency>

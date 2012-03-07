@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "AAADqH////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/DependencyAttribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010367
+      },
+      "writtenOn": "2012-03-07T18:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADmX////8\u003d",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADf3////U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 1
@@ -332,6 +350,24 @@
       "side": 1,
       "message": "In this particular case, where the list is rather small, it really doesn\u0027t make a difference.",
       "parentUuid": "AAADln////A\u003d",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADqX////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010367
+      },
+      "writtenOn": "2012-03-07T18:01:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADm3////8\u003d",
       "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

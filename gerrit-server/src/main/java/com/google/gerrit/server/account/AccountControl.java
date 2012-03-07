@@ -19,22 +19,14 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /** Access control management for one account's access to other accounts. */
 public class AccountControl {
-  private static final Logger log =
-      LoggerFactory.getLogger(AccountControl.class);
-
   public static class Factory {
     private final GroupControl.Factory groupControlFactory;
     private final Provider<CurrentUser> user;
@@ -45,29 +37,11 @@ public class AccountControl {
     Factory(final GroupControl.Factory groupControlFactory,
         final Provider<CurrentUser> user,
         final IdentifiedUser.GenericFactory userFactory,
-        @GerritServerConfig final Config cfg) {
+        AccountVisibility accountVisibility) {
       this.groupControlFactory = groupControlFactory;
       this.user = user;
       this.userFactory = userFactory;
-
-      AccountVisibility av;
-      if (cfg.getString("accounts", null, "visibility") != null) {
-        av = cfg.getEnum("accounts", null, "visibility", AccountVisibility.ALL);
-      } else {
-        try {
-          av = cfg.getEnum("suggest", null, "accounts", AccountVisibility.ALL);
-          log.warn(String.format(
-              "Using legacy value %s for suggest.accounts;"
-              + " use accounts.visibility=%s instead",
-              av, av));
-        } catch (IllegalArgumentException err) {
-          // If suggest.accounts is a valid boolean, it's a new-style config, and
-          // we should use the default here. Invalid values are caught in
-          // SuggestServiceImpl so we don't worry about them here.
-          av = AccountVisibility.ALL;
-        }
-      }
-      accountVisibility = av;
+      this.accountVisibility = accountVisibility;
     }
 
     public AccountControl get() {

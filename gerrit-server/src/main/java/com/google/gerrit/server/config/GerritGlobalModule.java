@@ -27,6 +27,8 @@ import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.account.AccountVisibility;
+import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
@@ -117,6 +119,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(GroupInfoCacheFactory.Factory.class);
     factory(ProjectState.Factory.class);
     bind(PermissionCollection.Factory.class);
+    bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class).in(SINGLETON);
 
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(ToolsCatalog.class);

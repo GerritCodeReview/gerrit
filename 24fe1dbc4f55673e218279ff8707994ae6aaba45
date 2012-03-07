@@ -16,6 +16,24 @@
       "revId": "24fe1dbc4f55673e218279ff8707994ae6aaba45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADqX////8\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T17:02:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADkX///+o\u003d",
+      "revId": "24fe1dbc4f55673e218279ff8707994ae6aaba45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

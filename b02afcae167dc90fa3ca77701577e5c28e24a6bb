@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADo3////s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-07T14:17:36Z",
+      "side": 1,
+      "message": "[optional] do we need the single quotes around the link? The default formatting for the link should be good enough, isn\u0027t it?",
+      "revId": "b02afcae167dc90fa3ca77701577e5c28e24a6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADo3////o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-07T14:17:36Z",
+      "side": 1,
+      "message": "[optional] do we need the single quotes around the link? The default formatting for the link should be good enough, isn\u0027t it?",
+      "revId": "b02afcae167dc90fa3ca77701577e5c28e24a6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

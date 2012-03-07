@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADmH////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/HttpContactStoreConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-07T01:24:08Z",
+      "side": 1,
+      "message": "Are you suggesting we keep the original code from FactoryModule which did reflection to determine the type of the returned value?\n\nI considered doing that, but figured using the FactoryModuleBuilder directly was almost as easy.",
+      "parentUuid": "AAADkn////o\u003d",
+      "revId": "c51d057d4ba4be56f82349e86fad8e69cc85d843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADkn////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAADl3////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-07T01:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADkn////k\u003d",
+      "revId": "c51d057d4ba4be56f82349e86fad8e69cc85d843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADkn////g\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-03-07T00:45:44Z",
       "side": 1,
       "message": "factory(CapabilityControl.Factory.class)?",
+      "revId": "c51d057d4ba4be56f82349e86fad8e69cc85d843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADl3////A\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-07T01:24:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADkn////g\u003d",
       "revId": "c51d057d4ba4be56f82349e86fad8e69cc85d843",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

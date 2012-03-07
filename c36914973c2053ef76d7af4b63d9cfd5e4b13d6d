@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADln///+w\u003d",
+        "filename": "gerrit-gwtui/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-07T01:24:08Z",
+      "side": 0,
+      "message": "This is clean up.  the gwtVersion shouldn\u0027t be here.",
+      "parentUuid": "AAADkn////c\u003d",
+      "revId": "c36914973c2053ef76d7af4b63d9cfd5e4b13d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADkn////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FactoryModule.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-07T00:45:44Z",
       "side": 0,
       "message": "FYI, you are changing the behavior here: FactoryModuleBuilder allows more than one method. Unlikely to matter, since you\u0027re loosening the restriction.",
+      "revId": "c36914973c2053ef76d7af4b63d9cfd5e4b13d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADln///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FactoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-07T01:24:08Z",
+      "side": 0,
+      "message": "Right. I figure if you want to do something different, you should just use the FactoryModuleBuilder directly",
+      "parentUuid": "AAADkn////s\u003d",
       "revId": "c36914973c2053ef76d7af4b63d9cfd5e4b13d6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "52fd6f5eb812d832bf757676ec476797b4b58eaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADoH////g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-07T09:20:02Z",
+      "side": 1,
+      "message": "Wow... what a corner case. This is unexpected indeed.\n\nAnd I\u0027m busted, I apparently didn\u0027t test this but only assumed it would work.\n\nThanks for catching this!",
+      "parentUuid": "AAAC7H////0\u003d",
+      "revId": "52fd6f5eb812d832bf757676ec476797b4b58eaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

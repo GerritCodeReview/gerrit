@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADmH////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T01:21:16Z",
+      "side": 1,
+      "message": "nit: needs space before paren.",
+      "revId": "f12e5b145c73dbcf039e15fd5dde05a879a8b325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADiX///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T01:21:16Z",
+      "side": 1,
+      "message": "nit: extra indent? (should be 2 spaces)",
+      "revId": "f12e5b145c73dbcf039e15fd5dde05a879a8b325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADmH////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T01:21:16Z",
+      "side": 1,
+      "message": "Nit: Probably worth wrapping.",
+      "revId": "f12e5b145c73dbcf039e15fd5dde05a879a8b325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADmH////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T01:21:16Z",
+      "side": 1,
+      "message": "nit: no need for a space after the \"(\"",
+      "revId": "f12e5b145c73dbcf039e15fd5dde05a879a8b325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADln///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T01:21:16Z",
+      "side": 1,
+      "message": "While I don\u0027t expect you to change this, ironically is there anything actually asynchronous about this?  Perhaps these should become truly asynchronous (as another change)?",
+      "revId": "f12e5b145c73dbcf039e15fd5dde05a879a8b325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADl3////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T01:21:16Z",
+      "side": 1,
+      "message": "These two methods probably go before the private class definitions (line 602?)",
+      "revId": "f12e5b145c73dbcf039e15fd5dde05a879a8b325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADl3///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T01:21:16Z",
+      "side": 1,
+      "message": "nit: space before \"(\" (below also)",
+      "revId": "f12e5b145c73dbcf039e15fd5dde05a879a8b325",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

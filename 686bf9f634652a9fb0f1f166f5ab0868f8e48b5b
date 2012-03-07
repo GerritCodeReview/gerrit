@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADqn///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-07T20:03:14Z",
+      "side": 1,
+      "message": "Please don\u0027t do this. The name refs/for/master is a shorthand really for refs/for/refs/heads/master. A user could have uploaded using refs/for/refs/meta/config to code review a change on the project config branch. This replacement won\u0027t match things the way you think.",
+      "revId": "686bf9f634652a9fb0f1f166f5ab0868f8e48b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADqX///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-07T20:03:14Z",
+      "side": 1,
+      "message": "Ick.\n\nNear as I can tell through git blame, the behavior (and code!) of this loop goes back to the very first days of Gerrit Code Review 1.x. I wonder if the assumption to go through existingObjects() as markUninteresting is wrong.\n\nIt might be more correct to say something like this in pseudo-code:\n\n     Ref targetRef \u003d rp.getAdvertisedRefs().get(destBranchName);\n     if (targetRef !\u003d null \u0026\u0026 targetRef.getObjectId() !\u003d null) {\n       walk.markUninteresting(walk.parseCommit(targetRef.getObjectId());\n     }\n     for (Change c : db.changes().byBranchOpenAll(destBranchName)) {\n       for (PatchSet p : db.patchSets().byChange(c.getId())) {\n         try {\n           walk.markUninteresting(walk.parseCommit(\n             ObjectId.fromString(p.getRevision().get())));\n         } catch (IOException err) {\n           log.warning(\"Open patch set \" + p + \" has invalid revision\", err);\n         }\n       }\n     }\n\nThe idea is to ignore the currently submitted tip of the target branch, and any currently open change on that branch (as these can be valid parents for the newly uploaded commit). Anything else that the user pushed should become a change.\n\nThis may slow things down in the environment that runs gerrit-review. We have ~200 open changes on the master branch. That inner loop has to run 200 queries to find relevant patch sets. If each query takes 20 milliseconds, this is a 4 second loop.",
+      "revId": "686bf9f634652a9fb0f1f166f5ab0868f8e48b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

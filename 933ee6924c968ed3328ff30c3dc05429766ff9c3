@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADpX////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T20:36:00Z",
+      "side": 1,
+      "message": "Hopefully this will help explain things a bit.  Additionally, I pushed another change which actually makes use of this to make it more clear.\n\nhttps://gerrit-review.googlesource.com/#/c/33822/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeCache.java",
+      "revId": "933ee6924c968ed3328ff30c3dc05429766ff9c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

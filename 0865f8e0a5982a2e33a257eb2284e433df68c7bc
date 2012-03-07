@@ -16,6 +16,24 @@
       "revId": "0865f8e0a5982a2e33a257eb2284e433df68c7bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADo3///+8\u003d",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010550
+      },
+      "writtenOn": "2012-03-07T23:36:37Z",
+      "side": 1,
+      "message": "Your point is very much sensible! I did not think of that for an end user is more likely to review a change using the web UI rather than with a ssh command, but still.\n\nWhat do you think of the following:\n- adding a global capability \"silence-email\", as you suggested,\n- contrary to other capabilities, it would not use administrate server as a fallback. As I understand your point, the key point is to limit the feature to automated scripts, and administrators does not fall in that category :)\n- as a result, no group will have the capability by default, although it should be hinted in the documentation that Non Interactive Users is likely to have it granted. Either that, or grant silence-email to Non Interactive Users by default (during a schema upgrade ?).\n\nAlso, you speak of \"silence-email\" capability, not \"suppress-mail\" capability. Does it mean you would prefer that the option be called that way too?",
+      "parentUuid": "AAADmH////o\u003d",
+      "revId": "0865f8e0a5982a2e33a257eb2284e433df68c7bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

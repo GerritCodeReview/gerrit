@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountSshKey;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
 
 import java.security.PublicKey;
 

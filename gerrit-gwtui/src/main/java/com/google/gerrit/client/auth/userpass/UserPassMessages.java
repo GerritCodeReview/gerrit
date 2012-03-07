@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.auth.userpass;
 
-import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.i18n.client.Messages;
 
 public interface UserPassMessages extends Messages {

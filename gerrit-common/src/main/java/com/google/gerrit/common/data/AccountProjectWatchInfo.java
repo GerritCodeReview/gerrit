@@ -14,8 +14,8 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.AccountProjectWatch;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.Project;
 
 public final class AccountProjectWatchInfo {
   protected AccountProjectWatch watch;

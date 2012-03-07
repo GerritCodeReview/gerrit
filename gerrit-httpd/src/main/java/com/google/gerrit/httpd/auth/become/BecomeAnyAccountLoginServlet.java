@@ -14,22 +14,22 @@
 
 package com.google.gerrit.httpd.auth.become;
 
-import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountExternalId;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.inject.Inject;
 

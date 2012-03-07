@@ -16,10 +16,10 @@ package com.google.gerrit.server.schema;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.FactoryModule;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.TypeLiteral;
 
 /** Loads the database with standard dependencies. */

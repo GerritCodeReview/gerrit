@@ -32,7 +32,7 @@ package com.google.gerrit.httpd.gitweb;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gerrit.launcher.GerritLauncher;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;

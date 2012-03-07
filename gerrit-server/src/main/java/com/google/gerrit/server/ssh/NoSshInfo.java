@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.server.ssh.SshInfo;
-
 import com.jcraft.jsch.HostKey;
 
 import java.util.Collections;

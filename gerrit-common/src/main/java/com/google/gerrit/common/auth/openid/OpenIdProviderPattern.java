@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.auth.openid;
 
-import com.google.gerrit.reviewdb.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 
 public class OpenIdProviderPattern {
   public static OpenIdProviderPattern create(String pattern) {

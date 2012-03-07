@@ -16,8 +16,8 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.SubmitType;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.NoSuchProjectException;

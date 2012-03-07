@@ -14,14 +14,14 @@
 
 package com.google.gerrit.client.account;
 
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.DEFAULT_PAGESIZE;
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.PAGESIZE_CHOICES;
+import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DEFAULT_PAGESIZE;
+import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESIZE_CHOICES;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;

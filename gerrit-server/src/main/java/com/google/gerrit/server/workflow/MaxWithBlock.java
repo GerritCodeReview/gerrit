@@ -15,8 +15,8 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 
 /**
  * Computes an {@link ApprovalCategory} by looking at maximum values.

@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gwtorm.client.ResultSet;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gwtorm.server.ResultSet;
 
 import java.util.HashSet;
 import java.util.Iterator;

@@ -18,7 +18,7 @@ import static com.google.gerrit.client.Dispatcher.toProjectAdmin;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.MenuScreen;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 
 public abstract class ProjectScreen extends MenuScreen {
   public static final String INFO = "info";

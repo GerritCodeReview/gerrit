@@ -17,13 +17,13 @@ package com.google.gerrit.httpd.rpc;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.data.SystemInfoService;
-import com.google.gerrit.reviewdb.ContributorAgreement;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.ContributorAgreement;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

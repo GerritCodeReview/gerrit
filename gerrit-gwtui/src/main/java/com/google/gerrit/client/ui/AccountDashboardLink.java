@@ -20,7 +20,7 @@ import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.client.Account;
 
 /** Link to any user's account dashboard. */
 public class AccountDashboardLink extends InlineHyperlink {

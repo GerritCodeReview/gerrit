@@ -15,11 +15,11 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Version;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gson.JsonObject;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gwtorm.client.OrmException;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.server.OrmException;
 
 import java.util.List;
 

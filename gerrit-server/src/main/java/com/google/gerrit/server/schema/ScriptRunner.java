@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gwtorm.client.OrmException;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.server.OrmException;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

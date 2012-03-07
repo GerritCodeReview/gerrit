@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;

@@ -15,8 +15,8 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.common.data.AccountInfoCache;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 

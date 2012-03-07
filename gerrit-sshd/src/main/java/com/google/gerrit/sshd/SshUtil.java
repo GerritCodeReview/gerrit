@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.reviewdb.AccountSshKey;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.KeyPairProvider;

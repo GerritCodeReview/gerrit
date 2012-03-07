@@ -14,7 +14,7 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.rules.StoredValues;
 
 import com.googlecode.prolog_cafe.lang.Operation;

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.TrackingId;
+import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

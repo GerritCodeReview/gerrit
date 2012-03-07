@@ -17,7 +17,7 @@ package com.google.gerrit.server.patch;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;

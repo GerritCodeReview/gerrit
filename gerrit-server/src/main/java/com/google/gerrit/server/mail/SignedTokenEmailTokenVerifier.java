@@ -2,7 +2,7 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.ValidToken;

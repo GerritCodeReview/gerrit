@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.auth.userpass;
 
-import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.reviewdb.client.AuthType;
 
 public class LoginResult {
   public boolean success;

@@ -19,7 +19,7 @@ import static com.google.gerrit.server.project.RefControl.isRE;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

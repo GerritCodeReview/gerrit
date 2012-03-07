@@ -15,10 +15,10 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AuthType;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwtexpui.safehtml.client.RegexFindReplace;
 
 import java.util.List;

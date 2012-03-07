@@ -17,13 +17,13 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.server.account.VisibleGroups;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;

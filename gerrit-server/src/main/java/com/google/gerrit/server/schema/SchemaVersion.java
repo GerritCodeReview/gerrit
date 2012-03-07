@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.CurrentSchemaVersion;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.StatementExecutor;
+import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.client.Account;
 
 import java.util.Set;
 

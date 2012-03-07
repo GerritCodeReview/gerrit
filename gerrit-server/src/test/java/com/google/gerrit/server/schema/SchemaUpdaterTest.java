@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SystemConfig;
+import com.google.gerrit.reviewdb.client.SystemConfig;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -24,9 +24,9 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.testutil.InMemoryDatabase;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
-import com.google.gwtorm.client.StatementExecutor;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
+import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.TypeLiteral;

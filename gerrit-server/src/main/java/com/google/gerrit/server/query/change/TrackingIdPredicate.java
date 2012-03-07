@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.TrackingId;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.TrackingId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.impl.ListResultSet;
+import com.google.gwtorm.server.ListResultSet;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 
 import java.util.ArrayList;

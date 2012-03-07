@@ -2,8 +2,6 @@
 
 package com.google.gerrit.server.contact;
 
-import com.google.gerrit.server.contact.ContactStoreConnection;
-import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;

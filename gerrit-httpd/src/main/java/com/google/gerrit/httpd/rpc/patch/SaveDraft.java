@@ -15,17 +15,17 @@
 package com.google.gerrit.httpd.rpc.patch;
 
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.Patch;
-import com.google.gerrit.reviewdb.PatchLineComment;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 

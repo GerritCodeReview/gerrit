@@ -21,7 +21,7 @@ import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.common.auth.openid.OpenIdService;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountException;

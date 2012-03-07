@@ -15,8 +15,8 @@
 package com.google.gerrit.server.contact;
 
 import com.google.gerrit.common.errors.ContactInformationStoreException;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.ContactInformation;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.ContactInformation;
 
 class NoContactStore implements ContactStore {
   @Override

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.Branch;
-import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.http.client.URL;
 
 import java.util.HashMap;

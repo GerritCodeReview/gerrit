@@ -15,9 +15,9 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.SubmitType;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
@@ -32,7 +32,6 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
-
 import java.util.List;
 
 /** Create a new project. **/

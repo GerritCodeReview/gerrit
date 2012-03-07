@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <module>
-  <inherits name='com.google.gerrit.ReviewDB' />
+  <inherits name='com.google.gerrit.reviewdb.ReviewDB' />
   <inherits name='com.google.gwtjsonrpc.GWTJSONRPC'/>
   <source path='common' />
 </module>

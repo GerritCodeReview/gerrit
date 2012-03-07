@@ -22,7 +22,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
-import com.google.gerrit.reviewdb.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;

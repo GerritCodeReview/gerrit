@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.reviewdb.Patch.ChangeType;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 
 public class PatchAttribute {
     public String file;

@@ -18,7 +18,7 @@ import static com.google.gerrit.client.Dispatcher.toGroup;
 
 import com.google.gerrit.client.ui.MenuScreen;
 import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 
 public abstract class AccountGroupScreen extends MenuScreen {
   public static final String INFO = "info";

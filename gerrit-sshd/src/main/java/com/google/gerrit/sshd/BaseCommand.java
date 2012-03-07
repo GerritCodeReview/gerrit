@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Project.NameKey;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;

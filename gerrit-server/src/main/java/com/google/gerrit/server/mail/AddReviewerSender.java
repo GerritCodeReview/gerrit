@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;

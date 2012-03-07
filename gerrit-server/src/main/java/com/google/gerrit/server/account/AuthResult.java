@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountExternalId;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 
 /** Result from {@link AccountManager#authenticate(AuthRequest)}. */
 public class AuthResult {

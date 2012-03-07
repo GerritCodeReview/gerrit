@@ -17,7 +17,7 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 public interface PatchListCache {

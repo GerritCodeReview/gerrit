@@ -15,7 +15,6 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -24,10 +23,10 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 
 public class HintTextBox extends NpTextBox {

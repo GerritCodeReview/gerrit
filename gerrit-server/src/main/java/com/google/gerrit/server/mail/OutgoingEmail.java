@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.UserIdentity;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.EmailHeader.AddressList;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;

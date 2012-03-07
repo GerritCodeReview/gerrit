@@ -19,7 +19,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.VisibleGroups;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import java.util.List;

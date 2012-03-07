@@ -15,7 +15,7 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.reviewdb.AccountSshKey;
+import com.google.gerrit.reviewdb.client.AccountSshKey;
 
 class NoSshKeyCache implements SshKeyCache {
   @Override

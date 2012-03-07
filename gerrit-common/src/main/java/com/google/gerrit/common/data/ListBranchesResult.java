@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.Branch;
+import com.google.gerrit.reviewdb.client.Branch;
 
 import java.util.List;
 

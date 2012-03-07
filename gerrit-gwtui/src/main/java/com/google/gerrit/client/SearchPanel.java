@@ -17,7 +17,7 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;

@@ -15,8 +15,8 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.reviewdb.Patch;
-import com.google.gerrit.reviewdb.AccountDiffPreference.Whitespace;
+import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;

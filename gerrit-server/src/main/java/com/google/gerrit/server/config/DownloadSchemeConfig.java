@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.SystemConfig;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.SystemConfig;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

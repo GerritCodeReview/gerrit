@@ -16,8 +16,8 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;

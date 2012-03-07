@@ -19,9 +19,9 @@ import com.google.gerrit.common.data.ChangeDetailService;
 import com.google.gerrit.common.data.IncludedInDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
-import com.google.gerrit.reviewdb.AccountDiffPreference;
-import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 

@@ -16,8 +16,8 @@ package gerrit;
 
 import static com.googlecode.prolog_cafe.lang.SymbolTerm.intern;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.AnonymousUser;

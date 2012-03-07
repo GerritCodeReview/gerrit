@@ -15,8 +15,8 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.reviewdb.ApprovalCategory;
-import com.google.gerrit.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;

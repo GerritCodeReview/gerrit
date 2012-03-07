@@ -15,13 +15,13 @@
 package com.google.gerrit.server.contact;
 
 import com.google.gerrit.common.errors.ContactInformationStoreException;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountExternalId;
-import com.google.gerrit.reviewdb.ContactInformation;
-import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.ContactInformation;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.UrlEncoded;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 

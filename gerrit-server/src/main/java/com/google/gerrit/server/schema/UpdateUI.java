@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.StatementExecutor;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.StatementExecutor;
 
 import java.util.List;
 

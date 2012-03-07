@@ -15,8 +15,8 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.common.data.AccountInfo;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.i18n.client.DateTimeFormat;
 
 import java.util.Date;

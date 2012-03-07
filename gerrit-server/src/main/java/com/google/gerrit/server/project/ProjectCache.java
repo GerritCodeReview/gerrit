@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.project;
 
-import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.client.Project;
 
 /** Cache of project information, including access rights. */
 public interface ProjectCache {

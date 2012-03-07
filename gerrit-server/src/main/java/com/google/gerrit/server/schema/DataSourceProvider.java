@@ -15,7 +15,8 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.server.config.ConfigUtil.getEnum;
-import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;

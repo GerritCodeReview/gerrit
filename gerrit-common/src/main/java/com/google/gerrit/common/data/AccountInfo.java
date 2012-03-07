@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.client.Account;
 
 /** Summary information about an {@link Account}, for simple tabular displays. */
 public class AccountInfo {

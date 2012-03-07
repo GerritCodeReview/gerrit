@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.query;
 
-import com.google.gerrit.server.query.OperatorPredicate;
-
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 

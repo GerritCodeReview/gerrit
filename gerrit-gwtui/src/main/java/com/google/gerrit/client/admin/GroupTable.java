@@ -19,7 +19,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.common.data.GroupDetail;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;

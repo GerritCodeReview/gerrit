@@ -15,7 +15,7 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.reviewdb.Patch;
+import com.google.gerrit.reviewdb.client.Patch;
 
 import junit.framework.TestCase;
 

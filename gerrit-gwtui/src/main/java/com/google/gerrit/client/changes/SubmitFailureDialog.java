@@ -16,7 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.common.data.ChangeDetail;
-import com.google.gerrit.reviewdb.ChangeMessage;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class SubmitFailureDialog extends ErrorDialog {

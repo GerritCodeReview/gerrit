@@ -17,7 +17,7 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
-import com.google.gerrit.reviewdb.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;

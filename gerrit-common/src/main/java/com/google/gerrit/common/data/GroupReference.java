@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 
 /** Describes a group within a projects {@link AccessSection}s. */
 public class GroupReference implements Comparable<GroupReference> {

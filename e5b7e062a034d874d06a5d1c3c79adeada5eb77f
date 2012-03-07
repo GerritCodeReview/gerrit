@@ -285,6 +285,24 @@
     },
     {
       "key": {
+        "uuid": "AAADqH////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T18:31:43Z",
+      "side": 1,
+      "message": "This really is a more general problem that there is a ton of repeated code to populate the UI data structures and to populate the event data structures.  The data structures hold much of the same data, but because they are not exactly the same, they cannot be shared!  This is something that has bugged me for a while and I don\u0027t see any great solutions to this.  However, I will mention the 2 solutions that I can think of: 1) simply share the data structures between the UI and the events 2) create a ton of \"contains\" interfaces which these structures can share.\n\n#1 means that a there will be extra data in some of these, and the event structures cannot have any data that we don\u0027t want (unless we pruned it after the fact).  But perhaps any differences here can be remedied, perhaps the differences are a sign of something lacking on the event side anyways?\n\n#2 the way this would work in this case would be to define an interface named \"ContainsDependencies\" which had getDependencies() and setDependencies() interfaces.  Then, the populating factory need only operate on a ContainsDependencies object which could either be a ChangeAttribute (the object here), or the equivalent UI version.  Both of those objects would simply need to implement this interface.  Of course, they would also need to implement a whole lot of other \"contains\" interfaces, one for each type of data, each attribute (each getter/setter) pair they contain.  This could get pretty ugly pretty quick, although I suspect that some sort of annotation could perhaps be used to help us out here.\n\nAll this being said, I think either of these solutions are way beyond anything that we really want to implement for this change.  Did you have a simpler solution in mind?",
+      "parentUuid": "AAADXH////o\u003d",
+      "revId": "e5b7e062a034d874d06a5d1c3c79adeada5eb77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADf3////Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 1

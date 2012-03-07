@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAADqX////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountVisibilityProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-07T19:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADqX////M\u003d",
+      "revId": "b943878a42b49549cddf8ca2009cedca683b232d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADqH////A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountVisibilityProvider.java",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAADqX////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountVisibilityProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-07T19:23:13Z",
+      "side": 1,
+      "message": "Not strictly necessary. I\u0027m being more relaxed about declaring stuff final these days. :-\\",
+      "parentUuid": "AAADqH////A\u003d",
+      "revId": "b943878a42b49549cddf8ca2009cedca683b232d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADqn///+o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2012-03-07T19:18:19Z",
       "side": 1,
       "message": "Long line?",
+      "revId": "b943878a42b49549cddf8ca2009cedca683b232d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADqn///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-07T19:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADqn///+o\u003d",
       "revId": "b943878a42b49549cddf8ca2009cedca683b232d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

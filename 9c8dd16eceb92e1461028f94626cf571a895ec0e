@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADnX////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-07T07:20:14Z",
+      "side": 1,
+      "message": "s/ChanegDetailsCaches/ChangeDetailsCaches",
+      "revId": "9c8dd16eceb92e1461028f94626cf571a895ec0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

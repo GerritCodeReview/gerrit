@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADoX////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-07T09:07:09Z",
+      "side": 1,
+      "message": "This is not only removing all approvals from the current patch set, but it is also removing all the reviewers from the change. After changing the destination branch there are no reviewers on the change anymore. I think the reviewers of the change should stay and only their votes should be removed.",
+      "revId": "a7db88f40755c8f9984198cf507395672ab8860b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

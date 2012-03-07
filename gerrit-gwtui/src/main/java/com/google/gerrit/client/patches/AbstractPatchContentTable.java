@@ -350,7 +350,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         final short side;
         switch (file) {
           case 0:
-            if (idSideA == null) {
+            if (idSideA == null || idSideA.get() == 0) {
               parentKey = new Patch.Key(idSideB, patchKey.get());
               side = (short) 0;
             } else {

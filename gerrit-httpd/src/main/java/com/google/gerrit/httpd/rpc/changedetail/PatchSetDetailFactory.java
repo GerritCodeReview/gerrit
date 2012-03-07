@@ -168,6 +168,10 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
   private ObjectId toObjectId(final PatchSet.Id psId) throws OrmException,
       NoSuchEntityException {
+    if (psId.get() == 0) {
+      return PatchList.COMMON_ANCESTOR_PATCHSET_ID;
+    }
+
     final PatchSet ps = db.patchSets().get(psId);
     if (ps == null) {
       throw new NoSuchEntityException();

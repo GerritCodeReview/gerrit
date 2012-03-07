@@ -86,10 +86,21 @@ class HistoryTable extends FancyFlexTable<Patch> {
     table.setText(3, 0, Util.C.patchTableColumnComments());
     fmt.setStyleName(3, 0, Gerrit.RESOURCES.css().dataHeader());
 
+    int col;
     if (screen.getPatchSetDetail().getInfo().getParents().size() > 1) {
       table.setText(0, 1, PatchUtil.C.patchBaseAutoMerge());
+      table.setText(0, 2, PatchUtil.C.patchBaseCommonAncestor());
+      fmt.setStyleName(0, 2, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().topMostCell());
+      fmt.setStyleName(1, 2, Gerrit.RESOURCES.css().dataCell());
+      fmt.setStyleName(2, 2, Gerrit.RESOURCES.css().dataCell());
+      fmt.setStyleName(3, 2, Gerrit.RESOURCES.css().dataCell());
+      installRadio(1, 2, new PatchSet.Id(screen.idSideB.getParentKey(), 0),
+          screen.idSideA, 0);
+      col = 3;
     } else {
       table.setText(0, 1, PatchUtil.C.patchBase());
+      col = 2;
     }
     fmt.setStyleName(0, 1, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topMostCell());
@@ -99,7 +110,6 @@ class HistoryTable extends FancyFlexTable<Patch> {
 
     installRadio(1, 1, null, screen.idSideA, 0);
 
-    int col=2;
     for (final Patch k : result) {
       final PatchSet.Id psId = k.getKey().getParentKey();
       table.setText(0, col, String.valueOf(psId.get()));

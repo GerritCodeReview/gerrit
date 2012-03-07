@@ -47,7 +47,7 @@ public class CommentDetail {
     final PatchSet.Id psId = p.getKey().getParentKey().getParentKey();
     switch (p.getSide()) {
       case 0:
-        if (idA == null && idB.equals(psId)) {
+        if ((idA == null || idA.get() == 0) && idB.equals(psId)) {
           a.add(p);
           return true;
         }

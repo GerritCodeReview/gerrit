@@ -286,6 +286,8 @@ public class ChangeScreen extends Screen
 
     if (detail.getCurrentPatchSetDetail().getInfo().getParents().size() > 1) {
       patchesList.addItem(Util.C.autoMerge());
+      patchesList.addItem(Util.C.commonAncestor(), detail.getChange().getId()
+          + ",0");
     } else {
       patchesList.addItem(Util.C.baseDiffItem());
     }

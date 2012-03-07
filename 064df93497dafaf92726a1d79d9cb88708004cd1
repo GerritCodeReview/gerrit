@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADon////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-07T18:27:14Z",
+      "side": 1,
+      "message": "Nit: This is autoboxed so you dont need to call the constructor explicitly",
+      "revId": "064df93497dafaf92726a1d79d9cb88708004cd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADkn////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/HttpContactStoreConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-07T00:45:44Z",
+      "side": 1,
+      "message": "Hm, would it be worth rolling this into a FactoryModule method? E.g. \u003cT\u003e factory(Class\u003cT\u003e, Class\u003c? extends T\u003e)",
+      "revId": "c51d057d4ba4be56f82349e86fad8e69cc85d843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADkn////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-07T00:45:44Z",
+      "side": 1,
+      "message": "Isn\u0027t this the same as factory(PushOp.Factory.class)?",
+      "revId": "c51d057d4ba4be56f82349e86fad8e69cc85d843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADkn////g\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-07T00:45:44Z",
+      "side": 1,
+      "message": "factory(CapabilityControl.Factory.class)?",
+      "revId": "c51d057d4ba4be56f82349e86fad8e69cc85d843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

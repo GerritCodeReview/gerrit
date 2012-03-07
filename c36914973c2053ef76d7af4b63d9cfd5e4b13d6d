@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADkn////c\u003d",
+        "filename": "gerrit-gwtui/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-07T00:45:44Z",
+      "side": 0,
+      "message": "?",
+      "revId": "c36914973c2053ef76d7af4b63d9cfd5e4b13d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADkn////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/FactoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-07T00:45:44Z",
+      "side": 0,
+      "message": "FYI, you are changing the behavior here: FactoryModuleBuilder allows more than one method. Unlikely to matter, since you\u0027re loosening the restriction.",
+      "revId": "c36914973c2053ef76d7af4b63d9cfd5e4b13d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

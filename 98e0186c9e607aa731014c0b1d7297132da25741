@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADln///+M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/MoveChangeHandler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T02:08:12Z",
+      "side": 1,
+      "message": "Argh, done.",
+      "parentUuid": "AAADkX////E\u003d",
+      "revId": "98e0186c9e607aa731014c0b1d7297132da25741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADkX///+U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 5
@@ -47,6 +65,24 @@
       "writtenOn": "2012-03-06T14:46:57Z",
       "side": 1,
       "message": "It also doesn\u0027t allow me to change the destination branch if my change is in DRAFT state. I think for draft changes we should definitely allow to change the destination branch.",
+      "parentUuid": "AAADkX///+U\u003d",
+      "revId": "98e0186c9e607aa731014c0b1d7297132da25741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADln///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T02:08:12Z",
+      "side": 1,
+      "message": "Agreed, I will make the UI change there.  Error message improved here (could probably be improved in the other handlers also).  Draft done.",
       "parentUuid": "AAADkX///+U\u003d",
       "revId": "98e0186c9e607aa731014c0b1d7297132da25741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -52,6 +52,24 @@
       "revId": "987f9f2a97df9d559b0049828ead9c47018eae0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADnn////o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-07T09:50:46Z",
+      "side": 1,
+      "message": "My idea, apart from this developer and the integrator would be to have the CI-system, administrator, and superuser (full git administration but not server administration)\n\nThe developer role is somewhat powerful, no doubt, but this is a balance I believe.\nIf the project is small every person that actually is involved tends to get more power, and I\u0027ve aimed this documentation to the smaller projects since they should be more common, and they are probably in the largest need of help to get started.\n\nI might be out of touch here, but my feeling is that many projects are more lenient with rights than within the Gerrit community. If you still think I should limit the developer down, please let me know, but don\u0027t forget that above this section we already have contributor, which you become the instant you register with the server, which allows you to upload commits for review.\n\nThe integrator on the other hand can create new branches and tags, which the developer can\u0027t, so it still adds some permissions compared to developer.\n\nCommitter could be a better name than developer, just say the word.",
+      "parentUuid": "AAACi3///+8\u003d",
+      "revId": "987f9f2a97df9d559b0049828ead9c47018eae0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

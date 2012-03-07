@@ -272,6 +272,8 @@ public class ChangeScreen extends Screen
 
     if (detail.getCurrentPatchSetDetail().getInfo().getParents().size() > 1) {
       patchesList.addItem(Util.C.autoMerge());
+      patchesList.addItem(Util.C.commonAncestor(), detail.getChange().getId()
+          + ",CA");
     } else {
       patchesList.addItem(Util.C.baseDiffItem());
     }
@@ -283,7 +285,13 @@ public class ChangeScreen extends Screen
     }
 
     if (diffBaseId != null && patchesList != null) {
-      patchesList.setSelectedIndex(diffBaseId.get());
+      final int indexOffset;
+      if (detail.getCurrentPatchSetDetail().getInfo().getParents().size() > 1) {
+        indexOffset = 1;
+      } else {
+        indexOffset = 0;
+      }
+      patchesList.setSelectedIndex(diffBaseId.get() + indexOffset);
     }
 
     patchSetsBlock.display(detail, diffBaseId);

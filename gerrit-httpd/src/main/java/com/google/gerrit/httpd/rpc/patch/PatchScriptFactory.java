@@ -32,6 +32,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
+import com.google.gerrit.server.patch.CommonAncestorObjectId;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -191,6 +192,10 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
   private ObjectId toObjectId(final ReviewDb db, final PatchSet.Id psId)
       throws OrmException, NoSuchChangeException {
+    if (psId instanceof PatchSet.CommonAncestorId || psId.get() == 0) {
+      return new CommonAncestorObjectId();
+    }
+
     if (!changeId.equals(psId.getParentKey())) {
       throw new NoSuchChangeException(changeId);
     }
@@ -212,6 +217,8 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private void validatePatchSetId(final PatchSet.Id psId)
       throws NoSuchChangeException {
     if (psId == null) { // OK, means use base;
+    } else if (psId instanceof PatchSet.CommonAncestorId || psId.get() == 0) {
+      // OK, show diff with common ancestor
     } else if (changeId.equals(psId.getParentKey())) { // OK, same change;
     } else {
       throw new NoSuchChangeException(changeId);

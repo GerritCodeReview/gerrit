@@ -129,6 +129,7 @@ public interface ChangeConstants extends Constants {
   String oldVersionHistory();
   String baseDiffItem();
   String autoMerge();
+  String commonAncestor();
 
   String buttonReview();
   String buttonPublishCommentsSend();

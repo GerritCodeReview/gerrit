@@ -28,6 +28,10 @@ public final class PatchSet {
     return name.matches("^refs/changes/.*/[1-9][0-9]*/[1-9][0-9]*$");
   }
 
+  public static class CommonAncestorId extends Id {
+    private static final long serialVersionUID = 1L;
+  }
+
   public static class Id extends IntKey<Change.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -63,6 +67,9 @@ public final class PatchSet {
 
     /** Parse a PatchSet.Id out of a string representation. */
     public static Id parse(final String str) {
+      if (str.endsWith("CA")) {
+        return new CommonAncestorId();
+      }
       final Id r = new Id();
       r.fromString(str);
       return r;

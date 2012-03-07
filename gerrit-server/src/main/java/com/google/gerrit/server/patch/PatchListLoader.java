@@ -50,6 +50,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -134,7 +135,13 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         throw new IOException("Unexpected type: " + a.getClass());
       }
 
-      RevTree bTree = b.getTree();
+      RevTree bTree;
+      if (b.getParentCount() == 2
+          && key.getOldId() instanceof CommonAncestorObjectId) {
+        bTree = b.getParent(1).getTree();
+      } else {
+        bTree = b.getTree();
+      }
 
       final TreeWalk walk = new TreeWalk(reader);
       walk.reset();
@@ -221,7 +228,8 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   private static RevObject aFor(final PatchListKey key,
       final Repository repo, final RevWalk rw, final RevCommit b)
       throws IOException {
-    if (key.getOldId() != null) {
+    if (key.getOldId() != null
+        && !(key.getOldId() instanceof CommonAncestorObjectId)) {
       return rw.parseAny(key.getOldId());
     }
 
@@ -234,11 +242,23 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
         return r;
       }
       case 2:
-        return automerge(repo, rw, b);
+        if (key.getOldId() instanceof CommonAncestorObjectId) {
+          return commonAncestor(repo, rw, b);
+        } else {
+          return automerge(repo, rw, b);
+        }
       default:
         // TODO(sop) handle an octopus merge.
         return null;
     }
+  }
+
+  private static RevObject commonAncestor(Repository repo, RevWalk rw,
+      RevCommit b) throws IOException {
+    rw.setRevFilter(RevFilter.MERGE_BASE);
+    rw.markStart(b.getParent(0));
+    rw.markStart(b.getParent(1));
+    return rw.next();
   }
 
   private static RevObject automerge(Repository repo, RevWalk rw, RevCommit b)

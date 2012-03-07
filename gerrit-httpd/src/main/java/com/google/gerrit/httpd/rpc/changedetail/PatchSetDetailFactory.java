@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.patch.CommonAncestorObjectId;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -170,6 +171,10 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
   private ObjectId toObjectId(final PatchSet.Id psId) throws OrmException,
       NoSuchEntityException {
+    if (psId instanceof PatchSet.CommonAncestorId || psId.get() == 0) {
+      return new CommonAncestorObjectId();
+    }
+
     final PatchSet ps = db.patchSets().get(psId);
     if (ps == null) {
       throw new NoSuchEntityException();

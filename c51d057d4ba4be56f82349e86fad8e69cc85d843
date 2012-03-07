@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAADqn////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/HttpContactStoreConnection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-07T17:34:21Z",
+      "side": 1,
+      "message": "Not exactly. Right now, if we have:\n\n  class FooFactory {\n    Foo create(...);\n  }\n\nthen factory(FooFactory.class) allows assisted injection in the constructor of Foo, which must be a concrete type.\n\nHere, we have:\n\n  class ContactStoreConnectionFactory {\n    ContactStoreConnection create(...);\n  }\n\nwhere ContactStoreConnection is an *interface*, not a concrete type. This use of FactoryModuleBuilder does two things:\n1. Binds ContactStoreConnection to HttpContactStoreConnection.\n2. Allows assisted injection in the constructor of *Http*ContactStoreConnection.\n\nSo my proposal (which was originally incorrect) is to replace this with:\n\n  factory(ContactStoreConnection.Factory.class, ContactStoreConnection.class, HttpContactStoreConnection.class)\n\nI was wrong about the signature, which would probably be more like:\n\n  \u003cT\u003e factory(Class\u003c?\u003e factoryClass, Class\u003cT\u003e baseType, Class\u003cT\u003e concreteType);\n\nAlthough, now that I\u0027ve written that all out, this doesn\u0027t seem all that much cleaner than just using FactoryModuleBuilder directly.",
+      "parentUuid": "AAADmH////k\u003d",
+      "revId": "c51d057d4ba4be56f82349e86fad8e69cc85d843",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADkn////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/PushReplication.java",
         "patchSetId": 1

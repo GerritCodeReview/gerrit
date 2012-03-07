@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADmH////o\u003d",
+        "filename": "Documentation/cmd-review.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T00:50:28Z",
+      "side": 1,
+      "message": "I don\u0027t think that it is a good idea to allow any sending user to suppress emails, it has a way of defeating the intentions of emails sent by Gerrit.  I think that this feature should be limited, perhaps to users in certain groups?  Adding a \"silence-email\" capability would do this.   This way, (CI) system designers can limit the noise their systems generate if they give thought to it.  They are likely to think about and be consistent (since it is via automation) about which emails they want to silence.  Random users on the other hand, will likely use the feature randomly and this will likely randomly confuse people and result in random (but frequent) tech support requests. :(",
+      "revId": "0865f8e0a5982a2e33a257eb2284e433df68c7bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

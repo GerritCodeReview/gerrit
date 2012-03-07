@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AAADiX///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-07T01:04:48Z",
+      "side": 1,
+      "message": "This type of programming creates more noise in the code and obfuscates the intent.  By not returning on line 536 the reviewer now has to ask themselves \"does something else happen after this set?\" and then they have to read further down below the exception path to see if that is the case.  Instead, it would be clearer to indicate that determining the return result is done by returning right away and reducing the scope of the code left to read after this point.  Using a variable to hold the return value increases the scope of the return value and thus makes things less obvious.\n\nAs the code grows with more code paths via ifs, loops, and exception handling, the read complexity added by such techniques grows also and ultimately leads to having way more indentations than needed (as it did with the if here) and many missed opportunities to reduce the line count.  Extra Indentations and extra code hinders readability and leads to more bugs.  \n\nAn example of a missed optimization in this change is to consolidate the exceptions.  Since the only thing different in the two exceptions paths are the log messages, if line 536 returned then one message variable could be set the exceptions and the 3 (4 in the new patchset) lines in each exception could be moved out of the exceptions and shared.\n\nI recognize that this pattern is rampant in many projects, but I do not think that it is a valuable one to emulate; perhaps my arguments above will lead to its reduction in use.",
+      "parentUuid": "AAADhH////w\u003d",
+      "revId": "2c42a5280af36800049560829bd2d9c0703d9f21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADYn///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 5

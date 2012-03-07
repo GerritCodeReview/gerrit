@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "AAADqH///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-07T20:15:44Z",
+      "side": 1,
+      "message": "I think this alreadyAccepted thing is actually not necessary. During merge you really want to consider any commit in the chain between \"what was submitted\" and the \"current branch tip\". Anything else in other branches or tags is irrelevant.\n\nThis actually simplifies the code a bit. Uploading a replacement patch set now, please review patch set 4 and let me know if it solves the problem.",
+      "parentUuid": "AAADXn////U\u003d",
+      "revId": "0b9415abe93426433669302d880c76dfb83e5435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADXn////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3

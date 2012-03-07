@@ -54,8 +54,8 @@ public abstract class PatchScreen extends Screen implements
   public static class SideBySide extends PatchScreen {
     public SideBySide(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView) {
-      super(id, patchIndex, patchSetDetail, patchTable, topView);
+        final TopView topView, final PatchSet.Id baseId) {
+       super(id, patchIndex, patchSetDetail, patchTable, topView, baseId);
     }
 
     @Override
@@ -72,8 +72,8 @@ public abstract class PatchScreen extends Screen implements
   public static class Unified extends PatchScreen {
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchSetDetail patchSetDetail, final PatchTable patchTable,
-        final TopView topView) {
-      super(id, patchIndex, patchSetDetail, patchTable, topView);
+        final TopView topView, final PatchSet.Id baseId) {
+      super(id, patchIndex, patchSetDetail, patchTable, topView, baseId);
     }
 
     @Override
@@ -86,10 +86,6 @@ public abstract class PatchScreen extends Screen implements
       return PatchScreen.Type.UNIFIED;
     }
   }
-
-  // Which patch set id's are being diff'ed
-  private static PatchSet.Id diffSideA = null;
-  private static PatchSet.Id diffSideB = null;
 
   /**
    * What should be displayed in the top of the screen
@@ -137,20 +133,14 @@ public abstract class PatchScreen extends Screen implements
 
   protected PatchScreen(final Patch.Key id, final int patchIndex,
       final PatchSetDetail detail, final PatchTable patchTable,
-      final TopView top) {
+      final TopView top, final PatchSet.Id baseId) {
     patchKey = id;
     patchSetDetail = detail;
     fileList = patchTable;
     topView = top;
 
-    if (patchTable != null) {
-      diffSideA = patchTable.getPatchSetIdToCompareWith();
-    } else {
-      diffSideA = null;
-    }
-
-    idSideA = diffSideA; // null here means we're diff'ing from the Base
-    idSideB = diffSideB != null ? diffSideB : id.getParentKey();
+    idSideA = baseId; // null here means we're diff'ing from the Base
+    idSideB = id.getParentKey();
     this.patchIndex = patchIndex;
 
     reviewed = new CheckBox(Util.C.reviewed());
@@ -315,7 +305,7 @@ public abstract class PatchScreen extends Screen implements
               patchSetDetail = result;
               if (fileList == null) {
                 fileList = new PatchTable(prefs);
-                fileList.display(result);
+                fileList.display(idSideA, result);
                 patchIndex = fileList.indexOf(patchKey);
               }
               refresh(true);
@@ -349,6 +339,10 @@ public abstract class PatchScreen extends Screen implements
   protected abstract AbstractPatchContentTable createContentTable();
 
   public abstract PatchScreen.Type getPatchScreenType();
+
+  public PatchSet.Id getSideA() {
+    return idSideA;
+  }
 
   public Patch.Key getPatchKey() {
     return patchKey;
@@ -438,7 +432,7 @@ public abstract class PatchScreen extends Screen implements
       contentTable = new UnifiedDiffTable();
       contentTable.fileList = fileList;
       contentPanel.add(contentTable);
-      setToken(Dispatcher.toPatchUnified(patchKey));
+      setToken(Dispatcher.toPatchUnified(idSideA, patchKey));
     }
 
     if (hasDifferences) {
@@ -494,19 +488,6 @@ public abstract class PatchScreen extends Screen implements
     contentTable.setRegisterKeys(isCurrentView() && showPatch);
   }
 
-  public void setSideA(PatchSet.Id patchSetId) {
-    idSideA = patchSetId;
-    diffSideA = patchSetId;
-    if (fileList != null) {
-      fileList.setPatchSetIdToCompareWith(patchSetId);
-    }
-  }
-
-  public void setSideB(PatchSet.Id patchSetId) {
-    idSideB = patchSetId;
-    diffSideB = patchSetId;
-  }
-
   public void setTopView(TopView tv) {
     topView = tv;
     topPanel.clear();
@@ -536,7 +517,7 @@ public abstract class PatchScreen extends Screen implements
         Util.DETAIL_SVC.patchSetDetail(psid,
             new GerritCallback<PatchSetDetail>() {
               public void onSuccess(final PatchSetDetail result) {
-                fileList.display(result);
+                fileList.display(idSideA, result);
               }
             });
       }

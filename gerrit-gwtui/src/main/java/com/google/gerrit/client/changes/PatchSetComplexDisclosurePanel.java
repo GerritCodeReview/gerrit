@@ -165,8 +165,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
     if (!patchSet.getId().equals(diffBaseId)) {
       patchTable = new PatchTable();
       patchTable.setSavePointerId("PatchTable " + patchSet.getId());
-      patchTable.setPatchSetIdToCompareWith(diffBaseId);
-      patchTable.display(detail);
+      patchTable.display(diffBaseId, detail);
 
       actionsPanel = new FlowPanel();
       actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
@@ -548,12 +547,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
   private void populateDiffAllActions(final PatchSetDetail detail) {
     final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
     diffAllSideBySide.addClickHandler(new ClickHandler() {
-
       @Override
       public void onClick(ClickEvent event) {
         for (Patch p : detail.getPatches()) {
-          Window.open(Window.Location.getPath() + "#"
-              + Dispatcher.toPatchSideBySide(p.getKey()), "_blank", null);
+          openWindow(Dispatcher.toPatchSideBySide(diffBaseId, p.getKey()));
         }
       }
     });
@@ -561,16 +558,19 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
 
     final Button diffAllUnified = new Button(Util.C.buttonDiffAllUnified());
     diffAllUnified.addClickHandler(new ClickHandler() {
-
       @Override
       public void onClick(ClickEvent event) {
         for (Patch p : detail.getPatches()) {
-          Window.open(Window.Location.getPath() + "#"
-              + Dispatcher.toPatchUnified(p.getKey()), "_blank", null);
+          openWindow(Dispatcher.toPatchUnified(diffBaseId, p.getKey()));
         }
       }
     });
     actionsPanel.add(diffAllUnified);
+  }
+
+  private void openWindow(String token) {
+    String url = Window.Location.getPath() + "#" + token;
+    Window.open(url, "_blank", null);
   }
 
   private void populateReviewAction() {
@@ -646,18 +646,15 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel implements O
         new GerritCallback<PatchSetDetail>() {
           @Override
           public void onSuccess(PatchSetDetail result) {
-
             if (patchSet.getId().equals(diffBaseId)) {
               patchTable.setVisible(false);
               actionsPanel.setVisible(false);
             } else {
-
               if (patchTable != null) {
                 patchTable.removeFromParent();
               }
               patchTable = new PatchTable();
-              patchTable.setPatchSetIdToCompareWith(diffBaseId);
-              patchTable.display(result);
+              patchTable.display(diffBaseId, result);
               body.add(patchTable);
 
               for (ClickHandler clickHandler : registeredClickHandler) {

@@ -16,6 +16,24 @@
       "revId": "88a723b0cf137b7afb129e2a83a2a1daa3846d44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADqX///+c\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/GetUserFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-07T20:40:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADqX///+s\u003d",
+      "revId": "88a723b0cf137b7afb129e2a83a2a1daa3846d44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

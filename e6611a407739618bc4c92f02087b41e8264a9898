@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADo3////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-07T10:15:42Z",
+      "side": 1,
+      "message": "should we disable all the buttons here before we start the remote call? \n\n  enableButtons(false);\n\nAnd then re-enable the buttons when the destination branches were loaded?",
+      "revId": "e6611a407739618bc4c92f02087b41e8264a9898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

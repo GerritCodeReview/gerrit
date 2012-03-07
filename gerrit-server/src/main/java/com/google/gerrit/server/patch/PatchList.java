@@ -47,6 +47,8 @@ import java.util.zip.InflaterInputStream;
 import javax.annotation.Nullable;
 
 public class PatchList implements Serializable {
+  public static final ObjectId COMMON_ANCESTOR_PATCHSET_ID = ObjectId.zeroId();
+
   private static final long serialVersionUID = PatchListKey.serialVersionUID;
   private static final Comparator<PatchListEntry> PATCH_CMP =
       new Comparator<PatchListEntry>() {

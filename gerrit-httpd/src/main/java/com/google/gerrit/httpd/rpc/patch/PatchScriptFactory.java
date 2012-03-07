@@ -182,6 +182,10 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
   private ObjectId toObjectId(final ReviewDb db, final PatchSet.Id psId)
       throws OrmException, NoSuchChangeException {
+    if (psId.get() == 0) {
+      return PatchList.COMMON_ANCESTOR_PATCHSET_ID;
+    }
+
     if (!changeId.equals(psId.getParentKey())) {
       throw new NoSuchChangeException(changeId);
     }
@@ -203,6 +207,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private void validatePatchSetId(final PatchSet.Id psId)
       throws NoSuchChangeException {
     if (psId == null) { // OK, means use base;
+    } else if (psId.get() == 0) { // OK, means show diff with common ancestor
     } else if (changeId.equals(psId.getParentKey())) { // OK, same change;
     } else {
       throw new NoSuchChangeException(changeId);

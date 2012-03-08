@@ -24,14 +24,17 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.server.OrmException;
@@ -68,6 +71,8 @@ public class PublishComments implements Callable<VoidResult> {
   private final ChangeControl.Factory changeControlFactory;
   private final FunctionState.Factory functionStateFactory;
   private final ChangeHooks hooks;
+  private final WorkQueue workQueue;
+  private final RequestScopePropagator requestScopePropagator;
 
   private final PatchSet.Id patchSetId;
   private final String messageText;
@@ -87,6 +92,8 @@ public class PublishComments implements Callable<VoidResult> {
       final ChangeControl.Factory changeControlFactory,
       final FunctionState.Factory functionStateFactory,
       final ChangeHooks hooks,
+      final WorkQueue workQueue,
+      final RequestScopePropagator requestScopePropagator,
 
       @Assisted final PatchSet.Id patchSetId,
       @Assisted final String messageText,
@@ -100,6 +107,8 @@ public class PublishComments implements Callable<VoidResult> {
     this.changeControlFactory = changeControlFactory;
     this.functionStateFactory = functionStateFactory;
     this.hooks = hooks;
+    this.workQueue = workQueue;
+    this.requestScopePropagator = requestScopePropagator;
 
     this.patchSetId = patchSetId;
     this.messageText = messageText;
@@ -294,20 +303,40 @@ public class PublishComments implements Callable<VoidResult> {
   }
 
   private void email() {
+    if (message == null) {
+      return;
+    }
+
+    final PatchSetInfo patchSetInfo;
     try {
-      if (message != null) {
-        final CommentSender cm = commentSenderFactory.create(change);
-        cm.setFrom(user.getAccountId());
-        cm.setPatchSet(patchSet, patchSetInfoFactory.get(db, patchSetId));
-        cm.setChangeMessage(message);
-        cm.setPatchLineComments(drafts);
-        cm.send();
-      }
-    } catch (EmailException e) {
-      log.error("Cannot send comments by email for patch set " + patchSetId, e);
+      patchSetInfo = patchSetInfoFactory.get(db, patchSetId);
     } catch (PatchSetInfoNotAvailableException e) {
       log.error("Failed to obtain PatchSetInfo for patch set " + patchSetId, e);
+      return;
     }
+
+    workQueue.getDefaultQueue()
+        .submit(requestScopePropagator.wrap(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          final CommentSender cm = commentSenderFactory.create(change);
+          cm.setFrom(user.getAccountId());
+          cm.setPatchSet(patchSet, patchSetInfo);
+          cm.setChangeMessage(message);
+          cm.setPatchLineComments(drafts);
+          cm.send();
+        } catch (EmailException e) {
+          log.error(
+              "Cannot send comments by email for patch set " + patchSetId, e);
+        }
+      }
+
+      @Override
+      public String toString() {
+        return "send email for patch set comments";
+      }
+    }));
   }
 
   private void fireHook() throws OrmException {

@@ -33,6 +33,24 @@
       "revId": "686bf9f634652a9fb0f1f166f5ab0868f8e48b5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADqX///9c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-08T06:08:49Z",
+      "side": 1,
+      "message": "We have 5 times that number of open changes for a particular project/branch combo. A 20 second loop sounds painful.",
+      "parentUuid": "AAADqX///+4\u003d",
+      "revId": "686bf9f634652a9fb0f1f166f5ab0868f8e48b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

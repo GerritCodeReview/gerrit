@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADsn///+A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-08T22:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADsn///+k\u003d",
+      "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADtn///+Y\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-08T22:09:17Z",
       "side": 1,
       "message": "Did you want to comment on what\u0027s automatically forwarded in the non-guice implementations?",
+      "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADsn///94\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-08T22:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADtn///+Y\u003d",
       "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAADsn///90\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-08T22:49:17Z",
+      "side": 1,
+      "message": "The value provided may be null, not the provider itself.  This is how it is injected in other locations.",
+      "parentUuid": "AAADtX///+Q\u003d",
+      "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADsn///+Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-08T22:09:17Z",
       "side": 1,
       "message": "Optional nit: name this (and the field) remotePeerProvider?",
+      "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADsn///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-08T22:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADsn///+Q\u003d",
       "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAADsn///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-08T22:49:17Z",
+      "side": 1,
+      "message": "Done. Yes, that\u0027s what it appears to do.",
+      "parentUuid": "AAADtn///+Q\u003d",
+      "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADtX///90\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-03-08T22:09:17Z",
       "side": 1,
       "message": "Optional: you could change this to keyOfProvider(Type type, Class\u003c?\u003e annotationClass) to avoid some boilerplate at the call sites.",
+      "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADsn///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-08T22:49:17Z",
+      "side": 1,
+      "message": "I tried it and it didn\u0027t help, so i reverted.",
+      "parentUuid": "AAADtX///90\u003d",
       "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAADsn///80\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-08T22:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADtX///9w\u003d",
+      "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADtn///+I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2012-03-08T22:09:17Z",
       "side": 1,
       "message": "Hmm, I don\u0027t like the fact that this method has special support for ProjectRunnable but the Callable version doesn\u0027t. I understand that this is because WorkQueue only supports Runnables, not Callables, but I still don\u0027t like it. And the reason for this behavior is not clear from this class\u0027s perspective.",
+      "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADsn///8s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-08T22:49:17Z",
+      "side": 1,
+      "message": "Agreed.\n\nI could make this method final as well and add a protected method wrapImpl().\n\nThat way i can guarantee all returned callables implement toString().",
+      "parentUuid": "AAADtn///+I\u003d",
       "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAADsn///8w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-08T22:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADsn///+I\u003d",
+      "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADsn///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2012-03-08T22:09:17Z",
       "side": 1,
       "message": "Good call putting this logic here, thanks. This makes WorkQueue cleaner.",
+      "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADsn///9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-08T22:49:17Z",
+      "side": 1,
+      "message": "Initially I tried to create a decorated executor, but it is impossible based on the Executor API :(",
+      "parentUuid": "AAADsn///+M\u003d",
       "revId": "c50dcc927d6baafe714032385ddb88d76abf16d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

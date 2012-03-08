@@ -51,6 +51,24 @@
       "revId": "b02afcae167dc90fa3ca77701577e5c28e24a6bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADrH////8\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-08T07:22:13Z",
+      "side": 1,
+      "message": "But in this case I quote it because it\u0027s a name of a group. :)\n\nSo I shouldn\u0027t change here, should I? Please let me know your thoughts.\n\nThe previous one was a mistake because of this one.. I\u0027ll still fix that.",
+      "parentUuid": "AAADo3////o\u003d",
+      "revId": "b02afcae167dc90fa3ca77701577e5c28e24a6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

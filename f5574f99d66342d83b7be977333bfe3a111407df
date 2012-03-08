@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADtX////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-08T15:04:22Z",
+      "side": 0,
+      "message": "Someone asked by email:\n\n  \u003e Will the change in \"already accepted\" paradigm\n  \u003eaffect minimal base determination for merges?\n\nYes it does. I think this change to remove the loop over all branches/tags breaks merges across branches. The merge\u0027s first parent should be what we are scanning, while the merge\u0027s second parent is usually from another branch in this same project and maybe should be ignored if it is contained in another branch or a released tag.\n\nSo this loop is here to support submitting a merge of one branch into another, e.g. when I make changes to \"stable\" and then later merge them all to \"master\".",
+      "revId": "f5574f99d66342d83b7be977333bfe3a111407df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

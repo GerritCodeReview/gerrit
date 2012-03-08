@@ -16,7 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.ui.ListenableValue;
 import com.google.gerrit.common.data.ChangeDetail;
-import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.client.Change;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

@@ -51,6 +51,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -132,13 +133,14 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
+  private final WorkQueue workQueue;
+  private final RequestScopePropagator requestScopePropagator;
 
   private final ProjectControl projectControl;
   private final Project project;
   private final Repository repo;
   private final ReceivePack rp;
   private final NoteMap rejectCommits;
-
   private ReceiveCommand newChange;
   private Branch.NameKey destBranch;
   private RefControl destBranchCtl;
@@ -171,6 +173,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
+      final WorkQueue workQueue,
+      final RequestScopePropagator requestScopePropagator,
 
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
@@ -191,6 +195,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
+    this.workQueue = workQueue;
+    this.requestScopePropagator = requestScopePropagator;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -998,17 +1004,28 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     allNewChanges.add(change);
 
-    try {
-      final CreateChangeSender cm;
-      cm = createChangeSenderFactory.create(change);
-      cm.setFrom(me);
-      cm.setPatchSet(ps, info);
-      cm.addReviewers(reviewers);
-      cm.addExtraCC(cc);
-      cm.send();
-    } catch (EmailException e) {
-      log.error("Cannot send email for new change " + change.getId(), e);
-    }
+    workQueue.getDefaultQueue()
+        .submit(requestScopePropagator.wrap(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          final CreateChangeSender cm;
+          cm = createChangeSenderFactory.create(change);
+          cm.setFrom(me);
+          cm.setPatchSet(ps, info);
+          cm.addReviewers(reviewers);
+          cm.addExtraCC(cc);
+          cm.send();
+        } catch (EmailException e) {
+          log.error("Cannot send email for new change " + change.getId(), e);
+        }
+      }
+
+      @Override
+      public String toString() {
+        return "send-email newchange";
+      }
+    }));
 
     hooks.doPatchsetCreatedHook(change, ps, db);
   }
@@ -1334,20 +1351,31 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     hooks.doPatchsetCreatedHook(result.change, ps, db);
     request.cmd.setResult(ReceiveCommand.Result.OK);
 
-    try {
-      final ReplacePatchSetSender cm;
-      cm = replacePatchSetFactory.create(result.change);
-      cm.setFrom(me);
-      cm.setPatchSet(ps, result.info);
-      cm.setChangeMessage(result.msg);
-      cm.addReviewers(reviewers);
-      cm.addExtraCC(cc);
-      cm.addReviewers(oldReviewers);
-      cm.addExtraCC(oldCC);
-      cm.send();
-    } catch (EmailException e) {
-      log.error("Cannot send email for new patch set " + ps.getId(), e);
-    }
+    workQueue.getDefaultQueue()
+        .submit(requestScopePropagator.wrap(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          final ReplacePatchSetSender cm;
+          cm = replacePatchSetFactory.create(result.change);
+          cm.setFrom(me);
+          cm.setPatchSet(ps, result.info);
+          cm.setChangeMessage(result.msg);
+          cm.addReviewers(reviewers);
+          cm.addExtraCC(cc);
+          cm.addReviewers(oldReviewers);
+          cm.addExtraCC(oldCC);
+          cm.send();
+        } catch (EmailException e) {
+          log.error("Cannot send email for new patch set " + ps.getId(), e);
+        }
+      }
+
+      @Override
+      public String toString() {
+        return "send-email newpatchset";
+      }
+    }));
 
     sendMergedEmail(result);
     return result != null ? result.info.getKey() : null;
@@ -1867,15 +1895,26 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private void sendMergedEmail(final ReplaceResult result) {
     if (result != null && result.mergedIntoRef != null) {
-      try {
-        final MergedSender cm = mergedSenderFactory.create(result.change);
-        cm.setFrom(currentUser.getAccountId());
-        cm.setPatchSet(result.patchSet, result.info);
-        cm.send();
-      } catch (EmailException e) {
-        final PatchSet.Id psi = result.patchSet.getId();
-        log.error("Cannot send email for submitted patch set " + psi, e);
-      }
+      workQueue.getDefaultQueue()
+          .submit(requestScopePropagator.wrap(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            final MergedSender cm = mergedSenderFactory.create(result.change);
+            cm.setFrom(currentUser.getAccountId());
+            cm.setPatchSet(result.patchSet, result.info);
+            cm.send();
+          } catch (EmailException e) {
+            final PatchSet.Id psi = result.patchSet.getId();
+            log.error("Cannot send email for submitted patch set " + psi, e);
+          }
+        }
+
+        @Override
+        public String toString() {
+          return "send-email merged";
+        }
+      }));
 
       try {
         hooks.doChangeMergedHook(result.change, currentUser.getAccount(),

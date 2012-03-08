@@ -46,6 +46,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -164,6 +165,8 @@ public class MergeOp {
   private final TagCache tagCache;
   private final CreateCodeReviewNotes.Factory codeReviewNotesFactory;
   private final SubmoduleOp.Factory subOpFactory;
+  private final WorkQueue workQueue;
+  private final RequestScopePropagator requestScopePropagator;
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
@@ -178,7 +181,9 @@ public class MergeOp {
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHooks hooks, final AccountCache accountCache,
       final TagCache tagCache, final CreateCodeReviewNotes.Factory crnf,
-      final SubmoduleOp.Factory subOpFactory) {
+      final SubmoduleOp.Factory subOpFactory,
+      final WorkQueue workQueue,
+      final RequestScopePropagator requestScopePropagator) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -197,7 +202,8 @@ public class MergeOp {
     this.tagCache = tagCache;
     codeReviewNotesFactory = crnf;
     this.subOpFactory = subOpFactory;
-
+    this.workQueue = workQueue;
+    this.requestScopePropagator = requestScopePropagator;
     this.myIdent = myIdent;
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
@@ -603,7 +609,7 @@ public class MergeOp {
       final List<CodeReviewCommit> codeReviewCommits) {
     PatchSetApproval submitter = null;
     for (final CodeReviewCommit c : codeReviewCommits) {
-      PatchSetApproval s = getSubmitter(c.patchsetId);
+      PatchSetApproval s = getSubmitter(db, c.patchsetId);
       if (submitter == null
           || (s != null && s.getGranted().compareTo(submitter.getGranted()) > 0)) {
         submitter = s;
@@ -663,7 +669,7 @@ public class MergeOp {
         if (c.patchsetId != null) {
           c.statusCode = CommitMergeStatus.CLEAN_MERGE;
           if (branchUpdate.getRefLogIdent() == null) {
-            setRefLogIdent(getSubmitter(c.patchsetId));
+            setRefLogIdent(getSubmitter(db, c.patchsetId));
           }
         }
       }
@@ -1025,7 +1031,7 @@ public class MergeOp {
                 .getName());
 
             Account account = null;
-            final PatchSetApproval submitter = getSubmitter(mergeTip.patchsetId);
+            final PatchSetApproval submitter = getSubmitter(db, mergeTip.patchsetId);
             if (submitter != null) {
               account = accountCache.get(submitter.getAccountId()).getAccount();
             }
@@ -1285,14 +1291,15 @@ public class MergeOp {
     return m;
   }
 
-  private PatchSetApproval getSubmitter(PatchSet.Id c) {
+  private static PatchSetApproval getSubmitter(ReviewDb reviewDb,
+      PatchSet.Id c) {
     if (c == null) {
       return null;
     }
     PatchSetApproval submitter = null;
     try {
       final List<PatchSetApproval> approvals =
-          db.patchSetApprovals().byPatchSet(c).toList();
+          reviewDb.patchSetApprovals().byPatchSet(c).toList();
       for (PatchSetApproval a : approvals) {
         if (a.getValue() > 0
             && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
@@ -1307,7 +1314,7 @@ public class MergeOp {
     return submitter;
   }
 
-  private void setMerged(Change c, ChangeMessage msg) {
+  private void setMerged(final Change c, final ChangeMessage msg) {
     final Change.Id changeId = c.getId();
     // We must pull the patchset out of commits, because the patchset ID is
     // modified when using the cherry-pick merge strategy.
@@ -1390,18 +1397,42 @@ public class MergeOp {
       }
     }
 
-    try {
-      final MergedSender cm = mergedSenderFactory.create(c);
-      if (submitter != null) {
-        cm.setFrom(submitter.getAccountId());
+    final PatchSetApproval from = submitter;
+    workQueue.getDefaultQueue()
+        .submit(requestScopePropagator.wrap(new Runnable() {
+      @Override
+      public void run() {
+        PatchSet patchSet;
+        try {
+          ReviewDb reviewDb = schemaFactory.open();
+          try {
+            patchSet = reviewDb.patchSets().get(c.currentPatchSetId());
+          } finally {
+            reviewDb.close();
+          }
+        } catch (OrmException e) {
+          log.error("Cannot send email for submitted patch set " + c.getId(), e);
+          return;
+        }
+
+        try {
+          final MergedSender cm = mergedSenderFactory.create(c);
+          if (from != null) {
+            cm.setFrom(from.getAccountId());
+          }
+          cm.setPatchSet(patchSet);
+          cm.send();
+        } catch (EmailException e) {
+          log.error("Cannot send email for submitted patch set " + c.getId(), e);
+        }
       }
-      cm.setPatchSet(db.patchSets().get(c.currentPatchSetId()));
-      cm.send();
-    } catch (OrmException e) {
-      log.error("Cannot send email for submitted patch set " + c.getId(), e);
-    } catch (EmailException e) {
-      log.error("Cannot send email for submitted patch set " + c.getId(), e);
-    }
+
+      @Override
+      public String toString() {
+        return "send-email merged";
+      }
+    }));
+
 
     try {
       hooks.doChangeMergedHook(c, //
@@ -1416,7 +1447,8 @@ public class MergeOp {
     sendMergeFail(c, msg, true);
   }
 
-  private void sendMergeFail(Change c, ChangeMessage msg, final boolean makeNew) {
+  private void sendMergeFail(final Change c, final ChangeMessage msg,
+      final boolean makeNew) {
     try {
       db.changeMessages().insert(Collections.singleton(msg));
     } catch (OrmException err) {
@@ -1447,19 +1479,42 @@ public class MergeOp {
       }
     }
 
-    try {
-      final MergeFailSender cm = mergeFailSenderFactory.create(c);
-      final PatchSetApproval submitter = getSubmitter(c.currentPatchSetId());
-      if (submitter != null) {
-        cm.setFrom(submitter.getAccountId());
+    workQueue.getDefaultQueue()
+        .submit(requestScopePropagator.wrap(new Runnable() {
+      @Override
+      public void run() {
+        PatchSet patchSet;
+        PatchSetApproval submitter;
+        try {
+          ReviewDb reviewDb = schemaFactory.open();
+          try {
+            patchSet = reviewDb.patchSets().get(c.currentPatchSetId());
+            submitter = getSubmitter(reviewDb, c.currentPatchSetId());
+          } finally {
+            reviewDb.close();
+          }
+        } catch (OrmException e) {
+          log.error("Cannot send email notifications about merge failure", e);
+          return;
+        }
+
+        try {
+          final MergeFailSender cm = mergeFailSenderFactory.create(c);
+          if (submitter != null) {
+            cm.setFrom(submitter.getAccountId());
+          }
+          cm.setPatchSet(patchSet);
+          cm.setChangeMessage(msg);
+          cm.send();
+        } catch (EmailException e) {
+          log.error("Cannot send email notifications about merge failure", e);
+        }
       }
-      cm.setPatchSet(db.patchSets().get(c.currentPatchSetId()));
-      cm.setChangeMessage(msg);
-      cm.send();
-    } catch (OrmException e) {
-      log.error("Cannot send email notifications about merge failure", e);
-    } catch (EmailException e) {
-      log.error("Cannot send email notifications about merge failure", e);
-    }
+
+      @Override
+      public String toString() {
+        return "send-email merge-failed";
+      }
+    }));
   }
 }

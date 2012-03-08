@@ -13,7 +13,7 @@ Maven Plugin
 
 Install the Maven Integration plugins:
 
-http://m2eclipse.codehaus.org/[m2eclipse]
+http://www.eclipse.org/m2e/download/[m2eclipse]
 
 
 [[Formatting]]

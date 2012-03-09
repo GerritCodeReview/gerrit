@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADxn///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T21:01:17Z",
+      "side": 1,
+      "message": "Just \"Changes\"? I may have to see this run a few times myself to decide exactly what color of bikeshed I prefer.",
+      "revId": "134ad044a99cbb318ae85c1bbb87d273412dc883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///9s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T21:01:17Z",
+      "side": 1,
+      "message": "volatile isn\u0027t necessary these are only read or updated by the main progress thread.",
+      "revId": "134ad044a99cbb318ae85c1bbb87d273412dc883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T21:01:17Z",
+      "side": 1,
+      "message": "s/begin/waitFor/",
+      "revId": "134ad044a99cbb318ae85c1bbb87d273412dc883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///9w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T21:01:17Z",
+      "side": 1,
+      "message": "This is done in the worker thread, but its result is read in the progress thread. That\u0027s not safe, you need some sort of synchronization between these two.\n\nSwitch from a map to a CopyOnWriteArrayList? Can\u0027t we trust callers not to make two tasks with the same name in a way that confuses the user?",
+      "revId": "134ad044a99cbb318ae85c1bbb87d273412dc883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T21:01:17Z",
+      "side": 1,
+      "message": "hoist this to the top of the loop and only read t.count once.",
+      "revId": "134ad044a99cbb318ae85c1bbb87d273412dc883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T21:01:17Z",
+      "side": 1,
+      "message": "This may be cleaner:\n\n  s.append(String.format(\"%d%% (%d/%d)\",\n    count * 100 / t.total,\n    count, total));",
+      "revId": "134ad044a99cbb318ae85c1bbb87d273412dc883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

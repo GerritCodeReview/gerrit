@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADsn///78\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-09T00:49:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADsn///8Y\u003d",
+      "revId": "36f635c4e72c24806bbffb59350fc8909a6df37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADsn///8Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-09T00:40:04Z",
       "side": 1,
       "message": "/** @see #... */?",
+      "revId": "36f635c4e72c24806bbffb59350fc8909a6df37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADsn///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-09T00:49:11Z",
+      "side": 1,
+      "message": "Done. I don\u0027t think protected methods are usually commented but it can\u0027t hurt.",
+      "parentUuid": "AAADsn///8Q\u003d",
       "revId": "36f635c4e72c24806bbffb59350fc8909a6df37b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

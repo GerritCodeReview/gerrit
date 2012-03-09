@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADxH////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T17:58:20Z",
+      "side": 1,
+      "message": "Rename this to VisibleRefAdvertiseHook?",
+      "revId": "fdffa53cbf24b4690a227b8292ff7e903fa5b717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxH////4\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T17:58:20Z",
+      "side": 1,
+      "message": "Lets just jump to 1.3.0.201202151440-r.54-gd725ecb, I just put it out for Gerrit to use. That way we also pick up the error reporting fix you made in JGit.",
+      "revId": "fdffa53cbf24b4690a227b8292ff7e903fa5b717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

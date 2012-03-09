@@ -86,6 +86,24 @@
       "revId": "eab7f994e08659cfad67b252cc14bf94b2a4a600",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-09T20:21:03Z",
+      "side": 1,
+      "message": "Other instances of ProjectRunnable do not provide this in toString(). ShowQueue does the work of combining the output from getProjectNameKey(), getRemoteName(), and toString(). So if we include the project name here, it will be duplicated in the show-queue output.",
+      "parentUuid": "AAADxn///+4\u003d",
+      "revId": "eab7f994e08659cfad67b252cc14bf94b2a4a600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

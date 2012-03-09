@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADuX////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:11:48Z",
+      "side": 1,
+      "message": "A Runnable in a Callable in a Callable in a Runnable in a Callable? We must go deeper. :-)",
+      "revId": "6654ce035c7b9dee79d30c89a490accd46309654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

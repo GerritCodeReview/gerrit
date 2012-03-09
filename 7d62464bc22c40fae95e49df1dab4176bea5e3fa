@@ -191,6 +191,23 @@
     },
     {
       "key": {
+        "uuid": "AAADvn////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002235
+      },
+      "writtenOn": "2012-03-09T05:34:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure if I\u0027m being too picky, but the diff algorithm looks really weird in this case. It is matching a piece of a method declaration with something inside a comment, instead of matching the method names and aligning them in the end.\n\nIt\u0027s not a comment on this piece of code at all, but rather something that could be improved in Gerrit.\n\nShould it be a bug?",
+      "revId": "7d62464bc22c40fae95e49df1dab4176bea5e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB5n////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeQueue.java",
         "patchSetId": 1

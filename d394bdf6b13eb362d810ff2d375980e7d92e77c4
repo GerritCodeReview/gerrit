@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADw3////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1400,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-09T18:59:52Z",
+      "side": 1,
+      "message": "Done. Now I do a schemaFactory.open() in the runnable.",
+      "parentUuid": "AAADuX////E\u003d",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADuX////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-09T03:22:31Z",
       "side": 1,
       "message": "\"send-email merged\"",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADw3////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-09T18:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADuX////Q\u003d",
       "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAADw3///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-09T18:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADuX////I\u003d",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADuX////M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-09T03:22:31Z",
       "side": 1,
       "message": "\"send-email merge-failed\"",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADw3///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1494,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-09T18:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADuX////M\u003d",
       "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAADw3///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-09T18:59:52Z",
+      "side": 1,
+      "message": "If I did the email sending in a static context, then all the data held would be explicit and we wouldn\u0027t accidentally reference something we shouldn\u0027t. thoughts?",
+      "parentUuid": "AAADuX////U\u003d",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADuX////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 8
@@ -98,6 +188,24 @@
       "writtenOn": "2012-03-09T03:22:31Z",
       "side": 1,
       "message": "i think this is \"send-email newchange\"",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADw3///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-09T18:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADuX////s\u003d",
       "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAADw3///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-09T18:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADuX////o\u003d",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADuX////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 8
@@ -132,6 +258,24 @@
       "writtenOn": "2012-03-09T03:22:31Z",
       "side": 1,
       "message": "\"send-email merged\"",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADw3///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1915,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-09T18:59:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADuX////k\u003d",
       "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

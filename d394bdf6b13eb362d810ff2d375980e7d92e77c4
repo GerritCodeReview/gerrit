@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADuX////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1400,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:22:31Z",
+      "side": 1,
+      "message": "Why not background this read?",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADuX////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1420,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:22:31Z",
+      "side": 1,
+      "message": "\"send-email merged\"",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADuX////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:22:31Z",
+      "side": 1,
+      "message": "Why did you pull this read out of the background thread? I thought one of the reasons was to background this sort of operation.",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADuX////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1494,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:22:31Z",
+      "side": 1,
+      "message": "\"send-email merge-failed\"",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADuX////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:22:31Z",
+      "side": 1,
+      "message": "I am a little concerned about all of this state hanging around in side of the background thread pool. It could be on the order of 100M if the user just did a very big push. Probably not an easily fixed problem, and the email should delivery \"quickly enough\" that these can be GCed not too long after the request is over so in practice maybe its a non-issue.\n\nI\u0027m leaning towards accepting this change with this extra garbage being held until all of the email gets injected into the MTA.",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADuX////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:22:31Z",
+      "side": 1,
+      "message": "i think this is \"send-email newchange\"",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADuX////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:22:31Z",
+      "side": 1,
+      "message": "\"send-email newpatchset\"",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADuX////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1915,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:22:31Z",
+      "side": 1,
+      "message": "\"send-email merged\"",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADuX////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:22:31Z",
+      "side": 1,
+      "message": "Why not also move this to the background? It performs git object decompression and parsing, which can be slower if they aren\u0027t already hot in the cache.",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADuX////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:22:31Z",
+      "side": 1,
+      "message": "\"send-email comment\"\n\nIf you look at each constructor of classes like CommentSender we have a type string in the super call, here its \"comment\". Lets use \"send-email $TYPE\" as the toString() for these runnables as the type name appears in the outgoing message and users have GMail filters around them, so it means something.\n\nIt also fits on an 80 character wide terminal better.",
+      "revId": "d394bdf6b13eb362d810ff2d375980e7d92e77c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADxn///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1951,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T20:10:17Z",
+      "side": 0,
+      "message": "Why does this version have to be package visible? Its not used in AsyncReceiveCommits.",
+      "revId": "ca4feecdd11a6964dd096c345c7e07addb377a2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

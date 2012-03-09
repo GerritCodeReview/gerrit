@@ -69,6 +69,24 @@
       "revId": "36f635c4e72c24806bbffb59350fc8909a6df37b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADtX///7w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-09T00:50:42Z",
+      "side": 1,
+      "message": "This comment was based on the fact that you had a javadoc on an implementation of this protected method.",
+      "parentUuid": "AAADsn///70\u003d",
+      "revId": "36f635c4e72c24806bbffb59350fc8909a6df37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

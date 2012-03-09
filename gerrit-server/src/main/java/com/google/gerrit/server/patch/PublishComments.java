@@ -24,17 +24,21 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -60,6 +64,7 @@ public class PublishComments implements Callable<VoidResult> {
         Set<ApprovalCategoryValue.Id> approvals, boolean forceMessage);
   }
 
+  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final ApprovalTypes types;
@@ -68,6 +73,8 @@ public class PublishComments implements Callable<VoidResult> {
   private final ChangeControl.Factory changeControlFactory;
   private final FunctionState.Factory functionStateFactory;
   private final ChangeHooks hooks;
+  private final WorkQueue workQueue;
+  private final RequestScopePropagator requestScopePropagator;
 
   private final PatchSet.Id patchSetId;
   private final String messageText;
@@ -80,18 +87,22 @@ public class PublishComments implements Callable<VoidResult> {
   private List<PatchLineComment> drafts;
 
   @Inject
-  PublishComments(final ReviewDb db, final IdentifiedUser user,
+  PublishComments(final SchemaFactory<ReviewDb> sf, final ReviewDb db,
+      final IdentifiedUser user,
       final ApprovalTypes approvalTypes,
       final CommentSender.Factory commentSenderFactory,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeControl.Factory changeControlFactory,
       final FunctionState.Factory functionStateFactory,
       final ChangeHooks hooks,
+      final WorkQueue workQueue,
+      final RequestScopePropagator requestScopePropagator,
 
       @Assisted final PatchSet.Id patchSetId,
       @Assisted final String messageText,
       @Assisted final Set<ApprovalCategoryValue.Id> approvals,
       @Assisted final boolean forceMessage) {
+    this.schemaFactory = sf;
     this.db = db;
     this.user = user;
     this.types = approvalTypes;
@@ -100,6 +111,8 @@ public class PublishComments implements Callable<VoidResult> {
     this.changeControlFactory = changeControlFactory;
     this.functionStateFactory = functionStateFactory;
     this.hooks = hooks;
+    this.workQueue = workQueue;
+    this.requestScopePropagator = requestScopePropagator;
 
     this.patchSetId = patchSetId;
     this.messageText = messageText;
@@ -294,20 +307,47 @@ public class PublishComments implements Callable<VoidResult> {
   }
 
   private void email() {
-    try {
-      if (message != null) {
-        final CommentSender cm = commentSenderFactory.create(change);
-        cm.setFrom(user.getAccountId());
-        cm.setPatchSet(patchSet, patchSetInfoFactory.get(db, patchSetId));
-        cm.setChangeMessage(message);
-        cm.setPatchLineComments(drafts);
-        cm.send();
-      }
-    } catch (EmailException e) {
-      log.error("Cannot send comments by email for patch set " + patchSetId, e);
-    } catch (PatchSetInfoNotAvailableException e) {
-      log.error("Failed to obtain PatchSetInfo for patch set " + patchSetId, e);
+    if (message == null) {
+      return;
     }
+
+    workQueue.getDefaultQueue()
+        .submit(requestScopePropagator.wrap(new Runnable() {
+      @Override
+      public void run() {
+        PatchSetInfo patchSetInfo;
+        try {
+          ReviewDb reviewDb = schemaFactory.open();
+          try {
+            patchSetInfo = patchSetInfoFactory.get(reviewDb, patchSetId);
+          } finally {
+            reviewDb.close();
+          }
+        } catch (PatchSetInfoNotAvailableException e) {
+          log.error("Cannot read PatchSetInfo of " + patchSetId, e);
+          return;
+        } catch (OrmException e) {
+          log.error("Cannot email comments for " + patchSetId, e);
+          return;
+        }
+
+        try {
+          final CommentSender cm = commentSenderFactory.create(change);
+          cm.setFrom(user.getAccountId());
+          cm.setPatchSet(patchSet, patchSetInfo);
+          cm.setChangeMessage(message);
+          cm.setPatchLineComments(drafts);
+          cm.send();
+        } catch (EmailException e) {
+          log.error("Cannot email comments for " + patchSetId, e);
+        }
+      }
+
+      @Override
+      public String toString() {
+        return "send-email comments";
+      }
+    }));
   }
 
   private void fireHook() throws OrmException {

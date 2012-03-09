@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADxH////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T19:12:42Z",
+      "side": 1,
+      "message": "(\"Cannot read PatchSetInfo of \" + patchSetId, e)",
+      "revId": "97bad69411e0e597d97e63e23d964dc2362eb489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxH////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T19:12:42Z",
+      "side": 1,
+      "message": "(\"Cannot email comments for \" + patchSetId, e), it will fit without line wrapping.",
+      "revId": "97bad69411e0e597d97e63e23d964dc2362eb489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxH////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T19:12:42Z",
+      "side": 1,
+      "message": "\"send-email comments\"",
+      "revId": "97bad69411e0e597d97e63e23d964dc2362eb489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

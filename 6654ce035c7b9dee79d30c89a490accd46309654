@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAADwn////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/GuiceRequestScopePropagator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T15:03:25Z",
+      "side": 1,
+      "message": "What happens to the request scoped ReviewDb connection in the scope created by the Callable when it runs? Does it come from the current request, or is a new one going to be made because it isn\u0027t in the seedMap?",
+      "revId": "6654ce035c7b9dee79d30c89a490accd46309654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADuX////8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
         "patchSetId": 6
@@ -13,6 +30,23 @@
       "writtenOn": "2012-03-09T03:11:48Z",
       "side": 1,
       "message": "A Runnable in a Callable in a Callable in a Runnable in a Callable? We must go deeper. :-)",
+      "revId": "6654ce035c7b9dee79d30c89a490accd46309654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADwn////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/ThreadLocalRequestScopePropagator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T15:03:25Z",
+      "side": 1,
+      "message": "You are leaking ReviewDb connection handles and will exhaust the database connection pool. None of the continued scopes run the scope cleanup code, so the ReviewDb if it was opened for a database query is now going to leak. Servers have a limited number, e.g. 50... after which they grind to a halt and have to be restarted.",
       "revId": "6654ce035c7b9dee79d30c89a490accd46309654",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

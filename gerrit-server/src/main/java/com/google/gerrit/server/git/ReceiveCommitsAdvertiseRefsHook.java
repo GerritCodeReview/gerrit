@@ -15,27 +15,33 @@
 package com.google.gerrit.server.git;
 
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.transport.RefFilter;
+import org.eclipse.jgit.transport.AdvertiseRefsHook;
+import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.UploadPack;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /** Exposes only the non refs/changes/ reference names. */
-class ReceiveCommitsRefFilter implements RefFilter {
-  private final RefFilter base;
-
-  public ReceiveCommitsRefFilter(RefFilter base) {
-    this.base = base != null ? base : RefFilter.DEFAULT;
+public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
+  @Override
+  public void advertiseRefs(UploadPack us) {
+    throw new UnsupportedOperationException(
+        "ReceiveCommitsAdvertiseRefsHook cannot be used for UploadPack");
   }
 
   @Override
-  public Map<String, Ref> filter(Map<String, Ref> refs) {
+  public void advertiseRefs(ReceivePack rp) {
+    Map<String, Ref> oldRefs = rp.getAdvertisedRefs();
+    if (oldRefs == null) {
+      oldRefs = rp.getRepository().getAllRefs();
+    }
     HashMap<String, Ref> r = new HashMap<String, Ref>();
-    for (Map.Entry<String, Ref> e : refs.entrySet()) {
+    for (Map.Entry<String, Ref> e : oldRefs.entrySet()) {
       if (!e.getKey().startsWith("refs/changes/")) {
         r.put(e.getKey(), e.getValue());
       }
     }
-    return base.filter(r);
+    rp.setAdvertisedRefs(r, rp.getAdvertisedObjects());
   }
 }

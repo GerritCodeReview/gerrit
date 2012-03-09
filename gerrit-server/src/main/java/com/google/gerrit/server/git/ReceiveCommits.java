@@ -75,7 +75,8 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
-import org.eclipse.jgit.transport.PostReceiveHook;
+import org.eclipse.jgit.transport.AdvertiseRefsHook;
+import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
@@ -99,7 +100,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 /** Receives change upload using the Git receive-pack protocol. */
-public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
+public class ReceiveCommits implements PreReceiveHook {
   private static final Logger log =
       LoggerFactory.getLogger(ReceiveCommits.class);
 
@@ -112,6 +113,43 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   public interface Factory {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
+  }
+
+  public interface MessageSender {
+    void sendMessage(String what);
+    void sendError(String what);
+    void sendBytes(byte[] what);
+    void sendBytes(byte[] what, int off, int len);
+  }
+
+  private class ReceivePackMessageSender implements MessageSender {
+    @Override
+    public void sendMessage(String what) {
+      rp.sendMessage(what);
+    }
+
+    @Override
+    public void sendError(String what) {
+      rp.sendError(what);
+    }
+
+    @Override
+    public void sendBytes(byte[] what) {
+      try {
+        rp.getMessageOutputStream().write(what);
+      } catch (IOException e) {
+        // Ignore write failures (matching JGit behavior).
+      }
+    }
+
+    @Override
+    public void sendBytes(byte[] what, int off, int len) {
+      try {
+        rp.getMessageOutputStream().write(what, off, len);
+      } catch (IOException e) {
+        // Ignore write failures (matching JGit behavior).
+      }
+    }
   }
 
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
@@ -157,6 +195,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private String destTopicName;
 
   private final SubmoduleOp.Factory subOpFactory;
+
+  private MessageSender messageSender;
 
   @Inject
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
@@ -206,6 +246,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     this.subOpFactory = subOpFactory;
 
+    this.messageSender = new ReceivePackMessageSender();
+
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
@@ -213,12 +255,14 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(true);
-      rp.setRefFilter(new VisibleRefFilter(tagCache, repo, projectControl, db, false));
+      rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, repo, projectControl, db, false));
     }
-    rp.setRefFilter(new ReceiveCommitsRefFilter(rp.getRefFilter()));
+    List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(2);
+    advHooks.add(rp.getAdvertiseRefsHook());
+    advHooks.add(new ReceiveCommitsAdvertiseRefsHook());
+    rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
 
     rp.setPreReceiveHook(this);
-    rp.setPostReceiveHook(this);
   }
 
   /** Add reviewers for new (or updated) changes. */
@@ -229,6 +273,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   /** Add reviewers for new (or updated) changes. */
   public void addExtraCC(Collection<Account.Id> who) {
     ccId.addAll(who);
+  }
+
+  /** Set a message sender for this operation. */
+  public void setMessageSender(final MessageSender ms) {
+    messageSender = ms != null ? ms : new ReceivePackMessageSender();
   }
 
   /** @return the ReceivePack instance to speak the native Git protocol. */
@@ -329,11 +378,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       createNewChanges();
     }
     doReplaces();
-  }
 
-  @Override
-  public void onPostReceive(final ReceivePack arg0,
-      final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand c : commands) {
       if (c.getResult() == Result.OK) {
         switch (c.getType()) {
@@ -380,17 +425,17 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
       final String url = canonicalWebUrl;
-      rp.sendMessage("");
-      rp.sendMessage("New Changes:");
+      messageSender.sendMessage("");
+      messageSender.sendMessage("New Changes:");
       for (final Change c : allNewChanges) {
         if (c.getStatus() == Change.Status.DRAFT) {
-          rp.sendMessage("  " + url + c.getChangeId() + " [DRAFT]");
+          messageSender.sendMessage("  " + url + c.getChangeId() + " [DRAFT]");
         }
         else {
-          rp.sendMessage("  " + url + c.getChangeId());
+          messageSender.sendMessage("  " + url + c.getChangeId());
         }
       }
-      rp.sendMessage("");
+      messageSender.sendMessage("");
     }
   }
 
@@ -472,9 +517,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
               ProjectConfig cfg = new ProjectConfig(project.getNameKey());
               cfg.load(repo, cmd.getNewId());
               if (!cfg.getValidationErrors().isEmpty()) {
-                rp.sendError("Invalid project configuration:");
+                messageSender.sendError("Invalid project configuration:");
                 for (ValidationError err : cfg.getValidationErrors()) {
-                  rp.sendError("  " + err.getMessage());
+                  messageSender.sendError("  " + err.getMessage());
                 }
                 reject(cmd, "invalid project configuration");
                 log.error("User " + currentUser.getUserName()
@@ -520,8 +565,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canCreate(rp.getRevWalk(), obj)) {
       validateNewCommits(ctl, cmd);
-
-      // Let the core receive process handle it
+      cmd.execute(rp);
     } else {
       reject(cmd, "can not create new references");
     }
@@ -535,7 +579,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       }
 
       validateNewCommits(ctl, cmd);
-      // Let the core receive process handle it
+      cmd.execute(rp);
     } else {
       reject(cmd, "can not update the reference as a fast forward");
     }
@@ -563,7 +607,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private void parseDelete(final ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canDelete()) {
-      // Let the core receive process handle it
+      cmd.execute(rp);
     } else {
       reject(cmd, "can not delete references");
     }
@@ -591,7 +635,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     if (ctl.canForceUpdate()) {
-      // Let the core receive process handle it
+      cmd.execute(rp);
     } else {
       cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD, " need '"
           + PermissionRule.FORCE_PUSH + "' privilege.");
@@ -1174,7 +1218,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             if (!parentsEq) {
               msg.append(", was rebased");
             }
-            rp.sendMessage(msg.toString());
+            messageSender.sendMessage(msg.toString());
           }
         }
       } catch (IOException e) {
@@ -1590,7 +1634,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         if (project.isRequireChangeID()) {
           String errMsg = "missing Change-Id in commit message";
           reject(cmd, errMsg);
-          rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+          messageSender.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
           return false;
         }
       } else if (idList.size() > 1) {
@@ -1602,7 +1646,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           final String errMsg =
               "missing or invalid Change-Id line format in commit message";
           reject(cmd, errMsg);
-          rp.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
+          messageSender.sendMessage(getFixedCommitMsgWithChangeId(errMsg, c));
           return false;
         }
       }
@@ -1620,9 +1664,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         ProjectConfig cfg = new ProjectConfig(project.getNameKey());
         cfg.load(repo, cmd.getNewId());
         if (!cfg.getValidationErrors().isEmpty()) {
-          rp.sendError("Invalid project configuration:");
+          messageSender.sendError("Invalid project configuration:");
           for (ValidationError err : cfg.getValidationErrors()) {
-            rp.sendError("  " + err.getMessage());
+            messageSender.sendError("  " + err.getMessage());
           }
           reject(cmd, "invalid project configuration");
           log.error("User " + currentUser.getUserName()
@@ -1701,7 +1745,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       sb.append("ERROR:  " + canonicalWebUrl + "#" + PageLinks.SETTINGS_CONTACT + "\n");
     }
     sb.append("\n");
-    getReceivePack().sendMessage(sb.toString());
+    messageSender.sendMessage(sb.toString());
   }
 
   private void warnMalformedMessage(RevCommit c) {
@@ -1713,7 +1757,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       } catch (IOException err) {
         id = c.abbreviate(6);
       }
-      rp.sendMessage("(W) " + id.name() //
+      messageSender.sendMessage("(W) " + id.name() //
           + ": commit subject >65 characters; use shorter first paragraph");
     }
 
@@ -1734,7 +1778,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       } catch (IOException err) {
         id = c.abbreviate(6);
       }
-      rp.sendMessage("(W) " + id.name() //
+      messageSender.sendMessage("(W) " + id.name() //
           + ": commit message lines >70 characters; manually wrap lines");
     }
   }

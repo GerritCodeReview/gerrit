@@ -24,7 +24,8 @@ import com.google.gwtorm.server.OrmException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.RefFilter;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.AbstractAdvertiseRefsHook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class VisibleRefFilter implements RefFilter {
+public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   private static final Logger log =
       LoggerFactory.getLogger(VisibleRefFilter.class);
 
@@ -56,11 +57,6 @@ public class VisibleRefFilter implements RefFilter {
     this.projectCtl = projectControl;
     this.reviewDb = reviewDb;
     this.showChanges = showChanges;
-  }
-
-  @Override
-  public Map<String, Ref> filter(Map<String, Ref> refs) {
-    return filter(refs, false);
   }
 
   public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeperately) {
@@ -106,6 +102,16 @@ public class VisibleRefFilter implements RefFilter {
     }
 
     return result;
+  }
+
+  @Override
+  protected Map<String, Ref> getAdvertisedRefs(
+      Repository repository, RevWalk revWalk) {
+    return filter(repository.getAllRefs());
+  }
+
+  private Map<String, Ref> filter(Map<String, Ref> refs) {
+    return filter(refs, false);
   }
 
   private Set<Change.Id> visibleChanges() {

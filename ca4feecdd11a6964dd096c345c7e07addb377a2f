@@ -34,6 +34,24 @@
       "revId": "ca4feecdd11a6964dd096c345c7e07addb377a2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1951,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T20:24:08Z",
+      "side": 0,
+      "message": "Yes but only the reject(ReceiveCommand,String) form is used. You only need to expose the signature that is called.",
+      "parentUuid": "AAADyH////w\u003d",
+      "revId": "ca4feecdd11a6964dd096c345c7e07addb377a2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

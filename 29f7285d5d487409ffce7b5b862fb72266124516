@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAADv3////8\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003711
+      },
+      "writtenOn": "2012-03-09T07:38:08Z",
+      "side": 1,
+      "message": "Note to self: \"Footer\"",
+      "revId": "29f7285d5d487409ffce7b5b862fb72266124516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADuX///+8\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/tools/hooks/CommitMsgHookTest.java",
         "patchSetId": 1

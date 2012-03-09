@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADxn///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-09T20:13:56Z",
+      "side": 1,
+      "message": "Hm, I\u0027m thinking I might just kill this module, move the @Provides method to a full-blown ReceiveCommitsExecutorProivder and manually bind that in Singleton.",
+      "parentUuid": "AAADxn///+w\u003d",
+      "revId": "eab7f994e08659cfad67b252cc14bf94b2a4a600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADxn///+s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-09T20:10:17Z",
       "side": 1,
       "message": "Did you mean AsyncReceiveCommits.Factory?",
+      "revId": "eab7f994e08659cfad67b252cc14bf94b2a4a600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-09T20:13:56Z",
+      "side": 1,
+      "message": "No, but this is going to go away.",
+      "parentUuid": "AAADxn///+s\u003d",
       "revId": "eab7f994e08659cfad67b252cc14bf94b2a4a600",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

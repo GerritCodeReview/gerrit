@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADxX////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-09T18:21:14Z",
+      "side": 1,
+      "message": "I considered it but decided not to on the basis that a hook is now what it *is* but filtering is still what it *does* :)\n\nIf you feel strongly I\u0027m happy to change it.",
+      "parentUuid": "AAADxH////0\u003d",
+      "revId": "fdffa53cbf24b4690a227b8292ff7e903fa5b717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADxH////4\u003d",
         "filename": "pom.xml",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-09T17:58:20Z",
       "side": 1,
       "message": "Lets just jump to 1.3.0.201202151440-r.54-gd725ecb, I just put it out for Gerrit to use. That way we also pick up the error reporting fix you made in JGit.",
+      "revId": "fdffa53cbf24b4690a227b8292ff7e903fa5b717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxX////0\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-09T18:21:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADxH////4\u003d",
       "revId": "fdffa53cbf24b4690a227b8292ff7e903fa5b717",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

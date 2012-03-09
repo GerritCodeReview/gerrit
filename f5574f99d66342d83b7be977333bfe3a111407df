@@ -16,6 +16,24 @@
       "revId": "f5574f99d66342d83b7be977333bfe3a111407df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADt3////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1010579
+      },
+      "writtenOn": "2012-03-09T13:21:20Z",
+      "side": 0,
+      "message": "Regardless of this review outcome, I will probably test this on my own installation and see how it behaves for a merge of a \"two-other-branches-merge\" commits into dest_branch. My staff are learning merge theory vis-a-vis SCM and JGit/Git have some interesting constraints.",
+      "parentUuid": "AAADtX////4\u003d",
+      "revId": "f5574f99d66342d83b7be977333bfe3a111407df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

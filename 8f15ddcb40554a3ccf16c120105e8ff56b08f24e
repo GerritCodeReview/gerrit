@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADr3///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-09T15:03:27Z",
+      "side": 1,
+      "message": "I agree, it\u0027s not really necessary to do locking here. In the worst case we have a restored change for a non-existing destination branch. That\u0027s not really a disaster.\n\nSo I\u0027m just removing the LockFile and accept that there is a small race condition here.\n\nDone.",
+      "parentUuid": "AAADSn////4\u003d",
+      "revId": "8f15ddcb40554a3ccf16c120105e8ff56b08f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADSn////8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-27T16:48:41Z",
       "side": 1,
       "message": "I would prefer not to add this to the GitRepositoryManager interface. We\u0027ll implement it the same way at Google using the open, getRef, close that you put into LocalDiskRepositoryManager.\n\nMaybe move that to a static utility method?",
+      "revId": "8f15ddcb40554a3ccf16c120105e8ff56b08f24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADr3///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-09T15:03:27Z",
+      "side": 1,
+      "message": "It is now in the ProjectUtil class.\n\nDone",
+      "parentUuid": "AAADSn////8\u003d",
       "revId": "8f15ddcb40554a3ccf16c120105e8ff56b08f24e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

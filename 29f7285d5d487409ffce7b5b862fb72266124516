@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADuX///+8\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/tools/hooks/CommitMsgHookTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:24:00Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "29f7285d5d487409ffce7b5b862fb72266124516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADuX///+4\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/tools/hooks/CommitMsgHookTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-09T03:24:00Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "29f7285d5d487409ffce7b5b862fb72266124516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

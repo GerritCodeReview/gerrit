@@ -16,6 +16,24 @@
       "revId": "85b53cbeab2fdc9c8a28e4ce88e24ae65ab9f440",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADx3////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-10T00:10:01Z",
+      "side": 1,
+      "message": "Bound in Daemon and WebAppInitializer. This reminds me of the issue we had with CachePools, where I was not particularly satisfied with the fact that the per-site configuration was only an illusion. So I would rather have a few more bindings than have to deal with a pool of executors.",
+      "parentUuid": "AAADxn///9U\u003d",
+      "revId": "85b53cbeab2fdc9c8a28e4ce88e24ae65ab9f440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

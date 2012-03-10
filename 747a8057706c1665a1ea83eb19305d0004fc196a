@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADxn///78\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-10T00:41:54Z",
+      "side": 1,
+      "message": "Why do we want this?",
+      "revId": "747a8057706c1665a1ea83eb19305d0004fc196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///74\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-10T00:41:54Z",
+      "side": 1,
+      "message": "Doing this here is not fast because its O(N) to lookup the key value. I try to do these in providers for singletons only.",
+      "revId": "747a8057706c1665a1ea83eb19305d0004fc196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-10T00:41:54Z",
+      "side": 1,
+      "message": "Really, the default unit is milliseconds? So if I put \"timeout \u003d 1\" in my config, it will expire almost instantly even though it says default is 1 minute. Usually we try to express the default unit to be same unit as the default is documented as.",
+      "revId": "747a8057706c1665a1ea83eb19305d0004fc196a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

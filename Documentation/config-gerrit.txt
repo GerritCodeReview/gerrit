@@ -2010,7 +2010,7 @@ By default, all supported MACs are available.
 [[suggest]] Section suggest
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[[suggest.accounts]]::
+[[suggest.accounts]]suggest.accounts::
 +
 If `ALL`, all matching user accounts will be offered as
 completion suggestions when adding a reviewer to a change,

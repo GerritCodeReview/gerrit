@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADxn///8Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-10T00:30:14Z",
+      "side": 1,
+      "message": "FWIW we now link to Guava. You can use Guava style allocations for collections.",
+      "revId": "06cb1d25266b5a0c303c3802d9ab150d84a929e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

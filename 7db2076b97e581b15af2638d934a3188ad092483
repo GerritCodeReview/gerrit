@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADxn///7g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-10T01:27:50Z",
+      "side": 1,
+      "message": "This is rather generic name, and a big namespace pool. I\u0027d rather something like:\n\n  @Named(\"AsyncReceiveCommits.timeout\")\n\nor even:\n\n  @Named(\"Config.receive.timeout\")\n\njust to avoid collision with other things that might also try to stuff a long with @Named into the same module space.\n\nSince you need the string twice, you can declare a static final String field to make sure its the same @Named value in both places.",
+      "revId": "7db2076b97e581b15af2638d934a3188ad092483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADxn///7k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-10T01:27:50Z",
+      "side": 1,
+      "message": "unnecessary parameter now?",
+      "revId": "7db2076b97e581b15af2638d934a3188ad092483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

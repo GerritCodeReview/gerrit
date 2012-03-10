@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAADyH////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-10T01:33:37Z",
+      "side": 1,
+      "message": "Well, it\u0027s a PrivateModule, so there\u0027s no actual namespace clash. But done anyway, I extracted the local and there was plenty of room on the line.",
+      "parentUuid": "AAADxn///7g\u003d",
+      "revId": "7db2076b97e581b15af2638d934a3188ad092483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADxn///7k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-10T01:27:50Z",
       "side": 1,
       "message": "unnecessary parameter now?",
+      "revId": "7db2076b97e581b15af2638d934a3188ad092483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADx3///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-10T01:33:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADxn///7k\u003d",
       "revId": "7db2076b97e581b15af2638d934a3188ad092483",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

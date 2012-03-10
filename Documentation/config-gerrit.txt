@@ -2047,7 +2047,7 @@ By default, all supported MACs are available.
 [[suggest]] Section suggest
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[[suggest.accounts]]::
+[[suggest.accounts]]suggest.accounts::
 +
 If `true`, visible user accounts (according to the value of
 `accounts.visibility`) will be offered as completion suggestions

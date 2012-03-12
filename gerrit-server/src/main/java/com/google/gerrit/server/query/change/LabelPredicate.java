@@ -145,7 +145,8 @@ class LabelPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object, final PatchSet subobject)
+      throws OrmException {
     for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
       if (p.getCategoryId().equals(category.getId())) {
         int psVal = p.getValue();

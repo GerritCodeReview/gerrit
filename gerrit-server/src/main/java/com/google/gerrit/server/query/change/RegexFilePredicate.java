@@ -67,7 +67,8 @@ class RegexFilePredicate extends OperatorPredicate<ChangeData, PatchSet> {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object, final PatchSet subobject)
+      throws OrmException {
     String[] files = object.currentFilePaths(db, cache);
     if (files != null) {
       int begin, end;

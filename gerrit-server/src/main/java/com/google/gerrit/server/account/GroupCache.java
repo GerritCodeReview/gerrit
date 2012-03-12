@@ -18,12 +18,20 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 
 import java.util.Collection;
 
+import javax.annotation.Nullable;
+
 /** Tracks group objects in memory for efficient access. */
 public interface GroupCache {
   public AccountGroup get(AccountGroup.Id groupId);
 
   public AccountGroup get(AccountGroup.NameKey name);
 
+  /**
+   * Lookup a group definition by its UUID. The returned definition may be null
+   * if the group has been deleted and the UUID reference is stale, or was
+   * copied from another server.
+   */
+  @Nullable
   public AccountGroup get(AccountGroup.UUID uuid);
 
   public Collection<AccountGroup> get(AccountGroup.ExternalNameKey externalName);

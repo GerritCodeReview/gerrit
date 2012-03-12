@@ -149,9 +149,11 @@ public class CreateProject {
             config.getAccessSection(AccessSection.ALL, true);
         for (AccountGroup.UUID ownerId : createProjectArgs.ownerIds) {
           AccountGroup accountGroup = groupCache.get(ownerId);
-          GroupReference group = config.resolve(accountGroup);
-          all.getPermission(Permission.OWNER, true).add(
-              new PermissionRule(group));
+          if (accountGroup != null) {
+            GroupReference group = config.resolve(accountGroup);
+            all.getPermission(Permission.OWNER, true).add(
+                new PermissionRule(group));
+          }
         }
       }
 

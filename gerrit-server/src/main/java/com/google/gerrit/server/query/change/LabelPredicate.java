@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -145,8 +146,21 @@ class LabelPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
-    for (PatchSetApproval p : object.currentApprovals(dbProvider)) {
+  public boolean match(final ChangeData object, final PatchSet subobject)
+      throws OrmException {
+    final Change c = object.change(dbProvider);
+    if (c == null) {
+      return false;
+    }
+
+    PatchSet.Id psid = null;
+    if (subobject == null) {
+      psid = c.currentPatchSetId();
+    } else {
+      psid = subobject.getId();
+    }
+
+    for (PatchSetApproval p : object.approvalsFor(dbProvider, psid)) {
       if (p.getCategoryId().equals(category.getId())) {
         int psVal = p.getValue();
         if (test.match(psVal, expVal)) {

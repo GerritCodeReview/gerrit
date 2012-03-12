@@ -40,7 +40,8 @@ abstract class SortKeyPredicate extends OperatorPredicate<ChangeData, PatchSet> 
     }
 
     @Override
-    public boolean match(ChangeData cd) throws OrmException {
+    public boolean match(final ChangeData cd, final PatchSet ps)
+        throws OrmException {
       Change change = cd.change(dbProvider);
       return change != null && change.getSortKey().compareTo(getValue()) < 0;
     }
@@ -52,7 +53,7 @@ abstract class SortKeyPredicate extends OperatorPredicate<ChangeData, PatchSet> 
     }
 
     @Override
-    public boolean match(ChangeData cd) throws OrmException {
+    public boolean match(ChangeData cd, PatchSet ps) throws OrmException {
       Change change = cd.change(dbProvider);
       return change != null && change.getSortKey().compareTo(getValue()) > 0;
     }

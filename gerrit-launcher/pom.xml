@@ -22,7 +22,7 @@ limitations under the License.
   <parent>
     <groupId>com.google.gerrit</groupId>
     <artifactId>gerrit-parent</artifactId>
-    <version>2.3-SNAPSHOT</version>
+    <version>2.3-rc0-63-g0c3c557</version>
   </parent>
 
   <artifactId>gerrit-launcher</artifactId>

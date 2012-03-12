@@ -29,7 +29,7 @@ public final class WildPatternPredicate<T, C> extends OperatorPredicate<T, C> {
   }
 
   @Override
-  public boolean match(final T object) {
+  public boolean match(final T object, final C subobject) {
     throw new UnsupportedOperationException("Cannot match " + toString());
   }
 

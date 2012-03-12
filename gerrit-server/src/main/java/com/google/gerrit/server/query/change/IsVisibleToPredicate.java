@@ -50,7 +50,8 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   }
 
   @Override
-  public boolean match(final ChangeData cd) throws OrmException {
+  public boolean match(final ChangeData cd, final PatchSet ps)
+      throws OrmException {
     if (cd.fastIsVisibleTo(user)) {
       return true;
     }

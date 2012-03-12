@@ -604,7 +604,8 @@ How often project configuration should be checked for update from Git.
 Gerrit Code Review caches project access rules and configuration in
 memory, checking the refs/meta/config branch every checkFrequency
 minutes to see if a new revision should be loaded and used for future
-access. Values can be specified using standard time unit abbreviations
+access.
+Values can be specified using standard time unit abbreviations
 ('ms', 'sec', 'min', etc.).
 +
 If set to 0, checks occur every time, which may slow down operations.
@@ -1716,11 +1717,14 @@ Defaults to the number of available CPUs according to the Java runtime.
 
 [[receive.timeout]]receive.timeout::
 +
-Overall timeout on the time taken to process the change data in received packs.
-Only includes the time processing Gerrit changes and updating references, not
-the time to index the pack.
+Overall timeout on the time taken to process the change data in
+received packs. Only includes the time processing Gerrit changes
+and updating references, not the time to index the pack. Values can
+be specified using standard time unit abbreviations ('ms', 'sec',
+'min', etc.).
 +
-Default is 120 seconds.
+Default is 2 minutes. If no unit is specified, millisconds
+is assumed.
 
 
 [[repository]]Section repository

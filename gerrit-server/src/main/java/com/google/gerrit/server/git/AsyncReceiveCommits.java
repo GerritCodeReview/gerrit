@@ -73,8 +73,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     long getTimeoutMillis(@GerritServerConfig final Config cfg) {
       return ConfigUtil.getTimeUnit(
           cfg, "receive", null, "timeout",
-          TimeUnit.SECONDS.convert(2, TimeUnit.MINUTES),
-          TimeUnit.SECONDS);
+          TimeUnit.MINUTES.toMillis(2),
+          TimeUnit.MILLISECONDS);
     }
   }
 

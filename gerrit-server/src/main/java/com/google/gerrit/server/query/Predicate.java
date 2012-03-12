@@ -40,42 +40,43 @@ import java.util.List;
  * children nested within the predicate.
  *
  * @type <T> type of object the predicate can evaluate in memory.
+ * @type <C> child type of T (Example: PatchSet is a child of Change)
  */
-public abstract class Predicate<T> {
+public abstract class Predicate<T, C> {
   /** Combine the passed predicates into a single AND node. */
-  public static <T> Predicate<T> and(final Predicate<T>... that) {
-    return new AndPredicate<T>(that);
+  public static <T, C> Predicate<T, C> and(final Predicate<T, C>... that) {
+    return new AndPredicate<T, C>(that);
   }
 
   /** Combine the passed predicates into a single AND node. */
-  public static <T> Predicate<T> and(
-      final Collection<? extends Predicate<T>> that) {
-    return new AndPredicate<T>(that);
+  public static <T, C> Predicate<T, C> and(
+      final Collection<? extends Predicate<T, C>> that) {
+    return new AndPredicate<T, C>(that);
   }
 
   /** Combine the passed predicates into a single OR node. */
-  public static <T> Predicate<T> or(final Predicate<T>... that) {
-    return new OrPredicate<T>(that);
+  public static <T, C> Predicate<T, C> or(final Predicate<T, C>... that) {
+    return new OrPredicate<T, C>(that);
   }
 
   /** Combine the passed predicates into a single OR node. */
-  public static <T> Predicate<T> or(
-      final Collection<? extends Predicate<T>> that) {
-    return new OrPredicate<T>(that);
+  public static <T, C> Predicate<T, C> or(
+      final Collection<? extends Predicate<T, C>> that) {
+    return new OrPredicate<T, C>(that);
   }
 
   /** Invert the passed node. */
-  public static <T> Predicate<T> not(final Predicate<T> that) {
+  public static <T, C> Predicate<T, C> not(final Predicate<T, C> that) {
     if (that instanceof NotPredicate) {
       // Negate of a negate is the original predicate.
       //
       return that.getChild(0);
     }
-    return new NotPredicate<T>(that);
+    return new NotPredicate<T, C>(that);
   }
 
   /** Get the children of this predicate, if any. */
-  public List<Predicate<T>> getChildren() {
+  public List<Predicate<T, C>> getChildren() {
     return Collections.emptyList();
   }
 
@@ -85,12 +86,12 @@ public abstract class Predicate<T> {
   }
 
   /** Same as {@code getChildren().get(i)} */
-  public Predicate<T> getChild(final int i) {
+  public Predicate<T, C> getChild(final int i) {
     return getChildren().get(i);
   }
 
   /** Create a copy of this predicate, with new children. */
-  public abstract Predicate<T> copy(Collection<? extends Predicate<T>> children);
+  public abstract Predicate<T, C> copy(Collection<? extends Predicate<T, C>> children);
 
   /**
    * Does this predicate match this object?

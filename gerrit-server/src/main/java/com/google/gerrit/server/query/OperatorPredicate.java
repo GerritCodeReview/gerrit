@@ -18,7 +18,7 @@ import java.util.Collection;
 
 
 /** Predicate to filter a field by matching value. */
-public abstract class OperatorPredicate<T> extends Predicate<T> {
+public abstract class OperatorPredicate<T, C> extends Predicate<T, C> {
   private final String name;
   private final String value;
 
@@ -36,7 +36,7 @@ public abstract class OperatorPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
+  public Predicate<T, C> copy(final Collection<? extends Predicate<T, C>> children) {
     if (!children.isEmpty()) {
       throw new IllegalArgumentException("Expected 0 children");
     }
@@ -53,7 +53,7 @@ public abstract class OperatorPredicate<T> extends Predicate<T> {
     if (other == null)
       return false;
     if (getClass() == other.getClass()) {
-      final OperatorPredicate<?> p = (OperatorPredicate<?>) other;
+      final OperatorPredicate<?, ?> p = (OperatorPredicate<?, ?>) other;
       return getOperator().equals(p.getOperator())
           && getValue().equals(p.getValue());
     }

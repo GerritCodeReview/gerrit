@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.ListResultSet;
@@ -24,8 +25,8 @@ import com.google.inject.Provider;
 
 import java.util.Collections;
 
-class LegacyChangeIdPredicate extends OperatorPredicate<ChangeData> implements
-    ChangeDataSource {
+class LegacyChangeIdPredicate extends OperatorPredicate<ChangeData, PatchSet>
+    implements ChangeDataSource {
   private final Provider<ReviewDb> db;
   private final Change.Id id;
 

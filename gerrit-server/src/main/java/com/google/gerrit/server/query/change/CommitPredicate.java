@@ -25,7 +25,7 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
-class CommitPredicate extends ObjectIdPredicate<ChangeData> implements
+class CommitPredicate extends ObjectIdPredicate<ChangeData, PatchSet> implements
     ChangeDataSource {
   private final Provider<ReviewDb> dbProvider;
 

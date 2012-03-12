@@ -148,8 +148,8 @@ public class QueryProcessor {
 
   public List<ChangeData> queryChanges(final String queryString)
       throws OrmException, QueryParseException {
-    final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
-    Predicate<ChangeData> s = compileQuery(queryString, visibleToMe);
+    final Predicate<ChangeData, PatchSet> visibleToMe = queryBuilder.is_visible();
+    Predicate<ChangeData, PatchSet> s = compileQuery(queryString, visibleToMe);
     List<ChangeData> results = new ArrayList<ChangeData>();
     HashSet<Change.Id> want = new HashSet<Change.Id>();
     for (ChangeData d : ((ChangeDataSource) s).read()) {
@@ -283,21 +283,21 @@ public class QueryProcessor {
     }
   }
 
-  private int limit(Predicate<ChangeData> s) {
+  private int limit(Predicate<ChangeData, PatchSet> s) {
     return queryBuilder.hasLimit(s) ? queryBuilder.getLimit(s) : maxLimit;
   }
 
   @SuppressWarnings("unchecked")
-  private Predicate<ChangeData> compileQuery(String queryString,
-      final Predicate<ChangeData> visibleToMe) throws QueryParseException {
+  private Predicate<ChangeData, PatchSet> compileQuery(String queryString,
+      final Predicate<ChangeData, PatchSet> visibleToMe) throws QueryParseException {
 
-    Predicate<ChangeData> q = queryBuilder.parse(queryString);
+    Predicate<ChangeData, PatchSet> q = queryBuilder.parse(queryString);
     if (!queryBuilder.hasSortKey(q)) {
       q = Predicate.and(q, queryBuilder.sortkey_before("z"));
     }
     q = Predicate.and(q, queryBuilder.limit(maxLimit), visibleToMe);
 
-    Predicate<ChangeData> s = queryRewriter.rewrite(q);
+    Predicate<ChangeData, PatchSet> s = queryRewriter.rewrite(q);
     if (!(s instanceof ChangeDataSource)) {
       s = queryRewriter.rewrite(Predicate.and(queryBuilder.status_open(), q));
     }

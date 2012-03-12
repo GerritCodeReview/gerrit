@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -32,9 +33,9 @@ import com.google.inject.name.Named;
 
 import java.util.Collection;
 
-public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
-  private static final QueryRewriter.Definition<ChangeData, ChangeQueryRewriter> mydef =
-      new QueryRewriter.Definition<ChangeData, ChangeQueryRewriter>(
+public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
+  private static final QueryRewriter.Definition<ChangeData, PatchSet, ChangeQueryRewriter> mydef =
+      new QueryRewriter.Definition<ChangeData, PatchSet, ChangeQueryRewriter>(
           ChangeQueryRewriter.class, new ChangeQueryBuilder(
               new ChangeQueryBuilder.Arguments( //
                   new InvalidProvider<ReviewDb>(), //
@@ -51,31 +52,31 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Override
-  public Predicate<ChangeData> and(Collection<? extends Predicate<ChangeData>> l) {
+  public Predicate<ChangeData, PatchSet> and(Collection<? extends Predicate<ChangeData, PatchSet>> l) {
     return hasSource(l) ? new AndSource(l) : super.and(l);
   }
 
   @Override
-  public Predicate<ChangeData> or(Collection<? extends Predicate<ChangeData>> l) {
+  public Predicate<ChangeData, PatchSet> or(Collection<? extends Predicate<ChangeData, PatchSet>> l) {
     return hasSource(l) ? new OrSource(l) : super.or(l);
   }
 
   @Rewrite("-status:open")
   @NoCostComputation
-  public Predicate<ChangeData> r00_notOpen() {
+  public Predicate<ChangeData, PatchSet> r00_notOpen() {
     return ChangeStatusPredicate.closed(dbProvider);
   }
 
   @Rewrite("-status:closed")
   @NoCostComputation
-  public Predicate<ChangeData> r00_notClosed() {
+  public Predicate<ChangeData, PatchSet> r00_notClosed() {
     return ChangeStatusPredicate.open(dbProvider);
   }
 
   @SuppressWarnings("unchecked")
   @NoCostComputation
   @Rewrite("-status:merged")
-  public Predicate<ChangeData> r00_notMerged() {
+  public Predicate<ChangeData, PatchSet> r00_notMerged() {
     return or(ChangeStatusPredicate.open(dbProvider),
         new ChangeStatusPredicate(dbProvider, Change.Status.ABANDONED));
   }
@@ -83,7 +84,7 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   @SuppressWarnings("unchecked")
   @NoCostComputation
   @Rewrite("-status:abandoned")
-  public Predicate<ChangeData> r00_notAbandoned() {
+  public Predicate<ChangeData, PatchSet> r00_notAbandoned() {
     return or(ChangeStatusPredicate.open(dbProvider),
         new ChangeStatusPredicate(dbProvider, Change.Status.MERGED));
   }
@@ -91,22 +92,22 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   @SuppressWarnings("unchecked")
   @NoCostComputation
   @Rewrite("sortkey_before:z A=(age:*)")
-  public Predicate<ChangeData> r00_ageToSortKey(@Named("A") AgePredicate a) {
+  public Predicate<ChangeData, PatchSet> r00_ageToSortKey(@Named("A") AgePredicate a) {
     String cut = ChangeUtil.sortKey(a.getCut(), Integer.MAX_VALUE);
     return and(new SortKeyPredicate.Before(dbProvider, cut), a);
   }
 
   @NoCostComputation
   @Rewrite("A=(limit:*) B=(limit:*)")
-  public Predicate<ChangeData> r00_smallestLimit(
-      @Named("A") IntPredicate<ChangeData> a,
-      @Named("B") IntPredicate<ChangeData> b) {
+  public Predicate<ChangeData, PatchSet> r00_smallestLimit(
+      @Named("A") IntPredicate<ChangeData, PatchSet> a,
+      @Named("B") IntPredicate<ChangeData, PatchSet> b) {
     return a.intValue() <= b.intValue() ? a : b;
   }
 
   @NoCostComputation
   @Rewrite("A=(sortkey_before:*) B=(sortkey_before:*)")
-  public Predicate<ChangeData> r00_oldestSortKey(
+  public Predicate<ChangeData, PatchSet> r00_oldestSortKey(
       @Named("A") SortKeyPredicate.Before a,
       @Named("B") SortKeyPredicate.Before b) {
     return a.getValue().compareTo(b.getValue()) <= 0 ? a : b;
@@ -114,7 +115,7 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @NoCostComputation
   @Rewrite("A=(sortkey_after:*) B=(sortkey_after:*)")
-  public Predicate<ChangeData> r00_newestSortKey(
+  public Predicate<ChangeData, PatchSet> r00_newestSortKey(
       @Named("A") SortKeyPredicate.After a, @Named("B") SortKeyPredicate.After b) {
     return a.getValue().compareTo(b.getValue()) >= 0 ? a : b;
   }
@@ -216,10 +217,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Rewrite("status:open P=(project:*) S=(sortkey_after:*) L=(limit:*)")
-  public Predicate<ChangeData> r10_byProjectOpenPrev(
+  public Predicate<ChangeData, PatchSet> r10_byProjectOpenPrev(
       @Named("P") final ProjectPredicate p,
       @Named("S") final SortKeyPredicate.After s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(500, s.getValue(), l.intValue()) {
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
@@ -237,10 +238,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Rewrite("status:open P=(project:*) S=(sortkey_before:*) L=(limit:*)")
-  public Predicate<ChangeData> r10_byProjectOpenNext(
+  public Predicate<ChangeData, PatchSet> r10_byProjectOpenNext(
       @Named("P") final ProjectPredicate p,
       @Named("S") final SortKeyPredicate.Before s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(500, s.getValue(), l.intValue()) {
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
@@ -258,10 +259,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Rewrite("status:merged P=(project:*) S=(sortkey_after:*) L=(limit:*)")
-  public Predicate<ChangeData> r10_byProjectMergedPrev(
+  public Predicate<ChangeData, PatchSet> r10_byProjectMergedPrev(
       @Named("P") final ProjectPredicate p,
       @Named("S") final SortKeyPredicate.After s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
@@ -280,10 +281,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Rewrite("status:merged P=(project:*) S=(sortkey_before:*) L=(limit:*)")
-  public Predicate<ChangeData> r10_byProjectMergedNext(
+  public Predicate<ChangeData, PatchSet> r10_byProjectMergedNext(
       @Named("P") final ProjectPredicate p,
       @Named("S") final SortKeyPredicate.Before s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
@@ -302,10 +303,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Rewrite("status:abandoned P=(project:*) S=(sortkey_after:*) L=(limit:*)")
-  public Predicate<ChangeData> r10_byProjectAbandonedPrev(
+  public Predicate<ChangeData, PatchSet> r10_byProjectAbandonedPrev(
       @Named("P") final ProjectPredicate p,
       @Named("S") final SortKeyPredicate.After s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
@@ -324,10 +325,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Rewrite("status:abandoned P=(project:*) S=(sortkey_before:*) L=(limit:*)")
-  public Predicate<ChangeData> r10_byProjectAbandonedNext(
+  public Predicate<ChangeData, PatchSet> r10_byProjectAbandonedNext(
       @Named("P") final ProjectPredicate p,
       @Named("S") final SortKeyPredicate.Before s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(40000, s.getValue(), l.intValue()) {
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
@@ -346,9 +347,9 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Rewrite("status:open S=(sortkey_after:*) L=(limit:*)")
-  public Predicate<ChangeData> r20_byOpenPrev(
+  public Predicate<ChangeData, PatchSet> r20_byOpenPrev(
       @Named("S") final SortKeyPredicate.After s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(2000, s.getValue(), l.intValue()) {
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
@@ -364,9 +365,9 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Rewrite("status:open S=(sortkey_before:*) L=(limit:*)")
-  public Predicate<ChangeData> r20_byOpenNext(
+  public Predicate<ChangeData, PatchSet> r20_byOpenNext(
       @Named("S") final SortKeyPredicate.Before s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(2000, s.getValue(), l.intValue()) {
       @Override
       ResultSet<Change> scan(ChangeAccess a, String key, int limit)
@@ -383,9 +384,9 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @SuppressWarnings("unchecked")
   @Rewrite("status:merged S=(sortkey_after:*) L=(limit:*)")
-  public Predicate<ChangeData> r20_byMergedPrev(
+  public Predicate<ChangeData, PatchSet> r20_byMergedPrev(
       @Named("S") final SortKeyPredicate.After s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(50000, s.getValue(), l.intValue()) {
       {
         init("r20_byMergedPrev", s, l);
@@ -407,9 +408,9 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @SuppressWarnings("unchecked")
   @Rewrite("status:merged S=(sortkey_before:*) L=(limit:*)")
-  public Predicate<ChangeData> r20_byMergedNext(
+  public Predicate<ChangeData, PatchSet> r20_byMergedNext(
       @Named("S") final SortKeyPredicate.Before s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(50000, s.getValue(), l.intValue()) {
       {
         init("r20_byMergedNext", s, l);
@@ -431,9 +432,9 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @SuppressWarnings("unchecked")
   @Rewrite("status:abandoned S=(sortkey_after:*) L=(limit:*)")
-  public Predicate<ChangeData> r20_byAbandonedPrev(
+  public Predicate<ChangeData, PatchSet> r20_byAbandonedPrev(
       @Named("S") final SortKeyPredicate.After s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(50000, s.getValue(), l.intValue()) {
       {
         init("r20_byAbandonedPrev", s, l);
@@ -455,9 +456,9 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @SuppressWarnings("unchecked")
   @Rewrite("status:abandoned S=(sortkey_before:*) L=(limit:*)")
-  public Predicate<ChangeData> r20_byAbandonedNext(
+  public Predicate<ChangeData, PatchSet> r20_byAbandonedNext(
       @Named("S") final SortKeyPredicate.Before s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return new PaginatedSource(50000, s.getValue(), l.intValue()) {
       {
         init("r20_byAbandonedNext", s, l);
@@ -479,23 +480,23 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @SuppressWarnings("unchecked")
   @Rewrite("status:closed S=(sortkey_after:*) L=(limit:*)")
-  public Predicate<ChangeData> r20_byClosedPrev(
+  public Predicate<ChangeData, PatchSet> r20_byClosedPrev(
       @Named("S") final SortKeyPredicate.After s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return or(r20_byMergedPrev(s, l), r20_byAbandonedPrev(s, l));
   }
 
   @SuppressWarnings("unchecked")
   @Rewrite("status:closed S=(sortkey_after:*) L=(limit:*)")
-  public Predicate<ChangeData> r20_byClosedNext(
+  public Predicate<ChangeData, PatchSet> r20_byClosedNext(
       @Named("S") final SortKeyPredicate.Before s,
-      @Named("L") final IntPredicate<ChangeData> l) {
+      @Named("L") final IntPredicate<ChangeData, PatchSet> l) {
     return or(r20_byMergedNext(s, l), r20_byAbandonedNext(s, l));
   }
 
   @SuppressWarnings("unchecked")
   @Rewrite("status:open O=(owner:*)")
-  public Predicate<ChangeData> r25_byOwnerOpen(
+  public Predicate<ChangeData, PatchSet> r25_byOwnerOpen(
       @Named("O") final OwnerPredicate o) {
     return new ChangeSource(50) {
       {
@@ -516,7 +517,7 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @SuppressWarnings("unchecked")
   @Rewrite("status:closed O=(owner:*)")
-  public Predicate<ChangeData> r25_byOwnerClosed(
+  public Predicate<ChangeData, PatchSet> r25_byOwnerClosed(
       @Named("O") final OwnerPredicate o) {
     return new ChangeSource(5000) {
       {
@@ -537,13 +538,13 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @SuppressWarnings("unchecked")
   @Rewrite("O=(owner:*)")
-  public Predicate<ChangeData> r26_byOwner(@Named("O") OwnerPredicate o) {
+  public Predicate<ChangeData, PatchSet> r26_byOwner(@Named("O") OwnerPredicate o) {
     return or(r25_byOwnerOpen(o), r25_byOwnerClosed(o));
   }
 
   @SuppressWarnings("unchecked")
   @Rewrite("status:open R=(reviewer:*)")
-  public Predicate<ChangeData> r30_byReviewerOpen(
+  public Predicate<ChangeData, PatchSet> r30_byReviewerOpen(
       @Named("R") final ReviewerPredicate r) {
     return new Source() {
       {
@@ -576,7 +577,7 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @SuppressWarnings("unchecked")
   @Rewrite("status:closed R=(reviewer:*)")
-  public Predicate<ChangeData> r30_byReviewerClosed(
+  public Predicate<ChangeData, PatchSet> r30_byReviewerClosed(
       @Named("R") final ReviewerPredicate r) {
     return new Source() {
       {
@@ -609,13 +610,13 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
 
   @SuppressWarnings("unchecked")
   @Rewrite("R=(reviewer:*)")
-  public Predicate<ChangeData> r31_byReviewer(
+  public Predicate<ChangeData, PatchSet> r31_byReviewer(
       @Named("R") final ReviewerPredicate r) {
     return or(r30_byReviewerOpen(r), r30_byReviewerClosed(r));
   }
 
   @Rewrite("status:submitted")
-  public Predicate<ChangeData> r99_allSubmitted() {
+  public Predicate<ChangeData, PatchSet> r99_allSubmitted() {
     return new ChangeSource(50) {
       @Override
       ResultSet<Change> scan(ChangeAccess a) throws OrmException {
@@ -630,7 +631,7 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   }
 
   @Rewrite("P=(project:*)")
-  public Predicate<ChangeData> r99_byProject(
+  public Predicate<ChangeData, PatchSet> r99_byProject(
       @Named("P") final ProjectPredicate p) {
     return new ChangeSource(1000000) {
       @Override
@@ -645,8 +646,8 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     };
   }
 
-  private static boolean hasSource(Collection<? extends Predicate<ChangeData>> l) {
-    for (Predicate<ChangeData> p : l) {
+  private static boolean hasSource(Collection<? extends Predicate<ChangeData, PatchSet>> l) {
+    for (Predicate<ChangeData, PatchSet> p : l) {
       if (p instanceof ChangeDataSource) {
         return true;
       }
@@ -654,7 +655,7 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return false;
   }
 
-  private abstract static class Source extends RewritePredicate<ChangeData>
+  private abstract static class Source extends RewritePredicate<ChangeData, PatchSet>
       implements ChangeDataSource {
     @Override
     public boolean hasChange() {

@@ -19,7 +19,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 
 /** Predicate for a field of {@link ObjectId}. */
-public abstract class ObjectIdPredicate<T> extends OperatorPredicate<T> {
+public abstract class ObjectIdPredicate<T, C> extends OperatorPredicate<T, C> {
   private final AbbreviatedObjectId id;
 
   public ObjectIdPredicate(final String name, final AbbreviatedObjectId id) {
@@ -47,7 +47,7 @@ public abstract class ObjectIdPredicate<T> extends OperatorPredicate<T> {
   @Override
   public boolean equals(Object other) {
     if (other instanceof ObjectIdPredicate) {
-      final ObjectIdPredicate<?> p = (ObjectIdPredicate<?>) other;
+      final ObjectIdPredicate<?, ?> p = (ObjectIdPredicate<?, ?>) other;
       return getOperator().equals(p.getOperator()) && id.equals(p.id);
     }
     return false;

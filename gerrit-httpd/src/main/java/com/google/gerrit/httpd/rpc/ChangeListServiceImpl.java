@@ -24,6 +24,7 @@ import com.google.gerrit.common.errors.InvalidQueryException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
@@ -152,8 +153,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       throws OrmException, InvalidQueryException {
     try {
       final ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());
-      final Predicate<ChangeData> visibleToMe = builder.is_visible();
-      Predicate<ChangeData> q = builder.parse(query);
+      final Predicate<ChangeData, PatchSet> visibleToMe = builder.is_visible();
+      Predicate<ChangeData, PatchSet> q = builder.parse(query);
       q = Predicate.and(q, //
           cmp == QUERY_PREV //
               ? builder.sortkey_after(key) //
@@ -163,7 +164,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
           );
 
       ChangeQueryRewriter rewriter = queryRewriter.get();
-      Predicate<ChangeData> s = rewriter.rewrite(q);
+      Predicate<ChangeData, PatchSet> s = rewriter.rewrite(q);
       if (!(s instanceof ChangeDataSource)) {
         s = rewriter.rewrite(Predicate.and(builder.status_open(), q));
       }

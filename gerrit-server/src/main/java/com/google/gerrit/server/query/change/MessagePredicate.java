@@ -42,7 +42,7 @@ import java.io.IOException;
  * Predicate to match changes that contains specified text in commit messages
  * body.
  */
-public class MessagePredicate extends OperatorPredicate<ChangeData> {
+public class MessagePredicate extends OperatorPredicate<ChangeData, PatchSet> {
 
   private static final Logger log =
       LoggerFactory.getLogger(MessagePredicate.class);

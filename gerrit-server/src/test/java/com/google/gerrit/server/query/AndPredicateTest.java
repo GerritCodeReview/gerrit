@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class AndPredicateTest extends TestCase {
-  private static final class TestPredicate extends OperatorPredicate<String> {
+  private static final class TestPredicate extends OperatorPredicate<String, String> {
     private TestPredicate(String name, String value) {
       super(name, value);
     }
@@ -47,7 +47,7 @@ public class AndPredicateTest extends TestCase {
   public void testChildren() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
-    final Predicate<String> n = and(a, b);
+    final Predicate<String, String> n = and(a, b);
     assertEquals(2, n.getChildCount());
     assertSame(a, n.getChild(0));
     assertSame(b, n.getChild(1));
@@ -57,7 +57,7 @@ public class AndPredicateTest extends TestCase {
   public void testChildrenUnmodifiable() {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
-    final Predicate<String> n = and(a, b);
+    final Predicate<String, String> n = and(a, b);
 
     try {
       n.getChildren().clear();
@@ -78,8 +78,8 @@ public class AndPredicateTest extends TestCase {
     assertChildren("remove(0)", n, list(a, b));
   }
 
-  private static void assertChildren(String o, Predicate<String> p,
-      final List<Predicate<String>> l) {
+  private static void assertChildren(String o, Predicate<String, String> p,
+      final List<Predicate<String, String>> l) {
     assertEquals(o + " did not affect child", l, p.getChildren());
   }
 
@@ -123,22 +123,22 @@ public class AndPredicateTest extends TestCase {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final TestPredicate c = f("author", "charlie");
-    final List<Predicate<String>> s2 = list(a, b);
-    final List<Predicate<String>> s3 = list(a, b, c);
-    final Predicate<String> n2 = and(a, b);
+    final List<Predicate<String, String>> s2 = list(a, b);
+    final List<Predicate<String, String>> s3 = list(a, b, c);
+    final Predicate<String, String> n2 = and(a, b);
 
     assertNotSame(n2, n2.copy(s2));
     assertEquals(s2, n2.copy(s2).getChildren());
     assertEquals(s3, n2.copy(s3).getChildren());
 
     try {
-      n2.copy(Collections.<Predicate<String>> emptyList());
+      n2.copy(Collections.<Predicate<String, String>> emptyList());
     } catch (IllegalArgumentException e) {
       assertEquals("Need at least two predicates", e.getMessage());
     }
   }
 
-  private static List<Predicate<String>> list(final Predicate<String>... predicates) {
+  private static List<Predicate<String, String>> list(final Predicate<String, String>... predicates) {
     return Arrays.asList(predicates);
   }
 }

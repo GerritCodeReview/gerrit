@@ -22,7 +22,7 @@ import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-class IsReviewedPredicate extends OperatorPredicate<ChangeData> {
+class IsReviewedPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   private final Provider<ReviewDb> dbProvider;
 
   IsReviewedPredicate(Provider<ReviewDb> dbProvider) {

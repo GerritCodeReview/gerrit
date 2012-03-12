@@ -95,7 +95,10 @@ public class VisibleGroups {
       final Set<AccountGroup> groups =
           new TreeSet<AccountGroup>(new GroupComparator());
       for (final AccountGroup.UUID groupId : effective) {
-        groups.add(groupCache.get(groupId));
+        AccountGroup group = groupCache.get(groupId);
+        if (group != null) {
+          groups.add(group);
+        }
       }
       return createGroupList(filterGroups(groups));
     } else {

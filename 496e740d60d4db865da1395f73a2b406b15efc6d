@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAADx3///9A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/HistoryTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-03-12T16:40:39Z",
+      "side": 1,
+      "message": "I\u0027m not sold on this UI, and am open to suggestions.\n\nThis adds another radio button in the patch history table when viewing a diff.  For merge commits, we show \u0027Common Ancestor\u0027 next to \u0027Auto Merge\u0027 (Used to be \u0027Base\u0027).  This takes up a bit of horizontal space.\n\nAnother option is to use a drop-down for Auto Merge/Common Ancestor.  I think I like the current version better and a drop-down might be confusing, but I\u0027m fine either way.  Or maybe there is another alternative I haven\u0027t thought of.",
+      "revId": "496e740d60d4db865da1395f73a2b406b15efc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAADx3///88\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-03-12T16:40:39Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of the hack involved in getting this to work.  It is ugly as sin.  I talked about it with SOP on IRC and we didn\u0027t have any better ideas right off, but let me know of any suggestions.\n\nFor diffs against base, we already pass a patchset ID of null.  So for diffing against the common ancestor I use a patchset ID of 0 and ObjectID of 0.",
+      "revId": "496e740d60d4db865da1395f73a2b406b15efc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

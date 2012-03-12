@@ -37,7 +37,8 @@ class TrackingIdPredicate extends OperatorPredicate<ChangeData, PatchSet>
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object, final PatchSet ps)
+      throws OrmException {
     for (TrackingId c : object.trackingIds(db)) {
       if (getValue().equals(c.getTrackingId())) {
         return true;

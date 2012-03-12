@@ -132,10 +132,11 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus().isOpen() //
-            && p.match(cd) //
-            && s.match(cd);
+            && p.match(cd, ps) //
+            && s.match(cd, ps);
       }
     };
   }
@@ -153,10 +154,11 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus().isOpen() //
-            && p.match(cd) //
-            && s.match(cd);
+            && p.match(cd, ps) //
+            && s.match(cd, ps);
       }
     };
   }
@@ -175,10 +177,11 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus() == Change.Status.MERGED
-            && p.match(cd) //
-            && s.match(cd);
+            && p.match(cd, ps) //
+            && s.match(cd, ps);
       }
     };
   }
@@ -197,10 +200,11 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus() == Change.Status.MERGED
-            && p.match(cd) //
-            && s.match(cd);
+            && p.match(cd, ps) //
+            && s.match(cd, ps);
       }
     };
   }
@@ -219,10 +223,11 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus() == Change.Status.ABANDONED
-            && p.match(cd) //
-            && s.match(cd);
+            && p.match(cd, ps) //
+            && s.match(cd, ps);
       }
     };
   }
@@ -241,10 +246,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps) throws OrmException {
         return cd.change(dbProvider).getStatus() == Change.Status.ABANDONED
-            && p.match(cd) //
-            && s.match(cd);
+            && p.match(cd, ps) //
+            && s.match(cd, ps);
       }
     };
   }
@@ -261,8 +266,9 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen() && s.match(cd);
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
+        return cd.change(dbProvider).getStatus().isOpen() && s.match(cd, ps);
       }
     };
   }
@@ -279,8 +285,9 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen() && s.match(cd);
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
+        return cd.change(dbProvider).getStatus().isOpen() && s.match(cd, ps);
       }
     };
   }
@@ -302,9 +309,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus() == Change.Status.MERGED
-            && s.match(cd);
+            && s.match(cd, ps);
       }
     };
   }
@@ -326,9 +334,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus() == Change.Status.MERGED
-            && s.match(cd);
+            && s.match(cd, ps);
       }
     };
   }
@@ -350,9 +359,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus() == Change.Status.ABANDONED
-            && s.match(cd);
+            && s.match(cd, ps);
       }
     };
   }
@@ -374,9 +384,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus() == Change.Status.ABANDONED
-            && s.match(cd);
+            && s.match(cd, ps);
       }
     };
   }
@@ -412,8 +423,8 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen() && o.match(cd);
+      public boolean match(final ChangeData cd, final PatchSet ps) throws OrmException {
+        return cd.change(dbProvider).getStatus().isOpen() && o.match(cd, ps);
       }
     };
   }
@@ -428,12 +439,14 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      ResultSet<Change> scan(ChangeAccess a) throws OrmException {
+      ResultSet<Change> scan(ChangeAccess a)
+          throws OrmException {
         return a.byOwnerClosedAll(o.getAccountId());
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus().isClosed() && o.match(cd);
       }
     };
@@ -461,9 +474,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         Change change = cd.change(dbProvider);
-        return change != null && change.getStatus().isOpen() && r.match(cd);
+        return change != null && change.getStatus().isOpen() && r.match(cd, ps);
       }
 
       @Override
@@ -494,9 +508,10 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         Change change = cd.change(dbProvider);
-        return change != null && change.getStatus().isClosed() && r.match(cd);
+        return change != null && change.getStatus().isClosed() && r.match(cd, ps);
       }
 
       @Override
@@ -527,7 +542,8 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return cd.change(dbProvider).getStatus() == Change.Status.SUBMITTED;
       }
     };
@@ -543,7 +559,8 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData, PatchSet> {
       }
 
       @Override
-      public boolean match(ChangeData cd) throws OrmException {
+      public boolean match(final ChangeData cd, final PatchSet ps)
+          throws OrmException {
         return p.match(cd);
       }
     };

@@ -37,7 +37,8 @@ class ReviewerPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object, final PatchSet subobject)
+      throws OrmException {
     for (PatchSetApproval p : object.approvals(dbProvider)) {
       if (id.equals(p.getAccountId())) {
         return true;

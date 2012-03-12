@@ -98,7 +98,17 @@ public abstract class Predicate<T, C> {
    *
    * @throws OrmException
    */
-  public abstract boolean match(T object) throws OrmException;
+  public final boolean match(final T object) throws OrmException {
+    return match(object, null);
+  }
+
+  /**
+   * Does this predicate match this object and subobject?
+   *
+   * @throws OrmException
+   */
+  public abstract boolean match(final T object, final C subobject)
+      throws OrmException;
 
   /** @return a cost estimate to run this predicate, higher figures cost more. */
   public abstract int getCost();

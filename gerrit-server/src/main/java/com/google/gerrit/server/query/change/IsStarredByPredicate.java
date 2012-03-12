@@ -42,7 +42,7 @@ class IsStarredByPredicate extends OperatorPredicate<ChangeData, PatchSet>
   }
 
   @Override
-  public boolean match(final ChangeData object) {
+  public boolean match(final ChangeData object, final PatchSet subobject) {
     return user.getStarredChanges().contains(object.getId());
   }
 

@@ -72,39 +72,45 @@ public class ChangeData {
     currentFiles = filePaths;
   }
 
+  public String[] filePaths(Provider<ReviewDb> db,
+      PatchListCache cache, final PatchSet ps) throws OrmException {
+    Change c = change(db);
+    if (c == null) {
+      return null;
+    }
+    if (ps == null) {
+      return null;
+    }
+
+    final PatchList p = cache.get(c, ps);
+    final List<String> r = new ArrayList<String>(p.getPatches().size());
+    for (PatchListEntry e : p.getPatches()) {
+      if (Patch.COMMIT_MSG.equals(e.getNewName())) {
+        continue;
+      }
+      switch (e.getChangeType()) {
+        case ADDED:
+        case MODIFIED:
+        case DELETED:
+        case COPIED:
+          r.add(e.getNewName());
+          break;
+        case RENAMED:
+          r.add(e.getOldName());
+          r.add(e.getNewName());
+          break;
+      }
+    }
+    final String[] files = r.toArray(new String[r.size()]);
+    Arrays.sort(files);
+    return files;
+  }
+
   public String[] currentFilePaths(Provider<ReviewDb> db,
       PatchListCache cache) throws OrmException {
     if (currentFiles == null) {
-      Change c = change(db);
-      if (c == null) {
-        return null;
-      }
-      PatchSet ps = currentPatchSet(db);
-      if (ps == null) {
-        return null;
-      }
-
-      PatchList p = cache.get(c, ps);
-      List<String> r = new ArrayList<String>(p.getPatches().size());
-      for (PatchListEntry e : p.getPatches()) {
-        if (Patch.COMMIT_MSG.equals(e.getNewName())) {
-          continue;
-        }
-        switch (e.getChangeType()) {
-          case ADDED:
-          case MODIFIED:
-          case DELETED:
-          case COPIED:
-            r.add(e.getNewName());
-            break;
-          case RENAMED:
-            r.add(e.getOldName());
-            r.add(e.getNewName());
-            break;
-        }
-      }
-      currentFiles = r.toArray(new String[r.size()]);
-      Arrays.sort(currentFiles);
+      final PatchSet ps = currentPatchSet(db);
+      currentFiles = filePaths(db, cache, ps);
     }
     return currentFiles;
   }

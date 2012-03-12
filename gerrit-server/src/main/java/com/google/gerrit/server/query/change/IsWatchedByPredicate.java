@@ -50,7 +50,8 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   }
 
   @Override
-  public boolean match(final ChangeData cd) throws OrmException {
+  public boolean match(final ChangeData cd, final PatchSet ps)
+      throws OrmException {
     if (rules == null) {
       ChangeQueryBuilder builder = new ChangeQueryBuilder(args, user);
       rules = new HashMap<Project.NameKey, List<Predicate<ChangeData, PatchSet>>>();

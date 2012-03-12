@@ -35,7 +35,13 @@ class CommitPredicate extends ObjectIdPredicate<ChangeData, PatchSet> implements
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object, final PatchSet subobject)
+      throws OrmException {
+    if (subobject != null) {
+        final ObjectId id = ObjectId.fromString(subobject.getRevision().get());
+        return abbreviated().prefixCompare(id) == 0;
+    }
+
     for (PatchSet p : object.patches(dbProvider)) {
       if (p.getRevision() != null && p.getRevision().get() != null) {
         final ObjectId id = ObjectId.fromString(p.getRevision().get());

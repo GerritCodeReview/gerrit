@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query;
 
 /** Predicate to filter a field by matching integer value. */
-public abstract class IntPredicate<T> extends OperatorPredicate<T> {
+public abstract class IntPredicate<T, C> extends OperatorPredicate<T, C> {
   private final int value;
 
   public IntPredicate(final String name, final String value) {
@@ -42,7 +42,7 @@ public abstract class IntPredicate<T> extends OperatorPredicate<T> {
     if (other == null)
       return false;
     if (getClass() == other.getClass()) {
-      final IntPredicate<?> p = (IntPredicate<?>) other;
+      final IntPredicate<?, ?> p = (IntPredicate<?, ?>) other;
       return getOperator().equals(p.getOperator())
           && intValue() == p.intValue();
     }

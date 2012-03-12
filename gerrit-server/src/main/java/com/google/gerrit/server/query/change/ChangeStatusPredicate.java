@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gerrit.server.query.Predicate;
@@ -35,7 +36,7 @@ import java.util.Map;
  * status:} but may also be {@code is:} to help do-what-i-meanery for end-users
  * searching for changes. Either operator name has the same meaning.
  */
-final class ChangeStatusPredicate extends OperatorPredicate<ChangeData> {
+final class ChangeStatusPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   private static final Map<String, Change.Status> byName;
   private static final EnumMap<Change.Status, String> byEnum;
 
@@ -49,8 +50,8 @@ final class ChangeStatusPredicate extends OperatorPredicate<ChangeData> {
     }
   }
 
-  static Predicate<ChangeData> open(Provider<ReviewDb> dbProvider) {
-    List<Predicate<ChangeData>> r = new ArrayList<Predicate<ChangeData>>(4);
+  static Predicate<ChangeData, PatchSet> open(Provider<ReviewDb> dbProvider) {
+    List<Predicate<ChangeData, PatchSet>> r = new ArrayList<Predicate<ChangeData, PatchSet>>(4);
     for (final Change.Status e : Change.Status.values()) {
       if (e.isOpen()) {
         r.add(new ChangeStatusPredicate(dbProvider, e));
@@ -59,8 +60,8 @@ final class ChangeStatusPredicate extends OperatorPredicate<ChangeData> {
     return r.size() == 1 ? r.get(0) : or(r);
   }
 
-  static Predicate<ChangeData> closed(Provider<ReviewDb> dbProvider) {
-    List<Predicate<ChangeData>> r = new ArrayList<Predicate<ChangeData>>(4);
+  static Predicate<ChangeData, PatchSet> closed(Provider<ReviewDb> dbProvider) {
+    List<Predicate<ChangeData, PatchSet>> r = new ArrayList<Predicate<ChangeData, PatchSet>>(4);
     for (final Change.Status e : Change.Status.values()) {
       if (e.isClosed()) {
         r.add(new ChangeStatusPredicate(dbProvider, e));

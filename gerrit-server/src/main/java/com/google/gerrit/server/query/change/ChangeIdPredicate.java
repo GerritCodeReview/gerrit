@@ -15,13 +15,14 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 
-class ChangeIdPredicate extends OperatorPredicate<ChangeData> implements
+class ChangeIdPredicate extends OperatorPredicate<ChangeData, PatchSet> implements
     ChangeDataSource {
   private final Provider<ReviewDb> dbProvider;
 

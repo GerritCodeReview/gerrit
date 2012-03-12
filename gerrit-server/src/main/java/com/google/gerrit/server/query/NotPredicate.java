@@ -21,10 +21,10 @@ import java.util.Collections;
 import java.util.List;
 
 /** Negates the result of another predicate. */
-public class NotPredicate<T> extends Predicate<T> {
-  private final Predicate<T> that;
+public class NotPredicate<T, C> extends Predicate<T, C> {
+  private final Predicate<T, C> that;
 
-  protected NotPredicate(final Predicate<T> that) {
+  protected NotPredicate(final Predicate<T, C> that) {
     if (that instanceof NotPredicate) {
       throw new IllegalArgumentException("Double negation unsupported");
     }
@@ -32,7 +32,7 @@ public class NotPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public final List<Predicate<T>> getChildren() {
+  public final List<Predicate<T, C>> getChildren() {
     return Collections.singletonList(that);
   }
 
@@ -42,7 +42,7 @@ public class NotPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public final Predicate<T> getChild(final int i) {
+  public final Predicate<T, C> getChild(final int i) {
     if (i != 0) {
       throw new ArrayIndexOutOfBoundsException(i);
     }
@@ -50,11 +50,11 @@ public class NotPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
+  public Predicate<T, C> copy(final Collection<? extends Predicate<T, C>> children) {
     if (children.size() != 1) {
       throw new IllegalArgumentException("Expected exactly one child");
     }
-    return new NotPredicate<T>(children.iterator().next());
+    return new NotPredicate<T, C>(children.iterator().next());
   }
 
   @Override
@@ -77,7 +77,7 @@ public class NotPredicate<T> extends Predicate<T> {
     if (other == null)
       return false;
     return getClass() == other.getClass()
-        && getChildren().equals(((Predicate<?>) other).getChildren());
+        && getChildren().equals(((Predicate<?, ?>) other).getChildren());
   }
 
   @Override

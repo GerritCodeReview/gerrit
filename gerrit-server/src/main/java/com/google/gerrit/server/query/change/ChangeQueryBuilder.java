@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -52,7 +53,7 @@ import java.util.regex.Pattern;
 /**
  * Parses a query string meant to be applied to change objects.
  */
-public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
+public class ChangeQueryBuilder extends QueryBuilder<ChangeData, PatchSet> {
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID =
       Pattern.compile("^[iI][0-9a-f]{4,}.*$");
@@ -91,8 +92,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   public static final String FIELD_VISIBLETO = "visibleto";
   public static final String FIELD_WATCHEDBY = "watchedby";
 
-  private static final QueryBuilder.Definition<ChangeData, ChangeQueryBuilder> mydef =
-      new QueryBuilder.Definition<ChangeData, ChangeQueryBuilder>(
+  private static final QueryBuilder.Definition<ChangeData, PatchSet, ChangeQueryBuilder> mydef =
+      new QueryBuilder.Definition<ChangeData, PatchSet, ChangeQueryBuilder>(
           ChangeQueryBuilder.class);
 
   static class Arguments {
@@ -159,12 +160,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> age(String value) {
+  public Predicate<ChangeData, PatchSet> age(String value) {
     return new AgePredicate(args.dbProvider, value);
   }
 
   @Operator
-  public Predicate<ChangeData> change(String query) {
+  public Predicate<ChangeData, PatchSet> change(String query) {
     if (PAT_LEGACY_ID.matcher(query).matches()) {
       return new LegacyChangeIdPredicate(args.dbProvider, Change.Id
           .parse(query));
@@ -180,7 +181,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> status(String statusName) {
+  public Predicate<ChangeData, PatchSet> status(String statusName) {
     if ("open".equals(statusName)) {
       return status_open();
 
@@ -195,12 +196,12 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
   }
 
-  public Predicate<ChangeData> status_open() {
+  public Predicate<ChangeData, PatchSet> status_open() {
     return ChangeStatusPredicate.open(args.dbProvider);
   }
 
   @Operator
-  public Predicate<ChangeData> has(String value) {
+  public Predicate<ChangeData, PatchSet> has(String value) {
     if ("star".equalsIgnoreCase(value)) {
       return new IsStarredByPredicate(args.dbProvider, currentUser);
     }
@@ -216,7 +217,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> is(String value) {
+  public Predicate<ChangeData, PatchSet> is(String value) {
     if ("starred".equalsIgnoreCase(value)) {
       return new IsStarredByPredicate(args.dbProvider, currentUser);
     }
@@ -243,41 +244,41 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> commit(String id) {
+  public Predicate<ChangeData, PatchSet> commit(String id) {
     return new CommitPredicate(args.dbProvider, AbbreviatedObjectId
         .fromString(id));
   }
 
   @Operator
-  public Predicate<ChangeData> project(String name) {
+  public Predicate<ChangeData, PatchSet> project(String name) {
     if (name.startsWith("^"))
       return new RegexProjectPredicate(args.dbProvider, name);
     return new ProjectPredicate(args.dbProvider, name);
   }
 
   @Operator
-  public Predicate<ChangeData> branch(String name) {
+  public Predicate<ChangeData, PatchSet> branch(String name) {
     if (name.startsWith("^"))
       return new RegexBranchPredicate(args.dbProvider, name);
     return new BranchPredicate(args.dbProvider, name);
   }
 
   @Operator
-  public Predicate<ChangeData> topic(String name) {
+  public Predicate<ChangeData, PatchSet> topic(String name) {
     if (name.startsWith("^"))
       return new RegexTopicPredicate(args.dbProvider, name);
     return new TopicPredicate(args.dbProvider, name);
   }
 
   @Operator
-  public Predicate<ChangeData> ref(String ref) {
+  public Predicate<ChangeData, PatchSet> ref(String ref) {
     if (ref.startsWith("^"))
       return new RegexRefPredicate(args.dbProvider, ref);
     return new RefPredicate(args.dbProvider, ref);
   }
 
   @Operator
-  public Predicate<ChangeData> file(String file) throws QueryParseException {
+  public Predicate<ChangeData, PatchSet> file(String file) throws QueryParseException {
     if (!allowsFile) {
       throw error("operator not permitted here: file:" + file);
     }
@@ -290,18 +291,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> label(String name) {
+  public Predicate<ChangeData, PatchSet> label(String name) {
     return new LabelPredicate(args.changeControlGenericFactory,
         args.userFactory, args.dbProvider, args.approvalTypes, name);
   }
 
   @Operator
-  public Predicate<ChangeData> message(String text) {
+  public Predicate<ChangeData, PatchSet> message(String text) {
     return new MessagePredicate(args.dbProvider, args.repoManager, text);
   }
 
   @Operator
-  public Predicate<ChangeData> starredby(String who)
+  public Predicate<ChangeData, PatchSet> starredby(String who)
       throws QueryParseException, OrmException {
     Account account = args.accountResolver.find(who);
     if (account == null) {
@@ -312,7 +313,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> watchedby(String who)
+  public Predicate<ChangeData, PatchSet> watchedby(String who)
       throws QueryParseException, OrmException {
     Account account = args.accountResolver.find(who);
     if (account == null) {
@@ -323,7 +324,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> draftby(String who) throws QueryParseException,
+  public Predicate<ChangeData, PatchSet> draftby(String who) throws QueryParseException,
       OrmException {
     Account account = args.accountResolver.find(who);
     if (account == null) {
@@ -333,7 +334,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> visibleto(String who)
+  public Predicate<ChangeData, PatchSet> visibleto(String who)
       throws QueryParseException, OrmException {
     Account account = args.accountResolver.find(who);
     if (account != null) {
@@ -362,18 +363,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     throw error("No user or group matches \"" + who + "\".");
   }
 
-  public Predicate<ChangeData> visibleto(CurrentUser user) {
+  public Predicate<ChangeData, PatchSet> visibleto(CurrentUser user) {
     return new IsVisibleToPredicate(args.dbProvider, //
         args.changeControlGenericFactory, //
         user);
   }
 
-  public Predicate<ChangeData> is_visible() {
+  public Predicate<ChangeData, PatchSet> is_visible() {
     return visibleto(currentUser);
   }
 
   @Operator
-  public Predicate<ChangeData> owner(String who) throws QueryParseException,
+  public Predicate<ChangeData, PatchSet> owner(String who) throws QueryParseException,
       OrmException {
     Set<Account.Id> m = args.accountResolver.findAll(who);
     if (m.isEmpty()) {
@@ -391,7 +392,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> ownerin(String group) throws QueryParseException,
+  public Predicate<ChangeData, PatchSet> ownerin(String group) throws QueryParseException,
       OrmException {
     AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(group));
     if (g == null) {
@@ -401,7 +402,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> reviewer(String who)
+  public Predicate<ChangeData, PatchSet> reviewer(String who)
       throws QueryParseException, OrmException {
     Set<Account.Id> m = args.accountResolver.findAll(who);
     if (m.isEmpty()) {
@@ -419,7 +420,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> reviewerin(String group)
+  public Predicate<ChangeData, PatchSet> reviewerin(String group)
       throws QueryParseException, OrmException {
     AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(group));
     if (g == null) {
@@ -429,22 +430,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> tr(String trackingId) {
+  public Predicate<ChangeData, PatchSet> tr(String trackingId) {
     return new TrackingIdPredicate(args.dbProvider, trackingId);
   }
 
   @Operator
-  public Predicate<ChangeData> bug(String trackingId) {
+  public Predicate<ChangeData, PatchSet> bug(String trackingId) {
     return tr(trackingId);
   }
 
   @Operator
-  public Predicate<ChangeData> limit(String limit) {
+  public Predicate<ChangeData, PatchSet> limit(String limit) {
     return limit(Integer.parseInt(limit));
   }
 
-  public Predicate<ChangeData> limit(int limit) {
-    return new IntPredicate<ChangeData>(FIELD_LIMIT, limit) {
+  public Predicate<ChangeData, PatchSet> limit(int limit) {
+    return new IntPredicate<ChangeData, PatchSet>(FIELD_LIMIT, limit) {
       @Override
       public boolean match(ChangeData object) {
         return true;
@@ -458,38 +459,38 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   }
 
   @Operator
-  public Predicate<ChangeData> sortkey_after(String sortKey) {
+  public Predicate<ChangeData, PatchSet> sortkey_after(String sortKey) {
     return new SortKeyPredicate.After(args.dbProvider, sortKey);
   }
 
   @Operator
-  public Predicate<ChangeData> sortkey_before(String sortKey) {
+  public Predicate<ChangeData, PatchSet> sortkey_before(String sortKey) {
     return new SortKeyPredicate.Before(args.dbProvider, sortKey);
   }
 
   @Operator
-  public Predicate<ChangeData> resume_sortkey(String sortKey) {
+  public Predicate<ChangeData, PatchSet> resume_sortkey(String sortKey) {
     return sortkey_before(sortKey);
   }
 
   @SuppressWarnings("unchecked")
-  public boolean hasLimit(Predicate<ChangeData> p) {
+  public boolean hasLimit(Predicate<ChangeData, PatchSet> p) {
     return find(p, IntPredicate.class, FIELD_LIMIT) != null;
   }
 
   @SuppressWarnings("unchecked")
-  public int getLimit(Predicate<ChangeData> p) {
-    return ((IntPredicate<?>) find(p, IntPredicate.class, FIELD_LIMIT)).intValue();
+  public int getLimit(Predicate<ChangeData, PatchSet> p) {
+    return ((IntPredicate<?, ?>) find(p, IntPredicate.class, FIELD_LIMIT)).intValue();
   }
 
-  public boolean hasSortKey(Predicate<ChangeData> p) {
+  public boolean hasSortKey(Predicate<ChangeData, PatchSet> p) {
     return find(p, SortKeyPredicate.class, "sortkey_after") != null
         || find(p, SortKeyPredicate.class, "sortkey_before") != null;
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  protected Predicate<ChangeData> defaultField(String query)
+  protected Predicate<ChangeData, PatchSet> defaultField(String query)
       throws QueryParseException {
     if (query.startsWith("refs/")) {
       return ref(query);

@@ -73,9 +73,9 @@ public class OrPredicate<T, C> extends Predicate<T, C> {
   }
 
   @Override
-  public boolean match(final T object) throws OrmException {
+  public boolean match(final T object, final C subobject) throws OrmException {
     for (final Predicate<T, C> c : children) {
-      if (c.match(object)) {
+      if (c.match(object, subobject)) {
         return true;
       }
     }

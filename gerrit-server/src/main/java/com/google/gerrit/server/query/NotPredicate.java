@@ -58,8 +58,9 @@ public class NotPredicate<T, C> extends Predicate<T, C> {
   }
 
   @Override
-  public boolean match(final T object) throws OrmException {
-    return !that.match(object);
+  public boolean match(final T object, final C subobject)
+      throws OrmException {
+    return !that.match(object, subobject);
   }
 
   @Override

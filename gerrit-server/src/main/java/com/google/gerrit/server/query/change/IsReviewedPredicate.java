@@ -31,15 +31,21 @@ class IsReviewedPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
-    Change c = object.change(dbProvider);
+  public boolean match(final ChangeData object, final PatchSet subobject)
+      throws OrmException {
+    final Change c = object.change(dbProvider);
     if (c == null) {
       return false;
     }
 
-    PatchSet.Id current = c.currentPatchSetId();
+    PatchSet.Id psid = null;
+    if (subobject == null) {
+      psid = c.currentPatchSetId();
+    } else {
+      psid = subobject.getId();
+    }
     for (PatchSetApproval p : object.approvals(dbProvider)) {
-      if (p.getPatchSetId().equals(current) && p.getValue() != 0) {
+      if (p.getPatchSetId().equals(psid) && p.getValue() != 0) {
         return true;
       }
     }

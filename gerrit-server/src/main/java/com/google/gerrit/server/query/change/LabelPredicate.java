@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
@@ -30,7 +31,7 @@ import com.google.inject.Provider;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class LabelPredicate extends OperatorPredicate<ChangeData> {
+class LabelPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   private static enum Test {
     EQ {
       @Override

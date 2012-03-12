@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.query.OperatorPredicate;
@@ -26,7 +27,7 @@ import dk.brics.automaton.RunAutomaton;
 
 import java.util.Arrays;
 
-class RegexFilePredicate extends OperatorPredicate<ChangeData> {
+class RegexFilePredicate extends OperatorPredicate<ChangeData, PatchSet> {
   private final Provider<ReviewDb> db;
   private final PatchListCache cache;
   private final RunAutomaton pattern;

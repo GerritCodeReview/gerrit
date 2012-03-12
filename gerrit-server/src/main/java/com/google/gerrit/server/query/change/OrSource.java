@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.query.OrPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.ListResultSet;
@@ -25,10 +26,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
-class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
+class OrSource extends OrPredicate<ChangeData, PatchSet> implements ChangeDataSource {
   private int cardinality = -1;
 
-  OrSource(final Collection<? extends Predicate<ChangeData>> that) {
+  OrSource(final Collection<? extends Predicate<ChangeData, PatchSet>> that) {
     super(that);
   }
 
@@ -38,7 +39,7 @@ class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
     //
     ArrayList<ChangeData> r = new ArrayList<ChangeData>();
     HashSet<Change.Id> have = new HashSet<Change.Id>();
-    for (Predicate<ChangeData> p : getChildren()) {
+    for (Predicate<ChangeData, PatchSet> p : getChildren()) {
       if (p instanceof ChangeDataSource) {
         for (ChangeData cd : ((ChangeDataSource) p).read()) {
           if (have.add(cd.getId())) {
@@ -54,7 +55,7 @@ class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
 
   @Override
   public boolean hasChange() {
-    for (Predicate<ChangeData> p : getChildren()) {
+    for (Predicate<ChangeData, PatchSet> p : getChildren()) {
       if (!(p instanceof ChangeDataSource)
           || !((ChangeDataSource) p).hasChange()) {
         return false;
@@ -67,7 +68,7 @@ class OrSource extends OrPredicate<ChangeData> implements ChangeDataSource {
   public int getCardinality() {
     if (cardinality < 0) {
       cardinality = 0;
-      for (Predicate<ChangeData> p : getChildren()) {
+      for (Predicate<ChangeData, PatchSet> p : getChildren()) {
         if (p instanceof ChangeDataSource) {
           cardinality += ((ChangeDataSource) p).getCardinality();
         }

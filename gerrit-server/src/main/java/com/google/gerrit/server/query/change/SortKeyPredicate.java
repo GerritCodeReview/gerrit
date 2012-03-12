@@ -15,12 +15,13 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-abstract class SortKeyPredicate extends OperatorPredicate<ChangeData> {
+abstract class SortKeyPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   protected final Provider<ReviewDb> dbProvider;
 
   SortKeyPredicate(Provider<ReviewDb> dbProvider, String name, String value) {

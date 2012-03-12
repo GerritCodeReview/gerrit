@@ -25,11 +25,11 @@ import java.util.List;
  *
  * @see QueryRewriter
  */
-public class VariablePredicate<T> extends Predicate<T> {
+public class VariablePredicate<T, C> extends Predicate<T, C> {
   private final String name;
-  private final Predicate<T> that;
+  private final Predicate<T, C> that;
 
-  protected VariablePredicate(final String name, final Predicate<T> that) {
+  protected VariablePredicate(final String name, final Predicate<T, C> that) {
     this.name = name;
     this.that = that;
   }
@@ -39,7 +39,7 @@ public class VariablePredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public final List<Predicate<T>> getChildren() {
+  public final List<Predicate<T, C>> getChildren() {
     return Collections.singletonList(that);
   }
 
@@ -49,7 +49,7 @@ public class VariablePredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public final Predicate<T> getChild(final int i) {
+  public final Predicate<T, C> getChild(final int i) {
     if (i != 0) {
       throw new ArrayIndexOutOfBoundsException(i);
     }
@@ -57,11 +57,11 @@ public class VariablePredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
+  public Predicate<T, C> copy(final Collection<? extends Predicate<T, C>> children) {
     if (children.size() != 1) {
       throw new IllegalArgumentException("Expected exactly one child");
     }
-    return new VariablePredicate<T>(getName(), children.iterator().next());
+    return new VariablePredicate<T, C>(getName(), children.iterator().next());
   }
 
   @Override
@@ -84,7 +84,7 @@ public class VariablePredicate<T> extends Predicate<T> {
     if (other == null)
       return false;
     if (getClass() == other.getClass()) {
-      final VariablePredicate<?> v = (VariablePredicate<?>) other;
+      final VariablePredicate<?, ?> v = (VariablePredicate<?, ?>) other;
       return getName().equals(v.getName())
           && getChildren().equals(v.getChildren());
     }

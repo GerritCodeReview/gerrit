@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.query.OperatorPredicate;
@@ -26,7 +27,7 @@ import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-class TrackingIdPredicate extends OperatorPredicate<ChangeData> implements
+class TrackingIdPredicate extends OperatorPredicate<ChangeData, PatchSet> implements
     ChangeDataSource {
   private final Provider<ReviewDb> db;
 

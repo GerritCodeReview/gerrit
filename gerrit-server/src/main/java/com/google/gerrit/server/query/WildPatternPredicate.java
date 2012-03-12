@@ -23,7 +23,7 @@ package com.google.gerrit.server.query;
  *
  * @see QueryRewriter
  */
-public final class WildPatternPredicate<T> extends OperatorPredicate<T> {
+public final class WildPatternPredicate<T, C> extends OperatorPredicate<T, C> {
   public WildPatternPredicate(final String name) {
     super(name, "*");
   }
@@ -48,7 +48,7 @@ public final class WildPatternPredicate<T> extends OperatorPredicate<T> {
     if (other == null)
       return false;
     if (getClass() == other.getClass()) {
-      final WildPatternPredicate<?> p = (WildPatternPredicate<?>) other;
+      final WildPatternPredicate<?, ?> p = (WildPatternPredicate<?, ?>) other;
       return getOperator().equals(p.getOperator());
     }
     return false;

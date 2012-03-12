@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.query.AndPredicate;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gwtorm.server.ListResultSet;
@@ -26,11 +27,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
-  private static final Comparator<Predicate<ChangeData>> CMP =
-      new Comparator<Predicate<ChangeData>>() {
+class AndSource extends AndPredicate<ChangeData, PatchSet>
+    implements ChangeDataSource {
+  private static final Comparator<Predicate<ChangeData, PatchSet>> CMP =
+      new Comparator<Predicate<ChangeData, PatchSet>>() {
         @Override
-        public int compare(Predicate<ChangeData> a, Predicate<ChangeData> b) {
+        public int compare(Predicate<ChangeData, PatchSet> a, Predicate<ChangeData, PatchSet> b) {
           int ai = a instanceof ChangeDataSource ? 0 : 1;
           int bi = b instanceof ChangeDataSource ? 0 : 1;
           int cmp = ai - bi;
@@ -59,17 +61,17 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
         }
       };
 
-  private static List<Predicate<ChangeData>> sort(
-      Collection<? extends Predicate<ChangeData>> that) {
-    ArrayList<Predicate<ChangeData>> r =
-        new ArrayList<Predicate<ChangeData>>(that);
+  private static List<Predicate<ChangeData, PatchSet>> sort(
+      Collection<? extends Predicate<ChangeData, PatchSet>> that) {
+    ArrayList<Predicate<ChangeData, PatchSet>> r =
+        new ArrayList<Predicate<ChangeData, PatchSet>>(that);
     Collections.sort(r, CMP);
     return r;
   }
 
   private int cardinality = -1;
 
-  AndSource(final Collection<? extends Predicate<ChangeData>> that) {
+  AndSource(final Collection<? extends Predicate<ChangeData, PatchSet>> that) {
     super(sort(that));
   }
 
@@ -125,7 +127,7 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
   }
 
   private ChangeDataSource source() {
-    for (Predicate<ChangeData> p : getChildren()) {
+    for (Predicate<ChangeData, PatchSet> p : getChildren()) {
       if (p instanceof ChangeDataSource) {
         return (ChangeDataSource) p;
       }
@@ -137,7 +139,7 @@ class AndSource extends AndPredicate<ChangeData> implements ChangeDataSource {
   public int getCardinality() {
     if (cardinality < 0) {
       cardinality = Integer.MAX_VALUE;
-      for (Predicate<ChangeData> p : getChildren()) {
+      for (Predicate<ChangeData, PatchSet> p : getChildren()) {
         if (p instanceof ChangeDataSource) {
           int c = ((ChangeDataSource) p).getCardinality();
           cardinality = Math.min(cardinality, c);

@@ -37,7 +37,7 @@ class LegacyChangeIdPredicate extends OperatorPredicate<ChangeData, PatchSet>
   }
 
   @Override
-  public boolean match(final ChangeData object) {
+  public boolean match(final ChangeData object, final PatchSet subobject) {
     return id.equals(object.getId());
   }
 

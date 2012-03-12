@@ -19,19 +19,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class RewritePredicate<T> extends Predicate<T> {
+public abstract class RewritePredicate<T, C> extends Predicate<T, C> {
   private boolean init;
   private String name = getClass().getSimpleName();
-  private List<Predicate<T>> children = Collections.emptyList();
+  private List<Predicate<T, C>> children = Collections.emptyList();
 
-  protected void init(String name, Predicate<T>... args) {
+  protected void init(String name, Predicate<T, C>... args) {
     this.init = true;
     this.name = name;
     this.children = Arrays.asList(args);
   }
 
   @Override
-  public Predicate<T> copy(Collection<? extends Predicate<T>> children) {
+  public Predicate<T, C> copy(Collection<? extends Predicate<T, C>> children) {
     return this;
   }
 
@@ -39,7 +39,7 @@ public abstract class RewritePredicate<T> extends Predicate<T> {
   @Override
   public boolean equals(Object other) {
     if (other instanceof RewritePredicate) {
-      RewritePredicate<T> that = (RewritePredicate<T>) other;
+      RewritePredicate<T, C> that = (RewritePredicate<T, C>) other;
       if (this.init && that.init) {
         return this.getClass() == that.getClass()
             && this.name.equals(that.name)

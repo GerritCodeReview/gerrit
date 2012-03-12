@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 import java.util.Collections;
 
 public class FieldPredicateTest extends TestCase {
-  private static final class TestPredicate extends OperatorPredicate<String> {
+  private static final class TestPredicate extends OperatorPredicate<String, String> {
     private TestPredicate(String name, String value) {
       super(name, value);
     }
@@ -60,15 +60,15 @@ public class FieldPredicateTest extends TestCase {
   public void testNameValue() {
     final String name = "author";
     final String value = "alice";
-    final OperatorPredicate<String> f = f(name, value);
+    final OperatorPredicate<String, String> f = f(name, value);
     assertSame(name, f.getOperator());
     assertSame(value, f.getValue());
     assertEquals(0, f.getChildren().size());
   }
 
   public void testCopy() {
-    final OperatorPredicate<String> f = f("author", "alice");
-    assertSame(f, f.copy(Collections.<Predicate<String>> emptyList()));
+    final OperatorPredicate<String, String> f = f("author", "alice");
+    assertSame(f, f.copy(Collections.<Predicate<String, String>> emptyList()));
     assertSame(f, f.copy(f.getChildren()));
 
     try {

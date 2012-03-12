@@ -23,20 +23,20 @@ import java.util.Collections;
 import java.util.List;
 
 /** Requires one predicate to be true. */
-public class OrPredicate<T> extends Predicate<T> {
-  private final List<Predicate<T>> children;
+public class OrPredicate<T, C> extends Predicate<T, C> {
+  private final List<Predicate<T, C>> children;
   private final int cost;
 
-  protected OrPredicate(final Predicate<T>... that) {
+  protected OrPredicate(final Predicate<T, C>... that) {
     this(Arrays.asList(that));
   }
 
-  protected OrPredicate(final Collection<? extends Predicate<T>> that) {
-    final ArrayList<Predicate<T>> t = new ArrayList<Predicate<T>>(that.size());
+  protected OrPredicate(final Collection<? extends Predicate<T, C>> that) {
+    final ArrayList<Predicate<T, C>> t = new ArrayList<Predicate<T, C>>(that.size());
     int c = 0;
-    for (Predicate<T> p : that) {
+    for (Predicate<T, C> p : that) {
       if (getClass() == p.getClass()) {
-        for (Predicate<T> gp : p.getChildren()) {
+        for (Predicate<T, C> gp : p.getChildren()) {
           t.add(gp);
           c += gp.getCost();
         }
@@ -53,7 +53,7 @@ public class OrPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public final List<Predicate<T>> getChildren() {
+  public final List<Predicate<T, C>> getChildren() {
     return Collections.unmodifiableList(children);
   }
 
@@ -63,18 +63,18 @@ public class OrPredicate<T> extends Predicate<T> {
   }
 
   @Override
-  public final Predicate<T> getChild(final int i) {
+  public final Predicate<T, C> getChild(final int i) {
     return children.get(i);
   }
 
   @Override
-  public Predicate<T> copy(final Collection<? extends Predicate<T>> children) {
-    return new OrPredicate<T>(children);
+  public Predicate<T, C> copy(final Collection<? extends Predicate<T, C>> children) {
+    return new OrPredicate<T, C>(children);
   }
 
   @Override
   public boolean match(final T object) throws OrmException {
-    for (final Predicate<T> c : children) {
+    for (final Predicate<T, C> c : children) {
       if (c.match(object)) {
         return true;
       }
@@ -97,7 +97,7 @@ public class OrPredicate<T> extends Predicate<T> {
     if (other == null)
       return false;
     return getClass() == other.getClass()
-        && getChildren().equals(((Predicate<?>) other).getChildren());
+        && getChildren().equals(((Predicate<?, ?>) other).getChildren());
   }
 
   @Override

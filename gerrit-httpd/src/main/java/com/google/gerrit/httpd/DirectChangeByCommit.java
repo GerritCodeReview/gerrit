@@ -4,6 +4,7 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
@@ -53,8 +54,8 @@ class DirectChangeByCommit extends HttpServlet {
     HashSet<Change.Id> ids = new HashSet<Change.Id>();
     try {
       ChangeQueryBuilder builder = queryBuilder.create(currentUser.get());
-      Predicate<ChangeData> visibleToMe = builder.is_visible();
-      Predicate<ChangeData> q = builder.parse(query);
+      Predicate<ChangeData, PatchSet> visibleToMe = builder.is_visible();
+      Predicate<ChangeData, PtachSet> q = builder.parse(query);
       q = Predicate.and(q, builder.sortkey_before("z"), builder.limit(2), visibleToMe);
 
       ChangeQueryRewriter rewriter = queryRewriter.get();

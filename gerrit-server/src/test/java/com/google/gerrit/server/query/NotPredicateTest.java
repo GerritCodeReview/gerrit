@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class NotPredicateTest extends TestCase {
-  private static final class TestPredicate extends OperatorPredicate<String> {
+  private static final class TestPredicate extends OperatorPredicate<String, String> {
     private TestPredicate(String name, String value) {
       super(name, value);
     }
@@ -45,7 +45,7 @@ public class NotPredicateTest extends TestCase {
 
   public void testNotNot() {
     final TestPredicate p = f("author", "bob");
-    final Predicate<String> n = not(p);
+    final Predicate<String, String> n = not(p);
     assertTrue(n instanceof NotPredicate);
     assertNotSame(p, n);
     assertSame(p, not(n));
@@ -53,14 +53,14 @@ public class NotPredicateTest extends TestCase {
 
   public void testChildren() {
     final TestPredicate p = f("author", "bob");
-    final Predicate<String> n = not(p);
+    final Predicate<String, String> n = not(p);
     assertEquals(1, n.getChildCount());
     assertSame(p, n.getChild(0));
   }
 
   public void testChildrenUnmodifiable() {
     final TestPredicate p = f("author", "bob");
-    final Predicate<String> n = not(p);
+    final Predicate<String, String> n = not(p);
 
     try {
       n.getChildren().clear();
@@ -81,8 +81,8 @@ public class NotPredicateTest extends TestCase {
     assertOnlyChild("remove(0)", p, n);
   }
 
-  private static void assertOnlyChild(String o, Predicate<String> c,
-      Predicate<String> p) {
+  private static void assertOnlyChild(String o, Predicate<String, String> c,
+      Predicate<String, String> p) {
     assertEquals(o + " did not affect child", 1, p.getChildCount());
     assertSame(o + " did not affect child", c, p.getChild(0));
   }

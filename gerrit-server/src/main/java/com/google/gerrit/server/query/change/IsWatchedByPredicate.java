@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -29,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
+class IsWatchedByPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   private static String describe(CurrentUser user) {
     if (user instanceof IdentifiedUser) {
       return ((IdentifiedUser) user).getAccountId().toString();
@@ -40,7 +41,7 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
   private final ChangeQueryBuilder.Arguments args;
   private final CurrentUser user;
 
-  private Map<Project.NameKey, List<Predicate<ChangeData>>> rules;
+  private Map<Project.NameKey, List<Predicate<ChangeData, PatchSet>>> rules;
 
   IsWatchedByPredicate(ChangeQueryBuilder.Arguments args, CurrentUser user) {
     super(ChangeQueryBuilder.FIELD_WATCHEDBY, describe(user));
@@ -52,15 +53,15 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
   public boolean match(final ChangeData cd) throws OrmException {
     if (rules == null) {
       ChangeQueryBuilder builder = new ChangeQueryBuilder(args, user);
-      rules = new HashMap<Project.NameKey, List<Predicate<ChangeData>>>();
+      rules = new HashMap<Project.NameKey, List<Predicate<ChangeData, PatchSet>>>();
       for (AccountProjectWatch w : user.getNotificationFilters()) {
-        List<Predicate<ChangeData>> list = rules.get(w.getProjectNameKey());
+        List<Predicate<ChangeData, PatchSet>> list = rules.get(w.getProjectNameKey());
         if (list == null) {
-          list = new ArrayList<Predicate<ChangeData>>(4);
+          list = new ArrayList<Predicate<ChangeData, PatchSet>>(4);
           rules.put(w.getProjectNameKey(), list);
         }
 
-        Predicate<ChangeData> p = compile(builder, w);
+        Predicate<ChangeData, PatchSet> p = compile(builder, w);
         if (p != null) {
           list.add(p);
         }
@@ -77,12 +78,12 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
     }
 
     Project.NameKey project = change.getDest().getParentKey();
-    List<Predicate<ChangeData>> list = rules.get(project);
+    List<Predicate<ChangeData, PatchSet>> list = rules.get(project);
     if (list == null) {
       list = rules.get(args.allProjectsName);
     }
     if (list != null) {
-      for (Predicate<ChangeData> p : list) {
+      for (Predicate<ChangeData, PatchSet> p : list) {
         if (p.match(cd)) {
           return true;
         }
@@ -92,9 +93,9 @@ class IsWatchedByPredicate extends OperatorPredicate<ChangeData> {
   }
 
   @SuppressWarnings("unchecked")
-  private Predicate<ChangeData> compile(ChangeQueryBuilder builder,
+  private Predicate<ChangeData, PatchSet> compile(ChangeQueryBuilder builder,
       AccountProjectWatch w) {
-    Predicate<ChangeData> p = builder.is_visible();
+    Predicate<ChangeData, PatchSet> p = builder.is_visible();
     if (w.getFilter() != null) {
       try {
         p = Predicate.and(builder.parse(w.getFilter()), p);

@@ -32,7 +32,8 @@ class ChangeIdPredicate extends OperatorPredicate<ChangeData, PatchSet> implemen
   }
 
   @Override
-  public boolean match(final ChangeData cd) throws OrmException {
+  public boolean match(final ChangeData cd, final PatchSet ps)
+      throws OrmException {
     Change change = cd.change(dbProvider);
     if (change == null) {
       return false;

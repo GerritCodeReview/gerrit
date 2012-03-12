@@ -60,7 +60,8 @@ public class MessagePredicate extends OperatorPredicate<ChangeData, PatchSet> {
   }
 
   @Override
-  public boolean match(ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object, final PatchSet subobject)
+      throws OrmException {
     final PatchSet patchSet = object.currentPatchSet(db);
 
     if (patchSet == null) {

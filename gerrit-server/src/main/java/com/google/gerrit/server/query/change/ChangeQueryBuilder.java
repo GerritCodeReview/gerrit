@@ -447,7 +447,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, PatchSet> {
   public Predicate<ChangeData, PatchSet> limit(int limit) {
     return new IntPredicate<ChangeData, PatchSet>(FIELD_LIMIT, limit) {
       @Override
-      public boolean match(ChangeData object) {
+      public boolean match(final ChangeData object, final PatchSet subobject) {
         return true;
       }
 

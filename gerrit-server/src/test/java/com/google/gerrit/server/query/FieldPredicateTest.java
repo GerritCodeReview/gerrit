@@ -25,7 +25,7 @@ public class FieldPredicateTest extends TestCase {
     }
 
     @Override
-    public boolean match(String object) {
+    public boolean match(final String object, final String subobject) {
       return false;
     }
 

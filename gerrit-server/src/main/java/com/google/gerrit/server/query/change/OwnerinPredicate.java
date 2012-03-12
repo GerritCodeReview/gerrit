@@ -41,7 +41,8 @@ class OwnerinPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object, final PatchSet subobject)
+      throws OrmException {
     final Change change = object.change(dbProvider);
     if (change == null) {
       return false;

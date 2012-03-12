@@ -40,10 +40,13 @@ class HasDraftByPredicate extends OperatorPredicate<ChangeData, PatchSet> implem
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object, final PatchSet subobject)
+      throws OrmException {
     for (PatchLineComment c : object.comments(db)) {
+      final PatchSet.Id patchSetId = c.getKey().getParentKey().getParentKey();
       if (c.getStatus() == PatchLineComment.Status.DRAFT
-          && c.getAuthor().equals(accountId)) {
+          && c.getAuthor().equals(accountId) &&
+          (subobject == null || patchSetId.equals(subobject.getId()))) {
         return true;
       }
     }

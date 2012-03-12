@@ -31,7 +31,8 @@ class IsReviewedPredicate extends OperatorPredicate<ChangeData, PatchSet> {
   }
 
   @Override
-  public boolean match(final ChangeData object) throws OrmException {
+  public boolean match(final ChangeData object, final PatchSet subobject)
+      throws OrmException {
     Change c = object.change(dbProvider);
     if (c == null) {
       return false;

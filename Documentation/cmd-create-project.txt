@@ -39,7 +39,8 @@ on the remote system to create the empty repository.
 ACCESS
 ------
 Caller must be a member of the privileged 'Administrators' group,
-or have been granted the 'Create Project' global capability.
+or have been granted
+link:access-control.html#capability_createProject[the 'Create Project' global capability].
 
 SCRIPTING
 ---------

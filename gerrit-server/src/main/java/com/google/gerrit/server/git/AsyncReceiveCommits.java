@@ -17,7 +17,6 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.ReceiveCommits.MessageSender;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -113,26 +112,24 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   }
 
   private class MessageSenderOutputStream extends OutputStream {
-    private final MessageSender messageSender = rc.getMessageSender();
-
     @Override
     public void write(int b) {
-      messageSender.sendBytes(new byte[]{(byte)b});
+      rc.getMessageSender().sendBytes(new byte[]{(byte)b});
     }
 
     @Override
     public void write(byte[] what, int off, int len) {
-      messageSender.sendBytes(what, off, len);
+      rc.getMessageSender().sendBytes(what, off, len);
     }
 
     @Override
     public void write(byte[] what) {
-      messageSender.sendBytes(what);
+      rc.getMessageSender().sendBytes(what);
     }
 
     @Override
     public void flush() {
-      messageSender.flush();
+      rc.getMessageSender().flush();
     }
   }
 

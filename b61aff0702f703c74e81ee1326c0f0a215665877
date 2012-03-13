@@ -16,6 +16,24 @@
       "revId": "b61aff0702f703c74e81ee1326c0f0a215665877",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD4n////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CommentedActionDialog.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-13T17:07:49Z",
+      "side": 1,
+      "message": "Since I am attempting to design this class to be easily extended, I figured that it is likely fair to make the main layout component accessible (if there were a bunch of smaller layout panels inside it, I would probably keep them localized to the function setting them up).  I do actually add stuff to the panel in this change where I extend it (lines 159-160):\n\nhttps://gerrit-review.googlesource.com/#/c/32800/2/gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
+      "parentUuid": "AAAD3X////8\u003d",
+      "revId": "b61aff0702f703c74e81ee1326c0f0a215665877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

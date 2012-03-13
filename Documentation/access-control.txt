@@ -858,8 +858,6 @@ much of the server administration burden out to more users.
 Below you find a list of capabilities available:
 
 
-* Flush Caches
-
 * Kill Task
 
 * Priority
@@ -910,6 +908,18 @@ Create Project
 Allow project creation.  This capability allows the granted group to
 either link:cmd-create-project.html[create new git projects via ssh]
 or via the web UI.
+
+
+[[capability_flushCaches]]
+Flush Caches
+~~~~~~~~~~~~
+
+Allow the flushing of Gerrits caches.  This capability allows the granted
+group to link:cmd-flush-caches.html[flush some or all Gerrit caches via ssh].
+
+[NOTE]
+This capability doesn't imply permissions to the show-caches command.  For that
+you need the <<capability_viewCaches,view caches capability>>.
 
 
 [[capability_queryLimit]]

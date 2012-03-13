@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAD2X////o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-13T16:38:04Z",
+      "side": 1,
+      "message": "Why are these capabilities not consistently named with their respective ssh commands?\n\nView Caches -\u003e gerrit show-caches\n\nView Connections -\u003e gerrit show-connections\n\nView Queue -\u003e gerrit show-queue\n\nAre my claims valid?\nShould I file an issue to have the capabilities renamed? Or will someone take this on even without issue?",
+      "revId": "80ebf9d012ab2f5661fd95433b9259d9267069fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

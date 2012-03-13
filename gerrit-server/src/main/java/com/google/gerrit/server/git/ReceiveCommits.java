@@ -405,11 +405,11 @@ public class ReceiveCommits {
     messages.add(new Message(message, false));
   }
 
-  private void addError(String error) {
+  void addError(String error) {
     messages.add(new Message(error, true));
   }
 
-  private void sendMessages() {
+  void sendMessages() {
     for (Message m : messages) {
       if (m.isError) {
         messageSender.sendError(m.message);
@@ -421,86 +421,82 @@ public class ReceiveCommits {
 
   void processCommands(final Collection<ReceiveCommand> commands,
       final MultiProgressMonitor progress) {
-    try {
-      newProgress = progress.beginSubTask("new", UNKNOWN);
-      replaceProgress = progress.beginSubTask("updated", UNKNOWN);
-      closeProgress = progress.beginSubTask("closed", UNKNOWN);
-      commandProgress = progress.beginSubTask("refs", commands.size());
+    newProgress = progress.beginSubTask("new", UNKNOWN);
+    replaceProgress = progress.beginSubTask("updated", UNKNOWN);
+    closeProgress = progress.beginSubTask("closed", UNKNOWN);
+    commandProgress = progress.beginSubTask("refs", commands.size());
 
-      parseCommands(commands);
-      if (newChange != null
-          && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
-        createNewChanges();
+    parseCommands(commands);
+    if (newChange != null
+        && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
+      createNewChanges();
+    }
+    newProgress.end();
+
+    doReplaces();
+    replaceProgress.end();
+
+    for (final ReceiveCommand c : commands) {
+      if (c.getResult() == Result.OK) {
+        switch (c.getType()) {
+          case CREATE:
+            if (isHead(c)) {
+              autoCloseChanges(c);
+            }
+            break;
+
+          case UPDATE: // otherwise known as a fast-forward
+            tagCache.updateFastForward(project.getNameKey(),
+                c.getRefName(),
+                c.getOldId(),
+                c.getNewId());
+            if (isHead(c)) {
+              autoCloseChanges(c);
+            }
+            break;
+
+          case UPDATE_NONFASTFORWARD:
+            if (isHead(c)) {
+              autoCloseChanges(c);
+            }
+            break;
+        }
+
+        if (isConfig(c)) {
+          projectCache.evict(project);
+          ProjectState ps = projectCache.get(project.getNameKey());
+          repoManager.setProjectDescription(project.getNameKey(), //
+              ps.getProject().getDescription());
+        }
+
+        if (!MagicBranch.isMagicBranch(c.getRefName())) {
+          // We only schedule direct refs updates for replication.
+          // Change refs are scheduled when they are created.
+          //
+          replication.scheduleUpdate(project.getNameKey(), c.getRefName());
+          Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
+          hooks.doRefUpdatedHook(destBranch, c.getOldId(), c.getNewId(), currentUser.getAccount());
+        }
+        commandProgress.update(1);
       }
-      newProgress.end();
+    }
+    closeProgress.end();
+    commandProgress.end();
+    progress.end();
 
-      doReplaces();
-      replaceProgress.end();
-
-      for (final ReceiveCommand c : commands) {
-        if (c.getResult() == Result.OK) {
-          switch (c.getType()) {
-            case CREATE:
-              if (isHead(c)) {
-                autoCloseChanges(c);
-              }
-              break;
-
-            case UPDATE: // otherwise known as a fast-forward
-              tagCache.updateFastForward(project.getNameKey(),
-                  c.getRefName(),
-                  c.getOldId(),
-                  c.getNewId());
-              if (isHead(c)) {
-                autoCloseChanges(c);
-              }
-              break;
-
-            case UPDATE_NONFASTFORWARD:
-              if (isHead(c)) {
-                autoCloseChanges(c);
-              }
-              break;
-          }
-
-          if (isConfig(c)) {
-            projectCache.evict(project);
-            ProjectState ps = projectCache.get(project.getNameKey());
-            repoManager.setProjectDescription(project.getNameKey(), //
-                ps.getProject().getDescription());
-          }
-
-          if (!MagicBranch.isMagicBranch(c.getRefName())) {
-            // We only schedule direct refs updates for replication.
-            // Change refs are scheduled when they are created.
-            //
-            replication.scheduleUpdate(project.getNameKey(), c.getRefName());
-            Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
-            hooks.doRefUpdatedHook(destBranch, c.getOldId(), c.getNewId(), currentUser.getAccount());
-          }
-          commandProgress.update(1);
+    if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
+      final String url = canonicalWebUrl;
+      addMessage("");
+      addMessage("New Changes:");
+      for (final Change c : allNewChanges) {
+        if (c.getStatus() == Change.Status.DRAFT) {
+          addMessage("  " + url + c.getChangeId() + " [DRAFT]");
+        }
+        else {
+          addMessage("  " + url + c.getChangeId());
         }
       }
-      closeProgress.end();
-      commandProgress.end();
-      progress.end();
-
-      if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
-        final String url = canonicalWebUrl;
-        addMessage("");
-        addMessage("New Changes:");
-        for (final Change c : allNewChanges) {
-          if (c.getStatus() == Change.Status.DRAFT) {
-            addMessage("  " + url + c.getChangeId() + " [DRAFT]");
-          }
-          else {
-            addMessage("  " + url + c.getChangeId());
-          }
-        }
-        addMessage("");
-      }
-    } finally {
-      sendMessages();
+      addMessage("");
     }
   }
 
@@ -2060,7 +2056,7 @@ public class ReceiveCommits {
     reject(cmd, "prohibited by Gerrit");
   }
 
-  void reject(final ReceiveCommand cmd, final String why) {
+  private void reject(final ReceiveCommand cmd, final String why) {
     cmd.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON, why);
     commandProgress.update(1);
   }

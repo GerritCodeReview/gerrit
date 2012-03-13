@@ -833,10 +833,6 @@ much of the server administration burden out to more users.
 Below you find a list of capabilities available:
 
 
-* Kill Task
-
-* Priority
-
 * Start Replication
 
 * View Caches
@@ -894,6 +890,27 @@ group to link:cmd-flush-caches.html[empty single or all Gerrit caches via ssh].
 [NOTE]
 This capability doesn't imply permissions to the show-caches command.  For that
 you need the <<capability_showCaches,show caches capability>>.
+
+
+[[capability_kill]]
+Kill Task
+~~~~~~~~~
+
+Allow the operation of the link:cmd-kill.html[kill command over ssh].  The
+kill command ends tasks that currently occupy the Gerrit server, usually
+a replication task or a user initiated task such as an upload-pack or
+recieve-pack.
+
+
+[[capability_priority]]
+Priority
+~~~~~~~~
+
+This capability allows users to use
+link:config-gerrit.html#sshd.batchThreads[the thread pool reserved] for
+link:access-control.html#non-interactive_users['Non-Interactive Users'].
+It's a binary value in that you either have access to the thread pool, or you
+don't.
 
 
 [[capability_queryLimit]]

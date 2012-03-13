@@ -1954,8 +1954,9 @@ By default, 1.5x the number of CPUs available to the JVM.
 [[sshd.batchThreads]]sshd.batchThreads::
 +
 Number of threads to allocate for SSH command requests from
-non-interactive users. If equals to 0, then all non-interactive
-requests are executed in the same queue as interactive requests.
+link:access-control.html#non-interactive_users[non-interactive users].
+If equals to 0, then all non-interactive requests are executed in the same
+queue as interactive requests.
 +
 Any other value will remove the number of threads from the queue
 allocated to interactive users, and create a separate thread pool

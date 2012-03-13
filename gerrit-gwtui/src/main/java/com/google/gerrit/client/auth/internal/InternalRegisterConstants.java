@@ -12,14 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.userpass;
+package com.google.gerrit.client.auth.internal;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.i18n.client.Constants;
 
-public interface UserPassResources extends ClientBundle {
-  static final UserPassResources I = GWT.create(UserPassResources.class);
-
-  @Source("userpass.css")
-  UserPassCss css();
+public interface InternalRegisterConstants extends Constants {
+  String buttonRegister();
+  String username();
+  String password();
+  String verifyPassword();
+  String usernameRequired();
+  String passwordRequired();
+  String verifyPasswordRequired();
+  String invalidUsername();
+  String passwordsDontMatch();
+  String generalFailure();
+  String accountAlreadyExist();
+  String registrationSuccess();
 }

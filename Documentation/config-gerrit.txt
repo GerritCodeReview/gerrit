@@ -140,6 +140,12 @@ Unlike LDAP above, the username used to perform the LDAP simple bind
 request is the exact string supplied by in the dialog by the user.
 The configured <<ldap.username>> identity is not used to obtain
 account information.
+
+* `INTERNAL`
++
+Gerrit will store authentication data in internal DB. No external
+services are needed.
+
 +
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
 +

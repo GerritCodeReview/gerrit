@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
+import com.google.gerrit.httpd.auth.internal.InternalAuthModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
@@ -97,6 +98,10 @@ public class WebModule extends FactoryModule {
       case LDAP:
       case LDAP_BIND:
         install(new LdapAuthModule());
+        break;
+
+      case INTERNAL:
+        install(new InternalAuthModule());
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:

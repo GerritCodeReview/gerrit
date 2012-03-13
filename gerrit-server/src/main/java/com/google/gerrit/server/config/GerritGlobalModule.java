@@ -36,6 +36,7 @@ import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.auth.internal.InternalModule;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.ChangeMergeQueue;
@@ -88,6 +89,9 @@ public class GerritGlobalModule extends FactoryModule {
         break;
 
       case CUSTOM_EXTENSION:
+        break;
+      case INTERNAL:
+        install(new InternalModule());
         break;
 
       default:

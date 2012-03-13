@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.auth.internal.InternalRegisterDialog;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.ChangeConstants;
@@ -255,6 +256,7 @@ public class Gerrit implements EntryPoint {
 
       case LDAP:
       case LDAP_BIND:
+      case INTERNAL:
         new UserPassSignInDialog(token, null).center();
         break;
     }
@@ -612,6 +614,20 @@ public class Gerrit implements EntryPoint {
           }
           signInAnchor = anchor(C.menuSignIn(), loginRedirect(History.getToken()));
           menuRight.add(signInAnchor);
+          break;
+
+        case INTERNAL:
+          menuRight.addItem(C.menuRegister(), new Command() {
+            public void execute() {
+              final String to = History.getToken();
+              new InternalRegisterDialog(SignInMode.REGISTER, to, null).center();
+            }
+          });
+          menuRight.addItem(C.menuSignIn(), new Command() {
+            public void execute() {
+              doSignIn(History.getToken());
+            }
+          });
           break;
 
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:

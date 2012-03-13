@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAD3X////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/CommentedActionDialog.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1005956
+      },
+      "writtenOn": "2012-03-13T12:37:34Z",
+      "side": 1,
+      "message": "Does this need to be class variable?",
+      "revId": "b61aff0702f703c74e81ee1326c0f0a215665877",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

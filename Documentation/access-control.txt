@@ -833,10 +833,6 @@ much of the server administration burden out to more users.
 Below you find a list of capabilities available:
 
 
-* Create Group
-
-* Create Project
-
 * Flush Caches
 
 * Kill Task
@@ -866,11 +862,29 @@ capabilities granted to them automatically.
 Create Account
 ~~~~~~~~~~~~~~
 
-Allow link:cmd-create-account.html['account creation over the ssh prompt'].
+Allow link:cmd-create-account.html[account creation over the ssh prompt].
 This capability allows the granted group members to create non-interactive
 service accounts.  These service accounts are generally used for automation
 and made to be members of the
 link:access-control.html#non-interactive_users['Non-Interactive users'] group.
+
+
+[[capability_createGroup]]
+Create Group
+~~~~~~~~~~~~
+
+Allow group creation.  Groups are used to grant users access to different
+actions in projects.  This capability allows the granted group members to
+either link:cmd-create-group.html[create new groups via ssh] or via the web UI.
+
+
+[[capability_createProject]]
+Create Project
+~~~~~~~~~~~~~~
+
+Allow project creation.  This capability allows the granted group to
+either link:cmd-create-project.html[create new git projects via ssh]
+or via the web UI.
 
 
 [[capability_queryLimit]]

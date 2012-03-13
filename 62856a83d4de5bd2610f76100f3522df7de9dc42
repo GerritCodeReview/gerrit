@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD3n////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-13T17:05:27Z",
+      "side": 1,
+      "message": "ah, right, want.get()\n\nSo do you want me to put the approval checking code back in the ReviewCommand?",
+      "parentUuid": "AAADon////s\u003d",
+      "revId": "62856a83d4de5bd2610f76100f3522df7de9dc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADpH////8\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD33////4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-13T17:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADpH////8\u003d",
+      "revId": "62856a83d4de5bd2610f76100f3522df7de9dc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADon////w\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-03-07T12:26:53Z",
       "side": 1,
       "message": "This variable is now not used anymore and can be removed.",
+      "revId": "62856a83d4de5bd2610f76100f3522df7de9dc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD3n////g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-13T17:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADon////w\u003d",
       "revId": "62856a83d4de5bd2610f76100f3522df7de9dc42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -23,6 +23,17 @@ public interface AccountConstants extends Constants {
   String preferredEmail();
   String registeredOn();
   String accountId();
+  String passwordChange();
+  String currentPassword();
+  String newPassword();
+  String repeatPassword();
+  String saveChanges();
+
+  String emptyPasswordError();
+  String passwordsDoesntMatchError();
+  String invalidCurrentPasswordError();
+
+  String passwordChangedSuccessfully();
 
   String maximumPageSizeFieldLabel();
   String dateFormatLabel();

@@ -23,8 +23,8 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 public class MyProfileScreen extends SettingsScreen {
-  private int labelIdx, fieldIdx;
-  private Grid info;
+  protected int labelIdx, fieldIdx;
+  protected Grid info;
 
   @Override
   protected void onInitUI() {
@@ -38,7 +38,7 @@ public class MyProfileScreen extends SettingsScreen {
       fieldIdx = 1;
     }
 
-    info = new Grid(5, 2);
+    info = createGrid();
     info.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     info.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
     add(info);
@@ -62,7 +62,11 @@ public class MyProfileScreen extends SettingsScreen {
     display();
   }
 
-  private void infoRow(final int row, final String name) {
+  protected Grid createGrid() {
+    return new Grid(5, 2);
+  }
+
+  protected void infoRow(final int row, final String name) {
     info.setText(row, labelIdx, name);
     info.getCellFormatter().addStyleName(row, 0,
         Gerrit.RESOURCES.css().header());

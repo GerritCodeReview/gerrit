@@ -37,6 +37,7 @@ import com.google.gerrit.client.account.MyGroupsScreen;
 import com.google.gerrit.client.account.MyIdentitiesScreen;
 import com.google.gerrit.client.account.MyPasswordScreen;
 import com.google.gerrit.client.account.MyPreferencesScreen;
+import com.google.gerrit.client.account.MyProfileIntenralScreen;
 import com.google.gerrit.client.account.MyProfileScreen;
 import com.google.gerrit.client.account.MySshKeysScreen;
 import com.google.gerrit.client.account.MyWatchedProjectsScreen;
@@ -66,10 +67,12 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
+import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -506,7 +509,7 @@ public class Dispatcher {
 
       private Screen select() {
         if (matchExact(SETTINGS, token)) {
-          return new MyProfileScreen();
+          return getMyProfileScreen();
         }
 
         if (matchExact(SETTINGS_PREFERENCES, token)) {
@@ -585,6 +588,13 @@ public class Dispatcher {
         }
 
         return new NotFoundScreen();
+      }
+      private Screen getMyProfileScreen() {
+        GerritConfig config = Gerrit.getConfig();
+        if (config.getAuthType() == AuthType.INTERNAL) {
+          return new MyProfileIntenralScreen();
+        }
+        return new MyProfileScreen();
       }
     });
   }

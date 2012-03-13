@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.common.auth.internal.InternalPasswordChangeService;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.AccountService;
 import com.google.gerrit.common.data.ProjectAdminService;
@@ -26,6 +27,7 @@ public class Util {
   public static final AccountService ACCOUNT_SVC;
   public static final AccountSecurity ACCOUNT_SEC;
   public static final ProjectAdminService PROJECT_SVC;
+  public static final InternalPasswordChangeService INTERNAL_PASSWORD_CHANGE_SVC;
 
   static {
     ACCOUNT_SVC = GWT.create(AccountService.class);
@@ -36,5 +38,8 @@ public class Util {
 
     PROJECT_SVC = GWT.create(ProjectAdminService.class);
     JsonUtil.bind(PROJECT_SVC, "rpc/ProjectAdminService");
+
+    INTERNAL_PASSWORD_CHANGE_SVC = GWT.create(InternalPasswordChangeService.class);
+    JsonUtil.bind(INTERNAL_PASSWORD_CHANGE_SVC, "rpc/InternalPasswordChangeService");
   }
 }

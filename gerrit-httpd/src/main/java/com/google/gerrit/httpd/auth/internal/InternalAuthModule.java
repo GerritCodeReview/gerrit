@@ -30,6 +30,7 @@ public class InternalAuthModule extends ServletModule {
       protected void configureServlets() {
         rpc(UserPassAuthServiceImpl.class);
         rpc(InternalRegisterServiceImpl.class);
+        rpc(InternalPasswordChangeServiceImpl.class);
       }
     });
   }

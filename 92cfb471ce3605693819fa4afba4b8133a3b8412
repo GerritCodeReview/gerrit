@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD53////s\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-13T23:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADo3////c\u003d",
+      "revId": "92cfb471ce3605693819fa4afba4b8133a3b8412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADo3////Y\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-07T14:59:44Z",
       "side": 1,
       "message": "If I remember correctly this was a fix for a problem that was introduced only after Gerrit 2.2.2.1. So it might not be worth to mention it.",
+      "revId": "92cfb471ce3605693819fa4afba4b8133a3b8412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD53////o\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-13T23:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADo3////Y\u003d",
       "revId": "92cfb471ce3605693819fa4afba4b8133a3b8412",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD53////k\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-13T23:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADo3////U\u003d",
+      "revId": "92cfb471ce3605693819fa4afba4b8133a3b8412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADo3////Q\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-07T14:59:44Z",
       "side": 1,
       "message": "This was cherry-picked for 2.2.2.1 [1]. So I guess there is no need to mention it here again.\n\n[1] http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/ReleaseNotes-2.2.2.1.html",
+      "revId": "92cfb471ce3605693819fa4afba4b8133a3b8412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD53////g\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-13T23:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADo3////Q\u003d",
       "revId": "92cfb471ce3605693819fa4afba4b8133a3b8412",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

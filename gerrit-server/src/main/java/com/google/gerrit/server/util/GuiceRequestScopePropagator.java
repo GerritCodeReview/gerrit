@@ -36,9 +36,9 @@ import javax.annotation.Nullable;
 /** Propagator for Guice's built-in servlet scope. */
 public class GuiceRequestScopePropagator extends RequestScopePropagator {
 
-  private final Provider<String> urlProvider;
-  private final Provider<SocketAddress> remotePeerProvider;
-  private final Provider<CurrentUser> currentUserProvider;
+  private final String url;
+  private final SocketAddress peer;
+  private final CurrentUser user;
 
   @Inject
   GuiceRequestScopePropagator(
@@ -46,9 +46,9 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
       @RemotePeer Provider<SocketAddress> remotePeerProvider,
       Provider<CurrentUser> currentUserProvider) {
     super(ServletScopes.REQUEST);
-    this.urlProvider = urlProvider;
-    this.remotePeerProvider = remotePeerProvider;
-    this.currentUserProvider = currentUserProvider;
+    this.url = urlProvider != null ? urlProvider.get() : null;
+    this.peer = remotePeerProvider.get();
+    this.user = currentUserProvider.get();
   }
 
   /**
@@ -61,17 +61,14 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
     // Request scopes appear to use specific keys in their map, instead of only
     // providers. Add bindings for both the key to the instance directly and the
     // provider to the instance to be safe.
-    String url = urlProvider.get();
     seedMap.put(Key.get(typeOfProvider(String.class), CanonicalWebUrl.class),
         Providers.of(url));
     seedMap.put(Key.get(String.class, CanonicalWebUrl.class), url);
 
-    SocketAddress peer = remotePeerProvider.get();
     seedMap.put(Key.get(typeOfProvider(SocketAddress.class), RemotePeer.class),
         Providers.of(peer));
     seedMap.put(Key.get(SocketAddress.class, RemotePeer.class), peer);
 
-    CurrentUser user = currentUserProvider.get();
     seedMap.put(Key.get(typeOfProvider(CurrentUser.class)), Providers.of(user));
     seedMap.put(Key.get(CurrentUser.class), user);
 

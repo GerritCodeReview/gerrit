@@ -858,10 +858,6 @@ much of the server administration burden out to more users.
 Below you find a list of capabilities available:
 
 
-* Start Replication
-
-* View Caches
-
 * View Connections
 
 * View Queue
@@ -971,6 +967,23 @@ any of their groups is used.
 
 This limit applies not only to the link:cmd-query.html[`gerrit query`]
 command, but also to the web UI results pagination size.
+
+[[capability_startReplication]]
+Start Replication
+~~~~~~~~~~~~~~~~~
+
+Allow access to execute link:cmd-replicate.html[the `gerrit replicate` command]
+even if the user isn't in the Administrator group.
+
+
+[[capability_viewCaches]]
+View Caches
+~~~~~~~~~~~
+
+Allow querying for status of Gerrits internal caches.  This capability allows
+the granted group to
+link:cmd-show-caches.html[look at some or all Gerrit caches via ssh] even if
+the user isn't in the Administrator group.
 
 
 [[restart_changes]]

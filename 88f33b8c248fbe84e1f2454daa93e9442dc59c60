@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAD2X////0\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-13T15:10:14Z",
+      "side": 1,
+      "message": "As a discussion for the entire capability section, it\u0027s worth noting that there are several formatting practices throughout the documentation.\nOne of them is the one I have here, which is the bigger headline with a line of ~-chars under it.\n\nCreate group\n~~~~~~~~~\n\nAnother foramtting practice can be seen here https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#_a_id_cache_a_section_cache, and is arguably smaller and neater. On the other hand it\u0027s not listed in the table of contents which I perceive as a drawback.\n\nCreate group::\n\nSo, I\u0027d like to make a poll, which version gives the better overview and readability? Access-controls is already a large page, would this help alleviate that feeling a bit?",
+      "revId": "88f33b8c248fbe84e1f2454daa93e9442dc59c60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

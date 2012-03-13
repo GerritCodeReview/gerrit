@@ -34,6 +34,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -167,14 +168,16 @@ public class AsyncReceiveCommits implements PreReceiveHook {
           timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (ExecutionException e) {
       log.warn("Error in ReceiveCommits", e);
-      rc.getMessageSender().sendError("internal error while processing changes");
+      rc.addError("internal error while processing changes");
       // ReceiveCommits has tried its best to catch errors, so anything at this
       // point is very bad.
       for (final ReceiveCommand c : commands) {
-        if (c.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
-          rc.reject(c, "internal error");
+        if (c.getResult() == Result.NOT_ATTEMPTED) {
+          c.setResult(Result.REJECTED_OTHER_REASON, "internal error");
         }
       }
+    } finally {
+      rc.sendMessages();
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAD3n////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-13T16:48:13Z",
+      "side": 1,
+      "message": "FWIW, I would have let the default unit in the config to seconds, and done:\n\n  long seconds \u003d ConfigUtil.getTimeUnit(..., SECONDS.convert(2, MINUTES), SECONDS);\n  return MILLISECONDS.convert(seconds, SECONDS);",
+      "revId": "00dd12d6d103dbe0a45fa82c2928cc159e09351e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

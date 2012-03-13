@@ -253,7 +253,17 @@ public class MultiProgressMonitor {
   private void sendDone() {
     spinnerState = NO_SPINNER;
     StringBuilder s = format();
-    s.append(", done    \n");
+    boolean any = false;
+    for (Task t : tasks) {
+      if (t.count != 0) {
+        any = true;
+        break;
+      }
+    }
+    if (any) {
+      s.append(", ");
+    }
+    s.append("done    \n");
     send(s);
   }
 

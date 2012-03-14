@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAD+H////4\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010522
+      },
+      "writtenOn": "2012-03-14T20:21:31Z",
+      "side": 1,
+      "message": "Hmm, I have 2.2.2.1, do I need to downgrade first to 2.1.x and then back to 2.3.x?\nI guess you forgot to add the 2.2.x releases in this upgrade note.",
+      "revId": "8b56efc3ee2b7d06487c5c1a92b10e1cdd3a07d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

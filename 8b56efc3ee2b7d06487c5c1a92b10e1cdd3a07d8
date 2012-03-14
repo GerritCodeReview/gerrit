@@ -16,6 +16,24 @@
       "revId": "8b56efc3ee2b7d06487c5c1a92b10e1cdd3a07d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD93////k\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-14T22:31:11Z",
+      "side": 1,
+      "message": "I tried to improve the wording a bit...",
+      "parentUuid": "AAAD+H////4\u003d",
+      "revId": "8b56efc3ee2b7d06487c5c1a92b10e1cdd3a07d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

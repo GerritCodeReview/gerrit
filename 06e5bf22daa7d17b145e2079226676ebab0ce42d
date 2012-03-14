@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD73////Y\u003d",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010582
+      },
+      "writtenOn": "2012-03-14T03:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAADr3///+o\u003d",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADr3///+s\u003d",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-09T12:07:40Z",
       "side": 1,
       "message": "[optional] in the other document that is added (dev-release-subproject) you are using the one-line syntax for the heading lines, maybe it should be also used here:\n\n  \u003d\u003d Making a Gerrit Release \u003d\u003d\n\nor even just\n\n  \u003d\u003d Making a Gerrit Release\n\nI actually think that one-line headings are better to maintain, since you don\u0027t need to adapt the underlining whenever the heading changes.",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD73////c\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1010582
+      },
+      "writtenOn": "2012-03-14T03:53:26Z",
+      "side": 1,
+      "message": "Actually, I converted the txt file to asciidoc. I didn\u0027t see any existing files following one-line heading format, so I\u0027m change subproject to two two-line headings.",
+      "parentUuid": "AAADr3///+s\u003d",
       "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD73////g\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010582
+      },
+      "writtenOn": "2012-03-14T03:53:26Z",
+      "side": 1,
+      "message": "Yup.",
+      "parentUuid": "AAADZH////4\u003d",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADZH////0\u003d",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-02-29T23:18:16Z",
       "side": 1,
       "message": "s/but/built?/",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD73////k\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010582
+      },
+      "writtenOn": "2012-03-14T03:53:26Z",
+      "side": 1,
+      "message": "Yup.",
+      "parentUuid": "AAADZH////0\u003d",
       "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD73////o\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010582
+      },
+      "writtenOn": "2012-03-14T03:53:26Z",
+      "side": 1,
+      "message": "Good thought. Sticking with RC.",
+      "parentUuid": "AAADZH////w\u003d",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADr3////U\u003d",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2012-03-09T12:07:40Z",
       "side": 1,
       "message": "link here to the other document dev-release-subproject.html?",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD73////s\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010582
+      },
+      "writtenOn": "2012-03-14T03:53:26Z",
+      "side": 1,
+      "message": "Good idea.",
+      "parentUuid": "AAADr3////U\u003d",
       "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD73////w\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010582
+      },
+      "writtenOn": "2012-03-14T03:53:26Z",
+      "side": 1,
+      "message": "I\u0027m not sure where this is, unfortunately.",
+      "parentUuid": "AAADZH////s\u003d",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADZH////o\u003d",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 5
@@ -132,6 +258,24 @@
       "writtenOn": "2012-02-29T23:18:16Z",
       "side": 1,
       "message": "s/does an/does a/",
+      "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD73////0\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010582
+      },
+      "writtenOn": "2012-03-14T03:53:26Z",
+      "side": 1,
+      "message": "an is correct, svn being ESS-VEE-EN.",
+      "parentUuid": "AAADZH////o\u003d",
       "revId": "06e5bf22daa7d17b145e2079226676ebab0ce42d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

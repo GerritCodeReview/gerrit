@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAD+H////8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeManageService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-14T20:09:22Z",
+      "side": 1,
+      "message": "The revertChange method is, unnecessarily, moved down below the restoreChange. This only makes code review harder.",
+      "revId": "33c8d12e2171fc8d6da9cc5d9c09951addb3e4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

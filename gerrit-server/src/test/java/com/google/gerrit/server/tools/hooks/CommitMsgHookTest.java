@@ -388,6 +388,25 @@ public class CommitMsgHookTest extends HookTestCase {
             "git://example.com/ fixes this\n"));
   }
 
+  @Test
+  public void testWithFalseTags() throws Exception {
+    assertEquals("foo\n" + //
+	"\n" + //
+	"FakeLine:\n" + //
+	"  foo\n" + //
+	"  bar\n" + //
+	"\n" + //
+	"Change-Id: I67632a37fd2e08a35f766f52fc9a47f4ea868c55\n" + //
+	"RealTag: abc\n", //
+	call("foo\n" + //
+	    "\n" + //
+	    "FakeLine:\n" + //
+	    "  foo\n" + //
+	    "  bar\n" + //
+	    "\n" + //
+	    "RealTag: abc\n"));
+  }
+
   private void hookDoesNotModify(final String in) throws Exception {
     assertEquals(in, call(in));
   }

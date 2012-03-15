@@ -33,6 +33,24 @@
       "revId": "60383aa02cdbedd8932e5eeb28ce25b3c37ca80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD93///9I\u003d",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-15T19:51:11Z",
+      "side": 1,
+      "message": "You should use https://gerrit.googlesource.com/gerrit.git\nfor cloning.  And you should push to https://gerrit-review.googlesource.com/p/gerrit.git",
+      "parentUuid": "AAADkX////k\u003d",
+      "revId": "60383aa02cdbedd8932e5eeb28ce25b3c37ca80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

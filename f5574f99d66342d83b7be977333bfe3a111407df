@@ -34,6 +34,24 @@
       "revId": "f5574f99d66342d83b7be977333bfe3a111407df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD93///9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-15T18:10:50Z",
+      "side": 0,
+      "message": "If this breaks things for cross branch merges, what is the right way forward?",
+      "parentUuid": "AAADtX////4\u003d",
+      "revId": "f5574f99d66342d83b7be977333bfe3a111407df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

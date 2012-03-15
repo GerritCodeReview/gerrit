@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAD8n////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-15T21:25:28Z",
+      "side": 1,
+      "message": "What if the destination branch doesn\u0027t exist yet?\nThen the git.getRef will return null and getObjectId will throw NPE.",
+      "revId": "23e73194c41d6b8b41c724e0e603d66bb5ee8036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD9X///84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/HasDraftByPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-15T17:41:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAD9X///+Q\u003d",
+      "revId": "541c7cc42faafa8e19d8c2f635bbc46da2e259ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD9X///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsReviewedPredicate.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-15T02:09:49Z",
       "side": 1,
       "message": "When a PatchSet is supplied we should only match on that patch set, not the current patch set.",
+      "revId": "541c7cc42faafa8e19d8c2f635bbc46da2e259ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD9X///80\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsReviewedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-15T17:41:05Z",
+      "side": 1,
+      "message": "Are you sure about this?\n\nUnless I\u0027m mistaken, this creates a situation where:\n  match(o, c) -\u003e true, but\n  match(o, null) -\u003e false\nwhich seems to be in violation of the suggested relationship of parent and child...\n\nPerhaps if we provide a patchset we should check both the patch set provided and the current patch set?  Or perhaps we should only return true of the patchset is the current patchset?",
+      "parentUuid": "AAAD9X///+M\u003d",
       "revId": "541c7cc42faafa8e19d8c2f635bbc46da2e259ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD9X///8w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-15T17:41:05Z",
+      "side": 1,
+      "message": "Once again, should we just assert that subobject is the current patchset?",
+      "parentUuid": "AAAD9X///+I\u003d",
+      "revId": "541c7cc42faafa8e19d8c2f635bbc46da2e259ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD9X///+E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD9X///8s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/MessagePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-15T17:41:05Z",
+      "side": 1,
+      "message": "Same question",
+      "parentUuid": "AAAD9X///+E\u003d",
+      "revId": "541c7cc42faafa8e19d8c2f635bbc46da2e259ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD9X///+A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RegexFilePredicate.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2012-03-15T02:09:49Z",
       "side": 1,
       "message": "As discussed we should match on the files within the PatchSet if the PatchSet is supplied rather than matching on the current patch set.",
+      "revId": "541c7cc42faafa8e19d8c2f635bbc46da2e259ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD9X///8o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/RegexFilePredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-15T17:41:05Z",
+      "side": 1,
+      "message": "same question.",
+      "parentUuid": "AAAD9X///+A\u003d",
       "revId": "541c7cc42faafa8e19d8c2f635bbc46da2e259ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

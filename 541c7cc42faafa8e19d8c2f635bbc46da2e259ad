@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD7H///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/IsReviewedPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-15T17:59:44Z",
+      "side": 1,
+      "message": "Ick. I see the problem you are describing, but I think its a reasonable behavior here.\n\nWe have a predicate that specifies some sort of patch set level conditional test. When looking for changes, we assume the only reasonable thing to do is look only at the current patch set. It might be necessary to later support ways to look at all patch sets on a change when looking at changes... but today we don\u0027t, we use patch set level things to filter changes by the current patch set. Whee.\n\nBut once we have a ChangeData and are looking for a matching PatchSet, we have a specific patch set. We should match the predicate based on the patch set given, *not* the current patch set.\n\nSo I still think my suggestion stands. We might later want to modify ChangeQueryBuilder to have a mode where it configures these predicates to match any patch set when the child is null rather than only the current. You might need to that to correctly search for specific patch sets. :-(",
+      "parentUuid": "AAAD9X///80\u003d",
+      "revId": "541c7cc42faafa8e19d8c2f635bbc46da2e259ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD9X///+I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/LabelPredicate.java",
         "patchSetId": 1

@@ -296,7 +296,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
       //
       for (StarredChange w : args.db.get().starredChanges().byChange(
           change.getId())) {
-        add(RecipientType.BCC, w.getAccountId());
+        super.add(RecipientType.BCC, w.getAccountId());
       }
     } catch (OrmException err) {
       // Just don't BCC everyone. Better to send a partial message to those

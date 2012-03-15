@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD9X///8g\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010036
+      },
+      "writtenOn": "2012-03-15T18:24:03Z",
+      "side": 1,
+      "message": "I would agree with that. I can say I was not looking forward to re-training everyone to this.",
+      "parentUuid": "AAAD93///+M\u003d",
+      "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD+H////k\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
         "patchSetId": 8

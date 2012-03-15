@@ -114,13 +114,14 @@ public final class SuExec extends BaseCommand {
       peer = peerAddress;
     }
 
-    return new SshSession(session.get(), peer, userFactory.create(
-        AccessPath.SSH_COMMAND, new Provider<SocketAddress>() {
+    CurrentUser u = userFactory.create(null, new Provider<SocketAddress>() {
           @Override
           public SocketAddress get() {
             return peer;
           }
-        }, accountId));
+        }, accountId);
+    u.setAccessPath(AccessPath.SSH_COMMAND);
+    return new SshSession(session.get(), peer, u);
   }
 
   private static String join(List<String> args) {

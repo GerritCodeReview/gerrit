@@ -28,7 +28,7 @@ import java.util.Set;
 public class AnonymousUser extends CurrentUser {
   @Inject
   AnonymousUser(CapabilityControl.Factory capabilityControlFactory) {
-    super(capabilityControlFactory, AccessPath.UNKNOWN);
+    super(capabilityControlFactory);
   }
 
   @Override

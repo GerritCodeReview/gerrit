@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectControl;
@@ -81,13 +82,14 @@ public abstract class AbstractGitCommand extends BaseCommand {
   }
 
   private SshSession newSession() {
-    return new SshSession(session, session.getRemoteAddress(), userFactory
-        .create(AccessPath.GIT, new Provider<SocketAddress>() {
+    CurrentUser u = userFactory.create(null, new Provider<SocketAddress>() {
           @Override
           public SocketAddress get() {
             return session.getRemoteAddress();
           }
-        }, user.getAccountId()));
+        }, user.getAccountId());
+    u.setAccessPath(AccessPath.GIT);
+    return new SshSession(session, session.getRemoteAddress(), u);
   }
 
   private void service() throws IOException, Failure {

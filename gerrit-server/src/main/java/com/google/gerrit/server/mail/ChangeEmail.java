@@ -351,7 +351,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   private void add(List<AccountProjectWatch> matching, AccountProjectWatch w)
       throws OrmException {
     IdentifiedUser user =
-        args.identifiedUserFactory.create(args.db, w.getAccountId());
+        args.identifiedUserFactory.create(args.db, null, w.getAccountId());
     ChangeQueryBuilder qb = args.queryBuilder.create(user);
     Predicate<ChangeData> p = qb.is_visible();
     if (w.getFilter() != null) {

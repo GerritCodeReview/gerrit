@@ -40,7 +40,8 @@ public class PeerDaemonUser extends CurrentUser {
   @Inject
   protected PeerDaemonUser(CapabilityControl.Factory capabilityControlFactory,
       @Assisted SocketAddress peer) {
-    super(capabilityControlFactory, AccessPath.SSH_COMMAND);
+    super(capabilityControlFactory);
+    setAccessPath(AccessPath.SSH_COMMAND);
     this.peer = peer;
   }
 

@@ -45,7 +45,7 @@ class OwnerinPredicate extends OperatorPredicate<ChangeData> {
     if (change == null) {
       return false;
     }
-    final IdentifiedUser owner = userFactory.create(dbProvider,
+    final IdentifiedUser owner = userFactory.create(dbProvider, null,
       change.getOwner());
     return owner.getEffectiveGroups().contains(uuid);
   }

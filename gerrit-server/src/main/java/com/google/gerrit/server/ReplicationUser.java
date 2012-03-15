@@ -40,7 +40,8 @@ public class ReplicationUser extends CurrentUser {
   @Inject
   protected ReplicationUser(CapabilityControl.Factory capabilityControlFactory,
       @Assisted Set<AccountGroup.UUID> authGroups) {
-    super(capabilityControlFactory, AccessPath.REPLICATION);
+    super(capabilityControlFactory);
+    setAccessPath(AccessPath.REPLICATION);
 
     if (authGroups == EVERYTHING_VISIBLE) {
       effectiveGroups = EVERYTHING_VISIBLE;

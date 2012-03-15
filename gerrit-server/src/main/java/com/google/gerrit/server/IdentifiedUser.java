@@ -91,20 +91,16 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(final Account.Id id) {
-      return create(AccessPath.UNKNOWN, null, id);
+      return create(null, null, id);
     }
 
-    public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, AccessPath.UNKNOWN,
+    public IdentifiedUser create(
+        Provider<ReviewDb> db,
+        @RemotePeer Provider<SocketAddress> remotePeerProvider,
+        Account.Id id) {
+      return new IdentifiedUser(capabilityControlFactory,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupIncludeCache, null, db, id);
-    }
-
-    public IdentifiedUser create(AccessPath accessPath,
-        Provider<SocketAddress> remotePeerProvider, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, accessPath,
-          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupIncludeCache, remotePeerProvider, null, id);
+          groupIncludeCache, remotePeerProvider, db, id);
     }
   }
 
@@ -150,9 +146,8 @@ public class IdentifiedUser extends CurrentUser {
       this.dbProvider = dbProvider;
     }
 
-    public IdentifiedUser create(final AccessPath accessPath,
-        final Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, accessPath,
+    public IdentifiedUser create(Account.Id id) {
+      return new IdentifiedUser(capabilityControlFactory,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
           groupIncludeCache, remotePeerProvider, dbProvider, id);
     }
@@ -206,7 +201,6 @@ public class IdentifiedUser extends CurrentUser {
 
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
-      final AccessPath accessPath,
       final AuthConfig authConfig,
       final String anonymousCowardName,
       final Provider<String> canonicalUrl,
@@ -214,7 +208,7 @@ public class IdentifiedUser extends CurrentUser {
       final GroupIncludeCache groupIncludeCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
-    super(capabilityControlFactory, accessPath);
+    super(capabilityControlFactory);
     this.canonicalUrl = canonicalUrl;
     this.realm = realm;
     this.accountCache = accountCache;

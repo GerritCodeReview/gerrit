@@ -33,20 +33,21 @@ import java.util.Set;
  */
 public abstract class CurrentUser {
   private final CapabilityControl.Factory capabilityControlFactory;
-  private final AccessPath accessPath;
-
+  private AccessPath accessPath = AccessPath.UNKNOWN;
   private CapabilityControl capabilities;
 
-  protected CurrentUser(
-      CapabilityControl.Factory capabilityControlFactory,
-      AccessPath accessPath) {
+  protected CurrentUser(CapabilityControl.Factory capabilityControlFactory) {
     this.capabilityControlFactory = capabilityControlFactory;
-    this.accessPath = accessPath;
   }
 
   /** How this user is accessing the Gerrit Code Review application. */
   public final AccessPath getAccessPath() {
     return accessPath;
+  }
+
+  /** Set the path the user is currently using. */
+  public void setAccessPath(AccessPath path) {
+    accessPath = path;
   }
 
   /**

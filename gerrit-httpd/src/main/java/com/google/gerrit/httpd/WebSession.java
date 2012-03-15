@@ -16,7 +16,6 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AuthResult;
 
@@ -32,9 +31,6 @@ public interface WebSession {
   public CurrentUser getCurrentUser();
 
   public void login(AuthResult res, boolean rememberMe);
-
-  /** Change the access path from the default of {@link AccessPath#WEB_UI}. */
-  public void setAccessPath(AccessPath path);
 
   /** Set the user account for this current request only. */
   public void setUserAccountId(Account.Id id);

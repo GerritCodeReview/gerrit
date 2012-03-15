@@ -107,7 +107,7 @@ class PRED_current_user_2 extends Predicate.P2 {
           public ReviewDb get() {
             return db;
           }
-        }, accountId);
+        }, null, accountId);
       } else {
         user = userFactory.create(accountId);
       }

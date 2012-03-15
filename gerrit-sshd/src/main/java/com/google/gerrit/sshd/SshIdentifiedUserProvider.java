@@ -38,8 +38,9 @@ class SshIdentifiedUserProvider implements Provider<IdentifiedUser> {
   public IdentifiedUser get() {
     final CurrentUser user = session.get().getCurrentUser();
     if (user instanceof IdentifiedUser) {
-      return factory.create(user.getAccessPath(), //
-          ((IdentifiedUser) user).getAccountId());
+      IdentifiedUser r = factory.create(((IdentifiedUser) user).getAccountId());
+      r.setAccessPath(user.getAccessPath());
+      return r;
     }
     throw new ProvisionException(NotSignedInException.MESSAGE,
         new NotSignedInException());

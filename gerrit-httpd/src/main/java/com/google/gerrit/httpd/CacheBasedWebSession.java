@@ -71,7 +71,6 @@ public final class CacheBasedWebSession implements WebSession {
   private final AuthConfig authConfig;
   private final Provider<AnonymousUser> anonymousProvider;
   private final IdentifiedUser.RequestFactory identified;
-  private AccessPath accessPath = AccessPath.WEB_UI;
   private Cookie outCookie;
 
   private Key key;
@@ -143,10 +142,14 @@ public final class CacheBasedWebSession implements WebSession {
   }
 
   public CurrentUser getCurrentUser() {
+    CurrentUser user;
     if (isSignedIn()) {
-      return identified.create(accessPath, val.getAccountId());
+      user = identified.create(val.getAccountId());
+    } else {
+      user = anonymousProvider.get();
     }
-    return anonymousProvider.get();
+    user.setAccessPath(AccessPath.WEB_UI);
+    return user;
   }
 
   public void login(final AuthResult res, final boolean rememberMe) {
@@ -160,11 +163,6 @@ public final class CacheBasedWebSession implements WebSession {
     key = manager.createKey(id);
     val = manager.createVal(key, id, rememberMe, identity, null);
     saveCookie();
-  }
-
-  /** Change the access path from the default of {@link AccessPath#WEB_UI}. */
-  public void setAccessPath(AccessPath path) {
-    accessPath = path;
   }
 
   /** Set the user account for this current request only. */

@@ -403,7 +403,7 @@ public class RefControlTest extends TestCase {
     private final Set<AccountGroup.UUID> groups;
 
     MockUser(String name, AccountGroup.UUID[] groupId) {
-      super(RefControlTest.this.capabilityControlFactory, AccessPath.UNKNOWN);
+      super(RefControlTest.this.capabilityControlFactory);
       username = name;
       groups = new HashSet<AccountGroup.UUID>(Arrays.asList(groupId));
       groups.add(registered);

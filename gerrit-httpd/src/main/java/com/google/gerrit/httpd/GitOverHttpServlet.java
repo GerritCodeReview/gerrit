@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
@@ -173,19 +174,19 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class UploadFactory implements UploadPackFactory<HttpServletRequest> {
     private final PackConfig packConfig;
-    private final Provider<WebSession> session;
+    private final Provider<CurrentUser> user;
 
     @Inject
-    UploadFactory(TransferConfig tc, Provider<WebSession> session) {
+    UploadFactory(TransferConfig tc, Provider<CurrentUser> user) {
       this.packConfig = tc.getPackConfig();
-      this.session = session;
+      this.user = user;
     }
 
     @Override
     public UploadPack create(HttpServletRequest req, Repository repo) {
+      user.get().setAccessPath(AccessPath.GIT);
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(packConfig);
-      session.get().setAccessPath(AccessPath.GIT);
       return up;
     }
   }
@@ -233,13 +234,10 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     private final AsyncReceiveCommits.Factory factory;
-    private final Provider<WebSession> session;
 
     @Inject
-    ReceiveFactory(AsyncReceiveCommits.Factory factory,
-        Provider<WebSession> session) {
+    ReceiveFactory(AsyncReceiveCommits.Factory factory) {
       this.factory = factory;
-      this.session = session;
     }
 
     @Override
@@ -253,10 +251,11 @@ public class GitOverHttpServlet extends GitServlet {
       }
 
       final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
+      user.setAccessPath(AccessPath.GIT);
+
       final ReceiveCommits rc = factory.create(pc, db).getReceiveCommits();
       rc.getReceivePack().setRefLogIdent(user.newRefLogIdent());
       req.setAttribute(ATT_RC, rc);
-      session.get().setAccessPath(AccessPath.GIT);
       return rc.getReceivePack();
     }
   }

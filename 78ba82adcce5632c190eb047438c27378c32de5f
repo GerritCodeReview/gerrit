@@ -16,6 +16,23 @@
       "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD+H////k\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1010178
+      },
+      "writtenOn": "2012-03-15T07:19:55Z",
+      "side": 1,
+      "message": "This change was backported, so probably don\u0027t need to be here",
+      "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

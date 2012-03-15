@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAD9X///9M\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010036
+      },
+      "writtenOn": "2012-03-15T07:22:28Z",
+      "side": 1,
+      "message": "If Id663b7eb904ee08ea0e5616f900ca9cc0830921f is going into 2.3 this should be adjusted to reflect the rename to refs/drafts/ from refs/draft/",
+      "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD7H///+8\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
         "patchSetId": 8
@@ -13,6 +30,24 @@
       "writtenOn": "2012-03-15T06:43:00Z",
       "side": 1,
       "message": "Is refs/for deprecated with this release or will it be deprected in a future release but is OK to be used in 2.3?",
+      "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD9X///9Q\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010036
+      },
+      "writtenOn": "2012-03-15T07:22:28Z",
+      "side": 1,
+      "message": "Perhaps better verbiage would be:\n\nrefs/for/ is deprecated and should be discouraged in favor of explicitly marking a patchset as a draft or directly to review.",
+      "parentUuid": "AAAD7H///+8\u003d",
       "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

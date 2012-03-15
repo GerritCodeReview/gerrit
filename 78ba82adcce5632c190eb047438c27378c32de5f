@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAD7H///+8\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-03-15T06:43:00Z",
+      "side": 1,
+      "message": "Is refs/for deprecated with this release or will it be deprected in a future release but is OK to be used in 2.3?",
+      "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -66,6 +66,11 @@ class Query extends BaseCommand {
     processor.setIncludeCommitMessage(on);
   }
 
+  @Option(name = "--dependencies", usage = "Include depends-on and needed-by information")
+  void setDependencies(boolean on) {
+    processor.setIncludeDependencies(on);
+  }
+
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
   private List<String> query;
 

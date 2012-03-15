@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD93///+Q\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-15T17:48:53Z",
+      "side": 1,
+      "message": "Good point, cherry-picked for stable-2.3.  Updated references to refs/drafts.",
+      "parentUuid": "AAAD9X///9M\u003d",
+      "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD7H///+8\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
         "patchSetId": 8
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAD93///+M\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-15T17:48:53Z",
+      "side": 1,
+      "message": "To be honest, I can\u0027t help but start to wonder what the point of refs/publish really is?  It seemed like a good idea at first, but I am no longer so convinced that it is. If it just behaves the same way as refs/for, why not just leave refs/for and avoid retraining everyone and eliminate refs/publish?",
+      "parentUuid": "AAAD9X///9Q\u003d",
+      "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD+H////k\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
         "patchSetId": 8
@@ -65,6 +101,24 @@
       "writtenOn": "2012-03-15T07:19:55Z",
       "side": 1,
       "message": "This change was backported, so probably don\u0027t need to be here",
+      "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD93///98\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-15T17:48:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAD+H////k\u003d",
       "revId": "78ba82adcce5632c190eb047438c27378c32de5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

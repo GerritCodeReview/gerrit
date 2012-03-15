@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAD93///9w\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-15T17:57:35Z",
+      "side": 1,
+      "message": "Suggest: s/by ssh] or by the web UI/via ssh] and/or the web UI/",
+      "revId": "a71eaccf01a01f270737f08af048f5fb700388ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD93///90\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-15T17:57:35Z",
+      "side": 1,
+      "message": "Web UI also now.",
+      "revId": "a71eaccf01a01f270737f08af048f5fb700388ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

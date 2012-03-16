@@ -261,9 +261,9 @@ public class MultiProgressMonitor {
       }
     }
     if (any) {
-      s.append(", ");
+      s.append(",");
     }
-    s.append("done    \n");
+    s.append(" done    \n");
     send(s);
   }
 

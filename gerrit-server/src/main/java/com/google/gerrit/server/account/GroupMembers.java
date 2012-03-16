@@ -67,7 +67,12 @@ public class GroupMembers {
     if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(project, seen);
     } else {
-      return getGroupMembers(groupCache.get(groupUUID), project, seen);
+      AccountGroup group = groupCache.get(groupUUID);
+      if (group != null) {
+        return getGroupMembers(group, project, seen);
+      } else {
+        return Collections.emptySet();
+      }
     }
   }
 

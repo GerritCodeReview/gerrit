@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAD/n///9M\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-16T03:35:40Z",
+      "side": 1,
+      "message": "Is there a reason not to put the List of projects here instead in order to avoid the second RPC?",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD/n///9U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-16T03:35:40Z",
+      "side": 1,
+      "message": "No caf copyright or header here (needs ALSO).",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAD/n///9Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-16T03:35:40Z",
+      "side": 1,
+      "message": "This should probably just be a method on the ProjectState class.  It would be better to return a List.",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

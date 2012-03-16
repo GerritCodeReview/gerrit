@@ -30,7 +30,7 @@ public final class MagicBranch {
     LoggerFactory.getLogger(MagicBranch.class);
 
   public static final String NEW_CHANGE = "refs/for/";
-  public static final String NEW_DRAFT_CHANGE = "refs/draft/";
+  public static final String NEW_DRAFT_CHANGE = "refs/drafts/";
   public static final String NEW_PUBLISH_CHANGE = "refs/publish/";
 
   /** Extracts the destination from a ref name */

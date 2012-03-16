@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEAH////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-16T15:41:54Z",
+      "side": 1,
+      "message": "Perhaps this javadoc would be an appropriate place to warn about the shortcomings of this approach?",
+      "revId": "6e4ef2e83a9c0e285db27963bda1b0909ecf57ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEAH////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-03-16T15:41:54Z",
+      "side": 1,
+      "message": "Is it actually ok to pass in a null db provider? I have no idea.",
+      "revId": "6e4ef2e83a9c0e285db27963bda1b0909ecf57ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

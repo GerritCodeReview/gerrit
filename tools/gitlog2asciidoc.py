@@ -43,7 +43,14 @@ message = []
 
 for line in stdout_value.splitlines(True):
 
-    if re.match('\* ', line) >= 0:
+    p=re.compile('(issue )?bug: (gerrit-|issue )?|(bug )?issue: (bug )?',
+                  re.IGNORECASE)
+    # Move issue number to subject line
+    if p.match(line):
+        line = p.sub('issue ', line).replace('\n',' ')
+        subject = subject[:2] + line + subject[2:]
+
+    elif re.match('\* ', line) >= 0:
         # Write change log for a commit
         if subject != "":
             # Write subject
@@ -60,15 +67,6 @@ for line in stdout_value.splitlines(True):
         message = []
         subject = line
         continue
-
-    # Move issue number to subject line
-    elif re.match('Bug: ', line) is not None:
-        line = line.replace('Bug: ', '').replace('\n',' ')
-        subject = subject[:2] + line + subject[2:]
-    # Move issue number to subject line
-    elif re.match('Issue: ', line) is not None:
-        line = line.replace('Issue: ', 'issue ').replace('\n',' ')
-        subject = subject[:2] + line + subject[2:]
 
     # Remove commit footers
     elif re.match(r'((\w+-)+\w+:)', line) is not None:

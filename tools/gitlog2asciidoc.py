@@ -62,12 +62,8 @@ for line in stdout_value.splitlines(True):
         continue
 
     # Move issue number to subject line
-    elif re.match('Bug: ', line) is not None:
-        line = line.replace('Bug: ', '').replace('\n',' ')
-        subject = subject[:2] + line + subject[2:]
-    # Move issue number to subject line
-    elif re.match('Issue: ', line) is not None:
-        line = line.replace('Issue: ', 'issue ').replace('\n',' ')
+    elif re.match('([bB][uU][gG]|[iI][sS][sS][uU][eE]):( [iI][sS][sS][uU][eE])? ', line) is not None:
+        line = re.sub('([bB][uU][gG]|[iI][sS][sS][uU][eE]):( [iI][sS][sS][uU][eE])? ', 'issue ', line, re.I).replace('\n',' ')
         subject = subject[:2] + line + subject[2:]
 
     # Remove commit footers

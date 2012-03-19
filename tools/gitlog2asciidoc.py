@@ -73,7 +73,7 @@ for line in stdout_value.splitlines(True):
     else:
         if line == '\n':
             # Don't add extra blank line if last one is already blank
-            if message[-1] != '+\n':
+            if message != [] and message[-1] != '+\n':
                 message.append('+\n')
         else:
             message.append(line)

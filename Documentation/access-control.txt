@@ -815,6 +815,63 @@ recieving reference. In practice this means that you set push permissions
 on `refs/for/refs/heads/<branch>` rather than permissions to upload changes
 on `refs/heads/<branch>`.
 
+
+System capabilities
+-------------------
+
+The system capabilities control actions that the administrators of
+the server can perform which usually affect the entire
+server in some way.  The administrators may delegate these
+capabilities to trusted groups of users.
+
+Delegation of capabilities allows groups to be granted a subset of
+administrative capabilities without being given complete
+administrative control of the server.  This makes it possible to
+keep fewer users in the administrators group, even while spreading
+much of the server administration burden out to more users.
+
+Below you find a list of capabilities available:
+
+
+* Administrate Server
+
+* Create Account
+
+* Create Group
+
+* Create Project
+
+* Flush Caches
+
+* Kill Task
+
+* Priority
+
+* Start Replication
+
+* View Caches
+
+* View Connections
+
+* View Queue
+
+
+[[capability_queryLimit]]
+Query Limit
+~~~~~~~~~~~
+
+Allow site administrators to configure the query limit for users to
+be above the default hard-coded value of 500.  Administrators can add
+a global block to `All-Projects` with group(s) that
+should have different limits:
+
+When applying a query limit to a user the largest value granted by
+any of their groups is used.
+
+This limit applies not only to the link:cmd-query.html[`gerrit query`]
+command, but also to the web UI results pagination size.
+
+
 [[restart_changes]]
 [NOTE]
 Restart the Gerrit web application and reload all browsers after

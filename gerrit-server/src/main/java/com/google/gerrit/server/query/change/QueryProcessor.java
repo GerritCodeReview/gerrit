@@ -146,13 +146,16 @@ public class QueryProcessor {
     this.outputFormat = fmt;
   }
 
-  public List<ChangeData> queryChanges(final String queryString)
+  private List<ChangeData> queryChanges(final String queryString,
+      boolean includeMatchedPatchSets)
       throws OrmException, QueryParseException {
-    final Predicate<ChangeData, PatchSet> visibleToMe = queryBuilder.is_visible();
-    Predicate<ChangeData, PatchSet> s = compileQuery(queryString, visibleToMe);
+    final Predicate<ChangeData, PatchSet> visibleToMe =
+        queryBuilder.is_visible();
+    final Predicate<ChangeData, PatchSet> predicate =
+        compileQuery(queryString, visibleToMe);
     List<ChangeData> results = new ArrayList<ChangeData>();
     HashSet<Change.Id> want = new HashSet<Change.Id>();
-    for (ChangeData d : ((ChangeDataSource) s).read()) {
+    for (ChangeData d : ((ChangeDataSource) predicate).read()) {
       if (d.hasChange()) {
         // Checking visibleToMe here should be unnecessary, the
         // query should have already performed it. But we don't
@@ -183,12 +186,27 @@ public class QueryProcessor {
       }
     });
 
-    int limit = limit(s);
+    int limit = limit(predicate);
     if (limit < results.size()) {
       results = results.subList(0, limit);
     }
 
+    if (includeMatchedPatchSets) {
+      for (final ChangeData changeData : results) {
+        for (final PatchSet patchSet : changeData.patches(db)) {
+          if (predicate.match(changeData, patchSet)) {
+            changeData.addMatchedPatchSet(patchSet);
+          }
+        }
+      }
+    }
+
     return results;
+  }
+
+  public List<ChangeData> queryChanges(final String queryString)
+      throws OrmException, QueryParseException {
+    return queryChanges(queryString, false);
   }
 
   public void query(String queryString) throws IOException {

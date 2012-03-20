@@ -58,6 +58,7 @@ public class ChangeData {
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
   private List<ChangeMessage> messages;
+  private List<PatchSet> matchedPatchSets;
 
   public ChangeData(final Change.Id id) {
     legacyId = id;
@@ -256,5 +257,13 @@ public class ChangeData {
       messages = db.get().changeMessages().byChange(legacyId).toList();
     }
     return messages;
+  }
+
+  public List<PatchSet> matchedPatchSets() {
+    return matchedPatchSets;
+  }
+
+  public void addMatchedPatchSet(PatchSet patchSet) {
+    matchedPatchSets.add(patchSet);
   }
 }

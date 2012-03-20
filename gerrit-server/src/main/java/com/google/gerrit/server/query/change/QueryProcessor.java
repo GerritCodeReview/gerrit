@@ -137,13 +137,32 @@ public class QueryProcessor {
     this.outputFormat = fmt;
   }
 
-  public List<ChangeData> queryChanges(final String queryString)
+  public List<PatchSet> queryPatchSets(final String queryString)
       throws OrmException, QueryParseException {
+    final Predicate<ChangeData, PatchSet> visibleToMe =
+        queryBuilder.is_visible();
+    final Predicate<ChangeData, PatchSet> predicate =
+        compileQuery(queryString, visibleToMe);
+    final List<ChangeData> changes = queryChanges(predicate);
+
+    final List<PatchSet> results = new ArrayList<PatchSet>();
+    for (final ChangeData changeData : changes) {
+      for (final PatchSet patchSet : changeData.patches(db)) {
+        if (predicate.match(changeData, patchSet)) {
+          results.add(patchSet);
+        }
+      }
+    }
+
+    return results;
+  }
+
+  private List<ChangeData> queryChanges(final Predicate<ChangeData, PatchSet> predicate)
+      throws OrmException {
     final Predicate<ChangeData, PatchSet> visibleToMe = queryBuilder.is_visible();
-    Predicate<ChangeData, PatchSet> s = compileQuery(queryString, visibleToMe);
     List<ChangeData> results = new ArrayList<ChangeData>();
     HashSet<Change.Id> want = new HashSet<Change.Id>();
-    for (ChangeData d : ((ChangeDataSource) s).read()) {
+    for (ChangeData d : ((ChangeDataSource) predicate).read()) {
       if (d.hasChange()) {
         // Checking visibleToMe here should be unnecessary, the
         // query should have already performed it. But we don't
@@ -174,12 +193,17 @@ public class QueryProcessor {
       }
     });
 
-    int limit = limit(s);
+    int limit = limit(predicate);
     if (limit < results.size()) {
       results = results.subList(0, limit);
     }
 
     return results;
+  }
+
+  public List<ChangeData> queryChanges(final String queryString)
+      throws OrmException, QueryParseException {
+    return queryChanges(compileQuery(queryString, queryBuilder.is_visible()));
   }
 
   public void query(String queryString) throws IOException {

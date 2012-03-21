@@ -16,7 +16,10 @@ package com.google.gerrit.client.ui;
 
 import com.google.gwt.i18n.client.Constants;
 
-public interface ProjectConstants extends Constants {
+public interface UIConstants extends Constants {
+  String commentedActionButtonSend();
+  String commentedActionButtonCancel();
+
   String projectName();
   String projectDescription();
   String projectListOpen();

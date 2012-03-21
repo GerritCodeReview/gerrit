@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEIn////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-21T06:56:47Z",
+      "side": 1,
+      "message": "[optional] Another question came to my mind, what about -2 veto votings in the \u0027Code Review\u0027 category? Should they also be removed when the change is moved to another branch? Normally these veto votings must be explicitly unset by the reviewer who has given the veto voting (e.g. after a new patch set was uploaded). I\u0027m still undecided what would be the correct behaviour for the move change case, but I would like to hear your opinion about this.",
+      "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

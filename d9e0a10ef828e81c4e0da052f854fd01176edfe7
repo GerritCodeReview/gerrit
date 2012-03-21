@@ -51,6 +51,24 @@
       "revId": "d9e0a10ef828e81c4e0da052f854fd01176edfe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEJX////8\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-21T15:13:19Z",
+      "side": 1,
+      "message": "Yes, you are right, this is a change I plan to upload later today. I originally had hoped to upload this sooner.\n\nThere is a discrepancy between the name of the capability and the command that it gives access to, but only for the show-[caches,connections,queue] commands versus the view[Caches,Connections,Queue] capabilities. I\u0027ll go with the current name for now, I\u0027ll fix this.\n\nIn the long run I will probably suggest to rename either commands or capabilities to align with each other to simplify associations between the two.",
+      "parentUuid": "AAAEIn////Y\u003d",
+      "revId": "d9e0a10ef828e81c4e0da052f854fd01176edfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

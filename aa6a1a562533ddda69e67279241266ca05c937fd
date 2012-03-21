@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEI3////s\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-21T16:04:07Z",
+      "side": 1,
+      "message": "First, I think you don\u0027t need to match the space at the end... and then have to add it again in the \u0027issue \u0027 replacement string.\n\nSecond, it also matches \u0027issue: issue \u0027 which doesn\u0027t seem to appear on our git log.\n\nThird, I think the parameter 4 of the re.sub method is used for (optional) count and the re.I provided here should be either 5th parameter or you should use named parameter there:\n\n re.sub(\u0027...\u0027, \u0027issue \u0027, line, flags\u003dre.I)\n\nI don\u0027t understand why do you try both to make the regular expression case-insensitive and use the re.IGNORECASE flag? If already using re.IGNORECASE then make the regex more readable by not repeating the [bB] pattern for each character.\n\nFurther, there is one more case\n\n Issue: bug [0-9]+\n\nwhich was made by me in the commit 8e33d76853200f922b170aed7412761cd5c16dbb\n\nThe substitution will not properly match the \"Issue: bug \" part and the result will be:\n\n issuebug 629\n\nfor this commit.\n\nI propose the following regex:\n\n \u0027bug:( issue)?|issue:( bug)?\u0027\n\nfor both matching and replacing (of course it need to be\ncase insensitive) and removing the trailing space in the replacement string \u0027issue \u0027\n\n re.sub(\u0027bug:( issue)?|issue:( bug)?\u0027, \u0027issue\u0027, line, flags\u003dre.IGNORECASE)\n\nParsing of the regex string twice could be avoided by first compiling the regex and then using the Pattern object for both matching and replacing:\n\n p \u003d re.compile(\u0027bug:( issue)?|issue:( bug)?\u0027, re.IGNORECASE)\n if p.match(line):\n     p.sub(\u0027issue\u0027, line)",
+      "revId": "aa6a1a562533ddda69e67279241266ca05c937fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

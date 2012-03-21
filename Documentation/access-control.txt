@@ -894,11 +894,6 @@ much of the server administration burden out to more users.
 Below you find a list of capabilities available:
 
 
-* View Connections
-
-* View Queue
-
-
 [[capability_administrateServer]]
 Administrate Server
 ~~~~~~~~~~~~~~~~~~~
@@ -942,7 +937,7 @@ or via the web UI.
 Flush Caches
 ~~~~~~~~~~~~
 
-Allow the flushing of Gerrits caches.  This capability allows the granted
+Allow the flushing of Gerrit's caches.  This capability allows the granted
 group to link:cmd-flush-caches.html[flush some or all Gerrit caches via ssh].
 
 [NOTE]
@@ -1016,9 +1011,29 @@ Allow access to execute link:cmd-replicate.html[the `gerrit replicate` command].
 View Caches
 ~~~~~~~~~~~
 
-Allow querying for status of Gerrits internal caches.  This capability allows
+Allow querying for status of Gerrit's internal caches.  This capability allows
 the granted group to
 link:cmd-show-caches.html[look at some or all Gerrit caches via ssh].
+
+
+[[capability_viewConnections]]
+View Connections
+~~~~~~~~~~~~~~~~
+
+Allow querying for status of Gerrit's current client connections.  This
+capability allows the granted group to
+link:cmd-show-connections.html[look at Gerrit's current connections via ssh]
+even if the user isn't in the Administrator group.
+
+
+[[capability_viewQueue]]
+View Queue
+~~~~~~~~~~
+
+Allow querying for status of Gerrit's internal task queue.  This capability
+allows the granted group to
+link:cmd-show-queue.html[look at the Gerrit task queue via ssh] even if the
+user isn't in the Administrator group.
 
 
 [[restart_changes]]

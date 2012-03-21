@@ -19,7 +19,8 @@ an activity.
 ACCESS
 ------
 Caller must be a member of the privileged 'Administrators' group,
-or have been granted the 'View Connections' global capability.
+or have been granted
+link:access_control.html#capability_viewConnections[the 'View Connections' global capability].
 
 SCRIPTING
 ---------

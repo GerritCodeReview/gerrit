@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEHH////E\u003d",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T07:58:06Z",
+      "side": 1,
+      "message": "s/Moved.vm/ChangeMoved.vm",
+      "revId": "ee99bd81652f9a19933b00a9acbb2075bbd691b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH////Q\u003d",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T07:58:06Z",
+      "side": 1,
+      "message": "s/Moved.vm/ChangeMoved.vm",
+      "revId": "ee99bd81652f9a19933b00a9acbb2075bbd691b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeMovedSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T07:58:06Z",
+      "side": 1,
+      "message": "s/2011/2012",
+      "revId": "ee99bd81652f9a19933b00a9acbb2075bbd691b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH////Y\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeMoved.vm",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T07:58:06Z",
+      "side": 1,
+      "message": "s/2011/2012",
+      "revId": "ee99bd81652f9a19933b00a9acbb2075bbd691b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH////M\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeMoved.vm",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T07:58:06Z",
+      "side": 1,
+      "message": "s/Moved.vm/ChangeMoved.vm",
+      "revId": "ee99bd81652f9a19933b00a9acbb2075bbd691b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

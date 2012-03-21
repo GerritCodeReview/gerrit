@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEIn///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-21T14:59:41Z",
+      "side": 1,
+      "message": "No, it\u0027s good to have it here in this class :-)",
+      "parentUuid": "AAAD3n////k\u003d",
+      "revId": "62856a83d4de5bd2610f76100f3522df7de9dc42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADpH////8\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 1

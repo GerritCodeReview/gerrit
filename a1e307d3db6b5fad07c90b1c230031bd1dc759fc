@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAEHH///+k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeManageService.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T09:40:55Z",
+      "side": 1,
+      "message": "[option] s/message/commitMessage  is easy to understand for me,.",
+      "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH///+w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/MoveChangeHandler.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T09:40:55Z",
+      "side": 1,
+      "message": "s/2009/2012",
+      "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEIn////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 8
@@ -31,6 +65,57 @@
       "side": 1,
       "message": "If veto votes get removed by moving a change to another target branch then it would be possible for an evil developer to get rid of veto votes by moving its change to another branch and then moving it back to the original target branch. Right?",
       "parentUuid": "AAAEIn////s\u003d",
+      "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T09:40:55Z",
+      "side": 1,
+      "message": "s/2011/2012",
+      "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T09:40:55Z",
+      "side": 1,
+      "message": "[option] at least for me the \u0027\u0027\u0026\u0026getProjectControl().controlForRef(branch).canUpload()\u0027 is easy to understand.",
+      "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T09:40:55Z",
+      "side": 1,
+      "message": "[option] reference https://gerrit-review.googlesource.com/#/c/33511/2/gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ListDestinationBranches.java\n\nand\n\nhttps://gerrit-review.googlesource.com/#/c/32791/8/gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
       "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

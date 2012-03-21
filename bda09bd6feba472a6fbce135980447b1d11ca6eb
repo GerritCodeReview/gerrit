@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEJX////k\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-21T16:18:30Z",
+      "side": 1,
+      "message": "\"in that\" is a conjunction. A very common phrase is also \"in that it is\", if you wish to google it. It has been very hard for me to find any good definition of this phrase as both words are very common words.\n\nHere\u0027s one of all examples I found on the web: \"Connecting adverbs are similar to conjunctions in that both may be used to introduce clauses.\"\n\nDone, change \"you\" to third person.",
+      "parentUuid": "AAAEIn////k\u003d",
+      "revId": "bda09bd6feba472a6fbce135980447b1d11ca6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEIn////g\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-21T07:18:35Z",
       "side": 1,
       "message": "When assigning the \u0027Priority\u0027 capability to a group, there is a drop down list from which one has to choose either \u0027INTERACTIVE\u0027 or \u0027BATCH\u0027. Not sure what the difference is, but I guess it should be explained here :-)",
+      "revId": "bda09bd6feba472a6fbce135980447b1d11ca6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEJX////g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-21T16:18:30Z",
+      "side": 1,
+      "message": "Whoops. That\u0027s true!\n\nI wonder what it does. ;)\n\nI\u0027ll copy and polish what the code comments state.",
+      "parentUuid": "AAAEIn////g\u003d",
       "revId": "bda09bd6feba472a6fbce135980447b1d11ca6eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

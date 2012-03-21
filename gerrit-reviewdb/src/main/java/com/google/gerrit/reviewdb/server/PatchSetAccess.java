@@ -33,6 +33,9 @@ public interface PatchSetAccess extends Access<PatchSet, PatchSet.Id> {
   @Query("WHERE revision = ? LIMIT 2")
   ResultSet<PatchSet> byRevision(RevId rev) throws OrmException;
 
+  @Query("WHERE revision = ?")
+  ResultSet<PatchSet> byRevisionAll(RevId rev) throws OrmException;
+
   @Query("WHERE revision >= ? AND revision <= ? LIMIT 2")
   ResultSet<PatchSet> byRevisionRange(RevId reva, RevId revb)
       throws OrmException;

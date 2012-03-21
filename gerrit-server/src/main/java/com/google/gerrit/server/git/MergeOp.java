@@ -345,15 +345,19 @@ public class MergeOp {
         branchTip = null;
       }
 
-      for (final Ref r : repo.getAllRefs().values()) {
-        if (r.getName().startsWith(Constants.R_HEADS)
-            || r.getName().startsWith(Constants.R_TAGS)) {
-          try {
-            alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
-          } catch (IncorrectObjectTypeException iote) {
-            // Not a commit? Skip over it.
+      try {
+        for (Change chg : db.changes().byProjectMerged(destProject.getNameKey())) {
+          for (PatchSet p : db.patchSets().byChange(chg.getId())) {
+            try {
+              alreadyAccepted.add(rw.parseCommit(
+                  ObjectId.fromString(p.getRevision().get())));
+            } catch (IOException err) {
+              log.warn("Open patch set " + p + " has invalid revision", err);
+            }
           }
         }
+      } catch (OrmException exc) {
+        log.error("Cannot list merged changes of " + destProject.getNameKey(), exc);
       }
     } catch (IOException e) {
       throw new MergeException("Cannot open branch", e);

@@ -975,12 +975,21 @@ public class ReceiveCommits {
     walk.sort(RevSort.TOPO);
     walk.sort(RevSort.REVERSE, true);
     try {
-      walk.markStart(walk.parseCommit(newChange.getNewId()));
+      RevCommit cmt = walk.parseCommit(newChange.getNewId());
+      walk.markStart(cmt);
       for (ObjectId id : existingObjects()) {
-        try {
-          walk.markUninteresting(walk.parseCommit(id));
-        } catch (IOException e) {
+        // We only check the HEAD commit as all the other commits
+        // that are 'new' in this branch are linked through the
+       // cmt->parent field, hence, marking it as interesting will
+       // also mark it's (new) parents interesting.
+        if (cmt.getId().equals(id) && isNewChange(cmt)) {
           continue;
+        } else {
+          try {
+            walk.markUninteresting(walk.parseCommit(id));
+          } catch (IOException e) {
+            continue;
+          }
         }
       }
 
@@ -1085,6 +1094,27 @@ public class ReceiveCommits {
       newProgress.update(1);
     }
     newChange.setResult(ReceiveCommand.Result.OK);
+  }
+
+  /**
+   * Check if formerly known patch-sets with this commit id
+   * have been pushed for this project on this branch
+   *
+   * @param RevCommit new commit that is being pushed
+   * @return True if and only if there was a change destined
+   * for this branch was pushed to this project's repository
+   * @throws OrmException
+   */
+  private boolean isNewChange(RevCommit cmt) throws OrmException {
+    for (PatchSet p :
+      db.patchSets().byRevisionAll(new RevId(cmt.getId().getName()))) {
+      Change chg = db.changes().get(p.getId().getParentKey());
+      if (chg.getProject().equals(project.getNameKey()) &&
+          chg.getDest().equals(destBranch)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private static boolean isValidChangeId(String idStr) {
@@ -1927,6 +1957,12 @@ public class ReceiveCommits {
       // might just be moving from an experimental branch into
       // a more stable branch.
       //
+      return;
+    }
+
+    if (!cmd.getRefName().equals(change.getDest().get())) {
+      // if the branch names are not equal treat them as
+      // different commits
       return;
     }
 

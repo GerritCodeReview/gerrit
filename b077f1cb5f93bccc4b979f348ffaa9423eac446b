@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEF3///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-21T16:52:12Z",
+      "side": 1,
+      "message": "Right, now that I understand what that code was trying to do, that makes sense.",
+      "parentUuid": "AAAEIn///+k\u003d",
+      "revId": "b077f1cb5f93bccc4b979f348ffaa9423eac446b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEIn///+g\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-21T15:00:03Z",
       "side": 1,
       "message": "nit: after removing the currentUser this import is now unused and can be removed",
+      "revId": "b077f1cb5f93bccc4b979f348ffaa9423eac446b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEF3///+s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-03-21T16:52:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEIn///+g\u003d",
       "revId": "b077f1cb5f93bccc4b979f348ffaa9423eac446b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

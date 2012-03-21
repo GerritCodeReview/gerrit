@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEIn////k\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-21T07:18:35Z",
+      "side": 1,
+      "message": "\u0027in\u0027 seems to be misplaced in this sentence.\n\n[optional] I would also rather speak of \u0027the user\u0027 instead of saying \u0027you\u0027.",
+      "revId": "bda09bd6feba472a6fbce135980447b1d11ca6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEIn////g\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-21T07:18:35Z",
+      "side": 1,
+      "message": "When assigning the \u0027Priority\u0027 capability to a group, there is a drop down list from which one has to choose either \u0027INTERACTIVE\u0027 or \u0027BATCH\u0027. Not sure what the difference is, but I guess it should be explained here :-)",
+      "revId": "bda09bd6feba472a6fbce135980447b1d11ca6eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

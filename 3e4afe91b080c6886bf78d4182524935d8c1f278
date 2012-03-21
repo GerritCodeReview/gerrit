@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEHH///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T08:15:18Z",
+      "side": 1,
+      "message": "I think it it better to add interface to  \u0027ChangeHooks\u0027",
+      "revId": "3e4afe91b080c6886bf78d4182524935d8c1f278",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeMovedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T08:15:18Z",
+      "side": 1,
+      "message": "s/2011/2012",
+      "revId": "3e4afe91b080c6886bf78d4182524935d8c1f278",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

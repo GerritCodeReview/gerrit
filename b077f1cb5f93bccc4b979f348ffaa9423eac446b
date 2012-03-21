@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEIn///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-21T15:00:03Z",
+      "side": 1,
+      "message": "This check looks good now, but I\u0027m not sure that it is okay to remove the old code:\n\n  if (o !\u003d a.getValue()) {\n    // Value changed, ensure we update the database.\n    //\n    a.setGranted();\n    dirty.add(a.getCategoryId());\n  }\n\nI think your new check should just be done in addition to this old check. If the value has changed (o !\u003d a.getValue()) we still need to mark the approval as dirty so that the database gets updated, don\u0027t we?",
+      "revId": "b077f1cb5f93bccc4b979f348ffaa9423eac446b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEIn///+g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-21T15:00:03Z",
+      "side": 1,
+      "message": "nit: after removing the currentUser this import is now unused and can be removed",
+      "revId": "b077f1cb5f93bccc4b979f348ffaa9423eac446b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

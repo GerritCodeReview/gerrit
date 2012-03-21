@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEF3///+M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-21T19:45:46Z",
+      "side": 1,
+      "message": "Done.  OK, I am tired of burdening you with these, I wrote a quick script to detect them; hopefully my record will improve.",
+      "parentUuid": "AAAEIn///+8\u003d",
+      "revId": "b37ec2a09983732cedef06a18205b582f2c4ad10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEIn///+4\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-21T14:47:24Z",
       "side": 1,
       "message": "nit: unused import",
+      "revId": "b37ec2a09983732cedef06a18205b582f2c4ad10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEF3///+I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-21T19:45:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEIn///+4\u003d",
       "revId": "b37ec2a09983732cedef06a18205b582f2c4ad10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEF3///+E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-21T19:45:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEIn///+0\u003d",
+      "revId": "b37ec2a09983732cedef06a18205b582f2c4ad10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEIn///+w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-21T14:47:24Z",
       "side": 1,
       "message": "nit: one blank line too much",
+      "revId": "b37ec2a09983732cedef06a18205b582f2c4ad10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEF3///+A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-21T19:45:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEIn///+w\u003d",
       "revId": "b37ec2a09983732cedef06a18205b582f2c4ad10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

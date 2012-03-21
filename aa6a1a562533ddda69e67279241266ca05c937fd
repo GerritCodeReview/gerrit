@@ -16,6 +16,24 @@
       "revId": "aa6a1a562533ddda69e67279241266ca05c937fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEGH///90\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-21T17:24:05Z",
+      "side": 1,
+      "message": "Thanks for a very detail comment. I didn\u0027t know re enough to comment but now I got some idea.\n\nI went back and take a look at possible cases and found a few cases that aren\u0027t handle by the propose pattern.\n\n1) Bug issue: 855  case can be handled by \np\u003dre.compile(\u0027(issue)? bug:( issue)?|(bug)? issue:( bug)?\u0027, re.IGNORECASE)\n\n\n2) Bug: http://code.google.com/p/gerrit/issues/detail?id\u003d805\n\nThis is beyond my skill.\n\n3) The Old style \nBug: GERRIT-104, GERRIT-254\nBug: GERRIT-67 (issue 67)\nBug: GERRIT-216\n\nIf we want to handle this we will need to create an extra regex since we will need to substitute the pattern with \u0027issue \u0027",
+      "parentUuid": "AAAEI3////s\u003d",
+      "revId": "aa6a1a562533ddda69e67279241266ca05c937fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

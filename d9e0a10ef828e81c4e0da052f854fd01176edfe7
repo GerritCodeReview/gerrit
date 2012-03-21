@@ -87,6 +87,24 @@
       "revId": "d9e0a10ef828e81c4e0da052f854fd01176edfe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEJX////s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-21T15:59:30Z",
+      "side": 1,
+      "message": "Ok, glad you agree with me. One the one hand I see that the command and capability are somewhat different (viewing is allowed, and when you want to see the caches you ask gerrit to show them to you), but on the other hand I think consistency is worth a bit more in this case.\n\nI\u0027ve already located the change 23841 [1] as the one introducing the capabilities.\nI\u0027ll see if there\u0027s time to get around to look into a patch for that too unless someone else is quicker. :-)\n\nThe big problem regards how to migrate the current project.config values from viewCaches to a new showCaches value. But perhaps there\u0027s help out there for this!\n\n[1] https://gerrit-review.googlesource.com/#/c/23841/",
+      "parentUuid": "AAAEIn///+A\u003d",
+      "revId": "d9e0a10ef828e81c4e0da052f854fd01176edfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

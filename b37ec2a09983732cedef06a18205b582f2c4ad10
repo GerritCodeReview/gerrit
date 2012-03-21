@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEIn///+8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-21T14:47:24Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "b37ec2a09983732cedef06a18205b582f2c4ad10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEIn///+4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-21T14:47:24Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "b37ec2a09983732cedef06a18205b582f2c4ad10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEIn///+0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-21T14:47:24Z",
+      "side": 1,
+      "message": "nit: remove the package name before \u0027Util\u0027, it\u0027s not needed since Util is in the same as this class",
+      "revId": "b37ec2a09983732cedef06a18205b582f2c4ad10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEIn///+w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-21T14:47:24Z",
+      "side": 1,
+      "message": "nit: one blank line too much",
+      "revId": "b37ec2a09983732cedef06a18205b582f2c4ad10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

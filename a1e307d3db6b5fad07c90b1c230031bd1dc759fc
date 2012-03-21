@@ -16,6 +16,24 @@
       "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHn////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-21T07:45:28Z",
+      "side": 1,
+      "message": "If veto votes get removed by moving a change to another target branch then it would be possible for an evil developer to get rid of veto votes by moving its change to another branch and then moving it back to the original target branch. Right?",
+      "parentUuid": "AAAEIn////s\u003d",
+      "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

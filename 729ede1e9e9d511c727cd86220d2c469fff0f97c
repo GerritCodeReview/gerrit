@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEHH///+g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ListDestinationBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T09:41:54Z",
+      "side": 1,
+      "message": "it is better to add \u0027@Override\u0027\n\n[option ] on second thought,  \u0027canCarryoutOn\u0027  is clear than \u0027isListedRef\u0027",
+      "revId": "729ede1e9e9d511c727cd86220d2c469fff0f97c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH///+Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ListDestinationBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T09:41:54Z",
+      "side": 1,
+      "message": "[option ] \u0027 return targetRefControl.canUpload(). \u0027",
+      "revId": "729ede1e9e9d511c727cd86220d2c469fff0f97c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHH///+c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-03-21T09:41:54Z",
+      "side": 1,
+      "message": "[option ]   \u0027canCarryoutOn\u0027  is clear than \u0027isListedRef\u0027",
+      "revId": "729ede1e9e9d511c727cd86220d2c469fff0f97c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

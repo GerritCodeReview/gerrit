@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEJH////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-21T18:56:27Z",
+      "side": 1,
+      "message": "The primary purpose of this change is likely to repurposing changes from a dead branch to a new branch.  Such changes would have to normally be abandoned and reuploaded to a new branch.  I originally planned on leaving blocking votes but decided against it because I realised that repurposing a change to a new branch differs from uploading a new patchset in one crucial place: the permissions for approvals may be different on anew branch.  I think this means that it might be possible for someone with -2 power on the original branch to not have the power to remove their -2 on the new branch.  Such a scenario would end up forcing the user to abandon their change and simply re-upload it again.  Since -2 votes can already be easily bypassed if truly desired by simply reuploading a new change, I figured that it might make sense to not focus too much on the new loophole of being able to eliminate a -2 via double branch change, but to instead avoid another case where users may need to abandon changes to work around -2s.  Although, I admit, I see this scenario as unlikely.  \n\nBut, I do think that it will be common for a -2 to mean \"do not put this change on this branch because it is for bug fixes only\" and so that particular vote would no longer apply once moving the change.  Also, while a change may get verified -1 failed on one branch, it probably should be retested if moved to another branch.  So, I liked this behaviour better.  Let me know if you still think I should keep the -2s.",
+      "parentUuid": "AAAEHn////I\u003d",
+      "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEHH///+s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 8

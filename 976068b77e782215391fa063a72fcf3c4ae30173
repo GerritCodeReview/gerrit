@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEMX////w\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-22T15:37:42Z",
+      "side": 1,
+      "message": "You\u0027re right. That part was an afterthought. \n\nDone.",
+      "parentUuid": "AAAEMH////I\u003d",
+      "revId": "976068b77e782215391fa063a72fcf3c4ae30173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEMH////A\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEMX////o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-22T15:37:42Z",
+      "side": 1,
+      "message": "Nopes, another mistake. Thanks!\n\nDone.",
+      "parentUuid": "AAAEMH////A\u003d",
+      "revId": "976068b77e782215391fa063a72fcf3c4ae30173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEMH////E\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-03-22T15:01:37Z",
       "side": 1,
       "message": "[optional] same here, I would remove the last part of the sentence",
+      "revId": "976068b77e782215391fa063a72fcf3c4ae30173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEMX////s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-22T15:37:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEMH////E\u003d",
       "revId": "976068b77e782215391fa063a72fcf3c4ae30173",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

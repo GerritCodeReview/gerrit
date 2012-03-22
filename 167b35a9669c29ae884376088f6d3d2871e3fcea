@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEHn///9s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-22T15:19:41Z",
+      "side": 1,
+      "message": "I think \u0027--issue-numbers\u0027 is easier to type than \u0027--issue_numbers\u0027\n\nAnd, if it means anything, in Gerrit commands we also use dashes to split the words in option names.",
+      "revId": "167b35a9669c29ae884376088f6d3d2871e3fcea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEMH////Q\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-22T15:19:41Z",
+      "side": 1,
+      "message": "This will fail with an error if called without any parameter/option.\nI propose to print the help text when called without any parameters.",
+      "revId": "167b35a9669c29ae884376088f6d3d2871e3fcea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEMH////M\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-22T15:19:41Z",
+      "side": 1,
+      "message": "if invoked with:\n\n gitlog2asciidoc.py --issues\n\nand no additional arguments then this will fail with an error. Instead it should print that arguments are missing and, maybe, print the help text.",
+      "revId": "167b35a9669c29ae884376088f6d3d2871e3fcea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEMH///+4\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-22T15:19:41Z",
+      "side": 1,
+      "message": "I feel that combining the logic of issue_numbers_only, which only prints issues numbers, and the \"default\" logic of printing complete commit messages in the same loop makes the whole script more complicated.\n\nIf issue_numbers_only is True then there is even no need to collect lines in the message array just to find out that we don\u0027t need them here.\n\nMy proposal would be to split this into two different cases:\n\n- simple case for the issue_number_only where git log is  scanned for issue numbers and they are printed out\n\n- the \"normal\" case where most of this logic stays except we don\u0027t have to worry about the issue_numbers_only at so many places\n\nOnce this is done you can also move the check:\n\n not issues_only or is_issue\n\nup to the if statement in the line 59 and also remove it from the line 69",
+      "revId": "167b35a9669c29ae884376088f6d3d2871e3fcea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEHn///90\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-22T15:19:41Z",
+      "side": 1,
+      "message": "The result of the if condition stays the same for every loop iteration. Swap the two lines:\n\n if (not issues_only or is_issue) and not issue_numbers_only:\n     for m in message:\n         sys.stdout.write(m)\n\nBut, this if is not needed here as this condition could be tested at the line 59.",
+      "revId": "167b35a9669c29ae884376088f6d3d2871e3fcea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEMH////U\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-22T15:19:41Z",
+      "side": 1,
+      "message": "Using raw strings for regular expressions avoids need to escape backslashes. Instead of:\n\n \u0027\\\\* issue ([0-9]*) .*\u0027\n\none can write:\n\n r\u0027\\* issue ([0-9]*) .*\u0027\n\nand maintain readability of regex strings.",
+      "revId": "167b35a9669c29ae884376088f6d3d2871e3fcea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

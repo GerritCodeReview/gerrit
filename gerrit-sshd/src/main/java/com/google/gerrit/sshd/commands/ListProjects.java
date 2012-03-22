@@ -194,7 +194,7 @@ final class ListProjects extends BaseCommand {
         String desc;
         if (showDescription && !(desc = e.getProject().getDescription()).isEmpty()) {
           // We still want to list every project as one-liners, hence escaping \n.
-          stdout.print(" - " + desc.replace("\n", "\\n"));
+          stdout.print(" - " + ColumnFormatter.escapeString(desc));
         }
 
         stdout.print("\n");

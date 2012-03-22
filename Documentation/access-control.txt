@@ -909,6 +909,30 @@ Suggested access rights to grant:
 * <<category_push_annotated,`Push Annotated Tag`>> to 'refs/tags/*'
 
 
+[[examples_project-owner]]
+Project owner
+~~~~~~~~~~~~~
+
+The project owner is almost like an integrator but with additional destructive
+power in the form of being able to delete branches.  Optionally these users
+also have the power to configure access rights in gits assigned to them.
+
+[WARNING]
+These users should be really knowledgable about git, for instance knowing why
+tags never should be removed from a server.  This role is granted potentially
+destructive access rights and cleaning up after such a mishap could be time
+consuming!
+
+Suggested access rights to grant:
+
+* <<examples_integrator,Integrator rights>>
+* <<category_push,`Push`>> with the force option to 'refs/heads/\*' and 'refs/tags/*'
+
+Optional access right to grant:
+
+* <<category_owner,`Owner`>> in the gits they mostly work with.
+
+
 [[conversion_table]]
 Conversion table from 2.1.x series to 2.2.x series
 --------------------------------------------------

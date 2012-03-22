@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEMH////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-22T08:49:02Z",
+      "side": 1,
+      "message": "Edwin, Matthias Sohn and myself discussed this question:\n\nWe see 2 main scenarios where -2 vote is given:\n\n1. a change is really bad and must not go in into any branch.\n\n2. a change was pushed to a release branch but it should have been pushed to the master branch (similar to your example above).\n\nFor the case 1 removal of veto vote(s) would be bad.\n\nFor the case 2 it is OK to remove veto votes.\n\nSince Gerrit is not able to distinguish the case 1 from case 2 we believe it should be more restrictive and not remove the veto votes. Instead, for the case 2, the veto votes should be manually removed. \n\nWe believe that access permissions normally shouldn\u0027t get more restrictive in less stable (master) branch than in a more stable (release) branch. This is why it is unlikely that one who gave -2 in a stable branch isn\u0027t able to remove the -2 in a less stable branch. Do you have a good example where this is not the case?\n\nEven if this is not the case, there is still no need to abandon/reupload the change because the project owner is able to remove the veto by removing the reviewer.",
+      "parentUuid": "AAAEJH////8\u003d",
+      "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEHH///+s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 8

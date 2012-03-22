@@ -780,6 +780,14 @@ The new column will appear at the end of the table (in position 3),
 and `-1 Do not have copyright` will block submit, while `+1 Copyright
 clear` is required to enable submit.
 
+[[restart_changes]]
+[NOTE]
+Restart the Gerrit web application and reload all browsers after
+making any database changes to approval categories.  Browsers are
+sent the list of known categories when they first visit the site,
+and don't notice changes until the page is closed and opened again,
+or is reloaded.
+
 
 Examples of typical roles in a project
 --------------------------------------
@@ -972,14 +980,6 @@ any of their groups is used.
 This limit applies not only to the link:cmd-query.html[`gerrit query`]
 command, but also to the web UI results pagination size.
 
-
-[[restart_changes]]
-[NOTE]
-Restart the Gerrit web application and reload all browsers after
-making any database changes to approval categories.  Browsers are
-sent the list of known categories when they first visit the site,
-and don't notice changes until the page is closed and opened again,
-or is reloaded.
 
 GERRIT
 ------

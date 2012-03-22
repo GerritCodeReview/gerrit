@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEJn////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-22T15:51:08Z",
+      "side": 1,
+      "message": "Believe it or not, we do actually have a setup where we have entirely different groups responsible for master and release branches, each not having perms in the other\u0027s branch. :-)\n\nI do agree with taking the more restrictive approach now.\n\nWould it make sense for this to be made a project config option later?",
+      "parentUuid": "AAAEMH////8\u003d",
+      "revId": "a1e307d3db6b5fad07c90b1c230031bd1dc759fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEHH///+s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/MoveChange.java",
         "patchSetId": 8

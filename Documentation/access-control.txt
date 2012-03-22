@@ -932,6 +932,23 @@ Optional access right to grant:
 
 * <<category_owner,`Owner`>> in the gits they mostly work with.
 
+[[examples_administrator]]
+Administrator
+~~~~~~~~~~~~~
+
+The administrator role is the most powerful role known in the Gerrit universe.
+This role may grant itself (or others) any access right, and it already has
+all capabilities granted as well.  By default the
+<<administrators,`Administrators` group>> is the group that has this role.
+
+Mandatory access rights:
+
+* <<capability_administrateServer,The `Administrate Server` capability>>
+
+Suggested access rights to grant:
+
+* <<examples_superuser,Superuser rights>>
+
 
 [[conversion_table]]
 Conversion table from 2.1.x series to 2.2.x series

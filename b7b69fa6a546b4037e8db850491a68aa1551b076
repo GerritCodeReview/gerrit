@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEL3////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-22T08:04:18Z",
+      "side": 1,
+      "message": "This gives a wrong error message at the moment.\n\no is the original value of the approval before the new voting happes. want.get() is invalid value that could not be set. So want.get() should be included into the error message instead of o.",
+      "revId": "b7b69fa6a546b4037e8db850491a68aa1551b076",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

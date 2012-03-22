@@ -858,10 +858,6 @@ much of the server administration burden out to more users.
 Below you find a list of capabilities available:
 
 
-* Kill Task
-
-* Priority
-
 * Start Replication
 
 * View Caches
@@ -920,6 +916,45 @@ group to link:cmd-flush-caches.html[flush some or all Gerrit caches via ssh].
 [NOTE]
 This capability doesn't imply permissions to the show-caches command.  For that
 you need the <<capability_viewCaches,view caches capability>>.
+
+
+[[capability_kill]]
+Kill Task
+~~~~~~~~~
+
+Allow the operation of the link:cmd-kill.html[kill command over ssh].  The
+kill command ends tasks that currently occupy the Gerrit server, usually
+a replication task or a user initiated task such as an upload-pack or
+recieve-pack.
+
+
+[[capability_priority]]
+Priority
+~~~~~~~~
+
+This capability allows users to use
+link:config-gerrit.html#sshd.batchThreads[the thread pool reserved] for
+link:access-control.html#non-interactive_users['Non-Interactive Users'].
+It's a binary value in that granted users either have access to the thread
+pool, or they don't.
+
+There are three modes for this capability and they're listed by rising
+priority:
+
+No capability configured.::
+The user isn't a member of a group with any priority capability granted. By
+default the user is then in the 'INTERACTIVE' thread pool.
+
+'BATCH'::
+If there's a thread pool configured for 'Non-Interactive Users' and a user is
+granted the priority capability with the 'BATCH' mode selected, the user ends
+up in the separate batch user thread pool. This is true unless the user is
+also granted the below 'INTERACTIVE' option.
+
+'INTERACTIVE'::
+If a user is granted the priority capability with the 'INTERACTIVE' option,
+regardless if they also have the 'BATCH' option or not, they are in the
+'INTERACTIVE' thread pool.
 
 
 [[capability_queryLimit]]

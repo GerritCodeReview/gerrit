@@ -890,6 +890,25 @@ Optional access rights to grant:
 * <<category_push,`Push`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
 
 
+[[examples_integrator]]
+Integrator
+~~~~~~~~~~
+
+Integrators are like developers but with some additional rights granted due
+to their administrative role in a project.  They can upload or push any commit
+with any committer email (not just their own) and they can also create new
+tags and branches.
+
+Suggested access rights to grant:
+
+* <<examples_developer,Developer rights>>
+* <<category_push,`Push`>> to 'refs/heads/*'
+* <<category_push_merge,`Push merge commit`>> to 'refs/heads/*'
+* <<category_forge_committer,`Forge Committer Identity`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
+* <<category_create,`Create Reference`>> to 'refs/heads/*'
+* <<category_push_annotated,`Push Annotated Tag`>> to 'refs/tags/*'
+
+
 [[conversion_table]]
 Conversion table from 2.1.x series to 2.2.x series
 --------------------------------------------------

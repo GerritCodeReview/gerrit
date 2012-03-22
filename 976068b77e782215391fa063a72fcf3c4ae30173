@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEMH////I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-22T15:01:37Z",
+      "side": 1,
+      "message": "[optional] I would remove \u0027even if the user isn\u0027t in the Administrator group\u0027.",
+      "revId": "976068b77e782215391fa063a72fcf3c4ae30173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEMH////A\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-22T15:01:37Z",
+      "side": 1,
+      "message": "Any reason why not to link back to this section from the ACCESS section of the cmd-show-caches page?",
+      "revId": "976068b77e782215391fa063a72fcf3c4ae30173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEMH////E\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-22T15:01:37Z",
+      "side": 1,
+      "message": "[optional] same here, I would remove the last part of the sentence",
+      "revId": "976068b77e782215391fa063a72fcf3c4ae30173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

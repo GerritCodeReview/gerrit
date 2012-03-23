@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEPX///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "Don\u0027t import UUID",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "Isn\u0027t there some sort of replication code that calls this factory that needs to be updated?",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "Don\u0027t import UUID",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "Make sure you use the AOSP copyright header.",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "We don\u0027t use @author tags.",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "AOSP header",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "Don\u0027t import UUID",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "no @author",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "We have Guava now, you could use Sets.newHashSet()",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "Lists.newLinkedList",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "!groupQueue.isEmpty()",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "AccountGroup.UUID",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "Doesn\u0027t this builder choke if a user managed to be part of the same group by two different methods? I\u0027m actually slightly worried about that case here. Since the MaterializedGroupMembershipFactory copies the input anyway you might as well keep using the mutable HashSet here for this temporary set and not worry about duplicates.",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPX///+s\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-23T20:05:50Z",
+      "side": 1,
+      "message": "Don\u0027t import UUID",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEQH////0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-23T07:40:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAC8n////o\u003d",
+      "revId": "cea9d5eb814e5332bca8cac2d63761eb8170733a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADHH////w\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteBranches.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-02-22T09:32:10Z",
       "side": 1,
       "message": "In the previous while loop you removed those branches that must not be deleted. Now you are going to delete those that are still in the \"toRemove\" set.\n\nHowever, there is a window of vulnerability here as, between the check above and the deletion below, a new change may be created for a branch present in the \"toRemove\" set. \n\nWe need a kind of lock that would prevent creation of a new change for a target branch. I don\u0027t know if Gerrit provides this kind of lock right now?",
+      "revId": "cea9d5eb814e5332bca8cac2d63761eb8170733a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEQH////w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-23T07:40:03Z",
+      "side": 1,
+      "message": "Yes, you are right, there is a race condition here, but I\u0027m afraid that Gerrit at the moment doesn\u0027t support locking a branch so that no new changes can be uploaded for it.\n\nIf the race condition is hit, there would be an open change for a non existing target branch. Ideally if change 31642 [1] gets accepted this change can\u0027t be submitted which means that nothing really bad happens. Considering this and also that Gerrit is also in other places not completely safe [2], I would say it\u0027s okay to accept this race condition here.\n\n[1] https://gerrit-review.googlesource.com/31642\n\n[2] https://gerrit-review.googlesource.com/#/c/31700/8/gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
+      "parentUuid": "AAADHH////w\u003d",
       "revId": "cea9d5eb814e5332bca8cac2d63761eb8170733a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

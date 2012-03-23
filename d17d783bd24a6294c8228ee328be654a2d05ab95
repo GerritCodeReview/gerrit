@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAESn////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-23T20:24:33Z",
+      "side": 1,
+      "message": "I agree with Saša. \n\nAnd I would like this first change to differ as little as possible from Gerrit\u0027s current behavior; only the Vetos are carried over to new patchsets.\n\nSince the patch sets created through the rebase-button also trigger the PatchsetCreatedHook, the popular script should still work as expected. I think, if it would be done any differently from when rebasing manually, it could probably confuse the users.\n\nOn a pure personal level, I kinda like that only the Vetos are carried over. Just in this change, an extra patchset was needed after a rebase, due to some non-related refactoring took away a class variable from ChangeUtil. This is easily found if you quickly review the code. But I would not want to see a +2 to be carried over in a situation like that.",
+      "parentUuid": "AAAESH////0\u003d",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEOX///+g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 8

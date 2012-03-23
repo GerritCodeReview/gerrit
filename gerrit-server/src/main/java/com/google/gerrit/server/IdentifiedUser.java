@@ -24,7 +24,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.GroupIncludeCache;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.MaterializedGroupMembership;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
@@ -52,9 +53,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -71,7 +70,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final Realm realm;
     private final AccountCache accountCache;
-    private final GroupIncludeCache groupIncludeCache;
+    private final MaterializedGroupMembership.Factory groupMembershipFactory;
 
     @Inject
     GenericFactory(
@@ -80,14 +79,14 @@ public class IdentifiedUser extends CurrentUser {
         final @AnonymousCowardName String anonymousCowardName,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
-        final GroupIncludeCache groupIncludeCache) {
+        final MaterializedGroupMembership.Factory groupMembershipFactory) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
       this.anonymousCowardName = anonymousCowardName;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
-      this.groupIncludeCache = groupIncludeCache;
+      this.groupMembershipFactory = groupMembershipFactory;
     }
 
     public IdentifiedUser create(final Account.Id id) {
@@ -97,14 +96,14 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, AccessPath.UNKNOWN,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupIncludeCache, null, db, id);
+          groupMembershipFactory, null, db, id);
     }
 
     public IdentifiedUser create(AccessPath accessPath,
         Provider<SocketAddress> remotePeerProvider, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, accessPath,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupIncludeCache, remotePeerProvider, null, id);
+          groupMembershipFactory, remotePeerProvider, null, id);
     }
   }
 
@@ -122,7 +121,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final Realm realm;
     private final AccountCache accountCache;
-    private final GroupIncludeCache groupIncludeCache;
+    private final MaterializedGroupMembership.Factory groupMembershipFactory;
 
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
@@ -134,7 +133,7 @@ public class IdentifiedUser extends CurrentUser {
         final @AnonymousCowardName String anonymousCowardName,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
-        final GroupIncludeCache groupIncludeCache,
+        final MaterializedGroupMembership.Factory groupMembershipFactory,
 
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
@@ -144,7 +143,7 @@ public class IdentifiedUser extends CurrentUser {
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
-      this.groupIncludeCache = groupIncludeCache;
+      this.groupMembershipFactory = groupMembershipFactory;
 
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
@@ -154,7 +153,7 @@ public class IdentifiedUser extends CurrentUser {
         final Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, accessPath,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupIncludeCache, remotePeerProvider, dbProvider, id);
+          groupMembershipFactory, remotePeerProvider, dbProvider, id);
     }
   }
 
@@ -186,7 +185,7 @@ public class IdentifiedUser extends CurrentUser {
   private final Provider<String> canonicalUrl;
   private final Realm realm;
   private final AccountCache accountCache;
-  private final GroupIncludeCache groupIncludeCache;
+  private final MaterializedGroupMembership.Factory groupMembershipFactory;
   private final AuthConfig authConfig;
   private final String anonymousCowardName;
 
@@ -200,7 +199,7 @@ public class IdentifiedUser extends CurrentUser {
 
   private AccountState state;
   private Set<String> emailAddresses;
-  private Set<AccountGroup.UUID> effectiveGroups;
+  private GroupMembership effectiveGroups;
   private Set<Change.Id> starredChanges;
   private Collection<AccountProjectWatch> notificationFilters;
 
@@ -211,14 +210,14 @@ public class IdentifiedUser extends CurrentUser {
       final String anonymousCowardName,
       final Provider<String> canonicalUrl,
       final Realm realm, final AccountCache accountCache,
-      final GroupIncludeCache groupIncludeCache,
+      final MaterializedGroupMembership.Factory groupMembershipFactory,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
     super(capabilityControlFactory, accessPath);
     this.canonicalUrl = canonicalUrl;
     this.realm = realm;
     this.accountCache = accountCache;
-    this.groupIncludeCache = groupIncludeCache;
+    this.groupMembershipFactory = groupMembershipFactory;
     this.authConfig = authConfig;
     this.anonymousCowardName = anonymousCowardName;
     this.remotePeerProvider = remotePeerProvider;
@@ -270,37 +269,16 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   @Override
-  public Set<AccountGroup.UUID> getEffectiveGroups() {
+  public GroupMembership getEffectiveGroups() {
     if (effectiveGroups == null) {
-      Set<AccountGroup.UUID> seedGroups;
-
       if (authConfig.isIdentityTrustable(state().getExternalIds())) {
-        seedGroups = realm.groups(state());
+        effectiveGroups = realm.groups(state());
       } else {
-        seedGroups = registeredGroups;
+        effectiveGroups = groupMembershipFactory.create(registeredGroups);
       }
-
-      effectiveGroups = getIncludedGroups(seedGroups);
     }
 
     return effectiveGroups;
-  }
-
-  private Set<AccountGroup.UUID> getIncludedGroups(Set<AccountGroup.UUID> seedGroups) {
-    Set<AccountGroup.UUID> includes = new HashSet<AccountGroup.UUID> (seedGroups);
-    Queue<AccountGroup.UUID> groupQueue = new LinkedList<AccountGroup.UUID> (seedGroups);
-
-    while (groupQueue.size() > 0) {
-      AccountGroup.UUID id = groupQueue.remove();
-
-      for (final AccountGroup.UUID groupId : groupIncludeCache.getByInclude(id)) {
-        if (includes.add(groupId)) {
-          groupQueue.add(groupId);
-        }
-      }
-    }
-
-    return Collections.unmodifiableSet(includes);
   }
 
   @Override

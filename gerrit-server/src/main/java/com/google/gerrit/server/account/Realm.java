@@ -31,7 +31,7 @@ public interface Realm {
 
   public void onCreateAccount(AuthRequest who, Account account);
 
-  public Set<AccountGroup.UUID> groups(AccountState who);
+  public GroupMembership groups(AccountState who);
 
   /**
    * Locate an account whose local username is the given account name.

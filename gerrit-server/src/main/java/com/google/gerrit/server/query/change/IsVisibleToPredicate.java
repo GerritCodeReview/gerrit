@@ -30,7 +30,7 @@ class IsVisibleToPredicate extends OperatorPredicate<ChangeData> {
       return ((IdentifiedUser) user).getAccountId().toString();
     }
     if (user instanceof SingleGroupUser) {
-      return "group:" + ((SingleGroupUser) user).getEffectiveGroups() //
+      return "group:" + ((SingleGroupUser) user).getEffectiveGroups().getKnownGroups() //
           .iterator().next().toString();
     }
     return user.toString();

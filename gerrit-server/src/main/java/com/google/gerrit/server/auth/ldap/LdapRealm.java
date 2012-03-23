@@ -16,6 +16,7 @@ package com.google.gerrit.server.auth.ldap;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -26,6 +27,8 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.MaterializedGroupMembership;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
@@ -72,6 +75,7 @@ class LdapRealm implements Realm {
   private final Config config;
 
   private final Cache<String, Set<AccountGroup.UUID>> membershipCache;
+  private final MaterializedGroupMembership.Factory groupMembershipFactory;
 
   @Inject
   LdapRealm(
@@ -80,13 +84,15 @@ class LdapRealm implements Realm {
       final EmailExpander emailExpander,
       @Named(LdapModule.GROUP_CACHE) final Cache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(LdapModule.USERNAME_CACHE) final Cache<String, Account.Id> usernameCache,
-      @GerritServerConfig final Config config) {
+      @GerritServerConfig final Config config,
+      final MaterializedGroupMembership.Factory groupMembershipFactory) {
     this.helper = helper;
     this.authConfig = authConfig;
     this.emailExpander = emailExpander;
     this.usernameCache = usernameCache;
     this.membershipCache = membershipCache;
     this.config = config;
+    this.groupMembershipFactory = groupMembershipFactory;
 
     this.readOnlyAccountFields = new HashSet<Account.FieldName>();
 
@@ -254,13 +260,11 @@ class LdapRealm implements Realm {
   }
 
   @Override
-  public Set<AccountGroup.UUID> groups(final AccountState who) {
-    final HashSet<AccountGroup.UUID> r = new HashSet<AccountGroup.UUID>();
-    r.addAll(membershipCache.get(findId(who.getExternalIds())));
-    r.addAll(who.getInternalGroups());
-    return r;
+  public GroupMembership groups(final AccountState who) {
+    return groupMembershipFactory.create(Iterables.concat(
+        membershipCache.get(findId(who.getExternalIds())),
+        who.getInternalGroups()));
   }
-
 
   private static String findId(final Collection<AccountExternalId> ids) {
     for (final AccountExternalId i : ids) {

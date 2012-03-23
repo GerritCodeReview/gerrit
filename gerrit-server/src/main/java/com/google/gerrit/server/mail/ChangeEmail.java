@@ -70,7 +70,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
     /** Is the from user in an email squelching group? */
     final IdentifiedUser user =  args.identifiedUserFactory.create(id);
-    final Set<AccountGroup.UUID> gids = user.getEffectiveGroups();
+    final Set<AccountGroup.UUID> gids = user.getEffectiveGroups().getKnownGroups();
     for (final AccountGroup.UUID gid : gids) {
       AccountGroup group = args.groupCache.get(gid);
       if (group != null && group.isEmailOnlyAuthors()) {

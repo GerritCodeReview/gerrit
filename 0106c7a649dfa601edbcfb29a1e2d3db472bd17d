@@ -34,6 +34,24 @@
       "revId": "0106c7a649dfa601edbcfb29a1e2d3db472bd17d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAESH////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-23T15:45:49Z",
+      "side": 1,
+      "message": "So I was trying to implement this and have a first version ready. It\u0027s a bit nicer than the implementation in this patch set, but it\u0027s also not much different.\n\nFirst of all I investigated why with the current implementaion the type of the Exception is not available on the client side. I actually think this is really the intended behaviour. The JSON Servlet explicitly sends only an error code and the error message back to the client instead of serializing the exception. I believe that sending back the serialized exception that includes the stacktrace might be a security issue because it reveals internal details. This is why I think it is not a good idea to bypass this code and include the exception class as part of the result data. Because of this in my RpcResult\u003cR,E\u003e E is not an Exception but an RpcError which just has a type to identify the error. Subclasses of RpcError can include additional information about the error that is then carrying over to the client.\n\nAs suggested by you, I\u0027ve added GerritRpcResultCallback which calls onResult(R) or onError(E) (Java didn\u0027t allow me to use onSuccess(R) and onFailure(E) because the names are clashing with the existing methods). At the moment RpcRsult can either contain a result or an error, but it can easily be extended to contain both and/or multiple errors. I decided not to have a onFailureResult(R, E) method, but rather to invoke in this case both onResult(R) and onError(E) because it would be additional overhead for users to implement this method and it would probably anyway delegate to the other two methods.\n\nSo as a result the enum with the error types is still there. Please let me know what you think of the implementation and whether you still see room for further improvements.\n\nAlso would it make sense to add the generic error handling classes in an own change?",
+      "parentUuid": "AAAEQH////o\u003d",
+      "revId": "0106c7a649dfa601edbcfb29a1e2d3db472bd17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

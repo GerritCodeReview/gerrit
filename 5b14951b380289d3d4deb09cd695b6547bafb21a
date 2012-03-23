@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAEQX////k\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-23T13:32:46Z",
+      "side": 1,
+      "message": "using optparse was a good decision :-)",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEQX////w\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-23T13:32:46Z",
+      "side": 1,
+      "message": "Move this line out of the for loop. We need to compile the regex\nonly once, not for each line.\n\nUse spaces before and after the assignment as you did at all other places.",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEQX////o\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-23T13:32:46Z",
+      "side": 1,
+      "message": "[optional] I was actually proposing to split this into own loop. Something like:\n\n if issue_numbers_only:\n   for line in stdout_value.splitlines(True):\n     if p.match(line):\n       sys.stdout.write(p.sub(\u0027\u0027, line))\n else:\n   for line in stdout_value.splitlines(True):\n      ...\n\nThese two cases have really no code in common. They only shared the for loop line :-)",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEQX////s\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-23T13:32:46Z",
+      "side": 1,
+      "message": "This will never be True as we are in the \"else\" branch because the issue_numbers_only was False.\n\nI think you forgot to remove this and the following line :-)",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEQX////g\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-23T13:32:46Z",
+      "side": 1,
+      "message": "you could also use the raw string the the the second parameter",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEPn////k\u003d",
         "filename": "tools/gitlog2asciidoc.py",
         "patchSetId": 2

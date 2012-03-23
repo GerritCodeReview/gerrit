@@ -16,6 +16,24 @@
       "revId": "0106c7a649dfa601edbcfb29a1e2d3db472bd17d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEQH////o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-23T07:53:29Z",
+      "side": 1,
+      "message": "Sorry for the delayed answer. I really like your proposal and I will try to implement it. The whole error and exception handling in Gerrit is not really satisfying as it is now and this looks like a good solution to me.",
+      "parentUuid": "AAADOX///+4\u003d",
+      "revId": "0106c7a649dfa601edbcfb29a1e2d3db472bd17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

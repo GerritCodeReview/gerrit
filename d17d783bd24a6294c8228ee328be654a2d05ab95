@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEOX///+0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-23T03:41:14Z",
+      "side": 1,
+      "message": "While this line looks a bit like the one above, I suspect that it is more logically connected to the if below?  Perhaps the blank line on 348 should be moved to below 346?  (As is, I had to think hard to figure out what this did until I saw the add on 350).",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEOX///+w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-23T03:41:14Z",
+      "side": 1,
+      "message": "If you use the new ChangeDetailCache.GerritCallback() you will only need to override the onFailure method.\n\nIt might even be worth adding a ChangeDetailCache.GerritWidgetCallback() which takes a widget in its constructor which it re-enables in its onFailure() (and likely also in its onSuccess() even though your case seems to be able to get away without it since the UI component is rebuilt I think).  I suspect such a cool Callback, would likely be useful many places!",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-23T03:41:14Z",
+      "side": 1,
+      "message": "Due to the popularity of the trivial rebase detection hook which reapplies approvals, I cannot help but wonder if we shouldn\u0027t just copy everything on a rebase instead?\n\nBut, if this feels like the wrong policy for some, maybe it should be configurable (in a future change) instead?  Should we consider making approval behavior for various actions more configurable in the future, or is this just asking for too much complexity and would we better off trying to just get things \"right\"?\n\nOne thing for sure is, while it may be good to keep only the vetos, it is not the \"right\" solution since the popularity of our script implies that many people don\u0027t like that policy already.",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEOX///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-23T03:41:14Z",
+      "side": 1,
+      "message": "+ while keeping the vetos.",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEOX///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-23T03:41:14Z",
+      "side": 1,
+      "message": "s/copyveto/copyVeto/  (capital V)\n\nI kinda feel like the Approvals could be dropped from the name?",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEOX///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-23T03:41:14Z",
+      "side": 1,
+      "message": "Is there a good use case for not having source be equal to currPatchSetId() -1?  If not, perhpas the source argument should he omitted to not encourage anything but curr -1?",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEOX///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-23T03:41:14Z",
+      "side": 1,
+      "message": "I believe that you can change this query to only return the approvals by patchset using source instead?",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEOX///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-23T03:41:14Z",
+      "side": 1,
+      "message": "s/negative/veto/\n\nAlthough, this comment might be no longer needed now that you have a nicely named function to tell you what it is doing.",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

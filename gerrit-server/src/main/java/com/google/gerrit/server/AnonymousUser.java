@@ -18,6 +18,8 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.inject.Inject;
 
 import java.util.Collection;
@@ -32,8 +34,8 @@ public class AnonymousUser extends CurrentUser {
   }
 
   @Override
-  public Set<AccountGroup.UUID> getEffectiveGroups() {
-    return Collections.singleton(AccountGroup.ANONYMOUS_USERS);
+  public GroupMembership getEffectiveGroups() {
+    return new ListGroupMembership(Collections.singleton(AccountGroup.ANONYMOUS_USERS));
   }
 
   @Override

@@ -20,13 +20,15 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
 final class SingleGroupUser extends CurrentUser {
-  private final Set<AccountGroup.UUID> groups;
+  private final GroupMembership groups;
 
   SingleGroupUser(CapabilityControl.Factory capabilityControlFactory,
       AccountGroup.UUID groupId) {
@@ -36,11 +38,11 @@ final class SingleGroupUser extends CurrentUser {
   SingleGroupUser(CapabilityControl.Factory capabilityControlFactory,
       Set<AccountGroup.UUID> groups) {
     super(capabilityControlFactory, AccessPath.UNKNOWN);
-    this.groups = groups;
+    this.groups = new ListGroupMembership(groups);
   }
 
   @Override
-  public Set<AccountGroup.UUID> getEffectiveGroups() {
+  public GroupMembership getEffectiveGroups() {
     return groups;
   }
 

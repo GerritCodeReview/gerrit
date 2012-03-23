@@ -281,7 +281,7 @@ public class ProjectControl {
     ContributorAgreement bestCla = null;
     try {
 
-      OUTER: for (AccountGroup.UUID groupUUID : iUser.getEffectiveGroups()) {
+      OUTER: for (AccountGroup.UUID groupUUID : iUser.getEffectiveGroups().getKnownGroups()) {
         AccountGroup group = groupCache.get(groupUUID);
         if (group == null) {
           continue;

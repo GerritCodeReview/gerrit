@@ -59,7 +59,7 @@ class AgreementInfoFactory extends Handler<AgreementInfo> {
 
     final List<AccountGroupAgreement> groupAccepted =
         new ArrayList<AccountGroupAgreement>();
-    for (final AccountGroup.UUID groupUUID : user.getEffectiveGroups()) {
+    for (final AccountGroup.UUID groupUUID : user.getEffectiveGroups().getKnownGroups()) {
       AccountGroup group = groupCache.get(groupUUID);
       if (group == null) {
         continue;

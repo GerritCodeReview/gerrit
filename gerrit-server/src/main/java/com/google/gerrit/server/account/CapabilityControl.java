@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRange;
@@ -31,7 +33,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /** Access control management for server-wide capabilities. */
 public class CapabilityControl {
@@ -129,7 +130,7 @@ public class CapabilityControl {
     // the 'CI Servers' actually use the BATCH queue while everyone else gets
     // to use the INTERACTIVE queue without additional grants.
     //
-    Set<AccountGroup.UUID> groups = user.getEffectiveGroups();
+    GroupMembership groups = user.getEffectiveGroups();
     boolean batch = false;
     for (PermissionRule r : capabilities.priority) {
       if (match(groups, r)) {
@@ -198,7 +199,7 @@ public class CapabilityControl {
       return rules;
     }
 
-    Set<AccountGroup.UUID> groups = user.getEffectiveGroups();
+    GroupMembership groups = user.getEffectiveGroups();
     if (rules.size() == 1) {
       if (!match(groups, rules.get(0))) {
         rules = Collections.emptyList();
@@ -222,16 +223,17 @@ public class CapabilityControl {
   }
 
   private boolean matchAny(List<PermissionRule> rules) {
-    Set<AccountGroup.UUID> groups = user.getEffectiveGroups();
-    for (PermissionRule rule : rules) {
-      if (match(groups, rule)) {
-        return true;
-      }
-    }
-    return false;
+    Iterable<AccountGroup.UUID> ids = Iterables.transform(rules,
+        new Function<PermissionRule, AccountGroup.UUID>() {
+          @Override
+          public AccountGroup.UUID apply(PermissionRule rule) {
+            return rule.getGroup().getUUID();
+          }
+        });
+    return user.getEffectiveGroups().containsAnyOf(ids);
   }
 
-  private static boolean match(Set<AccountGroup.UUID> groups,
+  private static boolean match(GroupMembership groups,
       PermissionRule rule) {
     return groups.contains(rule.getGroup().getUUID());
   }

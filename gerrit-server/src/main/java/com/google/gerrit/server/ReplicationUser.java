@@ -18,47 +18,35 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 public class ReplicationUser extends CurrentUser {
   /** Magic set of groups enabling read of any project and reference. */
-  public static final Set<AccountGroup.UUID> EVERYTHING_VISIBLE =
-      Collections.unmodifiableSet(new HashSet<AccountGroup.UUID>(0));
+  public static final GroupMembership EVERYTHING_VISIBLE =
+      new ListGroupMembership(Collections.<AccountGroup.UUID>emptySet());
 
   public interface Factory {
-    ReplicationUser create(@Assisted Set<AccountGroup.UUID> authGroups);
+    ReplicationUser create(@Assisted GroupMembership authGroups);
   }
 
-  private final Set<AccountGroup.UUID> effectiveGroups;
+  private final GroupMembership effectiveGroups;
 
   @Inject
   protected ReplicationUser(CapabilityControl.Factory capabilityControlFactory,
-      @Assisted Set<AccountGroup.UUID> authGroups) {
+      @Assisted GroupMembership authGroups) {
     super(capabilityControlFactory, AccessPath.REPLICATION);
-
-    if (authGroups == EVERYTHING_VISIBLE) {
-      effectiveGroups = EVERYTHING_VISIBLE;
-
-    } else if (authGroups.isEmpty()) {
-      effectiveGroups = Collections.emptySet();
-
-    } else {
-      effectiveGroups = copy(authGroups);
-    }
-  }
-
-  private static Set<AccountGroup.UUID> copy(Set<AccountGroup.UUID> groups) {
-    return Collections.unmodifiableSet(new HashSet<AccountGroup.UUID>(groups));
+    effectiveGroups = authGroups;
   }
 
   @Override
-  public Set<AccountGroup.UUID> getEffectiveGroups() {
+  public GroupMembership getEffectiveGroups() {
     return effectiveGroups;
   }
 

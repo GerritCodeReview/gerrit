@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAESH////g\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-23T16:10:29Z",
+      "side": 1,
+      "message": "did you (dis)agree on using the\n\n --issue-numbers\n\nfor the option name (replace underscore with dash)?",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEQX////w\u003d",
         "filename": "tools/gitlog2asciidoc.py",
         "patchSetId": 2

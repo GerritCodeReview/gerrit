@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEPn///+Q\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-23T19:42:25Z",
+      "side": 1,
+      "message": "s/Gerrits/Gerrit\u0027s/  This is also a problem on line 978 (not in change) and 997and 989",
+      "revId": "439d8e3984ea2eaf415554049ba7dc3637004fb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

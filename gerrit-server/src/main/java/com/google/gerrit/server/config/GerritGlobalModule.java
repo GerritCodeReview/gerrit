@@ -35,6 +35,7 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupInfoCacheFactory;
+import com.google.gerrit.server.account.MaterializedGroupMembership;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.events.EventFactory;
@@ -118,6 +119,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(CapabilityControl.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);
     factory(ProjectState.Factory.class);
+    factory(MaterializedGroupMembership.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)

@@ -25,6 +25,7 @@ import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
+import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -237,13 +238,13 @@ public class ProjectState {
    * @return true if any of the groups listed in {@code groups} was declared to
    *         be an owner of this project, or one of its parent projects..
    */
-  boolean isOwner(Set<AccountGroup.UUID> groups) {
+  boolean isOwner(GroupMembership groups) {
     Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
     seen.add(getProject().getNameKey());
 
     ProjectState s = this;
     do {
-      if (CollectionsUtil.isAnyIncludedIn(s.localOwners, groups)) {
+      if (groups.containsAnyOf(s.localOwners)) {
         return true;
       }
 

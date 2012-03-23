@@ -20,11 +20,13 @@ import static com.google.gerrit.common.data.Permission.PUSH;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.common.data.Permission.SUBMIT;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -35,6 +37,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.cache.ConcurrentHashMapCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.FactoryModule;
@@ -411,8 +414,29 @@ public class RefControlTest extends TestCase {
     }
 
     @Override
-    public Set<AccountGroup.UUID> getEffectiveGroups() {
-      return groups;
+    public GroupMembership getEffectiveGroups() {
+      return new GroupMembership() {
+        @Override
+        public boolean contains(AccountGroup.UUID groupId) {
+          return groups.contains(groupId);
+        }
+
+        @Override
+        public boolean containsAnyOf(Iterable<AccountGroup.UUID> groupIds) {
+          for (AccountGroup.UUID groupId : groupIds) {
+            if (contains(groupId)) {
+              return true;
+            }
+          }
+          return false;
+        }
+
+        @Override
+        public Set<AccountGroup.UUID> getKnownGroups() {
+          return Sets.newHashSet(groups);
+        }
+
+      };
     }
 
     @Override

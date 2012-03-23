@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEPn////s\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-23T02:52:58Z",
+      "side": 1,
+      "message": "This should probably be moved to before the loop.  It might be nice to also add a comment above this with all the anticipated cases which it should catch.",
+      "revId": "a34d3da74266650a8913ac0c9780fced2846d3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

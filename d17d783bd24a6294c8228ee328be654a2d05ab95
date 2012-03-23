@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAESH////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-23T15:05:10Z",
+      "side": 1,
+      "message": "These are all valid and interesting comments and proposals but I wonder if this particular change should implement them?\n\nThe intention of this change is to add the Rebase button and follow the current policies about copying veto votes.\n\nMy proposal is to address the flexibility/configurability of copying veto votes in another change. Even if it would be implemented in this change I am sure someone would propose to split it into two changes for an easier review ;-)",
+      "parentUuid": "AAAEPn////Q\u003d",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEOX///+g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 8

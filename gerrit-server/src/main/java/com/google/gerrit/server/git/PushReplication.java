@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
+import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
@@ -404,7 +405,7 @@ public class PushReplication implements ReplicationQueue {
 
       String[] authGroupNames =
           cfg.getStringList("remote", rc.getName(), "authGroup");
-      final Set<AccountGroup.UUID> authGroups;
+      final GroupMembership authGroups;
       if (authGroupNames.length > 0) {
         authGroups = ConfigUtil.groupsFor(db, authGroupNames, //
             log, "Group \"{0}\" not in database, removing from authGroup");

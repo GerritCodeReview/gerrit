@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
@@ -80,10 +81,8 @@ public class AccountControl {
         Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser);
         usersGroups.remove(AccountGroup.ANONYMOUS_USERS);
         usersGroups.remove(AccountGroup.REGISTERED_USERS);
-        for (AccountGroup.UUID myGroup : currentUser.getEffectiveGroups()) {
-          if (usersGroups.contains(myGroup)) {
-            return true;
-          }
+        if (currentUser.getEffectiveGroups().containsAnyOf(usersGroups)) {
+          return true;
         }
         break;
       }
@@ -111,7 +110,6 @@ public class AccountControl {
   }
 
   private Set<AccountGroup.UUID> groupsOf(Account account) {
-    IdentifiedUser user = userFactory.create(account.getId());
-    return new HashSet<AccountGroup.UUID>(user.getEffectiveGroups());
+    return userFactory.create(account.getId()).getEffectiveGroups().getKnownGroups();
   }
 }

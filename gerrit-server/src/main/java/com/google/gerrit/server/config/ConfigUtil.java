@@ -19,6 +19,8 @@ import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 
@@ -310,7 +312,7 @@ public class ConfigUtil {
    * @return the actual groups resolved from the database. If no groups are
    *         found, returns an empty {@code Set}, never {@code null}.
    */
-  public static Set<AccountGroup.UUID> groupsFor(
+  public static GroupMembership groupsFor(
       SchemaFactory<ReviewDb> dbfactory, String[] groupNames, Logger log,
       String groupNotFoundWarning) {
     final Set<AccountGroup.UUID> result = new HashSet<AccountGroup.UUID>();
@@ -339,7 +341,7 @@ public class ConfigUtil {
     } catch (OrmException e) {
       log.error("Database error, cannot load groups", e);
     }
-    return result;
+    return new ListGroupMembership(result);
   }
 
   /**
@@ -352,7 +354,7 @@ public class ConfigUtil {
    * @return the actual groups resolved from the database. If no groups are
    *         found, returns an empty {@code Set}, never {@code null}.
    */
-  public static Set<AccountGroup.UUID> groupsFor(
+  public static GroupMembership groupsFor(
       SchemaFactory<ReviewDb> dbfactory, String[] groupNames, Logger log) {
     return groupsFor(dbfactory, groupNames, log,
         "Group \"{0}\" not in database, skipping.");

@@ -91,7 +91,9 @@ public class VisibleGroups {
       NoSuchGroupException {
     if (identifiedUser.get().getAccountId().equals(user.getAccountId())
         || identifiedUser.get().getCapabilities().canAdministrateServer()) {
-      final Set<AccountGroup.UUID> effective = user.getEffectiveGroups();
+      // TODO(cranger): how should we handle this. it is unlikely that we would want
+      // to use the know groups here.
+      final Set<AccountGroup.UUID> effective = user.getEffectiveGroups().getKnownGroups();
       final Set<AccountGroup> groups =
           new TreeSet<AccountGroup>(new GroupComparator());
       for (final AccountGroup.UUID groupId : effective) {

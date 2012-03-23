@@ -20,11 +20,15 @@ import static com.google.gerrit.common.data.Permission.PUSH;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.common.data.Permission.SUBMIT;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -35,6 +39,8 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.cache.ConcurrentHashMapCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.FactoryModule;
@@ -49,6 +55,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -400,18 +407,19 @@ public class RefControlTest extends TestCase {
 
   private class MockUser extends CurrentUser {
     private final String username;
-    private final Set<AccountGroup.UUID> groups;
+    private final GroupMembership groups;
 
     MockUser(String name, AccountGroup.UUID[] groupId) {
       super(RefControlTest.this.capabilityControlFactory, AccessPath.UNKNOWN);
       username = name;
-      groups = new HashSet<AccountGroup.UUID>(Arrays.asList(groupId));
-      groups.add(registered);
-      groups.add(anonymous);
+      ArrayList<AccountGroup.UUID> groupIds = Lists.newArrayList(groupId);
+      groupIds.add(registered);
+      groupIds.add(anonymous);
+      groups = new ListGroupMembership(groupIds);
     }
 
     @Override
-    public Set<AccountGroup.UUID> getEffectiveGroups() {
+    public GroupMembership getEffectiveGroups() {
       return groups;
     }
 

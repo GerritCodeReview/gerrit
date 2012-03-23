@@ -185,11 +185,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     }
   }
 
-  private Set<AccountGroup.UUID> groupsOf(Account account) {
-    IdentifiedUser user = userFactory.create(account.getId());
-    return new HashSet<AccountGroup.UUID>(user.getEffectiveGroups());
-  }
-
   public void suggestAccountGroup(final String query, final int limit,
       final AsyncCallback<List<GroupReference>> callback) {
     run(callback, new Action<List<GroupReference>>() {

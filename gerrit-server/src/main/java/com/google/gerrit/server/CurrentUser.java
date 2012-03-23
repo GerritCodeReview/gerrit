@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GroupMembership;
 import com.google.inject.servlet.RequestScoped;
 
 import java.util.Collection;
@@ -60,7 +60,7 @@ public abstract class CurrentUser {
    *
    * @return active groups for this user.
    */
-  public abstract Set<AccountGroup.UUID> getEffectiveGroups();
+  public abstract GroupMembership getEffectiveGroups();
 
   /** Set of changes starred by this user. */
   public abstract Set<Change.Id> getStarredChanges();

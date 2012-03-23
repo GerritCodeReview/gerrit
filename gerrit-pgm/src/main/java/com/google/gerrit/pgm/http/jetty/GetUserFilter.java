@@ -36,8 +36,6 @@ import javax.servlet.ServletResponse;
 /**
  * Stores as a request attribute, so the {@link HttpLog} can include the the
  * user for the request outside of the request scope.
- *
- * @author cranger@google.com (Colby Ranger)
  */
 @Singleton
 public class GetUserFilter implements Filter {

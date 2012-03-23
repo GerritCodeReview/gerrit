@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPH///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX///+o\u003d",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEPX///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReplicationUser.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-23T20:05:50Z",
       "side": 1,
       "message": "Isn\u0027t there some sort of replication code that calls this factory that needs to be updated?",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPH///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX///+k\u003d",
       "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPH///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX///+w\u003d",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEPX////Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-23T20:05:50Z",
       "side": 1,
       "message": "Make sure you use the AOSP copyright header.",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPH///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX////Y\u003d",
       "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPH///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX////U\u003d",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEPX////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-03-23T20:05:50Z",
       "side": 1,
       "message": "AOSP header",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPH///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX////Q\u003d",
       "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPH///+c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX///+8\u003d",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEPX////M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2012-03-23T20:05:50Z",
       "side": 1,
       "message": "no @author",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPH///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX////M\u003d",
       "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPH///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX////I\u003d",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEPX////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2012-03-23T20:05:50Z",
       "side": 1,
       "message": "Lists.newLinkedList",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPH///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX////E\u003d",
       "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPH///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX///+4\u003d",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEPX////A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
         "patchSetId": 1
@@ -200,6 +398,24 @@
       "writtenOn": "2012-03-23T20:05:50Z",
       "side": 1,
       "message": "AccountGroup.UUID",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPH///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/MaterializedGroupMembership.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX////A\u003d",
       "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPH///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "I don\u0027t think it chokes, but updated to a hash set anyways.",
+      "parentUuid": "AAAEPX///+0\u003d",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEPX///+s\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 1
@@ -234,6 +468,24 @@
       "writtenOn": "2012-03-23T20:05:50Z",
       "side": 1,
       "message": "Don\u0027t import UUID",
+      "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPH///+A\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-23T21:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPX///+s\u003d",
       "revId": "fb440c370a231f5ca6c73ac66753c000511faefc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

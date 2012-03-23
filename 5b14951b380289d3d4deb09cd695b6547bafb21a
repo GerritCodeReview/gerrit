@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPn///9g\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-23T22:39:29Z",
+      "side": 1,
+      "message": "I agree.  I like the optparse too since we can also do short form.  -n is easier to type.",
+      "parentUuid": "AAAESH////g\u003d",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEQX////w\u003d",
         "filename": "tools/gitlog2asciidoc.py",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2012-03-23T13:32:46Z",
       "side": 1,
       "message": "Move this line out of the for loop. We need to compile the regex\nonly once, not for each line.\n\nUse spaces before and after the assignment as you did at all other places.",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPn///9c\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-23T22:39:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEQX////w\u003d",
       "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPn///9U\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-23T22:39:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEQX////o\u003d",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEQX////s\u003d",
         "filename": "tools/gitlog2asciidoc.py",
         "patchSetId": 2
@@ -81,6 +135,24 @@
       "writtenOn": "2012-03-23T13:32:46Z",
       "side": 1,
       "message": "This will never be True as we are in the \"else\" branch because the issue_numbers_only was False.\n\nI think you forgot to remove this and the following line :-)",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPn///+4\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-23T22:39:29Z",
+      "side": 1,
+      "message": "Thanks for catching I had marge conflict when I tried to untie dependency.  Fixing conflict was a bit confusing",
+      "parentUuid": "AAAEQX////s\u003d",
       "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPn///9Q\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-23T22:39:29Z",
+      "side": 1,
+      "message": "removed. since we already move the output for issue-number to outer if statement.",
+      "parentUuid": "AAAEQX////g\u003d",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEPn////k\u003d",
         "filename": "tools/gitlog2asciidoc.py",
         "patchSetId": 2
@@ -115,6 +205,24 @@
       "writtenOn": "2012-03-23T03:08:42Z",
       "side": 1,
       "message": "This series may need to be rebased on the tip to get the bug fix here, or it will likely go missed.",
+      "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEPn///9M\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-23T22:39:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEPn////k\u003d",
       "revId": "5b14951b380289d3d4deb09cd695b6547bafb21a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

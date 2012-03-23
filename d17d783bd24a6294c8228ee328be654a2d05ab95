@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEPn////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010036
+      },
+      "writtenOn": "2012-03-23T03:53:40Z",
+      "side": 1,
+      "message": "I think that the the desire to copy approvals could vary by organization as well as approval category. \n\nFor example, you may wish to copy the Code Review approvals (as it pertains to the quality of the change) but not copy the Verification approvals (as this may pertain to the stability of the code after applying the change to the base)\n\nThere is also the question of custom approvals which could carry their own meaning and are subject to the same organization specific concerns.",
+      "parentUuid": "AAAEPn////Y\u003d",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEOX///+g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 8

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAETH////w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-24T04:12:59Z",
+      "side": 1,
+      "message": "I am curious why you do not seem to be making full use of your class here?  Shouldn\u0027t you use it to print the first column and the separator?",
+      "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAETH////0\u003d",
+        "filename": "gerrit-sshd/src/test/java/com/google/gerrit/sshd/commands/ColumnFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-24T04:12:59Z",
+      "side": 1,
+      "message": "This test seems kind of circular, it relies on the implementation of the class.",
+      "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAETX////8\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-24T04:39:54Z",
+      "side": 1,
+      "message": "I think the \u0027+\u0027 is unnecessary.",
+      "revId": "c9636ec8bd15a7112651090633d5d57b9ca20ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAETX////4\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-24T04:39:54Z",
+      "side": 1,
+      "message": "nit: Looks like on line 62 the style has been to fit up to 80 chars on a line for function params and not try to line them up like this.",
+      "revId": "c9636ec8bd15a7112651090633d5d57b9ca20ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAETX////0\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-24T04:39:54Z",
+      "side": 1,
+      "message": "I\u0027d move these below 59 (fail fast).",
+      "revId": "c9636ec8bd15a7112651090633d5d57b9ca20ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAETX////w\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-24T04:39:54Z",
+      "side": 1,
+      "message": "I don\u0027t think you need re.IGNORECASE indented past the \u0027 on the line above.",
+      "revId": "c9636ec8bd15a7112651090633d5d57b9ca20ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAETX////s\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-24T04:39:54Z",
+      "side": 1,
+      "message": "Why the blank lines between some conditional statements?",
+      "revId": "c9636ec8bd15a7112651090633d5d57b9ca20ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAETX////o\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-24T04:39:54Z",
+      "side": 1,
+      "message": "Is this continue necessary? It\u0027s the same behavior with or without it, correct?",
+      "revId": "c9636ec8bd15a7112651090633d5d57b9ca20ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

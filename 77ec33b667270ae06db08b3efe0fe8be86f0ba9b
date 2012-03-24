@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAEUn////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-24T20:59:20Z",
+      "side": 1,
+      "message": "Actually, JGit already has a QuotedString class that might work better than rebuilding this logic.\n\nI\u0027m also wondering if we shouldn\u0027t use an approach like git for-each-ref does where you can ask for output in sh format. That is if the output is a simple split using \\t as a delimiter (for example) that you can read in shell with IFS\u003d\"\\t\" then we could instead output in a sh readable format by eval, e.g. the caller could do:\n\n  while read line; do\n    eval \"$line\"\n    echo $col_name; echo $col_uuid;\n  done \u003c(ssh gerrit ls-groups --sh)\n\nand each line out output is like:\n\n  col_name\u003d\"blah\";col_uuid\u003d\"1223\";\n  col_name\u003d\"other\";col_uuid\u003d\"98182\";\n\nJSON isn\u0027t easy to work with in shell. But shell that you can safely eval to get variables set is. And so is a string that is safely split with an IFS setting so long as the delimiter can never appear in any of the column values.",
+      "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAETH////w\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
         "patchSetId": 1

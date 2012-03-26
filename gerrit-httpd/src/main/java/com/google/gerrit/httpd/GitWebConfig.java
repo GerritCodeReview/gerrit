@@ -54,6 +54,7 @@ public class GitWebConfig {
     type.setBranch(cfg.getString("gitweb", null, "branch"));
     type.setProject(cfg.getString("gitweb", null, "project"));
     type.setRevision(cfg.getString("gitweb", null, "revision"));
+    type.setFileHistory(cfg.getString("gitweb", null, "filehistory"));
     String pathSeparator = cfg.getString("gitweb", null, "pathSeparator");
     if (pathSeparator != null) {
       if (pathSeparator.length() == 1) {
@@ -76,6 +77,9 @@ public class GitWebConfig {
       type = null;
     } else if (type.getRevision() == null) {
       log.warn("No Pattern specified for gitweb.revision, disabling.");
+      type = null;
+    } else if (type.getFileHistory() == null) {
+      log.warn("No Pattern specified for gitweb.filehistory, disabling.");
       type = null;
     }
 

@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAEVn////s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T09:27:50Z",
+      "side": 1,
+      "message": "This should be:\n  out.print(\u0027\\n\u0027);\n\nThe println method prints the line separator string that is defined by the system property \u0027line.separator\u0027. This line separator string may be\ndifferent from \u0027\\n\u0027 (e.g. on Windows it\u0027s \u0027\\r\\n\u0027). Because of this several of the ColumnFormatterTest\u0027s are currently failing on Windows since the tests assume \u0027\\n\u0027 as new line character.",
+      "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAETH////w\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
         "patchSetId": 1
@@ -47,6 +64,23 @@
       "writtenOn": "2012-03-24T04:12:59Z",
       "side": 1,
       "message": "This test seems kind of circular, it relies on the implementation of the class.",
+      "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn////o\u003d",
+        "filename": "gerrit-sshd/src/test/java/com/google/gerrit/sshd/commands/ColumnFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T09:27:50Z",
+      "side": 1,
+      "message": "should \"string\\nwith\\ntabs\" contain tabs?",
       "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

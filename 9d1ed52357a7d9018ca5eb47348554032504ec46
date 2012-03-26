@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEUX///+I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AgreementInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-26T23:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEUX////Y\u003d",
+      "revId": "9d1ed52357a7d9018ca5eb47348554032504ec46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEUX////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEUX///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-26T23:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEUX////s\u003d",
+      "revId": "9d1ed52357a7d9018ca5eb47348554032504ec46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEUX////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ListGroupMembership.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2012-03-26T16:55:18Z",
       "side": 1,
       "message": "ImmutableSets.copyOf(groups) and make getKnownGroups always immutable result?",
+      "revId": "9d1ed52357a7d9018ca5eb47348554032504ec46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEUX///98\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ListGroupMembership.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-03-26T23:09:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEUX////o\u003d",
       "revId": "9d1ed52357a7d9018ca5eb47348554032504ec46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

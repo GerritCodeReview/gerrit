@@ -32,8 +32,8 @@ public interface ChangeMessages extends Messages {
   String loadingPatchSet(int id);
   String submitPatchSet(int id);
 
-  String patchTableComments(@PluralCount int count);
   String patchTableDrafts(@PluralCount int count);
+  String patchTableCommentsByOtherReviewers(int comments, int reviewers);
   String patchTableSize_Modify(int insertions, int deletions);
   String patchTableSize_Lines(@PluralCount int insertions);
 

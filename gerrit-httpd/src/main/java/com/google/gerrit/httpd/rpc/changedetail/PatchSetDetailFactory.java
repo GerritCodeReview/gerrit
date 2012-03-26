@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
@@ -66,6 +67,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final ReviewDb db;
   private final PatchListCache patchListCache;
   private final ChangeControl.Factory changeControlFactory;
+  private final AccountInfoCacheFactory aic;
 
   private Project.NameKey projectKey;
   private final PatchSet.Id psIdBase;
@@ -82,6 +84,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   PatchSetDetailFactory(final PatchSetInfoFactory psif, final ReviewDb db,
       final PatchListCache patchListCache,
       final ChangeControl.Factory changeControlFactory,
+      final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
       @Assisted @Nullable final AccountDiffPreference diffPrefs) {
@@ -89,6 +92,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.db = db;
     this.patchListCache = patchListCache;
     this.changeControlFactory = changeControlFactory;
+    this.aic = accountInfoCacheFactory.create();
 
     this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
@@ -131,9 +135,21 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     for (final PatchLineComment c : db.patchComments().publishedByPatchSet(psIdNew)) {
       final Patch p = byKey.get(c.getKey().getParentKey());
       if (p != null) {
-        p.setCommentCount(p.getCommentCount() + 1);
+        Map<Account.Id, String> counts = p.getCommentCounts();
+        if (counts == null) {
+          counts = new HashMap<Account.Id, String>();
+          p.setCommentCounts(counts);
+        }
+        if (counts.containsKey(c.getAuthor())) {
+          counts.put(c.getAuthor(),
+              "" + (Integer.parseInt(counts.get(c.getAuthor())) + 1));
+        } else {
+          aic.want(c.getAuthor());
+          counts.put(c.getAuthor(), "1");
+        }
       }
     }
+
 
     detail = new PatchSetDetail();
     detail.setPatchSet(patchSet);

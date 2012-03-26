@@ -16,6 +16,24 @@
       "revId": "a29b1d8d1bb9cd2a981f071fff700edc7bcd5aa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///+w\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-26T11:41:55Z",
+      "side": 1,
+      "message": "I probably copied the above line for the sake of formatting and then forgot to change to the proper refs.\n\nDone, it now says refs/heads/\\* instead.",
+      "parentUuid": "AAAEVn////A\u003d",
+      "revId": "a29b1d8d1bb9cd2a981f071fff700edc7bcd5aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

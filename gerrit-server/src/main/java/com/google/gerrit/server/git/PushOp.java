@@ -343,10 +343,6 @@ class PushOp implements ProjectRunnable {
 
       if (config.isMirror()) {
         for (final Ref ref : remote.values()) {
-          if (noPerms && GitRepositoryManager.REF_CONFIG.equals(ref.getName())) {
-            continue;
-          }
-
           if (!Constants.HEAD.equals(ref.getName())) {
             final RefSpec spec = matchDst(ref.getName());
             if (spec != null && !local.containsKey(spec.getSource())) {
@@ -360,16 +356,13 @@ class PushOp implements ProjectRunnable {
 
     } else {
       for (final String src : delta) {
-        if (noPerms && GitRepositoryManager.REF_CONFIG.equals(src)) {
-          continue;
-        }
-
         final RefSpec spec = matchSrc(src);
         if (spec != null) {
           // If the ref still exists locally, send it, otherwise delete it.
           //
           Ref srcRef = local.get(src);
-          if (srcRef != null) {
+          if (srcRef != null &&
+              !(noPerms && GitRepositoryManager.REF_CONFIG.equals(src))) {
             send(cmds, spec, srcRef);
           } else if (config.isMirror()) {
             delete(cmds, spec);

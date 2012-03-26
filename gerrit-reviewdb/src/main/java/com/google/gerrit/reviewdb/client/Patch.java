@@ -17,6 +17,8 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
+import java.util.Map;
+
 /** A single modified file in a {@link PatchSet}. */
 public final class Patch {
   /** Magical file name which represents the commit message. */
@@ -166,8 +168,13 @@ public final class Patch {
   /** What type of patch is this; see {@link PatchType}. */
   protected char patchType;
 
-  /** Number of published comments on this patch. */
-  protected int nbrComments;
+  /**
+   * Number of published comments per account.
+   *
+   * TODO: Using String for the value as I couldn't get proper (de)serialization
+   * of Integer.
+   */
+  protected Map<Account.Id, String> commentCounts;
 
   /** Number of drafts by the current user; not persisted in the datastore. */
   protected int nbrDrafts;
@@ -201,11 +208,22 @@ public final class Patch {
   }
 
   public int getCommentCount() {
-    return nbrComments;
+    if (commentCounts == null) {
+      return 0;
+    }
+    int n = 0;
+    for (String c : commentCounts.values()) {
+      n += Integer.parseInt(c);
+    }
+    return n;
   }
 
-  public void setCommentCount(final int n) {
-    nbrComments = n;
+  public void setCommentCounts(Map<Account.Id, String> counts) {
+    commentCounts = counts;
+  }
+
+  public Map<Account.Id, String> getCommentCounts() {
+    return commentCounts;
   }
 
   public int getDraftCount() {

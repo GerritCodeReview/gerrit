@@ -295,7 +295,17 @@ class PatchScriptFactory extends Handler<PatchScript> {
       final Patch.Key pKey = c.getKey().getParentKey();
       final Patch p = byKey.get(pKey);
       if (p != null) {
-        p.setCommentCount(p.getCommentCount() + 1);
+        Map<Account.Id, String> counts = p.getCommentCounts();
+        if (counts == null) {
+          counts = new HashMap<Account.Id, String>();
+          p.setCommentCounts(counts);
+        }
+        if (counts.containsKey(c.getAuthor())) {
+          counts.put(c.getAuthor(),
+              "" + (Integer.parseInt(counts.get(c.getAuthor())) + 1));
+        } else {
+          counts.put(c.getAuthor(), "1");
+        }
       }
     }
   }

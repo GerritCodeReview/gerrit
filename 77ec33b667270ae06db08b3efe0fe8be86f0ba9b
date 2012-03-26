@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAETH///+8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-26T14:09:22Z",
+      "side": 1,
+      "message": "While I like this, I think the most important thing is to make sure \\t and \\n are properly escaped and that the output is okay for humans and machines regardless of what\u0027s in e.g. a description field for a group or project. Then you can always split each line on tabs and use printf(1) or -- in many languages -- an eval-like function to unescape each column.\n\nI could move this code to a new subclass of QuotedString so that a migration to a\n\n --quote-style\u003d(basic|sh|whatever)\n\noption that would support your proposal would be cleaner. I\u0027d have to implement QuotedString.dequote() even though we don\u0027t need it here, but that\u0027s marginal. Let me know how you\u0027d like it.",
+      "parentUuid": "AAAEUn////8\u003d",
+      "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEVn////s\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-26T09:27:50Z",
       "side": 1,
       "message": "This should be:\n  out.print(\u0027\\n\u0027);\n\nThe println method prints the line separator string that is defined by the system property \u0027line.separator\u0027. This line separator string may be\ndifferent from \u0027\\n\u0027 (e.g. on Windows it\u0027s \u0027\\r\\n\u0027). Because of this several of the ColumnFormatterTest\u0027s are currently failing on Windows since the tests assume \u0027\\n\u0027 as new line character.",
+      "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAETH////M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-26T14:09:22Z",
+      "side": 1,
+      "message": "Ah, good catch! Too bad we don\u0027t have a CI system to run tests on different platforms to catch errors like these.",
+      "parentUuid": "AAAEVn////s\u003d",
       "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAETH////I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-26T14:09:22Z",
+      "side": 1,
+      "message": "The output of the ls-projects command isn\u0027t necessarily column-oriented. It\u0027s a tree when called with --tree and it\u0027s space-separated column output when using --show-branch. If you additionally use the -d option it adds another column separated by \" - \". This is a bit of a mess, and I don\u0027t think refactoring it to use ColumnFormatter would make it better.",
+      "parentUuid": "AAAETH////w\u003d",
+      "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAETH////0\u003d",
         "filename": "gerrit-sshd/src/test/java/com/google/gerrit/sshd/commands/ColumnFormatterTest.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAETH////A\u003d",
+        "filename": "gerrit-sshd/src/test/java/com/google/gerrit/sshd/commands/ColumnFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-26T14:09:22Z",
+      "side": 1,
+      "message": "Yes, I\u0027m not completely happy with it (plus it overlaps with testEscapeString()). On the other hand, it does verify that the implementation adhers to its own interface, namely the list of characters to escape. I\u0027m not convinced copying that list into this class would be better, but I\u0027m also a beginner in unit testing principles.",
+      "parentUuid": "AAAETH////0\u003d",
+      "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEVn////o\u003d",
         "filename": "gerrit-sshd/src/test/java/com/google/gerrit/sshd/commands/ColumnFormatterTest.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2012-03-26T09:27:50Z",
       "side": 1,
       "message": "should \"string\\nwith\\ntabs\" contain tabs?",
+      "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAETH////E\u003d",
+        "filename": "gerrit-sshd/src/test/java/com/google/gerrit/sshd/commands/ColumnFormatterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-26T14:09:22Z",
+      "side": 1,
+      "message": "Argh. Thanks.",
+      "parentUuid": "AAAEVn////o\u003d",
       "revId": "77ec33b667270ae06db08b3efe0fe8be86f0ba9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEU3////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-26T09:34:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEOX///+0\u003d",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEOX///+w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-23T03:41:14Z",
       "side": 1,
       "message": "If you use the new ChangeDetailCache.GerritCallback() you will only need to override the onFailure method.\n\nIt might even be worth adding a ChangeDetailCache.GerritWidgetCallback() which takes a widget in its constructor which it re-enables in its onFailure() (and likely also in its onSuccess() even though your case seems to be able to get away without it since the UI component is rebuilt I think).  I suspect such a cool Callback, would likely be useful many places!",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEU3////Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-26T09:34:39Z",
+      "side": 1,
+      "message": "GerritWidgetCallback it is. Looks nice. Done.",
+      "parentUuid": "AAAEOX///+w\u003d",
       "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -141,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEU3////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-26T09:34:39Z",
+      "side": 1,
+      "message": "\u003e s/copyveto/copyVeto/ (capital V)\n\nFor me, that\u0027s how it displays in both the fetched code and Gerrit-Review. Not sure why it displays differently on your side. (\"Approvals\" removed though).",
+      "parentUuid": "AAAEOX///+o\u003d",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEOX///+U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 8
@@ -152,6 +206,24 @@
       "writtenOn": "2012-03-23T03:41:14Z",
       "side": 1,
       "message": "Is there a good use case for not having source be equal to currPatchSetId() -1?  If not, perhpas the source argument should he omitted to not encourage anything but curr -1?",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEU3///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-26T09:34:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEOX///+U\u003d",
       "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -175,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEU3///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-26T09:34:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEOX///+Y\u003d",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEOX///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 8
@@ -186,6 +276,24 @@
       "writtenOn": "2012-03-23T03:41:14Z",
       "side": 1,
       "message": "s/negative/veto/\n\nAlthough, this comment might be no longer needed now that you have a nicely named function to tell you what it is doing.",
+      "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEU3////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-26T09:34:39Z",
+      "side": 1,
+      "message": "Removed the comment all together.",
+      "parentUuid": "AAAEOX///+k\u003d",
       "revId": "d17d783bd24a6294c8228ee328be654a2d05ab95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

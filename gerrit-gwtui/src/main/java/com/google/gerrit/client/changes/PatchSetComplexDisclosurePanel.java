@@ -159,6 +159,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     if (!patchSet.getId().equals(diffBaseId)) {
       patchTable = new PatchTable();
       patchTable.setSavePointerId("PatchTable " + patchSet.getId());
+      patchTable.setAccountInfoCache(changeDetail.getAccounts());
       patchTable.display(diffBaseId, detail);
 
       actionsPanel = new FlowPanel();

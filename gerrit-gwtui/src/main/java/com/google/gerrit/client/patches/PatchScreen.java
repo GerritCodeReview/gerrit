@@ -305,6 +305,7 @@ public abstract class PatchScreen extends Screen implements
               patchSetDetail = result;
               if (fileList == null) {
                 fileList = new PatchTable(prefs);
+                fileList.setAccountInfoCache(lastScript.getCommentDetail().getAccounts());
                 fileList.display(idSideA, result);
                 patchIndex = fileList.indexOf(patchKey);
               }

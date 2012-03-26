@@ -26,7 +26,6 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
@@ -44,7 +43,6 @@ import java.io.Writer;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -58,17 +56,14 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<WebSession> webSession;
-  private final Provider<String> urlProvider;
   private final AccountManager accountManager;
 
   @Inject
   BecomeAnyAccountLoginServlet(final Provider<WebSession> ws,
       final SchemaFactory<ReviewDb> sf,
-      final @CanonicalWebUrl @Nullable Provider<String> up,
       final AccountManager am, final ServletContext servletContext) {
     webSession = ws;
     schema = sf;
-    urlProvider = up;
     accountManager = am;
   }
 
@@ -120,7 +115,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     if (res != null) {
       webSession.get().login(res, false);
       final StringBuilder rdr = new StringBuilder();
-      rdr.append(urlProvider.get());
+      rdr.append(req.getContextPath());
       if (IS_DEV && req.getParameter("gwt.codesvr") != null) {
         if (rdr.indexOf("?") < 0) {
           rdr.append("?");

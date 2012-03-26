@@ -16,6 +16,74 @@
       "revId": "b367c7769987d4745e05243e085800cdd9091253",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn////M\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T11:24:29Z",
+      "side": 1,
+      "message": "[optional] I would again remove this last part \"even if the user isn\u0027t in the Administrator group.\"",
+      "revId": "b367c7769987d4745e05243e085800cdd9091253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn////I\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T11:24:29Z",
+      "side": 1,
+      "message": "[optional] I would again remove this last part \"even if the user isn\u0027t in the Administrator group.\"",
+      "revId": "b367c7769987d4745e05243e085800cdd9091253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn////U\u003d",
+        "filename": "Documentation/cmd-show-connections.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T11:24:29Z",
+      "side": 1,
+      "message": "s/access_control/access-control",
+      "revId": "b367c7769987d4745e05243e085800cdd9091253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn////Q\u003d",
+        "filename": "Documentation/cmd-show-queue.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T11:24:29Z",
+      "side": 1,
+      "message": "s/access_control/access-control",
+      "revId": "b367c7769987d4745e05243e085800cdd9091253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

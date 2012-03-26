@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEV3////E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-26T10:32:21Z",
+      "side": 1,
+      "message": "In case I get another -1, s/possive/possessive/",
+      "revId": "b367c7769987d4745e05243e085800cdd9091253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,13 +14,16 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
+import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
@@ -47,7 +50,11 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class PatchTable extends Composite {
   private final FlowPanel myBody;
@@ -58,6 +65,7 @@ public class PatchTable extends Composite {
   private PatchSet.Id base;
   private List<Patch> patchList;
   private ListenableAccountDiffPreference listenablePrefs;
+  private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   private List<ClickHandler> clickHandlers;
   private boolean active;
@@ -233,6 +241,11 @@ public class PatchTable extends Composite {
     text.append(after);
     SafeHtml.set(link, text);
     return link;
+  }
+
+  public void setAccountInfoCache(final AccountInfoCache aic) {
+    assert aic != null;
+    accountCache = aic;
   }
 
   private static String getFileNameOnly(Patch patch) {
@@ -599,17 +612,49 @@ public class PatchTable extends Composite {
     }
 
     void appendCommentCount(final SafeHtmlBuilder m, final Patch p) {
-      if (p.getCommentCount() > 0) {
-        m.append(Util.M.patchTableComments(p.getCommentCount()));
-      }
+      boolean first = true;
       if (p.getDraftCount() > 0) {
-        if (p.getCommentCount() > 0) {
-          m.append(", ");
-        }
         m.openSpan();
         m.setStyleName(Gerrit.RESOURCES.css().drafts());
         m.append(Util.M.patchTableDrafts(p.getDraftCount()));
         m.closeSpan();
+        first = false;
+      }
+      final Map<Account.Id, String> counts = p.getCommentCounts();
+      if (counts != null) {
+        // display sorted by the number of comments descending
+        List<Account.Id> reviewers = new LinkedList<Account.Id>(counts.keySet());
+        Collections.sort(reviewers, new Comparator<Account.Id>() {
+          @Override
+          public int compare(Account.Id a1, Account.Id a2) {
+            int c1 = Integer.parseInt(counts.get(a1));
+            int c2 = Integer.parseInt(counts.get(a2));
+            return c2 - c1;
+          }
+        });
+        int n = 0;
+        int otherCommentsCount = 0;
+        for (Account.Id id : reviewers) {
+          if (n < 3) {
+            if (! first) {
+              m.append(", ");
+            }
+            m.append(counts.get(id));
+            m.append(" ");
+            m.append(FormatUtil.name(accountCache.get(id)));
+            first = false;
+          } else {
+            otherCommentsCount += Integer.parseInt(counts.get(id));
+          }
+          n++;
+        }
+        if (n > 3) {
+          m.append(", ");
+          m.append(otherCommentsCount);
+          m.append(" by other ");
+          m.append(n - 3);
+          m.append(" reviewers...");
+        }
       }
     }
 

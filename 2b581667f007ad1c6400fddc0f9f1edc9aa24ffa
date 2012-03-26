@@ -19,6 +19,74 @@
     },
     {
       "key": {
+        "uuid": "AAAEU3////k\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-26T12:59:30Z",
+      "side": 1,
+      "message": "instead the filename we can write just %prog and let the optparse replace it with the file name when printing out the help:\n\n usage\u003d\"Usage: %prog ...\"\n\nThen we don\u0027t have to update this place if we rename the script.",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEU3////g\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-26T12:59:30Z",
+      "side": 1,
+      "message": "As I see from optparse documentation the options are usually not listed here. Instead one puts simply [options] in the usage text:\n\n \u0027[options] \u003csince\u003e \u003cuntil\u003e\u0027\n\nThe reason is that the options are defined below using the add_option calls and we don\u0027t need to remember to change this line every time we add a new option.\n\nUsers get the list of all available options using the --help option which is automatically provided by optparse:\n\n ./gitlog2asciidoc.py --help",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEU3////Y\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-26T12:59:30Z",
+      "side": 1,
+      "message": "[optional] I know this line is not from this change but here we don\u0027t really need regular expressions. This check could be done using:\n\n if line.startswidth(\u0027* \u0027):\n\nwhich is probably much faster than using re.match",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEU3////c\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-26T12:59:30Z",
+      "side": 1,
+      "message": "[optional] I know this line is not from this change but the \"is not None\" could be removed.",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAETX////M\u003d",
         "filename": "tools/gitlog2asciidoc.py",
         "patchSetId": 5

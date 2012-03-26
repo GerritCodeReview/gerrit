@@ -29,7 +29,7 @@ ACCESS
 ------
 Caller must be a member of the privileged 'Administrators' group,
 or have been granted
-link:access_control.html#capability_viewCaches[the 'View Caches' global capability].
+link:access-control.html#capability_viewCaches[the 'View Caches' global capability].
 
 SCRIPTING
 ---------

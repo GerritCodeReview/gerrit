@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAETX////Q\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-26T02:33:33Z",
+      "side": 1,
+      "message": "nit: You could put these into alphabetical order.",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAETX////M\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-26T02:33:33Z",
+      "side": 1,
+      "message": "I think lines 104 and 105 can be joined as an elif and then make line 109 the final else. If it fits nicely, you can even put the conditions from line 107 onto 104 as well.",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAETX////U\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-03-26T02:33:33Z",
+      "side": 1,
+      "message": "I don\u0027t think comparing to [] helps here, just \u0027if message\u0027 is sufficient.\n\n if message and message[-1] !\u003d \u0027+\\n\u0027:",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

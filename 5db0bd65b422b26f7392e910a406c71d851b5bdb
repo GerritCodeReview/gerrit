@@ -19,6 +19,92 @@
     },
     {
       "key": {
+        "uuid": "AAAEVn///94\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T13:26:07Z",
+      "side": 1,
+      "message": "I would also prefer to avoid the second RPC and I think it would be okay to have the list of parent projects here.",
+      "parentUuid": "AAAD/n///9M\u003d",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///90\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T13:26:07Z",
+      "side": 1,
+      "message": "Would it be possible to somehow visualize the hierarchy in the UI?\n\nE.g. the hierarchy could be shown as tree. Another possibility that saves space on the screen would be to show the parents like this in one line:\n  root -\u003e super-parent -\u003e parent",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///+Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessEditor.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T13:26:07Z",
+      "side": 1,
+      "message": "the style for the parentLink is now not used anymore and should be removed",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///+M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T13:26:07Z",
+      "side": 1,
+      "message": "Why not to leave it as\n  detail.setProjectName(projectName);\n?",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///98\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T13:26:07Z",
+      "side": 1,
+      "message": "Is it okay to remove\n  if (projectName.equals(allProjectsName)) {\t\t\n    if (pc.isOwner()) {\t\t\n      ownerOf.add(AccessSection.GLOBAL_CAPABILITIES);\n    }\n  }\t\t\t\n?",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD/n///9U\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
         "patchSetId": 2
@@ -36,6 +122,40 @@
     },
     {
       "key": {
+        "uuid": "AAAEVn///+I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T13:26:07Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///+E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T13:26:07Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD/n///9Q\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
         "patchSetId": 2
@@ -47,6 +167,23 @@
       "writtenOn": "2012-03-16T03:35:40Z",
       "side": 1,
       "message": "This should probably just be a method on the ProjectState class.  It would be better to return a List.",
+      "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///+A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAncestors.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T13:26:07Z",
+      "side": 1,
+      "message": "LinkedHashSet is a generic type and should be parameterized.",
       "revId": "5db0bd65b422b26f7392e910a406c71d851b5bdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

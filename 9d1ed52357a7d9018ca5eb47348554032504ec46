@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEUX////Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AgreementInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-26T16:55:18Z",
+      "side": 1,
+      "message": "Remind me to rewrite how CLAs are handled. The current system is a mess. Now that we have include groups I should be able to simplify a lot of it. This change is fine as is, but lets see if I can clean up Gerrit\u0027s CLA stuff during Q2.",
+      "revId": "9d1ed52357a7d9018ca5eb47348554032504ec46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEUX////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupMembership.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-26T16:55:18Z",
+      "side": 1,
+      "message": "Since you plan for this method to only possibly return a subset of groups rather than everything that contains() and containsAnyOf() would return true on, you should document that here to make it more clear to anyone that might consider using this method.",
+      "revId": "9d1ed52357a7d9018ca5eb47348554032504ec46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEUX////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ListGroupMembership.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-26T16:55:18Z",
+      "side": 1,
+      "message": "ImmutableSets.copyOf(groups) and make getKnownGroups always immutable result?",
+      "revId": "9d1ed52357a7d9018ca5eb47348554032504ec46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

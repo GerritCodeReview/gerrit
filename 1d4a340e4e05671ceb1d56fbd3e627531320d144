@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEVn///+k\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T12:05:56Z",
+      "side": 1,
+      "message": "I would prefer to remove this access right here, but I\u0027m fine with keeping it, if it is explained above for which use cases it\u0027s needed.",
+      "parentUuid": "AAAEV3///+k\u003d",
+      "revId": "1d4a340e4e05671ceb1d56fbd3e627531320d144",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEVn///+0\u003d",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I think I wanted to give some flexibility here since CR:+1 doesn\u0027t really approve or block either, just like CR:-1. And there\u0027s several states it can report on, not only build success/fail.\n\nI don\u0027t know here, really. I can certainly change it, this was a mere suggestion.\n\nIn our case at Sony, we already trust the users with the power, they are able to setup their own build jobs, and a user that wanted to circumvent this process can easily return the proper error code to Jenkins and get the desired result whether it actually builds or not. We just trust them to take this seriously. In the light of that I think I\u0027d like to give developers freedom to express for instance an unstable result with CR:+1 instead of V:+1, depending on their process.\n\nIn the end this is speculation from my side rather than it is something I believe strongly in. I have no problem to lower the maximum CR to 0, if that\u0027s the verdict.\n\nPerhaps I should take the time to document this opportunity above as well.",
       "parentUuid": "AAAEVn///+0\u003d",
+      "revId": "1d4a340e4e05671ceb1d56fbd3e627531320d144",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///+o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T12:05:56Z",
+      "side": 1,
+      "message": "Ok, I see. I think it\u0027s just fine to keep it as it is.",
+      "parentUuid": "AAAEV3///+g\u003d",
       "revId": "1d4a340e4e05671ceb1d56fbd3e627531320d144",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

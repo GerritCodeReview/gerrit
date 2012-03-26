@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEVn///+c\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T12:35:48Z",
+      "side": 1,
+      "message": "[optional] I would call this role \u0027Project Owner\u0027 (of course assigning the \u0027Owner\u0027 access right below then shouldn\u0027t be optional)\n\nI\u0027m also fine with the current name, but I like \u0027Project Owner\u0027 a bit more.",
+      "revId": "9b9787683cd32bc4fb2983fed601f1f99da3d6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

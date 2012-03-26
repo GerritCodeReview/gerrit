@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEUH///+8\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-26T19:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEU3////k\u003d",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEU3////g\u003d",
         "filename": "tools/gitlog2asciidoc.py",
         "patchSetId": 5
@@ -47,6 +65,24 @@
       "writtenOn": "2012-03-26T12:59:30Z",
       "side": 1,
       "message": "As I see from optparse documentation the options are usually not listed here. Instead one puts simply [options] in the usage text:\n\n \u0027[options] \u003csince\u003e \u003cuntil\u003e\u0027\n\nThe reason is that the options are defined below using the add_option calls and we don\u0027t need to remember to change this line every time we add a new option.\n\nUsers get the list of all available options using the --help option which is automatically provided by optparse:\n\n ./gitlog2asciidoc.py --help",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEUH///+4\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-26T19:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEU3////g\u003d",
       "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEUH////A\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-26T19:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEU3////Y\u003d",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEU3////c\u003d",
         "filename": "tools/gitlog2asciidoc.py",
         "patchSetId": 5
@@ -81,6 +135,24 @@
       "writtenOn": "2012-03-26T12:59:30Z",
       "side": 1,
       "message": "[optional] I know this line is not from this change but the \"is not None\" could be removed.",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEUH///+0\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-26T19:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEU3////c\u003d",
       "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEUH///+s\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-26T19:54:27Z",
+      "side": 1,
+      "message": "Thanks, I combined the line but I can\u0027t leave the else: since it will print out extra blank line.",
+      "parentUuid": "AAAETX////M\u003d",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAETX////U\u003d",
         "filename": "tools/gitlog2asciidoc.py",
         "patchSetId": 5
@@ -115,6 +205,24 @@
       "writtenOn": "2012-03-26T02:33:33Z",
       "side": 1,
       "message": "I don\u0027t think comparing to [] helps here, just \u0027if message\u0027 is sufficient.\n\n if message and message[-1] !\u003d \u0027+\\n\u0027:",
+      "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEUH///+w\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003140
+      },
+      "writtenOn": "2012-03-26T19:54:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAETX////U\u003d",
       "revId": "2b581667f007ad1c6400fddc0f9f1edc9aa24ffa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

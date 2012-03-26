@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEVn////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-26T11:06:08Z",
+      "side": 1,
+      "message": "This code runs into an IndexOutOfBoundsException when the ancestor of the change wasn\u0027t going through code review (e.g. it was pushed directly bypassing code review or it is the initial empty commit in a repository). In this case db.patchSets().byRevision(patchSetAncestors.get(0).getAncestorRevision()).toList() returns an empty list and accessing the first element fails.\n\njava.lang.IndexOutOfBoundsException: Index: 0, Size: 0\n \tat java.util.ArrayList.RangeCheck(ArrayList.java:547)\n \tat java.util.ArrayList.get(ArrayList.java:322)\n \tat com.google.gerrit.server.ChangeUtil.rebaseChange(ChangeUtil.java:279)\n \tat com.google.gerrit.httpd.rpc.changedetail.RebaseChange.call(RebaseChange.java:104)\n \tat com.google.gerrit.httpd.rpc.changedetail.RebaseChange.call(RebaseChange.java:1)\n \tat com.google.gerrit.httpd.rpc.Handler.to(Handler.java:65)\n \tat com.google.gerrit.httpd.rpc.changedetail.ChangeManageServiceImpl.rebaseChange(ChangeManageServiceImpl.java:62)\n \tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n \tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)\n  ...",
+      "revId": "1a0c7cafcc8bb1e199d8559a89df1a5a6d321fec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

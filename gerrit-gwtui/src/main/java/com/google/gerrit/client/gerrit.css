@@ -417,7 +417,7 @@
 }
 
 .changeTable .commentCell {
-  text-align: right;
+  text-align: left;
   font-weight: bold;
   white-space: nowrap;
 }

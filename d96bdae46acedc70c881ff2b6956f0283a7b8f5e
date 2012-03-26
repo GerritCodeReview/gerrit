@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEU3////o\u003d",
+        "filename": "tools/gitlog2asciidoc.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-26T12:40:29Z",
+      "side": 1,
+      "message": "This regex will also match the following cases:\n\n issue bug: issue\n issue bug: GERRIT-\n bug issue: bug\n\nwhich is probably not intended but a side-effect of expressing the optional \":\" between the issue/bug and at the end of issue/bug sequences.\n\nWhat do you think about the following:\n\n \u0027bug: GERRIT-|bug(:? issue)?:? |issue(:? bug)?:? \u0027\n\nFor me it is easier to read and is closer to what we want to match.",
+      "revId": "d96bdae46acedc70c881ff2b6956f0283a7b8f5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

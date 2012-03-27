@@ -150,7 +150,7 @@ Here are some guidelines that Gerrit uses:
     should be before the instance members.
   * Annotations should go before language keywords (final, private...) +
     Example: @Assisted @Nullable final type varName
-  * Imports should be mostly aphabetical (uppercase sorts before
+  * Imports should be mostly alphabetical (uppercase sorts before
     all lowercase, which means classes come before packages at the
     same level).
 

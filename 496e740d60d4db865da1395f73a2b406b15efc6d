@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEVn///9k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/HistoryTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T08:20:20Z",
+      "side": 1,
+      "message": "I think the UI is ok as it is. To safe horizontal space we could maybe use two lines for the header row and put \u0027Common\u0027 and \u0027Ancestor\u0027 in own lines, but I\u0027m not sure if this would be much better.",
+      "parentUuid": "AAADx3///9A\u003d",
+      "revId": "496e740d60d4db865da1395f73a2b406b15efc6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADx3///88\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
         "patchSetId": 1

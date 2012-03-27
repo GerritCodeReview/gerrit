@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -53,7 +54,17 @@ class HttpLogoutServlet extends HttpServlet {
     if (logoutUrl != null) {
       rsp.sendRedirect(logoutUrl);
     } else {
-      rsp.sendRedirect(urlProvider.get());
+      String url = urlProvider.get();
+      if (Strings.isNullOrEmpty(url)) {
+        url = req.getContextPath();
+      }
+      if (Strings.isNullOrEmpty(url)) {
+        url = "/";
+      }
+      if (!url.endsWith("/")) {
+        url += "/";
+      }
+      rsp.sendRedirect(url);
     }
   }
 }

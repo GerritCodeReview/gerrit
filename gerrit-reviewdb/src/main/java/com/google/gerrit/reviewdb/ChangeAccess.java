@@ -94,6 +94,16 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   ResultSet<Change> allClosedNext(char status, String sortKey, int limit)
       throws OrmException;
 
+  @Query("WHERE open = false AND status = ? AND dest = ? AND sortKey > ?"
+      + " ORDER BY sortKey LIMIT ?")
+  ResultSet<Change> byBranchClosedPrev(char status, Branch.NameKey p,
+      String sortKey, int limit) throws OrmException;
+
+  @Query("WHERE open = false AND status = ? AND dest = ? AND sortKey < ?"
+      + " ORDER BY sortKey DESC LIMIT ?")
+  ResultSet<Change> byBranchClosedNext(char status, Branch.NameKey p,
+      String sortKey, int limit) throws OrmException;
+
   @Query
   ResultSet<Change> all() throws OrmException;
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeAccess;
 import com.google.gerrit.reviewdb.ReviewDb;
@@ -116,6 +117,102 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
   public Predicate<ChangeData> r00_newestSortKey(
       @Named("A") SortKeyPredicate.After a, @Named("B") SortKeyPredicate.After b) {
     return a.getValue().compareTo(b.getValue()) >= 0 ? a : b;
+  }
+
+  @Rewrite("status:open P=(project:*) B=(branch:*) S=(sortkey_after:*) L=(limit:*)")
+  public Predicate<ChangeData> r05_byBranchOpenPrev(
+      @Named("P") final ProjectPredicate p,
+      @Named("B") final BranchPredicate b,
+      @Named("S") final SortKeyPredicate.After s,
+      @Named("L") final IntPredicate<ChangeData> l) {
+    return new PaginatedSource(500, s.getValue(), l.intValue()) {
+      @Override
+      ResultSet<Change> scan(ChangeAccess a, String key, int limit)
+          throws OrmException {
+        return a.byBranchOpenAll(new Branch.NameKey(p.getValueKey(), b
+            .getValue()));
+      }
+
+      @Override
+      public boolean match(ChangeData cd) throws OrmException {
+        return cd.change(dbProvider).getStatus().isOpen() //
+            && p.match(cd) //
+            && b.match(cd) //
+            && s.match(cd);
+      }
+    };
+  }
+
+  @Rewrite("status:open P=(project:*) B=(branch:*) S=(sortkey_before:*) L=(limit:*)")
+  public Predicate<ChangeData> r05_byBranchOpenNext(
+      @Named("P") final ProjectPredicate p,
+      @Named("B") final BranchPredicate b,
+      @Named("S") final SortKeyPredicate.Before s,
+      @Named("L") final IntPredicate<ChangeData> l) {
+    return new PaginatedSource(500, s.getValue(), l.intValue()) {
+      @Override
+      ResultSet<Change> scan(ChangeAccess a, String key, int limit)
+          throws OrmException {
+        return a.byBranchOpenAll(new Branch.NameKey(p.getValueKey(), b
+            .getValue()));
+      }
+
+      @Override
+      public boolean match(ChangeData cd) throws OrmException {
+        return cd.change(dbProvider).getStatus().isOpen() //
+            && p.match(cd) //
+            && b.match(cd) //
+            && s.match(cd);
+      }
+    };
+  }
+
+  @Rewrite("status:merged P=(project:*) B=(branch:*) S=(sortkey_after:*) L=(limit:*)")
+  public Predicate<ChangeData> r05_byBranchMergedPrev(
+      @Named("P") final ProjectPredicate p,
+      @Named("B") final BranchPredicate b,
+      @Named("S") final SortKeyPredicate.After s,
+      @Named("L") final IntPredicate<ChangeData> l) {
+    return new PaginatedSource(40000, s.getValue(), l.intValue()) {
+      @Override
+      ResultSet<Change> scan(ChangeAccess a, String key, int limit)
+          throws OrmException {
+        return a.byBranchClosedPrev(Change.Status.MERGED.getCode(), //
+            new Branch.NameKey(p.getValueKey(), b.getValue()), key, limit);
+      }
+
+      @Override
+      public boolean match(ChangeData cd) throws OrmException {
+        return cd.change(dbProvider).getStatus() == Change.Status.MERGED
+            && p.match(cd) //
+            && b.match(cd) //
+            && s.match(cd);
+      }
+    };
+  }
+
+  @Rewrite("status:merged P=(project:*) B=(branch:*) S=(sortkey_before:*) L=(limit:*)")
+  public Predicate<ChangeData> r05_byBranchMergedNext(
+      @Named("P") final ProjectPredicate p,
+      @Named("B") final BranchPredicate b,
+      @Named("S") final SortKeyPredicate.Before s,
+      @Named("L") final IntPredicate<ChangeData> l) {
+    return new PaginatedSource(40000, s.getValue(), l.intValue()) {
+      @Override
+      ResultSet<Change> scan(ChangeAccess a, String key, int limit)
+          throws OrmException {
+        return a.byBranchClosedNext(Change.Status.MERGED.getCode(), //
+            new Branch.NameKey(p.getValueKey(), b.getValue()), key, limit);
+      }
+
+      @Override
+      public boolean match(ChangeData cd) throws OrmException {
+        return cd.change(dbProvider).getStatus() == Change.Status.MERGED
+            && p.match(cd) //
+            && b.match(cd) //
+            && s.match(cd);
+      }
+    };
   }
 
   @Rewrite("status:open P=(project:*) S=(sortkey_after:*) L=(limit:*)")

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEWH////c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T14:31:05Z",
+      "side": 1,
+      "message": "I don\u0027t know if we have an official policy but I feel like it is the \"simplest code or interface now...\".",
+      "parentUuid": "AAAEVH///4U\u003d",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEV3///9k\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
         "patchSetId": 2
@@ -171,6 +189,24 @@
       "side": 1,
       "message": "I agree. The use of this method in ListProjects.java is an example.\n\nI can create a separate utility class if you like.",
       "parentUuid": "AAAEV3///9s\u003d",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEWH////Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T14:31:05Z",
+      "side": 1,
+      "message": "I think it should be separate utility class but am undecided of whether it should be a new class in Gerrit or a new subclass of QuotedString in JGit.",
+      "parentUuid": "AAAEVH///4Q\u003d",
       "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

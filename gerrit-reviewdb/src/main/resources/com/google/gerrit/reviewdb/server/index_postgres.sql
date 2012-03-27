@@ -187,6 +187,11 @@ WHERE open = 'N';
 CREATE INDEX changes_byProject
 ON changes (dest_project_name);
 
+--    covers:             byBranchClosedPrev, byBranchClosedNext
+CREATE INDEX changes_byBranchClosed
+ON changes (status, dest_project_name, dest_branch_name, sort_key)
+WHERE open = 'N';
+
 CREATE INDEX changes_key
 ON changes (change_key);
 

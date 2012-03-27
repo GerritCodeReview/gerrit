@@ -109,12 +109,9 @@ library] is used for evaluation of such patterns.
 [[branch]]
 branch:'BRANCH'::
 +
-Changes for 'BRANCH'.  The branch name is the short name shown
-in the web interface, without the traditional 'refs/heads/'
-prefix.  This operator is a shorthand for 'refs:'.  Searching for
-'branch:master' really means 'ref:refs/heads/master', and searching
-for 'branch:refs/heads/master' is the same as searching for
-'ref:refs/heads/refs/heads/master'.
+Changes for 'BRANCH'.  The branch name is either the short name shown
+in the web interface or the full name of the destination branch with
+the traditional 'refs/heads/' prefix.
 +
 If 'BRANCH' starts with `^` it matches branch names by regular
 expression patterns.  The

@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEV3///90\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T11:31:37Z",
+      "side": 1,
+      "message": "Does this need to be public?",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///9w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T11:31:37Z",
+      "side": 1,
+      "message": "I think your assumption is that the columnSeparator should consist of non-printable characters only. If yes, maybe you should put that in javadoc.\n\nDo we need a multi-char separator. Looking at your tests it seems like one-char separator is what we need. Change the type of the columnSeparator to char?\n\nWhy is the first parameter final and second not?",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///9k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T11:31:37Z",
+      "side": 1,
+      "message": "I don\u0027t see a benefit of collecting contents of columns in a list vs printing them out immediately.\n\nThe only benefit is that you don\u0027t have to distinguish between the first column (don\u0027t print the columnSeparator before) and the rest of the columnt (print the columnSeparator then print the content). This is what StringUtils.join is taking care of.\n\nHowever, a boolean variable (firstColumn) would be enough:\n\n if (! firstColumn) {\n   out.print(columnSeparator);\n }\n out.print(escapeString(content));\n firstColumn \u003d false;\n\nand in the nextLine method:\n\n out.print(\u0027\\n\u0027);\n firstColumn \u003d true;",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///9g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T11:31:37Z",
+      "side": 1,
+      "message": "Append a * to make it javadoc",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///9s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T11:31:37Z",
+      "side": 1,
+      "message": "Doest this method belong to the ColumnFormatter class?\n\nThere could be use-cases where string escaping is needed and which have nothing to do with column formatting.",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///9c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T11:31:37Z",
+      "side": 1,
+      "message": "Append a * to make it javadoc",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///9Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T11:31:37Z",
+      "side": 1,
+      "message": "To keep the output parseable, I think you have to tell more precisely what this method will print out.\n\nIf a command needs to write something additional after it is done with the formatting of the columns then it would rather do it from its own code instead of expecting the column formatter to do it. Maybe I am missing some understanding here?",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///9o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T11:31:37Z",
+      "side": 1,
+      "message": "Do we need this method?",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///9U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T11:31:37Z",
+      "side": 1,
+      "message": "Append a * to make it javadoc",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///9Q\u003d",
+        "filename": "gerrit-sshd/src/test/java/com/google/gerrit/sshd/commands/ColumnFormatterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-27T11:31:37Z",
+      "side": 1,
+      "message": "It would also be useful to have the column separator character inside a column text and check that it also gets escaped.",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

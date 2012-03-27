@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEVn///8g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountProjectWatchInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T12:30:26Z",
+      "side": 1,
+      "message": "Is this method used? It looks like not.",
+      "revId": "17d8199ed17e1c557cd7dd43e42c6a34c634ac94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///8c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/AccountProjectWatchDisplay.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T12:30:26Z",
+      "side": 1,
+      "message": "it looks like most of the imports are unused and should be removed",
+      "revId": "17d8199ed17e1c557cd7dd43e42c6a34c634ac94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///8Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T12:30:26Z",
+      "side": 1,
+      "message": "this import is now unused and should be removed",
+      "revId": "17d8199ed17e1c557cd7dd43e42c6a34c634ac94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///8U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchesTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T12:30:26Z",
+      "side": 1,
+      "message": "this import is now unused and should be removed",
+      "revId": "17d8199ed17e1c557cd7dd43e42c6a34c634ac94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///8k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchKeyEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T12:30:26Z",
+      "side": 1,
+      "message": "[optional] maybe provide 2 constructors for convinience\n\n  ProjectWatchKeyEditor(AccountProjectWatch.Key key, boolean enableBrowse, boolean enableCancel)\n\nand\n\n  ProjectWatchKeyEditor(boolean enableBrowse, boolean enableCancel) {\n    this(null, enableBrowse, enableCancel);\n  }",
+      "revId": "17d8199ed17e1c557cd7dd43e42c6a34c634ac94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///8o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchKeyEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T12:30:26Z",
+      "side": 1,
+      "message": "If several new project watches are added at once key is wrongly set and new project watches are not added in the database.\n\nTry to add several new project watches and navigate away from the screen. If you now go back to the MyWatchedProjectsScreen you can see that only the first added project watch was persistent in the database and all further project watches disappeared. \n\nIf the first new project watch is successfully added, key is set to this new project watch (see line 256). Afterwards for all further new project watches key is still set, so that the code performs an update of the project watch instead of adding a new one.",
+      "revId": "17d8199ed17e1c557cd7dd43e42c6a34c634ac94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///8Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T12:30:26Z",
+      "side": 1,
+      "message": "Is there a need to load the old project watch? Is it to verify that it exists?\n\nI would propose to do the following instead:\n\n  AccountProjectWatch watch \u003d new AccountProjectWatch(newKey);\n\nThen you also don\u0027t need to add the setKey method in AccountProjectWatch.",
+      "revId": "17d8199ed17e1c557cd7dd43e42c6a34c634ac94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

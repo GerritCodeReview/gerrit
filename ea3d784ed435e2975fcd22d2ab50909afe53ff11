@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEVH///4g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-27T13:46:01Z",
+      "side": 1,
+      "message": "No, not really. It\u0027s needed for the tests, but then protected is enough.",
+      "parentUuid": "AAAEV3///90\u003d",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEV3///9w\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-27T11:31:37Z",
       "side": 1,
       "message": "I think your assumption is that the columnSeparator should consist of non-printable characters only. If yes, maybe you should put that in javadoc.\n\nDo we need a multi-char separator. Looking at your tests it seems like one-char separator is what we need. Change the type of the columnSeparator to char?\n\nWhy is the first parameter final and second not?",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVH///4U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-27T13:46:01Z",
+      "side": 1,
+      "message": "We currently don\u0027t need a multi-character separator, but I don\u0027t see any harm in allowing it either. It doesn\u0027t make the implementation any more difficult.\n\nI don\u0027t know what the philosophy you have here; write the simplest code or interface for now and extend it later as necessary, or support additional features even if they\u0027re not immediately necessary as long as the cost is the same.\n\nMade second parameter final.",
+      "parentUuid": "AAAEV3///9w\u003d",
       "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEVH///4c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-27T13:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEV3///9k\u003d",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEV3///9g\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2012-03-27T11:31:37Z",
       "side": 1,
       "message": "Append a * to make it javadoc",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVH///4I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-27T13:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEV3///9g\u003d",
       "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEVH///4Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-27T13:46:01Z",
+      "side": 1,
+      "message": "I agree. The use of this method in ListProjects.java is an example.\n\nI can create a separate utility class if you like.",
+      "parentUuid": "AAAEV3///9s\u003d",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEV3///9c\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2012-03-27T11:31:37Z",
       "side": 1,
       "message": "Append a * to make it javadoc",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVH///34\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-27T13:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEV3///9c\u003d",
       "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEVH///4E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-27T13:46:01Z",
+      "side": 1,
+      "message": "No, you\u0027re probably right about footer information probably not belonging here. The point of having a finish() method would be to have a safety net where we can flush buffers, add footers if we ever want to change the interface to allow that, etc. \n\nIf we have finish() from the beginning and later realize that we do need finalization code we can just add it since all users of  ColumnFormatter already should call the method. Adding finish() later would create a significant change in the class\u0027 interface, requiring hunting down all implementations and add a finish() call.\n\nI can go either way here. For now I\u0027ll just drop the footer reference from the javadoc to avoid confusion.",
+      "parentUuid": "AAAEV3///9Y\u003d",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEV3///9o\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2012-03-27T11:31:37Z",
       "side": 1,
       "message": "Do we need this method?",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVH///4Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-27T13:46:01Z",
+      "side": 1,
+      "message": "Probably not. I suppose we can add it back later if necessary.",
+      "parentUuid": "AAAEV3///9o\u003d",
       "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEVH///4M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ColumnFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-27T13:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEV3///9U\u003d",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEV3///9Q\u003d",
         "filename": "gerrit-sshd/src/test/java/com/google/gerrit/sshd/commands/ColumnFormatterTest.java",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2012-03-27T11:31:37Z",
       "side": 1,
       "message": "It would also be useful to have the column separator character inside a column text and check that it also gets escaped.",
+      "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVH///38\u003d",
+        "filename": "gerrit-sshd/src/test/java/com/google/gerrit/sshd/commands/ColumnFormatterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-03-27T13:46:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEV3///9Q\u003d",
       "revId": "ea3d784ed435e2975fcd22d2ab50909afe53ff11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

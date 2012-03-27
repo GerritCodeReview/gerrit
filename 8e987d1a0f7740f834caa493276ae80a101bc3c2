@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEU3///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-27T08:55:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEV3///+Q\u003d",
+      "revId": "8e987d1a0f7740f834caa493276ae80a101bc3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEV3///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 11
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEU3///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-27T08:55:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEV3///+M\u003d",
+      "revId": "8e987d1a0f7740f834caa493276ae80a101bc3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEV3///+I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 11
@@ -47,6 +83,24 @@
       "writtenOn": "2012-03-26T16:50:31Z",
       "side": 1,
       "message": "I wonder if checking for an open change is all we need here:\n\n } else if (depChange.getStatus().isOpen()) {\n\nIs this more stable wrt introducing a new Status constant?",
+      "revId": "8e987d1a0f7740f834caa493276ae80a101bc3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEU3///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-03-27T08:55:39Z",
+      "side": 1,
+      "message": "Agreed. Done.",
+      "parentUuid": "AAAEV3///+I\u003d",
       "revId": "8e987d1a0f7740f834caa493276ae80a101bc3c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

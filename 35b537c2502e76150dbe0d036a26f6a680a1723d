@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEXn///+I\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ChangeAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-27T21:02:25Z",
+      "side": 1,
+      "message": "Uhm, OK. Should we also index along this expression in the SQL database? Is there a suitable set of indexes already available to answer this query with reasonable time?\n\nRolling this out in our environment will be some work for us. I think this change just signed Google up for about 4 hours of work. Maybe 6. Ick. Its our problem. But Ick.\n\nWould it be reasonable to just have the ChangeQueryRewriter use the existing byBranchOpenAll() on line 74 as the scan path and then filter within Java for the rest of the expression?\n\nIts a lot less reasonable to do that for open \u003d false without the sortKey being present so I understand we have to add at least the byBranchClosed methods you propose.",
+      "revId": "35b537c2502e76150dbe0d036a26f6a680a1723d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEXn///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-27T21:02:25Z",
+      "side": 1,
+      "message": "I wonder if this shouldn\u0027t be a RefPredicate with a rewrite at r00 to convert BranchPredirect to RefPredicate. That way either branch: or ref: gets to use the index.",
+      "revId": "35b537c2502e76150dbe0d036a26f6a680a1723d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEXn///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-27T21:02:25Z",
+      "side": 1,
+      "message": "These two methods should be the same name with the exception of prev/next suffix.",
+      "revId": "35b537c2502e76150dbe0d036a26f6a680a1723d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

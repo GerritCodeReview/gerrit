@@ -15,9 +15,6 @@
 package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroup.ExternalNameKey;
-import com.google.gerrit.reviewdb.client.AccountGroup.Id;
-import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.PrimaryKey;

@@ -30,6 +30,12 @@ SCRIPTING
 ---------
 This command is intended to be used in scripts.
 
+All non-printable characters (ASCII value 31 or less) are escaped
+according to the conventions used in languages like C, Python, and Perl,
+employing standard sequences like `\n` and `\t`, and `\xNN` for all
+others. In shell scripts, the `printf` command can be used to unescape
+the output.
+
 OPTIONS
 -------
 --project::
@@ -68,6 +74,16 @@ This option can't be used together with the '--project' option.
 `system`:: Any system defined and managed group.
 --
 
+--verbose::
+-v::
+	Enable verbose output with tab-separated columns for the
+	group name, UUID, description, type (`SYSTEM` or `INTERNAL`),
+	owner group name, owner group UUID and whether the group is
+	visible to all (`true` or `false`).
++
+If a group has been "orphaned", i.e. its owner group UUID refers to a
+nonexistent group, the owner group name field will read `n/a`.
+
 EXAMPLES
 --------
 
@@ -88,6 +104,23 @@ List all groups for which any permission is set for the project
 	MyProject_Committers
 	Project Owners
 	Registered Users
+=====
+
+Extract the UUID of the 'Administrators' group:
+
+=====
+	$ ssh -p 29418 review.example.com gerrit ls-groups -v | awk '-F\t' '$1 == "Administrators" {print $2}'
+	ad463411db3eec4e1efb0d73f55183c1db2fd82a
+=====
+
+Extract and expand the multi-line description of the 'Administrators'
+group:
+
+=====
+	$ printf "$(ssh -p 29418 review.example.com gerrit ls-groups -v | awk '-F\t' '$1 == "Administrators" {print $3}')\n"
+	This is a
+	multi-line
+	description.
 =====
 
 GERRIT

@@ -20,9 +20,12 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.VisibleGroups;
+import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -32,6 +35,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListGroupsCommand extends SshCommand {
+  @Inject
+  private GroupCache groupCache;
+
   @Inject
   private VisibleGroups.Factory visibleGroupsFactory;
 
@@ -52,6 +58,12 @@ public class ListGroupsCommand extends SshCommand {
       usage = "user for which the groups should be listed")
   private Account.Id user;
 
+  @Option(name = "--verbose", aliases = {"-v"},
+      usage = "verbose output format with tab-separated columns for the " +
+          "group name, UUID, description, type, owner group name, " +
+          "owner group UUID, and whether the group is visible to all")
+  private boolean verboseOutput;
+
   @Override
   protected void run() throws Failure {
     try {
@@ -70,9 +82,26 @@ public class ListGroupsCommand extends SshCommand {
       } else {
         groupList = visibleGroups.get();
       }
+
+      final ColumnFormatter formatter = new ColumnFormatter(stdout, '\t');
       for (final GroupDetail groupDetail : groupList.getGroups()) {
-        stdout.print(groupDetail.group.getName() + "\n");
+        final AccountGroup g = groupDetail.group;
+        formatter.addColumn(g.getName());
+        if (verboseOutput) {
+          formatter.addColumn(KeyUtil.decode(g.getGroupUUID().toString()));
+          formatter.addColumn(
+              g.getDescription() != null ? g.getDescription() : "");
+          formatter.addColumn(g.getType().toString());
+          final AccountGroup owningGroup =
+              groupCache.get(g.getOwnerGroupUUID());
+          formatter.addColumn(
+              owningGroup != null ? owningGroup.getName() : "n/a");
+          formatter.addColumn(KeyUtil.decode(g.getOwnerGroupUUID().toString()));
+          formatter.addColumn(Boolean.toString(g.isVisibleToAll()));
+        }
+        formatter.nextLine();
       }
+      formatter.finish();
     } catch (OrmException e) {
       throw die(e);
     } catch (NoSuchGroupException e) {

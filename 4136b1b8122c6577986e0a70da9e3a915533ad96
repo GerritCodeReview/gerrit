@@ -16,6 +16,23 @@
       "revId": "4136b1b8122c6577986e0a70da9e3a915533ad96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEV3///9I\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.3.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2012-03-27T12:19:46Z",
+      "side": 1,
+      "message": "I am not sure you want to keep referring to \"this commit\". In the context of release notes, it should probably be \"in gerrit 2.3\".",
+      "revId": "4136b1b8122c6577986e0a70da9e3a915533ad96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

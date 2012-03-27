@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEVn///9s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T06:47:17Z",
+      "side": 1,
+      "message": "Not sure these two last sentences are needed here. They describe what was done between this patch set and the predecessor patch set. When this change gets merged, only the last patch set will become part of the project history. Looking now at the commit message it describes something which cannot be seen when looking at commit\u0027s diff.",
+      "revId": "57abe3c7288775facb9fb9d1ab07f7256644f274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

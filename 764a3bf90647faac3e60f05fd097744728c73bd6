@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEVn///9c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "Maybe add here a short sentence about the motivation for this refactoring. I guess it\u0027s a preparation to support editing of existing project watches?",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///9E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritResources.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "[optional] The editIcon is only needed in the follow-up change [1]. This is why I would propose to move the changes for this icon into the follow-up change.\n\n[1] https://gerrit-review.googlesource.com/34111",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///9M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "this import is now unused and should be removed",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///9I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "this import is now unused and should be removed",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///9U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchKeyEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "unused import that should be removed",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///9Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchKeyEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "The two imports above do not exist and cause compiler errors.\n\nBoth classes are now in the package \"com.google.gerrit.reviewdb.client\".\n\nI can see that you have fixed this in the followup change [1], but this change here should be compilable on its own.\n\nOn a second look both imports are actually unused and should be removed.\n\n[1] https://gerrit-review.googlesource.com/#/c/34111/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchKeyEditor.java",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///9Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchKeyEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "unused import that should be removed",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///84\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchKeyEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "nit: indention has one space too much",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///88\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchKeyEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "[optional] Hmm, I\u0027m feeling a bit bad about all this code here in setPopupPosition which looks very similar to the code in the setPopupPosition method in MyWatchedProjectsScreen that overwrites this method. At the moment this code here is not used (since it\u0027s overwritten in MyWatchedProjectsScreen), would there be any other user of the ProjectWatchKeyEditor that wants browsing and would like to make use of this default implementation?\n\nAt the moment I don\u0027t have a good proposal how to make it different. Maybe somebody else has a good idea?",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///80\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchKeyEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "[optional] should setEnabled be also called for the \u0027browse\u0027 button?",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEVn///9A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/ProjectWatchKeyEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-27T11:20:56Z",
+      "side": 1,
+      "message": "Maybe this method could be directly implemented here:\n\n    displayPopup();\n\nWould any user of the ProjectWatchKeyEditor do anything different? (except that onBrowse would not be called if enableBrowse \u003d\u003d false)",
+      "revId": "764a3bf90647faac3e60f05fd097744728c73bd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

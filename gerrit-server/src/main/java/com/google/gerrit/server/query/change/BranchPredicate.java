@@ -23,12 +23,11 @@ import com.google.inject.Provider;
 
 class BranchPredicate extends OperatorPredicate<ChangeData> {
   private final Provider<ReviewDb> dbProvider;
-  private final String shortName;
 
   BranchPredicate(Provider<ReviewDb> dbProvider, String branch) {
-    super(ChangeQueryBuilder.FIELD_BRANCH, branch);
+    super(ChangeQueryBuilder.FIELD_BRANCH, branch.startsWith(Branch.R_HEADS)
+        ? branch : Branch.R_HEADS + branch);
     this.dbProvider = dbProvider;
-    this.shortName = branch;
   }
 
   @Override
@@ -38,7 +37,7 @@ class BranchPredicate extends OperatorPredicate<ChangeData> {
       return false;
     }
     return change.getDest().get().startsWith(Branch.R_HEADS)
-        && shortName.equals(change.getDest().getShortName());
+        && getValue().equals(change.getDest().get());
   }
 
   @Override

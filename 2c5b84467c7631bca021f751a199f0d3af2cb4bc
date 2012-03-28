@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEZX///98\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-28T03:21:22Z",
+      "side": 1,
+      "message": "I am not sure this warning is appropriate here.  I can think of many things which an admin can mess up that are likely less obvious and more serious than deleting tags.  (However, I think it is a nice warning on line 909)",
+      "revId": "2c5b84467c7631bca021f751a199f0d3af2cb4bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

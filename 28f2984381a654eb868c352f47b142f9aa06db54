@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEYH///+w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-28T03:02:13Z",
+      "side": 1,
+      "message": "This fixes the internal server error that Edwin reported. But its ugly. I\u0027m really not happy that the real provider is broken. :-(",
+      "revId": "28f2984381a654eb868c352f47b142f9aa06db54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

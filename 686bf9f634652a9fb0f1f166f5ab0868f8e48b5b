@@ -51,6 +51,24 @@
       "revId": "686bf9f634652a9fb0f1f166f5ab0868f8e48b5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEYn////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-03-28T15:12:45Z",
+      "side": 1,
+      "message": "Tried this approach. It creates new review requests for incoming changes from merges. This is not what we want in our flow. I understand this patch and idea behind it, however we need to decide which way fits better in to general usage/flow. Probably, creating a new review request for another branch sounds feasible too, but reviewing same piece of code twice sounds overhead to me.\n\nMoreover, this patch, combined with I3751bc3f causes problems with merges, specifically on the patch point in MergeSorter, marking more commits interesting and causing the commit.missing to include more commits than required.",
+      "parentUuid": "AAADqX///+4\u003d",
+      "revId": "686bf9f634652a9fb0f1f166f5ab0868f8e48b5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

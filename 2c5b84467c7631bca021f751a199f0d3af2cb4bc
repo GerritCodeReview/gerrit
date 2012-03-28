@@ -16,6 +16,24 @@
       "revId": "2c5b84467c7631bca021f751a199f0d3af2cb4bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEaH////s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-28T15:38:12Z",
+      "side": 1,
+      "message": "Well, after day the day is over, all you really got is the gits. If you ruin those, then it\u0027s really bad. As Shawn have previusly noted, a Gerrit Administrator doesn\u0027t necessarily have access to the server, and in that light I think that destroying something in the gits become one of the more severe actions that can happen. Since that\u0027s a severe thing to happen, I think I\u0027d rather keep the warning.\n\nOTOH, the warning SHOULD be transferred when we actually refer the project owner rights with the warning in it, so I can see how it\u0027s a bit redundant.\nI have removed the second warning.\n\nDone.",
+      "parentUuid": "AAAEZX///98\u003d",
+      "revId": "2c5b84467c7631bca021f751a199f0d3af2cb4bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

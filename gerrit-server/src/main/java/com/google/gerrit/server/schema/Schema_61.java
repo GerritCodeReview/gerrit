@@ -14,12 +14,29 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Schema_61 extends SchemaVersion {
   @Inject
   Schema_61(Provider<Schema_60> prior) {
     super(prior);
+  }
+
+  @Override
+  protected void migrateData(final ReviewDb db, final UpdateUI ui)
+      throws SQLException {
+    final Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
+    try {
+      stmt.execute("CREATE INDEX submodule_subscription_access_bySubscription"
+          + " ON submodule_subscriptions (submodule_project_name, submodule_branch_name)");
+    } finally {
+      stmt.close();
+    }
   }
 }

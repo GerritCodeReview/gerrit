@@ -100,6 +100,7 @@ class Schema_53 extends SchemaVersion {
     exportProjectConfig(db);
 
     deleteActionCategories(db);
+    dropOldIndex(db);
   }
 
   private void deleteActionCategories(ReviewDb db) throws OrmException {
@@ -110,6 +111,15 @@ class Schema_53 extends SchemaVersion {
       }
     }
     db.approvalCategories().delete(delete);
+  }
+
+  private void dropOldIndex(ReviewDb db) throws SQLException {
+    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
+    try {
+      stmt.execute("DROP INDEX ref_rights_byCatGroup");
+    } finally {
+      stmt.close();
+    }
   }
 
   private void assignGroupUUIDs(ReviewDb db) throws OrmException {

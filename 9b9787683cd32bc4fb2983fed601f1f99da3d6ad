@@ -34,6 +34,24 @@
       "revId": "9b9787683cd32bc4fb2983fed601f1f99da3d6ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEaH////0\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-03-28T15:05:14Z",
+      "side": 1,
+      "message": "Yes, I agree with this too. There is somewhat a clarification in git administrator that this role isn\u0027t a non technical project manager. However, hopefully that\u0027s clear to anyone who reads the rest of this section. Glad to change this!\n\nDone",
+      "parentUuid": "AAAEZX///90\u003d",
+      "revId": "9b9787683cd32bc4fb2983fed601f1f99da3d6ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

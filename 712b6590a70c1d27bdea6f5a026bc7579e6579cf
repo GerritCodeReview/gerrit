@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEYH///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-28T15:19:39Z",
+      "side": 1,
+      "message": "This doesn\u0027t work on all databases we support. For example on MySQL the drop syntax is \"DROP INDEX index_name ON tbl_name\".\n\nDoesn\u0027t the table ref_rights disappear in this schema revision? If the table goes away, do we need to explicitly drop the index?",
+      "revId": "712b6590a70c1d27bdea6f5a026bc7579e6579cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

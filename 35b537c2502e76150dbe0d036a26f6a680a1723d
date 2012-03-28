@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEZ3////s\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ChangeAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-28T13:56:57Z",
+      "side": 1,
+      "message": "Sorry for the efforts that this change causes on your side to adapt the environment. I wasn\u0027t really aware that this is so much of a problem.\n\nI\u0027ve now added a new index to support the new queries.\n\nFor searching open changes by branch I\u0027m now using the existing byBranchOpenAll query as proposed by you. This shouldn\u0027t be an issue since normally there are not too many open changes. Anyway we are more interested in optimizing the search for closed changes by branch (this is where we see performance issues) and I only added the methods for open changes for the sake of completeness.\n\nDone.",
+      "parentUuid": "AAAEXn///+I\u003d",
+      "revId": "35b537c2502e76150dbe0d036a26f6a680a1723d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEXn///+E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEZ3////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-28T13:56:57Z",
+      "side": 1,
+      "message": "I like this idea, but somehow wasn\u0027t able to get it working. Maybe you can give me some further hints about how to convert the BranchPredicate to a RefPredicate?\n\nI was trying to do it like this:\n\n  @NoCostComputation\n  @Rewrite(\"B\u003d(branch:*)\")\n  public Predicate\u003cChangeData\u003e r00_branch(@Named(\"B\") final BranchPredicate b) {\n    return new RefPredicate(dbProvider, b.getValue());\n  }\n\nThe problem is that this is not matched while the query string still contains all the operators. So it would first match r10_byProjectOpenPrev and only afterwards the remaining branch operator is converted to RefPredicate :-/",
+      "parentUuid": "AAAEXn///+E\u003d",
+      "revId": "35b537c2502e76150dbe0d036a26f6a680a1723d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEXn///+A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-03-27T21:02:25Z",
       "side": 1,
       "message": "These two methods should be the same name with the exception of prev/next suffix.",
+      "revId": "35b537c2502e76150dbe0d036a26f6a680a1723d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEZ3////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-28T13:56:57Z",
+      "side": 1,
+      "message": "Uh, forgot to rename the prev method above :-(\n\nDone.",
+      "parentUuid": "AAAEXn///+A\u003d",
       "revId": "35b537c2502e76150dbe0d036a26f6a680a1723d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

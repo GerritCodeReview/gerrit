@@ -52,6 +52,24 @@
       "revId": "58874c0adab412366b336f016b90a6cec9b80f0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEa3///9c\u003d",
+        "filename": "SUBMITTING_PATCHES",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-29T14:27:18Z",
+      "side": 1,
+      "message": "I went back and looked at the logs from overnight. This failed for other reasons. :-(\n\nWe have some more work to do before this URL will work. But my explanation above is one possible reason it can fail. :-)",
+      "parentUuid": "AAAEdn////8\u003d",
+      "revId": "58874c0adab412366b336f016b90a6cec9b80f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

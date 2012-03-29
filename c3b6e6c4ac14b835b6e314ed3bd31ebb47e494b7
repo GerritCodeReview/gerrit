@@ -16,6 +16,24 @@
       "revId": "c3b6e6c4ac14b835b6e314ed3bd31ebb47e494b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcn////8\u003d",
+        "filename": "SUBMITTING_PATCHES",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-29T04:56:32Z",
+      "side": 1,
+      "message": "Yes. The old version has this same stupid typo. There is no google-review. I have no idea what I was thinking.",
+      "parentUuid": "AAAEbH////c\u003d",
+      "revId": "c3b6e6c4ac14b835b6e314ed3bd31ebb47e494b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

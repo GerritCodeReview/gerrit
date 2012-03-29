@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEd3////o\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-03-29T19:21:09Z",
+      "side": 1,
+      "message": "I think you don\u0027t need to escape the * in \u0027..refs/heads/\\*\u0027 in the above two lines",
+      "revId": "13cfd835f222d59d821b29926c93e2949abda14e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

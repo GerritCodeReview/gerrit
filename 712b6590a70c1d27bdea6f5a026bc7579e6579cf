@@ -16,6 +16,24 @@
       "revId": "712b6590a70c1d27bdea6f5a026bc7579e6579cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEc3////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-29T08:14:30Z",
+      "side": 1,
+      "message": "Good to know that this needs to be database specific, I think I saw this being wrong in one of the older schema migrations (which is deleted by now).\n\nYes, you are right, if the ref_rights table disappears there is no need to explicitly delete this index. However this migration does not drop the ref_rights table either, means after a site upgrade the table is still there and only if a new site is initialized the ref_rights table is not created. Do you think this is worth to be fixed? If yes, should I fix this existing migration or rather add a new schema migration that drops the table?",
+      "parentUuid": "AAAEYH///+E\u003d",
+      "revId": "712b6590a70c1d27bdea6f5a026bc7579e6579cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

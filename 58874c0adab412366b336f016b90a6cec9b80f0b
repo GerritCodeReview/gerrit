@@ -16,6 +16,24 @@
       "revId": "58874c0adab412366b336f016b90a6cec9b80f0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcn////0\u003d",
+        "filename": "SUBMITTING_PATCHES",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-03-29T14:00:53Z",
+      "side": 1,
+      "message": "This should just be a transient error. The request handling worked correctly, Gerrit received your commits but was forbidden from actually processing them because we had an insufficient number of copies of within our network.\n\nOur criteria for allowing changes to be processed is having at least N copies of the data in different physical data centers, where N \u003e\u003d 2. The Gerrit server your client is speaking to is obviously only in a single data center, so it tries to copy the objects to others in the network before processing your changes. If that copying fails it reports an error like this because without copies in other data centers we cannot promise the data will always be available. E.g. a meteor could take out a data center with no warning.\n\nWe should be hiding the transient errors better from users. IIRC our server attempts to copy the data to each backend data center once. If the copy fails due to a transient networking problem, it skips that destination and tries the next one. If it has less than N copies completed when it reaches the end of its list of destinations, it just aborts to the user. We should be retrying some of those failed destinations before showing this message, especially if we are at N-1 copies and just need 1 more to feel the data is durable.\n\nLong story short, try again?",
+      "parentUuid": "AAAEc3////E\u003d",
+      "revId": "58874c0adab412366b336f016b90a6cec9b80f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

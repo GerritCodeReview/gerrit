@@ -23,6 +23,7 @@ import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.ReplicationCallback.ReplicationStatus;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -63,10 +64,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /** Manages automatic replication to remote repositories. */
@@ -121,20 +125,69 @@ public class PushReplication implements ReplicationQueue {
   @Override
   public void scheduleFullSync(final Project.NameKey project,
       final String urlMatch) {
+    scheduleFullSync(project, urlMatch, null);
+  }
+
+  @Override
+  public void scheduleFullSync(final Project.NameKey project,
+      final String urlMatch, ReplicationCallback callback) {
+    Map<ReplicationConfig, Set<URIish>> replicationURIs =
+        new HashMap<ReplicationConfig, Set<URIish>>();
+    int uriNumber = 0;
+
     for (final ReplicationConfig cfg : configs) {
       for (final URIish uri : cfg.getURIs(project, urlMatch)) {
-        cfg.schedule(project, PushOp.ALL_REFS, uri);
+        Set<URIish> uriSet = replicationURIs.get(cfg);
+        if (uriSet == null) {
+          uriSet = new HashSet<URIish>();
+          replicationURIs.put(cfg, uriSet);
+        }
+        uriSet.add(uri);
+        uriNumber += 1;
       }
     }
+    schedule(project, PushOp.ALL_REFS, replicationURIs, uriNumber, callback);
   }
 
   @Override
   public void scheduleUpdate(final Project.NameKey project, final String ref) {
+    scheduleUpdate(project, ref, null);
+  }
+
+  @Override
+  public void scheduleUpdate(final Project.NameKey project, final String ref,
+      ReplicationCallback callback) {
+    Map<ReplicationConfig, Set<URIish>> replicationURIs =
+        new HashMap<ReplicationConfig, Set<URIish>>();
+    int uriNumber = 0;
+
     for (final ReplicationConfig cfg : configs) {
       if (cfg.wouldPushRef(ref)) {
         for (final URIish uri : cfg.getURIs(project, null)) {
-          cfg.schedule(project, ref, uri);
+          Set<URIish> uriSet = replicationURIs.get(cfg);
+          if (uriSet == null) {
+            uriSet = new HashSet<URIish>();
+            replicationURIs.put(cfg, uriSet);
+          }
+          uriSet.add(uri);
+          uriNumber += 1;
         }
+      }
+    }
+    schedule(project, ref, replicationURIs, uriNumber, callback);
+  }
+
+  private void schedule(final Project.NameKey project, final String ref,
+      Map<ReplicationConfig, Set<URIish>> replicationURIs, int uriNumber,
+      ReplicationCallback callback) {
+    ReplicationCallbackWrapper callbackWrapper =
+        new ReplicationCallbackWrapper(callback, uriNumber);
+
+    for (Map.Entry<ReplicationConfig,Set<URIish>> entry : replicationURIs.entrySet()) {
+      ReplicationConfig cfg = entry.getKey();
+      for (final URIish uri : entry.getValue()) {
+        callbackWrapper.addURI(uri);
+        cfg.schedule(project, ref, uri, callbackWrapper);
       }
     }
   }
@@ -446,7 +499,7 @@ public class PushReplication implements ReplicationQueue {
     }
 
     void schedule(final Project.NameKey project, final String ref,
-        final URIish uri) {
+        final URIish uri, ReplicationCallbackWrapper callbackWrapper) {
       PerThreadRequestScope ctx = new PerThreadRequestScope();
       PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
       try {
@@ -502,6 +555,9 @@ public class PushReplication implements ReplicationQueue {
           pending.put(uri, e);
         }
         e.addRef(ref);
+        if (callbackWrapper.callback != null) {
+          e.addCallback(ref, callbackWrapper);
+        }
       }
     }
 
@@ -553,6 +609,7 @@ public class PushReplication implements ReplicationQueue {
             // here, find out replication to its URI is already pending
             // for retry (blocking).
             pendingPushOp.addRefs(pushOp.getRefs());
+            pendingPushOp.addCallbacks(pushOp.getCallbacks());
 
           } else {
             // The one pending is one that is NOT retrying, it was just
@@ -571,6 +628,7 @@ public class PushReplication implements ReplicationQueue {
             pending.remove(uri);
 
             pushOp.addRefs(pendingPushOp.getRefs());
+            pushOp.addCallbacks(pendingPushOp.getCallbacks());
           }
         }
 
@@ -663,6 +721,36 @@ public class PushReplication implements ReplicationQueue {
         return true;
       }
       return uri.toString().contains(urlMatch);
+    }
+  }
+
+  static class ReplicationCallbackWrapper {
+    private final List<URIish> uris = new ArrayList<URIish>();
+    private final BitSet uriStates = new BitSet();
+    private int uriNumber;
+    private ReplicationCallback callback;
+
+    public ReplicationCallbackWrapper(ReplicationCallback callback, int uriNumber) {
+      this.callback = callback;
+      this.uriNumber = uriNumber;
+    }
+
+    public synchronized void finishRefUpdate(URIish uri, ReplicationStatus status) {
+      int uriIndex = uris.indexOf(uri);
+      if (uriIndex == -1) {
+        return;
+      }
+      uriStates.set(uriIndex);
+
+      if (callback != null) {
+        callback.onOneNodeReplicated(uri, status, uriStates.cardinality(), uriNumber);
+      }
+    }
+
+    public synchronized void addURI(URIish uri) {
+      if (!uris.contains(uri)) {
+        uris.add(uri);
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,6 +17,8 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.PushReplication.ReplicationCallbackWrapper;
+import com.google.gerrit.server.git.ReplicationCallback.ReplicationStatus;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
@@ -46,6 +48,7 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -78,6 +81,8 @@ class PushOp implements ProjectRunnable {
   private final Project.NameKey projectName;
   private final URIish uri;
   private boolean pushAllRefs;
+  private final Map<String, Set<ReplicationCallbackWrapper>> callbacks
+      = new HashMap<String, Set<ReplicationCallbackWrapper>>();
 
   private Repository db;
 
@@ -154,6 +159,27 @@ class PushOp implements ProjectRunnable {
     }
   }
 
+  void addCallback(final String ref, ReplicationCallbackWrapper callbackWrapper) {
+    Set<ReplicationCallbackWrapper> cbSet = callbacks.get(ref);
+    if (cbSet == null) {
+      cbSet = new HashSet<ReplicationCallbackWrapper>();
+      callbacks.put(ref, cbSet);
+    }
+    cbSet.add(callbackWrapper);
+  }
+
+  void addCallbacks(Map<String, Set<ReplicationCallbackWrapper>> callbacks) {
+    for (Map.Entry<String, Set<ReplicationCallbackWrapper>> entry : callbacks.entrySet()) {
+      for (ReplicationCallbackWrapper cb : entry.getValue()) {
+        addCallback(entry.getKey(), cb);
+      }
+    }
+  }
+
+  Map<String, Set<ReplicationCallbackWrapper>> getCallbacks() {
+    return callbacks;
+  }
+
   public void run() {
     PerThreadRequestScope ctx = new PerThreadRequestScope();
     PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
@@ -219,6 +245,39 @@ class PushOp implements ProjectRunnable {
     return "push " + uri;
   }
 
+  private void doCallback(Collection<RemoteRefUpdate> refUpdates) {
+    for (Map.Entry<String,Set<PushReplication.ReplicationCallbackWrapper>> entry
+      : callbacks.entrySet()) {
+      RemoteRefUpdate foundRefUpdate = null;
+
+      for (final RemoteRefUpdate u : refUpdates) {
+        if (entry.getKey().equals(u.getSrcRef())) {
+          foundRefUpdate = u;
+          break;
+        }
+      }
+
+      ReplicationStatus s;
+      if (foundRefUpdate == null) {
+        s = ReplicationStatus.NOT_ATTEMPTED;
+      } else {
+        switch (foundRefUpdate.getStatus()) {
+          case OK:
+          case UP_TO_DATE:
+          case NON_EXISTING:
+            s = ReplicationStatus.SUCCEEDED;
+            break;
+          default:
+            s = ReplicationStatus.FAILED;
+            break;
+        }
+      }
+      for (final ReplicationCallbackWrapper cb : entry.getValue()) {
+        cb.finishRefUpdate(uri, s);
+      }
+    }
+  }
+
   private void runImpl() throws IOException {
     final Transport tn = Transport.open(db, uri);
     final PushResult res;
@@ -231,6 +290,8 @@ class PushOp implements ProjectRunnable {
         log.warn("Unexpected error while closing " + uri, e2);
       }
     }
+
+    doCallback(res.getRemoteUpdates());
 
     for (final RemoteRefUpdate u : res.getRemoteUpdates()) {
       switch (u.getStatus()) {

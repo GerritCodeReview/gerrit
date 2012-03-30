@@ -122,6 +122,19 @@ project:: Project path in Gerrit
 
 refName:: Ref name within project.
 
+[[patchsetreplication]]
+patchsetreplication
+-------------------
+Information about replication for a patchset.
+
+nodeName:: The node name to which a patchset is replicated.
+
+status:: The replication result, its value is one of FAILED, NOT_ATTEMPTED or SUCCEEDED.
+
+finishedNodes:: The number of nodes to which replication has finished.
+
+totalNodes:: The number of nodes that need to be replicated in all.
+
 SEE ALSO
 --------
 

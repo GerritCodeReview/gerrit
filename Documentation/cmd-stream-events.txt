@@ -43,7 +43,7 @@ SCHEMA
 The JSON messages consist of nested objects referencing the *change*,
 *patchset*, *account* involved, and other attributes as appropriate.
 The currently supported message types are *patchset-created*,
-*comment-added*, *change-merged*, and *change-abandoned*.
+*patchset-replicated*, *comment-added*, *change-merged*, and *change-abandoned*.
 
 Note that any field may be missing in the JSON messages, so consumers of
 this JSON stream should deal with that appropriately.
@@ -59,6 +59,16 @@ change:: link:json.html#change[change attribute]
 patchset:: link:json.html#patchset[patchset attribute]
 
 uploader:: link:json.html#account[account attribute]
+
+Patchset Replicated
+^^^^^^^^^^^^^^^^^^^
+type:: "patchset-replicated"
+
+replication:: link:json.html#patchsetreplication[patchsetreplication attribute]
+
+change:: link:json.html#change[change attribute]
+
+patchset:: link:json.html#patchset[patchset attribute]
 
 Change Abandoned
 ^^^^^^^^^^^^^^^^

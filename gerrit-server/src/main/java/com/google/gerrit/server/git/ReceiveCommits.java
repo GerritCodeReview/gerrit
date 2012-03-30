@@ -1106,7 +1106,8 @@ public class ReceiveCommits {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
     }
-    replication.scheduleUpdate(project.getNameKey(), ru.getName());
+    replication.scheduleUpdate(project.getNameKey(), ru.getName(),
+        new PatchSetReplicatedCallback(change, ps, db, hooks));
 
     allNewChanges.add(change);
 
@@ -1454,7 +1455,10 @@ public class ReceiveCommits {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
     }
-    replication.scheduleUpdate(project.getNameKey(), ru.getName());
+
+    replication.scheduleUpdate(project.getNameKey(), ru.getName(),
+        new PatchSetReplicatedCallback(result.change, ps, db, hooks));
+
     hooks.doPatchsetCreatedHook(result.change, ps, db);
     request.cmd.setResult(ReceiveCommand.Result.OK);
 

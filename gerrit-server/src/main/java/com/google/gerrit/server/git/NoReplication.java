@@ -28,7 +28,17 @@ public final class NoReplication implements ReplicationQueue {
   }
 
   @Override
+  public void scheduleUpdate(Project.NameKey project, String ref,
+      ReplicationCallback callback) {
+  }
+
+  @Override
   public void scheduleFullSync(Project.NameKey project, String urlMatch) {
+  }
+
+  @Override
+  public void scheduleFullSync(Project.NameKey project, String urlMatch,
+      ReplicationCallback callback) {
   }
 
   @Override

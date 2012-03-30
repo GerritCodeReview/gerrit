@@ -39,8 +39,10 @@ import com.google.gerrit.server.events.ChangeRestoreEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
+import com.google.gerrit.server.events.PatchSetReplicatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.ReplicationCallback.ReplicationStatus;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -55,6 +57,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,6 +101,9 @@ public class ChangeHookRunner implements ChangeHooks {
 
     /** Filename of the new patchset hook. */
     private final File patchsetCreatedHook;
+
+    /** Filename of the patchset replicated hook. */
+    private final File patchsetReplicatedHook;
 
     /** Filename of the new comments hook. */
     private final File commentAddedHook;
@@ -161,6 +167,7 @@ public class ChangeHookRunner implements ChangeHooks {
         final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
 
         patchsetCreatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "patchsetCreatedHook", "patchset-created")).getPath());
+        patchsetReplicatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "patchsetReplicatedHook", "patchset-replicated")).getPath());
         commentAddedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "commentAddedHook", "comment-added")).getPath());
         changeMergedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeMergedHook", "change-merged")).getPath());
         changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
@@ -243,6 +250,32 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--patchset", event.patchSet.number);
 
         runHook(change.getProject(), patchsetCreatedHook, args);
+    }
+
+    public void doPatchsetReplicatedHook(URIish uri, ReplicationStatus status,
+        int finishedNodes, int totalNodes, Change change, PatchSet patchSet,
+        ReviewDb db) throws OrmException {
+      final PatchSetReplicatedEvent event = new PatchSetReplicatedEvent();
+
+      event.replication = eventFactory.asPatchSetReplicationAttribute(uri, status,
+          finishedNodes, totalNodes);
+      event.change = eventFactory.asChangeAttribute(change);
+      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      fireEvent(change, event, db);
+
+      final List<String> args = new ArrayList<String>();
+      addArg(args, "--node", event.replication.nodeName);
+      addArg(args, "--status", event.replication.status);
+      addArg(args, "--finished-nodes", Integer.toString(event.replication.finishedNodes));
+      addArg(args, "--total-nodes", Integer.toString(event.replication.totalNodes));
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--change-url", event.change.url);
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--commit", event.patchSet.revision);
+      addArg(args, "--patchset", event.patchSet.number);
+
+      runHook(change.getProject(), patchsetReplicatedHook, args);
     }
 
     public void doCommentAddedHook(final Change change, final Account account,

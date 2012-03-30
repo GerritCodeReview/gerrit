@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.git.ReplicationCallback.ReplicationStatus;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
@@ -39,6 +40,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.transport.URIish;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -371,5 +373,20 @@ public class EventFactory {
       return r.toString();
     }
     return null;
+  }
+
+  public PatchSetReplicationAttribute asPatchSetReplicationAttribute(URIish uri,
+      ReplicationStatus status, int finishedNodes, int totalNodes) {
+    PatchSetReplicationAttribute r = new PatchSetReplicationAttribute();
+    if (uri.isRemote()) {
+      r.nodeName = uri.getHost();
+    } else {
+      r.nodeName = "localhost";
+    }
+
+    r.status = status.name();
+    r.finishedNodes = finishedNodes;
+    r.totalNodes = totalNodes;
+    return r;
   }
 }

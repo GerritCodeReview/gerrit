@@ -1178,6 +1178,11 @@ Optional path to hooks, if not specified then `'$site_path'/hooks` will be used.
 Optional filename for the patchset created hook, if not specified then
 `patchset-created` will be used.
 
+[[hooks.patchsetReplicatedHook]]hooks.patchsetReplicatedHook::
++
+Optional filename for the patchset replicated hook, if not specified then
+`patchset-replicated` will be used.
+
 [[hooks.commentAddedHook]]hooks.commentAddedHook::
 +
 Optional filename for the comment added hook, if not specified then

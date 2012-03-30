@@ -23,10 +23,12 @@ import com.google.gerrit.reviewdb.client.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.ReplicationCallback.ReplicationStatus;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.transport.URIish;
 
 import java.util.Map;
 
@@ -44,6 +46,21 @@ public interface ChangeHooks {
    * @throws OrmException
    */
   public void doPatchsetCreatedHook(Change change, PatchSet patchSet,
+      ReviewDb db) throws OrmException;
+
+  /**
+   * Fire the Patchset Replicated Hook.
+   *
+   * @param uri The node to replicate to.
+   * @param status The result of replication.
+   * @param finishedNodes The node number of finished replication.
+   * @param totalNodes The total node number needed to be replicated to.
+   * @param change The change itself.
+   * @param patchSet The Patchset that was created.
+   * @throws OrmException
+   */
+  public void doPatchsetReplicatedHook(URIish uri, ReplicationStatus status,
+      int finishedNodes, int totalNodes, Change change, PatchSet patchSet,
       ReviewDb db) throws OrmException;
 
   /**

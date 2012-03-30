@@ -35,6 +35,22 @@ public interface ReplicationQueue {
   void scheduleFullSync(Project.NameKey project, String urlMatch);
 
   /**
+   * Schedule a full replication for a single project with callback support.
+   * <p>
+   * All remote URLs are checked to verify the are current with regards to the
+   * local project state. If not, they are updated by pushing new refs, updating
+   * existing ones which don't match, and deleting stale refs which have been
+   * removed from the local repository, after finishing replication, the callback
+   * functions will be executed.
+   *
+   * @param project identity of the project to replicate.
+   * @param urlMatch substring that must appear in a URI to support replication.
+   * @param callback operations that need to do after replication.
+   */
+  void scheduleFullSync(Project.NameKey project, String urlMatch,
+      ReplicationCallback callback);
+
+  /**
    * Schedule update of a single ref.
    * <p>
    * This method automatically tries to batch together multiple requests in the
@@ -45,6 +61,21 @@ public interface ReplicationQueue {
    * @param ref unique name of the ref; must start with {@code refs/}.
    */
   void scheduleUpdate(Project.NameKey project, String ref);
+
+  /**
+   * Schedule update of a single ref with callback support.
+   * <p>
+   * This method automatically tries to batch together multiple requests in the
+   * same project, to take advantage of Git's native ability to update multiple
+   * refs during a single push operation, after finishing replication, the callback
+   * functions will be executed.
+   *
+   * @param project identity of the project to replicate.
+   * @param ref unique name of the ref; must start with {@code refs/}.
+   * @param callback operations that need to do after replication
+   */
+  void scheduleUpdate(Project.NameKey project, String ref,
+      ReplicationCallback callback);
 
   /**
    * Create new empty project at the remote sites.

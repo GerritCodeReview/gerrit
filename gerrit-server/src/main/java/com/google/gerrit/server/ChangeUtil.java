@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.PatchSetReplicatedCallback;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RebasedPatchSetSender;
@@ -382,7 +383,8 @@ public class ChangeUtil {
               + ": " + ru.getResult());
         }
 
-        replication.scheduleUpdate(change.getProject(), ru.getName());
+        replication.scheduleUpdate(change.getProject(), ru.getName(),
+            new PatchSetReplicatedCallback(change, rebasedPatchSet, db, hooks));
 
         ApprovalsUtil.copyVetosToLatestPatchSet(db, change, approvalTypes);
 
@@ -497,7 +499,7 @@ public class ChangeUtil {
             + " in " + git.getDirectory() + ": " + ru.getResult());
       }
       replication.scheduleUpdate(db.changes().get(changeId).getProject(),
-          ru.getName());
+          ru.getName(), new PatchSetReplicatedCallback(change, ps, db, hooks));
 
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(changeId,

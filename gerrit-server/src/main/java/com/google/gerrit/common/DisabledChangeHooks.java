@@ -23,9 +23,11 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.ReplicationCallback.ReplicationStatus;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.transport.URIish;
 
 import java.util.Map;
 
@@ -62,6 +64,12 @@ public final class DisabledChangeHooks implements ChangeHooks {
 
   @Override
   public void doPatchsetCreatedHook(Change change, PatchSet patchSet,
+      ReviewDb db) {
+  }
+
+  @Override
+  public void doPatchsetReplicatedHook(URIish uri, ReplicationStatus status,
+      int finishedNodes, int totalNodes, Change change, PatchSet patchSet,
       ReviewDb db) {
   }
 

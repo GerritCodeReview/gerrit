@@ -780,6 +780,14 @@ The new column will appear at the end of the table (in position 3),
 and `-1 Do not have copyright` will block submit, while `+1 Copyright
 clear` is required to enable submit.
 
+[[restart_changes]]
+[NOTE]
+Restart the Gerrit web application and reload all browsers after
+making any database changes to approval categories.  Browsers are
+sent the list of known categories when they first visit the site,
+and don't notice changes until the page is closed and opened again,
+or is reloaded.
+
 
 Examples of typical roles in a project
 --------------------------------------
@@ -1142,14 +1150,6 @@ Allow querying for status of Gerrit's internal task queue.  This capability
 allows the granted group to
 link:cmd-show-queue.html[look at the Gerrit task queue via ssh].
 
-
-[[restart_changes]]
-[NOTE]
-Restart the Gerrit web application and reload all browsers after
-making any database changes to approval categories.  Browsers are
-sent the list of known categories when they first visit the site,
-and don't notice changes until the page is closed and opened again,
-or is reloaded.
 
 GERRIT
 ------

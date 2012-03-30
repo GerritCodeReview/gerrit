@@ -1107,7 +1107,7 @@ is no gitweb hyperlinking support.
 +
 Valid values are `gitweb`, `cgit`, `disabled` or `custom`.
 
-[[gitweb.type]]gitweb.revision::
+[[gitweb.revision]]gitweb.revision::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
 at a specific commit when `custom` is used above.
@@ -1115,14 +1115,14 @@ at a specific commit when `custom` is used above.
 Valid replacements are `${project}` for the project name in Gerrit
 and `${commit}` for the SHA1 hash for the commit.
 
-[[gitweb.type]]gitweb.project::
+[[gitweb.project]]gitweb.project::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
 at a specific project when `custom` is used above.
 +
 Valid replacements are `${project}` for the project name in Gerrit.
 
-[[gitweb.type]]gitweb.branch::
+[[gitweb.branch]]gitweb.branch::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
 at a specific branch when `custom` is used above.

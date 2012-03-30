@@ -873,7 +873,7 @@ shows a red label in the Gerrit UI.  Optionally; to enable the possibility to
 deliver different results (build error vs unstable for instance) it's also
 possible to set `Code-review` +1 as well.
 
-If pushing new changes are granted, it's possible to automate cherry-pick of
+If pushing new changes is granted, it's possible to automate cherry-pick of
 submitted changes for upload to other branches under certain conditions.  This
 is probably not the first step of what a project wants to automate however,
 and so the push right can be found under the optional section.

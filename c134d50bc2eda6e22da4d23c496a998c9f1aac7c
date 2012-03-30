@@ -16,6 +16,24 @@
       "revId": "c134d50bc2eda6e22da4d23c496a998c9f1aac7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEdn////A\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-30T07:18:11Z",
+      "side": 1,
+      "message": "Since this change is already merged in the master branch, I think we should just accept it as is for the stable-2.3 branch. I\u0027m not sure if it\u0027s good to modify an already merged change when it is cherry-picked to another branch. I\u0027ve now pushed a change to master [that fixes this spelling mistake [1]. Once it gets merged there, i\u0027ll cherry-pick it to stable-2.3 so that this issue is also fixed here.\n\n[1] https://gerrit-review.googlesource.com/34430",
+      "parentUuid": "AAAEd3////E\u003d",
+      "revId": "c134d50bc2eda6e22da4d23c496a998c9f1aac7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -35,6 +35,7 @@ public class DefaultCommandModule extends CommandModule {
     // SlaveCommandModule.
 
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
+    command(gerrit, "ban-commit").to(BanCommitCommand.class);
     command(gerrit, "flush-caches").to(FlushCaches.class);
     command(gerrit, "ls-projects").to(ListProjects.class);
     command(gerrit, "ls-groups").to(ListGroupsCommand.class);

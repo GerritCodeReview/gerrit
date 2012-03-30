@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEdn////g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-30T06:32:07Z",
+      "side": 1,
+      "message": "s/reviers/reviewers",
+      "revId": "00bb103f422b69c7aea7446cf9bed735b6ec9358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEdn////c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-30T06:32:07Z",
+      "side": 1,
+      "message": "s/becasue/because",
+      "revId": "00bb103f422b69c7aea7446cf9bed735b6ec9358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEdn////M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-30T06:32:07Z",
+      "side": 1,
+      "message": "If users have the same amount of comments, the ordering seems to be random, maybe in this case it should be sorted by name?",
+      "revId": "00bb103f422b69c7aea7446cf9bed735b6ec9358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEdn////I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-30T06:32:07Z",
+      "side": 1,
+      "message": "When there are exactly 4 reviewers, it shows the first 3 reviewers by name and \"1 by other 1 reviewers...\" for the 4th reviewer. I think if it is exactly 4 reviewers all should be shown by name and only if there are more than 4 reviewers it should show the first 3 reviewers + the \"X by other Y reviewers...\" string. Actually from the commit message it sounded like this was the intension.",
+      "revId": "00bb103f422b69c7aea7446cf9bed735b6ec9358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEdn////Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-30T06:32:07Z",
+      "side": 1,
+      "message": "These strings should be externalized into GerritMessages.properties so that they can be translated.",
+      "revId": "00bb103f422b69c7aea7446cf9bed735b6ec9358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEdn////Q\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Patch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-03-30T06:32:07Z",
+      "side": 1,
+      "message": "[optional] Have this here as\n\n if (commentsCount \u003d\u003d null) {\n   return new HashMap\u003cAccount.Id, String\u003e();\n }\n return commentsCount;\n\nThen the two callers in PatchSetDetailFactory and PatchScriptFactory don\u0027t need to check for the null case.",
+      "revId": "00bb103f422b69c7aea7446cf9bed735b6ec9358",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

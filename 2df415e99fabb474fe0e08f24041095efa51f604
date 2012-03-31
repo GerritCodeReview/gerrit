@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEcX///9E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-31T00:28:46Z",
+      "side": 1,
+      "message": "All the \"b\"s above might be better off as something like h to avoid confusion with branch.\n\nAre you using a safehtmlbuilder because it is hard to put widgets in the errordialog?",
+      "revId": "2df415e99fabb474fe0e08f24041095efa51f604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcX///9I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-03-31T00:28:46Z",
+      "side": 1,
+      "message": "Is there some sort of next() operation you could call instead of converting to a list which might be expensive if the List of changes is large?  Although I admit, this reads well.",
+      "revId": "2df415e99fabb474fe0e08f24041095efa51f604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

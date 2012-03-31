@@ -274,7 +274,7 @@ Miscellaneous
 ~~~~~~~~~~~~~
 * Allow superprojects to subscribe to submodules updates
 +
-The feature introduced in this commit allows superprojects to
+The feature introduced in this release allows superprojects to
 subscribe to submodules updates.
 +
 When a commit is merged to a project, the commit content is scanned
@@ -451,4 +451,24 @@ Documentation
 
 * Improve 'Push Merge Commit' access right documentation
 
-* Access control: capabilities
+* Access control: Capabilities documented
+** Administrate Server
+** Create Account
+** Create Group
+** Create Project
+** Flush Caches
+** Kill Task
+** Priority
+** Query Limit
+** Start Replication
+** View caches
+** View connections
+** View queue
+
+* Access control: Example roles documented
+** Contributor
+** Developer
+** CI System
+** Integrator
+** Project owner
+** Administrator

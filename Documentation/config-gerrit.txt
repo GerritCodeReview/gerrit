@@ -1130,6 +1130,16 @@ at a specific branch when `custom` is used above.
 Valid replacements are `${project}` for the project name in Gerrit
 and `${branch}` for the name of the branch.
 
+[[gitweb.filehistory]]gitweb.filehistory::
++
+Optional pattern to use for constructing the gitweb URL when pointing
+at the history of a file in a specific branch when `custom` is used
+above.
++
+Valid replacements are `${project}` for the project name in Gerrit,
+`${file}` for the file name and `${branch}` for the name of the
+branch.
+
 [[gitweb.linkname]]gitweb.linkname::
 +
 Optional setting for modifying the link name presented to the user

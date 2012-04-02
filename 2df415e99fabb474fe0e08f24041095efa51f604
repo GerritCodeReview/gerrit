@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEen////k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-02T13:33:06Z",
+      "side": 1,
+      "message": "Good question. I guess this is what I assumed when writing this code (don\u0027t remember exactly since it is already so long ago). Looking at it now, I can actually see that it\u0027s not hard to put widgets into the ErrorDialog. Means, I will change this, so that the SafeHtmlBuilder is not needed anymore in this place.\n\nDone.",
+      "parentUuid": "AAAEcX///9E\u003d",
+      "revId": "2df415e99fabb474fe0e08f24041095efa51f604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEcX///9I\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteBranches.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-03-31T00:28:46Z",
       "side": 1,
       "message": "Is there some sort of next() operation you could call instead of converting to a list which might be expensive if the List of changes is large?  Although I admit, this reads well.",
+      "revId": "2df415e99fabb474fe0e08f24041095efa51f604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEen////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/DeleteBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-02T13:33:06Z",
+      "side": 1,
+      "message": "Yes, the ResultSet also can provide an iterator. I agree that it\u0027s better to avoid the convertion to a list.\n\nDone.",
+      "parentUuid": "AAAEcX///9I\u003d",
       "revId": "2df415e99fabb474fe0e08f24041095efa51f604",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

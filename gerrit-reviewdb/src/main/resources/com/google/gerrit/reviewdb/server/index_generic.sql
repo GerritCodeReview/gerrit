@@ -109,6 +109,10 @@ ON changes (dest_project_name);
 CREATE INDEX changes_allClosed
 ON changes (open, status, sort_key);
 
+--    covers:             byBranchClosedPrev, byBranchClosedNext
+CREATE INDEX changes_byBranchClosed
+ON changes (status, dest_project_name, dest_branch_name, sort_key);
+
 CREATE INDEX changes_key
 ON changes (change_key);
 

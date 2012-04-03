@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.commands;
+package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.sshd.commands.TreeFormatter.TreeNode;
+import com.google.gerrit.server.util.TreeFormatter.TreeNode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -24,13 +24,11 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
-
   public interface Factory {
     ProjectNode create(final Project project, final boolean isVisible);
   }
 
   private final AllProjectsName allProjectsName;
-
   private final Project project;
   private final boolean isVisible;
 

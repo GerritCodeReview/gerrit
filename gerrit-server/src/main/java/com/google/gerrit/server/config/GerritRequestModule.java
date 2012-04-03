@@ -53,6 +53,7 @@ import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CreateProject;
+import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SuggestParentCandidates;
@@ -71,6 +72,7 @@ public class GerritRequestModule extends FactoryModule {
     bind(MetaDataUpdate.User.class).in(RequestScoped.class);
     bind(AccountResolver.class);
     bind(ChangeQueryRewriter.class);
+    bind(ListProjects.class);
 
     bind(AnonymousUser.class).in(RequestScoped.class);
     bind(PerRequestProjectControlCache.class).in(RequestScoped.class);

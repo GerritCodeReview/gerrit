@@ -107,19 +107,24 @@ public class StarCache implements HasValueChangeHandlers<Boolean> {
       }
     });
 
-    ValueChangeHandler starUpdater = new ValueChangeHandler() {
-        @Override
-        public void onValueChange(ValueChangeEvent event) {
-          star.setResource(StarCache.this.getResource());
-        }
-      };
+    cache.getChangeDetailCache().addValueChangeHandler(
+        createStarUpdater(star, ChangeDetail.class));
+    cache.getChangeInfoCache().addValueChangeHandler(
+        createStarUpdater(star, ChangeInfo.class));
 
-    cache.getChangeDetailCache().addValueChangeHandler(starUpdater);
-    cache.getChangeInfoCache().addValueChangeHandler(starUpdater);
-
-    this.addValueChangeHandler(starUpdater);
+    this.addValueChangeHandler(createStarUpdater(star, Boolean.class));
 
     return star;
+  }
+
+  private <T> ValueChangeHandler<T> createStarUpdater(final Image star,
+      final Class<T> t) {
+    return new ValueChangeHandler<T>() {
+      @Override
+      public void onValueChange(ValueChangeEvent<T> event) {
+        star.setResource(StarCache.this.getResource());
+      }
+    };
   }
 
   private ImageResource getResource() {

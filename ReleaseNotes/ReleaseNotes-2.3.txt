@@ -93,6 +93,27 @@ when needed but not show huge amounts of unneeded data.
 
 * Move checkbox to mark file as reviewed into title bar
 
+* Add user pref to enable manual reviewing
++
+Add a checkbox to the preferences header on the diff
+screen which allows a user to specify whether they
+want manual-reviewing enabled or disabled.  Previously,
+every file was auto marked reviewed when a user first
+displayed it.  The new manual mode prevents this auto
+marking and only marks a file reviewed when the user
+explicitly clicks on the reviewed button.
++
+Using the manual mode allows users to better decide
+when they feel they have reviewed a file.  This mode
+is particularly useful for larger reviews when a
+user may need to jump around and look at many other
+files while commenting on a specific one.  This
+prevents their jumping around from file to file from
+marking the files as reviewed.  The intention is to
+allow the reviewed status to provide more meaning
+than simply "I have seen the file" (which in many
+cases might even be a stretch).
+
 * Redirect the user to the reverted change (when reverting).
 
 * On group rename update the group name in the page title
@@ -368,6 +389,8 @@ the current page URL after /login/, making the redirect process
 bring users back to the current view after sign in.
 
 * Improve validation of email registration tokens
+
+* Optimize queries for searching open/merged changes by project + branch
 
 
 Upgrades

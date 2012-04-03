@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAEcX///6g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-03T00:30:57Z",
+      "side": 1,
+      "message": "Can you give a more detailed example of why this is a good change? I\u0027m still a little confused on the use case you are trying to support by doing this.",
+      "revId": "fc196372b9b3df69e0d8ebe6f2dba6ecad9edb31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcX///6o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-03T00:30:57Z",
+      "side": 1,
+      "message": "I would do substring(0, lt).trim(). That way it handles \"Full Name\u003cemail\u003e\" just like \"Full Name \u003cemail\u003e\" and is a bit more robust to user input.",
+      "revId": "fc196372b9b3df69e0d8ebe6f2dba6ecad9edb31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAADjn////0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 2
@@ -13,6 +47,23 @@
       "writtenOn": "2012-03-05T11:14:12Z",
       "side": 1,
       "message": "Nit: Variable names could be verbose but it\u0027s consistent with the rest of the code, your pick I guess.",
+      "revId": "fc196372b9b3df69e0d8ebe6f2dba6ecad9edb31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcX///6k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-03T00:30:57Z",
+      "side": 1,
+      "message": "a.getPreferredEmail() can be null. Flip this around to avoid an NPE:\n\n  email.equals(a.getPreferredEmail())\n\nBut I wonder if we shouldn\u0027t be checking that the email address supplied is one of the valid emails on the account, and not just their preferred public persona when it doesn\u0027t match the preferred email? Doing that requires loading the AccountExternalId data for each account whose full name matched, and checking each email address.",
       "revId": "fc196372b9b3df69e0d8ebe6f2dba6ecad9edb31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

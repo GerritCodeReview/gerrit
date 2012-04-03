@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEcX///6M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/RequestParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-03T00:46:35Z",
+      "side": 1,
+      "message": "2012 date?",
+      "revId": "b021f3a193604d8d5849babb213873f396fc5f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcX///58\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/params/ReviewParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-03T00:46:35Z",
+      "side": 1,
+      "message": "You can\u0027t new this into existence. It has to be taken by Guice injection because its derived from data read from the database.",
+      "revId": "b021f3a193604d8d5849babb213873f396fc5f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcX///6E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/params/ReviewParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-03T00:46:35Z",
+      "side": 1,
+      "message": "Why is the action in the JSON body? I thought we were going to put the action into the URL or the SSH command name, so /changes/*/review or /changes/*/restore or /changes/*/submit.\n\nWe want to preserve the current `gerrit review` SSH command line interface with its various --submit and --restore flags. But when that converts to this request object it can use the correct call to based on the flag it was passed. So it doesn\u0027t have to be in the JSON.",
+      "revId": "b021f3a193604d8d5849babb213873f396fc5f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcX///6A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/params/ReviewParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-03T00:46:35Z",
+      "side": 1,
+      "message": "With the exception of labels, can\u0027t Gson do this automatically using its data binding support? Gson should be able to do all of this work to fill the fields for you if the Java field name matches the name used in the JSON interface. You just need to ask a Gson object to perform the data binding from the JsonObject to a new Review instance.\n\nDoing the data binding might make it harder to support query as either a string or an object like we talked about doing. But we can use a string now and then later do this a bit more magically by making the field type a ChangePredicate and teaching Gson how to bind a ChangePredicate from a JsonObject, which gives us more control over how that data binding is done.\n\nAt least then Gson handles a lot of this validation code for you about making sure the value is a string primitive, and setting the field. And it should also handle the string-\u003eenum conversion magically for you.",
+      "revId": "b021f3a193604d8d5849babb213873f396fc5f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcX///6I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/params/ReviewParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-03T00:46:35Z",
+      "side": 1,
+      "message": "Why is this a JsonObject? I thought we were going to make this interface accept either a list or an object, e.g.:\n\n  {query: \"deadbeef project:jgit\" message: \"blah\"}\n\nor:\n\n  [\n  {query: \"deadbeef project:jgit\" message: \"blah\"},\n  {query: \"c0ffee project:egit\" message: \"blahbity blah\"},\n  ]",
+      "revId": "b021f3a193604d8d5849babb213873f396fc5f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

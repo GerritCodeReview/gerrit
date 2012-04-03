@@ -16,6 +16,24 @@
       "revId": "cdcd3c921ecab83b5ea636766782787d1030e8cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcn///yE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-03T16:11:12Z",
+      "side": 1,
+      "message": "Yeah, my naive script was foiled by the setWidgets() in the code, thanks for the fix.",
+      "parentUuid": "AAAEen////U\u003d",
+      "revId": "cdcd3c921ecab83b5ea636766782787d1030e8cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

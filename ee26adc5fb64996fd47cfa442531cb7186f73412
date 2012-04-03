@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEcX///60\u003d",
+        "filename": "gerrit-antlr/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-03T00:24:47Z",
+      "side": 1,
+      "message": "This change shouldn\u0027t be in here, it looks like you ran tools/version.sh --release and then committed the result. Please back out the version change in all pom.xml files.",
+      "revId": "ee26adc5fb64996fd47cfa442531cb7186f73412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEcX///6w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryRewriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-03T00:24:47Z",
+      "side": 1,
+      "message": "Needs to be rebased onto current master as there are 2 new rewrite rules.",
+      "revId": "ee26adc5fb64996fd47cfa442531cb7186f73412",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

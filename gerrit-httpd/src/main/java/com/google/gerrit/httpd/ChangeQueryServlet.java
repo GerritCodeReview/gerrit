@@ -69,6 +69,7 @@ public class ChangeQueryServlet extends HttpServlet {
         return;
     }
 
+    p.setIncludeComments(get(req, "comments", false));
     p.setIncludeCurrentPatchSet(get(req, "current-patch-set", false));
     p.setIncludePatchSets(get(req, "patch-sets", false));
     p.setIncludeApprovals(get(req, "all-approvals", false));

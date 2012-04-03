@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEbn///6E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/params/ReviewParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-04-03T16:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEcX///58\u003d",
+      "revId": "b021f3a193604d8d5849babb213873f396fc5f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEcX///6E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/params/ReviewParams.java",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2012-04-03T00:46:35Z",
       "side": 1,
       "message": "Why is the action in the JSON body? I thought we were going to put the action into the URL or the SSH command name, so /changes/*/review or /changes/*/restore or /changes/*/submit.\n\nWe want to preserve the current `gerrit review` SSH command line interface with its various --submit and --restore flags. But when that converts to this request object it can use the correct call to based on the flag it was passed. So it doesn\u0027t have to be in the JSON.",
+      "revId": "b021f3a193604d8d5849babb213873f396fc5f68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEbn///6I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/params/ReviewParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-04-03T16:07:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEcX///6E\u003d",
       "revId": "b021f3a193604d8d5849babb213873f396fc5f68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

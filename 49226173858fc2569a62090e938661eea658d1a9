@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEcn///x4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-03T16:28:15Z",
+      "side": 1,
+      "message": "I don\u0027t like this solution since it creates two listener objects instead of one.  I think that in the original case it is actually appropriate to use an \"unqualified\" generic and if there is a way with an annotation to avoid the warning, that is probably better.",
+      "revId": "49226173858fc2569a62090e938661eea658d1a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1146,7 +1146,7 @@ public class ReceiveCommits {
   private void doReplaces() {
     for (final ReplaceRequest request : replaceByChange.values()) {
       try {
-        doReplace(request);
+        doReplace(request, false);
         replaceProgress.update(1);
       } catch (IOException err) {
         log.error("Error computing replacement patch for change "
@@ -1166,7 +1166,7 @@ public class ReceiveCommits {
     }
   }
 
-  private PatchSet.Id doReplace(final ReplaceRequest request)
+  private PatchSet.Id doReplace(final ReplaceRequest request, boolean ignoreNoChanges)
       throws IOException, OrmException {
     final RevCommit c = request.newCommit;
     rp.getRevWalk().parseBody(c);
@@ -1262,7 +1262,7 @@ public class ReceiveCommits {
           final boolean parentsEq = parentsEqual(c, prior);
           final boolean authorEq = authorEqual(c, prior);
 
-          if (messageEq && parentsEq && authorEq) {
+          if (messageEq && parentsEq && authorEq && !ignoreNoChanges) {
             reject(request.cmd, "no changes made");
             return null;
           } else {
@@ -1866,7 +1866,6 @@ public class ReceiveCommits {
           rw.parseBody(c);
           closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
           closeProgress.update(1);
-          continue;
         }
 
         rw.parseBody(c);
@@ -1880,7 +1879,7 @@ public class ReceiveCommits {
       }
 
       for (final ReplaceRequest req : toClose) {
-        final PatchSet.Id psi = doReplace(req);
+        final PatchSet.Id psi = doReplace(req, true);
         if (psi != null) {
           closeChange(req.cmd, psi, req.newCommit);
           closeProgress.update(1);

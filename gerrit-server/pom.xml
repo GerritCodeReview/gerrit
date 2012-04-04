@@ -123,6 +123,12 @@ limitations under the License.
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-util-cli</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-util-ssl</artifactId>
       <version>${project.version}</version>
     </dependency>

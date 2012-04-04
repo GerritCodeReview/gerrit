@@ -67,6 +67,8 @@ import java.util.ResourceBundle;
  * args4j style format prior to invoking args4j for parsing.
  */
 public class CmdLineParser {
+  private static final String[] NONE = new String[0];
+
   public interface Factory {
     CmdLineParser create(Object bean);
   }
@@ -145,6 +147,92 @@ public class CmdLineParser {
     }
 
     parser.parseArgument(tmp.toArray(new String[tmp.size()]));
+  }
+
+  public void parseOptionMap(Map<String, String[]> parameters)
+      throws CmdLineException {
+    for (@SuppressWarnings("rawtypes") OptionHandler handler : parser.options) {
+      if (handler.option instanceof NamedOptionDef) {
+        NamedOptionDef def = (NamedOptionDef) handler.option;
+        parse(handler, parameters, def.name());
+        for (String name : def.aliases()) {
+          parse(handler, parameters, name);
+        }
+      }
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private void parse(
+      @SuppressWarnings("rawtypes") OptionHandler handler,
+      Map<String, String[]> parameters, String name) throws CmdLineException {
+    for (final String value : get(parameters, name)) {
+      if (handler instanceof BooleanOptionHandler) {
+        handler.setter.addValue(toBoolean(name, value));
+      } else {
+        handler.parseArguments(new Parameters() {
+          @Override
+          public String getParameter(int idx) throws CmdLineException {
+            if (idx != 0) {
+              throw new CmdLineException(parser, "invalid argument index " + idx);
+            }
+            return value;
+          }
+
+          @Override
+          public int size() {
+            return 1;
+          }
+        });
+      }
+    }
+  }
+
+  private String[] get(Map<String, String[]> params, String name) {
+    String[] a = get2(params, name);
+    String[] b;
+    if (name.startsWith("--")) {
+      b = get2(params, name.substring(2));
+    } else if (name.startsWith("-")) {
+      b = get2(params, name.substring(1));
+    } else {
+      b = NONE;
+    }
+    if (a.length == 0) {
+      return b;
+    } else if (b.length == 0) {
+      return a;
+    } else {
+      String[] r = new String[a.length + b.length];
+      System.arraycopy(a, 0, r, 0, a.length);
+      System.arraycopy(b, 0, r, a.length, b.length);
+      return r;
+    }
+  }
+
+  private static String[] get2(Map<String, String[]> params, String name) {
+    String[] values = params.get(name);
+    return values != null ? values : NONE;
+  }
+
+  private boolean toBoolean(String name, String value) throws CmdLineException {
+    if ("true".equals(value) || "t".equals(value)
+        || "yes".equals(value) || "y".equals(value)
+        || "on".equals(value)
+        || "1".equals(value)
+        || value == null || "".equals(value)) {
+      return true;
+    }
+
+    if ("false".equals(value) || "f".equals(value)
+        || "no".equals(value) || "n".equals(value)
+        || "off".equals(value)
+        || "0".equals(value)) {
+      return false;
+    }
+
+    throw new CmdLineException(parser, String.format(
+        "invalid boolean \"%s=%s\"", name, value));
   }
 
   private class MyParser extends org.kohsuke.args4j.CmdLineParser {

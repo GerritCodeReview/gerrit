@@ -386,7 +386,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
           + "</a>");
       addStyle(row + i, 1, Gerrit.RESOURCES.css().lineNumber());
 
-      setHtml(row + i, 2, a.getSafeHtmlLine(lineA).asString());
+      String aString = a.getSafeHtmlLine(lineA).asString();
+      setHtml(row + i, 2, aString);
       addStyle(row + i, 2, Gerrit.RESOURCES.css().fileLine());
       addStyle(row + i, 2, Gerrit.RESOURCES.css().fileLineCONTEXT());
 
@@ -394,7 +395,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
           + "</a>");
       addStyle(row + i, 3, Gerrit.RESOURCES.css().lineNumber());
 
-      setHtml(row + i, 4, b.getSafeHtmlLine(lineB).asString());
+      String bString = aString;
+      if(b.contains(lineB)) {
+        bString = b.getSafeHtmlLine(lineB).asString();
+      }
+      setHtml(row + i, 4, bString);
       addStyle(row + i, 4, Gerrit.RESOURCES.css().fileLine());
       addStyle(row + i, 4, Gerrit.RESOURCES.css().fileLineCONTEXT());
 

@@ -60,9 +60,6 @@ public abstract class BaseCommand implements Command {
   static final int STATUS_NOT_FOUND = PRIVATE_STATUS | 2;
   public static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
 
-  @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
-  private boolean help;
-
   @SuppressWarnings("unused")
   @Option(name = "--", usage = "end of options", handler = EndOfOptionsHandler.class)
   private boolean endOfOptions;
@@ -159,16 +156,16 @@ public abstract class BaseCommand implements Command {
     try {
       clp.parseArgument(argv);
     } catch (IllegalArgumentException err) {
-      if (!help) {
+      if (!clp.wasHelpRequestedByOption()) {
         throw new UnloggedFailure(1, "fatal: " + err.getMessage());
       }
     } catch (CmdLineException err) {
-      if (!help) {
+      if (!clp.wasHelpRequestedByOption()) {
         throw new UnloggedFailure(1, "fatal: " + err.getMessage());
       }
     }
 
-    if (help) {
+    if (clp.wasHelpRequestedByOption()) {
       final StringWriter msg = new StringWriter();
       msg.write(commandName);
       clp.printSingleLineUsage(msg, null);

@@ -47,7 +47,6 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
-import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 import java.io.StringWriter;
@@ -67,6 +66,7 @@ import java.util.ResourceBundle;
  * args4j style format prior to invoking args4j for parsing.
  */
 public class CmdLineParser {
+
   public interface Factory {
     CmdLineParser create(Object bean);
   }
@@ -143,8 +143,76 @@ public class CmdLineParser {
 
       tmp.add(str);
     }
-
     parser.parseArgument(tmp.toArray(new String[tmp.size()]));
+  }
+
+  public void parseOptionMap(Map<String, String[]> parameters)
+      throws CmdLineException {
+    ArrayList<String> tmp = new ArrayList<String>();
+    for (Map.Entry<String, String[]> ent : parameters.entrySet()) {
+      String name = ent.getKey();
+      if (!name.startsWith("-")) {
+        if (name.length() == 1) {
+          name = "-" + name;
+        } else {
+          name = "--" + name;
+        }
+      }
+
+      if (findHandler(name) instanceof BooleanOptionHandler) {
+        boolean on = false;
+        for (String value : ent.getValue()) {
+          on = toBoolean(ent.getKey(), value);
+        }
+        if (on) {
+          tmp.add(name);
+        }
+      } else {
+        for (String value : ent.getValue()) {
+          tmp.add(name);
+          tmp.add(value);
+        }
+      }
+    }
+    parser.parseArgument(tmp.toArray(new String[tmp.size()]));
+  }
+
+  @SuppressWarnings("rawtypes")
+  private OptionHandler findHandler(String name) {
+    for (OptionHandler handler : parser.options) {
+      if (handler.option instanceof NamedOptionDef) {
+        NamedOptionDef def = (NamedOptionDef) handler.option;
+        if (name.equals(def.name())) {
+          return handler;
+        }
+        for (String alias : def.aliases()) {
+          if (name.equals(alias)) {
+            return handler;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  private boolean toBoolean(String name, String value) throws CmdLineException {
+    if ("true".equals(value) || "t".equals(value)
+        || "yes".equals(value) || "y".equals(value)
+        || "on".equals(value)
+        || "1".equals(value)
+        || value == null || "".equals(value)) {
+      return true;
+    }
+
+    if ("false".equals(value) || "f".equals(value)
+        || "no".equals(value) || "n".equals(value)
+        || "off".equals(value)
+        || "0".equals(value)) {
+      return false;
+    }
+
+    throw new CmdLineException(parser, String.format(
+        "invalid boolean \"%s=%s\"", name, value));
   }
 
   private class MyParser extends org.kohsuke.args4j.CmdLineParser {

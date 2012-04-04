@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEgn///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-04T21:35:58Z",
+      "side": 1,
+      "message": "Remove this import",
+      "revId": "213ed5f6d17228eab0b8a03b886a35d66bf72ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEgn///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-04T21:35:58Z",
+      "side": 1,
+      "message": "Please use AccountGroup.NameKey",
+      "revId": "213ed5f6d17228eab0b8a03b886a35d66bf72ffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

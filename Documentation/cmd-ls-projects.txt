@@ -57,6 +57,12 @@ Line-feeds are escaped to allow ls-project to keep the
 --type::
 	Display only projects of the specified type.  If not
 	specified, defaults to `code`. Supported types:
++
+--
+`code`:: Any project likely to contain user files.
+`permissions`:: Projects created with the `--permissions-only` flag.
+`all`:: Any type of project.
+--
 
 --all::
 	Display all projects that are accessible by the calling user
@@ -65,12 +71,12 @@ Line-feeds are escaped to allow ls-project to keep the
 	are owned by the calling user account (even if for these projects
 	the 'READ' access right is not assigned to the calling user
 	account).
-+
---
-`code`:: Any project likely to contain user files.
-`permissions`:: Projects created with the `--permissions-only` flag.
-`all`:: Any type of project.
---
+
+HTTP
+----
+This command is also available over HTTP, as `/projects/` for
+anonymous access and `/a/projects/` for authenticated access.
+Named options are available as query parameters.
 
 EXAMPLES
 --------
@@ -78,6 +84,10 @@ EXAMPLES
 List visible projects:
 =====
 	$ ssh -p 29418 review.example.com gerrit ls-projects
+	tools/gerrit
+	tools/gwtorm
+
+	$ curl http://review.example.com/projects/
 	tools/gerrit
 	tools/gwtorm
 =====

@@ -16,12 +16,14 @@ package com.google.gerrit.server.config;
 
 import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.gwtorm.server.SchemaFactory;
 
 import org.eclipse.jgit.lib.Config;
@@ -30,7 +32,9 @@ import org.slf4j.Logger;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -312,36 +316,52 @@ public class ConfigUtil {
    * @return the actual groups resolved from the database. If no groups are
    *         found, returns an empty {@code Set}, never {@code null}.
    */
-  public static GroupMembership groupsFor(
+  public static Set<AccountGroup.UUID> groupsFor(
       SchemaFactory<ReviewDb> dbfactory, String[] groupNames, Logger log,
       String groupNotFoundWarning) {
     final Set<AccountGroup.UUID> result = new HashSet<AccountGroup.UUID>();
     try {
       final ReviewDb db = dbfactory.open();
       try {
-        for (String name : groupNames) {
-          AccountGroupName group =
-              db.accountGroupNames().get(new AccountGroup.NameKey(name));
-          if (group == null) {
-            log.warn(MessageFormat.format(groupNotFoundWarning, name));
+        List<AccountGroupName> groups = db.accountGroupNames().get(
+            Iterables.transform(Arrays.asList(groupNames),
+                new Function<String, AccountGroup.NameKey>() {
+                  @Override
+                  public AccountGroup.NameKey apply(String name) {
+                    return new AccountGroup.NameKey(name);
+                  }
+            })).toList();
+
+        Iterator<AccountGroup> ags = db.accountGroups().get(
+            Iterables.transform(Iterables.filter(groups, Predicates.notNull()),
+                new Function<AccountGroupName, AccountGroup.Id>() {
+                  @Override
+                  public AccountGroup.Id apply(AccountGroupName group) {
+                    return group.getId();
+                  }
+            })).iterator();
+
+        for (int i = 0; i < groupNames.length; i++) {
+          if (groups.get(i) == null) {
+            log.warn(MessageFormat.format(groupNotFoundWarning, groupNames[i]));
             continue;
           }
-
-          AccountGroup ag = db.accountGroups().get(group.getId());
+          AccountGroup ag = ags.next();
           if (ag == null) {
-            log.warn(MessageFormat.format(groupNotFoundWarning, name));
-            continue;
+            log.warn(MessageFormat.format(groupNotFoundWarning, groupNames[i]));
+          } else {
+            result.add(ag.getGroupUUID());
           }
-
-          result.add(ag.getGroupUUID());
         }
       } finally {
         db.close();
       }
+    } catch (OrmRuntimeException e) {
+      log.error("Database error, cannot load groups", e);
     } catch (OrmException e) {
       log.error("Database error, cannot load groups", e);
     }
-    return new ListGroupMembership(result);
+    return result;
   }
 
   /**
@@ -354,7 +374,7 @@ public class ConfigUtil {
    * @return the actual groups resolved from the database. If no groups are
    *         found, returns an empty {@code Set}, never {@code null}.
    */
-  public static GroupMembership groupsFor(
+  public static Set<AccountGroup.UUID> groupsFor(
       SchemaFactory<ReviewDb> dbfactory, String[] groupNames, Logger log) {
     return groupsFor(dbfactory, groupNames, log,
         "Group \"{0}\" not in database, skipping.");

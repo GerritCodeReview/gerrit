@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
@@ -67,7 +67,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /** Manages automatic replication to remote repositories. */
@@ -354,7 +353,7 @@ public class PushReplication implements ReplicationQueue {
       }
 
       @Override
-      public synchronized void write(final int b) throws IOException {
+      public synchronized void write(final int b) {
         if (b == '\r') {
           return;
         }
@@ -407,8 +406,8 @@ public class PushReplication implements ReplicationQueue {
           cfg.getStringList("remote", rc.getName(), "authGroup");
       final GroupMembership authGroups;
       if (authGroupNames.length > 0) {
-        authGroups = ConfigUtil.groupsFor(db, authGroupNames, //
-            log, "Group \"{0}\" not in database, removing from authGroup");
+        authGroups = new ListGroupMembership(ConfigUtil.groupsFor(db, authGroupNames, //
+            log, "Group \"{0}\" not in database, removing from authGroup"));
       } else {
         authGroups = ReplicationUser.EVERYTHING_VISIBLE;
       }

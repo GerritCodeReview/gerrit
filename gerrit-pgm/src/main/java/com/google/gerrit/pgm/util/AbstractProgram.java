@@ -56,14 +56,8 @@ public abstract class AbstractProgram {
     }
 
     if (clp.wasHelpRequestedByOption()) {
-      final StringWriter msg = new StringWriter();
-      msg.write(getName());
-      clp.printSingleLineUsage(msg, null);
-      msg.write('\n');
-
-      msg.write('\n');
-      clp.printUsage(msg, null);
-      msg.write('\n');
+      StringWriter msg = new StringWriter();
+      clp.printDetailedUsage(getName(), msg);
       System.err.println(msg.toString());
       return 1;
     }

@@ -38,6 +38,7 @@ import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -135,6 +136,7 @@ public class WebModule extends FactoryModule {
     bind(ChangeUserName.CurrentUser.class);
     factory(ChangeUserName.Factory.class);
     factory(ClearPassword.Factory.class);
+    factory(CmdLineParser.Factory.class);
     factory(GeneratePassword.Factory.class);
 
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(

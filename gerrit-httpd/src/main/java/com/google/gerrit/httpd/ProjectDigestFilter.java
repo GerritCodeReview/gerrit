@@ -30,7 +30,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.http.server.GitSmartHttpTools;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
@@ -100,11 +99,6 @@ class ProjectDigestFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain chain) throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
-    if (!GitSmartHttpTools.isGitClient(req)) {
-      chain.doFilter(request, response);
-      return;
-    }
-
     Response rsp = new Response(req, (HttpServletResponse) response);
 
     if (verify(req, rsp)) {

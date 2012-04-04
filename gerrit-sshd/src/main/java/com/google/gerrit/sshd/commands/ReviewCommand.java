@@ -57,8 +57,8 @@ public class ReviewCommand extends BaseCommand {
       LoggerFactory.getLogger(ReviewCommand.class);
 
   @Override
-  protected final CmdLineParser newCmdLineParser() {
-    final CmdLineParser parser = super.newCmdLineParser();
+  protected final CmdLineParser newCmdLineParser(Object options) {
+    final CmdLineParser parser = super.newCmdLineParser(options);
     for (ApproveOption c : optionList) {
       parser.addOption(c, c);
     }

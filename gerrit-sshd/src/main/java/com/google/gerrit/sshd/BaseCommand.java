@@ -152,7 +152,22 @@ public abstract class BaseCommand implements Command {
    * @see Argument
    */
   protected void parseCommandLine() throws UnloggedFailure {
-    final CmdLineParser clp = newCmdLineParser();
+    parseCommandLine(this);
+  }
+
+  /**
+   * Parses the command line argument, injecting parsed values into fields.
+   * <p>
+   * This method must be explicitly invoked to cause a parse.
+   *
+   * @param options object whose fields declare Option and Argument annotations
+   *        to describe the parameters of the command. Usually {@code this}.
+   * @throws UnloggedFailure if the command line arguments were invalid.
+   * @see Option
+   * @see Argument
+   */
+  protected void parseCommandLine(Object options) throws UnloggedFailure {
+    final CmdLineParser clp = newCmdLineParser(options);
     try {
       clp.parseArgument(argv);
     } catch (IllegalArgumentException err) {
@@ -178,8 +193,8 @@ public abstract class BaseCommand implements Command {
   }
 
   /** Construct a new parser for this command's received command line. */
-  protected CmdLineParser newCmdLineParser() {
-    return cmdLineParserFactory.create(this);
+  protected CmdLineParser newCmdLineParser(Object options) {
+    return cmdLineParserFactory.create(options);
   }
 
   /**

@@ -12,18 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.commands;
+package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.server.util.TreeFormatter;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -32,18 +28,23 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-final class ListProjects extends BaseCommand {
+/** List projects visible to the calling user. */
+public class ListProjects {
   private static final Logger log = LoggerFactory.getLogger(ListProjects.class);
 
-  static enum FilterType {
+  public static enum FilterType {
     CODE {
       @Override
       boolean matches(Repository git) throws IOException {
@@ -69,24 +70,18 @@ final class ListProjects extends BaseCommand {
     abstract boolean matches(Repository git) throws IOException;
   }
 
-  @Inject
-  private IdentifiedUser currentUser;
-
-  @Inject
-  private ProjectCache projectCache;
-
-  @Inject
-  private GitRepositoryManager repoManager;
-
-  @Inject
-  private ProjectNode.Factory projectNodeFactory;
+  private final CurrentUser currentUser;
+  private final ProjectCache projectCache;
+  private final GitRepositoryManager repoManager;
+  private final ProjectNode.Factory projectNodeFactory;
 
   @Option(name = "--show-branch", aliases = {"-b"}, multiValued = true,
       usage = "displays the sha of each project in the specified branch")
   private List<String> showBranch;
 
-  @Option(name = "--tree", aliases = {"-t"}, usage = "displays project inheritance in a tree-like format\n" +
-      "this option does not work together with the show-branch option")
+  @Option(name = "--tree", aliases = {"-t"}, usage =
+      "displays project inheritance in a tree-like format\n"
+      + "this option does not work together with the show-branch option")
   private boolean showTree;
 
   @Option(name = "--type", usage = "type of project")
@@ -98,27 +93,70 @@ final class ListProjects extends BaseCommand {
   @Option(name = "--all", usage = "display all projects that are accessible by the calling user")
   private boolean all;
 
-  @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine();
-        ListProjects.this.display();
-      }
-    });
+  @Inject
+  protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
+      GitRepositoryManager repoManager,
+      ProjectNode.Factory projectNodeFactory) {
+    this.currentUser = currentUser;
+    this.projectCache = projectCache;
+    this.repoManager = repoManager;
+    this.projectNodeFactory = projectNodeFactory;
   }
 
-  private void display() throws Failure {
-    if (showTree && (showBranch != null)) {
-      throw new UnloggedFailure(1, "fatal: --tree and --show-branch options are not compatible.");
+  public List<String> getShowBranch() {
+    return showBranch;
+  }
+
+  public ListProjects setShowBranch(List<String> branches) {
+    this.showBranch = branches;
+    return this;
+  }
+
+  public boolean isShowTree() {
+    return showTree;
+  }
+
+  public ListProjects setShowTree(boolean show) {
+    this.showTree = show;
+    return this;
+  }
+
+  public FilterType getType() {
+    return type;
+  }
+
+  public ListProjects setType(FilterType type) {
+    this.type = type != null ? type : FilterType.CODE;
+    return this;
+  }
+
+  public boolean isShowDescription() {
+    return showDescription;
+  }
+
+  public ListProjects setShowDescription(boolean show) {
+    this.showDescription = show;
+    return this;
+  }
+
+  public boolean isShowAll() {
+    return all;
+  }
+
+  public ListProjects setShowAll(boolean all) {
+    this.all = all;
+    return this;
+  }
+
+  public void display(OutputStream out) {
+    final PrintWriter stdout;
+    try {
+      stdout = new PrintWriter(new BufferedWriter(new OutputStreamWriter(out, "UTF-8")));
+    } catch (UnsupportedEncodingException e) {
+      // Our encoding is required by the specifications for the runtime.
+      throw new RuntimeException("JVM lacks UTF-8 encoding", e);
     }
 
-    if (showTree && showDescription) {
-      throw new UnloggedFailure(1, "fatal: --tree and --description options are not compatible.");
-    }
-
-    final PrintWriter stdout = toPrintWriter(out);
     final TreeMap<Project.NameKey, ProjectNode> treeMap =
         new TreeMap<Project.NameKey, ProjectNode>();
     try {

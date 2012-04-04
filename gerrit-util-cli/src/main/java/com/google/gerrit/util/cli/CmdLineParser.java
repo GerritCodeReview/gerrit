@@ -44,11 +44,14 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.IllegalAnnotationError;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
 
 import java.io.Writer;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -102,6 +105,10 @@ public class CmdLineParser {
     parser.printUsage(out, rb);
   }
 
+  public boolean wasHelpRequestedByOption() {
+    return parser.help.value;
+  }
+
   public void parseArgument(final String... args) throws CmdLineException {
     final ArrayList<String> tmp = new ArrayList<String>(args.length);
     for (int argi = 0; argi < args.length; argi++) {
@@ -128,8 +135,13 @@ public class CmdLineParser {
   }
 
   private class MyParser extends org.kohsuke.args4j.CmdLineParser {
+    @SuppressWarnings("rawtypes")
+    private List<OptionHandler> options;
+    private HelpOption help;
+
     MyParser(final Object bean) {
       super(bean);
+      ensureOptionsInitialized();
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -137,7 +149,7 @@ public class CmdLineParser {
     protected OptionHandler createOptionHandler(final OptionDef option,
         final Setter setter) {
       if (isHandlerSpecified(option) || isEnum(setter) || isPrimitive(setter)) {
-        return super.createOptionHandler(option, setter);
+        return add(super.createOptionHandler(option, setter));
       }
 
       final Key<OptionHandlerFactory<?>> key =
@@ -145,12 +157,28 @@ public class CmdLineParser {
       Injector i = injector;
       while (i != null) {
         if (i.getBindings().containsKey(key)) {
-          return i.getInstance(key).create(this, option, setter);
+          return add(i.getInstance(key).create(this, option, setter));
         }
         i = i.getParent();
       }
 
-      return super.createOptionHandler(option, setter);
+      return add(super.createOptionHandler(option, setter));
+    }
+
+    @SuppressWarnings("rawtypes")
+    private OptionHandler add(OptionHandler handler) {
+      ensureOptionsInitialized();
+      options.add(handler);
+      return handler;
+    }
+
+    @SuppressWarnings("rawtypes")
+    private void ensureOptionsInitialized() {
+      if (options == null) {
+        help = new HelpOption();
+        options = new ArrayList<OptionHandler>();
+        addOption(help, help);
+      }
     }
 
     private boolean isHandlerSpecified(final OptionDef option) {
@@ -163,6 +191,65 @@ public class CmdLineParser {
 
     private <T> boolean isPrimitive(Setter<T> setter) {
       return setter.getType().isPrimitive();
+    }
+  }
+
+  private static class HelpOption implements Option, Setter<Boolean> {
+    private boolean value;
+
+    @Override
+    public String name() {
+      return "--help";
+    }
+
+    @Override
+    public String[] aliases() {
+      return new String[] {"-h"};
+    }
+
+    @Override
+    public String usage() {
+      return "display this help text";
+    }
+
+    @Override
+    public void addValue(Boolean val) {
+      value = val;
+    }
+
+    @Override
+    public Class<? extends OptionHandler<Boolean>> handler() {
+      return BooleanOptionHandler.class;
+    }
+
+    @Override
+    public String metaVar() {
+      return "";
+    }
+
+    @Override
+    public boolean multiValued() {
+      return false;
+    }
+
+    @Override
+    public boolean required() {
+      return false;
+    }
+
+    @Override
+    public Class<? extends Annotation> annotationType() {
+      return Option.class;
+    }
+
+    @Override
+    public Class<Boolean> getType() {
+      return Boolean.class;
+    }
+
+    @Override
+    public boolean isMultiValued() {
+      return multiValued();
     }
   }
 }

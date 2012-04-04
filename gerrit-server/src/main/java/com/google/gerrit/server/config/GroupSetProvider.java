@@ -40,7 +40,7 @@ public abstract class GroupSetProvider implements
   protected GroupSetProvider(@GerritServerConfig Config config,
       SchemaFactory<ReviewDb> db, String section, String subsection, String name) {
     String[] groupNames = config.getStringList(section, subsection, name);
-    groupIds = unmodifiableSet(groupsFor(db, groupNames, log).getKnownGroups());
+    groupIds = unmodifiableSet(groupsFor(db, groupNames, log));
   }
 
   @Override

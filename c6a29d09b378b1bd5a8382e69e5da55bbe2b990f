@@ -16,6 +16,24 @@
       "revId": "c6a29d09b378b1bd5a8382e69e5da55bbe2b990f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEgX////U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-04T17:10:33Z",
+      "side": 1,
+      "message": "Good point about the class names. I\u0027ll rename and upload a replacement patch set.\n\nAnd if I ever get around to integrating Lucene to index changes, we can also ask it to index comments. That might make searching a little more productive. Maybe.",
+      "parentUuid": "AAAEiX////s\u003d",
+      "revId": "c6a29d09b378b1bd5a8382e69e5da55bbe2b990f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEiX////s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-04T07:39:30Z",
+      "side": 1,
+      "message": "[optional] Maybe rename this class to \u0027ListProjectsCommand\u0027 to avoid name clash with the new ListProjects class in gerrit-server.\n\nIf I remember it correctly in of the reviews the name patterns for various classes (SSH commands, handler and services) were discussed and the conclusion was to have the service class without appendix and to use \u0027Command\u0027 and \u0027Handler\u0027 for SSH command / handler classes (can\u0027t find the link to this discussion anymore, pitty the review comments cannot be searched). You may see that there are already quite some SSH command classes following this pattern.",
+      "revId": "c6a29d09b378b1bd5a8382e69e5da55bbe2b990f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -166,14 +166,8 @@ public abstract class BaseCommand implements Command {
     }
 
     if (clp.wasHelpRequestedByOption()) {
-      final StringWriter msg = new StringWriter();
-      msg.write(commandName);
-      clp.printSingleLineUsage(msg, null);
-      msg.write('\n');
-
-      msg.write('\n');
-      clp.printUsage(msg, null);
-      msg.write('\n');
+      StringWriter msg = new StringWriter();
+      clp.printDetailedUsage(commandName, msg);
       msg.write(usage());
       throw new UnloggedFailure(1, msg.toString());
     }

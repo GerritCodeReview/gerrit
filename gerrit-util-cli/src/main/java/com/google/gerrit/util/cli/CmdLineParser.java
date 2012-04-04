@@ -48,6 +48,7 @@ import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
 
+import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -103,6 +104,15 @@ public class CmdLineParser {
 
   public void printUsage(Writer out, ResourceBundle rb) {
     parser.printUsage(out, rb);
+  }
+
+  public void printDetailedUsage(String name, StringWriter out) {
+    out.write(name);
+    printSingleLineUsage(out, null);
+    out.write('\n');
+    out.write('\n');
+    printUsage(out, null);
+    out.write('\n');
   }
 
   public boolean wasHelpRequestedByOption() {

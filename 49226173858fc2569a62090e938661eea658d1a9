@@ -16,6 +16,24 @@
       "revId": "49226173858fc2569a62090e938661eea658d1a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEiX////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-04T06:42:12Z",
+      "side": 1,
+      "message": "I already thought, you would say something like this. Probably you are right, I will then simply suppress the warnings by annotations.\n\nBefore suppressing the warnings I at least wanted to try to find some Java solution without the compiler warnings. So this is why I\u0027ve pushed this first.\n\nDone.",
+      "parentUuid": "AAAEcn///x4\u003d",
+      "revId": "49226173858fc2569a62090e938661eea658d1a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

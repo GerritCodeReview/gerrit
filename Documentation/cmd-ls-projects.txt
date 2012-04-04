@@ -72,12 +72,22 @@ Line-feeds are escaped to allow ls-project to keep the
 `all`:: Any type of project.
 --
 
+HTTP
+----
+This command is also available over HTTP, as `/projects/list` for
+anonymous access and `/a/projects/list` for authenticated access.
+Named options are available as query parameters.
+
 EXAMPLES
 --------
 
 List visible projects:
 =====
 	$ ssh -p 29418 review.example.com gerrit ls-projects
+	tools/gerrit
+	tools/gwtorm
+
+	$ curl http://review.example.com/projects/list
 	tools/gerrit
 	tools/gwtorm
 =====

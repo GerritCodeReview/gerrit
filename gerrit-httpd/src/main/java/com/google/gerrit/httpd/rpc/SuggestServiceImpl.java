@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -35,6 +36,8 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.AddReviewer;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -47,7 +50,6 @@ import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,13 +59,15 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
   private static final String MAX_SUFFIX = "\u9fa5";
 
+  private final Provider<ReviewDb> reviewDbProvider;
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
   private final AccountCache accountCache;
   private final GroupControl.Factory groupControlFactory;
   private final GroupMembers.Factory groupMembersFactory;
-  private final IdentifiedUser.GenericFactory userFactory;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final AccountControl.Factory accountControlFactory;
+  private final ChangeControl.Factory changeControlFactory;
   private final Config cfg;
   private final GroupCache groupCache;
   private final boolean suggestAccounts;
@@ -74,18 +78,21 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final ProjectCache projectCache, final AccountCache accountCache,
       final GroupControl.Factory groupControlFactory,
       final GroupMembers.Factory groupMembersFactory,
-      final IdentifiedUser.GenericFactory userFactory,
       final Provider<CurrentUser> currentUser,
+      final IdentifiedUser.GenericFactory identifiedUserFactory,
       final AccountControl.Factory accountControlFactory,
+      final ChangeControl.Factory changeControlFactory,
       @GerritServerConfig final Config cfg, final GroupCache groupCache) {
     super(schema, currentUser);
+    this.reviewDbProvider = schema;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.accountCache = accountCache;
     this.groupControlFactory = groupControlFactory;
     this.groupMembersFactory = groupMembersFactory;
-    this.userFactory = userFactory;
+    this.identifiedUserFactory = identifiedUserFactory;
     this.accountControlFactory = accountControlFactory;
+    this.changeControlFactory = changeControlFactory;
     this.cfg = cfg;
     this.groupCache = groupCache;
 
@@ -126,17 +133,27 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     callback.onSuccess(r);
   }
 
+  private interface VisibilityControl {
+    boolean isVisible(Account account) throws OrmException;
+  }
+
   public void suggestAccount(final String query, final Boolean active,
       final int limit, final AsyncCallback<List<AccountInfo>> callback) {
     run(callback, new Action<List<AccountInfo>>() {
       public List<AccountInfo> run(final ReviewDb db) throws OrmException {
-        return suggestAccount(db, query, active, limit);
+        return suggestAccount(db, query, active, limit, new VisibilityControl() {
+          @Override
+          public boolean isVisible(Account account) throws OrmException {
+            return accountControlFactory.get().canSee(account);
+          }
+        });
       }
     });
   }
 
   private List<AccountInfo> suggestAccount(final ReviewDb db,
-      final String query, final Boolean active, final int limit)
+      final String query, final Boolean active, final int limit,
+      VisibilityControl visibilityControl)
       throws OrmException {
     if (!suggestAccounts) {
       return Collections.<AccountInfo> emptyList();
@@ -150,12 +167,12 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     final LinkedHashMap<Account.Id, AccountInfo> r =
         new LinkedHashMap<Account.Id, AccountInfo>();
     for (final Account p : db.accounts().suggestByFullName(a, b, n)) {
-      addSuggestion(r, p, new AccountInfo(p), active);
+      addSuggestion(r, p, new AccountInfo(p), active, visibilityControl);
     }
     if (r.size() < n) {
       for (final Account p : db.accounts().suggestByPreferredEmail(a, b,
           n - r.size())) {
-        addSuggestion(r, p, new AccountInfo(p), active);
+        addSuggestion(r, p, new AccountInfo(p), active, visibilityControl);
       }
     }
     if (r.size() < n) {
@@ -165,7 +182,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
           final Account p = accountCache.get(e.getAccountId()).getAccount();
           final AccountInfo info = new AccountInfo(p);
           info.setPreferredEmail(e.getEmailAddress());
-          addSuggestion(r, p, info, active);
+          addSuggestion(r, p, info, active, visibilityControl);
         }
       }
     }
@@ -173,14 +190,15 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   }
 
   private void addSuggestion(Map<Account.Id, AccountInfo> map, Account account,
-      AccountInfo info, Boolean active) {
+      AccountInfo info, Boolean active, VisibilityControl visibilityControl)
+      throws OrmException {
     if (map.containsKey(account.getId())) {
       return;
     }
     if (active != null && active != account.isActive()) {
       return;
     }
-    if (accountControlFactory.get().canSee(account)) {
+    if (visibilityControl.isVisible(account)) {
       map.put(account.getId(), info);
     }
   }
@@ -217,13 +235,35 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void suggestReviewer(final Project.NameKey project,
+  public void suggestReviewer(Project.NameKey project, String query, int limit,
+      AsyncCallback<List<ReviewerInfo>> callback) {
+    // The RPC is deprecated, but return an empty list for RPC API compatibility.
+    callback.onSuccess(Collections.<ReviewerInfo>emptyList());
+  }
+
+  @Override
+  public void suggestChangeReviewer(final Change.Id change,
       final String query, final int limit,
       final AsyncCallback<List<ReviewerInfo>> callback) {
     run(callback, new Action<List<ReviewerInfo>>() {
       public List<ReviewerInfo> run(final ReviewDb db) throws OrmException {
+        final ChangeControl changeControl;
+        try {
+          changeControl = changeControlFactory.controlFor(change);
+        } catch (NoSuchChangeException e) {
+          return Collections.emptyList();
+        }
+        VisibilityControl visibilityControl = new VisibilityControl() {
+          @Override
+          public boolean isVisible(Account account) throws OrmException {
+            IdentifiedUser who =
+                identifiedUserFactory.create(reviewDbProvider, account.getId());
+            return changeControl.forUser(who).isVisible(reviewDbProvider.get());
+          }
+        };
+
         final List<AccountInfo> suggestedAccounts =
-            suggestAccount(db, query, Boolean.TRUE, limit);
+            suggestAccount(db, query, Boolean.TRUE, limit, visibilityControl);
         final List<ReviewerInfo> reviewer =
             new ArrayList<ReviewerInfo>(suggestedAccounts.size());
         for (final AccountInfo a : suggestedAccounts) {
@@ -232,7 +272,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         final List<GroupReference> suggestedAccountGroups =
             suggestAccountGroup(db, query, limit);
         for (final GroupReference g : suggestedAccountGroups) {
-          if (suggestGroupAsReviewer(project, g)) {
+          if (suggestGroupAsReviewer(changeControl.getProject().getNameKey(), g)) {
             reviewer.add(new ReviewerInfo(g));
           }
         }

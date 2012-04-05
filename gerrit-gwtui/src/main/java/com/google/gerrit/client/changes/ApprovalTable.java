@@ -134,12 +134,11 @@ public class ApprovalTable extends Composite {
   }
 
   void display(ChangeDetail detail) {
-    reviewerSuggestOracle.setProject(detail.getChange().getProject());
+    changeId = detail.getChange().getId();
+    reviewerSuggestOracle.setChange(changeId);
 
     List<String> columns = new ArrayList<String>();
     List<ApprovalDetail> rows = detail.getApprovals();
-
-    changeId = detail.getChange().getId();
 
     final Element missingList = missing.getElement();
     while (DOM.getChildCount(missingList) > 0) {

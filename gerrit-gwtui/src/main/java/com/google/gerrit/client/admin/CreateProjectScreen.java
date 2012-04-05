@@ -17,6 +17,8 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.projects.ProjectInfo;
+import com.google.gerrit.client.projects.ProjectList;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
@@ -37,8 +39,6 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
-
-import java.util.List;
 
 public class CreateProjectScreen extends Screen {
   private NpTextBox project;
@@ -127,7 +127,7 @@ public class CreateProjectScreen extends Screen {
       }
 
       @Override
-      protected void populate(final int row, final Project k) {
+      protected void populate(final int row, final ProjectInfo k) {
         final Anchor projectLink = new Anchor(k.getName());
         projectLink.addClickHandler(new ClickHandler() {
 
@@ -145,13 +145,12 @@ public class CreateProjectScreen extends Screen {
     };
     suggestedParentsTab.setVisible(false);
 
-    Util.PROJECT_SVC
-        .suggestParentCandidates(new GerritCallback<List<Project>>() {
+    ProjectList.permissions(new GerritCallback<ProjectList>() {
           @Override
-          public void onSuccess(List<Project> result) {
-            if (result != null && !result.isEmpty()) {
+          public void onSuccess(ProjectList list) {
+            if (!list.isEmpty()) {
               suggestedParentsTab.setVisible(true);
-              suggestedParentsTab.display(result);
+              suggestedParentsTab.display(list);
               suggestedParentsTab.finishDisplay();
             }
           }

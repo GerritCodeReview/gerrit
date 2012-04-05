@@ -105,7 +105,7 @@ class ProjectDigestFilter implements Filter {
       return;
     }
 
-    Response rsp = new Response((HttpServletResponse) response);
+    Response rsp = new Response(req, (HttpServletResponse) response);
 
     if (verify(req, rsp)) {
       chain.doFilter(req, rsp);
@@ -281,10 +281,6 @@ class ProjectDigestFilter implements Filter {
     return p;
   }
 
-  private String getDomain() {
-    return urlProvider.get() + "p/";
-  }
-
   private String newNonce() {
     try {
       return tokens.newToken("");
@@ -295,11 +291,12 @@ class ProjectDigestFilter implements Filter {
 
   class Response extends HttpServletResponseWrapper {
     private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
-
+    private final HttpServletRequest req;
     Boolean stale;
 
-    Response(HttpServletResponse rsp) {
+    Response(HttpServletRequest req, HttpServletResponse rsp) {
       super(rsp);
+      this.req = req;
     }
 
     private void status(int sc) {
@@ -307,7 +304,18 @@ class ProjectDigestFilter implements Filter {
         StringBuilder v = new StringBuilder();
         v.append("Digest");
         v.append(" realm=\"" + REALM_NAME + "\"");
-        v.append(", domain=\"" + getDomain() + "\"");
+
+        String url = urlProvider.get();
+        if (url == null) {
+          url = req.getContextPath();
+          if (url != null && !url.isEmpty() && !url.endsWith("/")) {
+            url += "/";
+          }
+        }
+        if (url != null && !url.isEmpty()) {
+          v.append(", domain=\"" + url + "\"");
+        }
+
         v.append(", qop=\"auth\"");
         if (stale != null) {
           v.append(", stale=" + stale);

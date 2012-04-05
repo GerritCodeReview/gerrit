@@ -16,6 +16,7 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** List of projects available from {@code /projects/list}. */
@@ -34,6 +35,13 @@ public class ProjectList extends NativeList<ProjectInfo> {
         .addParameter("all", true)
         .addParameter("description", true)
         .send(callback);
+  }
+
+  public static void suggest(String prefix, int limit, AsyncCallback<ProjectList> cb) {
+    new RestApi("/projects/" + URL.encode(prefix).replaceAll("[?]", "%3F"))
+      .addParameterRaw("type", "ALL")
+      .addParameter("limit", limit)
+      .send(cb);
   }
 
   protected ProjectList() {

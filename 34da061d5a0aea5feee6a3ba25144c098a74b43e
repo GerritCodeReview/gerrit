@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEiX///+k\u003d",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T13:52:34Z",
+      "side": 1,
+      "message": "Moving this section to its correct place is not really related to this change and should probably done in an own change.",
+      "revId": "34da061d5a0aea5feee6a3ba25144c098a74b43e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEiX///+g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RequireIdentifiedUserFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T13:52:34Z",
+      "side": 1,
+      "message": "2009?",
+      "revId": "34da061d5a0aea5feee6a3ba25144c098a74b43e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

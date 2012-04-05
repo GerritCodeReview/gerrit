@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.TreeFormatter;
@@ -105,6 +106,12 @@ public class ListProjects {
   @Option(name = "--all", usage = "display all projects that are accessible by the calling user")
   private boolean all;
 
+  @Option(name = "--limit", usage = "maximum number of projects to list", metaVar = "CNT")
+  private int limit;
+
+  @Option(name = "--match-prefix", usage = "only display projects matching a prefix", metaVar = "P")
+  private String matchPrefix;
+
   @Inject
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
       GitRepositoryManager repoManager,
@@ -182,11 +189,12 @@ public class ListProjects {
       throw new RuntimeException("JVM lacks UTF-8 encoding", e);
     }
 
+    int found = 0;
     List<ProjectLine> output = Lists.newArrayList();
     final TreeMap<Project.NameKey, ProjectNode> treeMap =
         new TreeMap<Project.NameKey, ProjectNode>();
     try {
-      for (final Project.NameKey projectName : projectCache.all()) {
+      for (final Project.NameKey projectName : scan()) {
         final ProjectState e = projectCache.get(projectName);
         if (e == null) {
           // If we can't get it from the cache, pretend its not present.
@@ -257,6 +265,10 @@ public class ListProjects {
           continue;
         }
 
+        if (limit > 0 && ++found > limit) {
+          break;
+        }
+
         if (isFormatJson()) {
           output.add(line);
           continue;
@@ -295,6 +307,14 @@ public class ListProjects {
       }
     } finally {
       stdout.flush();
+    }
+  }
+
+  private Iterable<NameKey> scan() {
+    if (matchPrefix != null) {
+      return projectCache.byName(matchPrefix);
+    } else {
+      return projectCache.all();
     }
   }
 

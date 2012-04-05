@@ -81,6 +81,12 @@ Line-feeds are escaped to allow ls-project to keep the
 	the 'READ' access right is not assigned to the calling user
 	account).
 
+--limit::
+	Cap the number of results to the first N matches.
+
+--match-prefix::
+	Display only projects whose name starts with a prefix.
+
 HTTP
 ----
 This command is also available over HTTP, as `/projects/` for

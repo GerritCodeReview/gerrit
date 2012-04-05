@@ -36,6 +36,14 @@ public class ProjectList extends NativeList<ProjectInfo> {
         .send(callback);
   }
 
+  public static void suggest(String prefix, int limit, AsyncCallback<ProjectList> cb) {
+    new RestApi("/projects/")
+      .addParameterRaw("type", "ALL")
+      .addParameter("match-prefix", prefix)
+      .addParameter("limit", limit)
+      .send(cb);
+  }
+
   protected ProjectList() {
   }
 

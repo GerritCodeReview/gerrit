@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountVisibility;
@@ -36,8 +35,6 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -47,7 +44,6 @@ import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,12 +53,9 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
   private static final String MAX_SUFFIX = "\u9fa5";
 
-  private final ProjectControl.Factory projectControlFactory;
-  private final ProjectCache projectCache;
   private final AccountCache accountCache;
   private final GroupControl.Factory groupControlFactory;
   private final GroupMembers.Factory groupMembersFactory;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final AccountControl.Factory accountControlFactory;
   private final Config cfg;
   private final GroupCache groupCache;
@@ -70,21 +63,16 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
-      final ProjectControl.Factory projectControlFactory,
-      final ProjectCache projectCache, final AccountCache accountCache,
+      final AccountCache accountCache,
       final GroupControl.Factory groupControlFactory,
       final GroupMembers.Factory groupMembersFactory,
-      final IdentifiedUser.GenericFactory userFactory,
       final Provider<CurrentUser> currentUser,
       final AccountControl.Factory accountControlFactory,
       @GerritServerConfig final Config cfg, final GroupCache groupCache) {
     super(schema, currentUser);
-    this.projectControlFactory = projectControlFactory;
-    this.projectCache = projectCache;
     this.accountCache = accountCache;
     this.groupControlFactory = groupControlFactory;
     this.groupMembersFactory = groupMembersFactory;
-    this.userFactory = userFactory;
     this.accountControlFactory = accountControlFactory;
     this.cfg = cfg;
     this.groupCache = groupCache;
@@ -102,28 +90,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       }
       this.suggestAccounts = suggestAccounts;
     }
-  }
-
-  public void suggestProjectNameKey(final String query, final int limit,
-      final AsyncCallback<List<Project.NameKey>> callback) {
-    final int max = 10;
-    final int n = limit <= 0 ? max : Math.min(limit, max);
-
-    final List<Project.NameKey> r = new ArrayList<Project.NameKey>(n);
-    for (final Project.NameKey nameKey : projectCache.byName(query)) {
-      final ProjectControl ctl;
-      try {
-        ctl = projectControlFactory.validateFor(nameKey);
-      } catch (NoSuchProjectException e) {
-        continue;
-      }
-
-      r.add(ctl.getProject().getNameKey());
-      if (r.size() == n) {
-        break;
-      }
-    }
-    callback.onSuccess(r);
   }
 
   public void suggestAccount(final String query, final Boolean active,

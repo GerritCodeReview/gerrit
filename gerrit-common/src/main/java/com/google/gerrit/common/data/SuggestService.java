@@ -25,9 +25,6 @@ import java.util.List;
 
 @RpcImpl(version = Version.V2_0)
 public interface SuggestService extends RemoteJsonService {
-  void suggestProjectNameKey(String query, int limit,
-      AsyncCallback<List<Project.NameKey>> callback);
-
   void suggestAccount(String query, Boolean enabled, int limit,
       AsyncCallback<List<AccountInfo>> callback);
 

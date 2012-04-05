@@ -16,13 +16,24 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.SuggestOracle;
 
-public class ProjectInfo extends JavaScriptObject {
+public class ProjectInfo extends JavaScriptObject implements SuggestOracle.Suggestion {
   protected ProjectInfo() {
   }
 
   public final Project.NameKey getNameKey() {
     return new Project.NameKey(name());
+  }
+
+  @Override
+  public final String getDisplayString() {
+    return name();
+  }
+
+  @Override
+  public final String getReplacementString() {
+    return name();
   }
 
   public final native String name() /*-{ return this.name; }-*/;

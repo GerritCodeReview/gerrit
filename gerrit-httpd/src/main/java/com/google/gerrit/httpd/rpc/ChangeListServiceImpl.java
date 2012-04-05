@@ -84,7 +84,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final Provider<CurrentUser> currentUser;
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
-  private final AccountControl.Factory accountControlFactory;
 
   private final ChangeQueryBuilder.Factory queryBuilder;
   private final Provider<ChangeQueryRewriter> queryRewriter;
@@ -94,14 +93,12 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
-      final AccountControl.Factory accountControlFactory,
       final ChangeQueryBuilder.Factory queryBuilder,
       final Provider<ChangeQueryRewriter> queryRewriter) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
-    this.accountControlFactory = accountControlFactory;
     this.queryBuilder = queryBuilder;
     this.queryRewriter = queryRewriter;
   }
@@ -221,7 +218,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
           Failure {
         final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
         final Account user = ac.get(target);
-        if (user == null || !accountControlFactory.get().canSee(user)) {
+        if (user == null) {
           throw new Failure(new NoSuchEntityException());
         }
 
@@ -255,6 +252,15 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         if (!closedReviews.isEmpty()) {
           d.getClosed().addAll(filter(changes.get(closedReviews), stars, ac, db));
           Collections.sort(d.getClosed(), SORT_KEY_COMP);
+        }
+
+        // User dashboards are visible to other users, if the current user
+        // can see any of the changes in the dashboard.
+        if (!target.equals(me)
+            && d.getByOwner().isEmpty()
+            && d.getClosed().isEmpty()
+            && d.getForReview().isEmpty()) {
+          throw new Failure(new NoSuchEntityException());
         }
 
         d.setAccounts(ac.create());

@@ -14,8 +14,11 @@
 
 package com.google.gerrit.client.admin;
 
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
+
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
@@ -48,11 +51,17 @@ public class GroupListScreen extends AccountScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
+    addPanel.setVisible(false);
+    AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
+      @Override
+      public void onSuccess(AccountCapabilities ac) {
+        addPanel.setVisible(ac.canPerform(CREATE_GROUP));
+      }
+    }, CREATE_GROUP);
     Util.GROUP_SVC
         .visibleGroups(new ScreenLoadCallback<GroupList>(this) {
           @Override
           protected void preDisplay(GroupList result) {
-            addPanel.setVisible(result.isCanCreateGroup());
             groups.display(result.getGroups());
             groups.finishDisplay();
           }

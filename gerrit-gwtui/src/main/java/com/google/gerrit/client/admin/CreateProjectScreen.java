@@ -19,15 +19,19 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.client.ui.ProjectListPopup;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.common.PageLinks;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -40,14 +44,17 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.List;
 
-public class CreateProjectScreen extends Screen {
+public class CreateProjectScreen extends Screen implements ResizeHandler {
   private NpTextBox project;
   private Button create;
+  private Button browse;
   private HintTextBox parent;
   private SuggestBox sugestParent;
   private CheckBox emptyCommit;
   private CheckBox permissionsOnly;
+  private Grid grid;
   private ProjectsTable suggestedParentsTab;
+  private ProjectListPopup projectListPopup;
 
   public CreateProjectScreen() {
     super();
@@ -61,10 +68,20 @@ public class CreateProjectScreen extends Screen {
   }
 
   @Override
+  protected void onUnload() {
+    super.onUnload();
+    projectListPopup.closePopup();
+  }
+
+  @Override
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.C.createProjectTitle());
     addCreateProjectPanel();
+
+    projectListPopup =
+        new ProjectListPopup(Util.C.projects(), PageLinks.ADMIN_PROJECTS,
+            sugestParent, this);
   }
 
   private void addCreateProjectPanel() {
@@ -82,7 +99,7 @@ public class CreateProjectScreen extends Screen {
     fp.add(emptyCommit);
     fp.add(permissionsOnly);
     fp.add(create);
-    VerticalPanel vp=new VerticalPanel();
+    VerticalPanel vp = new VerticalPanel();
     vp.add(fp);
     initSuggestedParents();
     vp.add(suggestedParentsTab);
@@ -111,12 +128,20 @@ public class CreateProjectScreen extends Screen {
         doCreateProject();
       }
     });
+
+    browse = new Button(Util.C.buttonBrowseProjects());
+    browse.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        calculatePopupCoordinates();
+        projectListPopup.display();
+      }
+    });
   }
 
   private void initParentBox() {
     parent = new HintTextBox();
-    sugestParent =
-        new SuggestBox(new ProjectNameSuggestOracle(), parent);
+    sugestParent = new SuggestBox(new ProjectNameSuggestOracle(), parent);
     parent.setVisibleLength(50);
   }
 
@@ -159,13 +184,14 @@ public class CreateProjectScreen extends Screen {
   }
 
   private void addGrid(final VerticalPanel fp) {
-    final Grid grid = new Grid(2, 2);
+    grid = new Grid(2, 3);
     grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     grid.setText(0, 0, Util.C.columnProjectName() + ":");
     grid.setWidget(0, 1, project);
     grid.setText(1, 0, Util.C.headingParentProjectName() + ":");
     grid.setWidget(1, 1, sugestParent);
 
+    grid.setWidget(1, 2, browse);
     fp.add(grid);
   }
 
@@ -202,5 +228,25 @@ public class CreateProjectScreen extends Screen {
     parent.setEnabled(enabled);
     emptyCommit.setEnabled(enabled);
     permissionsOnly.setEnabled(enabled);
+  }
+
+  protected void calculatePopupCoordinates() {
+    int top = grid.getAbsoluteTop() - 50; // under page header
+
+    // Try to place it to the right of everything else, but not
+    // right justified
+    int left =
+        5 + Math.max(
+            grid.getAbsoluteLeft() + grid.getOffsetWidth(),
+            suggestedParentsTab.getAbsoluteLeft()
+                + suggestedParentsTab.getOffsetWidth());
+
+    projectListPopup.setCoordinates(top, left);
+  }
+
+  @Override
+  public void onResize(ResizeEvent event) {
+    calculatePopupCoordinates();
+    projectListPopup.resize();
   }
 }

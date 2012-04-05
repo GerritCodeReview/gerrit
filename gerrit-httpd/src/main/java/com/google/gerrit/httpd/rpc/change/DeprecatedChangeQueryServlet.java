@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd;
+package com.google.gerrit.httpd.rpc.change;
 
 import com.google.gerrit.server.query.change.QueryProcessor;
 import com.google.gerrit.server.query.change.QueryProcessor.OutputFormat;
@@ -29,12 +29,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Singleton
-public class ChangeQueryServlet extends HttpServlet {
+public class DeprecatedChangeQueryServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private final Provider<QueryProcessor> processor;
 
   @Inject
-  ChangeQueryServlet(Provider<QueryProcessor> processor) {
+  DeprecatedChangeQueryServlet(Provider<QueryProcessor> processor) {
     this.processor = processor;
   }
 

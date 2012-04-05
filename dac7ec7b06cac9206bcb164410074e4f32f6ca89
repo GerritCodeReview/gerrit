@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEiX////c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T09:31:26Z",
+      "side": 1,
+      "message": "I wasn\u0027t reproducing this exception, but I wonder if it\u0027s really an NPE and not an ArrayindexOutOfBoundsException.",
+      "revId": "dac7ec7b06cac9206bcb164410074e4f32f6ca89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEiX////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T09:31:26Z",
+      "side": 1,
+      "message": "I actually always have the syntax coloring switched on, but for trying out this change I was disabling it and for me it is then already failing in this line with an ArrayIndexOutOfBoundsException when I\u0027m expanding the context. The problem seems to be that for a not the complete context is available and a.contains(lineA) returns false.\n\nThis only happens when the syntax coloring is permanently switched off (disable the checkbox for Syntax Coloring and click on the Save button) and the diff page is newly loaded before trying to expand the context.\n\nIf the page is loaded with syntax coloring switched on the PatchScriptBuilder seems to take care to fetch the complete context (see PatchScriptBuilder line 205). If now the syntax coloring option is switched off without reloading the page the existing patch script that has the full context will be reused (see PatchScreen#canReuse(...)) and the error does not occur.\n\nI\u0027m not sure how this can be fixed. Maybe it would be possible to reload the patch script with the complete context at the moment the user is clicking on the expand link and the complete context is not available?",
+      "revId": "dac7ec7b06cac9206bcb164410074e4f32f6ca89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

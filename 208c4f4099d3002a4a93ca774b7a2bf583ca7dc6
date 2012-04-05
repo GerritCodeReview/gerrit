@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEiX///+E\u003d",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T14:16:26Z",
+      "side": 1,
+      "message": "\u0027JSON_COMPACT\u0027 here in uppercase and above in lowercase?\n\ns/JSON_COMPACT/`json_compact`",
+      "revId": "208c4f4099d3002a4a93ca774b7a2bf583ca7dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEiX///+A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T14:16:26Z",
+      "side": 1,
+      "message": "What is this JSON_MAGIC and why is it needed? Maybe you can write add a comment about this?",
+      "revId": "208c4f4099d3002a4a93ca774b7a2bf583ca7dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEiX///98\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListProjectsServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T14:16:26Z",
+      "side": 1,
+      "message": "Hmm, I don\u0027t understand for what the JSON_MAGIC is needed here, but the result in the WebUI looks broken to me:\n\n  )]}\u0027\n  [{\"name\":\"P\"},{\"name\":\"X\"}, ...\n\nShouldn\u0027t the output be just:\n\n  [{\"name\":\"P\"},{\"name\":\"X\"}, ...\n\n?",
+      "revId": "208c4f4099d3002a4a93ca774b7a2bf583ca7dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

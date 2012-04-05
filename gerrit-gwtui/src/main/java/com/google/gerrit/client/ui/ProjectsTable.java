@@ -15,16 +15,15 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.client.projects.ProjectInfo;
+import com.google.gerrit.client.projects.ProjectList;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
-import java.util.List;
-
-public class ProjectsTable extends NavigationTable<Project> {
+public class ProjectsTable extends NavigationTable<ProjectInfo> {
 
   public ProjectsTable() {
     keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.projectListPrev()));
@@ -78,8 +77,8 @@ public class ProjectsTable extends NavigationTable<Project> {
   }
 
   @Override
-  protected Object getRowItemKey(final Project item) {
-    return item.getNameKey();
+  protected Object getRowItemKey(final ProjectInfo item) {
+    return item.name();
   }
 
   @Override
@@ -89,17 +88,17 @@ public class ProjectsTable extends NavigationTable<Project> {
     }
   }
 
-  public void display(final List<Project> projects) {
+  public void display(ProjectList projects) {
     while (1 < table.getRowCount())
       table.removeRow(table.getRowCount() - 1);
 
-    for (final Project k : projects)
-      insert(table.getRowCount(), k);
+    for(int i = 0; i < projects.size(); i++)
+      insert(table.getRowCount(), projects.get(i));
 
     finishDisplay();
   }
 
-  protected void insert(final int row, final Project k) {
+  protected void insert(final int row, final ProjectInfo k) {
     table.insertRow(row);
 
     applyDataRowStyle(row);
@@ -112,9 +111,9 @@ public class ProjectsTable extends NavigationTable<Project> {
     populate(row, k);
   }
 
-  protected void populate(final int row, final Project k) {
-    table.setText(row, 1, k.getName());
-    table.setText(row, 2, k.getDescription());
+  protected void populate(final int row, final ProjectInfo k) {
+    table.setText(row, 1, k.name());
+    table.setText(row, 2, k.description());
 
     setRowItem(row, k);
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEiX///+8\u003d",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T12:10:52Z",
+      "side": 1,
+      "message": "Is it intended that the last value wins? Maybe it makes more sense to fail if there is more than 1 value for a boolean option?",
+      "revId": "7b5f38c872245bf61b2fcf92c1b3b243595853fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

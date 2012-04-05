@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEiX////U\u003d",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T11:30:35Z",
+      "side": 1,
+      "message": "nit: this import seems not to be used",
+      "revId": "aee5bf57f2a8d0d699bc8adaad986c2d43f1f471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEiX////Q\u003d",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T11:30:35Z",
+      "side": 1,
+      "message": "nit: this import seems not to be used",
+      "revId": "aee5bf57f2a8d0d699bc8adaad986c2d43f1f471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEiX////M\u003d",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T11:30:35Z",
+      "side": 1,
+      "message": "nit: this import seems not to be used",
+      "revId": "aee5bf57f2a8d0d699bc8adaad986c2d43f1f471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

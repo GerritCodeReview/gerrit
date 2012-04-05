@@ -19,7 +19,6 @@ import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
-import com.google.gerrit.common.data.ProjectList;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -37,12 +36,10 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
   private final DeleteBranches.Factory deleteBranchesFactory;
   private final ListBranches.Factory listBranchesFactory;
-  private final VisibleProjects.Factory visibleProjectsFactory;
   private final VisibleProjectDetails.Factory visibleProjectDetailsFactory;
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final CreateProjectHandler.Factory createProjectHandlerFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
-  private final SuggestParentCandidatesHandler.Factory suggestParentCandidatesHandlerFactory;
 
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
@@ -50,38 +47,24 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
       final DeleteBranches.Factory deleteBranchesFactory,
       final ListBranches.Factory listBranchesFactory,
-      final VisibleProjects.Factory visibleProjectsFactory,
       final VisibleProjectDetails.Factory visibleProjectDetailsFactory,
       final ProjectAccessFactory.Factory projectAccessFactory,
       final ProjectDetailFactory.Factory projectDetailFactory,
-      final SuggestParentCandidatesHandler.Factory parentCandidatesFactory,
       final CreateProjectHandler.Factory createNewProjectFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectAccessFactory = changeProjectAccessFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
     this.listBranchesFactory = listBranchesFactory;
-    this.visibleProjectsFactory = visibleProjectsFactory;
     this.visibleProjectDetailsFactory = visibleProjectDetailsFactory;
     this.projectAccessFactory = projectAccessFactory;
     this.projectDetailFactory = projectDetailFactory;
     this.createProjectHandlerFactory = createNewProjectFactory;
-    this.suggestParentCandidatesHandlerFactory = parentCandidatesFactory;
-  }
-
-  @Override
-  public void visibleProjects(final AsyncCallback<ProjectList> callback) {
-    visibleProjectsFactory.create().to(callback);
   }
 
   @Override
   public void visibleProjectDetails(final AsyncCallback<List<ProjectDetail>> callback) {
     visibleProjectDetailsFactory.create().to(callback);
-  }
-
-  @Override
-  public void suggestParentCandidates(AsyncCallback<List<Project>> callback) {
-    suggestParentCandidatesHandlerFactory.create().to(callback);
   }
 
   @Override

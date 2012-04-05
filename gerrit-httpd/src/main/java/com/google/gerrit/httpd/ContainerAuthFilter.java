@@ -20,12 +20,10 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.http.server.GitSmartHttpTools;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
@@ -39,7 +37,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 /**
  * Trust the authentication which is done by the container.
@@ -62,7 +59,7 @@ class ContainerAuthFilter implements Filter {
 
   @Inject
   ContainerAuthFilter(Provider<WebSession> session, AccountCache accountCache,
-      @GerritServerConfig Config config) throws XsrfException {
+      @GerritServerConfig Config config) {
     this.session = session;
     this.accountCache = accountCache;
     this.config = config;
@@ -80,20 +77,14 @@ class ContainerAuthFilter implements Filter {
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain chain) throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;
-    if (!GitSmartHttpTools.isGitClient(req)) {
-      chain.doFilter(request, response);
-      return;
-    }
-
-    HttpServletResponseWrapper rsp =
-        new HttpServletResponseWrapper((HttpServletResponse) response);
+    HttpServletResponse rsp = (HttpServletResponse) response;
 
     if (verify(req, rsp)) {
       chain.doFilter(req, response);
     }
   }
 
-  private boolean verify(HttpServletRequest req, HttpServletResponseWrapper rsp)
+  private boolean verify(HttpServletRequest req, HttpServletResponse rsp)
       throws IOException {
     String username = req.getRemoteUser();
     if (username == null) {

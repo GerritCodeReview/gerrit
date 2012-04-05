@@ -27,7 +27,7 @@ Sample `etc/gerrit.config`:
 [[accounts]]Section accounts
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[[accounts.visibility]]::
+[[accounts.visibility]]accounts.visibility::
 +
 Controls visibility of other users' dashboard pages and
 completion suggestions to web users.

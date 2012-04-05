@@ -24,14 +24,19 @@ import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.httpd.rpc.account.AccountCapabilitiesServlet;
+import com.google.gerrit.httpd.rpc.change.DeprecatedChangeQueryServlet;
 import com.google.gerrit.httpd.rpc.project.ListProjectsServlet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtexpui.server.CacheControlFilter;
+import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
+
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 
@@ -40,6 +45,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 class UrlModule extends ServletModule {
+  static class UrlConfig {
+    private final boolean deprecatedQuery;
+
+    @Inject
+    UrlConfig(@GerritServerConfig Config cfg) {
+      deprecatedQuery = cfg.getBoolean("site", "enableDeprecatedQuery", true);
+    }
+  }
+
+  private final UrlConfig cfg;
+
+  UrlModule(UrlConfig cfg) {
+    this.cfg = cfg;
+  }
+
   @Override
   protected void configureServlets() {
     filter("/*").through(Key.get(CacheControlFilter.class));
@@ -50,7 +70,6 @@ class UrlModule extends ServletModule {
     serve("/Gerrit/*").with(legacyGerritScreen());
     serve("/cat/*").with(CatServlet.class);
     serve("/logout").with(HttpLogoutServlet.class);
-    serve("/query").with(ChangeQueryServlet.class);
     serve("/signout").with(HttpLogoutServlet.class);
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);
@@ -75,6 +94,10 @@ class UrlModule extends ServletModule {
     filter("/a/*").through(RequireIdentifiedUserFilter.class);
     serveRegex("^/(?:a/)?accounts/self/capabilities$").with(AccountCapabilitiesServlet.class);
     serveRegex("^/(?:a/)?projects/(.*)?$").with(ListProjectsServlet.class);
+
+    if (cfg.deprecatedQuery) {
+      serve("/query").with(DeprecatedChangeQueryServlet.class);
+    }
   }
 
   private Key<HttpServlet> notFound() {

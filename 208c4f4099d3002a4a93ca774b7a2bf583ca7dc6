@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEgn///68\u003d",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-05T16:08:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEiX///+E\u003d",
+      "revId": "208c4f4099d3002a4a93ca774b7a2bf583ca7dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEiX///+A\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEgn///64\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-05T16:08:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEiX///+A\u003d",
+      "revId": "208c4f4099d3002a4a93ca774b7a2bf583ca7dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEiX///98\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListProjectsServlet.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2012-04-05T14:16:26Z",
       "side": 1,
       "message": "Hmm, I don\u0027t understand for what the JSON_MAGIC is needed here, but the result in the WebUI looks broken to me:\n\n  )]}\u0027\n  [{\"name\":\"P\"},{\"name\":\"X\"}, ...\n\nShouldn\u0027t the output be just:\n\n  [{\"name\":\"P\"},{\"name\":\"X\"}, ...\n\n?",
+      "revId": "208c4f4099d3002a4a93ca774b7a2bf583ca7dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEgn///60\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ListProjectsServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-05T16:08:32Z",
+      "side": 1,
+      "message": "No the output you saw was correct. The JSON_MAGIC header prevents a browser from executing the response. Its dangerous to execute the response because there are ways another web page could manipulate its JavaScript environment to steal the response data by abusing the way the Array type works.\n\nThis magic string we put on the first line of output breaks all known JSON parsers and script evaluators, making the browser abort.",
+      "parentUuid": "AAAEiX///98\u003d",
       "revId": "208c4f4099d3002a4a93ca774b7a2bf583ca7dc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

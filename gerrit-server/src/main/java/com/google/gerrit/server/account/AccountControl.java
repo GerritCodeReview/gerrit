@@ -22,7 +22,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /** Access control management for one account's access to other accounts. */
@@ -65,6 +64,14 @@ public class AccountControl {
     this.accountVisibility = accountVisibility;
   }
 
+  /**
+   * Returns true if the otherUser is allowed to see the current user, based
+   * on the account visibility policy. Depending on the group membership
+   * realms supported, this may not be able to determine SAME_GROUP or
+   * VISIBLE_GROUP correctly (defaulting to not being visible). This is because
+   * {@link GroupMembership#getKnownGroups()} may only return a subset of the
+   * effective groups.
+   */
   public boolean canSee(final Account otherUser) {
     // Special case: I can always see myself.
     if (currentUser instanceof IdentifiedUser

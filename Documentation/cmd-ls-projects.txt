@@ -23,7 +23,7 @@ group, all projects are listed.
 
 ACCESS
 ------
-Any user who has configured an SSH key.
+Any user who has configured an SSH key, or by an user over HTTP.
 
 SCRIPTING
 ---------
@@ -72,12 +72,22 @@ Line-feeds are escaped to allow ls-project to keep the
 	the 'READ' access right is not assigned to the calling user
 	account).
 
+HTTP
+----
+This command is also available over HTTP, as `/projects/` for
+anonymous access and `/a/projects/` for authenticated access.
+Named options are available as query parameters.
+
 EXAMPLES
 --------
 
 List visible projects:
 =====
 	$ ssh -p 29418 review.example.com gerrit ls-projects
+	tools/gerrit
+	tools/gwtorm
+
+	$ curl http://review.example.com/projects/
 	tools/gerrit
 	tools/gwtorm
 =====

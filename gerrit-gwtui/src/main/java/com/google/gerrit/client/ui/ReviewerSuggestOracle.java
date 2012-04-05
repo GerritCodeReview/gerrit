@@ -20,7 +20,7 @@ import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.ReviewerInfo;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
@@ -30,13 +30,13 @@ import java.util.List;
 /** Suggestion Oracle for reviewers. */
 public class ReviewerSuggestOracle extends HighlightSuggestOracle {
 
-  private Project.NameKey project;
+  private Change.Id changeId;
 
   @Override
   protected void onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
       public void run() {
-        SuggestUtil.SVC.suggestReviewer(project, req.getQuery(),
+        SuggestUtil.SVC.suggestChangeReviewer(changeId, req.getQuery(),
             req.getLimit(), new GerritCallback<List<ReviewerInfo>>() {
               public void onSuccess(final List<ReviewerInfo> result) {
                 final List<ReviewerSuggestion> r =
@@ -52,8 +52,8 @@ public class ReviewerSuggestOracle extends HighlightSuggestOracle {
     });
   }
 
-  public void setProject(final Project.NameKey project) {
-    this.project = project;
+  public void setChange(Change.Id changeId) {
+    this.changeId = changeId;
   }
 
   private static class ReviewerSuggestion implements SuggestOracle.Suggestion {

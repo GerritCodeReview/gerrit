@@ -87,6 +87,12 @@ public class VisibleGroups {
     return createGroupList(filterGroups(groups));
   }
 
+  /**
+   * Returns visible list of known groups for the user. Depending on the group
+   * membership realms supported, this may only return a subset of the effective
+   * groups.
+   * @See GroupMembership#getKnownGroups()
+   */
   public GroupList get(final IdentifiedUser user) throws OrmException,
       NoSuchGroupException {
     if (identifiedUser.get().getAccountId().equals(user.getAccountId())

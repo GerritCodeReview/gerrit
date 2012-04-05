@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -23,6 +24,7 @@ import org.kohsuke.args4j.CmdLineException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -32,6 +34,16 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class RestApiServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
+  protected static final String JSON_TYPE = JsonUtil.JSON_TYPE;
+  protected static final byte[] JSON_MAGIC;
+
+  static {
+    try {
+      JSON_MAGIC = ")]}'\n".getBytes("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("UTF-8 not supported", e);
+    }
+  }
 
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse res)
@@ -40,6 +52,23 @@ public abstract class RestApiServlet extends HttpServlet {
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Cache-Control", "no-cache, must-revalidate");
     super.service(req, res);
+  }
+
+  protected static boolean acceptsJson(HttpServletRequest req) {
+    String accept = req.getHeader("Accept");
+    if (accept == null) {
+      return false;
+    } else if (JSON_TYPE.equals(accept)) {
+      return true;
+    } else if (accept.startsWith(JSON_TYPE + ",")) {
+      return true;
+    }
+    for (String p : accept.split("[ ,;][ ,;]*")) {
+      if (JSON_TYPE.equals(p)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   protected static void sendText(HttpServletRequest req,

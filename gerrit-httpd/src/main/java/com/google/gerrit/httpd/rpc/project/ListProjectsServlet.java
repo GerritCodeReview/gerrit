@@ -42,11 +42,19 @@ public class ListProjectsServlet extends RestApiServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     ListProjects impl = factory.get();
+    if (acceptsJson(req)) {
+      impl.setFormat(ListProjects.OutputFormat.JSON_COMPACT);
+    }
     if (paramParser.parse(impl, req, res)) {
       ByteArrayOutputStream buf = new ByteArrayOutputStream();
-      res.setContentType("text/plain");
-      res.setCharacterEncoding("UTF-8");
+      if (impl.isFormatJson()) {
+        res.setContentType(JSON_TYPE);
+        buf.write(JSON_MAGIC);
+      } else {
+        res.setContentType("text/plain");
+      }
       impl.display(buf);
+      res.setCharacterEncoding("UTF-8");
       send(req, res, buf.toByteArray());
     }
   }

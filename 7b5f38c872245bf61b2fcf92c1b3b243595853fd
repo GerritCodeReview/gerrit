@@ -16,6 +16,24 @@
       "revId": "7b5f38c872245bf61b2fcf92c1b3b243595853fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEiX///+c\u003d",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T13:37:33Z",
+      "side": 1,
+      "message": "OK, I see now that this consistent with how the SSH commands behave. If an option is specified several times for an SSH command, also the last value wins, e.g.\n\n  ssh user@host:29418 gerrit ls-projects --type\u003dCODE --type\u003dALL\n\nis valid and the value of type would be ALL.",
+      "parentUuid": "AAAEiX///+8\u003d",
+      "revId": "7b5f38c872245bf61b2fcf92c1b3b243595853fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

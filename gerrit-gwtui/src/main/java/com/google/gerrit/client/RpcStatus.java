@@ -56,6 +56,10 @@ public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
 
   @Override
   public void onRpcStart(final RpcStartEvent event) {
+    onRpcStart();
+  }
+
+  public void onRpcStart() {
     if (++activeCalls == 1) {
       if (hideDepth == 0) {
         loading.setVisible(true);
@@ -65,6 +69,10 @@ public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
 
   @Override
   public void onRpcComplete(final RpcCompleteEvent event) {
+    onRpcComplete();
+  }
+
+  public void onRpcComplete() {
     if (--activeCalls == 0) {
       loading.setVisible(false);
     }

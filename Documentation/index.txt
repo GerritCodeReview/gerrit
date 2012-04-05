@@ -18,6 +18,7 @@ User Guide
 * link:user-signedoffby.html[Signed-off-by Lines]
 * link:access-control.html[Access Controls]
 * link:error-messages.html[Error Messages]
+* link:rest-api.html[REST API]
 * link:user-submodules.html[Subscribing to Git Submodules]
 
 Installation

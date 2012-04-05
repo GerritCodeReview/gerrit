@@ -1,0 +1,89 @@
+Gerrit Code Review - REST API
+=============================
+
+Gerrit Code Review comes with a REST like API available over HTTP.
+The API is suitable for automated tools to build upon, as well as
+supporting some ad-hoc scripting use cases.
+
+Protocol Details
+----------------
+
+Authentication
+~~~~~~~~~~~~~~
+By default all REST endpoints assume anonymous access and filter
+results to correspond to what anonymous users can read (which may
+be nothing at all).
+
+Users (and programs) may authenticate using HTTP authentication by
+supplying the HTTP password from the user's account settings page.
+Gerrit by default uses HTTP digest authentication. To authenticate,
+prefix the endpoint URL with `/a/`. For example to authenticate to
+`/projects/` request URL `/a/projects/`.
+
+Output Format
+~~~~~~~~~~~~~
+Most APIs return text format by default. JSON can be requested
+by setting the `Accept` HTTP request header to include
+`application/json`, for example:
+
+----
+  GET /projects/ HTTP/1.0
+  Accept: application/json
+----
+
+JSON responses are encoded using UTF-8 and use content type
+`application/json`. The JSON response body starts with magic prefix
+line that must be stripped before feeding the rest of the response
+body to a JSON parser:
+
+----
+  )]}'
+  [ ... valid JSON ... ]
+----
+
+The default JSON format is `JSON_COMPACT`, which skips unnecessary
+whitespace. This is not the easiest format for a human to read. Many
+examples in this documentation use `format=JSON` as a query parameter
+to obtain pretty formatting in the response. Producing (and parsing)
+the compact format is more efficient, so most tools should prefer the
+default compact format.
+
+Responses will be gzip compressed by the server if the HTTP
+`Accept-Encoding` request header is set to `gzip`. This may
+save on network transfer time for larger responses.
+
+Endpoints
+---------
+
+List Projects: /projects/
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Lists the projects accessible by the caller. This is the same as
+using the link:cmd-ls-projects.html[ls-projects] command over SSH,
+and accepts the same options as query parameters.
+
+----
+  GET /projects/?format=JSON&d HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+   
+  )]}'
+  {
+    "external/bison": {
+      "description": "GNU parser generator"
+    },
+    "external/gcc": {},
+    "external/openssl": {
+      "description": "encryption\ncrypto routines"
+    },
+    "test": {
+      "description": "\u003chtml\u003e is escaped"
+    }
+  }
+----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

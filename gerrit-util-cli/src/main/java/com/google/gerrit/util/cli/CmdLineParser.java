@@ -46,6 +46,7 @@ import org.kohsuke.args4j.NamedOptionDef;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
+import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
 
@@ -66,7 +67,6 @@ import java.util.ResourceBundle;
  * args4j style format prior to invoking args4j for parsing.
  */
 public class CmdLineParser {
-
   public interface Factory {
     CmdLineParser create(Object bean);
   }
@@ -116,6 +116,67 @@ public class CmdLineParser {
     out.write('\n');
     printUsage(out, null);
     out.write('\n');
+  }
+
+  public void printQueryStringUsage(String name, StringWriter out) {
+    out.write(name);
+
+    char next = '?';
+    List<NamedOptionDef> booleans = new ArrayList<NamedOptionDef>();
+    for (@SuppressWarnings("rawtypes") OptionHandler handler : parser.options) {
+      if (handler.option instanceof NamedOptionDef) {
+        NamedOptionDef n = (NamedOptionDef) handler.option;
+
+        if (handler instanceof BooleanOptionHandler) {
+          booleans.add(n);
+          continue;
+        }
+
+        if (!n.required()) {
+          out.write('[');
+        }
+        out.write(next);
+        next = '&';
+        if (n.name().startsWith("--")) {
+          out.write(n.name().substring(2));
+        } else if (n.name().startsWith("-")) {
+          out.write(n.name().substring(1));
+        } else {
+          out.write(n.name());
+        }
+        out.write('=');
+
+        String var = handler.getDefaultMetaVariable();
+        if (handler instanceof EnumOptionHandler) {
+          var = var.substring(1, var.length() - 1);
+          var = var.replaceAll(" ", "");
+        }
+        out.write(var);
+        if (!n.required()) {
+          out.write(']');
+        }
+        if (n.isMultiValued()) {
+          out.write('*');
+        }
+      }
+    }
+    for (NamedOptionDef n : booleans) {
+      if (!n.required()) {
+        out.write('[');
+      }
+      out.write(next);
+      next = '&';
+      if (n.name().startsWith("--")) {
+        out.write(n.name().substring(2));
+      } else if (n.name().startsWith("-")) {
+        out.write(n.name().substring(1));
+      } else {
+        out.write(n.name());
+      }
+      if (!n.required()) {
+        out.write(']');
+      }
+    }
   }
 
   public boolean wasHelpRequestedByOption() {

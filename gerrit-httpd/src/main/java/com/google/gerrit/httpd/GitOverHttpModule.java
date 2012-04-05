@@ -41,5 +41,8 @@ public class GitOverHttpModule extends ServletModule {
     String git = GitOverHttpServlet.URL_REGEX;
     filterRegex(git).through(authFilter);
     serveRegex(git).with(GitOverHttpServlet.class);
+
+    filter("/a/*").through(authFilter);
+    filter("/a/*").through(RequireIdentifiedUserFilter.class);
   }
 }

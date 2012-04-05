@@ -20,13 +20,13 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.projects.ProjectInfo;
+import com.google.gerrit.client.projects.ProjectList;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.ProjectList;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -44,10 +44,10 @@ public class ProjectListScreen extends Screen {
         createProjectLinkPanel.setVisible(ac.canPerform(CREATE_PROJECT));
       }
     }, CREATE_PROJECT);
-    Util.PROJECT_SVC.visibleProjects(new ScreenLoadCallback<ProjectList>(this) {
+    ProjectList.all(new ScreenLoadCallback<ProjectList>(this) {
       @Override
       protected void preDisplay(final ProjectList result) {
-        projects.display(result.getProjects());
+        projects.display(result);
         projects.finishDisplay();
       }
     });
@@ -71,14 +71,14 @@ public class ProjectListScreen extends Screen {
         History.newItem(link(getRowItem(row)));
       }
 
-      private String link(final Project item) {
+      private String link(final ProjectInfo item) {
         return Dispatcher.toProjectAdmin(item.getNameKey(), ProjectScreen.INFO);
       }
 
       @Override
-      protected void populate(final int row, final Project k) {
-        table.setWidget(row, 1, new Hyperlink(k.getName(), link(k)));
-        table.setText(row, 2, k.getDescription());
+      protected void populate(final int row, final ProjectInfo k) {
+        table.setWidget(row, 1, new Hyperlink(k.name(), link(k)));
+        table.setText(row, 2, k.description());
 
         setRowItem(row, k);
       }

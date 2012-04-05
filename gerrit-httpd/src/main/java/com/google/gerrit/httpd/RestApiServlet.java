@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -23,6 +24,7 @@ import org.kohsuke.args4j.CmdLineException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -33,6 +35,28 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class RestApiServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
+  /** MIME type used for a JSON response body. */
+  protected static final String JSON_TYPE = JsonUtil.JSON_TYPE;
+
+  /**
+   * Garbage prefix inserted before JSON output to prevent XSSI.
+   * <p>
+   * This prefix is ")]}'\n" and is designed to prevent a web browser from
+   * executing the response body if the resource URI were to be referenced using
+   * a &lt;script src="...&gt; HTML tag from another web site. Clients using the
+   * HTTP interface will need to always strip the first line of response data to
+   * remove this magic header.
+   */
+  protected static final byte[] JSON_MAGIC;
+
+  static {
+    try {
+      JSON_MAGIC = ")]}'\n".getBytes("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("UTF-8 not supported", e);
+    }
+  }
+
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
@@ -41,6 +65,23 @@ public abstract class RestApiServlet extends HttpServlet {
     res.setHeader("Cache-Control", "no-cache, must-revalidate");
     res.setHeader("Content-Disposition", "attachment");
     super.service(req, res);
+  }
+
+  protected static boolean acceptsJson(HttpServletRequest req) {
+    String accept = req.getHeader("Accept");
+    if (accept == null) {
+      return false;
+    } else if (JSON_TYPE.equals(accept)) {
+      return true;
+    } else if (accept.startsWith(JSON_TYPE + ",")) {
+      return true;
+    }
+    for (String p : accept.split("[ ,;][ ,;]*")) {
+      if (JSON_TYPE.equals(p)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   protected static void sendText(HttpServletRequest req,

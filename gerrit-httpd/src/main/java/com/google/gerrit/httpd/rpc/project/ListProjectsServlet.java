@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.httpd.RestApiServlet;
+import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -42,11 +43,19 @@ public class ListProjectsServlet extends RestApiServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     ListProjects impl = factory.get();
+    if (acceptsJson(req)) {
+      impl.setFormat(OutputFormat.JSON_COMPACT);
+    }
     if (paramParser.parse(impl, req, res)) {
       ByteArrayOutputStream buf = new ByteArrayOutputStream();
-      res.setContentType("text/plain");
-      res.setCharacterEncoding("UTF-8");
+      if (impl.getFormat().isJson()) {
+        res.setContentType(JSON_TYPE);
+        buf.write(JSON_MAGIC);
+      } else {
+        res.setContentType("text/plain");
+      }
       impl.display(buf);
+      res.setCharacterEncoding("UTF-8");
       send(req, res, buf.toByteArray());
     }
   }

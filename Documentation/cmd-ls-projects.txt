@@ -64,6 +64,15 @@ Line-feeds are escaped to allow ls-project to keep the
 `all`:: Any type of project.
 --
 
+--format::
+	What output format to display the results in.
++
+--
+`text`:: Simple text based format.
+`json`:: Map of JSON objects describing each project.
+`json_compact`:: Minimized JSON output.
+--
+
 --all::
 	Display all projects that are accessible by the calling user
 	account. Besides the projects that the calling user account has
@@ -77,6 +86,15 @@ HTTP
 This command is also available over HTTP, as `/projects/` for
 anonymous access and `/a/projects/` for authenticated access.
 Named options are available as query parameters.
+
+Over HTTP the `json_compact` output format is assumed if the client
+explicitly asks for JSON using HTTP header `Accept: application/json`.
+When any JSON output format is used on HTTP, readers must skip the
+first line produced. The first line is a garbage JSON string crafted
+to prevent a browser from executing the response in a script tag.
+
+Output will be gzip compressed if `Accept-Encoding: gzip` was used
+by the client in the request headers.
 
 EXAMPLES
 --------

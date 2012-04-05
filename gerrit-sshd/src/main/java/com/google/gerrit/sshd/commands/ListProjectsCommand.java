@@ -30,11 +30,13 @@ final class ListProjectsCommand extends BaseCommand {
       @Override
       public void run() throws Exception {
         parseCommandLine(impl);
-        if (impl.isShowTree() && (impl.getShowBranch() != null)) {
-          throw new UnloggedFailure(1, "fatal: --tree and --show-branch options are not compatible.");
-        }
-        if (impl.isShowTree() && impl.isShowDescription()) {
-          throw new UnloggedFailure(1, "fatal: --tree and --description options are not compatible.");
+        if (!impl.getFormat().isJson()) {
+          if (impl.isShowTree() && (impl.getShowBranch() != null)) {
+            throw new UnloggedFailure(1, "fatal: --tree and --show-branch options are not compatible.");
+          }
+          if (impl.isShowTree() && impl.isShowDescription()) {
+            throw new UnloggedFailure(1, "fatal: --tree and --description options are not compatible.");
+          }
         }
         impl.display(out);
       }

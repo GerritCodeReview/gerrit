@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEiX///+0\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T12:31:28Z",
+      "side": 1,
+      "message": "Looks a bit strange to me that gerrit-server now depends on a client utility. Maybe gerrit-util-cli should be renamed to just gerrit-util?",
+      "revId": "1472f34745942064445b6fb88fddb3aabe250547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEiX///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-05T12:31:28Z",
+      "side": 1,
+      "message": "Are all the setter methods actually needed?",
+      "revId": "1472f34745942064445b6fb88fddb3aabe250547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

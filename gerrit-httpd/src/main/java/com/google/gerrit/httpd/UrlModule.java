@@ -23,6 +23,7 @@ import com.google.gerrit.httpd.raw.LegacyGerritServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
+import com.google.gerrit.httpd.rpc.account.AccountCapabilitiesServlet;
 import com.google.gerrit.httpd.rpc.project.ListProjectsServlet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -72,6 +73,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
 
     filter("/a/*").through(RequireIdentifiedUserFilter.class);
+    serveRegex("^/(?:a/)?accounts/self/capabilities$").with(AccountCapabilitiesServlet.class);
     serveRegex("^/(a/)?projects/$").with(ListProjectsServlet.class);
   }
 

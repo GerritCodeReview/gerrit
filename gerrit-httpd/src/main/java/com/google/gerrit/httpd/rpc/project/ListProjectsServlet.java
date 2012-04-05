@@ -18,6 +18,7 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -51,10 +52,12 @@ public class ListProjectsServlet extends HttpServlet {
     res.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Cache-Control", "no-cache, must-revalidate");
-    res.setContentType("text/plain");
-    res.setCharacterEncoding("UTF-8");
 
     ListProjects impl = factory.get();
+    if (acceptsJson(req)) {
+      impl.setFormat(ListProjects.OutputFormat.JSON_COMPACT);
+    }
+
     CmdLineParser clp = parser.create(impl);
     try {
 
@@ -74,17 +77,42 @@ public class ListProjectsServlet extends HttpServlet {
       StringWriter msg = new StringWriter();
       clp.printDetailedUsage(req.getRequestURI(), msg);
       data = msg.toString().getBytes("UTF-8");
+      res.setContentType("text/plain");
     } else {
       ByteArrayOutputStream buf = new ByteArrayOutputStream();
+      if (impl.isFormatJson()) {
+        res.setContentType(JsonUtil.JSON_TYPE);
+        buf.write(")]}'\n".getBytes("UTF-8"));
+      } else {
+        res.setContentType("text/plain");
+      }
       impl.display(buf);
       data = buf.toByteArray();;
     }
+    res.setCharacterEncoding("UTF-8");
 
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       res.setHeader("Content-Encoding", "gzip");
       data = HtmlDomUtil.compress(data);
     }
     send(res, data);
+  }
+
+  private static boolean acceptsJson(HttpServletRequest req) {
+    String accepts = req.getHeader("Accept");
+    if (accepts == null) {
+      return false;
+    } else if (JsonUtil.JSON_TYPE.equals(accepts)) {
+      return true;
+    } else if (accepts.startsWith(JsonUtil.JSON_TYPE + ",")) {
+      return true;
+    }
+    for (String p : accepts.split("[ ,;][ ,;]*")) {
+      if (JsonUtil.JSON_TYPE.equals(p)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void send(HttpServletResponse res, byte[] data) throws IOException {

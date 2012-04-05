@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.TreeFormatter;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -36,6 +40,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -70,10 +75,17 @@ public class ListProjects {
     abstract boolean matches(Repository git) throws IOException;
   }
 
+  public static enum OutputFormat {
+    TEXT, JSON, JSON_COMPACT;
+  }
+
   private final CurrentUser currentUser;
   private final ProjectCache projectCache;
   private final GitRepositoryManager repoManager;
   private final ProjectNode.Factory projectNodeFactory;
+
+  @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
+  private OutputFormat format = OutputFormat.TEXT;
 
   @Option(name = "--show-branch", aliases = {"-b"}, multiValued = true,
       usage = "displays the sha of each project in the specified branch")
@@ -148,6 +160,19 @@ public class ListProjects {
     return this;
   }
 
+  public OutputFormat getFormat() {
+    return format;
+  }
+
+  public boolean isFormatJson() {
+    return format == OutputFormat.JSON || format == OutputFormat.JSON_COMPACT;
+  }
+
+  public ListProjects setFormat(OutputFormat fmt) {
+    this.format = fmt;
+    return this;
+  }
+
   public void display(OutputStream out) {
     final PrintWriter stdout;
     try {
@@ -157,6 +182,7 @@ public class ListProjects {
       throw new RuntimeException("JVM lacks UTF-8 encoding", e);
     }
 
+    List<ProjectLine> output = Lists.newArrayList();
     final TreeMap<Project.NameKey, ProjectNode> treeMap =
         new TreeMap<Project.NameKey, ProjectNode>();
     try {
@@ -182,6 +208,12 @@ public class ListProjects {
           continue;
         }
 
+        ProjectLine line = new ProjectLine();
+        line.name = projectName.get();
+        if (showDescription && !e.getProject().getDescription().isEmpty()) {
+          line.description = e.getProject().getDescription();
+        }
+
         try {
           if (showBranch != null) {
             Repository git = repoManager.openRepository(projectName);
@@ -195,14 +227,12 @@ public class ListProjects {
                continue;
               }
 
-              for (Ref ref : refs) {
-                if (ref == null) {
-                  // Print stub (forty '-' symbols)
-                  stdout.print("----------------------------------------");
-                } else {
-                  stdout.print(ref.getObjectId().name());
+              line.branches = Maps.newLinkedHashMap();
+              for (int i = 0; i < showBranch.size(); i++) {
+                Ref ref = refs.get(i);
+                if (ref != null) {
+                  line.branches.put(showBranch.get(i), ref.getObjectId().name());
                 }
-                stdout.print(' ');
               }
             } finally {
               git.close();
@@ -227,18 +257,40 @@ public class ListProjects {
           continue;
         }
 
-        stdout.print(projectName.get());
-
-        String desc;
-        if (showDescription && !(desc = e.getProject().getDescription()).isEmpty()) {
-          // We still want to list every project as one-liners, hence escaping \n.
-          stdout.print(" - " + desc.replace("\n", "\\n"));
+        if (isFormatJson()) {
+          output.add(line);
+          continue;
         }
 
-        stdout.print("\n");
+        if (showBranch != null) {
+          for (String name : showBranch) {
+            String ref = line.branches.get(name);
+            if (ref == null) {
+              // Print stub (forty '-' symbols)
+              ref = "----------------------------------------";
+            }
+            stdout.print(ref);
+            stdout.print(' ');
+          }
+        }
+        stdout.print(line.name);
+
+        if (line.description != null) {
+          // We still want to list every project as one-liners, hence escaping \n.
+          stdout.print(" - " + line.description.replace("\n", "\\n"));
+        }
+        stdout.print('\n');
       }
 
-      if (showTree && treeMap.size() > 0) {
+      if (isFormatJson()) {
+        GsonBuilder gb = new GsonBuilder().disableHtmlEscaping();
+        if (format == OutputFormat.JSON) {
+          gb.setPrettyPrinting();
+        }
+        gb.create().toJson(
+            output, new TypeToken<List<ProjectLine>>() {}.getType(), stdout);
+        stdout.print('\n');
+      } else if (showTree && treeMap.size() > 0) {
         printProjectTree(stdout, treeMap);
       }
     } finally {
@@ -302,5 +354,11 @@ public class ListProjects {
       }
     }
     return false;
+  }
+
+  private static class ProjectLine {
+    String name;
+    String description;
+    Map<String, String> branches;
   }
 }

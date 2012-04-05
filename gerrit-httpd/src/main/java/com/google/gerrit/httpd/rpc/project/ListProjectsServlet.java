@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.httpd.RestApiServlet;
 import com.google.gerrit.server.project.ListProjects;
 import com.google.inject.Inject;
@@ -22,6 +23,7 @@ import com.google.inject.Singleton;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +44,9 @@ public class ListProjectsServlet extends RestApiServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     ListProjects impl = factory.get();
+    if (!Strings.isNullOrEmpty(req.getPathInfo())) {
+      impl.setMatchPrefix(URLDecoder.decode(req.getPathInfo(), "UTF-8"));
+    }
     if (acceptsJson(req)) {
       impl.setFormat(ListProjects.OutputFormat.JSON_COMPACT);
     }

@@ -71,7 +71,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/p/(.*)$").with(queryProjectNew());
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
 
-    serveRegex("^/(a/)?projects/$").with(ListProjectsServlet.class);
+    serveRegex("^/(?:a/)?projects/(.*)?$").with(ListProjectsServlet.class);
   }
 
   private Key<HttpServlet> notFound() {

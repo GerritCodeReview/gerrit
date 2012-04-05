@@ -1898,6 +1898,12 @@ If true the server checks the site header, footer and CSS files for
 updated versions. If false, a server restart is required to change
 any of these resources. Default is true, allowing automatic reloads.
 
+[[site.enableDeprecatedQuery]]site.enableDeprecatedQuery::
++
+If true the deprecated `/query` URL is available to return JSON
+and text results for changes. If false, the URL is disabled and
+returns 404 to clients.
+
 
 [[sshd]] Section sshd
 ~~~~~~~~~~~~~~~~~~~~~

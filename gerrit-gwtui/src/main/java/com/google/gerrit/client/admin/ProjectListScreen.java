@@ -14,8 +14,12 @@
 
 package com.google.gerrit.client.admin;
 
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
+
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.AccountCapabilities;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.ProjectsTable;
@@ -33,10 +37,16 @@ public class ProjectListScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
+    createProjectLinkPanel.setVisible(false);
+    AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
+      @Override
+      public void onSuccess(AccountCapabilities ac) {
+        createProjectLinkPanel.setVisible(ac.canPerform(CREATE_PROJECT));
+      }
+    }, CREATE_PROJECT);
     Util.PROJECT_SVC.visibleProjects(new ScreenLoadCallback<ProjectList>(this) {
       @Override
       protected void preDisplay(final ProjectList result) {
-        createProjectLinkPanel.setVisible(result.canCreateProject());
         projects.display(result.getProjects());
         projects.finishDisplay();
       }

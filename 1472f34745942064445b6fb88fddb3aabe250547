@@ -33,6 +33,24 @@
       "revId": "1472f34745942064445b6fb88fddb3aabe250547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEgX///8U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-05T16:25:14Z",
+      "side": 1,
+      "message": "No, removed the unused methods.",
+      "parentUuid": "AAAEiX///+w\u003d",
+      "revId": "1472f34745942064445b6fb88fddb3aabe250547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

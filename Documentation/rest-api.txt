@@ -55,8 +55,53 @@ save on network transfer time for larger responses.
 Endpoints
 ---------
 
-List Projects: /projects/
-~~~~~~~~~~~~~~~~~~~~~~~~~
+[[accounts_self_capabilities]]
+/accounts/self/capabilities (Account Capabilities)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Returns the global capabilities (such as createProject or
+createGroup) that are enabled for the calling user. This can be used
+by UI tools to discover if administrative features are available
+to the caller, so they can hide (or show) relevant UI actions.
+
+----
+  GET /accounts/self/capabilities?format=JSON HTTP/1.0
+
+  )]}'
+  {
+    "queryLimit": {
+      "min": 0,
+      "max": 500
+    }
+  }
+----
+
+Administrator that has authenticated with digest authentication:
+----
+  GET /a/accounts/self/capabilities?format=JSON HTTP/1.0
+  Authorization: Digest username="admin", realm="Gerrit Code Review", nonce="...
+
+  )]}'
+  {
+    "administrateServer": true,
+    "queryLimit": {
+      "min": 0,
+      "max": 500
+    },
+    "createAccount": true,
+    "createGroup": true,
+    "createProject": true,
+    "killTask": true,
+    "viewCaches": true,
+    "flushCaches": true,
+    "viewConnections": true,
+    "viewQueue": true,
+    "startReplication": true
+  }
+----
+
+[[projects]]
+/projects/ (List Projects)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 Lists the projects accessible by the caller. This is the same as
 using the link:cmd-ls-projects.html[ls-projects] command over SSH,
 and accepts the same options as query parameters.

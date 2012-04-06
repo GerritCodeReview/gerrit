@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEgX///6E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/OutputFormat.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-06T00:49:30Z",
+      "side": 1,
+      "message": "I was wrong to disableHtmlEscaping() in the prior version. MSIE does content sniffing and can treat a document that has Content-Type application/json like we do here as HTML if there are too many \u003c characters appearing in the text. By default Gson tries to prevent this behavior in MSIE by replacing \u003c and \u003e with the Unicode escapes for those characters, e.g. \\u003c and \\u003e.\n\nSo it was a bug in the earlier patch set that I fixed by deleting code. Yay!",
+      "parentUuid": "AAAEi3///+k\u003d",
+      "revId": "98adeb458aa74645354c1c72b031c12254cc2f84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEi3///+o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-05T22:39:30Z",
       "side": 1,
       "message": "Is this setter used?",
+      "revId": "98adeb458aa74645354c1c72b031c12254cc2f84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEgX///6A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-06T00:49:30Z",
+      "side": 1,
+      "message": "Yes. Its used by the servlet to set the default format based on the Accept header from the client.",
+      "parentUuid": "AAAEi3///+o\u003d",
       "revId": "98adeb458aa74645354c1c72b031c12254cc2f84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

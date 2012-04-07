@@ -39,8 +39,6 @@ import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -60,8 +58,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private static final String MAX_SUFFIX = "\u9fa5";
 
   private final Provider<ReviewDb> reviewDbProvider;
-  private final ProjectControl.Factory projectControlFactory;
-  private final ProjectCache projectCache;
   private final AccountCache accountCache;
   private final GroupControl.Factory groupControlFactory;
   private final GroupMembers.Factory groupMembersFactory;
@@ -74,8 +70,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
-      final ProjectControl.Factory projectControlFactory,
-      final ProjectCache projectCache, final AccountCache accountCache,
+      final AccountCache accountCache,
       final GroupControl.Factory groupControlFactory,
       final GroupMembers.Factory groupMembersFactory,
       final Provider<CurrentUser> currentUser,
@@ -85,8 +80,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       @GerritServerConfig final Config cfg, final GroupCache groupCache) {
     super(schema, currentUser);
     this.reviewDbProvider = schema;
-    this.projectControlFactory = projectControlFactory;
-    this.projectCache = projectCache;
     this.accountCache = accountCache;
     this.groupControlFactory = groupControlFactory;
     this.groupMembersFactory = groupMembersFactory;
@@ -109,28 +102,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       }
       this.suggestAccounts = suggestAccounts;
     }
-  }
-
-  public void suggestProjectNameKey(final String query, final int limit,
-      final AsyncCallback<List<Project.NameKey>> callback) {
-    final int max = 10;
-    final int n = limit <= 0 ? max : Math.min(limit, max);
-
-    final List<Project.NameKey> r = new ArrayList<Project.NameKey>(n);
-    for (final Project.NameKey nameKey : projectCache.byName(query)) {
-      final ProjectControl ctl;
-      try {
-        ctl = projectControlFactory.validateFor(nameKey);
-      } catch (NoSuchProjectException e) {
-        continue;
-      }
-
-      r.add(ctl.getProject().getNameKey());
-      if (r.size() == n) {
-        break;
-      }
-    }
-    callback.onSuccess(r);
   }
 
   private interface VisibilityControl {

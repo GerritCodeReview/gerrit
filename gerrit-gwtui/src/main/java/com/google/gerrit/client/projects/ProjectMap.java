@@ -16,6 +16,7 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Projects available from {@code /projects/}. */
@@ -34,6 +35,14 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .addParameterTrue("all")
         .addParameterTrue("d") // description
         .send(NativeMap.copyKeysIntoChildren(callback));
+  }
+
+  public static void suggest(String prefix, int limit, AsyncCallback<ProjectMap> cb) {
+    new RestApi("/projects/" + URL.encode(prefix).replaceAll("[?]", "%3F"))
+        .addParameterRaw("type", "ALL")
+        .addParameter("n", limit)
+        .addParameterTrue("d") // description
+        .send(NativeMap.copyKeysIntoChildren(cb));
   }
 
   protected ProjectMap() {

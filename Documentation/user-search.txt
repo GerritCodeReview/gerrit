@@ -75,7 +75,8 @@ Change-Id that was scraped out of the commit message.
 [[owner]]
 owner:'USER'::
 +
-Changes originally submitted by 'USER'.
+Changes originally submitted by 'USER'. The special case of
+`owner:self` will find changes owned by the caller.
 
 [[ownerin]]
 ownerin:'GROUP'::
@@ -85,7 +86,9 @@ Changes originally submitted by a user in 'GROUP'.
 [[reviewer]]
 reviewer:'USER'::
 +
-Changes that have been, or need to be, reviewed by 'USER'.
+Changes that have been, or need to be, reviewed by 'USER'. The
+special case of `reviewer:self` will find changes where the caller
+has been added as a reviewer.
 
 [[reviewerin]]
 reviewerin:'GROUP'::
@@ -212,6 +215,16 @@ is:reviewed::
 +
 True if there is at least one non-zero score on the change, in any
 approval category, by any user.
+
+is:owner::
++
+True on any change where the current user is the change owner.
+Same as `owner:self`.
+
+is:reviewer::
++
+True on any change where the current user is a reviewer.
+Same as `reviewer:self`.
 
 is:open::
 +
@@ -373,16 +386,20 @@ the change.  This flag is always added to any query.
 starredby:'USER'::
 +
 Matches changes that have been starred by 'USER'.
+The special case `starredby:self` applies to the caller.
 
 watchedby:'USER'::
 +
 Matches changes that 'USER' has configured watch filters for.
+The special case `watchedby:self` applies to the caller.
 
 draftby:'USER'::
 +
 Matches changes that 'USER' has left unpublished drafts on.
 Since the drafts are unpublished, it is not possible to see the
-draft text, or even how many drafts there are.
+draft text, or even how many drafts there are. The special case
+of `draftby:self` will find changes where the caller has created
+a draft comment.
 
 limit:'CNT'::
 +

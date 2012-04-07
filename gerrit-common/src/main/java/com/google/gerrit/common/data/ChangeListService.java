@@ -24,14 +24,6 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 @RpcImpl(version = Version.V2_0)
 public interface ChangeListService extends RemoteJsonService {
-  /** Get all changes which match an arbitrary query string. */
-  void allQueryPrev(String query, String pos, int limit,
-      AsyncCallback<SingleListChangeInfo> callback);
-
-  /** Get all changes which match an arbitrary query string. */
-  void allQueryNext(String query, String pos, int limit,
-      AsyncCallback<SingleListChangeInfo> callback);
-
   /** Get the data to show AccountDashboardScreen for an account. */
   void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
 

@@ -39,6 +39,7 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 import java.io.Writer;
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -54,8 +55,8 @@ public class ListChanges {
   @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
   private OutputFormat format = OutputFormat.TEXT;
 
-  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", usage = "Query string")
-  private String query = "status:open";
+  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", multiValued = true, usage = "Query string")
+  private List<String> queries;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "Maximum number of results to return")
   void setLimit(int limit) {
@@ -117,45 +118,55 @@ public class ListChanges {
       throw new QueryParseException("query disabled");
     }
 
-    List<ChangeData> changes = imp.queryChanges(query, defaultField);
-    boolean moreChanges = imp.getLimit() > 0 && changes.size() > imp.getLimit();
-    if (moreChanges) {
-      if (reverse) {
-        changes = changes.subList(1, changes.size());
-      } else {
-        changes = changes.subList(0, imp.getLimit());
-      }
+    if (queries == null) {
+      queries = Collections.singletonList("status:open");
     }
 
-    List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
-    for (ChangeData cd : changes) {
-      info.add(toChangeInfo(cd));
-    }
-    if (moreChanges && !info.isEmpty()) {
-      if (reverse) {
-        info.get(0)._moreChanges = true;
-      } else {
-        info.get(info.size() - 1)._moreChanges = true;
+    List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(queries.size());
+    for (String query : queries) {
+      List<ChangeData> changes = imp.queryChanges(query, defaultField);
+      boolean moreChanges = imp.getLimit() > 0 && changes.size() > imp.getLimit();
+      if (moreChanges) {
+        if (reverse) {
+          changes = changes.subList(1, changes.size());
+        } else {
+          changes = changes.subList(0, imp.getLimit());
+        }
       }
+
+      List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
+      for (ChangeData cd : changes) {
+        info.add(toChangeInfo(cd));
+      }
+      if (moreChanges && !info.isEmpty()) {
+        if (reverse) {
+          info.get(0)._moreChanges = true;
+        } else {
+          info.get(info.size() - 1)._moreChanges = true;
+        }
+      }
+      res.add(info);
     }
 
     if (format.isJson()) {
       format.newGson().toJson(
-          info,
+          res.size() == 1 ? res.get(0) : res,
           new TypeToken<List<ChangeInfo>>() {}.getType(),
           out);
       out.write('\n');
     } else {
-      for (ChangeInfo c : info) {
-        String id = new Change.Key(c.id).abbreviate();
-        String subject = c.subject;
-        if (subject.length() + id.length() > 80) {
-          subject = subject.substring(0, 80 - id.length());
+      for (List<ChangeInfo> info : res) {
+        for (ChangeInfo c : info) {
+          String id = new Change.Key(c.id).abbreviate();
+          String subject = c.subject;
+          if (subject.length() + id.length() > 80) {
+            subject = subject.substring(0, 80 - id.length());
+          }
+          out.write(id);
+          out.write(' ');
+          out.write(subject.replace('\n', ' '));
+          out.write('\n');
         }
-        out.write(id);
-        out.write(' ');
-        out.write(subject.replace('\n', ' '));
-        out.write('\n');
       }
     }
   }

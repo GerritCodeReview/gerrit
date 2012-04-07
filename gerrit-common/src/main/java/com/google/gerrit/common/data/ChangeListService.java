@@ -24,9 +24,6 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 @RpcImpl(version = Version.V2_0)
 public interface ChangeListService extends RemoteJsonService {
-  /** Get the data to show AccountDashboardScreen for an account. */
-  void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
-
   /**
    * Add and/or remove changes from the set of starred changes of the caller.
    *

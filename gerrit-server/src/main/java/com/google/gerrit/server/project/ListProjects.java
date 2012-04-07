@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -100,6 +101,11 @@ public class ListProjects {
   @Option(name = "--all", usage = "display all projects that are accessible by the calling user")
   private boolean all;
 
+  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of projects to list")
+  private int limit;
+
+  private String matchPrefix;
+
   @Inject
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
       GitRepositoryManager repoManager,
@@ -131,6 +137,11 @@ public class ListProjects {
     return this;
   }
 
+  public ListProjects setMatchPrefix(String prefix) {
+    this.matchPrefix = prefix;
+    return this;
+  }
+
   public void display(OutputStream out) {
     final PrintWriter stdout;
     try {
@@ -140,13 +151,14 @@ public class ListProjects {
       throw new RuntimeException("JVM lacks UTF-8 encoding", e);
     }
 
+    int found = 0;
     Map<String, ProjectInfo> output = Maps.newTreeMap();
     Map<String, String> hiddenNames = Maps.newHashMap();
 
     final TreeMap<Project.NameKey, ProjectNode> treeMap =
         new TreeMap<Project.NameKey, ProjectNode>();
     try {
-      for (final Project.NameKey projectName : projectCache.all()) {
+      for (final Project.NameKey projectName : scan()) {
         final ProjectState e = projectCache.get(projectName);
         if (e == null) {
           // If we can't get it from the cache, pretend its not present.
@@ -233,6 +245,10 @@ public class ListProjects {
           continue;
         }
 
+        if (limit > 0 && ++found > limit) {
+          break;
+        }
+
         if (format.isJson()) {
           output.put(info.name, info);
           continue;
@@ -267,6 +283,14 @@ public class ListProjects {
       }
     } finally {
       stdout.flush();
+    }
+  }
+
+  private Iterable<NameKey> scan() {
+    if (matchPrefix != null) {
+      return projectCache.byName(matchPrefix);
+    } else {
+      return projectCache.all();
     }
   }
 

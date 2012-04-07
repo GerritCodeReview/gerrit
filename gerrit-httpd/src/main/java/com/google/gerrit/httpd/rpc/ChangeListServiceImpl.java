@@ -299,10 +299,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void myStarredChangeIds(final AsyncCallback<Set<Change.Id>> callback) {
-    callback.onSuccess(currentUser.get().getStarredChanges());
-  }
-
   private int safePageSize(final int pageSize) throws InvalidQueryException {
     int maxLimit = currentUser.get().getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)

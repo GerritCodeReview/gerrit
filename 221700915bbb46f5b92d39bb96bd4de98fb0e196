@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEgX///3c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectDigestFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-07T03:42:33Z",
+      "side": 1,
+      "message": "You don\u0027t need the p from line 285 anymore?",
+      "revId": "221700915bbb46f5b92d39bb96bd4de98fb0e196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

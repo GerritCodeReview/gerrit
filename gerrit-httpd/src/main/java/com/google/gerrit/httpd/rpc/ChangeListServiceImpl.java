@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.StarredChange;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -297,10 +296,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         return VoidResult.INSTANCE;
       }
     });
-  }
-
-  public void myStarredChangeIds(final AsyncCallback<Set<Change.Id>> callback) {
-    callback.onSuccess(currentUser.get().getStarredChanges());
   }
 
   private int safePageSize(final int pageSize) throws InvalidQueryException {

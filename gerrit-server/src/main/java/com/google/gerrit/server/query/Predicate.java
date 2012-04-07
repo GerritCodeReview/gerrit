@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query;
 
+import com.google.common.collect.Iterables;
 import com.google.gwtorm.server.OrmException;
 
 import java.util.Collection;
@@ -44,23 +45,35 @@ import java.util.List;
 public abstract class Predicate<T> {
   /** Combine the passed predicates into a single AND node. */
   public static <T> Predicate<T> and(final Predicate<T>... that) {
+    if (that.length == 1) {
+      return that[0];
+    }
     return new AndPredicate<T>(that);
   }
 
   /** Combine the passed predicates into a single AND node. */
   public static <T> Predicate<T> and(
       final Collection<? extends Predicate<T>> that) {
+    if (that.size() == 1) {
+      return Iterables.getOnlyElement(that);
+    }
     return new AndPredicate<T>(that);
   }
 
   /** Combine the passed predicates into a single OR node. */
   public static <T> Predicate<T> or(final Predicate<T>... that) {
+    if (that.length == 1) {
+      return that[0];
+    }
     return new OrPredicate<T>(that);
   }
 
   /** Combine the passed predicates into a single OR node. */
   public static <T> Predicate<T> or(
       final Collection<? extends Predicate<T>> that) {
+    if (that.size() == 1) {
+      return Iterables.getOnlyElement(that);
+    }
     return new OrPredicate<T>(that);
   }
 

@@ -303,6 +303,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> starredby(String who)
       throws QueryParseException, OrmException {
+    if ("self".equals(who)) {
+      return new IsStarredByPredicate(args.dbProvider, currentUser);
+    }
     Account account = args.accountResolver.find(who);
     if (account == null) {
       throw error("User " + who + " not found");
@@ -314,6 +317,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> watchedby(String who)
       throws QueryParseException, OrmException {
+    if ("self".equals(who)) {
+      return new IsWatchedByPredicate(args, currentUser);
+    }
     Account account = args.accountResolver.find(who);
     if (account == null) {
       throw error("User " + who + " not found");
@@ -325,6 +331,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> draftby(String who) throws QueryParseException,
       OrmException {
+    if ("self".equals(who)) {
+      if (currentUser instanceof IdentifiedUser) {
+        return new HasDraftByPredicate(args.dbProvider,
+            ((IdentifiedUser) currentUser).getAccountId());
+      } else {
+        throw error("draftby:self not valid for caller");
+      }
+    }
     Account account = args.accountResolver.find(who);
     if (account == null) {
       throw error("User " + who + " not found");
@@ -335,6 +349,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> visibleto(String who)
       throws QueryParseException, OrmException {
+    if ("self".equals(who)) {
+      return is_visible();
+    }
     Account account = args.accountResolver.find(who);
     if (account != null) {
       return visibleto(args.userFactory
@@ -375,6 +392,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> owner(String who) throws QueryParseException,
       OrmException {
+    if ("self".equals(who)) {
+      if (currentUser instanceof IdentifiedUser) {
+        return new OwnerPredicate(
+            args.dbProvider,
+            ((IdentifiedUser) currentUser).getAccountId());
+      } else {
+        throw error("owner:self not valid for caller");
+      }
+    }
     Set<Account.Id> m = args.accountResolver.findAll(who);
     if (m.isEmpty()) {
       throw error("User " + who + " not found");
@@ -403,6 +429,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> reviewer(String who)
       throws QueryParseException, OrmException {
+    if ("self".equals(who)) {
+      if (currentUser instanceof IdentifiedUser) {
+        return new ReviewerPredicate(
+            args.dbProvider,
+            ((IdentifiedUser) currentUser).getAccountId());
+      } else {
+        throw error("reviewer:self not valid for caller");
+      }
+    }
     Set<Account.Id> m = args.accountResolver.findAll(who);
     if (m.isEmpty()) {
       throw error("User " + who + " not found");

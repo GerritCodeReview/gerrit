@@ -444,6 +444,12 @@ limitations under the License.
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.1</version>
+      </dependency>
+
+      <dependency>
         <groupId>gwtorm</groupId>
         <artifactId>gwtorm</artifactId>
         <version>${gwtormVersion}</version>
@@ -822,11 +828,6 @@ limitations under the License.
     <repository>
       <id>java.net-repository</id>
       <url>http://download.java.net/maven/2/</url>
-    </repository>
-
-    <repository>
-      <id>gson</id>
-      <url>https://google-gson.googlecode.com/svn/mavenrepo/</url>
     </repository>
 
     <repository>

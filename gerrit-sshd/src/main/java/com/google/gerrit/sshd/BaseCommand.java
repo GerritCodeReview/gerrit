@@ -60,9 +60,6 @@ public abstract class BaseCommand implements Command {
   static final int STATUS_NOT_FOUND = PRIVATE_STATUS | 2;
   public static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
 
-  @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
-  private boolean help;
-
   @SuppressWarnings("unused")
   @Option(name = "--", usage = "end of options", handler = EndOfOptionsHandler.class)
   private boolean endOfOptions;
@@ -155,28 +152,37 @@ public abstract class BaseCommand implements Command {
    * @see Argument
    */
   protected void parseCommandLine() throws UnloggedFailure {
-    final CmdLineParser clp = newCmdLineParser();
+    parseCommandLine(this);
+  }
+
+  /**
+   * Parses the command line argument, injecting parsed values into fields.
+   * <p>
+   * This method must be explicitly invoked to cause a parse.
+   *
+   * @param options object whose fields declare Option and Argument annotations
+   *        to describe the parameters of the command. Usually {@code this}.
+   * @throws UnloggedFailure if the command line arguments were invalid.
+   * @see Option
+   * @see Argument
+   */
+  protected void parseCommandLine(Object options) throws UnloggedFailure {
+    final CmdLineParser clp = newCmdLineParser(options);
     try {
       clp.parseArgument(argv);
     } catch (IllegalArgumentException err) {
-      if (!help) {
+      if (!clp.wasHelpRequestedByOption()) {
         throw new UnloggedFailure(1, "fatal: " + err.getMessage());
       }
     } catch (CmdLineException err) {
-      if (!help) {
+      if (!clp.wasHelpRequestedByOption()) {
         throw new UnloggedFailure(1, "fatal: " + err.getMessage());
       }
     }
 
-    if (help) {
-      final StringWriter msg = new StringWriter();
-      msg.write(commandName);
-      clp.printSingleLineUsage(msg, null);
-      msg.write('\n');
-
-      msg.write('\n');
-      clp.printUsage(msg, null);
-      msg.write('\n');
+    if (clp.wasHelpRequestedByOption()) {
+      StringWriter msg = new StringWriter();
+      clp.printDetailedUsage(commandName, msg);
       msg.write(usage());
       throw new UnloggedFailure(1, msg.toString());
     }
@@ -187,8 +193,8 @@ public abstract class BaseCommand implements Command {
   }
 
   /** Construct a new parser for this command's received command line. */
-  protected CmdLineParser newCmdLineParser() {
-    return cmdLineParserFactory.create(this);
+  protected CmdLineParser newCmdLineParser(Object options) {
+    return cmdLineParserFactory.create(options);
   }
 
   /**

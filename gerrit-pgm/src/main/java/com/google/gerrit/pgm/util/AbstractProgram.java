@@ -34,9 +34,6 @@ public abstract class AbstractProgram {
   @Option(name = "--show-stack-trace", usage = "display stack trace on failure")
   protected boolean showStackTrace;
 
-  @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
-  private boolean help;
-
   private String getName() {
     String n = getClass().getName();
     int dot = n.lastIndexOf('.');
@@ -52,21 +49,15 @@ public abstract class AbstractProgram {
     try {
       clp.parseArgument(argv);
     } catch (CmdLineException err) {
-      if (!help) {
+      if (!clp.wasHelpRequestedByOption()) {
         System.err.println("fatal: " + err.getMessage());
         return 1;
       }
     }
 
-    if (help) {
-      final StringWriter msg = new StringWriter();
-      msg.write(getName());
-      clp.printSingleLineUsage(msg, null);
-      msg.write('\n');
-
-      msg.write('\n');
-      clp.printUsage(msg, null);
-      msg.write('\n');
+    if (clp.wasHelpRequestedByOption()) {
+      StringWriter msg = new StringWriter();
+      clp.printDetailedUsage(getName(), msg);
       System.err.println(msg.toString());
       return 1;
     }

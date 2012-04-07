@@ -17,12 +17,10 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.ChangeInfo;
-import com.google.gerrit.common.data.SingleListChangeInfo;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
-
 
 public class QueryScreen extends PagedSingleListScreen implements
     ChangeListScreen {
@@ -49,13 +47,15 @@ public class QueryScreen extends PagedSingleListScreen implements
   }
 
   @Override
-  protected AsyncCallback<SingleListChangeInfo> loadCallback() {
-    return new GerritCallback<SingleListChangeInfo>() {
-      public final void onSuccess(final SingleListChangeInfo result) {
+  protected AsyncCallback<ChangeList> loadCallback() {
+    return new GerritCallback<ChangeList>() {
+      @Override
+      public final void onSuccess(ChangeList result) {
         if (isAttached()) {
-          if (result.getChanges().size() == 1 && isSingleQuery(query)) {
-            final ChangeInfo c = result.getChanges().get(0);
-            Gerrit.display(PageLinks.toChange(c), new ChangeScreen(c));
+          if (result.size() == 1 && isSingleQuery(query)) {
+            ChangeInfo c = result.get(0);
+            Change.Id id = c.legacy_id();
+            Gerrit.display(PageLinks.toChange(id), new ChangeScreen(id));
           } else {
             Gerrit.setQueryString(query);
             display(result);
@@ -68,12 +68,12 @@ public class QueryScreen extends PagedSingleListScreen implements
 
   @Override
   protected void loadPrev() {
-    Util.LIST_SVC.allQueryPrev(query, pos, pageSize, loadCallback());
+    ChangeList.prev(query, pageSize, pos, loadCallback());
   }
 
   @Override
   protected void loadNext() {
-    Util.LIST_SVC.allQueryNext(query, pos, pageSize, loadCallback());
+    ChangeList.next(query, pageSize, pos, loadCallback());
   }
 
   private static boolean isSingleQuery(String query) {

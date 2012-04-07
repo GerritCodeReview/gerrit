@@ -16,6 +16,24 @@
       "revId": "221700915bbb46f5b92d39bb96bd4de98fb0e196",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEgn///yE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectDigestFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-07T20:00:36Z",
+      "side": 1,
+      "message": "Not in a modern Gerrit server, no. The /p/ has been optional for a while in the 2.4 lineage (aka master). It doesn\u0027t have to be in the URL we tell the client about.",
+      "parentUuid": "AAAEgX///3c\u003d",
+      "revId": "221700915bbb46f5b92d39bb96bd4de98fb0e196",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

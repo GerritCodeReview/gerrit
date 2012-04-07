@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -55,6 +56,30 @@ public class QueryProcessor {
   private static final Logger log =
       LoggerFactory.getLogger(QueryProcessor.class);
 
+  private final Comparator<ChangeData> cmpAfter =
+      new Comparator<ChangeData>() {
+        @Override
+        public int compare(ChangeData a, ChangeData b) {
+          try {
+            return a.change(db).getSortKey().compareTo(b.change(db).getSortKey());
+          } catch (OrmException e) {
+            return 0;
+          }
+        }
+      };
+
+  private final Comparator<ChangeData> cmpBefore =
+      new Comparator<ChangeData>() {
+        @Override
+        public int compare(ChangeData a, ChangeData b) {
+          try {
+            return b.change(db).getSortKey().compareTo(a.change(db).getSortKey());
+          } catch (OrmException e) {
+            return 0;
+          }
+        }
+      };
+
   public static enum OutputFormat {
     TEXT, JSON;
   }
@@ -71,6 +96,9 @@ public class QueryProcessor {
   private final int maxLimit;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
+  private int limit;
+  private String sortkeyAfter;
+  private String sortkeyBefore;
   private boolean includePatchSets;
   private boolean includeCurrentPatchSet;
   private boolean includeApprovals;
@@ -95,6 +123,22 @@ public class QueryProcessor {
     this.maxLimit = currentUser.getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
+  }
+
+  int getLimit() {
+    return limit;
+  }
+
+  void setLimit(int n) {
+    limit = n;
+  }
+
+  void setSortkeyAfter(String sortkey) {
+    sortkeyAfter = sortkey;
+  }
+
+  void setSortkeyBefore(String sortkey) {
+    sortkeyBefore = sortkey;
   }
 
   public void setIncludePatchSets(boolean on) {
@@ -148,8 +192,13 @@ public class QueryProcessor {
 
   public List<ChangeData> queryChanges(final String queryString)
       throws OrmException, QueryParseException {
+    return queryChanges(queryString, null);
+  }
+
+  public List<ChangeData> queryChanges(String queryString, String defaultField)
+      throws OrmException, QueryParseException {
     final Predicate<ChangeData> visibleToMe = queryBuilder.is_visible();
-    Predicate<ChangeData> s = compileQuery(queryString, visibleToMe);
+    Predicate<ChangeData> s = compileQuery(queryString, defaultField, visibleToMe);
     List<ChangeData> results = new ArrayList<ChangeData>();
     HashSet<Change.Id> want = new HashSet<Change.Id>();
     for (ChangeData d : ((ChangeDataSource) s).read()) {
@@ -175,19 +224,14 @@ public class QueryProcessor {
       }
     }
 
-    Collections.sort(results, new Comparator<ChangeData>() {
-      @Override
-      public int compare(ChangeData a, ChangeData b) {
-        return b.getChange().getSortKey().compareTo(
-            a.getChange().getSortKey());
-      }
-    });
-
+    Collections.sort(results, sortkeyAfter != null ? cmpAfter : cmpBefore);
     int limit = limit(s);
     if (limit < results.size()) {
       results = results.subList(0, limit);
     }
-
+    if (sortkeyAfter != null) {
+      Collections.reverse(results);
+    }
     return results;
   }
 
@@ -196,7 +240,7 @@ public class QueryProcessor {
         new BufferedWriter( //
             new OutputStreamWriter(outputStream, "UTF-8")));
     try {
-      if (maxLimit <= 0) {
+      if (isDisabled()) {
         ErrorMessage m = new ErrorMessage();
         m.message = "query disabled";
         show(m);
@@ -283,19 +327,36 @@ public class QueryProcessor {
     }
   }
 
+  boolean isDisabled() {
+    return maxLimit <= 0;
+  }
+
   private int limit(Predicate<ChangeData> s) {
-    return queryBuilder.hasLimit(s) ? queryBuilder.getLimit(s) : maxLimit;
+    int n = queryBuilder.hasLimit(s) ? queryBuilder.getLimit(s) : maxLimit;
+    return limit > 0 ? Math.min(n, limit) + 1 : n;
   }
 
   @SuppressWarnings("unchecked")
   private Predicate<ChangeData> compileQuery(String queryString,
-      final Predicate<ChangeData> visibleToMe) throws QueryParseException {
+      String defaultField,
+      Predicate<ChangeData> visibleToMe) throws QueryParseException {
 
     Predicate<ChangeData> q = queryBuilder.parse(queryString);
     if (!queryBuilder.hasSortKey(q)) {
-      q = Predicate.and(q, queryBuilder.sortkey_before("z"));
+      if (sortkeyBefore != null) {
+        q = Predicate.and(q, queryBuilder.sortkey_before(sortkeyBefore));
+      } else if (sortkeyAfter != null) {
+        q = Predicate.and(q, queryBuilder.sortkey_after(sortkeyAfter));
+      } else {
+        q = Predicate.and(q, queryBuilder.sortkey_before("z"));
+      }
     }
-    q = Predicate.and(q, queryBuilder.limit(maxLimit), visibleToMe);
+    if (!Strings.isNullOrEmpty(defaultField)) {
+      q = Predicate.and(queryBuilder.defaultField(defaultField), q);
+    }
+    q = Predicate.and(q,
+        queryBuilder.limit(limit > 0 ? Math.min(limit, maxLimit) + 1 : maxLimit),
+        visibleToMe);
 
     Predicate<ChangeData> s = queryRewriter.rewrite(q);
     if (!(s instanceof ChangeDataSource)) {
@@ -303,7 +364,7 @@ public class QueryProcessor {
     }
 
     if (!(s instanceof ChangeDataSource)) {
-      throw new QueryParseException("cannot execute query: " + s);
+      throw new QueryParseException("invalid query: " + s);
     }
 
     return s;

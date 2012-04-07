@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
@@ -57,6 +58,7 @@ public class ChangeData {
   private Collection<PatchLineComment> comments;
   private Collection<TrackingId> trackingIds;
   private CurrentUser visibleTo;
+  private ChangeControl changeControl;
   private List<ChangeMessage> messages;
 
   public ChangeData(final Change.Id id) {
@@ -125,8 +127,13 @@ public class ChangeData {
     return visibleTo == user;
   }
 
-  void cacheVisibleTo(CurrentUser user) {
-    visibleTo = user;
+  ChangeControl changeControl() {
+    return changeControl;
+  }
+
+  void cacheVisibleTo(ChangeControl ctl) {
+    visibleTo = ctl.getCurrentUser();
+    changeControl = ctl;
   }
 
   public Change change(Provider<ReviewDb> db) throws OrmException {

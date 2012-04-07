@@ -50,7 +50,7 @@ limitations under the License.
     <gwtormVersion>1.4</gwtormVersion>
     <gwtjsonrpcVersion>1.2.5</gwtjsonrpcVersion>
     <gwtexpuiVersion>1.2.5</gwtexpuiVersion>
-    <gwtVersion>2.3.0</gwtVersion>
+    <gwtVersion>2.4.0</gwtVersion>
     <slf4jVersion>1.6.1</slf4jVersion>
     <guiceVersion>3.0</guiceVersion>
     <jettyVersion>7.2.1.v20101111</jettyVersion>
@@ -363,7 +363,7 @@ limitations under the License.
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>gwt-maven-plugin</artifactId>
-          <version>2.3.0</version>
+          <version>2.4.0</version>
         </plugin>
 
         <plugin>

@@ -15,12 +15,9 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.ChangeTable.ApprovalViewType;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.common.data.ChangeInfo;
-import com.google.gerrit.common.data.SingleListChangeInfo;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.History;
@@ -28,19 +25,16 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
-import java.util.List;
-
-
 public abstract class PagedSingleListScreen extends Screen {
   protected static final String MIN_SORTKEY = "";
   protected static final String MAX_SORTKEY = "z";
 
   protected final int pageSize;
-  private ChangeTable table;
-  private ChangeTable.Section section;
+  private ChangeTable2 table;
+  private ChangeTable2.Section section;
   protected Hyperlink prev;
   protected Hyperlink next;
-  protected List<ChangeInfo> changes;
+  protected ChangeList changes;
 
   protected final String anchorPrefix;
   protected boolean useLoadPrev;
@@ -71,7 +65,7 @@ public abstract class PagedSingleListScreen extends Screen {
     next = new Hyperlink(Util.C.pagedChangeListNext(), true, "");
     next.setVisible(false);
 
-    table = new ChangeTable(true) {
+    table = new ChangeTable2() {
       {
         keysNavigation.add(new DoLinkCommand(0, 'p', Util.C
             .changeTablePagePrev(), prev));
@@ -79,8 +73,7 @@ public abstract class PagedSingleListScreen extends Screen {
             .changeTablePageNext(), next));
       }
     };
-    section = new ChangeTable.Section(null, ApprovalViewType.STRONGEST, null);
-
+    section = new ChangeTable2.Section();
     table.addSection(section);
     table.setSavePointerId(anchorPrefix);
     add(table);
@@ -112,36 +105,33 @@ public abstract class PagedSingleListScreen extends Screen {
 
   protected abstract void loadNext();
 
-  protected AsyncCallback<SingleListChangeInfo> loadCallback() {
-    return new ScreenLoadCallback<SingleListChangeInfo>(this) {
+  protected AsyncCallback<ChangeList> loadCallback() {
+    return new ScreenLoadCallback<ChangeList>(this) {
       @Override
-      protected void preDisplay(final SingleListChangeInfo result) {
+      protected void preDisplay(ChangeList result) {
         display(result);
       }
     };
   }
 
-  protected void display(final SingleListChangeInfo result) {
-    changes = result.getChanges();
-
+  protected void display(final ChangeList result) {
+    changes = result;
     if (!changes.isEmpty()) {
       final ChangeInfo f = changes.get(0);
       final ChangeInfo l = changes.get(changes.size() - 1);
 
-      prev.setTargetHistoryToken(anchorPrefix + ",p," + f.getSortKey());
-      next.setTargetHistoryToken(anchorPrefix + ",n," + l.getSortKey());
+      prev.setTargetHistoryToken(anchorPrefix + ",p," + f._sortkey());
+      next.setTargetHistoryToken(anchorPrefix + ",n," + l._sortkey());
 
       if (useLoadPrev) {
-        prev.setVisible(!result.isAtEnd());
+        prev.setVisible(f._more_changes());
         next.setVisible(!MIN_SORTKEY.equals(pos));
       } else {
         prev.setVisible(!MAX_SORTKEY.equals(pos));
-        next.setVisible(!result.isAtEnd());
+        next.setVisible(l._more_changes());
       }
     }
-
-    table.setAccountInfoCache(result.getAccounts());
-    section.display(result.getChanges());
+    section.display(result);
     table.finishDisplay();
   }
 

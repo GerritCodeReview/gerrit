@@ -27,6 +27,18 @@ import java.util.List;
 public class ChangeList extends NativeList<ChangeInfo> {
   private static final String URI = "/changes/";
 
+  /** Run 2 or more queries in a single remote invocation. */
+  @SuppressWarnings("unchecked")
+  public static void query(
+      AsyncCallback<NativeList<ChangeList>> callback, String... queries) {
+    assert queries.length >= 2; // At least 2 is required for correct result.
+    RestApi call = new RestApi(URI);
+    for (String q : queries) {
+      call.addParameterRaw("q", KeyUtil.encode(q));
+    }
+    call.send(callback);
+  }
+
   public static void prev(String query,
       int limit, String sortkey,
       AsyncCallback<ChangeList> callback) {

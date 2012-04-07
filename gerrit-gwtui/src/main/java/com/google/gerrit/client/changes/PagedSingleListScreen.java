@@ -131,6 +131,7 @@ public abstract class PagedSingleListScreen extends Screen {
         next.setVisible(l._more_changes());
       }
     }
+    table.updateColumnsForLabels(result);
     section.display(result);
     table.finishDisplay();
   }

@@ -27,6 +27,13 @@ public class NativeList<T extends JavaScriptObject> extends JavaScriptObject {
   public final List<T> asList() {
     return new AbstractList<T>() {
       @Override
+      public T set(int index, T element) {
+        T old = NativeList.this.get(index);
+        NativeList.this.set0(index, element);
+        return old;
+      }
+
+      @Override
       public T get(int index) {
         return NativeList.this.get(index);
       }
@@ -44,4 +51,5 @@ public class NativeList<T extends JavaScriptObject> extends JavaScriptObject {
 
   public final native int size() /*-{ return this.length; }-*/;
   public final native T get(int i) /*-{ return this[i]; }-*/;
+  private final native void set0(int i, T v) /*-{ this[i] = v; }-*/;
 }

@@ -16,14 +16,11 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
-
-import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface ChangeListService extends RemoteJsonService {
@@ -37,10 +34,6 @@ public interface ChangeListService extends RemoteJsonService {
 
   /** Get the data to show AccountDashboardScreen for an account. */
   void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
-
-  /** Get the ids of all changes starred by the caller. */
-  @SignInRequired
-  void myStarredChangeIds(AsyncCallback<Set<Change.Id>> callback);
 
   /**
    * Add and/or remove changes from the set of starred changes of the caller.

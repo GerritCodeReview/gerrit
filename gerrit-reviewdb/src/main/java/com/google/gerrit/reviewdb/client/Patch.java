@@ -82,7 +82,10 @@ public final class Patch {
     RENAMED('R'),
 
     /** Path was copied from {@link Patch#getSourceFileName()}. */
-    COPIED('C');
+    COPIED('C'),
+
+    /** Sufficient amount of content changed to claim the file was written. */
+    REWRITE('W');
 
     private final char code;
 

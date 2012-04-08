@@ -80,6 +80,10 @@ public class RestApi {
     return addParameterRaw(name, String.valueOf(value));
   }
 
+  public RestApi addParameter(String name, Enum<?> value) {
+    return addParameterRaw(name, value.name());
+  }
+
   public RestApi addParameterRaw(String name, String value) {
     if (hasQueryParams) {
       url.append("&");

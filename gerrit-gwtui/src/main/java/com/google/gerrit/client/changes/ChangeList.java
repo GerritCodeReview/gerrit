@@ -16,8 +16,11 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
+
+import java.util.EnumSet;
 
 /** List of changes available from {@code /changes/}. */
 public class ChangeList extends NativeList<ChangeInfo> {
@@ -31,6 +34,7 @@ public class ChangeList extends NativeList<ChangeInfo> {
     for (String q : queries) {
       call.addParameterRaw("q", KeyUtil.encode(q));
     }
+    addOptions(call, ListChangesOption.LABELS);
     call.send(callback);
   }
 
@@ -41,6 +45,7 @@ public class ChangeList extends NativeList<ChangeInfo> {
     if (limit > 0) {
       call.addParameter("n", limit);
     }
+    addOptions(call, ListChangesOption.LABELS);
     if (!PagedSingleListScreen.MIN_SORTKEY.equals(sortkey)) {
       call.addParameter("P", sortkey);
     }
@@ -54,10 +59,17 @@ public class ChangeList extends NativeList<ChangeInfo> {
     if (limit > 0) {
       call.addParameter("n", limit);
     }
+    addOptions(call, ListChangesOption.LABELS);
     if (!PagedSingleListScreen.MAX_SORTKEY.equals(sortkey)) {
       call.addParameter("N", sortkey);
     }
     call.send(callback);
+  }
+
+  private static void addOptions(
+      RestApi call, ListChangesOption option1, ListChangesOption... options) {
+    EnumSet<ListChangesOption> s = EnumSet.of(option1, options);
+    call.addParameterRaw("O", Integer.toHexString(ListChangesOption.toBits(s)));
   }
 
   private static RestApi newQuery(String query) {

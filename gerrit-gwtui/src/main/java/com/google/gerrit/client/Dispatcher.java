@@ -58,6 +58,7 @@ import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
+import com.google.gerrit.client.changes.CustomDashboardScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
@@ -361,8 +362,13 @@ public class Dispatcher {
   }
 
   private static void dashboard(final String token) {
-    Gerrit.display(token, //
-        new AccountDashboardScreen(Account.Id.parse(skip(token))));
+    String rest = skip(token);
+    if (rest.matches("[0-9]+")) {
+      Gerrit.display(token, new AccountDashboardScreen(Account.Id.parse(rest)));
+      return;
+    }
+
+    Gerrit.display(token, new CustomDashboardScreen(rest));
   }
 
   private static void change(final String token) {

@@ -197,10 +197,6 @@ Query for open changes of watched projects:
     "owner": {
       "name": "John Doe"
     },
-    "labels": {
-      "Verified": {},
-      "Code-Review": {}
-    }
   },
   {
     "project": "demo",
@@ -214,10 +210,6 @@ Query for open changes of watched projects:
     "_number": 1757,
     "owner": {
       "name": "John Doe"
-    },
-    "labels": {
-      "Verified": {},
-      "Code-Review": {}
     },
     "_more_changes": true
   }
@@ -240,7 +232,7 @@ arrays, one per query in the same order the queries were given in.
 
 Query that retrieves changes for a user's dashboard:
 ----
-  GET /changes/?format=JSON&q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5 HTTP/1.0
+  GET /changes/?format=JSON&q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS HTTP/1.0
 
   HTTP/1.1 200 OK
   Content-Disposition: attachment
@@ -271,6 +263,127 @@ Query that retrieves changes for a user's dashboard:
     ],
     [],
     []
+  ]
+----
+
+Additional fields can be obtained by adding `o` parameters, each
+option requires more database lookups and slows down the query
+response time to the client so they are generally disabled by
+default. Optional fields are:
+
+* `LABELS`: a summary of each label required for submit, and
+  approvers that have granted (or rejected) with that label.
+
+* `CURRENT_REVISION`: describe the current revision (patch set)
+  of the change, including the commit SHA-1 and URLs to fetch from.
+
+* `ALL_REVISIONS`: describe all revisions, not just current.
+
+* `CURRENT_COMMIT`: parse and output all header fields from the
+  commit object, including message. Only valid when the current
+  revision or all revisions are selected.
+
+* `ALL_COMMITS`: parse and output all header fields from the
+  output revisions. If only `CURRENT_REVISION` was requested
+  then only the current revision's commit data will be output.
+
+* `CURRENT_FILES`: list files modified by the commit, including
+  basic line counts inserted/deleted per file. Only valid when
+  the current revision or all revisions are selected.
+
+* `ALL_FILES`: list files modified by the commit, including
+  basic line counts inserted/deleted per file. If only the
+  `CURRENT_REVISION` was requested the only that commit's
+  modified files will be output.
+
+----
+  GET /changes/?q=97&format=JSON&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "project": "gerrit",
+      "branch": "master",
+      "id": "I7ea46d2e2ee5c64c0d807677859cfb7d90b8966a",
+      "subject": "Use an EventBus to manage star icons",
+      "status": "NEW",
+      "created": "2012-04-25 00:52:25.580000000",
+      "updated": "2012-04-25 00:52:25.586000000",
+      "_sortkey": "001c9bf400000061",
+      "_number": 97,
+      "owner": {
+        "name": "Shawn Pearce"
+      },
+      "current_revision": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "revisions": {
+        "184ebe53805e102605d11f6b143486d15c23a09c": {
+          "_number": 1,
+          "fetch": {
+            "git": {
+              "url": "git://localhost/gerrit",
+              "ref": "refs/changes/97/97/1"
+            },
+            "http": {
+              "url": "http://127.0.0.1:8080/gerrit",
+              "ref": "refs/changes/97/97/1"
+            }
+          },
+          "commit": {
+            "parents": [
+              {
+                "commit": "1eee2c9d8f352483781e772f35dc586a69ff5646",
+                "subject": "Migrate contributor agreements to All-Projects."
+              }
+            ],
+            "author": {
+              "name": "Shawn O. Pearce",
+              "email": "sop@google.com",
+              "date": "2012-04-24 18:08:08.000000000",
+              "tz": -420
+            },
+            "committer": {
+              "name": "Shawn O. Pearce",
+              "email": "sop@google.com",
+              "date": "2012-04-24 18:08:08.000000000",
+              "tz": -420
+            },
+            "subject": "Use an EventBus to manage star icons",
+            "message": "Use an EventBus to manage star icons\n\nImage widgets that need to ..."
+          },
+          "files": {
+            "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeCache.java": {
+              "lines_deleted": 8
+            },
+            "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeDetailCache.java": {
+              "lines_inserted": 1
+            },
+            "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java": {
+              "lines_inserted": 11,
+              "lines_deleted": 19
+            },
+            "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java": {
+              "lines_inserted": 23,
+              "lines_deleted": 20
+            },
+            "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarCache.java": {
+              "status": "D",
+              "lines_deleted": 139
+            },
+            "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/StarredChanges.java": {
+              "status": "A",
+              "lines_inserted": 204
+            },
+            "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java": {
+              "lines_deleted": 9
+            }
+          }
+        }
+      }
+    }
   ]
 ----
 

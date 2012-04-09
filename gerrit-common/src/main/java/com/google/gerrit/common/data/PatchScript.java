@@ -14,15 +14,12 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.EditList;
-import com.google.gerrit.prettify.common.PrettyFormatter;
 import com.google.gerrit.prettify.common.SparseFileContent;
-import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 
 import org.eclipse.jgit.diff.Edit;
@@ -165,36 +162,6 @@ public class PatchScript {
 
   public SparseFileContent getB() {
     return b;
-  }
-
-  public SparseHtmlFile getSparseHtmlFileA() {
-    AccountDiffPreference dp = new AccountDiffPreference(diffPrefs);
-    dp.setShowWhitespaceErrors(false);
-
-    PrettyFormatter f = ClientSideFormatter.FACTORY.get();
-    f.setDiffPrefs(dp);
-    f.setFileName(a.getPath());
-    f.setEditFilter(PrettyFormatter.A);
-    f.setEditList(edits);
-    f.format(a);
-    return f;
-  }
-
-  public SparseHtmlFile getSparseHtmlFileB() {
-    AccountDiffPreference dp = new AccountDiffPreference(diffPrefs);
-
-    PrettyFormatter f = ClientSideFormatter.FACTORY.get();
-    f.setDiffPrefs(dp);
-    f.setFileName(b.getPath());
-    f.setEditFilter(PrettyFormatter.B);
-    f.setEditList(edits);
-
-    if (dp.isSyntaxHighlighting() && a.isWholeFile() && !b.isWholeFile()) {
-      f.format(b.apply(a, edits));
-    } else {
-      f.format(b);
-    }
-    return f;
   }
 
   public List<Edit> getEdits() {

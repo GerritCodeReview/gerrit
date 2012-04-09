@@ -89,8 +89,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void render(final PatchScript script) {
-    a = script.getSparseHtmlFileA();
-    b = script.getSparseHtmlFileB();
+    a = getSparseHtmlFileA(script);
+    b = getSparseHtmlFileB(script);
     final ArrayList<Object> lines = new ArrayList<Object>();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
     final boolean intraline =

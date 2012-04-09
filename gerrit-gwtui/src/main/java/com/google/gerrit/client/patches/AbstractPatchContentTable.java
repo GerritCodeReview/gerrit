@@ -26,7 +26,11 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.prettify.client.ClientSideFormatter;
+import com.google.gerrit.prettify.common.PrettyFormatter;
 import com.google.gerrit.prettify.common.SparseFileContent;
+import com.google.gerrit.prettify.common.SparseHtmlFile;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -169,6 +173,36 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     idSideB = b;
 
     render(s);
+  }
+
+  protected SparseHtmlFile getSparseHtmlFileA(PatchScript s) {
+    AccountDiffPreference dp = new AccountDiffPreference(s.getDiffPrefs());
+    dp.setShowWhitespaceErrors(false);
+
+    PrettyFormatter f = ClientSideFormatter.FACTORY.get();
+    f.setDiffPrefs(dp);
+    f.setFileName(s.getA().getPath());
+    f.setEditFilter(PrettyFormatter.A);
+    f.setEditList(s.getEdits());
+    f.format(s.getA());
+    return f;
+  }
+
+  protected SparseHtmlFile getSparseHtmlFileB(PatchScript s) {
+    AccountDiffPreference dp = new AccountDiffPreference(s.getDiffPrefs());
+
+    PrettyFormatter f = ClientSideFormatter.FACTORY.get();
+    f.setDiffPrefs(dp);
+    f.setFileName(s.getB().getPath());
+    f.setEditFilter(PrettyFormatter.B);
+    f.setEditList(s.getEdits());
+
+    if (dp.isSyntaxHighlighting() && s.getA().isWholeFile() && !s.getB().isWholeFile()) {
+      f.format(s.getB().apply(s.getA(), s.getEdits()));
+    } else {
+      f.format(s.getB());
+    }
+    return f;
   }
 
   protected abstract void render(PatchScript script);

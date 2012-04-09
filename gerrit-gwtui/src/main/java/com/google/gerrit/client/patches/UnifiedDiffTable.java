@@ -95,8 +95,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   @Override
   protected void render(final PatchScript script) {
-    final SparseHtmlFile a = script.getSparseHtmlFileA();
-    final SparseHtmlFile b = script.getSparseHtmlFileB();
+    final SparseHtmlFile a = getSparseHtmlFileA(script);
+    final SparseHtmlFile b = getSparseHtmlFileB(script);
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
 
     // Display the patch header

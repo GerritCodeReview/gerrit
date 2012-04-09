@@ -24,11 +24,11 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.ServerUnavailableException;
+import com.google.gwtjsonrpc.common.JsonConstants;
 
 /** Abstract callback handling generic error conditions automatically */
 public abstract class GerritCallback<T> implements AsyncCallback<T> {
@@ -70,7 +70,7 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
 
   private static boolean isInvalidXSRF(final Throwable caught) {
     return caught instanceof InvocationException
-        && caught.getMessage().equals(JsonUtil.ERROR_INVALID_XSRF);
+        && caught.getMessage().equals(JsonConstants.ERROR_INVALID_XSRF);
   }
 
   private static boolean isNotSignedIn(final Throwable caught) {

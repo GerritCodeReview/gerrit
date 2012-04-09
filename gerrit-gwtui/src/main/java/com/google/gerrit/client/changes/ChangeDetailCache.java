@@ -18,7 +18,7 @@ import com.google.gerrit.client.ui.ListenableValue;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.client.Change;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.FocusWidget;
 
 public class ChangeDetailCache extends ListenableValue<ChangeDetail> {

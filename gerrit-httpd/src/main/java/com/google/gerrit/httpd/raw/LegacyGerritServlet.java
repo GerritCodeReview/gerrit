@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

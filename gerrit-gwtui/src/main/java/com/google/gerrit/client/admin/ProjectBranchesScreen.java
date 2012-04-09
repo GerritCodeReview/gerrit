@@ -17,11 +17,11 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.HintTextBox;
-import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
@@ -226,7 +226,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
-      if (Gerrit.getConfig().getGitwebLink() != null) {
+      if (Gerrit.getGitwebLink() != null) {
         fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
       }
     }
@@ -293,7 +293,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
     }
 
     void populate(final int row, final Branch k) {
-      final GitwebLink c = Gerrit.getConfig().getGitwebLink();
+      final GitwebLink c = Gerrit.getGitwebLink();
 
       if (k.getCanDelete()) {
         table.setWidget(row, 1, new CheckBox());

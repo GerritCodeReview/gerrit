@@ -33,7 +33,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.common.VoidResult;
 
 public class StarCache implements HasValueChangeHandlers<Boolean> {
   public class KeyCommand extends NeedsSignInKeyCommand {

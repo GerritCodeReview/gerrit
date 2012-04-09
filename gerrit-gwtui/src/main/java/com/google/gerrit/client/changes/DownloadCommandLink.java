@@ -18,11 +18,11 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.common.VoidResult;
 
 abstract class DownloadCommandLink extends Anchor implements ClickHandler {
   final AccountGeneralPreferences.DownloadCommand cmdType;

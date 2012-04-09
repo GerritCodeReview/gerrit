@@ -15,10 +15,10 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtexpui.safehtml.client.RegexFindReplace;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
-import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.ArrayList;
 import java.util.Collections;

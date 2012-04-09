@@ -23,11 +23,11 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Patch.Key;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
-import com.google.gwtjsonrpc.client.RpcImpl;
-import com.google.gwtjsonrpc.client.RpcImpl.Version;
-import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwtjsonrpc.common.RemoteJsonService;
+import com.google.gwtjsonrpc.common.RpcImpl;
+import com.google.gwtjsonrpc.common.VoidResult;
+import com.google.gwtjsonrpc.common.RpcImpl.Version;
 
 import java.util.List;
 import java.util.Set;

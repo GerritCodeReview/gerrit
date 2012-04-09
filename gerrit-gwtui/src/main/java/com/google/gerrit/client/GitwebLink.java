@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.data;
+package com.google.gerrit.client;
 
+import com.google.gerrit.common.data.GitWebType;
+import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -28,12 +30,9 @@ public class GitwebLink {
 
   protected GitWebType type;
 
-  protected GitwebLink() {
-  }
-
-  public GitwebLink(final String base, final GitWebType gitWebType) {
-    baseUrl = base;
-    type = gitWebType;
+  public GitwebLink(com.google.gerrit.common.data.GitwebConfig link) {
+    baseUrl = link.baseUrl;
+    type = link.type;
   }
 
   public String getLinkName() {

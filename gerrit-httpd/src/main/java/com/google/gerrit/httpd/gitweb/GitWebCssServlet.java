@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.gitweb;
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

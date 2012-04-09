@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

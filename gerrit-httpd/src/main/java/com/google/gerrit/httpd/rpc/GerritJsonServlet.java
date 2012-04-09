@@ -18,7 +18,7 @@ import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gson.GsonBuilder;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtorm.server.OrmException;

@@ -16,9 +16,9 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.GitwebLink;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -110,7 +110,7 @@ public class ProjectAccessEditor extends Composite implements
       inheritsFrom.getStyle().setDisplay(Display.NONE);
     }
 
-    final GitwebLink c = Gerrit.getConfig().getGitwebLink();
+    final GitwebLink c = Gerrit.getGitwebLink();
     if (value.isConfigVisible() && c != null) {
       history.getStyle().setDisplay(Display.BLOCK);
       gitweb.setText(c.getLinkName());

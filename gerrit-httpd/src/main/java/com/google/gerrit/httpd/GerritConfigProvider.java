@@ -16,7 +16,7 @@ package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.GerritConfig;
-import com.google.gerrit.common.data.GitwebLink;
+import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -127,7 +127,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setEditableAccountFields(fields);
 
     if (gitWebConfig.getUrl() != null) {
-      config.setGitwebLink(new GitwebLink(gitWebConfig.getUrl(), gitWebConfig
+      config.setGitwebLink(new GitwebConfig(gitWebConfig.getUrl(), gitWebConfig
           .getGitWebType()));
     }
 

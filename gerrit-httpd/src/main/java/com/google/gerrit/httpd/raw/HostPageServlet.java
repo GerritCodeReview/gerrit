@@ -22,7 +22,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.gwtexpui.linker.server.Permutation;
 import com.google.gwtexpui.linker.server.PermutationSelector;
 import com.google.gwtjsonrpc.server.JsonServlet;

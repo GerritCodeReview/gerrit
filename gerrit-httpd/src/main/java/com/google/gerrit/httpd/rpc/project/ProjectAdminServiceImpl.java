@@ -22,8 +22,8 @@ import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.common.data.ProjectList;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;

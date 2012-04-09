@@ -29,6 +29,7 @@ import com.google.gerrit.common.ClientVersion;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.reviewdb.client.Account;
@@ -209,6 +210,11 @@ public class Gerrit implements EntryPoint {
   /** Get the public configuration data used by this Gerrit instance. */
   public static GerritConfig getConfig() {
     return myConfig;
+  }
+
+  public static GitwebLink getGitwebLink() {
+    GitwebConfig gw = getConfig().getGitwebLink();
+    return gw != null ? new GitwebLink(gw) : null;
   }
 
   /** Site theme information (site specific colors)/ */

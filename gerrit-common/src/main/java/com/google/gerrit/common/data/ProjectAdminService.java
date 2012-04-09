@@ -17,11 +17,11 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
-import com.google.gwtjsonrpc.client.RpcImpl;
-import com.google.gwtjsonrpc.client.RpcImpl.Version;
-import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwtjsonrpc.common.RemoteJsonService;
+import com.google.gwtjsonrpc.common.RpcImpl;
+import com.google.gwtjsonrpc.common.VoidResult;
+import com.google.gwtjsonrpc.common.RpcImpl.Version;
 
 import java.util.List;
 import java.util.Set;

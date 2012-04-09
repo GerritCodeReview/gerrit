@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEgn///v4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GitwebLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-04-09T16:14:09Z",
+      "side": 1,
+      "message": "Import?",
+      "revId": "684d82288fd19548b8567c5090b26fc0e3067e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

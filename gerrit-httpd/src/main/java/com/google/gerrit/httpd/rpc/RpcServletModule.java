@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.rpc;
 
-import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.inject.Key;
 import com.google.inject.Scopes;
 import com.google.inject.internal.UniqueAnnotations;

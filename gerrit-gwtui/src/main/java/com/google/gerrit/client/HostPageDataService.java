@@ -15,11 +15,11 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.common.data.HostPageData;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.HostPageCache;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
-import com.google.gwtjsonrpc.client.RpcImpl;
-import com.google.gwtjsonrpc.client.RpcImpl.Version;
+import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwtjsonrpc.common.HostPageCache;
+import com.google.gwtjsonrpc.common.RemoteJsonService;
+import com.google.gwtjsonrpc.common.RpcImpl;
+import com.google.gwtjsonrpc.common.RpcImpl.Version;
 
 @RpcImpl(version = Version.V2_0)
 interface HostPageDataService extends RemoteJsonService {

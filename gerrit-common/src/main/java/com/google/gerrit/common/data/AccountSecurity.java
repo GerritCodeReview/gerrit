@@ -20,11 +20,11 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gerrit.reviewdb.client.ContributorAgreement;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
-import com.google.gwtjsonrpc.client.RpcImpl;
-import com.google.gwtjsonrpc.client.RpcImpl.Version;
-import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwtjsonrpc.common.RemoteJsonService;
+import com.google.gwtjsonrpc.common.RpcImpl;
+import com.google.gwtjsonrpc.common.VoidResult;
+import com.google.gwtjsonrpc.common.RpcImpl.Version;
 
 import java.util.List;
 import java.util.Set;

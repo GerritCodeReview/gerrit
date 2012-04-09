@@ -20,7 +20,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.SingleListChangeInfo;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 

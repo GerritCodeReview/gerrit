@@ -25,7 +25,7 @@ import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.tools.ToolsCatalog.Entry;
-import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

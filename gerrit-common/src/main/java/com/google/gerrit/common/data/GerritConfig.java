@@ -29,7 +29,7 @@ public class GerritConfig implements Cloneable {
   protected String httpPasswordUrl;
   protected List<OpenIdProviderPattern> allowedOpenIDs;
 
-  protected GitwebLink gitweb;
+  protected GitwebConfig gitweb;
   protected boolean useContributorAgreements;
   protected boolean useContactInfo;
   protected boolean allowRegisterNewEmail;
@@ -86,11 +86,11 @@ public class GerritConfig implements Cloneable {
     downloadSchemes = s;
   }
 
-  public GitwebLink getGitwebLink() {
+  public GitwebConfig getGitwebLink() {
     return gitweb;
   }
 
-  public void setGitwebLink(final GitwebLink w) {
+  public void setGitwebLink(final GitwebConfig w) {
     gitweb = w;
   }
 

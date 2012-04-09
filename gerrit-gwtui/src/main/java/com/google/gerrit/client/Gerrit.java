@@ -211,6 +211,10 @@ public class Gerrit implements EntryPoint {
     return myConfig;
   }
 
+  public static GitwebLink getGitwebLink() {
+    return new GitwebLink(getConfig().getGitwebLink());
+  }
+
   /** Site theme information (site specific colors)/ */
   public static HostPageData.Theme getTheme() {
     return myTheme;

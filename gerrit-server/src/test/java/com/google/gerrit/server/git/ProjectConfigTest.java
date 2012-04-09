@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -43,6 +44,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
   private final GroupReference developers = new GroupReference(
@@ -70,10 +72,27 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
             + "  exclusiveGroupPermissions = read submit create\n" //
             + "  submit = group Developers\n" //
             + "  push = group Developers\n" //
-            + "  read = group Developers\n")) //
+            + "  read = group Developers\n" //
+            + "[contributor-agreement \"Individual\"]\n" //
+            + "  description = A simple description\n" //
+            + "  accepted = group Developers\n" //
+            + "  accepted = group Staff\n" //
+            + "  requireContactInformation = true\n" //
+            + "  autoVerify = group Developers\n" //
+            + "  agreementUrl = http://www.example.com/agree\n")) //
         ));
 
     ProjectConfig cfg = read(rev);
+    ContributorAgreement ca = cfg.getContributorAgreement("Individual");
+    assertEquals("Individual", ca.getName());
+    assertEquals("A simple description", ca.getDescription());
+    assertEquals("http://www.example.com/agree", ca.getAgreementUrl());
+    assertEquals(2, ca.getAccepted().size());
+    assertEquals(developers, ca.getAccepted().get(0).getGroup());
+    assertEquals("Staff", ca.getAccepted().get(1).getGroup().getName());
+    assertEquals("Developers", ca.getAutoVerify().getName());
+    assertTrue(ca.isRequireContactInformation());
+
     AccessSection section = cfg.getAccessSection("refs/heads/*");
     assertNotNull("has refs/heads/*", section);
     assertNull("no refs/*", cfg.getAccessSection("refs/*"));
@@ -98,7 +117,13 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
             + "  exclusiveGroupPermissions = read submit\n" //
             + "  submit = group Developers\n" //
             + "  upload = group Developers\n" //
-            + "  read = group Developers\n")) //
+            + "  read = group Developers\n" //
+            + "[contributor-agreement \"Individual\"]\n" //
+            + "  description = A simple description\n" //
+            + "  accepted = group Developers\n" //
+            + "  requireContactInformation = true\n" //
+            + "  autoVerify = group Developers\n" //
+            + "  agreementUrl = http://www.example.com/agree\n")) //
         ));
     update(rev);
 
@@ -106,6 +131,11 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
     AccessSection section = cfg.getAccessSection("refs/heads/*");
     Permission submit = section.getPermission(Permission.SUBMIT);
     submit.add(new PermissionRule(cfg.resolve(staff)));
+    ContributorAgreement ca = cfg.getContributorAgreement("Individual");
+    ca.setRequireContactInformation(false);
+    ca.setAccepted(Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
+    ca.setAutoVerify(null);
+    ca.setDescription("A new description");
     rev = commit(cfg);
     assertEquals(""//
         + "[access \"refs/heads/*\"]\n" //
@@ -114,6 +144,10 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         + "\tsubmit = group Staff\n" //
         + "  upload = group Developers\n" //
         + "  read = group Developers\n"//
+        + "[contributor-agreement \"Individual\"]\n" //
+        + "  description = A new description\n" //
+        + "  accepted = group Staff\n" //
+        + "  agreementUrl = http://www.example.com/agree\n" //
         + "[project]\n"//
         + "\tstate = active\n", text(rev, "project.config"));
   }

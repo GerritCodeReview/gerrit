@@ -39,6 +39,16 @@ public class GlobalCapability {
   /** Can create any project on the server. */
   public static final String CREATE_PROJECT = "createProject";
 
+  /**
+   * Denotes who may email change reviewers.
+   * <p>
+   * This can be used to deny build bots from emailing reviewers and people who
+   * have starred the changed. Instead, only the authors of the change will be
+   * emailed. The allow rules are evaluated before deny rules, however the
+   * default is to allow emailing, if no explicit rule is matched.
+   */
+  public static final String EMAIL_REVIEWERS = "emailReviewers";
+
   /** Can flush any cache except the active web_sessions cache. */
   public static final String FLUSH_CACHES = "flushCaches";
 
@@ -71,6 +81,7 @@ public class GlobalCapability {
     NAMES_LC.add(CREATE_ACCOUNT.toLowerCase());
     NAMES_LC.add(CREATE_GROUP.toLowerCase());
     NAMES_LC.add(CREATE_PROJECT.toLowerCase());
+    NAMES_LC.add(EMAIL_REVIEWERS.toLowerCase());
     NAMES_LC.add(FLUSH_CACHES.toLowerCase());
     NAMES_LC.add(KILL_TASK.toLowerCase());
     NAMES_LC.add(PRIORITY.toLowerCase());

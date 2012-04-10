@@ -15,11 +15,14 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PeerDaemonUser;
@@ -45,6 +48,7 @@ public class CapabilityControl {
   private final Map<String, List<PermissionRule>> effective;
 
   private Boolean canAdministrateServer;
+  private Boolean canEmailReviewers;
 
   @Inject
   CapabilityControl(ProjectCache projectCache, @Assisted CurrentUser currentUser) {
@@ -62,7 +66,7 @@ public class CapabilityControl {
   public boolean canAdministrateServer() {
     if (canAdministrateServer == null) {
       canAdministrateServer = user instanceof PeerDaemonUser
-          || matchAny(capabilities.administrateServer);
+          || matchAny(capabilities.administrateServer, ALLOWED_RULE);
     }
     return canAdministrateServer;
   }
@@ -83,6 +87,17 @@ public class CapabilityControl {
   public boolean canCreateProject() {
     return canPerform(GlobalCapability.CREATE_PROJECT)
       || canAdministrateServer();
+  }
+
+  /** @return true if the user can email reviewers. */
+  public boolean canEmailReviewers() {
+    if (canEmailReviewers == null) {
+      canEmailReviewers =
+          matchAny(capabilities.emailReviewers, ALLOWED_RULE)
+          || !matchAny(capabilities.emailReviewers, Predicates.not(ALLOWED_RULE));
+
+    }
+    return canEmailReviewers;
   }
 
   /** @return true if the user can kill any running task. */
@@ -222,8 +237,16 @@ public class CapabilityControl {
     return mine;
   }
 
-  private boolean matchAny(List<PermissionRule> rules) {
-    Iterable<AccountGroup.UUID> ids = Iterables.transform(rules,
+  private static final Predicate<PermissionRule> ALLOWED_RULE = new Predicate<PermissionRule>() {
+    @Override
+    public boolean apply(PermissionRule rule) {
+      return rule.getAction() == Action.ALLOW;
+    }
+  };
+
+  private boolean matchAny(Iterable<PermissionRule> rules, Predicate<PermissionRule> predicate) {
+    Iterable<AccountGroup.UUID> ids = Iterables.transform(
+        Iterables.filter(rules, predicate),
         new Function<PermissionRule, AccountGroup.UUID>() {
           @Override
           public AccountGroup.UUID apply(PermissionRule rule) {

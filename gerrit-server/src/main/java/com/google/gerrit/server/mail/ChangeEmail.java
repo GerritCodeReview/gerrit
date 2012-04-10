@@ -70,19 +70,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
     /** Is the from user in an email squelching group? */
     final IdentifiedUser user =  args.identifiedUserFactory.create(id);
-    if (!user.getCapabilities().canEmailReviewers()) {
-      emailOnlyAuthors = true;
-    } else {
-      // TODO(cranger): remove once the schema is migrated in the next patch.
-      final Set<AccountGroup.UUID> gids = user.getEffectiveGroups().getKnownGroups();
-      for (final AccountGroup.UUID gid : gids) {
-        AccountGroup group = args.groupCache.get(gid);
-        if (group != null && group.isEmailOnlyAuthors()) {
-          emailOnlyAuthors = true;
-          break;
-        }
-      }
-    }
+    emailOnlyAuthors = !user.getCapabilities().canEmailReviewers();
   }
 
   public void setPatchSet(final PatchSet ps) {

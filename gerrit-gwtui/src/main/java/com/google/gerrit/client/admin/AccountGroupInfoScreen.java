@@ -70,9 +70,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   private Button externalNameSearch;
   private Grid externalMatches;
 
-  private Panel groupOptionsPanel;
   private CheckBox visibleToAllCheckBox;
-  private CheckBox emailOnlyAuthors;
   private Button saveGroupOptions;
 
   public AccountGroupInfoScreen(final GroupDetail toShow, final String token) {
@@ -100,7 +98,6 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     externalNameFilter.setEnabled(canModify);
     externalNameSearch.setEnabled(canModify);
     visibleToAllCheckBox.setEnabled(canModify);
-    emailOnlyAuthors.setEnabled(canModify);
   }
 
   private void initUUID() {
@@ -207,20 +204,14 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
   }
 
   private void initGroupOptions() {
-    groupOptionsPanel = new VerticalPanel();
-    groupOptionsPanel.setStyleName(Gerrit.RESOURCES.css().groupOptionsPanel());
-    groupOptionsPanel.add(new SmallHeading(Util.C.headingGroupOptions()));
-
-    visibleToAllCheckBox = new CheckBox(Util.C.isVisibleToAll());
-    groupOptionsPanel.add(visibleToAllCheckBox);
-
-    emailOnlyAuthors = new CheckBox(Util.C.emailOnlyAuthors());
+    final VerticalPanel groupOptionsPanel = new VerticalPanel();
 
     final VerticalPanel vp = new VerticalPanel();
-    vp.setStyleName(Gerrit.RESOURCES.css()
-        .groupOptionsNotificationsDescriptionPanel());
-    vp.add(new Label(Util.C.descriptionNotifications()));
-    vp.add(emailOnlyAuthors);
+    vp.setStyleName(Gerrit.RESOURCES.css().groupOptionsPanel());
+    vp.add(new SmallHeading(Util.C.headingGroupOptions()));
+
+    visibleToAllCheckBox = new CheckBox(Util.C.isVisibleToAll());
+    vp.add(visibleToAllCheckBox);
     groupOptionsPanel.add(vp);
 
     saveGroupOptions = new Button(Util.C.buttonSaveGroupOptions());
@@ -229,8 +220,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
       @Override
       public void onClick(final ClickEvent event) {
         final GroupOptions groupOptions =
-            new GroupOptions(visibleToAllCheckBox.getValue(),
-              emailOnlyAuthors.getValue());
+            new GroupOptions(visibleToAllCheckBox.getValue());
         Util.GROUP_SVC.changeGroupOptions(getGroupId(), groupOptions,
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
@@ -245,7 +235,6 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
 
     final OnEditEnabler enabler = new OnEditEnabler(saveGroupOptions);
     enabler.listenTo(visibleToAllCheckBox);
-    enabler.listenTo(emailOnlyAuthors);
   }
 
   private void initGroupType() {
@@ -460,7 +449,6 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     descTxt.setText(group.getDescription());
 
     visibleToAllCheckBox.setValue(group.isVisibleToAll());
-    emailOnlyAuthors.setValue(group.isEmailOnlyAuthors());
 
     switch (group.getType()) {
       case LDAP:

@@ -34,6 +34,7 @@ public class CapabilityCollection {
   private final Map<String, List<PermissionRule>> permissions;
 
   public final List<PermissionRule> administrateServer;
+  public final List<PermissionRule> emailReviewers;
   public final List<PermissionRule> priority;
   public final List<PermissionRule> queryLimit;
 
@@ -46,14 +47,17 @@ public class CapabilityCollection {
         new HashMap<String, List<PermissionRule>>();
     for (Permission permission : section.getPermissions()) {
       for (PermissionRule rule : permission.getRules()) {
-        if (rule.getAction() != PermissionRule.Action.DENY) {
-          List<PermissionRule> r = tmp.get(permission.getName());
-          if (r == null) {
-            r = new ArrayList<PermissionRule>(2);
-            tmp.put(permission.getName(), r);
-          }
-          r.add(rule);
+        if (!permission.getName().equals(GlobalCapability.EMAIL_REVIEWERS)
+            && rule.getAction() == PermissionRule.Action.DENY) {
+          continue;
         }
+
+        List<PermissionRule> r = tmp.get(permission.getName());
+        if (r == null) {
+          r = new ArrayList<PermissionRule>(2);
+          tmp.put(permission.getName(), r);
+        }
+        r.add(rule);
       }
     }
     configureDefaults(tmp, section);
@@ -72,6 +76,7 @@ public class CapabilityCollection {
     permissions = Collections.unmodifiableMap(res);
 
     administrateServer = getPermission(GlobalCapability.ADMINISTRATE_SERVER);
+    emailReviewers = getPermission(GlobalCapability.EMAIL_REVIEWERS);
     priority = getPermission(GlobalCapability.PRIORITY);
     queryLimit = getPermission(GlobalCapability.QUERY_LIMIT);
   }

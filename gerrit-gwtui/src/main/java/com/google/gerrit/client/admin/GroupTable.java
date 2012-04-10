@@ -32,6 +32,8 @@ import java.util.List;
 
 
 public class GroupTable extends NavigationTable<AccountGroup> {
+  private static final int NUM_COLS = 5;
+
   private final boolean enableLink;
 
   public GroupTable(final boolean enableLink) {
@@ -52,8 +54,7 @@ public class GroupTable extends NavigationTable<AccountGroup> {
     table.setText(0, 2, Util.C.columnGroupDescription());
     table.setText(0, 3, Util.C.headingOwner());
     table.setText(0, 4, Util.C.columnGroupType());
-    table.setText(0, 5, Util.C.columnGroupNotifications());
-    table.setText(0, 6, Util.C.columnGroupVisibleToAll());
+    table.setText(0, 5, Util.C.columnGroupVisibleToAll());
     table.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -66,12 +67,9 @@ public class GroupTable extends NavigationTable<AccountGroup> {
     });
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
-    fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
-    fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
-    fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
-    fmt.addStyleName(0, 5, Gerrit.RESOURCES.css().dataHeader());
-    fmt.addStyleName(0, 6, Gerrit.RESOURCES.css().dataHeader());
+    for (int i = 1; i <= NUM_COLS; i++) {
+      fmt.addStyleName(0, i, Gerrit.RESOURCES.css().dataHeader());
+    }
   }
 
   @Override
@@ -107,21 +105,15 @@ public class GroupTable extends NavigationTable<AccountGroup> {
     table.setText(row, 2, k.getDescription());
     table.setText(row, 3, detail.ownerGroup.getName());
     table.setText(row, 4, k.getType().toString());
-    if (k.isEmailOnlyAuthors()) {
-      table.setWidget(row, 5, new Image(Gerrit.RESOURCES.greenCheck()));
-    }
     if (k.isVisibleToAll()) {
-      table.setWidget(row, 6, new Image(Gerrit.RESOURCES.greenCheck()));
+      table.setWidget(row, 5, new Image(Gerrit.RESOURCES.greenCheck()));
     }
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().groupName());
-    fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
-    fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
-    fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
-    fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
-    fmt.addStyleName(row, 6, Gerrit.RESOURCES.css().dataCell());
+    for (int i = 1; i <= NUM_COLS; i++) {
+      fmt.addStyleName(row, i, Gerrit.RESOURCES.css().dataCell());
+    }
 
     setRowItem(row, k);
   }

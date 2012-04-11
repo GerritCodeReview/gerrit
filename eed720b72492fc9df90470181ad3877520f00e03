@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAErX////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T08:59:20Z",
+      "side": 1,
+      "message": "[optional] This is now the third class with this name and I\u0027m starting to confuse them. \n\nOther classes with this name:\n  com.google.gerrit.common.data.ProjectInfo\n  com.google.gerrit.server.project.ListProjects.ProjectInfo (introduced by [1])\n\nWill we in the end get rid of the old com.google.gerrit.common.data.ProjectInfo?\n\n[1] https://gerrit-review.googlesource.com/34490",
+      "revId": "eed720b72492fc9df90470181ad3877520f00e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T08:59:20Z",
+      "side": 1,
+      "message": "I\u0027m getting an exception here, when I\u0027m on the MyWatchedProjectScreen and I\u0027m clicking on the \u0027Browse\u0027 button.\n\njava.lang.UnsupportedOperationException: null\n \tat java.util.AbstractList.set(AbstractList.java:115)\n \tat java.util.AbstractList$ListItr.set(AbstractList.java:412)\n \tat java.util.Collections.sort(Collections.java:163)\n \tat com.google.gerrit.client.ui.ProjectsTable.display(ProjectsTable.java:101)\n \tat com.google.gerrit.client.account.MyWatchedProjectsScreen$12.onSuccess(MyWatchedProjectsScreen.java:367)\n \tat com.google.gerrit.client.account.MyWatchedProjectsScreen$12.onSuccess(MyWatchedProjectsScreen.java:1)\n \tat com.google.gerrit.client.rpc.TransformCallback.onSuccess(TransformCallback.java:29)\n \tat com.google.gerrit.client.rpc.RestApi$1.onResponseReceived(RestApi.java:133)\n \tat com.google.gwt.http.client.Request.fireOnResponseReceived(Request.java:287)\n \tat com.google.gwt.http.client.RequestBuilder$1.onReadyStateChange(RequestBuilder.java:395)\n \tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n  ...",
+      "revId": "eed720b72492fc9df90470181ad3877520f00e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -33,6 +33,24 @@
       "revId": "eed720b72492fc9df90470181ad3877520f00e03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX////I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T09:13:30Z",
+      "side": 1,
+      "message": "The same exception I\u0027m getting when trying to browse the project list: Admin -\u003e Projects.",
+      "parentUuid": "AAAErX////U\u003d",
+      "revId": "eed720b72492fc9df90470181ad3877520f00e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

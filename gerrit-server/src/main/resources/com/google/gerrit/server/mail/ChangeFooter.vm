@@ -31,7 +31,8 @@
 ## The ChangeFooter.vm template will determine the contents of the footer
 ## text that will be appended to ALL emails related to changes.
 ##
---
+#set ($SPACE = " ")
+--$SPACE
 #if ($email.changeUrl)
 To view, visit $email.changeUrl
 #set ($notblank = 1)

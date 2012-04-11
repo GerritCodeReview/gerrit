@@ -117,6 +117,9 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
                   .annotatedWith(GerritPersonIdent.class) //
                   .toProvider(GerritPersonIdentProvider.class);
 
+              bind(AllProjectsName.class)
+                  .toInstance(new AllProjectsName("All-Projects"));
+
               bind(GitRepositoryManager.class) //
                   .to(LocalDiskRepositoryManager.class);
             }

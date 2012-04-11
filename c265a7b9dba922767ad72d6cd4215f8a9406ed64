@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAErX////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T07:46:25Z",
+      "side": 1,
+      "message": "s/by time by/time by",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T07:46:25Z",
+      "side": 1,
+      "message": "s/the field is only are present/a field is only present",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T07:46:25Z",
+      "side": 1,
+      "message": "Isn\u0027t it needed to also specify the user and password with \u0027-u user:pass\u0027?",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupListScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T07:46:25Z",
+      "side": 1,
+      "message": "Since result.isCanCreateGroup() is now not used anymore, can it be removed (together with the corresponding setter method)? Or are you just keeping it for being backward compatible?",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T07:46:25Z",
+      "side": 1,
+      "message": "Since result.canCreateProject() is now not used anymore, can it be removed (together with the corresponding setter method)? Or are you just keeping it for being backward compatible?",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX////k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountCapabilitiesServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T07:46:25Z",
+      "side": 1,
+      "message": "[optional] It looks like some of the code here is similar to the code in ListProjectsServlet.\n\n  impl \u003d factory.get();\n  if (acceptsJson(req)) {\n    impl.format \u003d OutputFormat.JSON_COMPACT;\n  }\n  if (paramParser.parse(impl, req, res)) {\n    ...\n    ByteArrayOutputStream buf \u003d new ByteArrayOutputStream();\n    if (impl.getFormat().isJson()) {\n      res.setContentType(JSON_TYPE);\n      buf.write(JSON_MAGIC);\n      ...\n    } else {\n      res.setContentType(\"text/plain\");\n     ...\n    }   \n    res.setCharacterEncoding(\"UTF-8\");\n    send(req, res, buf.toByteArray());\n  }\n\nI\u0027m wondering if this code will be needed for every further REST end point that we want to offer. Would it make sense to factor this out?",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX////o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountCapabilitiesServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T07:46:25Z",
+      "side": 1,
+      "message": "[optional] Move this line down, right before the send(...) in line 101. Then you don\u0027t need to do the same in the else block and the code is more consistent with ListProjectsServlet.",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

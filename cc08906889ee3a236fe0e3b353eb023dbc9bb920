@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAErX////M\u003d",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T09:25:12Z",
+      "side": 1,
+      "message": "Having an example for this new functionality is good, but shouldn\u0027t it be also mentioned anywhere in the HTTP explanation text above?",
+      "revId": "cc08906889ee3a236fe0e3b353eb023dbc9bb920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX////A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T09:25:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure that it is a good idea to include the description like this. We have projects with quite long descriptions and then it starts to look really ugly. Maybe it should only show the first part of the description followed by \u0027...\u0027 if the description exceeds a certain length?",
+      "revId": "cc08906889ee3a236fe0e3b353eb023dbc9bb920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

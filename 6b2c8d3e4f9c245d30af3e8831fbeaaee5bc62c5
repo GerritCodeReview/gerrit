@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAErX////Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-11T09:29:12Z",
+      "side": 1,
+      "message": "Also ProjectAdminService.suggestParentCandidates is removed in this change but it\u0027s not mentioned in the commit message.",
+      "revId": "6b2c8d3e4f9c245d30af3e8831fbeaaee5bc62c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

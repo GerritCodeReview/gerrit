@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAErX///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-12T13:13:05Z",
+      "side": 1,
+      "message": "[optional] Should we print out something here to visualize that now the result for the next query starts (e.g. a blank line)?",
+      "revId": "f2733c66c3074c02d27b7836fd0e30770de539c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEs3////U\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GlobalCapability.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-12T03:59:52Z",
+      "side": 1,
+      "message": "To be precise, it also emails those who have starred the change.",
+      "revId": "3177c91dfae6cb4c86c8369a5facc81b62405460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -113,10 +113,7 @@ public interface AccountConstants extends Constants {
   String agreementStatus();
   String agreementName();
   String agreementDescription();
-  String agreementAccepted();
   String agreementStatus_EXPIRED();
-  String agreementStatus_NEW();
-  String agreementStatus_REJECTED();
   String agreementStatus_VERIFIED();
 
   String newAgreementSelectTypeHeading();

@@ -49,9 +49,6 @@ public interface ReviewDb extends Schema {
   @Relation(id = 4)
   ApprovalCategoryValueAccess approvalCategoryValues();
 
-  @Relation(id = 5)
-  ContributorAgreementAccess contributorAgreements();
-
   @Relation(id = 6)
   AccountAccess accounts();
 
@@ -60,9 +57,6 @@ public interface ReviewDb extends Schema {
 
   @Relation(id = 8)
   AccountSshKeyAccess accountSshKeys();
-
-  @Relation(id = 9)
-  AccountAgreementAccess accountAgreements();
 
   @Relation(id = 10)
   AccountGroupAccess accountGroups();
@@ -81,9 +75,6 @@ public interface ReviewDb extends Schema {
 
   @Relation(id = 15)
   AccountGroupIncludeAuditAccess accountGroupIncludesAudit();
-
-  @Relation(id = 16)
-  AccountGroupAgreementAccess accountGroupAgreements();
 
   @Relation(id = 17)
   AccountDiffPreferenceAccess accountDiffPreferences();

@@ -14,16 +14,15 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.data.SystemInfoService;
-import com.google.gerrit.reviewdb.client.ContributorAgreement;
-import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -34,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,32 +44,31 @@ class SystemInfoServiceImpl implements SystemInfoService {
 
   private static final JSch JSCH = new JSch();
 
-  private final SchemaFactory<ReviewDb> schema;
   private final List<HostKey> hostKeys;
   private final Provider<HttpServletRequest> httpRequest;
   private final Provider<GerritConfig> config;
+  private final ProjectCache projectCache;
 
   @Inject
-  SystemInfoServiceImpl(final SchemaFactory<ReviewDb> sf, final SshInfo daemon,
-      final Provider<HttpServletRequest> hsr, Provider<GerritConfig> cfg) {
-    schema = sf;
+  SystemInfoServiceImpl(final SshInfo daemon,
+      final Provider<HttpServletRequest> hsr, final Provider<GerritConfig> cfg,
+      final ProjectCache pc) {
     hostKeys = daemon.getHostKeys();
     httpRequest = hsr;
     config = cfg;
+    projectCache = pc;
   }
 
   public void contributorAgreements(
       final AsyncCallback<List<ContributorAgreement>> callback) {
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        callback.onSuccess(db.contributorAgreements().active().toList());
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      callback.onFailure(e);
+    Collection<ContributorAgreement> agreements =
+        projectCache.getAllProjects().getConfig().getContributorAgreements();
+    List<ContributorAgreement> cas =
+        Lists.newArrayListWithCapacity(agreements.size());
+    for (ContributorAgreement ca : agreements) {
+      cas.add(ca.forUi());
     }
+    callback.onSuccess(cas);
   }
 
   public void daemonHostKeys(final AsyncCallback<List<SshHostKey>> callback) {

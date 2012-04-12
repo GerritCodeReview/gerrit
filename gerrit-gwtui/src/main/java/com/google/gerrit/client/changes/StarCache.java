@@ -96,6 +96,7 @@ public class StarCache implements HasValueChangeHandlers<Boolean> {
     set(!get());
   }
 
+  @SuppressWarnings("unchecked")
   public Image createStar() {
     final Image star = new Image(getResource());
     star.setVisible(Gerrit.isSignedIn());
@@ -107,6 +108,7 @@ public class StarCache implements HasValueChangeHandlers<Boolean> {
       }
     });
 
+    @SuppressWarnings("rawtypes")
     ValueChangeHandler starUpdater = new ValueChangeHandler() {
         @Override
         public void onValueChange(ValueChangeEvent event) {

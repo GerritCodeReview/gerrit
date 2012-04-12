@@ -125,6 +125,7 @@ public final class DataSourceProvider implements Provider<DataSource>,
           b.append(port(optional(cfg, "port")));
           b.append("/");
           b.append(required(cfg, "database"));
+          b.append("?characterSetResults=utf8&characterEncoding=utf8&connectionCollation=utf8_unicode_ci");
           url = b.toString();
           break;
         }

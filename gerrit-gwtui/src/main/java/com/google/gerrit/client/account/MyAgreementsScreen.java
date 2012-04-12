@@ -21,10 +21,7 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AgreementInfo;
-import com.google.gerrit.reviewdb.client.AbstractAgreement;
-import com.google.gerrit.reviewdb.client.AccountAgreement;
-import com.google.gerrit.reviewdb.client.AccountGroupAgreement;
-import com.google.gerrit.reviewdb.client.ContributorAgreement;
+import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -52,16 +49,15 @@ public class MyAgreementsScreen extends SettingsScreen {
     });
   }
 
-  private class AgreementTable extends FancyFlexTable<AbstractAgreement> {
+  private class AgreementTable extends FancyFlexTable<ContributorAgreement> {
     AgreementTable() {
       table.setWidth("");
       table.setText(0, 1, Util.C.agreementStatus());
       table.setText(0, 2, Util.C.agreementName());
       table.setText(0, 3, Util.C.agreementDescription());
-      table.setText(0, 4, Util.C.agreementAccepted());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      for (int c = 1; c <= 4; c++) {
+      for (int c = 1; c < 4; c++) {
         fmt.addStyleName(0, c, Gerrit.RESOURCES.css().dataHeader());
       }
     }
@@ -70,37 +66,22 @@ public class MyAgreementsScreen extends SettingsScreen {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final AccountAgreement k : result.userAccepted) {
-        addOne(result, k);
-      }
-      for (final AccountGroupAgreement k : result.groupAccepted) {
+      for (final String k : result.accepted) {
         addOne(result, k);
       }
     }
 
-    void addOne(final AgreementInfo info, final AbstractAgreement k) {
+    void addOne(final AgreementInfo info, final String k) {
       final int row = table.getRowCount();
       table.insertRow(row);
       applyDataRowStyle(row);
 
-      final ContributorAgreement cla = info.agreements.get(k.getAgreementId());
+      final ContributorAgreement cla = info.agreements.get(k);
       final String statusName;
-      if (cla == null || !cla.isActive()) {
+      if (cla == null) {
         statusName = Util.C.agreementStatus_EXPIRED();
       } else {
-        switch (k.getStatus()) {
-          case NEW:
-            statusName = Util.C.agreementStatus_NEW();
-            break;
-          case REJECTED:
-            statusName = Util.C.agreementStatus_REJECTED();
-            break;
-          case VERIFIED:
-            statusName = Util.C.agreementStatus_VERIFIED();
-            break;
-          default:
-            statusName = k.getStatus().name();
-        }
+        statusName = Util.C.agreementStatus_VERIFIED();
       }
       table.setText(row, 1, statusName);
 
@@ -110,28 +91,20 @@ public class MyAgreementsScreen extends SettingsScreen {
       } else {
         final String url = cla.getAgreementUrl();
         if (url != null && url.length() > 0) {
-          final Anchor a = new Anchor(cla.getShortName(), url);
+          final Anchor a = new Anchor(cla.getName(), url);
           a.setTarget("_blank");
           table.setWidget(row, 2, a);
         } else {
-          table.setText(row, 2, cla.getShortName());
+          table.setText(row, 2, cla.getName());
         }
-        table.setText(row, 3, cla.getShortDescription());
+        table.setText(row, 3, cla.getDescription());
       }
-
-      final SafeHtmlBuilder b = new SafeHtmlBuilder();
-      b.append(FormatUtil.mediumFormat(k.getAcceptedOn()));
-      b.br();
-      b.append(FormatUtil.mediumFormat(k.getReviewedOn()));
-      SafeHtml.set(table, row, 4, b);
-
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      for (int c = 1; c <= 4; c++) {
+      for (int c = 1; c < 4; c++) {
         fmt.addStyleName(row, c, Gerrit.RESOURCES.css().dataCell());
       }
-      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().cLastUpdate());
 
-      setRowItem(row, k);
+      setRowItem(row, cla);
     }
   }
 }

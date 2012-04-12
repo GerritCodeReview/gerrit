@@ -66,6 +66,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServlet;
@@ -79,6 +80,7 @@ class GitWebServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(GitWebServlet.class);
 
+  private final HTMLReplaceProcessor htmlReplaceProcessor;
   private final Set<String> deniedActions;
   private final int bufferSize = 8192;
   private final File gitwebCgi;
@@ -93,13 +95,15 @@ class GitWebServlet extends HttpServlet {
       final ProjectControl.Factory projectControl,
       final Provider<AnonymousUser> anonymousUserProvider,
       final SitePaths site,
-      final GerritConfig gerritConfig, final GitWebConfig gitWebConfig)
+      final GerritConfig gerritConfig, final GitWebConfig gitWebConfig,
+      final HTMLReplaceProcessor htmlReplaceProcessor)
       throws IOException {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
     this.anonymousUserProvider = anonymousUserProvider;
     this.gitwebCgi = gitWebConfig.getGitwebCGI();
     this.deniedActions = new HashSet<String>();
+    this.htmlReplaceProcessor = htmlReplaceProcessor;
 
     final String url = gitWebConfig.getUrl();
     if ((url != null) && (!url.equals("gitweb"))) {
@@ -433,18 +437,26 @@ class GitWebServlet extends HttpServlet {
 
       in = new BufferedInputStream(proc.getInputStream(), bufferSize);
       try {
-        readCgiHeaders(rsp, in);
+        Properties headers = new Properties();
+        readCgiHeaders(rsp, in, headers);
 
-        final OutputStream out = rsp.getOutputStream();
-        try {
-          final byte[] buf = new byte[bufferSize];
-          int n;
-          while ((n = in.read(buf)) > 0) {
-            out.write(buf, 0, n);
+        String contentType = headers.getProperty("Content-Type");
+        if (contentType != null && contentType.indexOf("html") > 0) {
+          htmlReplaceProcessor.processStreams(in, rsp.getOutputStream(),
+              "UTF-8");
+        } else {
+          final OutputStream out = rsp.getOutputStream();
+          try {
+            final byte[] buf = new byte[bufferSize];
+            int n;
+            while ((n = in.read(buf)) > 0) {
+              out.write(buf, 0, n);
+            }
+          } finally {
+            out.close();
           }
-        } finally {
-          out.close();
         }
+
       } finally {
         in.close();
       }
@@ -624,7 +636,7 @@ class GitWebServlet extends HttpServlet {
     return req.getHeaderNames();
   }
 
-  private void readCgiHeaders(HttpServletResponse res, final InputStream in)
+  private void readCgiHeaders(HttpServletResponse res, final InputStream in, Properties headers)
       throws IOException {
     String line;
     while (!(line = readLine(in)).isEmpty()) {
@@ -642,6 +654,8 @@ class GitWebServlet extends HttpServlet {
 
       final String key = line.substring(0, sep).trim();
       final String value = line.substring(sep + 1).trim();
+
+      headers.put(key, value);
       if ("Location".equalsIgnoreCase(key)) {
         res.sendRedirect(value);
 

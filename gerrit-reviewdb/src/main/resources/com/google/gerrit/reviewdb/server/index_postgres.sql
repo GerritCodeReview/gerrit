@@ -88,11 +88,6 @@ ON accounts (full_name);
 
 
 -- *********************************************************************
--- AccountAgreementAccess
---    @PrimaryKey covers: byAccount
-
-
--- *********************************************************************
 -- AccountExternalIdAccess
 --    covers:             byAccount
 CREATE INDEX account_external_ids_byAccount
@@ -101,12 +96,6 @@ ON account_external_ids (account_id);
 --    covers:             byEmailAddress, suggestByEmailAddress
 CREATE INDEX account_external_ids_byEmail
 ON account_external_ids (email_address);
-
-
--- *********************************************************************
--- AccountGroupAccess
-CREATE INDEX account_groups_ownedByGroup
-ON account_groups (owner_group_id);
 
 
 -- *********************************************************************
@@ -213,13 +202,6 @@ WHERE change_open = 'N';
 -- *********************************************************************
 -- ChangeMessageAccess
 --    @PrimaryKey covers: byChange
-
-
--- *********************************************************************
--- ContributorAgreementAccess
---    covers:             active
-CREATE INDEX contributor_agreements_active
-ON contributor_agreements (active, short_name);
 
 
 -- *********************************************************************

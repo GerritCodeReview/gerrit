@@ -17,17 +17,18 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /** Portion of a {@link Project} describing a single contributor agreement. */
 public class ContributorAgreement implements Comparable<ContributorAgreement> {
-  private String name;
-  private String description;
-  private boolean active = true;
-  private List<PermissionRule> accepted;
-  private boolean requireContactInformation;
-  private GroupReference autoVerify;
-  private String agreementUrl;
+  protected String name;
+  protected String description;
+  protected boolean active = true;
+  protected List<PermissionRule> accepted;
+  protected boolean requireContactInformation;
+  protected GroupReference autoVerify;
+  protected String agreementUrl;
 
   protected ContributorAgreement() {
   }
@@ -103,5 +104,18 @@ public class ContributorAgreement implements Comparable<ContributorAgreement> {
   @Override
   public String toString() {
     return "ContributorAgreement[" + getName() + "]";
+  }
+
+  public ContributorAgreement forUi() {
+    ContributorAgreement ca = new ContributorAgreement(name);
+    ca.description = description;
+    ca.active = active;
+    ca.accepted = Collections.emptyList();
+    ca.requireContactInformation = requireContactInformation;
+    if (autoVerify != null) {
+      ca.autoVerify = new GroupReference();
+    }
+    ca.agreementUrl = agreementUrl ;
+    return ca;
   }
 }

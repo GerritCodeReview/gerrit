@@ -15,7 +15,6 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.SignInRequired;
-import com.google.gerrit.reviewdb.client.ContributorAgreement;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.common.RemoteJsonService;

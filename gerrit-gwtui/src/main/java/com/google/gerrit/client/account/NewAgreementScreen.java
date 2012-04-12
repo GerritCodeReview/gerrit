@@ -22,10 +22,8 @@ import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AgreementInfo;
+import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountAgreement;
-import com.google.gerrit.reviewdb.client.AccountGroupAgreement;
-import com.google.gerrit.reviewdb.client.ContributorAgreement;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -53,7 +51,7 @@ import java.util.Set;
 
 public class NewAgreementScreen extends AccountScreen {
   private final String nextToken;
-  private Set<ContributorAgreement.Id> mySigned;
+  private Set<String> mySigned;
   private List<ContributorAgreement> available;
   private ContributorAgreement current;
 
@@ -83,13 +81,7 @@ public class NewAgreementScreen extends AccountScreen {
     Util.ACCOUNT_SVC.myAgreements(new GerritCallback<AgreementInfo>() {
       public void onSuccess(AgreementInfo result) {
         if (isAttached()) {
-          mySigned = new HashSet<ContributorAgreement.Id>();
-          for (AccountAgreement a : result.userAccepted) {
-            mySigned.add(a.getAgreementId());
-          }
-          for (AccountGroupAgreement a : result.groupAccepted) {
-            mySigned.add(a.getAgreementId());
-          }
+          mySigned = new HashSet<String>(result.accepted);
           postRPC();
         }
       }
@@ -176,11 +168,11 @@ public class NewAgreementScreen extends AccountScreen {
     radios.add(hdr);
 
     for (final ContributorAgreement cla : available) {
-      final RadioButton r = new RadioButton("cla_id", cla.getShortName());
+      final RadioButton r = new RadioButton("cla_id", cla.getName());
       r.addStyleName(Gerrit.RESOURCES.css().contributorAgreementButton());
       radios.add(r);
 
-      if (mySigned.contains(cla.getId())) {
+      if (mySigned.contains(cla.getName())) {
         r.setEnabled(false);
         final Label l = new Label(Util.C.newAgreementAlreadySubmitted());
         l.setStyleName(Gerrit.RESOURCES.css().contributorAgreementAlreadySubmitted());
@@ -194,9 +186,8 @@ public class NewAgreementScreen extends AccountScreen {
         });
       }
 
-      if (cla.getShortDescription() != null
-          && !cla.getShortDescription().equals("")) {
-        final Label l = new Label(cla.getShortDescription());
+      if (cla.getDescription() != null && !cla.getDescription().equals("")) {
+        final Label l = new Label(cla.getDescription());
         l.setStyleName(Gerrit.RESOURCES.css().contributorAgreementShortDescription());
         radios.add(l);
       }
@@ -231,7 +222,7 @@ public class NewAgreementScreen extends AccountScreen {
   }
 
   private void doEnterAgreement() {
-    Util.ACCOUNT_SEC.enterAgreement(current.getId(),
+    Util.ACCOUNT_SEC.enterAgreement(current.getName(),
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
             Gerrit.display(nextToken);
@@ -284,8 +275,9 @@ public class NewAgreementScreen extends AccountScreen {
       contactGroup.add(contactPanel);
       contactPanel.hideSaveButton();
     }
-    contactGroup.setVisible(cla.isRequireContactInformation());
-    finalGroup.setVisible(true);
+    contactGroup.setVisible(
+        cla.isRequireContactInformation() && cla.getAutoVerify() != null);
+    finalGroup.setVisible(cla.getAutoVerify() != null);
     yesIAgreeBox.setText("");
     submit.setEnabled(false);
   }

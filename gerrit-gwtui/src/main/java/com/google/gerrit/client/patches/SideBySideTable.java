@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -375,7 +376,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
       offset = 1;
     }
     for (int i = 0 + offset; i < loopTo + offset; i++) {
-      insertRow(row + i);
+      // The overridden version of insertRow adds some css classes we don't
+      // want.
+      super.insertRow(row + i);
+      table.getRowFormatter().setVerticalAlign(row + i,
+          HasVerticalAlignment.ALIGN_TOP);
       int lineA = line.getStartA() + i;
       int lineB = line.getStartB() + i;
       if (numRows < 0) {

@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
+import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
@@ -25,12 +26,13 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountAgreement;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
+import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.ContactInformation;
-import com.google.gerrit.reviewdb.client.ContributorAgreement;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -42,12 +44,14 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.ClearPassword;
 import com.google.gerrit.server.account.GeneratePassword;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -68,6 +72,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final ContactStore contactStore;
   private final AuthConfig authConfig;
   private final Realm realm;
+  private final ProjectCache projectCache;
   private final Provider<IdentifiedUser> user;
   private final EmailTokenVerifier emailTokenVerifier;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
@@ -85,12 +90,13 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final MyGroupsFactory.Factory myGroupsFactory;
 
   private final ChangeHooks hooks;
+  private final GroupCache groupCache;
 
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser, final ContactStore cs,
       final AuthConfig ac, final Realm r, final Provider<IdentifiedUser> u,
-      final EmailTokenVerifier etv,
+      final EmailTokenVerifier etv, final ProjectCache pc,
       final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
       final AccountByEmailCache abec, final AccountCache uac,
       final AccountManager am,
@@ -100,13 +106,14 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
       final MyGroupsFactory.Factory myGroupsFactory,
-      final ChangeHooks hooks) {
+      final ChangeHooks hooks, final GroupCache groupCache) {
     super(schema, currentUser);
     contactStore = cs;
     authConfig = ac;
     realm = r;
     user = u;
     emailTokenVerifier = etv;
+    projectCache = pc;
     registerNewEmailFactory = esf;
     sshKeyCache = skc;
     byEmailCache = abec;
@@ -122,6 +129,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.myGroupsFactory = myGroupsFactory;
     this.hooks = hooks;
+    this.groupCache = groupCache;
   }
 
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
@@ -260,24 +268,43 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     return a != null && a.equals(b);
   }
 
-  public void enterAgreement(final ContributorAgreement.Id id,
+  public void enterAgreement(final String agreementName,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final ContributorAgreement cla = db.contributorAgreements().get(id);
-        if (cla == null || !cla.isActive()) {
+        ContributorAgreement ca = projectCache.getAllProjects().getConfig()
+            .getContributorAgreement(agreementName);
+        if (ca == null) {
           throw new Failure(new NoSuchEntityException());
         }
 
-        final AccountAgreement a =
-            new AccountAgreement(new AccountAgreement.Key(user.get()
-                .getAccountId(), id));
-        if (cla.isAutoVerify()) {
-          a.review(AccountAgreement.Status.VERIFIED, null);
-
-          hooks.doClaSignupHook(user.get().getAccount(), cla);
+        if (ca.getAutoVerify() == null) {
+          throw new Failure(new IllegalStateException(
+              "cannot enter a non-autoVerify agreement"));
+        } else if (ca.getAutoVerify().getUUID() == null) {
+          throw new Failure(new NoSuchEntityException());
         }
-        db.accountAgreements().insert(Collections.singleton(a));
+
+        AccountGroup group = groupCache.get(ca.getAutoVerify().getUUID());
+        if (group == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        Account account = user.get().getAccount();
+        hooks.doClaSignupHook(account, ca);
+
+        final AccountGroupMember.Key key =
+            new AccountGroupMember.Key(account.getId(), group.getId());
+        AccountGroupMember m = db.accountGroupMembers().get(key);
+        if (m == null) {
+          m = new AccountGroupMember(key);
+          db.accountGroupMembersAudit().insert(
+              Collections.singleton(
+                  new AccountGroupMemberAudit(m, account.getId())));
+          db.accountGroupMembers().insert(Collections.singleton(m));
+          accountCache.evict(m.getAccountId());
+        }
+
         return VoidResult.INSTANCE;
       }
     });

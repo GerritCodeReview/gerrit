@@ -14,38 +14,30 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.reviewdb.client.AbstractAgreement;
-import com.google.gerrit.reviewdb.client.AccountAgreement;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupAgreement;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReplicationUser;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Collections;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -56,9 +48,6 @@ import javax.annotation.Nullable;
 
 /** Access control management for a user accessing a project's data. */
 public class ProjectControl {
-  private static final Logger log =
-      LoggerFactory.getLogger(ProjectControl.class);
-
   public static final int VISIBLE = 1 << 0;
   public static final int OWNER = 1 << 1;
 
@@ -124,28 +113,26 @@ public class ProjectControl {
   private final Set<AccountGroup.UUID> receiveGroups;
 
   private final String canonicalWebUrl;
-  private final SchemaFactory<ReviewDb> schema;
   private final CurrentUser user;
   private final ProjectState state;
-  private final GroupCache groupCache;
   private final PermissionCollection.Factory permissionFilter;
+  private final Collection<ContributorAgreement> contributorAgreements;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
 
+
   @Inject
   ProjectControl(@GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
-      final SchemaFactory<ReviewDb> schema, final GroupCache groupCache,
-      final PermissionCollection.Factory permissionFilter,
+      final ProjectCache pc, final PermissionCollection.Factory permissionFilter,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @Assisted CurrentUser who, @Assisted ProjectState ps) {
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
-    this.schema = schema;
-    this.groupCache = groupCache;
     this.permissionFilter = permissionFilter;
+    this.contributorAgreements = pc.getAllProjects().getConfig().getContributorAgreements();
     this.canonicalWebUrl = canonicalWebUrl;
     user = who;
     state = ps;
@@ -247,12 +234,7 @@ public class ProjectControl {
     }
     Project project = state.getProject();
     if (project.isUseContributorAgreements()) {
-      try {
-        return verifyActiveContributorAgreement();
-      } catch (OrmException e) {
-        log.error("Cannot query database for agreements", e);
-        return new Capable("Cannot verify contribution agreement");
-      }
+      return verifyActiveContributorAgreement();
     }
     return Capable.OK;
   }
@@ -270,117 +252,58 @@ public class ProjectControl {
     return all;
   }
 
-  private Capable verifyActiveContributorAgreement() throws OrmException {
+  private Capable verifyActiveContributorAgreement() {
     if (! (user instanceof IdentifiedUser)) {
       return new Capable("Must be logged in to verify Contributor Agreement");
     }
     final IdentifiedUser iUser = (IdentifiedUser) user;
-    final ReviewDb db = schema.open();
 
-    AbstractAgreement bestAgreement = null;
-    ContributorAgreement bestCla = null;
-    try {
+    boolean hasContactInfo = !missing(iUser.getAccount().getFullName())
+        && !missing(iUser.getAccount().getPreferredEmail())
+        && iUser.getAccount().isContactFiled();
 
-      OUTER: for (AccountGroup.UUID groupUUID : iUser.getEffectiveGroups().getKnownGroups()) {
-        AccountGroup group = groupCache.get(groupUUID);
-        if (group == null) {
-          continue;
-        }
-
-        final List<AccountGroupAgreement> temp =
-            db.accountGroupAgreements().byGroup(group.getId()).toList();
-
-        Collections.reverse(temp);
-
-        for (final AccountGroupAgreement a : temp) {
-          final ContributorAgreement cla =
-              db.contributorAgreements().get(a.getAgreementId());
-          if (cla == null) {
-            continue;
-          }
-
-          bestAgreement = a;
-          bestCla = cla;
-          break OUTER;
-        }
+    List<AccountGroup.UUID> okGroupIds = Lists.newArrayList();
+    List<AccountGroup.UUID> missingInfoGroupIds = Lists.newArrayList();
+    for (ContributorAgreement ca : contributorAgreements) {
+      List<AccountGroup.UUID> groupIds;
+      if (hasContactInfo || !ca.isRequireContactInformation()) {
+        groupIds = okGroupIds;
+      } else {
+        groupIds = missingInfoGroupIds;
       }
 
-      if (bestAgreement == null) {
-        final List<AccountAgreement> temp =
-            db.accountAgreements().byAccount(iUser.getAccountId()).toList();
+      for (PermissionRule rule : ca.getAccepted()) {
+        if ((rule.getAction() == Action.ALLOW) && (rule.getGroup() != null)
+            && (rule.getGroup().getUUID() != null)) {
+          groupIds.add(new AccountGroup.UUID(rule.getGroup().getUUID().get()));
+        }
+      }
+    }
 
-        Collections.reverse(temp);
+    if (iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
+      return Capable.OK;
+    }
 
-        for (final AccountAgreement a : temp) {
-          final ContributorAgreement cla =
-              db.contributorAgreements().get(a.getAgreementId());
-          if (cla == null) {
-            continue;
-          }
-
-          bestAgreement = a;
-          bestCla = cla;
+    if (iUser.getEffectiveGroups().containsAnyOf(missingInfoGroupIds)) {
+      final StringBuilder msg = new StringBuilder();
+      for (ContributorAgreement ca : contributorAgreements) {
+        if (ca.isRequireContactInformation()) {
+          msg.append(ca.getName());
           break;
         }
       }
-    } finally {
-      db.close();
-    }
-
-
-    if (bestCla != null && !bestCla.isActive()) {
-      final StringBuilder msg = new StringBuilder();
-      msg.append(bestCla.getShortName());
-      msg.append(" contributor agreement is expired.\n");
+      msg.append(" contributor agreement requires");
+      msg.append(" current contact information.\n");
       if (canonicalWebUrl != null) {
-        msg.append("\nPlease complete a new agreement");
+        msg.append("\nPlease review your contact information");
         msg.append(":\n\n  ");
         msg.append(canonicalWebUrl);
         msg.append("#");
-        msg.append(PageLinks.SETTINGS_AGREEMENTS);
+        msg.append(PageLinks.SETTINGS_CONTACT);
         msg.append("\n");
       }
       msg.append("\n");
       return new Capable(msg.toString());
-    }
-
-    if (bestCla != null && bestCla.isRequireContactInformation()) {
-      boolean fail = false;
-      fail |= missing(iUser.getAccount().getFullName());
-      fail |= missing(iUser.getAccount().getPreferredEmail());
-      fail |= !iUser.getAccount().isContactFiled();
-
-      if (fail) {
-        final StringBuilder msg = new StringBuilder();
-        msg.append(bestCla.getShortName());
-        msg.append(" contributor agreement requires");
-        msg.append(" current contact information.\n");
-        if (canonicalWebUrl != null) {
-          msg.append("\nPlease review your contact information");
-          msg.append(":\n\n  ");
-          msg.append(canonicalWebUrl);
-          msg.append("#");
-          msg.append(PageLinks.SETTINGS_CONTACT);
-          msg.append("\n");
-        }
-        msg.append("\n");
-        return new Capable(msg.toString());
-      }
-    }
-
-    if (bestAgreement != null) {
-      switch (bestAgreement.getStatus()) {
-        case VERIFIED:
-          return Capable.OK;
-        case REJECTED:
-          return new Capable(bestCla.getShortName()
-              + " contributor agreement was rejected."
-              + "\n       (rejected on " + bestAgreement.getReviewedOn()
-              + ")\n");
-        case NEW:
-          return new Capable(bestCla.getShortName()
-              + " contributor agreement is still pending review.\n");
-      }
     }
 
     final StringBuilder msg = new StringBuilder();

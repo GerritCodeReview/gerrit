@@ -14,30 +14,21 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.AccountAgreement;
-import com.google.gerrit.reviewdb.client.AccountGroupAgreement;
-import com.google.gerrit.reviewdb.client.ContributorAgreement;
-
 import java.util.List;
 import java.util.Map;
 
 public class AgreementInfo {
-  public List<AccountAgreement> userAccepted;
-  public List<AccountGroupAgreement> groupAccepted;
-  public Map<ContributorAgreement.Id, ContributorAgreement> agreements;
+  public List<String> accepted;
+  public Map<String, ContributorAgreement> agreements;
 
   public AgreementInfo() {
   }
 
-  public void setUserAccepted(List<AccountAgreement> a) {
-    userAccepted = a;
+  public void setAccepted(List<String> a) {
+    accepted = a;
   }
 
-  public void setGroupAccepted(List<AccountGroupAgreement> a) {
-    groupAccepted = a;
-  }
-
-  public void setAgreements(Map<ContributorAgreement.Id, ContributorAgreement> a) {
+  public void setAgreements(Map<String, ContributorAgreement> a) {
     agreements = a;
   }
 }

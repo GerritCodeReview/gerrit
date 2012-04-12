@@ -380,7 +380,7 @@ public class RefControlTest extends TestCase {
     String canonicalWebUrl = "http://localhost";
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),
-        Collections.<AccountGroup.UUID> emptySet(), schema, groupCache,
+        Collections.<AccountGroup.UUID> emptySet(), projectCache,
         sectionSorter,
         canonicalWebUrl, new MockUser(name, memberOf),
         newProjectState());

@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.client.ContactInformation;
-import com.google.gerrit.reviewdb.client.ContributorAgreement;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
@@ -67,7 +66,7 @@ public interface AccountSecurity extends RemoteJsonService {
       ContactInformation info, AsyncCallback<Account> callback);
 
   @SignInRequired
-  void enterAgreement(ContributorAgreement.Id id,
+  void enterAgreement(String agreementName,
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired

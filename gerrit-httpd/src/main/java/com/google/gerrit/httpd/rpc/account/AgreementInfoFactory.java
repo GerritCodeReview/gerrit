@@ -14,83 +14,71 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AgreementInfo;
+import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.client.AccountAgreement;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupAgreement;
-import com.google.gerrit.reviewdb.client.ContributorAgreement;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 class AgreementInfoFactory extends Handler<AgreementInfo> {
+  private final Logger log = LoggerFactory.getLogger(getClass());
+
   interface Factory {
     AgreementInfoFactory create();
   }
 
-  private final ReviewDb db;
-  private final GroupCache groupCache;
   private final IdentifiedUser user;
+  private final ProjectCache projectCache;
 
   private AgreementInfo info;
 
   @Inject
-  AgreementInfoFactory(final ReviewDb db, final GroupCache groupCache,
-      final IdentifiedUser user) {
-    this.db = db;
-    this.groupCache = groupCache;
+  AgreementInfoFactory(final IdentifiedUser user,
+      final ProjectCache projectCache) {
     this.user = user;
+    this.projectCache = projectCache;
   }
 
   @Override
   public AgreementInfo call() throws Exception {
-    final List<AccountAgreement> userAccepted =
-        db.accountAgreements().byAccount(user.getAccountId()).toList();
+    List<String> accepted = Lists.newArrayList();
+    Map<String, ContributorAgreement> agreements = Maps.newHashMap();
+    Collection<ContributorAgreement> cas =
+        projectCache.getAllProjects().getConfig().getContributorAgreements();
+    for (ContributorAgreement ca : cas) {
+      agreements.put(ca.getName(), ca.forUi());
 
-    Collections.reverse(userAccepted);
-
-    final List<AccountGroupAgreement> groupAccepted =
-        new ArrayList<AccountGroupAgreement>();
-    for (final AccountGroup.UUID groupUUID : user.getEffectiveGroups().getKnownGroups()) {
-      AccountGroup group = groupCache.get(groupUUID);
-      if (group == null) {
-        continue;
+      List<AccountGroup.UUID> groupIds = Lists.newArrayList();
+      for (PermissionRule rule : ca.getAccepted()) {
+        if ((rule.getAction() == Action.ALLOW) && (rule.getGroup() != null)) {
+          if (rule.getGroup().getUUID() == null) {
+            log.warn("group \"" + rule.getGroup().getName() + "\" does not " +
+                " exist, referenced in CLA \"" + ca.getName() + "\"");
+          } else {
+            groupIds.add(new AccountGroup.UUID(rule.getGroup().getUUID().get()));
+          }
+        }
       }
-
-      final List<AccountGroupAgreement> temp =
-          db.accountGroupAgreements().byGroup(group.getId()).toList();
-
-      Collections.reverse(temp);
-
-      groupAccepted.addAll(temp);
-    }
-
-    final Map<ContributorAgreement.Id, ContributorAgreement> agreements =
-        new HashMap<ContributorAgreement.Id, ContributorAgreement>();
-    for (final AccountAgreement a : userAccepted) {
-      final ContributorAgreement.Id id = a.getAgreementId();
-      if (!agreements.containsKey(id)) {
-        agreements.put(id, db.contributorAgreements().get(id));
-      }
-    }
-    for (final AccountGroupAgreement a : groupAccepted) {
-      final ContributorAgreement.Id id = a.getAgreementId();
-      if (!agreements.containsKey(id)) {
-        agreements.put(id, db.contributorAgreements().get(id));
+      if (user.getEffectiveGroups().containsAnyOf(groupIds)) {
+        accepted.add(ca.getName());
       }
     }
 
     info = new AgreementInfo();
-    info.setUserAccepted(userAccepted);
-    info.setGroupAccepted(groupAccepted);
+    info.setAccepted(accepted);
     info.setAgreements(agreements);
     return info;
   }

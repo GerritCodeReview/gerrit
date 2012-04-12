@@ -16,12 +16,12 @@ package com.google.gerrit.common;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -360,7 +360,7 @@ public class ChangeHookRunner implements ChangeHooks {
         final List<String> args = new ArrayList<String>();
         addArg(args, "--submitter", getDisplayName(account));
         addArg(args, "--user-id", account.getId().toString());
-        addArg(args, "--cla-id", cla.getId().toString());
+        addArg(args, "--cla-name", cla.getName());
 
         runHook(claSignedHook, args);
       }

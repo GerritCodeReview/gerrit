@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAErX///9I\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeListService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-12T14:07:40Z",
+      "side": 1,
+      "message": "nit: this import is now unused and can be removed",
+      "revId": "8ce827071faa49e70026b5624c2750bd4c8e9862",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

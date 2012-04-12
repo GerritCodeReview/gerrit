@@ -1,0 +1,73 @@
+package com.google.gerrit.httpd.gitweb;
+
+import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
+
+import org.htmlparser.Parser;
+import org.htmlparser.lexer.Lexer;
+import org.htmlparser.lexer.Page;
+import org.htmlparser.util.NodeList;
+import org.htmlparser.util.ParserException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+
+public class HTMLReplaceProcessor {
+
+  private Logger log = LoggerFactory.getLogger(HTMLReplaceProcessor.class);
+
+  private GerritConfig config;
+
+  @Inject
+  public HTMLReplaceProcessor(final GerritConfig config) {
+    this.config = config;
+  }
+
+  public void processStreams(InputStream in, OutputStream out,
+      String encoding)
+      throws IOException {
+
+    PrintWriter writer = new PrintWriter(out);
+    try {
+      Parser parser = new Parser(new Lexer(new Page(in, encoding)));
+      NodeList srcPage = parser.parse(null);
+
+      srcPage.visitAllNodesWith(new HTMLNodeFindReplace(config.getCommentLinks()));
+
+      String outDoc = srcPage.toHtml();
+      writer.print(outDoc);
+    } catch (ParserException e) {
+      log.error(
+          "Cannot process HTML stream transformation because of a parsing error. Returning input stream untouched ",
+          e);
+      processIdentityStream(in, out);
+    } finally {
+      writer.close();
+    }
+  }
+
+
+  private void processIdentityStream(InputStream in, OutputStream out) throws IOException {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+    PrintWriter writer = new PrintWriter(out);
+    try {
+      String buff;
+      while (null != (buff = reader.readLine())) {
+        writer.println(buff);
+      }
+
+    } finally {
+      reader.close();
+      writer.close();
+    }
+  }
+
+
+}

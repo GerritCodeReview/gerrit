@@ -66,6 +66,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServlet;
@@ -78,6 +79,9 @@ import javax.servlet.http.HttpServletResponse;
 class GitWebServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(GitWebServlet.class);
+
+  @Inject
+  private HTMLReplaceProcessor htmlReplaceProcessor;
 
   private final Set<String> deniedActions;
   private final int bufferSize = 8192;
@@ -433,8 +437,13 @@ class GitWebServlet extends HttpServlet {
 
       in = new BufferedInputStream(proc.getInputStream(), bufferSize);
       try {
-        readCgiHeaders(rsp, in);
+        Properties headers = new Properties();
+        readCgiHeaders(rsp, in, headers);
 
+        String contentType = headers.getProperty("Content-Type");
+        if(contentType != null && contentType.indexOf("html")>0) {
+          htmlReplaceProcessor.processStreams(in, rsp.getOutputStream(), "UTF-8");
+        } else {
         final OutputStream out = rsp.getOutputStream();
         try {
           final byte[] buf = new byte[bufferSize];
@@ -445,6 +454,8 @@ class GitWebServlet extends HttpServlet {
         } finally {
           out.close();
         }
+        }
+
       } finally {
         in.close();
       }
@@ -624,7 +635,7 @@ class GitWebServlet extends HttpServlet {
     return req.getHeaderNames();
   }
 
-  private void readCgiHeaders(HttpServletResponse res, final InputStream in)
+  private void readCgiHeaders(HttpServletResponse res, final InputStream in, Properties headers)
       throws IOException {
     String line;
     while (!(line = readLine(in)).isEmpty()) {
@@ -642,6 +653,8 @@ class GitWebServlet extends HttpServlet {
 
       final String key = line.substring(0, sep).trim();
       final String value = line.substring(sep + 1).trim();
+
+      headers.put(key, value);
       if ("Location".equalsIgnoreCase(key)) {
         res.sendRedirect(value);
 

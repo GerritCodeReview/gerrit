@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAErX///+Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeList.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-12T12:43:59Z",
+      "side": 1,
+      "message": "Why not to use\n  addParameter(\"q\", query)\nhere?\nIs the encoding done here different from the encodig done in addParameter(String, String)? If yes, why?\n\nSame for the other 2 usages above.",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX///94\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-12T12:43:59Z",
+      "side": 1,
+      "message": "Can we sort the label names (by name) to have the columns always in the same order? I think it is confusing if the order may change.",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX///+I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-12T12:43:59Z",
+      "side": 1,
+      "message": "The link to the user\u0027s dashboard was removed by intension?",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX///98\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-12T12:43:59Z",
+      "side": 1,
+      "message": "LabelInfo only knows rejected and approved, as result -1 and +1 votes in the Code Review categroy are not shown in the list anymore :-(",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX///+E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-12T12:43:59Z",
+      "side": 1,
+      "message": "should be greenCheck",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX///+A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-12T12:43:59Z",
+      "side": 1,
+      "message": "In the old ChangeTable we had a space before \u0027\\n\u0027 with the following comment:\n\n  // Some web browsers ignore the embedded newline; some like it;\n  // so we include a space before the newline to accommodate both.\n\nThis space is still needed for Firefox.",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX///+Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-12T12:43:59Z",
+      "side": 1,
+      "message": "same as below",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAErX///+U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-12T12:43:59Z",
+      "side": 1,
+      "message": "Trying to access _more_changes fails for me if this field is not present in the JSON response (e.g. if all the matched changes fit on one page):\n\ncom.google.gwt.dev.shell.HostedModeException: Something other than a boolean was returned from JSNI method \u0027@com.google.gerrit.client.changes.ChangeInfo::_more_changes()\u0027: JS value of type undefined, expected boolean\n \tat com.google.gwt.dev.shell.JsValueGlue.get(JsValueGlue.java:100)\n \tat com.google.gwt.dev.shell.ModuleSpace.invokeNativeBoolean(ModuleSpace.java:186)\n \tat com.google.gwt.dev.shell.JavaScriptHost.invokeNativeBoolean(JavaScriptHost.java:35)\n \tat com.google.gerrit.client.changes.ChangeInfo$._more_changes$(ChangeInfo.java)\n \tat com.google.gerrit.client.changes.PagedSingleListScreen.display(PagedSingleListScreen.java:131)\n \tat com.google.gerrit.client.changes.QueryScreen$1.onSuccess(QueryScreen.java:61)\n \tat com.google.gerrit.client.changes.QueryScreen$1.onSuccess(QueryScreen.java:1)\n \tat com.google.gerrit.client.rpc.RestApi$1.onResponseReceived(RestApi.java:133)\n \tat com.google.gwt.http.client.Request.fireOnResponseReceived(Request.java:287)\n \tat com.google.gwt.http.client.RequestBuilder$1.onReadyStateChange(RequestBuilder.java:395)\n \tat sun.reflect.GeneratedMethodAccessor48.invoke(Unknown Source)\n  ...",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

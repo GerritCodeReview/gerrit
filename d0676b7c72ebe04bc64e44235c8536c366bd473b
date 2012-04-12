@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEp3///70\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-04-12T17:31:54Z",
+      "side": 1,
+      "message": "This is what was causing the problem.  I assume this is still desired for other calls to insertRow().",
+      "revId": "d0676b7c72ebe04bc64e44235c8536c366bd473b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEp3///74\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-04-12T17:31:54Z",
+      "side": 1,
+      "message": "This doesn\u0027t exactly match what we generate for initially visible lines.  For those we specify the html directly and use\n \u003ctr valign\u003d\"top\"\u003e\n\nThis will output slightly differently for the expanded lines\n \u003ctr style\u003d\"vertical-align: top; \"\u003e\n\nI don\u0027t believe there is a way to set the valign property with the gwt flextable.",
+      "revId": "d0676b7c72ebe04bc64e44235c8536c366bd473b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

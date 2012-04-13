@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -24,24 +25,30 @@ import com.google.gwtjsonrpc.common.RpcImpl.Version;
 
 @RpcImpl(version = Version.V2_0)
 public interface ChangeManageService extends RemoteJsonService {
+  @Audit
   @SignInRequired
   void submit(PatchSet.Id patchSetId, AsyncCallback<ChangeDetail> callback);
 
+  @Audit
   @SignInRequired
   void abandonChange(PatchSet.Id patchSetId, String message,
       AsyncCallback<ChangeDetail> callback);
 
+  @Audit
   @SignInRequired
   void revertChange(PatchSet.Id patchSetId, String message,
       AsyncCallback<ChangeDetail> callback);
 
+  @Audit
   @SignInRequired
   void restoreChange(PatchSet.Id patchSetId, String message,
       AsyncCallback<ChangeDetail> callback);
 
+  @Audit
   @SignInRequired
   void publish(PatchSet.Id patchSetId, AsyncCallback<ChangeDetail> callback);
 
+  @Audit
   @SignInRequired
   void deleteDraftChange(PatchSet.Id patchSetId, AsyncCallback<VoidResult> callback);
 

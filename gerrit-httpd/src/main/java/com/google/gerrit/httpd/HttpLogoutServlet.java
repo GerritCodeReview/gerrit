@@ -14,7 +14,11 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.audit.AuditEvent;
+import com.google.gerrit.audit.AuditListener;
+import com.google.gerrit.audit.AuditService;
 import com.google.common.base.Strings;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -37,18 +41,21 @@ class HttpLogoutServlet extends HttpServlet {
   private final Provider<String> urlProvider;
   private final String logoutUrl;
 
+  private final AuditService audit;
+
   @Inject
   HttpLogoutServlet(final AuthConfig authConfig,
       final Provider<WebSession> webSession,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final AccountManager accountManager) {
+      final AccountManager accountManager,
+      final AuditService audit) {
     this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.logoutUrl = authConfig.getLogoutURL();
+    this.audit = audit;
   }
 
-  @Override
-  protected void doGet(final HttpServletRequest req,
+  protected void doLogout(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     webSession.get().logout();
     if (logoutUrl != null) {
@@ -67,4 +74,22 @@ class HttpLogoutServlet extends HttpServlet {
       rsp.sendRedirect(url);
     }
   }
+
+  @Override
+  protected void doGet(final HttpServletRequest req,
+      final HttpServletResponse rsp) throws IOException {
+
+    final String sid = webSession.get().getToken();
+    final CurrentUser currentUser = webSession.get().getCurrentUser();
+    final String what = "sign out";
+    final long when = System.currentTimeMillis();
+
+    try {
+      doLogout(req, rsp);
+    } finally {
+      audit.dispatch(new AuditEvent(sid, currentUser,
+          what, when, null, null));
+    }
+  }
+
 }

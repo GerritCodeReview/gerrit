@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.auth.userpass;
 
+import com.google.gerrit.common.audit.Audit;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -22,6 +23,7 @@ import com.google.gwtjsonrpc.common.RpcImpl.Version;
 
 @RpcImpl(version = Version.V2_0)
 public interface UserPassAuthService extends RemoteJsonService {
+  @Audit(action = "sign in", obfuscate={1})
   @AllowCrossSiteRequest
   void authenticate(String username, String password,
       AsyncCallback<LoginResult> callback);

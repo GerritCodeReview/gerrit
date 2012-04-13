@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEuH////Q\u003d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T22:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX///9w\u003d",
+      "revId": "9310ab4d260e595aac909fa1def3614de383df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEs3///8Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-13T13:51:56Z",
       "side": 1,
       "message": "There seems to be a lot of redundant new setup code in this patch, may I suggest consolidating some of it?",
+      "revId": "9310ab4d260e595aac909fa1def3614de383df17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEuH///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T22:21:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEs3///8Q\u003d",
       "revId": "9310ab4d260e595aac909fa1def3614de383df17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

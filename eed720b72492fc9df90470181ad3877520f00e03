@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEtH///6U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectInfo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T19:20:46Z",
+      "side": 1,
+      "message": "Yes, com.google.gerrit.common.data.ProjectInfo will die.",
+      "parentUuid": "AAAErX////c\u003d",
+      "revId": "eed720b72492fc9df90470181ad3877520f00e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX////U\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
         "patchSetId": 10
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "The same exception I\u0027m getting when trying to browse the project list: Admin -\u003e Projects.",
       "parentUuid": "AAAErX////U\u003d",
+      "revId": "eed720b72492fc9df90470181ad3877520f00e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEtH///6Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T19:20:46Z",
+      "side": 1,
+      "message": "I think this is because the NativeList implemented set in a later commit. I\u0027ve moved that earlier.",
+      "parentUuid": "AAAErX////I\u003d",
       "revId": "eed720b72492fc9df90470181ad3877520f00e03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

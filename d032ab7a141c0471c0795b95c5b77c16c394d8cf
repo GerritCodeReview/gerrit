@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEuH////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeList.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T21:27:06Z",
+      "side": 1,
+      "message": "Yes, the encoding is slightly different. KeyUtil.encode() unfolds two common escapes, / and : to they appear as literals in the value rather than their %xx encoding format. Its a cleaner string to try and read, but isn\u0027t always done in query parameters.",
+      "parentUuid": "AAAErX///+Y\u003d",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX///94\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-12T12:43:59Z",
       "side": 1,
       "message": "Can we sort the label names (by name) to have the columns always in the same order? I think it is confusing if the order may change.",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEuH////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T21:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX///94\u003d",
       "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEuH////o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T21:27:06Z",
+      "side": 1,
+      "message": "Yes. We don\u0027t have the data to link to the dashboard in the reply so we can\u0027t link to it.",
+      "parentUuid": "AAAErX///+I\u003d",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX///98\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2012-04-12T12:43:59Z",
       "side": 1,
       "message": "LabelInfo only knows rejected and approved, as result -1 and +1 votes in the Code Review categroy are not shown in the list anymore :-(",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEuH////k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T21:27:06Z",
+      "side": 1,
+      "message": "Yes. I haven\u0027t quite figured out how I want to fix this.",
+      "parentUuid": "AAAErX///98\u003d",
       "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEuH////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T21:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX///+E\u003d",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX///+A\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 4
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEuH////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T21:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX///+A\u003d",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX///+Q\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
         "patchSetId": 4
@@ -115,6 +223,24 @@
       "writtenOn": "2012-04-12T12:43:59Z",
       "side": 1,
       "message": "same as below",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEuH////Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PagedSingleListScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T21:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX///+Q\u003d",
       "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

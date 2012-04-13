@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -36,6 +37,7 @@ public interface ProjectAdminService extends RemoteJsonService {
   void projectDetail(Project.NameKey projectName,
       AsyncCallback<ProjectDetail> callback);
 
+  @Audit
   @SignInRequired
   void createNewProject(String projectName, String parentName,
       boolean emptyCommit, boolean permissionsOnly,
@@ -44,10 +46,12 @@ public interface ProjectAdminService extends RemoteJsonService {
   void projectAccess(Project.NameKey projectName,
       AsyncCallback<ProjectAccess> callback);
 
-  @SignInRequired
+  @Audit
+ @SignInRequired
   void changeProjectSettings(Project update,
       AsyncCallback<ProjectDetail> callback);
 
+  @Audit
   @SignInRequired
   void changeProjectAccess(Project.NameKey projectName, String baseRevision,
       String message, List<AccessSection> sections,
@@ -56,10 +60,12 @@ public interface ProjectAdminService extends RemoteJsonService {
   void listBranches(Project.NameKey projectName,
       AsyncCallback<ListBranchesResult> callback);
 
+  @Audit
   @SignInRequired
   void addBranch(Project.NameKey projectName, String branchName,
       String startingRevision, AsyncCallback<ListBranchesResult> callback);
 
+  @Audit
   @SignInRequired
   void deleteBranch(Project.NameKey projectName, Set<Branch.NameKey> ids,
       AsyncCallback<Set<Branch.NameKey>> callback);

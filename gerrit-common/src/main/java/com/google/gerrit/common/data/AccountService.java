@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -36,10 +37,12 @@ public interface AccountService extends RemoteJsonService {
   @SignInRequired
   void myDiffPreferences(AsyncCallback<AccountDiffPreference> callback);
 
+  @Audit
   @SignInRequired
   void changePreferences(AccountGeneralPreferences pref,
       AsyncCallback<VoidResult> gerritCallback);
 
+  @Audit
   @SignInRequired
   void changeDiffPreferences(AccountDiffPreference diffPref,
       AsyncCallback<VoidResult> callback);
@@ -47,14 +50,17 @@ public interface AccountService extends RemoteJsonService {
   @SignInRequired
   void myProjectWatch(AsyncCallback<List<AccountProjectWatchInfo>> callback);
 
+  @Audit
   @SignInRequired
   void addProjectWatch(String projectName, String filter,
       AsyncCallback<AccountProjectWatchInfo> callback);
 
+  @Audit
   @SignInRequired
   void updateProjectWatch(AccountProjectWatch watch,
       AsyncCallback<VoidResult> callback);
 
+  @Audit
   @SignInRequired
   void deleteProjectWatches(Set<AccountProjectWatch.Key> keys,
       AsyncCallback<VoidResult> callback);

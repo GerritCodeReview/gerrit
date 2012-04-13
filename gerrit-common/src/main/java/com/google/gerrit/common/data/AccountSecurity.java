@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -33,20 +34,25 @@ public interface AccountSecurity extends RemoteJsonService {
   @SignInRequired
   void mySshKeys(AsyncCallback<List<AccountSshKey>> callback);
 
+  @Audit
   @SignInRequired
   void addSshKey(String keyText, AsyncCallback<AccountSshKey> callback);
 
+  @Audit
   @SignInRequired
   void deleteSshKeys(Set<AccountSshKey.Id> ids,
       AsyncCallback<VoidResult> callback);
 
+  @Audit
   @SignInRequired
   void changeUserName(String newName, AsyncCallback<VoidResult> callback);
 
+  @Audit
   @SignInRequired
   void generatePassword(AccountExternalId.Key key,
       AsyncCallback<AccountExternalId> callback);
 
+  @Audit
   @SignInRequired
   void clearPassword(AccountExternalId.Key key,
       AsyncCallback<AccountExternalId> gerritCallback);
@@ -57,18 +63,22 @@ public interface AccountSecurity extends RemoteJsonService {
   @SignInRequired
   void myGroups(AsyncCallback<List<GroupDetail>> callback);
 
+  @Audit
   @SignInRequired
   void deleteExternalIds(Set<AccountExternalId.Key> keys,
       AsyncCallback<Set<AccountExternalId.Key>> callback);
 
+  @Audit
   @SignInRequired
   void updateContact(String fullName, String emailAddr,
       ContactInformation info, AsyncCallback<Account> callback);
 
+  @Audit
   @SignInRequired
   void enterAgreement(String agreementName,
       AsyncCallback<VoidResult> callback);
 
+  @Audit
   @SignInRequired
   void registerEmail(String address, AsyncCallback<Account> callback);
 

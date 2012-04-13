@@ -16,6 +16,8 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.audit.NullAuditService;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.rules.PrologModule;
@@ -101,6 +103,9 @@ public class GerritGlobalModule extends FactoryModule {
         SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
+
+    // FIXME: LUCA this should be configurable as audit plug-in
+    bind(AuditService.class).to(NullAuditService.class).in(SINGLETON);
 
     bind(IdGenerator.class);
     bind(RulesCache.class);

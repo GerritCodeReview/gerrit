@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEtH///7E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T17:52:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX////8\u003d",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX////4\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-11T07:46:25Z",
       "side": 1,
       "message": "s/the field is only are present/a field is only present",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEtH///7A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T17:52:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX////4\u003d",
       "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEtH///68\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T17:52:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX////0\u003d",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX////w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupListScreen.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2012-04-11T07:46:25Z",
       "side": 1,
       "message": "Since result.isCanCreateGroup() is now not used anymore, can it be removed (together with the corresponding setter method)? Or are you just keeping it for being backward compatible?",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEtH///64\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/GroupListScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T17:52:01Z",
+      "side": 1,
+      "message": "I decided to keep the old RPC as-is for now, and just remove it entirely later in the series. Just in case someone is calling against it, we give them a bit more \"time\" to adjust by picking a point in the revision history where Gerrit basically supports both the old and new APIs.",
+      "parentUuid": "AAAErX////w\u003d",
       "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEtH///6w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountCapabilitiesServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T17:52:01Z",
+      "side": 1,
+      "message": "I tried to refactor this, but maybe I didn\u0027t try hard enough. It looks like we roughly need the same code on each endpoint, but figuring out a way to do this that is common has thus far eluded me. So I\u0027m going to put for now and get some more implementations written and see if I can\u0027t find a more common theme.",
+      "parentUuid": "AAAErX////k\u003d",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX////o\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountCapabilitiesServlet.java",
         "patchSetId": 6
@@ -115,6 +205,24 @@
       "writtenOn": "2012-04-11T07:46:25Z",
       "side": 1,
       "message": "[optional] Move this line down, right before the send(...) in line 101. Then you don\u0027t need to do the same in the else block and the code is more consistent with ListProjectsServlet.",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEtH///60\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountCapabilitiesServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T17:52:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX////o\u003d",
       "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -228,7 +229,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
   }
 
   /** Split a command line into a string array. */
-  static String[] split(String commandLine) {
+  static public String[] split(String commandLine) {
     final List<String> list = new ArrayList<String>();
     boolean inquote = false;
     boolean inDblQuote = false;

@@ -154,4 +154,8 @@ final class DispatchCommand extends BaseCommand {
     usage.append("\n");
     return usage.toString();
   }
+
+  public String getCommandName() {
+    return commandName;
+  }
 }

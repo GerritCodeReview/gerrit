@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.inject.Inject;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 public class DefaultRealm implements Realm {
@@ -53,6 +52,11 @@ public class DefaultRealm implements Realm {
 
   @Override
   public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who) {
+    return who;
+  }
+
+  @Override
+  public AuthRequest unlink(ReviewDb db, Account.Id from, AuthRequest who) {
     return who;
   }
 

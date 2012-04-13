@@ -426,6 +426,56 @@ public class AccountManager {
     }
   }
 
+  /**
+   * Unlink an authentication identity from an existing account.
+   *
+   * @param from account to unlink the identity from.
+   * @param who the identity to delete
+   * @return the result of unlinking the identity from the user.
+   * @throws AccountException the identity belongs to a different account, or it
+   *         cannot be unlinked at this time.
+   */
+  public AuthResult unlink(final Account.Id from, AuthRequest who)
+      throws AccountException {
+    try {
+      final ReviewDb db = schema.open();
+      try {
+        who = realm.unlink(db, from, who);
+
+        final AccountExternalId.Key key = id(who);
+        AccountExternalId extId = db.accountExternalIds().get(key);
+        if (extId != null) {
+          if (!extId.getAccountId().equals(from)) {
+            throw new AccountException("Identity in use by another account");
+          }
+          db.accountExternalIds().delete(Collections.singleton(extId));
+
+          if (who.getEmailAddress() != null) {
+            final Account a = db.accounts().get(from);
+            if (a.getPreferredEmail() != null
+                && a.getPreferredEmail().equals(who.getEmailAddress())) {
+              a.setPreferredEmail(null);
+              db.accounts().update(Collections.singleton(a));
+            }
+            byEmailCache.evict(who.getEmailAddress());
+            byIdCache.evict(from);
+          }
+
+        } else {
+          throw new AccountException("Identity not found");
+        }
+
+        return new AuthResult(from, key, false);
+
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+      throw new AccountException("Cannot unlink identity", e);
+    }
+  }
+
+
   private static AccountExternalId.Key id(final AuthRequest who) {
     return new AccountExternalId.Key(who.getExternalId());
   }

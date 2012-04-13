@@ -29,6 +29,9 @@ public interface Realm {
   public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who)
       throws AccountException;
 
+  public AuthRequest unlink(ReviewDb db, Account.Id to, AuthRequest who)
+      throws AccountException;
+
   public void onCreateAccount(AuthRequest who, Account account);
 
   public GroupMembership groups(AccountState who);

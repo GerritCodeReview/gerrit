@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.rules.PrologModule;
@@ -151,5 +152,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ProjectControl.GenericFactory.class);
     factory(FunctionState.Factory.class);
     factory(ReplicationUser.Factory.class);
+
+    install(new AuditModule());
   }
 }

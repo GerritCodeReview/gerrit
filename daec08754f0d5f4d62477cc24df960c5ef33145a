@@ -16,6 +16,24 @@
       "revId": "daec08754f0d5f4d62477cc24df960c5ef33145a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEtH///7Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T17:44:26Z",
+      "side": 1,
+      "message": "Yes. I use this addParameterRaw method in a few helper classes later in the series.",
+      "parentUuid": "AAAEnX////g\u003d",
+      "revId": "daec08754f0d5f4d62477cc24df960c5ef33145a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

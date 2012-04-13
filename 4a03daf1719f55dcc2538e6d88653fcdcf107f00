@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEuH////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T21:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX///+s\u003d",
+      "revId": "4a03daf1719f55dcc2538e6d88653fcdcf107f00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX///+w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEtH///5w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T21:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAErX///+w\u003d",
+      "revId": "4a03daf1719f55dcc2538e6d88653fcdcf107f00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX///+k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2012-04-12T08:59:55Z",
       "side": 1,
       "message": "While trying out this change I got a NullPointerException here because rec.labels is null. \n\nrec in this case looks like this:\n  rec.errorMessage \u003d \"Cannot submit draft patch sets\"\n  rec.labels \u003d null\n  rec.status.name \u003d \"RULE_ERROR\"\n\nCan\u0027t say how this record was created, it\u0027s from some earlier experiments I was doing with the drafts feature. I\u0027m not sure if it can normally occur, but I guess it would be better if we are not failing on RULE_ERRORS here.\n\nAnother example for rec where it fails when \"q\u003dstatus:merged\":\n  rec.errorMessage \u003d null\n  rec.labels \u003d null\n  rec.status.name \u003d \"CLOSED\"\n\nAlso I observed that in case of the Exception the full stacktrace is provided to the client. The result looks like this:\n\n  $ curl -n --noproxy 127.0.0.1 --digest -u admin:password \"http://127.0.0.1:8888/a/changes/myProject?format\u003dJSON\"\n  \u003chtml\u003e\n  \u003chead\u003e\n  \u003cmeta http-equiv\u003d\"Content-Type\" content\u003d\"text/html; charset\u003dISO-8859-1\"/\u003e\n  \u003ctitle\u003eError 500 INTERNAL_SERVER_ERROR\u003c/title\u003e\n  \u003c/head\u003e\n  \u003cbody\u003e\u003ch2\u003eHTTP ERROR: 500\u003c/h2\u003e\u003cpre\u003eINTERNAL_SERVER_ERROR\u003c/pre\u003e\n  \u003cp\u003eRequestURI\u003d/a/changes/myProject\u003c/p\u003e\u003ch3\u003eCaused by:\u003c/h3\u003e\u003cpre\u003ejava.lang.NullPointerException\n        at com.google.gerrit.server.query.change.ListChanges.labelsFor(ListChanges.java:210)\n        at com.google.gerrit.server.query.change.ListChanges.toChangeInfo(ListChanges.java:177)\n        at com.google.gerrit.server.query.change.ListChanges.query(ListChanges.java:132)\n        at com.google.gerrit.httpd.rpc.change.ListChangesServlet.doGet(ListChangesServlet.java:71)\n        at javax.servlet.http.HttpServlet.service(HttpServlet.java:617)\n        at com.google.gerrit.httpd.RestApiServlet.service(RestApiServlet.java:67)\n        at javax.servlet.http.HttpServlet.service(HttpServlet.java:717)\n        at com.google.inject.servlet.ServletDefinition.doService(ServletDefinition.java:263)\n        ...\n\nProbably the client should just get an error message and not the full stacktrace. The stacktrace reveals details about the internal structure that may be helful for potential attackers.\n\nNot sure, would it make sense if the response would be still some valid json that encapsulates the error?",
+      "revId": "4a03daf1719f55dcc2538e6d88653fcdcf107f00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEtH///5s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T21:13:31Z",
+      "side": 1,
+      "message": "Fixed this crash by skipping records where rec.labels \u003d\u003d null.\n\nAlso fixed the RestApiServlet to catch these exceptions and report a simpler error.",
+      "parentUuid": "AAAErX///+k\u003d",
       "revId": "4a03daf1719f55dcc2538e6d88653fcdcf107f00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

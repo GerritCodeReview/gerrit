@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -28,6 +29,7 @@ public interface ChangeListService extends RemoteJsonService {
    *
    * @param req the add and remove cluster.
    */
+  @Audit
   @SignInRequired
   void toggleStars(ToggleStarRequest req, AsyncCallback<VoidResult> callback);
 }

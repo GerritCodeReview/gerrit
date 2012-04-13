@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEtH///8I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-13T16:26:37Z",
+      "side": 1,
+      "message": "Doesn\u0027t this depend on how MySQL is setup?\n\nIf you use InnoDB with UTF-8 encoding in the database, shouldn\u0027t that be the default for the connection?\n\nSome MySQL installs of Gerrit have used latin1 character set inside of the database so they can use MyISAM tables. If we always set this here, would that break those installs?",
+      "revId": "8804aa105d673efd991ab49d4b36dd84d52b7e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

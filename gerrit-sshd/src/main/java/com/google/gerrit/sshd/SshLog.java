@@ -15,6 +15,8 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.audit.AuditEvent;
+import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
@@ -38,8 +40,11 @@ import org.eclipse.jgit.util.QuotedString;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 @Singleton
@@ -56,12 +61,14 @@ class SshLog implements LifecycleListener {
   private final Provider<SshSession> session;
   private final Provider<Context> context;
   private final AsyncAppender async;
+  private final AuditService auditService;
 
   @Inject
   SshLog(final Provider<SshSession> session, final Provider<Context> context,
-      final SitePaths site) {
+      final SitePaths site, AuditService auditService) {
     this.session = session;
     this.context = context;
+    this.auditService = auditService;
 
     final DailyRollingFileAppender dst = new DailyRollingFileAppender();
     dst.setName(LOG_NAME);
@@ -94,6 +101,7 @@ class SshLog implements LifecycleListener {
 
   void onLogin() {
     async.append(log("LOGIN FROM " + session.get().getRemoteAddressAsString()));
+    audit("0", "LOGIN", Collections.emptyList());
   }
 
   void onAuthFail(final SshSession sd) {
@@ -119,6 +127,7 @@ class SshLog implements LifecycleListener {
     }
 
     async.append(event);
+    audit("FAIL", "AUTH", Arrays.asList(sd.getRemoteAddressAsString()));
   }
 
   void onExecute(int exitValue) {
@@ -156,10 +165,29 @@ class SshLog implements LifecycleListener {
     event.setProperty(P_STATUS, status);
 
     async.append(event);
+    audit(status, getCommand(commandLine), getCommandArgs(commandLine));
+  }
+
+
+
+  private List<?> getCommandArgs(String commandLine) {
+    String[] quoted = commandLine.split("'");
+    if(quoted.length < 2)
+      return Collections.emptyList();
+
+    String args = quoted[1];
+    return Arrays.asList(args.split(" "));
+  }
+
+  private String getCommand(String commandLine) {
+    commandLine = commandLine.trim();
+    int spacePos = commandLine.indexOf(' ');
+    return (spacePos > 0 ? commandLine.substring(0, spacePos):commandLine);
   }
 
   void onLogout() {
     async.append(log("LOGOUT"));
+    audit("0", "LOGOUT", Collections.emptyList());
   }
 
   private LoggingEvent log(final String msg) {
@@ -190,7 +218,6 @@ class SshLog implements LifecycleListener {
 
     } else if (user instanceof PeerDaemonUser) {
       userName = PeerDaemonUser.USER_NAME;
-
     }
 
     event.setProperty(P_USER_NAME, userName);
@@ -396,6 +423,51 @@ class SshLog implements LifecycleListener {
 
     @Override
     public void setLogger(Logger logger) {
+    }
+  }
+
+  void audit(Object result, String commandName, List<?> args) {
+    final Context ctx = context.get();
+    final String sid = extractSessionId(ctx);
+    final String username = extractUsername(ctx);
+    final long elapsed = extractElapsed(ctx);
+    final long created = extractCreated(ctx);
+    final String what = extractWhat(commandName, args);
+    auditService.track(new AuditEvent(sid, username, "ssh:"+what, created, args, result, elapsed));
+  }
+
+  private String extractWhat(String commandName, List<?> args) {
+    String result = commandName;
+    if ("gerrit".equals(commandName)) {
+      if (args.size() > 1)
+        result = "gerrit"+"."+args.get(1);
+    }
+    return result;
+  }
+
+  private long extractCreated(final Context ctx) {
+    return (ctx != null) ? ctx.created : System.currentTimeMillis();
+  }
+
+  private long extractElapsed(final Context ctx) {
+    return (ctx != null) ? (ctx.finished - ctx.created) : 0L;
+  }
+
+  private String extractUsername(final Context ctx) {
+    if (ctx != null) {
+      SshSession session = ctx.getSession();
+      return (session == null) ? null : session.getCurrentUser().getUserName();
+    } else {
+      return null;
+    }
+  }
+
+  private String extractSessionId(final Context ctx) {
+    if (ctx != null) {
+      SshSession session = ctx.getSession();
+      return (session == null) ? null : IdGenerator.format(session.getSessionId());
+    } else {
+      return null;
     }
   }
 }

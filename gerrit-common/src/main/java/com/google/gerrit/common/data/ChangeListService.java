@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -47,6 +48,7 @@ public interface ChangeListService extends RemoteJsonService {
    *
    * @param req the add and remove cluster.
    */
+  @Audit
   @SignInRequired
   void toggleStars(ToggleStarRequest req, AsyncCallback<VoidResult> callback);
 }

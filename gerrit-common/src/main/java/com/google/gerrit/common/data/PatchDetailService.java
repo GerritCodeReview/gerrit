@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -34,13 +35,16 @@ import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
 public interface PatchDetailService extends RemoteJsonService {
+  @Audit
   void patchScript(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
       AccountDiffPreference diffPrefs, AsyncCallback<PatchScript> callback);
 
+  @Audit
   @SignInRequired
   void saveDraft(PatchLineComment comment,
       AsyncCallback<PatchLineComment> callback);
 
+  @Audit
   @SignInRequired
   void deleteDraft(PatchLineComment.Key key, AsyncCallback<VoidResult> callback);
 
@@ -57,18 +61,22 @@ public interface PatchDetailService extends RemoteJsonService {
    *        change, then <code>null</code> is passed as result to
    *        {@link AsyncCallback#onSuccess(Object)}
    */
+  @Audit
   @SignInRequired
   void deleteDraftPatchSet(PatchSet.Id psid, AsyncCallback<ChangeDetail> callback);
 
+  @Audit
   @SignInRequired
   void publishComments(PatchSet.Id psid, String message,
       Set<ApprovalCategoryValue.Id> approvals,
       AsyncCallback<VoidResult> callback);
 
+  @Audit
   @SignInRequired
   void addReviewers(Change.Id id, List<String> reviewers, boolean confirmed,
       AsyncCallback<ReviewerResult> callback);
 
+  @Audit
   @SignInRequired
   void removeReviewer(Change.Id id, Account.Id reviewerId,
       AsyncCallback<ReviewerResult> callback);
@@ -82,6 +90,7 @@ public interface PatchDetailService extends RemoteJsonService {
   /**
    * Update the reviewed status for the patch.
    */
+  @Audit
   @SignInRequired
   void setReviewedByCurrentUser(Key patchKey, boolean reviewed, AsyncCallback<VoidResult> callback);
 }

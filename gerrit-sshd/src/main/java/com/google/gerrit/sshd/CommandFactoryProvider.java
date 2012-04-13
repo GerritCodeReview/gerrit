@@ -228,7 +228,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
   }
 
   /** Split a command line into a string array. */
-  static String[] split(String commandLine) {
+  static public String[] split(String commandLine) {
     final List<String> list = new ArrayList<String>();
     boolean inquote = false;
     boolean inDblQuote = false;

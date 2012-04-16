@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.AccountsSection;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -27,16 +30,19 @@ import java.util.Set;
 /** Access control management for one account's access to other accounts. */
 public class AccountControl {
   public static class Factory {
+    private final ProjectCache projectCache;
     private final GroupControl.Factory groupControlFactory;
     private final Provider<CurrentUser> user;
     private final IdentifiedUser.GenericFactory userFactory;
     private final AccountVisibility accountVisibility;
 
     @Inject
-    Factory(final GroupControl.Factory groupControlFactory,
+    Factory(final ProjectCache projectCache,
+        final GroupControl.Factory groupControlFactory,
         final Provider<CurrentUser> user,
         final IdentifiedUser.GenericFactory userFactory,
         final AccountVisibility accountVisibility) {
+      this.projectCache = projectCache;
       this.groupControlFactory = groupControlFactory;
       this.user = user;
       this.userFactory = userFactory;
@@ -44,20 +50,24 @@ public class AccountControl {
     }
 
     public AccountControl get() {
-      return new AccountControl(groupControlFactory, user.get(), userFactory,
-          accountVisibility);
+      return new AccountControl(projectCache, groupControlFactory, user.get(),
+          userFactory, accountVisibility);
     }
   }
 
+  private final AccountsSection accountsSection;
   private final GroupControl.Factory groupControlFactory;
   private final CurrentUser currentUser;
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountVisibility accountVisibility;
 
-  AccountControl(final GroupControl.Factory groupControlFactory,
+  AccountControl(final ProjectCache projectCache,
+        final GroupControl.Factory groupControlFactory,
         final CurrentUser currentUser,
         final IdentifiedUser.GenericFactory userFactory,
         final AccountVisibility accountVisibility) {
+    this.accountsSection =
+        projectCache.getAllProjects().getConfig().getAccountsSection();
     this.groupControlFactory = groupControlFactory;
     this.currentUser = currentUser;
     this.userFactory = userFactory;
@@ -87,6 +97,12 @@ public class AccountControl {
         Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser);
         usersGroups.remove(AccountGroup.ANONYMOUS_USERS);
         usersGroups.remove(AccountGroup.REGISTERED_USERS);
+        for (PermissionRule rule : accountsSection.getSameGroupVisibility()) {
+          if (rule.isBlock() || rule.isDeny()) {
+            usersGroups.remove(rule.getGroup().getUUID());
+          }
+        }
+
         if (currentUser.getEffectiveGroups().containsAnyOf(usersGroups)) {
           return true;
         }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 import java.util.Set;
@@ -47,6 +48,6 @@ public class ListGroupMembership implements GroupMembership {
 
   @Override
   public Set<AccountGroup.UUID> getKnownGroups() {
-    return ImmutableSet.copyOf(groups);
+    return Sets.newHashSet(groups);
   }
 }

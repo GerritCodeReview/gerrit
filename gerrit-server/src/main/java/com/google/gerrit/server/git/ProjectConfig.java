@@ -58,6 +58,9 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_INHERIT_FROM = "inheritFrom";
   private static final String KEY_GROUP_PERMISSIONS = "exclusiveGroupPermissions";
 
+  private static final String ACCOUNTS = "accounts";
+  private static final String KEY_SAME_GROUP_VISIBILITY = "sameGroupVisibility";
+
   private static final String CONTRIBUTOR_AGREEMENT = "contributor-agreement";
   private static final String KEY_ACCEPTED = "accepted";
   private static final String KEY_REQUIRE_CONTACT_INFORMATION = "requireContactInformation";
@@ -84,6 +87,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   private Project.NameKey projectName;
   private Project project;
+  private AccountsSection accountsSection;
   private Map<AccountGroup.UUID, GroupReference> groupsByUUID;
   private Map<String, AccessSection> accessSections;
   private Map<String, ContributorAgreement> contributorAgreements;
@@ -110,6 +114,10 @@ public class ProjectConfig extends VersionedMetaData {
 
   public Project getProject() {
     return project;
+  }
+
+  public AccountsSection getAccountsSection() {
+    return accountsSection;
   }
 
   public AccessSection getAccessSection(String name) {
@@ -266,6 +274,20 @@ public class ProjectConfig extends VersionedMetaData {
     p.setUseContentMerge(getBoolean(rc, SUBMIT, KEY_MERGE_CONTENT, false));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
 
+    loadAccountsSection(rc, groupsByName);
+    loadContributorAgreements(rc, groupsByName);
+    loadAccessSections(rc, groupsByName);
+  }
+
+  private void loadAccountsSection(
+      Config rc, Map<String, GroupReference> groupsByName) {
+    accountsSection = new AccountsSection();
+    accountsSection.setSameGroupVisibility(loadPermissionRules(
+        rc, ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY, groupsByName, false));
+  }
+
+  private void loadContributorAgreements(
+      Config rc, Map<String, GroupReference> groupsByName) {
     contributorAgreements = new HashMap<String, ContributorAgreement>();
     for (String name : rc.getSubsections(CONTRIBUTOR_AGREEMENT)) {
       ContributorAgreement ca = getContributorAgreement(name, true);
@@ -273,32 +295,33 @@ public class ProjectConfig extends VersionedMetaData {
       ca.setRequireContactInformation(
           rc.getBoolean(CONTRIBUTOR_AGREEMENT, name, KEY_REQUIRE_CONTACT_INFORMATION, false));
       ca.setAgreementUrl(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_AGREEMENT_URL));
+      ca.setAccepted(loadPermissionRules(
+          rc, CONTRIBUTOR_AGREEMENT, name, KEY_ACCEPTED, groupsByName, false));
 
-      Permission perm = new Permission(KEY_ACCEPTED);
-      loadPermissionRules(rc, CONTRIBUTOR_AGREEMENT, name, KEY_ACCEPTED, groupsByName, perm, false);
-      ca.setAccepted(perm.getRules());
-
-      perm = new Permission(KEY_AUTO_VERIFY);
-      loadPermissionRules(rc, CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY, groupsByName, perm, false);
-      if (perm.getRules().isEmpty()) {
+      List<PermissionRule> rules = loadPermissionRules(
+          rc, CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY, groupsByName, false);
+      if (rules.isEmpty()) {
         ca.setAutoVerify(null);
-      } else if (perm.getRules().size() > 1) {
+      } else if (rules.size() > 1) {
         error(new ValidationError(PROJECT_CONFIG, "Invalid rule in "
             + CONTRIBUTOR_AGREEMENT
             + "." + name
             + "." + KEY_AUTO_VERIFY
             + ": at most one group may be set"));
-      } else if (perm.getRules().get(0).getAction() != Action.ALLOW) {
+      } else if (rules.get(0).getAction() != Action.ALLOW) {
         error(new ValidationError(PROJECT_CONFIG, "Invalid rule in "
             + CONTRIBUTOR_AGREEMENT
             + "." + name
             + "." + KEY_AUTO_VERIFY
             + ": the group must be allowed"));
       } else {
-        ca.setAutoVerify(perm.getRules().get(0).getGroup());
+        ca.setAutoVerify(rules.get(0).getGroup());
       }
     }
+  }
 
+  private void loadAccessSections(
+      Config rc, Map<String, GroupReference> groupsByName) {
     accessSections = new HashMap<String, AccessSection>();
     for (String refName : rc.getSubsections(ACCESS)) {
       if (RefConfigSection.isValid(refName)) {
@@ -334,6 +357,15 @@ public class ProjectConfig extends VersionedMetaData {
             GlobalCapability.hasRange(varName));
       }
     }
+  }
+
+  private List<PermissionRule> loadPermissionRules(Config rc, String section,
+      String subsection, String varName,
+      Map<String, GroupReference> groupsByName,
+      boolean useRange) {
+    Permission perm = new Permission(varName);
+    loadPermissionRules(rc, section, subsection, varName, groupsByName, perm, useRange);
+    return perm.getRules();
   }
 
   private void loadPermissionRules(Config rc, String section,
@@ -425,6 +457,24 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, PROJECT, null, KEY_STATE, p.getState(), null);
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<AccountGroup.UUID>();
+    saveAccountsSection(rc, keepGroups);
+    saveContributorAgreements(rc, keepGroups);
+    saveAccessSections(rc, keepGroups);
+    groupsByUUID.keySet().retainAll(keepGroups);
+
+    saveConfig(PROJECT_CONFIG, rc);
+    saveGroupList();
+  }
+
+  private void saveAccountsSection(Config rc, Set<AccountGroup.UUID> keepGroups) {
+    if (accountsSection != null) {
+      rc.setStringList(ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY,
+          ruleToStringList(accountsSection.getSameGroupVisibility(), keepGroups));
+    }
+  }
+
+  private void saveContributorAgreements(
+      Config rc, Set<AccountGroup.UUID> keepGroups) {
     for (ContributorAgreement ca : sort(contributorAgreements.values())) {
       set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_DESCRIPTION, ca.getDescription());
       set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_REQUIRE_CONTACT_INFORMATION, ca.isRequireContactInformation());
@@ -440,16 +490,25 @@ public class ProjectConfig extends VersionedMetaData {
         rc.unset(CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_AUTO_VERIFY);
       }
 
-      List<String> rules = new ArrayList<String>();
-      for (PermissionRule rule : sort(ca.getAccepted())) {
-        if (rule.getGroup().getUUID() != null) {
-          keepGroups.add(rule.getGroup().getUUID());
-        }
-        rules.add(rule.asString(false));
-      }
-      rc.setStringList(CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_ACCEPTED, rules);
+      rc.setStringList(CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_ACCEPTED,
+          ruleToStringList(ca.getAccepted(), keepGroups));
     }
+  }
 
+  private List<String> ruleToStringList(
+      List<PermissionRule> list, Set<AccountGroup.UUID> keepGroups) {
+    List<String> rules = new ArrayList<String>();
+    for (PermissionRule rule : sort(list)) {
+      if (rule.getGroup().getUUID() != null) {
+        keepGroups.add(rule.getGroup().getUUID());
+      }
+      rules.add(rule.asString(false));
+    }
+    return rules;
+  }
+
+  private void saveAccessSections(
+      Config rc, Set<AccountGroup.UUID> keepGroups) {
     AccessSection capability = accessSections.get(AccessSection.GLOBAL_CAPABILITIES);
     if (capability != null) {
       Set<String> have = new HashSet<String>();
@@ -526,10 +585,6 @@ public class ProjectConfig extends VersionedMetaData {
         rc.unsetSection(ACCESS, name);
       }
     }
-    groupsByUUID.keySet().retainAll(keepGroups);
-
-    saveConfig(PROJECT_CONFIG, rc);
-    saveGroupList();
   }
 
   private void saveGroupList() throws IOException {

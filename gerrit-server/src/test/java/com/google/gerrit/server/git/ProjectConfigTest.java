@@ -73,6 +73,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
             + "  submit = group Developers\n" //
             + "  push = group Developers\n" //
             + "  read = group Developers\n" //
+            + "[accounts]\n" //
+            + "  sameGroupVisibility = deny group Developers\n" //
+            + "  sameGroupVisibility = block group Staff\n" //
             + "[contributor-agreement \"Individual\"]\n" //
             + "  description = A simple description\n" //
             + "  accepted = group Developers\n" //
@@ -83,6 +86,7 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         ));
 
     ProjectConfig cfg = read(rev);
+    assertEquals(2, cfg.getAccountsSection().getSameGroupVisibility().size());
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
     assertEquals("Individual", ca.getName());
     assertEquals("A simple description", ca.getDescription());
@@ -118,6 +122,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
             + "  submit = group Developers\n" //
             + "  upload = group Developers\n" //
             + "  read = group Developers\n" //
+            + "[accounts]\n" //
+            + "  sameGroupVisibility = deny group Developers\n" //
+            + "  sameGroupVisibility = block group Staff\n" //
             + "[contributor-agreement \"Individual\"]\n" //
             + "  description = A simple description\n" //
             + "  accepted = group Developers\n" //
@@ -129,6 +136,8 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
 
     ProjectConfig cfg = read(rev);
     AccessSection section = cfg.getAccessSection("refs/heads/*");
+    cfg.getAccountsSection().setSameGroupVisibility(
+        Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
     Permission submit = section.getPermission(Permission.SUBMIT);
     submit.add(new PermissionRule(cfg.resolve(staff)));
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
@@ -144,6 +153,8 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         + "\tsubmit = group Staff\n" //
         + "  upload = group Developers\n" //
         + "  read = group Developers\n"//
+        + "[accounts]\n" //
+        + "  sameGroupVisibility = group Staff\n" //
         + "[contributor-agreement \"Individual\"]\n" //
         + "  description = A new description\n" //
         + "  accepted = group Staff\n" //

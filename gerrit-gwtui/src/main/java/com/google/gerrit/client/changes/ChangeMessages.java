@@ -18,8 +18,6 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface ChangeMessages extends Messages {
   String accountDashboardTitle(String fullName);
-  String changesStartedBy(String fullName);
-  String changesReviewableBy(String fullName);
   String changesOpenInProject(String string);
   String changesMergedInProject(String string);
   String changesAbandonedInProject(String string);

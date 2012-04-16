@@ -148,12 +148,14 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
   }
 
-  private void updateTableLayoutForLabels(ChangeList list) {
+  public void updateColumnsForLabels(ChangeList... lists) {
     labelNames = new ArrayList<String>();
-    for (int i = 0; i < list.size(); i++) {
-      for (String name : list.get(i).labels()) {
-        if (!labelNames.contains(name)) {
-          labelNames.add(name);
+    for (ChangeList list : lists) {
+      for (int i = 0; i < list.size(); i++) {
+        for (String name : list.get(i).labels()) {
+          if (!labelNames.contains(name)) {
+            labelNames.add(name);
+          }
         }
       }
     }
@@ -179,6 +181,12 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       table.setText(0, col, abbrev.toString());
       table.getCellFormatter().getElement(0, col).setTitle(name);
       fmt.addStyleName(0, col, Gerrit.RESOURCES.css().dataHeader());
+    }
+
+    for (Section s : sections) {
+      if (s.titleRow >= 0) {
+        fmt.setColSpan(s.titleRow, 0, columns);
+      }
     }
   }
 
@@ -409,20 +417,15 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
           parent.removeRow(dataBegin);
           rows--;
         }
-      }
-
-      if (sz == 0) {
-        if (hadData) {
-          parent.insertNoneRow(dataBegin);
-        }
-        return;
-      }
-
-      if (!hadData) {
+      } else {
         parent.removeRow(dataBegin);
       }
 
-      parent.updateTableLayoutForLabels(changeList);
+      if (sz == 0) {
+        parent.insertNoneRow(dataBegin);
+        return;
+      }
+
       while (rows < sz) {
         parent.insertChangeRow(dataBegin + rows);
         rows++;

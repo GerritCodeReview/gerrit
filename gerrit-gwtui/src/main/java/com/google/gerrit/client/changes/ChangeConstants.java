@@ -23,7 +23,11 @@ public interface ChangeConstants extends Constants {
   String statusLongAbandoned();
   String statusLongDraft();
 
-  String changesRecentlyClosed();
+  String myDashboardTitle();
+  String unknownDashboardTitle();
+  String incomingReviews();
+  String outgoingReviews();
+  String recentlyClosed();
 
   String starredHeading();
   String watchedHeading();

@@ -194,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEvH////c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountCapabilitiesServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-16T10:48:02Z",
+      "side": 1,
+      "message": "Ok, to me it\u0027s also not obvious yet how to factor this out in a nice way. Maybe it gets more clear when there are more endpoints in place.",
+      "parentUuid": "AAAEtH///6w\u003d",
+      "revId": "c265a7b9dba922767ad72d6cd4215f8a9406ed64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX////o\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/AccountCapabilitiesServlet.java",
         "patchSetId": 6

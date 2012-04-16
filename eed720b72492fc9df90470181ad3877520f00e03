@@ -87,6 +87,24 @@
       "revId": "eed720b72492fc9df90470181ad3877520f00e03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEvH////Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectsTable.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-16T11:19:42Z",
+      "side": 1,
+      "message": "This still fails for me with the new patch set 11, but you are right that this is caused by the missing set method in the NativeList implementation. Currently this method is only added in change 34532 [1]. Did you forget to move this modification earlier?\n\n[1] https://gerrit-review.googlesource.com/#/c/34532/3/gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/NativeList.java",
+      "parentUuid": "AAAEtH///6Q\u003d",
+      "revId": "eed720b72492fc9df90470181ad3877520f00e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

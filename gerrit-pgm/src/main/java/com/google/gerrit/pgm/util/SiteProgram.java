@@ -29,6 +29,8 @@ import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
+import com.google.gerrit.pgm.shell.InteractiveShell;
+import com.google.gerrit.pgm.shell.JythonShell;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
@@ -212,6 +214,22 @@ public abstract class SiteProgram extends AbstractProgram {
     throw new IllegalStateException(String.format(
         "Cannot guess database type from the database product name '%s'",
         dbProductName));
+  }
+
+  /** @return provides interactive shell if any. */
+  protected Injector createShellInjector() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(InteractiveShell.class).to(JythonShell.class);
+      }
+    });
+    try {
+      return Guice.createInjector(PRODUCTION, modules);
+    } catch (CreationException ce) {
+      throw die("Cannot start interactive shell", ce);
+    }
   }
 
   @SuppressWarnings("deprecation")

@@ -16,6 +16,7 @@ SYNOPSIS
 	[\--slave]
 	[\--headless]
 	[\--init]
+	[-s]
 
 DESCRIPTION
 -----------
@@ -67,6 +68,14 @@ This option automatically implies '\--disable-httpd \--enable-sshd'.
 \--init::
 	Run init before starting the daemon. This will create a new site or
 	upgrade an existing site.
+
+\--s::
+	Start link:dev-inspector.html[Gerrit Inspector] on the console, a
+	built-in interactive inspection environment to assist debugging and
+	troubleshooting of Gerrit code.
++
+This options requires 'jython.jar' from the http://www.jython.org[Jython distribution]
+to be present in '$site_path/lib' directory.
 
 CONTEXT
 -------

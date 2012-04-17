@@ -33,6 +33,7 @@ INIT_BASE_SRCS = [SRCS + 'BaseInit.java'] + glob(
     [SRCS + n for n in [
       'init/**/*.java',
       'util/**/*.java',
+      'shell/**/*.java',
     ]],
     excludes = INIT_API_SRCS +
       [SRCS + n for n in [
@@ -66,6 +67,8 @@ java_library2(
     '//lib:guava',
     '//lib:gwtjsonrpc',
     '//lib:gwtorm',
+    '//lib/log:api',
+    '//lib/log:log4j',
   ],
   compile_deps = ['//gerrit-launcher:launcher'],
   visibility = ['//gerrit-war:'],

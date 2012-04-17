@@ -33,6 +33,7 @@ import com.google.gerrit.pgm.http.jetty.GetUserFilter;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
 import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter;
+import com.google.gerrit.pgm.shell.InteractiveShell;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.GarbageCollectionLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
@@ -57,6 +58,7 @@ import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.IntraLineWorkerPool;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
+import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -109,6 +111,9 @@ public class Daemon extends SiteProgram {
   @Option(name = "--console-log", usage = "Log to console (not $site_path/logs)")
   private boolean consoleLog;
 
+  @Option(name = "-s", usage = "Start interactive shell")
+  private boolean inspector;
+
   @Option(name = "--run-id", usage = "Cookie to store in $site_path/logs/gerrit.run")
   private String runId;
 
@@ -123,6 +128,7 @@ public class Daemon extends SiteProgram {
   private Injector dbInjector;
   private Injector cfgInjector;
   private Injector sysInjector;
+  private Injector shellInjector;
   private Injector sshInjector;
   private Injector webInjector;
   private Injector httpdInjector;
@@ -181,7 +187,8 @@ public class Daemon extends SiteProgram {
       sysInjector = createSysInjector();
       sysInjector.getInstance(PluginGuiceEnvironment.class)
         .setCfgInjector(cfgInjector);
-      manager.add(dbInjector, cfgInjector, sysInjector);
+      shellInjector = createShellInjector();
+      manager.add(dbInjector, cfgInjector, sysInjector, shellInjector);
 
       if (sshd) {
         initSshd();
@@ -224,7 +231,17 @@ public class Daemon extends SiteProgram {
         serverStarted.run();
       }
 
-      RuntimeShutdown.waitFor();
+      if (inspector) {
+        InteractiveShell shell = shellInjector.getInstance(InteractiveShell.class);
+        shell.set("m", manager);
+        shell.set("ds",
+            dbInjector.getInstance(DataSourceProvider.class));
+        shell.set("schk",
+            dbInjector.getInstance(SchemaVersionCheck.class));
+        shell.run();
+      } else {
+        RuntimeShutdown.waitFor();
+      }
       return 0;
     } catch (Throwable err) {
       log.error("Unable to start daemon", err);

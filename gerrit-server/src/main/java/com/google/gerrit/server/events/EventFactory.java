@@ -38,6 +38,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class EventFactory {
   private final ApprovalTypes approvalTypes;
   private final PatchListCache patchListCache;
   private final SchemaFactory<ReviewDb> schema;
+  private static Logger log = Logger.getLogger(EventFactory.class);
 
   @Inject
   EventFactory(AccountCache accountCache,
@@ -273,6 +275,20 @@ public class EventFactory {
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
+    try {
+      final ReviewDb db = schema.open();
+      try {
+        p.parentsRevision = new ArrayList<String>();
+        for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
+            patchSet.getId())) {
+          p.parentsRevision.add(a.getAncestorRevision().get());
+        }
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+      log.error("Cannot load patch set data for " + patchSet.getId(), e);
+    }
     return p;
   }
 

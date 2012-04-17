@@ -19,6 +19,7 @@ import java.util.List;
 public class PatchSetAttribute {
     public String number;
     public String revision;
+    public List<String> parentsRevision;
     public String ref;
     public AccountAttribute uploader;
     public Long createdOn;

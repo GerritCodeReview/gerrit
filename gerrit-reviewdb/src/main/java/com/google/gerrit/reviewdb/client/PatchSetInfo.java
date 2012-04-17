@@ -14,6 +14,7 @@
 
 package com.google.gerrit.reviewdb.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -107,6 +108,14 @@ public final class PatchSetInfo {
 
   public List<ParentInfo> getParents() {
     return parents;
+  }
+
+  public List<String> getParentRevisons() {
+    List<String> prs = new ArrayList<String>(parents.size());
+    for (ParentInfo p : parents) {
+      prs.add(p.id.get());
+    }
+    return prs;
   }
 
   public void setRevId(final String s) {

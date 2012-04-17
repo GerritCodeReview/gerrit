@@ -32,12 +32,15 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.util.ArrayList;
@@ -53,17 +56,20 @@ public class EventFactory {
   private final ApprovalTypes approvalTypes;
   private final PatchListCache patchListCache;
   private final SchemaFactory<ReviewDb> schema;
+  private final PatchSetInfoFactory patchSetInfoFactory;
+  private static Logger log = Logger.getLogger(EventFactory.class);
 
   @Inject
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
-      ApprovalTypes approvalTypes,
-      PatchListCache patchListCache, SchemaFactory<ReviewDb> schema) {
+      ApprovalTypes approvalTypes, PatchListCache patchListCache,
+      SchemaFactory<ReviewDb> schema, PatchSetInfoFactory patchSetInfoFactory) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
     this.patchListCache = patchListCache;
     this.schema = schema;
+    this.patchSetInfoFactory = patchSetInfoFactory;
   }
 
   /**
@@ -273,6 +279,23 @@ public class EventFactory {
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
+    try {
+      final ReviewDb db = schema.open();
+      try {
+        p.parentsRevision =
+            patchSetInfoFactory.get(db, patchSet.getId()).getParentRevisons();
+      } finally {
+        db.close();
+      }
+
+    } catch (PatchSetInfoNotAvailableException e) {
+      log.error(e);
+      e.printStackTrace();
+    } catch (OrmException e) {
+      log.error(e);
+      e.printStackTrace();
+    }
+
     return p;
   }
 

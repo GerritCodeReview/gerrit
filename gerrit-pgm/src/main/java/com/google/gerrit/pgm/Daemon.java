@@ -30,6 +30,7 @@ import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
 import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter;
 import com.google.gerrit.pgm.util.ErrorLogFile;
+import com.google.gerrit.pgm.shell.InteractiveShell;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -94,6 +95,9 @@ public class Daemon extends SiteProgram {
   @Option(name = "--console-log", usage = "Log to console (not $site_path/logs)")
   private boolean consoleLog;
 
+  @Option(name = "-s", usage = "Start interactive shell")
+  private boolean shell;
+
   @Option(name = "--run-id", usage = "Cookie to store in $site_path/logs/gerrit.run")
   private String runId;
 
@@ -101,6 +105,7 @@ public class Daemon extends SiteProgram {
   private Injector dbInjector;
   private Injector cfgInjector;
   private Injector sysInjector;
+  private Injector shellInjector;
   private Injector sshInjector;
   private Injector webInjector;
   private Injector httpdInjector;
@@ -140,7 +145,8 @@ public class Daemon extends SiteProgram {
       dbInjector = createDbInjector(MULTI_USER);
       cfgInjector = createCfgInjector();
       sysInjector = createSysInjector();
-      manager.add(dbInjector, cfgInjector, sysInjector);
+      shellInjector = createShellInjector();
+      manager.add(dbInjector, cfgInjector, sysInjector, shellInjector);
 
       if (sshd) {
         initSshd();
@@ -178,7 +184,13 @@ public class Daemon extends SiteProgram {
         }
       }
 
-      RuntimeShutdown.waitFor();
+      if (shell) {
+        InteractiveShell interp = shellInjector.getInstance(InteractiveShell.class);
+        interp.set("m", manager);
+        interp.run();
+      } else {
+        RuntimeShutdown.waitFor();
+      }
       return 0;
     } catch (Throwable err) {
       log.error("Unable to start daemon", err);

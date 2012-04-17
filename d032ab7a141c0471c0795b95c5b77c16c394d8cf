@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "AAAEt3///7U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-17T01:46:05Z",
+      "side": 1,
+      "message": "I think the latest server change supports the -1..+1 vote range for Code-Review but I still need to update this code in the client to display it.",
+      "parentUuid": "AAAEuH////k\u003d",
+      "revId": "d032ab7a141c0471c0795b95c5b77c16c394d8cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAErX///+E\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 4

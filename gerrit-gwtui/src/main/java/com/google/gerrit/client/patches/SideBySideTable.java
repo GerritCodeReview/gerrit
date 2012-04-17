@@ -26,16 +26,15 @@ import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
@@ -47,9 +46,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SideBySideTable extends AbstractPatchContentTable {
-  private static final int COL_A = 2;
-  private static final int COL_B = 4;
-
+  private static final int A = 2;
+  private static final int B = 3;
   private static final int NUM_ROWS_TO_EXPAND = 10;
 
   private SparseHtmlFile a;
@@ -59,24 +57,17 @@ public class SideBySideTable extends AbstractPatchContentTable {
   protected void onCellDoubleClick(final int row, int column) {
     if (column > 0 && getRowItem(row) instanceof PatchLine) {
       final PatchLine line = (PatchLine) getRowItem(row);
-      final short file = (short) ((column - 1) / 2);
-      if (column < (1 + file * 2 + 1)) {
-        column++;
-      }
-      switch (file) {
-        case 0:
-          createCommentEditor(row + 1, column, line.getLineA(), file);
-          break;
-        case 1:
-          createCommentEditor(row + 1, column, line.getLineB(), file);
-          break;
+      if (column == 1 || column == A) {
+        createCommentEditor(row + 1, A, line.getLineA(), (short) 0);
+      } else if (column == B || column == 4) {
+        createCommentEditor(row + 1, B, line.getLineB(), (short) 1);
       }
     }
   }
 
   @Override
   protected void onCellSingleClick(int row, int column) {
-    if (column == 1 || column == 3) {
+    if (column == 1 || column == 4) {
       onCellDoubleClick(row, column);
     }
   }
@@ -84,7 +75,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
   @Override
   protected void onInsertComment(final PatchLine line) {
     final int row = getCurrentRow();
-    createCommentEditor(row + 1, 4, line.getLineB(), (short) 1);
+    createCommentEditor(row + 1, B, line.getLineB(), (short) 1);
   }
 
   @Override
@@ -100,7 +91,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
     appendHeader(script, nc);
     lines.add(null);
 
-    if(script.getFileModeA()!=FileMode.FILE||script.getFileModeB()!=FileMode.FILE){
+    if (script.getFileModeA() != FileMode.FILE
+        || script.getFileModeB() != FileMode.FILE) {
       openLine(nc);
       appendModeLine(nc, script.getFileModeA());
       appendModeLine(nc, script.getFileModeB());
@@ -121,13 +113,14 @@ public class SideBySideTable extends AbstractPatchContentTable {
         if (hunk.isContextLine()) {
           openLine(nc);
           final SafeHtml ctx = a.getSafeHtmlLine(hunk.getCurA());
-          appendLineText(nc, hunk.getCurA(), CONTEXT, ctx, false, false);
+          appendLineNumber(nc, hunk.getCurA(), false);
+          appendLineText(nc, CONTEXT, ctx, false, false);
           if (ignoreWS && b.contains(hunk.getCurB())) {
-            appendLineText(nc, hunk.getCurB(), CONTEXT, b, hunk.getCurB(),
-                false);
+            appendLineText(nc, CONTEXT, b, hunk.getCurB(), false);
           } else {
-            appendLineText(nc, hunk.getCurB(), CONTEXT, ctx, false, false);
+            appendLineText(nc, CONTEXT, ctx, false, false);
           }
+          appendLineNumber(nc, hunk.getCurB(), true);
           closeLine(nc);
           hunk.incBoth();
           lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
@@ -140,21 +133,27 @@ public class SideBySideTable extends AbstractPatchContentTable {
           openLine(nc);
 
           if (del) {
-            appendLineText(nc, hunk.getCurA(), DELETE, a, hunk.getCurA(), full);
+            appendLineNumber(nc, hunk.getCurA(), false);
+            appendLineText(nc, DELETE, a, hunk.getCurA(), full);
             hunk.incA();
           } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
+            appendLineNumber(nc, false);
             appendLineNone(nc, DELETE);
           } else {
+            appendLineNumber(nc, false);
             appendLineNone(nc, CONTEXT);
           }
 
           if (ins) {
-            appendLineText(nc, hunk.getCurB(), INSERT, b, hunk.getCurB(), full);
+            appendLineText(nc, INSERT, b, hunk.getCurB(), full);
+            appendLineNumber(nc, hunk.getCurB(), true);
             hunk.incB();
           } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
             appendLineNone(nc, INSERT);
+            appendLineNumber(nc, true);
           } else {
             appendLineNone(nc, CONTEXT);
+            appendLineNumber(nc, true);
           }
 
           closeLine(nc);
@@ -229,13 +228,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
           final PatchLineComment ac = ai.next();
           final PatchLineComment bc = bi.next();
           insertRow(row);
-          bindComment(row, COL_A, ac, !ai.hasNext(), expandComments);
-          bindComment(row, COL_B, bc, !bi.hasNext(), expandComments);
+          bindComment(row, A, ac, !ai.hasNext(), expandComments);
+          bindComment(row, B, bc, !bi.hasNext(), expandComments);
           row++;
         }
 
-        row = finish(ai, row, COL_A, expandComments);
-        row = finish(bi, row, COL_B, expandComments);
+        row = finish(ai, row, A, expandComments);
+        row = finish(bi, row, B, expandComments);
       } else {
         row++;
       }
@@ -246,10 +245,10 @@ public class SideBySideTable extends AbstractPatchContentTable {
   protected void insertRow(final int row) {
     super.insertRow(row);
     final CellFormatter fmt = table.getCellFormatter();
-    fmt.addStyleName(row, COL_A - 1, Gerrit.RESOURCES.css().lineNumber());
-    fmt.addStyleName(row, COL_A, Gerrit.RESOURCES.css().diffText());
-    fmt.addStyleName(row, COL_B - 1, Gerrit.RESOURCES.css().lineNumber());
-    fmt.addStyleName(row, COL_B, Gerrit.RESOURCES.css().diffText());
+    fmt.addStyleName(row, A - 1, Gerrit.RESOURCES.css().lineNumber());
+    fmt.addStyleName(row, A, Gerrit.RESOURCES.css().diffText());
+    fmt.addStyleName(row, B, Gerrit.RESOURCES.css().diffText());
+    fmt.addStyleName(row, B + 1, Gerrit.RESOURCES.css().lineNumber());
   }
 
   private int finish(final Iterator<PatchLineComment> i, int row, final int col, boolean expandComment) {
@@ -295,11 +294,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.closeTd();
 
     m.openTd();
-    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
-    m.addStyleName(Gerrit.RESOURCES.css().lineNumber());
-    m.closeTd();
-
-    m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.setAttribute("width", "50%");
     m.append(PatchUtil.C.patchHeaderNew());
@@ -307,6 +301,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
     if (0 < script.getB().size()) {
       downloadLink(m, new Patch.Key(idSideB, patchKey.get()), "0");
     }
+    m.closeTd();
+
+    m.openTd();
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.closeTd();
 
     m.closeTr();
@@ -336,21 +335,21 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.closeTr();
   }
 
-  ClickHandler expandAllListener = new ClickHandler() {
+  private ClickHandler expandAllListener = new ClickHandler() {
     @Override
     public void onClick(ClickEvent event) {
       expand(event, 0);
     }
   };
 
-  ClickHandler expandBeforeListener = new ClickHandler() {
+  private ClickHandler expandBeforeListener = new ClickHandler() {
     @Override
     public void onClick(ClickEvent event) {
       expand(event, NUM_ROWS_TO_EXPAND);
     }
   };
 
-  ClickHandler expandAfterListener = new ClickHandler() {
+  private ClickHandler expandAfterListener = new ClickHandler() {
     @Override
     public void onClick(ClickEvent event) {
       expand(event, -NUM_ROWS_TO_EXPAND);
@@ -358,11 +357,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
   };
 
   private void expand(ClickEvent event, final int numRows) {
-    Cell cell = table.getCellForEvent(event);
-    int row = cell.getRowIndex();
+    int row = table.getCellForEvent(event).getRowIndex();
     if (!(getRowItem(row) instanceof SkippedLine)) {
       return;
     }
+
     SkippedLine line = (SkippedLine) getRowItem(row);
     int loopTo = numRows;
     if (numRows == 0) {
@@ -374,6 +373,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
     if (numRows < 0) {
       offset = 1;
     }
+
+    CellFormatter fmt = table.getCellFormatter();
     for (int i = 0 + offset; i < loopTo + offset; i++) {
       insertRow(row + i);
       int lineA = line.getStartA() + i;
@@ -382,21 +383,20 @@ public class SideBySideTable extends AbstractPatchContentTable {
         lineA = line.getStartA() + line.getSize() + numRows + i - offset;
         lineB = line.getStartB() + line.getSize() + numRows + i - offset;
       }
-      setHtml(row + i, 1, "<a href=\"javascript:void(0)\">" + (lineA + 1)
-          + "</a>");
-      addStyle(row + i, 1, Gerrit.RESOURCES.css().lineNumber());
 
-      setHtml(row + i, 2, a.getSafeHtmlLine(lineA).asString());
-      addStyle(row + i, 2, Gerrit.RESOURCES.css().fileLine());
-      addStyle(row + i, 2, Gerrit.RESOURCES.css().fileLineCONTEXT());
+      table.setHTML(row + i, A - 1, "<a href=\"javascript:;\">" + (lineA + 1) + "</a>");
+      fmt.addStyleName(row + i, A - 1, Gerrit.RESOURCES.css().lineNumber());
 
-      setHtml(row + i, 3, "<a href=\"javascript:void(0)\">" + (lineB + 1)
-          + "</a>");
-      addStyle(row + i, 3, Gerrit.RESOURCES.css().lineNumber());
+      table.setHTML(row + i, A, a.getSafeHtmlLine(lineA).asString());
+      fmt.addStyleName(row + i, A, Gerrit.RESOURCES.css().fileLine());
+      fmt.addStyleName(row + i, A, Gerrit.RESOURCES.css().fileLineCONTEXT());
 
-      setHtml(row + i, 4, b.getSafeHtmlLine(lineB).asString());
-      addStyle(row + i, 4, Gerrit.RESOURCES.css().fileLine());
-      addStyle(row + i, 4, Gerrit.RESOURCES.css().fileLineCONTEXT());
+      table.setHTML(row + i, B, b.getSafeHtmlLine(lineB).asString());
+      fmt.addStyleName(row + i, B, Gerrit.RESOURCES.css().fileLine());
+      fmt.addStyleName(row + i, B, Gerrit.RESOURCES.css().fileLineCONTEXT());
+
+      table.setHTML(row + i, B + 1, "<a href=\"javascript:;\">" + (lineB + 1) + "</a>");
+      fmt.addStyleName(row + i, B + 1, Gerrit.RESOURCES.css().lineNumber());
 
       setRowItem(row + i, new PatchLine(CONTEXT, lineA, lineB));
     }
@@ -408,34 +408,41 @@ public class SideBySideTable extends AbstractPatchContentTable {
       line.reduceSize(-numRows);
       createSkipLine(row, line);
     } else {
-      removeRow(row + loopTo);
+      table.removeRow(row + loopTo);
     }
   }
 
   private void createSkipLine(int row, SkippedLine line) {
     FlowPanel p = new FlowPanel();
-    Label l1 = new Label(" " + PatchUtil.C.patchSkipRegionStart() + " ");
+    InlineLabel l1 = new InlineLabel(" " + PatchUtil.C.patchSkipRegionStart() + " ");
+    InlineLabel l2 = new InlineLabel(" " + PatchUtil.C.patchSkipRegionEnd() + " ");
+
     Anchor all = new Anchor(String.valueOf(line.getSize()));
-    Label l2 = new Label(" " + PatchUtil.C.patchSkipRegionEnd() + " ");
     all.addClickHandler(expandAllListener);
+    all.setStyleName(Gerrit.RESOURCES.css().skipLine());
+
     if (line.getSize() > 30) {
-      // We only show the expand before & after links if we skip more than
-      // 30 lines.
-      Anchor before = new Anchor(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND));
-      before.addClickHandler(expandBeforeListener);
-      Anchor after = new Anchor(PatchUtil.M.expandAfter(NUM_ROWS_TO_EXPAND));
-      after.addClickHandler(expandAfterListener);
-      p.add(before);
+      // Only show the expand before/after if skipped more than 30 lines.
+      Anchor b = new Anchor(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND), true);
+      Anchor a = new Anchor(PatchUtil.M.expandAfter(NUM_ROWS_TO_EXPAND), true);
+
+      b.addClickHandler(expandBeforeListener);
+      a.addClickHandler(expandAfterListener);
+
+      b.setStyleName(Gerrit.RESOURCES.css().skipLine());
+      a.setStyleName(Gerrit.RESOURCES.css().skipLine());
+
+      p.add(b);
       p.add(l1);
       p.add(all);
       p.add(l2);
-      p.add(after);
+      p.add(a);
     } else {
       p.add(l1);
       p.add(all);
       p.add(l2);
     }
-    setWidget(row, 1, p);
+    table.setWidget(row, 1, p);
   }
 
   private void openLine(final SafeHtmlBuilder m) {
@@ -447,22 +454,34 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.closeTd();
   }
 
-  private void appendLineText(final SafeHtmlBuilder m,
-      final int lineNumberMinusOne, final PatchLine.Type type,
-      final SparseHtmlFile src, final int i, final boolean fullBlock) {
-    appendLineText(m, lineNumberMinusOne, type, //
-        src.getSafeHtmlLine(i), src.hasTrailingEdit(i), fullBlock);
+  private void appendLineNumber(SafeHtmlBuilder m, boolean right) {
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    if (right) {
+      m.addStyleName(Gerrit.RESOURCES.css().rightmost());
+    }
+    m.closeTd();
+  }
+
+  private void appendLineNumber(SafeHtmlBuilder m, int lineNumberMinusOne, boolean right) {
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    if (right) {
+      m.addStyleName(Gerrit.RESOURCES.css().rightmost());
+    }
+    m.append(SafeHtml.asis("<a href=\"javascript:;\">"+ (lineNumberMinusOne + 1) + "</a>"));
+    m.closeTd();
   }
 
   private void appendLineText(final SafeHtmlBuilder m,
-      final int lineNumberMinusOne, final PatchLine.Type type,
-      final SafeHtml lineHtml, final boolean trailingEdit,
+      final PatchLine.Type type, final SparseHtmlFile src, final int i,
       final boolean fullBlock) {
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
-    m.append(SafeHtml.asis("<a href=\"javascript:void(0)\">"+ (lineNumberMinusOne + 1) + "</a>"));
-    m.closeTd();
+    appendLineText(m, type, src.getSafeHtmlLine(i), src.hasTrailingEdit(i), fullBlock);
+  }
 
+  private void appendLineText(final SafeHtmlBuilder m,
+      final PatchLine.Type type, final SafeHtml lineHtml,
+      final boolean trailingEdit, final boolean fullBlock) {
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().fileLine());
     switch (type) {
@@ -487,10 +506,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   private void appendLineNone(final SafeHtmlBuilder m, final PatchLine.Type type) {
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
-    m.closeTd();
-
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().fileLine());
     switch (type != null ? type : PatchLine.Type.CONTEXT) {

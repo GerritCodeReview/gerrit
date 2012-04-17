@@ -662,10 +662,16 @@
   white-space: pre;
   width: 3.5em;
   text-align: right;
-  border-right: thin solid #b0bdcc;
   padding-right: 0.2em;
   background: white;
   border-bottom: 1px solid white;
+}
+.lineNumber.rightmost {
+  border-left: thin solid #b0bdcc;
+}
+.lineNumber a {
+  color: #888;
+  text-decoration: none;
 }
 .patchContentTable td.fileColumnHeader {
   background: trimColor;
@@ -689,6 +695,7 @@
   padding-left: 0;
   padding-right: 0;
   white-space: pre;
+  border-left: thin solid #b0bdcc;
 }
 .fileLineNone {
   background: #eeeeee;
@@ -723,10 +730,20 @@
   font-family: norm-font;
   text-align: center;
   font-style: italic;
-  background: lightblue;
+  background: #def;
+  color: grey;
 }
 .patchContentTable .skipLine div {
   display: inline;
+}
+.patchContentTable a.skipLine {
+  color: grey;
+  text-decoration: none;
+}
+.patchContentTable a:hover.skipLine {
+  background: white;
+  color: #00A;
+  text-decoration: underline;
 }
 
 .patchContentTable .activeRow .iconCell,

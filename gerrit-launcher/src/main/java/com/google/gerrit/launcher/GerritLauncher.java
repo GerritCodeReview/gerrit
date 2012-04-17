@@ -265,6 +265,7 @@ public final class GerritLauncher {
   }
 
   private static File myArchive;
+  private static File myHome;
 
   /**
    * Locate the JAR/WAR file we were launched from.
@@ -422,7 +423,19 @@ public final class GerritLauncher {
     return tmp;
   }
 
-  private static File tmproot() {
+  /**
+   * Provide path to a working directory
+   *
+   * @return local path of the working directory or null if cannot be determined
+   */
+  public static File getHomeDirectory() {
+    if (myHome == null) {
+      myHome = locateHomeDirectory();
+    }
+    return myHome;
+  }
+
+  private static File locateHomeDirectory() {
     // Try to find the user's home directory. If we can't find it
     // return null so the JVM's default temporary directory is used
     // instead. This is probably /tmp or /var/tmp.
@@ -452,7 +465,23 @@ public final class GerritLauncher {
 
     // Use $HOME/.gerritcodereview/tmp for our temporary file area.
     //
-    final File tmp = new File(new File(home, ".gerritcodereview"), "tmp");
+    final File gerrithome = new File(home, ".gerritcodereview");
+    if (!gerrithome.exists() && !gerrithome.mkdirs()) {
+      System.err.println("warning: cannot create " + gerrithome.getAbsolutePath());
+      System.err.println("warning: using system temporary directory instead");
+      return null;
+    }
+    try {
+      return gerrithome.getCanonicalFile();
+    } catch (IOException e) {
+      return gerrithome;
+    }
+  }
+
+  private static File tmproot() {
+    // Use $HOME/.gerritcodereview/tmp for our temporary file area.
+    //
+    final File tmp = new File(getHomeDirectory(), "tmp");
     if (!tmp.exists() && !tmp.mkdirs()) {
       System.err.println("warning: cannot create " + tmp.getAbsolutePath());
       System.err.println("warning: using system temporary directory instead");

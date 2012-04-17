@@ -14,6 +14,7 @@ SYNOPSIS
 	[\--enable-sshd | \--disable-sshd]
 	[\--console-log]
 	[\--slave]
+        [-s]
 
 DESCRIPTION
 -----------
@@ -47,16 +48,24 @@ OPTIONS
 
 \--slave::
 	Run in slave mode, permitting only read operations
-    by clients.  Commands which modify state such as
-    link:cmd-receive-pack.html[receive-pack] (creates new changes
-    or updates existing ones) or link:cmd-review.html[review]
-    (sets approve marks) are disabled.
+	by clients.  Commands which modify state such as
+	link:cmd-receive-pack.html[receive-pack] (creates new changes
+	or updates existing ones) or link:cmd-review.html[review]
+	(sets approve marks) are disabled.
 +
 This option automatically implies '\--disable-httpd \--enable-sshd'.
 
 \--console-log::
 	Send log messages to the console, instead of to the standard
 	log file '$site_path/logs/error_log'.
+
+-s::
+	Start link:dev-inspector.html[Gerrit Inspector] on the console, a built-in
+	interactive inspection environment to assit debugging
+and troubleshooting of Gerrit code.
++
+This options requires 'jython.jar' from the http://www.jython.org[Jython distribution]
+to be present in '$site_path/lib' directory.
 
 CONTEXT
 -------

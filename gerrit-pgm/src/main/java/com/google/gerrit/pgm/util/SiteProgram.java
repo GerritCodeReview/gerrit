@@ -24,6 +24,8 @@ import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
+import com.google.gerrit.pgm.shell.InteractiveShell;
+import com.google.gerrit.pgm.shell.JythonShell;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
@@ -198,6 +200,23 @@ public abstract class SiteProgram extends AbstractProgram {
         why = why.getCause();
       }
       throw die(buf.toString(), new RuntimeException("DbInjector failed", ce));
+    }
+  }
+
+  /** @return provides interactive shell if any. */
+  protected Injector createShellInjector() {
+    loadSiteLib();
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(InteractiveShell.class).to(JythonShell.class);
+      }
+    });
+    try {
+      return Guice.createInjector(PRODUCTION, modules);
+    } catch (CreationException ce) {
+      throw die("Cannot start interactive shell", ce);
     }
   }
 

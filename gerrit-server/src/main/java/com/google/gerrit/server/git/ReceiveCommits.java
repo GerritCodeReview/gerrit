@@ -424,7 +424,7 @@ public class ReceiveCommits {
     newProgress = progress.beginSubTask("new", UNKNOWN);
     replaceProgress = progress.beginSubTask("updated", UNKNOWN);
     closeProgress = progress.beginSubTask("closed", UNKNOWN);
-    commandProgress = progress.beginSubTask("refs", commands.size());
+    commandProgress = progress.beginSubTask("refs", UNKNOWN);
 
     parseCommands(commands);
     if (newChange != null
@@ -476,8 +476,8 @@ public class ReceiveCommits {
           replication.scheduleUpdate(project.getNameKey(), c.getRefName());
           Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
           hooks.doRefUpdatedHook(destBranch, c.getOldId(), c.getNewId(), currentUser.getAccount());
+          commandProgress.update(1);
         }
-        commandProgress.update(1);
       }
     }
     closeProgress.end();

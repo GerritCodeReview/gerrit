@@ -152,7 +152,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     rc.getReceivePack().setPreReceiveHook(this);
 
     progress = new MultiProgressMonitor(
-        new MessageSenderOutputStream(), "Updating changes");
+        new MessageSenderOutputStream(), "Processing changes");
     this.timeoutMillis = timeoutMillis;
   }
 

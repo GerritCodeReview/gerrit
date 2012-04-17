@@ -90,6 +90,43 @@ copying to the test site:
   java -jar gerrit-war/target/gerrit-*.war daemon -d ../test_site
 ----
 
+Running the Daemon with Gerrit Inspector
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+link:dev-inspector.html[Gerrit Inspector] is an interactive scriptable
+environment to inspect and modify internal state of the system.
+
+This environment is available on the system console after
+the system starts. Leaving the Inspector will shutdown the Gerrit
+instance.
+
+The environment allows interactive work as well as running of
+Python scripts for troubleshooting.
+
+Gerrit Inspect can be started by adding '-s' option to the
+command used to launch the daemon:
+
+----
+  java -jar gerrit-war/target/gerrit-*.war daemon -d ../test_site -s
+----
+
+Gerrit Inspector examines Java libraries first, then loads
+its initialization scripts and then starts a command line
+prompt on the console:
+
+----
+  Welcome to the Gerrit Inspector
+  Enter help() to see the above again, EOF to quit and stop Gerrit
+  Jython 2.5.2 (Release_2_5_2:7206, Mar 2 2011, 23:12:06)
+  [OpenJDK 64-Bit Server VM (Sun Microsystems Inc.)] on java1.6.0 running for Gerrit 2.3-rc0-163-g01967ef
+  >>>
+----
+
+With the Inspector enabled Gerrit can be used normally and all
+interfaces (HTTP, SSH etc.) are available.
+
+Care must be taken not to modify internal state of the system
+when using the Inspector.
 
 Querying the Database
 ~~~~~~~~~~~~~~~~~~~~~

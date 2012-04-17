@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAEx3///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-17T21:04:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure you need patchSetInfoFactory here. You could have pulled it from the database with the db.patchSetAncestors() table.",
+      "revId": "1796943a45e44e52ad7a681d4a105907c177bd02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEx3///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-17T21:04:11Z",
+      "side": 1,
+      "message": "A better message might be log.error(\"Cannot load patch set data for \" + patchSet.getId(), e);",
+      "revId": "1796943a45e44e52ad7a681d4a105907c177bd02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEx3///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-17T21:04:11Z",
+      "side": 1,
+      "message": "Don\u0027t print stack traces to stderr.",
+      "revId": "1796943a45e44e52ad7a681d4a105907c177bd02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEx3///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-17T21:04:11Z",
+      "side": 1,
+      "message": "Don\u0027t print stack traces to stderr.",
+      "revId": "1796943a45e44e52ad7a681d4a105907c177bd02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

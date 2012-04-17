@@ -250,7 +250,7 @@ public class NewAgreementScreen extends AccountScreen {
     String url = cla.getAgreementUrl();
     if (url != null && url.length() > 0) {
       agreementGroup.setVisible(true);
-      agreementHtml.setText(Gerrit.C.rpcStatusLoading());
+      agreementHtml.setText(Gerrit.C.rpcStatusWorking());
       if (!url.startsWith("http:") && !url.startsWith("https:")) {
         url = GWT.getHostPageBaseURL() + url;
       }

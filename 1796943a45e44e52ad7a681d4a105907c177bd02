@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE03////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-04-18T08:07:34Z",
+      "side": 1,
+      "message": "Now I got your idea. exactly right!\nthat would be just dry and enough.\nnew patch set coming :)",
+      "parentUuid": "AAAE0H////w\u003d",
+      "revId": "1796943a45e44e52ad7a681d4a105907c177bd02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEx3///+w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 1

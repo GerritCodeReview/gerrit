@@ -622,13 +622,19 @@ The force option has no function when granted to a branch in the
 Push Merge Commits
 ~~~~~~~~~~~~~~~~~~~~
 
-The `Push Merge Commit` permits the user to upload merge commits.
-It's an addon to the <<category_push,Push>> access right, and so it
-won't be sufficient with only `Push Merge Commit` granted for a push
-to happen.  Some projects wish to restrict merges to being created by
-Gerrit. By granting `Push` without `Push Merge Commit`, the only
+The `Push Merge Commit` access right permits the user to upload merge
+commits.  It's an addon to the <<category_push,Push>> access right, and
+so it won't be sufficient with only `Push Merge Commit` granted for a
+push to happen.  Some projects wish to restrict merges to being created
+by Gerrit. By granting `Push` without `Push Merge Commit`, the only
 merges that enter the system will be those created by Gerrit.
 
+The reference name connected to a `Push Merge Commit` entry must always
+be prefixed with `refs/for/`, for example `refs/for/refs/heads/BRANCH`.
+This applies even for an entry that complements a `Push` entry for
+`refs/heads/BRANCH` that allows direct pushes of non-merge commits, and
+the intention of the `Push Merge Commit` entry is to allow direct pushes
+of merge commits.
 
 [[category_push_annotated]]
 Push Annotated Tag

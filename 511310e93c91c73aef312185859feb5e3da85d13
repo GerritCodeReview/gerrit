@@ -16,6 +16,23 @@
       "revId": "511310e93c91c73aef312185859feb5e3da85d13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE0H///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-18T14:26:15Z",
+      "side": 1,
+      "message": "I am trying to phase out the notion of scores on labels, so I don\u0027t really want to send a value of \"1\" in the JSON. And actually, I would prefer sending -1 as a different name than recommended, but I am not sure what to call that state here. Its not rejected, but its close. I need some sort of synonym for \"not-recommended\".  :-)\n\nSo I think the JS needs to better grok when value isn\u0027t present.",
+      "revId": "511310e93c91c73aef312185859feb5e3da85d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

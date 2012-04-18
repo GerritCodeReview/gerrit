@@ -177,9 +177,7 @@ public class ProjectConfig extends VersionedMetaData {
   }
 
   public void replace(ContributorAgreement section) {
-    if (section.getAutoVerify() != null) {
-      resolve(section.getAutoVerify());
-    }
+    section.setAutoVerify(resolve(section.getAutoVerify()));
     for (PermissionRule rule : section.getAccepted()) {
       rule.setGroup(resolve(rule.getGroup()));
     }

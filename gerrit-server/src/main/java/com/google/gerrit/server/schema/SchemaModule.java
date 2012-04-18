@@ -22,6 +22,8 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.FactoryModule;
 
 import org.eclipse.jgit.lib.PersonIdent;
@@ -41,5 +43,8 @@ public class SchemaModule extends FactoryModule {
 
     bind(String.class).annotatedWith(AnonymousCowardName.class).toProvider(
         AnonymousCowardNameProvider.class);
+
+    bind(String.class).annotatedWith(CanonicalWebUrl.class).toProvider(
+        CanonicalWebUrlProvider.class);
   }
 }

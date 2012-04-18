@@ -16,6 +16,24 @@
       "revId": "ce53e09526dfd96c7dce26d199710df0422ed314",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE0H////E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-18T14:06:45Z",
+      "side": 1,
+      "message": "When compiled to JavaScript this somehow manages to show \"undefined\" in the table cell in Chrome. So yes, this is pretty broken.",
+      "parentUuid": "AAAE0n////c\u003d",
+      "revId": "ce53e09526dfd96c7dce26d199710df0422ed314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

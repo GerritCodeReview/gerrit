@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAEyn///8o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-18T00:26:55Z",
+      "side": 1,
+      "message": "This is interesting. What was your motivation for building this feature?\n\nShould this be available remotely over SSH for an administrator? Or is that just too asking for something to be horribly broken too easily? :-)",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEzX////8\u003d",
         "filename": "Documentation/dev-inspector.txt",
         "patchSetId": 2
@@ -121,6 +138,23 @@
     },
     {
       "key": {
+        "uuid": "AAAEyn///9U\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-18T00:26:55Z",
+      "side": 1,
+      "message": "For names that are used once, I would prefer to inline the constant in the findClass() method call.",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEzX////k\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
         "patchSetId": 2
@@ -132,6 +166,108 @@
       "writtenOn": "2012-04-17T21:29:54Z",
       "side": 1,
       "message": "what does \u0027post\u0027 mean here ?",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEyn///9M\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-18T00:26:55Z",
+      "side": 1,
+      "message": "new File(home, \"jythoncache\").getPath()",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEyn///9E\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-18T00:26:55Z",
+      "side": 1,
+      "message": "This variable can be declared inside of the try block since it is only used within the try block.",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEyn///9A\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-18T00:26:55Z",
+      "side": 1,
+      "message": "nit: space before (",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEyn///88\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-18T00:26:55Z",
+      "side": 1,
+      "message": "nit: space before (",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEyn///84\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-18T00:26:55Z",
+      "side": 1,
+      "message": "nit: no spaces after ( and before ), e.g.:\n\n  for (String key : injectedVariables)",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAEyn///8s\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/Startup.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-18T00:26:55Z",
+      "side": 1,
+      "message": "I\u0027m not really thrilled about linking to these using strings in Python. You are poking into private state of a listener that may change in the future and we might not notice the Python is broken until someone complains because this doesn\u0027t work.\n\nIf we are going to make these entities available in the shell as part of the documented interface of the shell, I would like to make sure they are acquired through more conventional means that makes a breakage less likely in the future.\n\nThat means instead of walking the manager object m\u0027s listeners, maybe instead getting the proper Guice injectors and acquiring things like the SshDaemon or DataSourceProvider or SchemaFactor\u003cReviewDb\u003e from the injector. We might even want some of this pre-population of the environment to be done inside of Java where we can make sure the thing being asked for exists at Java compile time.",
       "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

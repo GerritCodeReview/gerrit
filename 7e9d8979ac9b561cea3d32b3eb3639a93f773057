@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE1X///+s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Here\u0027s how it started:\n\nI was going to propose fixes for small annoyances of Gerrit but I ended up in reading PatchSetApproval code, enjoying de-normalized database structure and studying gwtorm. I thought it would be nice to interactively talk to PatchSetApprovals and examine how they change live (I was surprised to see that \"invitation to review\" is actually a zero-rated CRVW review).\n\nI wanted also to have some testing of my simplistic fix for issue 1082 (https://gerrit-review.googlesource.com/#/c/34630/) using live reviewDb connection from Jython instead of making my own. Actually talking to gwtorm instead of JDBC would make my testing even better.\n\nIn the good old mainframe tradition I thought this should be available on the \"console\" only (we can easily make all SSH admin commands available in Jython as well as all the Prolog stuff), because it is too dangerous to be accessed remotely - no permission checking, no internal consistency checking etc. But you can have \"ssh review gerrit shell\" command available by tomorrow I guess!:)\n\nBut of course it could be even made to implement lots of interesting non-debugging features; I\u0027ve seen rule engines implemented in Jython (actually compiled to Java classes on the fly for speed and reloaded if needed) and so on.",
+      "parentUuid": "AAAEyn///8o\u003d",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEzX////8\u003d",
         "filename": "Documentation/dev-inspector.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-17T21:29:54Z",
       "side": 1,
       "message": "typo s/the the/with an/",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE1X////o\u003d",
+        "filename": "Documentation/dev-inspector.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEzX////8\u003d",
       "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE1X////k\u003d",
+        "filename": "Documentation/dev-inspector.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEzX////4\u003d",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEzX////s\u003d",
         "filename": "Documentation/dev-inspector.txt",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2012-04-17T21:29:54Z",
       "side": 1,
       "message": "\u0027Lib\u0027 or \u0027lib\u0027 ?",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE1X////g\u003d",
+        "filename": "Documentation/dev-inspector.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "\u0027Lib\u0027, expanded and reworded to clarify.",
+      "parentUuid": "AAAEzX////s\u003d",
       "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE1X////c\u003d",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEzX////0\u003d",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEzX////w\u003d",
         "filename": "Documentation/pgm-daemon.txt",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2012-04-17T21:29:54Z",
       "side": 1,
       "message": "s/assit/assist/",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE1X////Y\u003d",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEzX////w\u003d",
       "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE1X////Q\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Don\u0027t like that long variable names:) also taken from Jython source. Changed to \u0027shell\u0027",
+      "parentUuid": "AAAEzX////o\u003d",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEzX////g\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2012-04-17T21:29:54Z",
       "side": 1,
       "message": "interpreter ?",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE1X////M\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "changed to \u0027shell\u0027",
+      "parentUuid": "AAAEzX////g\u003d",
       "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE1X////I\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEyn///9U\u003d",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEzX////k\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2012-04-17T21:29:54Z",
       "side": 1,
       "message": "what does \u0027post\u0027 mean here ?",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE1X////E\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "There are two environments supplied to PySystemState \"pre-environment\" and \"post-environment\", the latter overrides some system defaults. During the development I was using both (having Properties pre, post; but now it can be changed as we ended up using only one. Using \u0027env\u0027 now.",
+      "parentUuid": "AAAEzX////k\u003d",
       "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE1X///+o\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEyn///9M\u003d",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEyn///9E\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
         "patchSetId": 2
@@ -200,6 +398,24 @@
       "writtenOn": "2012-04-18T00:26:55Z",
       "side": 1,
       "message": "This variable can be declared inside of the try block since it is only used within the try block.",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE1X////A\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEyn///9E\u003d",
       "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE1X///+8\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEyn///9A\u003d",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEyn///88\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
         "patchSetId": 2
@@ -234,6 +468,24 @@
       "writtenOn": "2012-04-18T00:26:55Z",
       "side": 1,
       "message": "nit: space before (",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE1X///+4\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAEyn///88\u003d",
       "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE1X///+0\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Heh, too much MediaWiki recently (http://www.mediawiki.org/wiki/Manual:Coding_conventions#Spaces), thanks.",
+      "parentUuid": "AAAEyn///84\u003d",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEyn///8s\u003d",
         "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/Startup.py",
         "patchSetId": 2
@@ -268,6 +538,24 @@
       "writtenOn": "2012-04-18T00:26:55Z",
       "side": 1,
       "message": "I\u0027m not really thrilled about linking to these using strings in Python. You are poking into private state of a listener that may change in the future and we might not notice the Python is broken until someone complains because this doesn\u0027t work.\n\nIf we are going to make these entities available in the shell as part of the documented interface of the shell, I would like to make sure they are acquired through more conventional means that makes a breakage less likely in the future.\n\nThat means instead of walking the manager object m\u0027s listeners, maybe instead getting the proper Guice injectors and acquiring things like the SshDaemon or DataSourceProvider or SchemaFactor\u003cReviewDb\u003e from the injector. We might even want some of this pre-population of the environment to be done inside of Java where we can make sure the thing being asked for exists at Java compile time.",
+      "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE1X///+w\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/Startup.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-04-18T20:52:57Z",
+      "side": 1,
+      "message": "Yes, I hate it too, but that\u0027s the only thing which was readily available (see my comments about Guice later). \n\n1) I just took out LifecycleManager created by the Daemon and explored it to see how much I can take from it. It\u0027s not the most important object in the puzzle (I should have started with GerritGlobalModule probably). I was thinking about injecting all remaining injectors from the Daemon into the interpreter, but then I felt I need a more consistent approach to whatever could be discovered by Guice.\n\n1) Those \"if\" are relatively harmless, if the name of the object changes some variables will simply not be available. I was actually planning to write the code that ended up in Startup.py in Java but checking for this actual condition would be impossible without invoking Java reflection *again*. That\u0027s a very good question how stable should be \"API\" provided by Startup.py to the user scripts. For now I have considered \"db\", \"orm\", \"httpd\" and so only to be convenience variables to access whatever is available from LifecycleManager. So to me, only \"m\" is part of the API if you will; \n\nBut I agree with the general point that if this feature becomes successful (we could use this one day for the Hg support:) it would be good to offer a more stable API for users. I would like for example to wrap gwtorm iterateAllEntities() into some convenience function. We might end up with a script library similar to macro libraries shipped with some debuggers like good old \"adb\" in older editions of Solaris.\n\n2) Most of LifecycleListeners are registered from small private inner classes and there is only sometimes a link to the outer class instance. For example, WorkQueue$Lifecycle I need to use \"wq\", for EhcachePoolImpl$Lifecycle it\u0027s \"cachePool\" and so on. I had an impression that LifecycleListener could expose a method to point to the outer object; though I really believe good debugging/inspecting utility should work without code being written to support it. Let\u0027s see how it holds...\n\n3) I just wanted to get community\u0027s feedback on this feature. I would love to implement a proper inspector for Guice, I just need to learn a bit more about it. I didn\u0027t even have time to try out the grapher. Actually such an inspector (or maybe even a pythonesque adapter for Guice for Jython?) could be a nice standalone project. I used LifecycleManager to ship useful feature from day one and not delay it until I have explored Guice.",
+      "parentUuid": "AAAEyn///8s\u003d",
       "revId": "7e9d8979ac9b561cea3d32b3eb3639a93f773057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

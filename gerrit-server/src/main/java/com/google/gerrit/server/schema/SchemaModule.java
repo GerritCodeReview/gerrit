@@ -22,6 +22,8 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.FactoryModule;
 
 import org.eclipse.jgit.lib.PersonIdent;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Objects;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -23,7 +24,7 @@ import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.UnmergedPathException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -150,72 +151,130 @@ public abstract class VersionedMetaData {
    *         executed as requested.
    */
   public boolean commit(MetaDataUpdate update) throws IOException {
-    final Repository db = update.getRepository();
-    final CommitBuilder commit = update.getCommitBuilder();
-
-    reader = db.newObjectReader();
-    inserter = db.newObjectInserter();
+    BatchMetaDataUpdate batch = openUpdate(update);
     try {
-      final RevWalk rw = new RevWalk(reader);
-      final RevTree src = revision != null ? rw.parseTree(revision) : null;
-      final ObjectId res = writeTree(src, commit);
-
-      if (res.equals(src)) {
-        // If there are no changes to the content, don't create the commit.
-        return true;
-      }
-
-      commit.setTreeId(res);
-      if (revision != null) {
-        commit.setParentId(revision);
-      }
-
-      RefUpdate ru = db.updateRef(getRefName());
-      if (revision != null) {
-        ru.setExpectedOldObjectId(revision);
-      } else {
-        ru.setExpectedOldObjectId(ObjectId.zeroId());
-      }
-      ru.setNewObjectId(inserter.insert(commit));
-      ru.disableRefLog();
-      inserter.flush();
-
-      switch (ru.update(rw)) {
-        case NEW:
-        case FAST_FORWARD:
-          revision = rw.parseCommit(ru.getNewObjectId());
-          update.replicate(ru.getName());
-          return true;
-
-        case LOCK_FAILURE:
-          return false;
-
-        default:
-          throw new IOException("Cannot update " + ru.getName() + " in "
-              + db.getDirectory() + ": " + ru.getResult());
-      }
-    } catch (ConfigInvalidException e) {
-      throw new IOException("Cannot update " + getRefName() + " in "
-          + db.getDirectory() + ": " + e.getMessage(), e);
+      batch.write(update.getCommitBuilder());
+      return batch.commit();
     } finally {
-      inserter.release();
-      inserter = null;
-
-      reader.release();
-      reader = null;
+      batch.close();
     }
   }
 
-  private ObjectId writeTree(RevTree srcTree, CommitBuilder commit)
-      throws IOException, MissingObjectException, IncorrectObjectTypeException,
-      UnmergedPathException, ConfigInvalidException {
-    try {
-      newTree = readTree(srcTree);
-      onSave(commit);
-      return newTree.writeTree(inserter);
-    } finally {
-      newTree = null;
-    }
+  public interface BatchMetaDataUpdate {
+    void write(CommitBuilder commit) throws IOException;
+    void write(VersionedMetaData config, CommitBuilder commit) throws IOException;
+    boolean commit() throws IOException;
+    boolean commitAt(ObjectId revision) throws IOException;
+    void close();
+  }
+
+  public BatchMetaDataUpdate openUpdate(final MetaDataUpdate update) throws IOException {
+    final Repository db = update.getRepository();
+
+    reader = db.newObjectReader();
+    inserter = db.newObjectInserter();
+    final RevWalk rw = new RevWalk(reader);
+    final RevTree tree = revision != null ? rw.parseTree(revision) : null;
+    newTree = readTree(tree);
+    return new BatchMetaDataUpdate() {
+      AnyObjectId src = revision;
+      AnyObjectId srcTree = tree;
+
+      @Override
+      public void write(CommitBuilder commit) throws IOException {
+        write(VersionedMetaData.this, commit);
+      }
+
+      private void doSave(VersionedMetaData config, CommitBuilder commit) throws IOException {
+        DirCache nt = config.newTree;
+        ObjectReader r = config.reader;
+        ObjectInserter i = config.inserter;
+        try {
+          config.newTree = newTree;
+          config.reader = reader;
+          config.inserter = inserter;
+          config.onSave(commit);
+        } catch (ConfigInvalidException e) {
+          throw new IOException("Cannot update " + getRefName() + " in "
+              + db.getDirectory() + ": " + e.getMessage(), e);
+        } finally {
+          config.newTree = nt;
+          config.reader = r;
+          config.inserter = i;
+        }
+      }
+
+      @Override
+      public void write(VersionedMetaData config, CommitBuilder commit) throws IOException {
+        doSave(config, commit);
+
+        final ObjectId res = newTree.writeTree(inserter);
+        if (res.equals(srcTree)) {
+          // If there are no changes to the content, don't create the commit.
+          return;
+        }
+
+        commit.setTreeId(res);
+        if (src != null) {
+          commit.addParentId(src);
+        }
+
+        src = inserter.insert(commit);
+        srcTree = res;
+      }
+
+      @Override
+      public boolean commit() throws IOException {
+        return commitAt(revision);
+      }
+
+      @Override
+      public boolean commitAt(ObjectId expected) throws IOException {
+        if (Objects.equal(src, expected)) {
+          return true;
+        }
+
+        RefUpdate ru = db.updateRef(getRefName());
+        if (expected != null) {
+          ru.setExpectedOldObjectId(expected);
+        } else {
+          ru.setExpectedOldObjectId(ObjectId.zeroId());
+        }
+        ru.setNewObjectId(src);
+        ru.disableRefLog();
+        inserter.flush();
+
+        switch (ru.update(rw)) {
+          case NEW:
+          case FAST_FORWARD:
+            revision = rw.parseCommit(ru.getNewObjectId());
+            update.replicate(ru.getName());
+            return true;
+
+          case LOCK_FAILURE:
+            return false;
+
+          default:
+            throw new IOException("Cannot update " + ru.getName() + " in "
+                + db.getDirectory() + ": " + ru.getResult());
+        }
+      }
+
+      @Override
+      public void close() {
+        newTree = null;
+
+        if (inserter != null) {
+          inserter.release();
+          inserter = null;
+        }
+
+        if (reader != null) {
+          reader.release();
+          reader = null;
+        }
+      }
+    };
   }
 
   private DirCache readTree(RevTree tree) throws IOException,

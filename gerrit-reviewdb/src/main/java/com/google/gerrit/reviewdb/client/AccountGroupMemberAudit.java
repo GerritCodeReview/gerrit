@@ -80,9 +80,14 @@ public final class AccountGroupMemberAudit {
 
   public AccountGroupMemberAudit(final AccountGroupMember m,
       final Account.Id adder) {
+    this(m, adder, now());
+  }
+
+  public AccountGroupMemberAudit(final AccountGroupMember m,
+      final Account.Id adder, Timestamp addedOn) {
     final Account.Id who = m.getAccountId();
     final AccountGroup.Id group = m.getAccountGroupId();
-    key = new AccountGroupMemberAudit.Key(who, group, now());
+    key = new AccountGroupMemberAudit.Key(who, group, addedOn);
     addedBy = adder;
   }
 

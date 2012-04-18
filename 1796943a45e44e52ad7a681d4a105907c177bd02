@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE03////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-04-18T07:58:57Z",
+      "side": 1,
+      "message": "HI Shawn \n\nthanks a lot for your quickly help!\n\nstill confused by \u0027this method\u0027 ? do you mean \u0027patchSetInfoFactory.get(db, patchSet.getId())\u0027?\n\nbut I trace the get() method and find \n\n      final PatchSet patchSet \u003d db.patchSets().get(patchSetId);\n      final Change change \u003d db.changes().get(patchSet.getId().getParentKey());\n      final Project.NameKey projectKey \u003d change.getProject();\n      repo \u003d repoManager.openRepository(projectKey);\n      final RevWalk rw \u003d new RevWalk(repo);\n      try {\n        final RevCommit src \u003d\n            rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));\n        PatchSetInfo info \u003d get(src, patchSetId);\n        info.setParents(toParentInfos(src.getParents(), rw));\n        return info;\n      } finally {\n        rw.release();\n      }\n\n\nmy understanding is Gerrit here get parent info by jgit.  right?\n\noh do you mean the  \u0027query   --current-patch-set\u0027 and  \u0027query   --patch-sets\u0027  against only those revisions need review,  so  db.patchSetAncestors() is enough .",
+      "parentUuid": "AAAE0H////4\u003d",
+      "revId": "1796943a45e44e52ad7a681d4a105907c177bd02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAEx3///+w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 1

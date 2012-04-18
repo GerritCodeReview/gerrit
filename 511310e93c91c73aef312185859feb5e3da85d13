@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAE0n////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-18T08:37:27Z",
+      "side": 1,
+      "message": "Why not just\n\n  e.getValue().value \u003d val;\n\n?\n\nIf e.getValue().value \u003d\u003d null the client side code currently fails with an exception when trying to access the value.",
+      "revId": "511310e93c91c73aef312185859feb5e3da85d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

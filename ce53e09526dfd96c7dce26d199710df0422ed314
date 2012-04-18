@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAE0n////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-18T08:39:13Z",
+      "side": 1,
+      "message": "This fails with an exception if the recommended value is null:\n\ncom.google.gwt.dev.shell.HostedModeException: Something other than a short was returned from JSNI method \u0027@com.google.gerrit.client.changes.ChangeInfo$LabelInfo::recommended_value()\u0027: JS value of type undefined, expected short\n\tat com.google.gwt.dev.shell.JsValueGlue.getIntRange(JsValueGlue.java:266)\n\tat com.google.gwt.dev.shell.JsValueGlue.get(JsValueGlue.java:154)\n\tat com.google.gwt.dev.shell.ModuleSpace.invokeNativeShort(ModuleSpace.java:279)\n\tat com.google.gwt.dev.shell.JavaScriptHost.invokeNativeShort(JavaScriptHost.java:99)\n\tat com.google.gerrit.client.changes.ChangeInfo$LabelInfo$.recommended_value$(ChangeInfo.java)\n\tat com.google.gerrit.client.changes.ChangeTable2.populateChangeRow(ChangeTable2.java:270)\n\tat com.google.gerrit.client.changes.ChangeTable2.access$8(ChangeTable2.java:189)\n\tat com.google.gerrit.client.changes.ChangeTable2$Section.display(ChangeTable2.java:409)\n\tat com.google.gerrit.client.changes.PagedSingleListScreen.display(PagedSingleListScreen.java:134)\n\tat com.google.gerrit.client.changes.QueryScreen$1.onSuccess(QueryScreen.java:61)\n\tat com.google.gerrit.client.changes.QueryScreen$1.onSuccess(QueryScreen.java:1)\n\tat com.google.gerrit.client.rpc.RestApi$1.onResponseReceived(RestApi.java:133)\n\tat com.google.gwt.http.client.Request.fireOnResponseReceived(Request.java:287)\n  ...\n\nThis exception would not occur if the server would always send the value, currently it sends null if the value is 1, see [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/34486/7/gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+      "revId": "ce53e09526dfd96c7dce26d199710df0422ed314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

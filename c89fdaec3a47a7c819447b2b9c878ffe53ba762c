@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAE1n///xI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-04-20T21:23:21Z",
+      "side": 1,
+      "message": "If I move the popup by dragging the title bar, and then resize the screen, this pops it back to the original location.  That is the same as the previous behavior, but probably not correct behavior?\n\nimo, we should keep this simple.  Just pop up the dialog in the center of the page and let the user move it if they desire.  That would reduce the size of the ProjectListPopup class by about 50%.",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

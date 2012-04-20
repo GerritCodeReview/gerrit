@@ -204,10 +204,12 @@ public class ApprovalTable extends Composite {
             continue;
           }
           String labelName = legacyType.getCategory().getLabelName();
-          if (psa.getValue() == legacyType.getMax().getValue()) {
-            ad.approved(labelName);
-          } else if (psa.getValue() == legacyType.getMin().getValue()) {
-            ad.rejected(labelName);
+          if (psa.getValue() != 0 ) {
+            if (psa.getValue() == legacyType.getMax().getValue()) {
+              ad.approved(labelName);
+            } else if (psa.getValue() == legacyType.getMin().getValue()) {
+              ad.rejected(labelName);
+            }
           }
           if (!columns.contains(labelName)) {
             columns.add(labelName);

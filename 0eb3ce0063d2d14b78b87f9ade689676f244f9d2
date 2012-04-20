@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAE3H////o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-20T13:59:01Z",
+      "side": 1,
+      "message": "When hovering with the mouse over the expand before and after links the mouse cursor is a text cursor, but for the other links (expand all and line number links) the mouse cursor turns into a hand cursor when hovering. I think for links it should always show the hand cursor, since this cursor normally indicates a clickable link to the user.\n\nI\u0027ve played a bit around with the code and found that\n  Anchor b \u003d new Anchor();\n  b.setHTML(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND));\nshows a text cursor on hovering while\n  Anchor b \u003d new Anchor(PatchUtil.M.expandBefore(NUM_ROWS_TO_EXPAND), true);\nshows a hand cursor on hovering.\n\nI\u0027m not sure why there is this difference in behaviour, but I would suggest to simply go for the second coding to fix this issue.",
+      "revId": "0eb3ce0063d2d14b78b87f9ade689676f244f9d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

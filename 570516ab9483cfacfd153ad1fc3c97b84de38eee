@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE4n///+c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-22T01:55:45Z",
+      "side": 1,
+      "message": "I think you are right, we want to force this to be boolean in case it is undefined. Done.",
+      "parentUuid": "AAAE1X///+Y\u003d",
+      "revId": "570516ab9483cfacfd153ad1fc3c97b84de38eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE1X///+g\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-20T10:13:21Z",
       "side": 1,
       "message": "Accessing c.starred() fails for me with\n\ncom.google.gwt.dev.shell.HostedModeException: Something other than a boolean was returned from JSNI method \u0027@com.google.gerrit.client.changes.ChangeInfo::starred()\u0027: JS value of type undefined, expected boolean\n \tat com.google.gwt.dev.shell.JsValueGlue.get(JsValueGlue.java:100)\n \tat com.google.gwt.dev.shell.ModuleSpace.invokeNativeBoolean(ModuleSpace.java:186)\n \tat com.google.gwt.dev.shell.JavaScriptHost.invokeNativeBoolean(JavaScriptHost.java:35)\n \tat com.google.gerrit.client.changes.ChangeInfo$.starred$(ChangeInfo.java)\n \tat com.google.gerrit.client.changes.ChangeTable2.populateChangeRow(ChangeTable2.java:187)\n \tat com.google.gerrit.client.changes.ChangeTable2.access$10(ChangeTable2.java:185)\n \tat com.google.gerrit.client.changes.ChangeTable2$Section.display(ChangeTable2.java:431)\n \tat com.google.gerrit.client.changes.PagedSingleListScreen.display(PagedSingleListScreen.java:134)\n \tat com.google.gerrit.client.changes.QueryScreen$1.onSuccess(QueryScreen.java:61)\n \tat com.google.gerrit.client.changes.QueryScreen$1.onSuccess(QueryScreen.java:1)\n \tat com.google.gerrit.client.rpc.RestApi$1.onResponseReceived(RestApi.java:133)\n \tat com.google.gwt.http.client.Request.fireOnResponseReceived(Request.java:287)\n \tat com.google.gwt.http.client.RequestBuilder$1.onReadyStateChange(RequestBuilder.java:395)\n \tat sun.reflect.GeneratedMethodAccessor60.invoke(Unknown Source)\n  ...",
+      "revId": "570516ab9483cfacfd153ad1fc3c97b84de38eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE4n///+Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable2.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-22T01:55:45Z",
+      "side": 1,
+      "message": "Fixed in ChangeInfo.starred() by handling undefined as false.",
+      "parentUuid": "AAAE1X///+g\u003d",
       "revId": "570516ab9483cfacfd153ad1fc3c97b84de38eee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

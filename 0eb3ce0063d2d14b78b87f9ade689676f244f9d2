@@ -34,6 +34,24 @@
       "revId": "0eb3ce0063d2d14b78b87f9ade689676f244f9d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE4n///+s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-22T01:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE3H////o\u003d",
+      "revId": "0eb3ce0063d2d14b78b87f9ade689676f244f9d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -70,6 +70,24 @@
       "revId": "58874c0adab412366b336f016b90a6cec9b80f0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE4n///+k\u003d",
+        "filename": "SUBMITTING_PATCHES",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-22T01:45:56Z",
+      "side": 1,
+      "message": "Edwin, does this URL work now? We believe it does for everyone.",
+      "parentUuid": "AAAEa3///9c\u003d",
+      "revId": "58874c0adab412366b336f016b90a6cec9b80f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

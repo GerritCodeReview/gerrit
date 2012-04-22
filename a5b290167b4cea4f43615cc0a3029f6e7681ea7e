@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAE4n///88\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-22T04:08:44Z",
+      "side": 1,
+      "message": "You use tabs and spaces inconsistently in this file to indent the text below an option. Please choose one or the other.",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE4n///84\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-22T04:08:44Z",
+      "side": 1,
+      "message": "2012?",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

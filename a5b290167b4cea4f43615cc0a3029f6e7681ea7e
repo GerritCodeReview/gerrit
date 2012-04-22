@@ -33,6 +33,40 @@
       "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE4n///8s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-22T04:11:13Z",
+      "side": 1,
+      "message": "What about also matching on the comment of the key, in addition to the entire key?",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE4n///8w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-22T04:11:13Z",
+      "side": 1,
+      "message": "Not every id record has an email address.",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

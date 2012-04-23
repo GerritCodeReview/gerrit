@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -44,6 +45,7 @@ import org.eclipse.jgit.lib.AbbreviatedObjectId;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -206,10 +208,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("draft".equalsIgnoreCase(value)) {
-      if (currentUser instanceof IdentifiedUser) {
-        return new HasDraftByPredicate(args.dbProvider,
-            ((IdentifiedUser) currentUser).getAccountId());
-      }
+      return new HasDraftByPredicate(args.dbProvider, self());
     }
 
     throw new IllegalArgumentException();
@@ -231,6 +230,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     if ("reviewed".equalsIgnoreCase(value)) {
       return new IsReviewedPredicate(args.dbProvider);
+    }
+
+    if ("owner".equalsIgnoreCase(value)) {
+      return new OwnerPredicate(args.dbProvider, self());
+    }
+
+    if ("reviewer".equalsIgnoreCase(value)) {
+      return new ReviewerPredicate(args.dbProvider, self());
     }
 
     try {
@@ -303,42 +310,59 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> starredby(String who)
       throws QueryParseException, OrmException {
-    Account account = args.accountResolver.find(who);
-    if (account == null) {
-      throw error("User " + who + " not found");
+    if ("self".equals(who)) {
+      return new IsStarredByPredicate(args.dbProvider, currentUser);
     }
-    return new IsStarredByPredicate(args.dbProvider, //
-        args.userFactory.create(args.dbProvider, account.getId()));
+    Set<Account.Id> m = parseAccount(who);
+    List<IsStarredByPredicate> p = Lists.newArrayListWithCapacity(m.size());
+    for (Account.Id id : m) {
+      p.add(new IsStarredByPredicate(args.dbProvider,
+          args.userFactory.create(args.dbProvider, id)));
+    }
+    return Predicate.or(p);
   }
 
   @Operator
   public Predicate<ChangeData> watchedby(String who)
       throws QueryParseException, OrmException {
-    Account account = args.accountResolver.find(who);
-    if (account == null) {
-      throw error("User " + who + " not found");
+    Set<Account.Id> m = parseAccount(who);
+    List<IsWatchedByPredicate> p = Lists.newArrayListWithCapacity(m.size());
+    for (Account.Id id : m) {
+      if (currentUser instanceof IdentifiedUser
+          && id.equals(((IdentifiedUser) currentUser).getAccountId())) {
+        p.add(new IsWatchedByPredicate(args, currentUser));
+      } else {
+        p.add(new IsWatchedByPredicate(args,
+            args.userFactory.create(args.dbProvider, id)));
+      }
     }
-    return new IsWatchedByPredicate(args, args.userFactory.create(
-        args.dbProvider, account.getId()));
+    return Predicate.or(p);
   }
 
   @Operator
   public Predicate<ChangeData> draftby(String who) throws QueryParseException,
       OrmException {
-    Account account = args.accountResolver.find(who);
-    if (account == null) {
-      throw error("User " + who + " not found");
+    Set<Account.Id> m = parseAccount(who);
+    List<HasDraftByPredicate> p = Lists.newArrayListWithCapacity(m.size());
+    for (Account.Id id : m) {
+      p.add(new HasDraftByPredicate(args.dbProvider, id));
     }
-    return new HasDraftByPredicate(args.dbProvider, account.getId());
+    return Predicate.or(p);
   }
 
   @Operator
   public Predicate<ChangeData> visibleto(String who)
       throws QueryParseException, OrmException {
-    Account account = args.accountResolver.find(who);
-    if (account != null) {
-      return visibleto(args.userFactory
-          .create(args.dbProvider, account.getId()));
+    if ("self".equals(who)) {
+      return is_visible();
+    }
+    Set<Account.Id> m = args.accountResolver.findAll(who);
+    if (!m.isEmpty()) {
+      List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(m.size());
+      for (Account.Id id : m) {
+        return visibleto(args.userFactory.create(args.dbProvider, id));
+      }
+      return Predicate.or(p);
     }
 
     // If its not an account, maybe its a group?
@@ -375,24 +399,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> owner(String who) throws QueryParseException,
       OrmException {
-    Set<Account.Id> m = args.accountResolver.findAll(who);
-    if (m.isEmpty()) {
-      throw error("User " + who + " not found");
-    } else if (m.size() == 1) {
-      Account.Id id = m.iterator().next();
-      return new OwnerPredicate(args.dbProvider, id);
-    } else {
-      List<OwnerPredicate> p = new ArrayList<OwnerPredicate>(m.size());
-      for (Account.Id id : m) {
-        p.add(new OwnerPredicate(args.dbProvider, id));
-      }
-      return Predicate.or(p);
+    Set<Account.Id> m = parseAccount(who);
+    List<OwnerPredicate> p = Lists.newArrayListWithCapacity(m.size());
+    for (Account.Id id : m) {
+      p.add(new OwnerPredicate(args.dbProvider, id));
     }
+    return Predicate.or(p);
   }
 
   @Operator
-  public Predicate<ChangeData> ownerin(String group) throws QueryParseException,
-      OrmException {
+  public Predicate<ChangeData> ownerin(String group)
+      throws QueryParseException {
     AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(group));
     if (g == null) {
       throw error("Group " + group + " not found");
@@ -403,24 +420,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> reviewer(String who)
       throws QueryParseException, OrmException {
-    Set<Account.Id> m = args.accountResolver.findAll(who);
-    if (m.isEmpty()) {
-      throw error("User " + who + " not found");
-    } else if (m.size() == 1) {
-      Account.Id id = m.iterator().next();
-      return new ReviewerPredicate(args.dbProvider, id);
-    } else {
-      List<ReviewerPredicate> p = new ArrayList<ReviewerPredicate>(m.size());
-      for (Account.Id id : m) {
-        p.add(new ReviewerPredicate(args.dbProvider, id));
-      }
-      return Predicate.or(p);
+    Set<Account.Id> m = parseAccount(who);
+    List<ReviewerPredicate> p = Lists.newArrayListWithCapacity(m.size());
+    for (Account.Id id : m) {
+      p.add(new ReviewerPredicate(args.dbProvider, id));
     }
+    return Predicate.or(p);
   }
 
   @Operator
   public Predicate<ChangeData> reviewerin(String group)
-      throws QueryParseException, OrmException {
+      throws QueryParseException {
     AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(group));
     if (g == null) {
       throw error("Group " + group + " not found");
@@ -531,5 +541,24 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
       throw error("Unsupported query:" + query);
     }
+  }
+
+  private Set<Account.Id> parseAccount(String who)
+      throws QueryParseException, OrmException {
+    if ("self".equals(who)) {
+      return Collections.singleton(self());
+    }
+    Set<Account.Id> matches = args.accountResolver.findAll(who);
+    if (matches.isEmpty()) {
+      throw error("User " + who + " not found");
+    }
+    return matches;
+  }
+
+  private Account.Id self() {
+    if (currentUser instanceof IdentifiedUser) {
+      return ((IdentifiedUser) currentUser).getAccountId();
+    }
+    throw new IllegalArgumentException();
   }
 }

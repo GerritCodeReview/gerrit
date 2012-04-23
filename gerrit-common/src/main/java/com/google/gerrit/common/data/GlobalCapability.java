@@ -15,6 +15,8 @@
 package com.google.gerrit.common.data;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /** Server wide capabilities. Represented as {@link Permission} objects. */
@@ -73,23 +75,34 @@ public class GlobalCapability {
   /** Can view all pending tasks in the queue (not just the filtered set). */
   public static final String VIEW_QUEUE = "viewQueue";
 
+  private static final List<String> NAMES_ALL;
   private static final List<String> NAMES_LC;
 
   static {
-    NAMES_LC = new ArrayList<String>();
-    NAMES_LC.add(ADMINISTRATE_SERVER.toLowerCase());
-    NAMES_LC.add(CREATE_ACCOUNT.toLowerCase());
-    NAMES_LC.add(CREATE_GROUP.toLowerCase());
-    NAMES_LC.add(CREATE_PROJECT.toLowerCase());
-    NAMES_LC.add(EMAIL_REVIEWERS.toLowerCase());
-    NAMES_LC.add(FLUSH_CACHES.toLowerCase());
-    NAMES_LC.add(KILL_TASK.toLowerCase());
-    NAMES_LC.add(PRIORITY.toLowerCase());
-    NAMES_LC.add(QUERY_LIMIT.toLowerCase());
-    NAMES_LC.add(START_REPLICATION.toLowerCase());
-    NAMES_LC.add(VIEW_CACHES.toLowerCase());
-    NAMES_LC.add(VIEW_CONNECTIONS.toLowerCase());
-    NAMES_LC.add(VIEW_QUEUE.toLowerCase());
+    NAMES_ALL = new ArrayList<String>();
+    NAMES_ALL.add(ADMINISTRATE_SERVER);
+    NAMES_ALL.add(CREATE_ACCOUNT);
+    NAMES_ALL.add(CREATE_GROUP);
+    NAMES_ALL.add(CREATE_PROJECT);
+    NAMES_ALL.add(EMAIL_REVIEWERS);
+    NAMES_ALL.add(FLUSH_CACHES);
+    NAMES_ALL.add(KILL_TASK);
+    NAMES_ALL.add(PRIORITY);
+    NAMES_ALL.add(QUERY_LIMIT);
+    NAMES_ALL.add(START_REPLICATION);
+    NAMES_ALL.add(VIEW_CACHES);
+    NAMES_ALL.add(VIEW_CONNECTIONS);
+    NAMES_ALL.add(VIEW_QUEUE);
+
+    NAMES_LC = new ArrayList<String>(NAMES_ALL.size());
+    for (String name : NAMES_ALL) {
+      NAMES_LC.add(name.toLowerCase());
+    }
+  }
+
+  /** @return all valid capability names. */
+  public static Collection<String> getAllNames() {
+    return Collections.unmodifiableList(NAMES_ALL);
   }
 
   /** @return true if the name is recognized as a capability name. */

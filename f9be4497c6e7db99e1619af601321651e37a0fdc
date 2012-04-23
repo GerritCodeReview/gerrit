@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE6n////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-04-23T03:37:34Z",
+      "side": 1,
+      "message": "Done.\nhowever I find by \u0027java -jar gerrit-2.3-rc0.war  cat  LICENSES.txt  | more\u0027\n\n\u0027Apache Log4J \u0027 and \u0027SLF4J \u0027\n\nshould we update the   LICENSES.txt?",
+      "parentUuid": "AAAE4n///+Q\u003d",
+      "revId": "f9be4497c6e7db99e1619af601321651e37a0fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE4n///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 2

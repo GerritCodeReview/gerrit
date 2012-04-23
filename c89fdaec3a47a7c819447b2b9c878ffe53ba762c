@@ -16,6 +16,24 @@
       "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6n////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-04-23T07:47:48Z",
+      "side": 1,
+      "message": "Hi Brad\n thanks a lot for your comments! I have been waiting it for a long time.\n your idea \u0027\u0027pop up the dialog in the center of the page and let the user   \n move it if they desire. \"  yes, thus user can easily find they can move \n it. about why let pop window on the right side , my understanding is \n when user double click the line of pop window, user can see result on \n the left part -that line related project is seen added to left list table , \n without be hidden by pop window if pop on the top of it.  but\n to be honest, I am also not sure the original idea about \"Watched \n Projects\" function.  so I want collect more comments on doing some \n improvement work on \"Watched Projects\" or not, I think that should \n be in another feature as this feature is just Refactoring, as a \n preparation step for \u0027On project creation allow chosing parent from \n popup.\u0027  \n\n  \"That would reduce the size of the ProjectListPopup class by about  \n 50%.\" do you mean the size of  ProjectListPopup window?  \n or the size of code line of  ProjectListPopup.java ?\" \n  :) . a bit confused.",
+      "parentUuid": "AAAE1n///xI\u003d",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

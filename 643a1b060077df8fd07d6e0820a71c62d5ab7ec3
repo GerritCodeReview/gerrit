@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAE5H///7U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T19:06:04Z",
+      "side": 1,
+      "message": "I would add this as a new paragraph in the commit message:\n\n  String msg \u003d String.format(\n    \"Accept %s contributor agreement for %s\\n\",\n    agreement.getName(),\n    group.getName());\n  if (!Strings.isNullOrEmpty(aga.reviewComments))\n    msg +\u003d \"\\n\" + aga.reviewComments + \"\\n\";\n  }",
+      "revId": "643a1b060077df8fd07d6e0820a71c62d5ab7ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

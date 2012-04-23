@@ -17,13 +17,14 @@ package com.google.gerrit.server.events;
 import java.util.List;
 
 public class PatchSetAttribute {
-    public String number;
-    public String revision;
-    public String ref;
-    public AccountAttribute uploader;
-    public Long createdOn;
+  public String number;
+  public String revision;
+  public List<String> parents;
+  public String ref;
+  public AccountAttribute uploader;
+  public Long createdOn;
 
-    public List<ApprovalAttribute> approvals;
-    public List<PatchSetCommentAttribute> comments;
-    public List<PatchAttribute> files;
+  public List<ApprovalAttribute> approvals;
+  public List<PatchSetCommentAttribute> comments;
+  public List<PatchAttribute> files;
 }

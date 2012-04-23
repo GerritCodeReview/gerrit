@@ -39,6 +39,8 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,6 +50,7 @@ import javax.annotation.Nullable;
 
 @Singleton
 public class EventFactory {
+  private static final Logger log = LoggerFactory.getLogger(EventFactory.class);
   private final AccountCache accountCache;
   private final Provider<String> urlProvider;
   private final ApprovalTypes approvalTypes;
@@ -273,6 +276,20 @@ public class EventFactory {
     p.ref = patchSet.getRefName();
     p.uploader = asAccountAttribute(patchSet.getUploader());
     p.createdOn = patchSet.getCreatedOn().getTime() / 1000L;
+    try {
+      final ReviewDb db = schema.open();
+      try {
+        p.parents = new ArrayList<String>();
+        for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
+            patchSet.getId())) {
+          p.parents.add(a.getAncestorRevision().get());
+        }
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+      log.error("Cannot load patch set data for " + patchSet.getId(), e);
+    }
     return p;
   }
 

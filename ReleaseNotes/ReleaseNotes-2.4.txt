@@ -1,0 +1,528 @@
+Release notes for Gerrit 2.4
+============================
+
+Gerrit 2.4 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.4.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.4.war]
+
+Schema Change
+-------------
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+*WARNING:* Upgrading to 2.4.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.4.x.  If you are upgrading from 2.2.x.x or
+newer, you may ignore this warning and upgrade directly to 2.4.x.
+
+New Features
+------------
+
+Security
+~~~~~~~~
+
+* Restrict visibility to arbitrary user dashboards
++
+Administrators have some expectation when using the suggest.accounts
+visibility restriction feature that users cannot get the names or
+email addresses for arbitrary accounts. In fact, because account IDs
+are sequential, it would be easy for an adversary to get personal
+information of all users on the server by requesting every user's
+dashboard.
++
+This change reuses the visibility restrictions established for the
+suggestion service, moving the logic to a common AccountControl class.
++
+This includes changing the meaning of the suggest.accounts config
+option to be a boolean indicating whether account suggestion should
+happen at all, which is now orthogonal to the account visibility
+restriction policy. We still recognize the old values for
+suggest.accounts, with the slight behavior change that
+suggest.accounts=OFF now means that users cannot access the dashboards
+of any other users. Administrators who do not want this behavior can
+update their configuration.
+
+* Indicate that "not found" may actually be a permission issue
++
+We now restrict visibility to user dashboards, but there is the UX
+problem that the client aggressively generates dashboard links that
+now may return "not found." Ideally we would include a visibility bit
+in the account information returned over every RPC, but that will
+require some work, so until then, just give a slightly less confusing
+error message.
+
+Web
+~~~
+
+* Add user pref to enable manual reviewing
++
+Add a checkbox to the preferences header on the diff
+screen which allows a user to specify whether they
+want manual-reviewing enabled or disabled.  Previously,
+every file was auto marked reviewed when a user first
+displayed it.  The new manual mode prevents this auto
+marking and only marks a file reviewed when the user
+explicitly clicks on the reviewed button.
++
+Using the manual mode allows users to better decide
+when they feel they have reviewed a file.  This mode
+is particularly useful for larger reviews when a
+user may need to jump around and look at many other
+files while commenting on a specific one.  This
+prevents their jumping around from file to file from
+marking the files as reviewed.  The intention is to
+allow the reviewed status to provide more meaning
+than simply "I have seen the file" (which in many
+cases might even be a stretch).
+
+* Use 'Auto Merge' for merge commit's base comparison
++
+When reviewing a merge commit, the old wording in the version history dropdown
+of 'Base' doesn't really match Gerrit's behavior.  Updating this to use
+'Auto Merge' as suggested by SOP on IRC.
+
+* issue 1035 Add rebase button to the change screen
++
+This change adds a rebase button along with the rest of
+the action buttons in the change page. When pressing the
+button, the most recent patch set will be rebased onto
+the tip of the destination branch or the latest patchset
+of the change we depend upon. A new patch set containing
+the rebased commit will be produced and added to the
+change.
++
+Content-merging is always used, regardless of the project
+setting for use of content merges.
++
+This change started long ago as a draft by Magnus Bäck
+and the very nifty rebase trick (rebasing without the
+need for a working index) is his.
++
+Since then a lot has happen and I would like to discuss a
+bit around the design choices I made along the way:
++
+Design choices
+
+** Currently all users that can upload new patch sets to a
+change are also allowed to see the rebase-button.
++
+In the future, I plan to add a rebase capability to Gerrit,
+so the right to rebase other users' changes could be limited
+to include only certain powerusers (depending on project and
+refs).
++
+I prepared by adding the canRebase() to ChangeDetail and
+ChangeControl instead of just linking directly to
+canAddPatchSet().
+
+** The emailing is subclassed from ReplacePatchSetSender
+which I think makes sense.
+
+** I lifted some code from ReceiveCommits, which allows
+me to move votes to new patch sets, to ApprovalsUtil.java.
+Some refactoring could be made in ReceiveCommits to make
+use of that code, but I would prefer to do it in a later
+and separate change due to the importance and complexity
+of ReceiveCommits.
+
+** As long as user has the correct access rights to execute
+a rebase within Gerrit, the button will be visible and
+enabled. I chose not to do any automagic merge-testing
+before showing the actual Rebase button. This approach was
+chosen since it contributes to cleaner code and better
+performance. We do not really want to execute merge tests
+just because the user is looking on the change-screen,
+especially since a rebase operation is not issued that
+often.
+
+** Of course, the rebase can fail for various reasons, and
+there are decent error messages explaining why the rebase
+was not allowed to be executed.
+
+** The new GerritWidgetCallback was introduced. Parts in
+gerrit-gwtui can and should be refactored to make use of
+this callback.
+
+* ChangeListService visibility logic updated.
++
+The ChangeListService makes a user's dashboard visible if any of the
+changes are visible to the current user.
++
+This change is moving toward the goal of not using
+GroupMembership.getKnownGroups(), so as to support almost any group
+system.
+
+* Change "Loading ..." to say "Working ..."
++
+RPCs that are changing state, like publishing comments or submitting
+a change shouldn't say "Loading". There is more going on than just
+loading a response. Change the text to a more generic "Working".
+
+Performance
+~~~~~~~~~~~
+
+* Asynchronously send email.
++
+On gerrit-review.googlesource.com, an email is taking about 3
+seconds to create and send. The CommentSender is complex and
+difficult to optimize, so I wrapped the email generation/sending
+in a request scoped runnable and submitted it to the default
+WorkQueue for PublishComments, MergeOp, and ReceiveCommits.
+
+* Optimize queries for open/merged changes by project + branch
++
+When searching changes by project name and branch name the database
+query only filters the changes by project. The filtering by branch is
+only done afterwards in the code. If there is a big difference between
+branches the search might become expensive since many roundtrips with
+the database may be needed until the changes for the specified branch
+are found (because the result of each database query is limited to the
+number of entries that can be shown on the result screen).
+
+* Only compute AccountVisibility during startup
++
+This value was being parsed per-request from the server config,
+as the factory was bound in the per-request scope. Reading a
+JGit Config object is O(N) time, which is not efficient from the
+request scope.
++
+Bind this as a server singleton so its loaded once. Also suppress
+the warning that happend when the admin had set nothing in the
+config and was relying on the default to be ALL.
+
+* Create a ChangeCache for ChangeDetails in ChangeScreen
+
+Git
+~~~
+
+* Implement a multi-sub-task progress monitor for ReceiveCommits
++
+Because there are a lot of file and database accesses, having a
+progress monitor is useful. Moreover, we no longer rely on JGit for
+ref updates, so we can't depend on its progress meter.
++
+This is a special progress meter implementation that multiplexes
+output from the various sub-tasks that ReceiveCommits performs. We
+need this multiplexing because we don't know ahead of time how much of
+most kinds of work must be performed. For example, a single ref update
+can close an arbitrary number of changes.
++
+The progress meter includes a "spinner" animation that updates the
+output every 500ms regardless of activity. Additionally, the whole
+progress meter updates whenever one sub-task increases by 1%. Because
+of this, the MultiProgressMonitor must run in the main thread to avoid
+I/O stalls, delegating work to a background worker.
+
+* Implement an overall timeout for ReceiveCommits
++
+ReceiveCommits does a lot of work, potentially involving RPCs to remote
+servers that may have long timeouts. If something really goes off the
+rails, e.g. a database RPC hanging forever, we want to be able to kill
+stalled ReceiveCommits threads.
++
+Note that the timeout is only for ReceiveCommits, not for the various
+steps in receive-pack processing that happen before that, like actually
+reading the data from the wire or indexing the pack. So the amount of
+time should really be fairly well bounded; even so, the default timeout
+is a relatively high 2 minutes.
+
+* Close corresponding change when pushing to refs/heads/*
++
+Gerrit would not close the open changes with matching change-ids,
+when the user pushes commits directly to refs/heads/*.
++
+This issue could be triggered for two reasons:
+
+. It is triggered when Gerrit detects no changes between the
+pushed commits and the current patchset on the open changes. This
+patch make sure that the matching open change is always closed when
+pushing to refs/heads/*, even if no visible changes is detected.
+
+. The same commit exists on another branch than the destination
+branch. This could trick gerrit into just "re-closing" the wrong
+change.
+
+* Two minor tweaks to change progress monitor
++
+Call it "Processing changes" intead of "Updating changes". This fixes
+the weird way of saying "Updating changes: updated 5" when pushing a
+lot of new patch sets.
++
+Don't output the magic refs as refs, these don't really matter to
+the user and its almost always just one ref. They care more about
+the new/updated changes.
+
+* Make ReceiveCommits only a PreReceiveHook
++
+Previously, ReceiveCommits.onPostReceive() depended on state set up by
+onPreReceive(), making this class inappropriate for implementing a
+stateless RPC. The only benefit to splitting up the pre/post-receive
+steps was to let the ref updates fall through to core JGit in a few
+cases. Now that JGit has been refactored to make these ref updates
+trivial, just handle everything from within ReceiveCommits.
+
+* Use ReceiveCommitsAdvertiseRefsHook in a chain
++
+Replaces the manual chaining with the included facility in JGit.
+
+* Abstract out the message-sending parts of ReceiveCommits
++
+For the RPC server case, we want to send the output from
+ReceiveCommits back over the wire via the RPC protocol, and the
+underlying ReceivePack has no connection to the server.
+
+* Run ReceiveCommits in a shared thread pool
++
+Since the work ReceiveCommits may take a long, potentially unbounded
+amount of time, we would like to have it run in the background so it
+can be monitored for timeouts and cancelled, and have stalls reported
+to the user from the main thread.
++
+Wraps ReceiveCommits in a new PreReceiveHook, AsyncReceiveCommits,
+that runs its delegated ReceiveCommits in a WorkQueue.Executor.
++
+The default implementation sizes the thread pool to the number of
+available processors, under the assumption that most database and pack
+operations are essentially CPU-bound. This is after reading the pack
+from the wire, indexing it, and storing it locally, so there is no I/O
+to the client involved, and available CPUs is a pretty good estimate.
+Since it may not be in some cases, for example if threads block on
+slow database I/O, the pool size is configurable.
+
+SSH
+~~~
+
+* Add dependencies to query.
+
+Command Line Interface
+~~~~~~~~~~~~~~~~~~~~~~
+
+* Move parsing of --help/-h to CmdLineParser
++
+Make the handling of --help common across all uses of CmdLineParser.
+This will eventually make it easier to support more complex parsing
+cases that need to span objects.
+
+* Allow command line parsing to happen on a different object
++
+Permit commands to pass a different options container other than "this",
+which means they can declare the available flags somewhere else and not
+be restricted to declaring them inside of the BaseCommand subclass.
+
+* Support parsing command line options from a map
++
+Given a map of String to String[], like to what an HttpServletRequest
+makes available from the query string, feed the values into the parser
+and update the bean with the parsed state.
++
+This makes parsing from a query string rather trivial.
+
+Search
+~~~~~~
+
+* Branch Operator: Support full branch names
++
+The search operator for branches required the provided value to be the
+short branch name that is shown in the web interface (without the
+'refs/heads/' prefix). Change the branch operator so that it also
+supports full branch names as value.
++
+It is intuive that searching with 'branch:master' and searching with
+'branch:refs/for/master' deliver the same result. So far
+'branch:refs/for/master' was the same as searching with
+'refs:refs/heads/refs/heads/master' which is unexpected for most users.
+
+* Add comment inclusion via &comments=true over HTTP
++
+With this change, we can fetch the comments on a patchset by sending a
+request to:
+https://site/query?comments=true
+
+Access Rights
+~~~~~~~~~~~~~
+
+* Added the emailReviewers as a global capability
++
+This adds functionality to deny the emailing of reviewers to certain
+groups.  This will replace the emailOnlyAuthors flag on the
+AccountGroup.
+
+* Removed the AccountGroup emailOnlyAuthors flag.
+
+* Migrate account_groups.email_only_authors to capability
+
+Dev
+~~~
+
+* issue 1272 Add scripts to create release notes from git log
++
+These script generates a list of commits from git log between
+<since> and <until>. The output of this script is in asciidoc
+format containting list of commits subject and body.
+
+* Update URL for m2eclipse
++
+The project is now under the Eclipse Foundation umbrella.
+
+* Add missing ignore for m2e prefs in gerrit-ehcache
+
+* Add --issues and --issue_numbers to gitlog2asciidoc.py
+
+Miscellaneous
+~~~~~~~~~~~~~
+
+* Remove perl from commit-msg hook
++
+Removing perl from the commit-msg hook reduces the dependencies
+gerrit imposes on its users.
+
+* updating contrib trivial_rebase.py for 2.2.2.1
+
+* Rework commit-msg to handle another special case
++
+Paragraphs that look like footers (but aren't) were misinterpreted
+sometimes.
+
+* Add a class for propagating request scoping to different threads
+
+* Eagerly evaluate Providers in GuiceServletScopePropagator
+
+* Added GroupMembership for group membership checks.
++
+This replaces existing uses of a Set to determine membership and
+will make it possible to integrate with group systems that do not
+allow efficient enumentation of memberships.
+
+Upgrades
+--------
+
+* Updated to Guice 3.0.
+* Updated to gwtorm 1.4.
+* Update JGit to 1.3.0.201202151440-r.75-gff13648
+* Update to gwtjsonrpc 1.3
++
+The change also shrinks the built WAR from 38M to 23M
+by excluding the now unnecessary GWT server code.
+
+Bug Fixes
+---------
+
+* issue 904 Users who starred a change should receive all the emails about a change.
++
+The "emailOnlyAuthors" feature silences emails about actions performed by
+users in some groups. The emails for any actions in these groups are sent
+only to change authors. With this commit, if a user has starred a change,
+it would override this "silencing" and send them an email even if they are
+not an author of that change. This provides users with an easy way to opt
+in again on specific change emails.
+
+* Fix: "Diff All Side-by-Side" and "Diff All Unified"-buttons
++
+When pressing the "Diff All Side-by-Side" or
+"Diff All Unified"-button on the change screen, the
+opened browser windows/tabs shows diffs using "Base"
+as old version and the latest one as active patch set,
+regardless what has been set using the
+"Old Version History:" drop down menu and what is
+currently active patch set.
++
+Gerrit don't remember the base patch set in the URL,
+making it impossible to copy-and-paste the URL to
+co-workers to show them the same diff a user is
+looking at.
++
+This change fixes these behavior to make sure that
+the opened new browser windows shows diffs using the
+correct old patch set and active patch set by
+updating these 2 buttons' click event handlers
+in time and Gerrit can remember base patch set by
+embeding it in URL. For example by default
+'https://<gerrit site>/#/c/33090/1/<patch name>'
+means comparing patch set 1 and 'Base' of change 33090.
+When comparing patch set 3 and patch set 1, it
+changes to '3..1' syntax as
+'https://<gerrit site>/#/c/33090/3..1/<patch name>'.
+
+* Fix NPEs looking up groups by UUID in GroupCache
++
+If a group is referenced by UUID in the GroupCache but is not found
+in the database a null is returned. Most callers are safe for this,
+but a few aren't. Fix those bad call sites.
+
+* Fix default receive.timeout
++
+This should be in milliseconds, not seconds. Set the default to be
+2 minutes in milliseconds and update the documentation to reflect
+that milliseconds are the default unit of time used here.
+
+* Send messages in AsyncReceiveCommits from the main thread
++
+Fixes a race condition between sending the "done" progress message and
+the rest of ReceiveCommits' output, and avoids potentially blocking in
+the worker thread.
+
+* Fix "done" message in MultiProgressMonitor for no work done
+
+* Always call getMessageSender() from MessageSenderOutputStream
++
+The MessageSenderOutputStream is created at AsyncReceiveCommits
+construction time, but the underlying ReceiveCommits' MessageSender
+can change over that object's lifetime.
+
+* Fix index error when message array is blank
++
+This error occurs when running the gitlog2asciidoc.py
+script on Gerrit from v2.2.1 to v2.2.2.1.
+
+* Fix development_become_any_account redirects
++
+In a development environment the guessing of the canonicalWebUrl is
+currently broken by 3e7ef3cc5f41bc829f5e2951b9699079e48d60a5. Use the
+context path as the redirect when logging in a user to work around any
+breakage. Using the real canonicalWebUrl isn't as necessary with this
+mode of authentication as it is with OpenID, so this minor deviation
+from most other code may be acceptable to keep development
+environments working as expected.
+
+* issue 1299 Allow configuration of optional pattern for gitweb file history link
+
+* Use servlet context path during logout
++
+If the canonical URL provider is broken and provides a nonsense string
+of null or empty, just use the context path as supplied by the servlet
+container for the redirect.
+
+Documentation
+-------------
+
+Access Rights
+~~~~~~~~~~~~~
+* Capabilities introduced
+* Kill and priority capabilities
+* Administrate server capability
+* Create account capability
+* Create group and project capability
+* Flush caches capability
+* Capability replication and view caches
+* Capability view conn. & queue
+* Example roles introduced
+* Developer example role
+* CI system example role
+* Integrator example role
+* Project owner example role
+* Administrator example role
+
+Miscellaneous
+~~~~~~~~~~~~~
+* User upload documentation: Replace changes
+* Add visible-to-all flag in the documentation for cmd-create-group
+* Add a contributing guideline for annotations
+* Add missing header for suggest.accounts documentation
+* Fix anchors for description of gitweb config parameters
+* Add missing section name to config-gerrit documentation
+* Fix documentation of ls-projects
++
+The type values were inserted after the --all flag, making the
+documentation confusing to follow. Move the values back under
+the correct section.

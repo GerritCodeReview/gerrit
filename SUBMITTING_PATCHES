@@ -5,7 +5,7 @@ Short Version:
  - Make sure all code is under the Apache License, 2.0.
  - Publish your changes for review:
 
-   git push https://gerrit-review.googlesource.com/gerrit HEAD:refs/for/master
+   git push https://gerrit.googlesource.com/gerrit HEAD:refs/for/master
 
 
 Long Version:
@@ -70,7 +70,7 @@ Ensure you have obtained a unique HTTP password to identify yourself:
 Push your patches over HTTPS to the review server, possibly through
 a remembered remote to make this easier in the future:
 
-   git config remote.review.url https://google-review.googlesource.com/gerrit
+   git config remote.review.url https://gerrit.googlesource.com/gerrit
    git config remote.review.push HEAD:refs/for/master
 
    git push review

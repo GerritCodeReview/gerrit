@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE4n///7s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-04-23T17:00:52Z",
+      "side": 1,
+      "message": "Hi Bruce,\n\nI agree it is nice that the popup doesn\u0027t cover the watched projects dialog when it is displayed.  Maybe keep that behavior the same but don\u0027t worry about the screen resize case?  That way if the user moves the popup and then resizes the screen, it won\u0027t snap back to the original position.  This way you could also remove a lot of the resize handler code.  This is changing the behavior though, so probably not necessary for your refactoring change.\n\nI was referring to the size of the code (.java file).  I think Edwin made a lot of suggestions which would also reduce the size of the code substantially.  Sorry for the confusion :)",
+      "parentUuid": "AAAE6n////g\u003d",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE6X////Y\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
         "patchSetId": 2

@@ -88,6 +88,24 @@
       "revId": "58874c0adab412366b336f016b90a6cec9b80f0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6X////s\u003d",
+        "filename": "SUBMITTING_PATCHES",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-23T07:11:37Z",
+      "side": 1,
+      "message": "Yes, now it works :-) Thanks for fixing!",
+      "parentUuid": "AAAE4n///+k\u003d",
+      "revId": "58874c0adab412366b336f016b90a6cec9b80f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

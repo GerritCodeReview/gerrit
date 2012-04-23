@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE8H////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-04-23T20:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE5H///7c\u003d",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE5H///7s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-23T19:04:23Z",
       "side": 1,
       "message": "typo on upgrade",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE8H////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-04-23T20:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE5H///7s\u003d",
       "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE8H////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-04-23T20:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE5H///7o\u003d",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE5H///78\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2012-04-23T19:04:23Z",
       "side": 1,
       "message": "style-nit: tabs here, we use spaces to indent\n\nI would write the message shorter:\n\n  \"Accept %s contributor agreement for %s\",\n  agreement.getName(),\n  group.getName()",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE8H////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-04-23T20:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE5H///78\u003d",
       "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE8H////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-04-23T20:21:22Z",
+      "side": 1,
+      "message": "If the contributor-agreement already exists, i want to make sure the individual accepted group has an admin group as the owner. However, i thought this may not always return the same result if the upgrade happened the fail the first run, so i just check for \"contains\" on this set for the owner.",
+      "parentUuid": "AAAE5H///7w\u003d",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE5H///74\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
         "patchSetId": 6
@@ -98,6 +188,24 @@
       "writtenOn": "2012-04-23T19:04:23Z",
       "side": 1,
       "message": "This is pointless. You would have an empty list if there is no match, so the get(0) call on the line above will throw an exception.",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE8H////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-04-23T20:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE5H///74\u003d",
       "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE8H////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-04-23T20:21:22Z",
+      "side": 1,
+      "message": "Done. I thought about doing it that way, but this seemed simpler and provided every agreement with a way to add individuals, so there was no confusion.",
+      "parentUuid": "AAAE5H///70\u003d",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE5H///7k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
         "patchSetId": 6
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE8H////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-04-23T20:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE5H///7k\u003d",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE5H///7g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
         "patchSetId": 6
@@ -149,6 +293,24 @@
       "writtenOn": "2012-04-23T19:04:23Z",
       "side": 1,
       "message": "comment isn\u0027t necessary :-)",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE8H////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-04-23T20:21:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE5H///7g\u003d",
       "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

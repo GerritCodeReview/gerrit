@@ -16,8 +16,6 @@ package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.reviewdb.client.Branch.NameKey;
-import com.google.gerrit.reviewdb.client.SubmoduleSubscription.Key;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.PrimaryKey;

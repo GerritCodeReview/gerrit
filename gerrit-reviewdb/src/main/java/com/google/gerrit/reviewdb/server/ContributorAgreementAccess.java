@@ -15,7 +15,6 @@
 package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.ContributorAgreement;
-import com.google.gerrit.reviewdb.client.ContributorAgreement.Id;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.PrimaryKey;

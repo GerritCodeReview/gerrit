@@ -192,16 +192,6 @@ public class ChangeHookRunner implements ChangeHooks {
     }
 
     /**
-     * Get the Repository for the given change, or null on error.
-     *
-     * @param change Change to get repo for,
-     * @return Repository or null.
-     */
-    private Repository openRepository(final Change change) {
-        return openRepository(change.getProject());
-    }
-
-    /**
      * Get the Repository for the given project name, or null on error.
      *
      * @param name Project to get repo for,

@@ -34,6 +34,142 @@
       "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6X////Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-23T12:35:51Z",
+      "side": 1,
+      "message": "I think this shouldn\u0027t be static, should it?",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6X///+0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-23T12:35:51Z",
+      "side": 1,
+      "message": "I think there is no need to fire this event.\n\nThere is only one listener to this event which is this ProjectListPopup class itself. So instead of firing and catching the event, you could immdiately here do what is done in the event handler and then remove the custom handler and event for on move pointer.",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6X///+8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-23T12:35:51Z",
+      "side": 1,
+      "message": "I think there is no need to fire this event.\n\nThere is only one listener to this event which is this ProjectListPopup class itself. So instead of firing and catching the event. You could immdiately here do what is done in the event handler and then remove the custom handler and event for on close.\n\nCurrently the on close handler is doing\n  resetHandlerRegistration();\n\nIs this needed at all? The closePopup() call above is already resetting the handler registration (see line 187).",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6X////A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-23T12:35:51Z",
+      "side": 1,
+      "message": "Do we need a custom handler and event for onClose? I think not, see inline comment in line 154.",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6X///+w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-23T12:35:51Z",
+      "side": 1,
+      "message": "Do we need a custom handler and event for onMovePointer? I think not, see inline comment in line 136.",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6X////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-23T12:35:51Z",
+      "side": 1,
+      "message": "nit: this comment should be removed",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6X////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-23T12:35:51Z",
+      "side": 1,
+      "message": "nit: this comment should be removed",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6X////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-23T12:35:51Z",
+      "side": 1,
+      "message": "[optional] Rename this method to \u0027addOpenRowHandler\u0027?\n\nThat this is about the ProjectListPopup should be clear from the name of defining class and method parameter type.",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

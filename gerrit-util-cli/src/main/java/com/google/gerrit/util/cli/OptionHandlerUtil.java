@@ -38,7 +38,6 @@ public class OptionHandlerUtil {
     return (Key<OptionHandler<T>>) Key.get(handlerType);
   }
 
-  @SuppressWarnings("unchecked")
   public static <T> Module moduleFor(final Class<T> type, Class<? extends OptionHandler<T>> impl) {
     return new FactoryModuleBuilder()
         .implement(handlerOf(type), impl)

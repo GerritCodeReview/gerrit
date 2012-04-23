@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.inject.Inject;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 public class DefaultRealm implements Realm {

@@ -16,6 +16,24 @@
       "revId": "098345ad65f8df3d1f1402e984c595ca2b4c01d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE4n///7E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-04-23T18:39:18Z",
+      "side": 1,
+      "message": "Removed.  forgot to update the message.",
+      "parentUuid": "AAAE5H///8I\u003d",
+      "revId": "098345ad65f8df3d1f1402e984c595ca2b4c01d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

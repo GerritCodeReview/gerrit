@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE6n////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-04-23T08:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///+M\u003d",
+      "revId": "f9be4497c6e7db99e1619af601321651e37a0fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE4n///+I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/PatchSetAttribute.java",
         "patchSetId": 2
@@ -65,6 +83,24 @@
       "writtenOn": "2012-04-22T02:00:22Z",
       "side": 1,
       "message": "parents might be a simpler name",
+      "revId": "f9be4497c6e7db99e1619af601321651e37a0fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE6n////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/PatchSetAttribute.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-04-23T08:15:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///+I\u003d",
       "revId": "f9be4497c6e7db99e1619af601321651e37a0fdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

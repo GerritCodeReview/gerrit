@@ -33,6 +33,24 @@
       "revId": "d0676b7c72ebe04bc64e44235c8536c366bd473b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE8X////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T22:06:23Z",
+      "side": 1,
+      "message": "These two HTML blocks should be equivalent so it shouldn\u0027t matter which form was used.",
+      "parentUuid": "AAAEp3///74\u003d",
+      "revId": "d0676b7c72ebe04bc64e44235c8536c366bd473b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

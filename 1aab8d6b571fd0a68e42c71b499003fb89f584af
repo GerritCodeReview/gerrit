@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAE5H///7c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T19:04:23Z",
+      "side": 1,
+      "message": "unused import?",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE5H///7s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T19:04:23Z",
+      "side": 1,
+      "message": "typo on upgrade",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE5H///7o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T19:04:23Z",
+      "side": 1,
+      "message": "committer should be new PersonIdent(serverUser, new Date(aga.getTime()).\n\nWe always write the committer as the server, and the author as the user, since the user didn\u0027t make the commit themselves but they did author it through the server. :-)",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE5H///78\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T19:04:23Z",
+      "side": 1,
+      "message": "style-nit: tabs here, we use spaces to indent\n\nI would write the message shorter:\n\n  \"Accept %s contributor agreement for %s\",\n  agreement.getName(),\n  group.getName()",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE5H///7w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T19:04:23Z",
+      "side": 1,
+      "message": "I think you only ever use the first group this returns, so why not return AccountGroup.Id?",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE5H///74\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T19:04:23Z",
+      "side": 1,
+      "message": "This is pointless. You would have an empty list if there is no match, so the get(0) call on the line above will throw an exception.",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE5H///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T19:04:23Z",
+      "side": 1,
+      "message": "It would be nice if we can avoid creating this group when there are no accepted account group agreeements using this cla_id.",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE5H///7k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T19:04:23Z",
+      "side": 1,
+      "message": "same as above, you get an empty list when the UUID isn\u0027t found so the get(0) will fail and this test never sees null.",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE5H///7g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_65.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-23T19:04:23Z",
+      "side": 1,
+      "message": "comment isn\u0027t necessary :-)",
+      "revId": "1aab8d6b571fd0a68e42c71b499003fb89f584af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

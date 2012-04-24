@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAE93////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-24T07:12:27Z",
+      "side": 1,
+      "message": "s/different, parent copy/different parent, copy",
+      "revId": "5f6a8809d0272daa9cd57e16e62c8a7e80910b49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAE93////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-24T07:12:27Z",
+      "side": 1,
+      "message": "1. [optional] not sure if it makes much sense, but this code looks like semantically it could belong into the ApprovalsUtil class\n\n2. When approvals are copied because a trivial rebase was detected, shouldn\u0027t we add a summary comment to the change that informs about this (e.g. we also add a summary comment when the change is abandoned or restored). I think such a summery comment would help to understand were the approvals are coming from.",
+      "revId": "5f6a8809d0272daa9cd57e16e62c8a7e80910b49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

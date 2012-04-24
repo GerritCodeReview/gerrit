@@ -262,6 +262,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   private void appendHeader(PatchScript script, final SafeHtmlBuilder m) {
+    boolean isCommitMessage = Patch.COMMIT_MSG.equals(script.getNewName());
+
     m.openTr();
 
     m.openTd();
@@ -283,12 +285,14 @@ public class SideBySideTable extends AbstractPatchContentTable {
     } else {
       m.append(PatchUtil.C.patchHeaderOld());
     }
-    m.br();
-    if (0 < script.getA().size()) {
-      if (idSideA == null) {
-        downloadLink(m, patchKey, "1");
-      } else {
-        downloadLink(m, new Patch.Key(idSideA, patchKey.get()), "0");
+    if (!isCommitMessage) {
+      m.br();
+      if (0 < script.getA().size()) {
+        if (idSideA == null) {
+          downloadLink(m, patchKey, "1");
+        } else {
+          downloadLink(m, new Patch.Key(idSideA, patchKey.get()), "0");
+        }
       }
     }
     m.closeTd();
@@ -297,9 +301,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.setAttribute("width", "50%");
     m.append(PatchUtil.C.patchHeaderNew());
-    m.br();
-    if (0 < script.getB().size()) {
-      downloadLink(m, new Patch.Key(idSideB, patchKey.get()), "0");
+    if (!isCommitMessage) {
+      m.br();
+      if (0 < script.getB().size()) {
+        downloadLink(m, new Patch.Key(idSideB, patchKey.get()), "0");
+      }
     }
     m.closeTd();
 

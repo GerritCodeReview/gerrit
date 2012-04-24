@@ -1073,30 +1073,7 @@ public class ReceiveCommits {
       ChangeUtil.updated(change);
       db.changes().insert(Collections.singleton(change));
       ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
-
-      final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
-      final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
-      haveApprovals.add(me);
-
-      if (allTypes.size() > 0) {
-        final Account.Id authorId =
-            info.getAuthor() != null ? info.getAuthor().getAccount() : null;
-        final Account.Id committerId =
-            info.getCommitter() != null ? info.getCommitter().getAccount() : null;
-        final ApprovalCategory.Id catId =
-            allTypes.get(allTypes.size() - 1).getCategory().getId();
-        if (authorId != null && haveApprovals.add(authorId)) {
-          insertDummyApproval(change, ps.getId(), authorId, catId, db);
-        }
-        if (committerId != null && haveApprovals.add(committerId)) {
-          insertDummyApproval(change, ps.getId(), committerId, catId, db);
-        }
-        for (final Account.Id reviewer : reviewers) {
-          if (haveApprovals.add(reviewer)) {
-            insertDummyApproval(change, ps.getId(), reviewer, catId, db);
-          }
-        }
-      }
+      approvalsUtil.addReviewers(change, ps, info, reviewers);
       db.commit();
     } finally {
       db.rollback();
@@ -1336,17 +1313,7 @@ public class ReceiveCommits {
       result.patchSet = ps;
       result.info = info;
 
-      final Account.Id authorId =
-          result.info.getAuthor() != null ? result.info.getAuthor().getAccount()
-              : null;
-      final Account.Id committerId =
-          result.info.getCommitter() != null ? result.info.getCommitter()
-              .getAccount() : null;
-
-      boolean haveAuthor = false;
-      boolean haveCommitter = false;
       final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
-
       oldReviewers.clear();
       oldCC.clear();
 
@@ -1361,43 +1328,19 @@ public class ReceiveCommits {
 
         // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
         if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-          final ApprovalType type =
-            approvalTypes.byId(a.getCategoryId());
-          if (a.getPatchSetId().equals(priorPatchSet)
-              && type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
-            // If there was a negative vote on the prior patch set, carry it
-            // into this patch set.
-            //
-            db.patchSetApprovals().insert(
-                Collections.singleton(new PatchSetApproval(ps.getId(), a)));
-          }
-        }
-
-        if (!haveAuthor && authorId != null && a.getAccountId().equals(authorId)) {
-          haveAuthor = true;
-        }
-        if (!haveCommitter && committerId != null
-            && a.getAccountId().equals(committerId)) {
-          haveCommitter = true;
-        }
-      }
-
-      final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
-      if (allTypes.size() > 0) {
-        final ApprovalCategory.Id catId =
-            allTypes.get(allTypes.size() - 1).getCategory().getId();
-        if (authorId != null && haveApprovals.add(authorId)) {
-          insertDummyApproval(result, authorId, catId, db);
-        }
-        if (committerId != null && haveApprovals.add(committerId)) {
-          insertDummyApproval(result, committerId, catId, db);
-        }
-        for (final Account.Id reviewer : reviewers) {
-          if (haveApprovals.add(reviewer)) {
-            insertDummyApproval(result, reviewer, catId, db);
+          final ApprovalType type = approvalTypes.byId(a.getCategoryId());
+          if (a.getPatchSetId().equals(priorPatchSet)) {
+            if (type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
+              // If there was a negative vote on the prior patch set, carry it
+              // into this patch set.
+              //
+              db.patchSetApprovals().insert(
+                  Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+            }
           }
         }
       }
+      approvalsUtil.addReviewers(change, ps, info, reviewers, haveApprovals);
 
       msg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
@@ -1525,23 +1468,6 @@ public class ReceiveCommits {
     } else {
       return a.equals(b);
     }
-  }
-
-  private void insertDummyApproval(final ReplaceResult result,
-      final Account.Id forAccount, final ApprovalCategory.Id catId,
-      final ReviewDb db) throws OrmException {
-    insertDummyApproval(result.change, result.patchSet.getId(), forAccount,
-        catId, db);
-  }
-
-  private void insertDummyApproval(final Change change, final PatchSet.Id psId,
-      final Account.Id forAccount, final ApprovalCategory.Id catId,
-      final ReviewDb db) throws OrmException {
-    final PatchSetApproval ca =
-        new PatchSetApproval(new PatchSetApproval.Key(psId, forAccount, catId),
-            (short) 0);
-    ca.cache(change);
-    db.patchSetApprovals().insert(Collections.singleton(ca));
   }
 
   private Ref findMergedInto(final String first, final RevCommit commit) {

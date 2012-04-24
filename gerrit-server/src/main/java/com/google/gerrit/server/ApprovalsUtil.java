@@ -14,12 +14,17 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -27,6 +32,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class ApprovalsUtil {
   private final ReviewDb db;
@@ -80,5 +86,51 @@ public class ApprovalsUtil {
         }
       }
     }
+  }
+
+
+  /** Attach reviewers to a change. */
+  public void addReviewers(Change change, PatchSet ps, PatchSetInfo info,
+      Set<Account.Id> wantReviewers) throws OrmException {
+    Set<Id> existing = Sets.<Account.Id> newHashSet();
+    addReviewers(change, ps, info, wantReviewers, existing);
+  }
+
+  /** Attach reviewers to a change. */
+  public void addReviewers(Change change, PatchSet ps, PatchSetInfo info,
+      Set<Account.Id> wantReviewers, Set<Account.Id> existingReviewers)
+      throws OrmException {
+    List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
+    if (allTypes.isEmpty()) {
+      return;
+    }
+
+    Set<Account.Id> need = Sets.newHashSet(wantReviewers);
+    Account.Id authorId = info.getAuthor() != null
+        ? info.getAuthor().getAccount()
+        : null;
+    if (authorId != null) {
+      need.add(authorId);
+    }
+
+    Account.Id committerId = info.getCommitter() != null
+        ? info.getCommitter().getAccount()
+        : null;
+    if (committerId != null) {
+      need.add(committerId);
+    }
+    need.remove(change.getOwner());
+    need.removeAll(existingReviewers);
+
+    List<PatchSetApproval> cells = Lists.newArrayListWithCapacity(need.size());
+    ApprovalCategory.Id catId = allTypes.get(allTypes.size() - 1).getCategory().getId();
+    for (Account.Id account : need) {
+      PatchSetApproval psa = new PatchSetApproval(
+          new PatchSetApproval.Key(ps.getId(), account, catId),
+          (short) 0);
+      psa.cache(change);
+      cells.add(psa);
+    }
+    db.patchSetApprovals().insert(cells);
   }
 }

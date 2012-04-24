@@ -38,7 +38,6 @@ public class ChangeCache {
   private Change.Id changeId;
   private ChangeDetailCache detail;
   private ListenableValue<ChangeInfo> info;
-  private StarCache starred;
 
   protected ChangeCache(Change.Id chg) {
     changeId = chg;
@@ -60,12 +59,5 @@ public class ChangeCache {
       info = new ListenableValue<ChangeInfo>();
     }
     return info;
-  }
-
-  public StarCache getStarCache() {
-    if (starred == null) {
-      starred = new StarCache(changeId);
-    }
-    return starred;
   }
 }

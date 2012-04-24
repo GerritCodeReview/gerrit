@@ -89,8 +89,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.changeTablePrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.changeTableNext()));
     keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.changeTableOpen()));
-    keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
-        .changeTableOpen()));
+    keysNavigation.add(
+        new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C.changeTableOpen()));
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
@@ -145,7 +145,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   protected void onStarClick(final int row) {
     final ChangeInfo c = getRowItem(row);
     if (c != null && Gerrit.isSignedIn()) {
-       ChangeCache.get(c.getId()).getStarCache().toggleStar();
+      ((StarredChanges.Icon) table.getWidget(row, C_STAR)).toggleStar();
     }
   }
 
@@ -198,7 +198,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     final String idstr = c.getKey().abbreviate();
     table.setWidget(row, C_ARROW, null);
     if (Gerrit.isSignedIn()) {
-      table.setWidget(row, C_STAR, cache.getStarCache().createStar());
+      table.setWidget(row, C_STAR, StarredChanges.createIcon(c.getId(), c.isStarred()));
     }
     table.setWidget(row, C_ID, new TableChangeLink(idstr, c));
 
@@ -209,17 +209,19 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {
       s += " (" + c.getStatus().name() + ")";
     }
-    if (! c.isLatest()) {
+    if (!c.isLatest()) {
       s += " [OUTDATED]";
-      table.getRowFormatter().addStyleName(row, Gerrit.RESOURCES.css().outdated());
+      table.getRowFormatter()
+          .addStyleName(row, Gerrit.RESOURCES.css().outdated());
     } else {
-      table.getRowFormatter().removeStyleName(row, Gerrit.RESOURCES.css().outdated());
+      table.getRowFormatter()
+          .removeStyleName(row, Gerrit.RESOURCES.css().outdated());
     }
 
     table.setWidget(row, C_SUBJECT, new TableChangeLink(s, c));
     table.setWidget(row, C_OWNER, link(c.getOwner()));
-    table.setWidget(row, C_PROJECT, new ProjectLink(c.getProject().getKey(), c
-        .getStatus()));
+    table.setWidget(row, C_PROJECT,
+        new ProjectLink(c.getProject().getKey(), c.getStatus()));
     table.setWidget(row, C_BRANCH, new BranchLink(c.getProject().getKey(), c
         .getStatus(), c.getBranch(), c.getTopic()));
     table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));
@@ -289,7 +291,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     boolean displayPersonNameInReviewCategory = false;
 
     if (Gerrit.isSignedIn()) {
-      AccountGeneralPreferences prefs = Gerrit.getUserAccount().getGeneralPreferences();
+      AccountGeneralPreferences prefs =
+          Gerrit.getUserAccount().getGeneralPreferences();
 
       if (prefs.isDisplayPersonNameInReviewCategory()) {
         displayPersonNameInReviewCategory = true;
@@ -353,20 +356,20 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         // Some web browsers ignore the embedded newline; some like it;
         // so we include a space before the newline to accommodate both.
         //
-        fmt.getElement(row, col).setTitle(
-            acv.getName() + " \nby " + FormatUtil.nameEmail(ai));
+        fmt.getElement(row, col).setTitle(acv.getName() + " \nby "
+            + FormatUtil.nameEmail(ai));
       }
 
       col++;
     }
 
     final Element tr = DOM.getParent(fmt.getElement(row, 0));
-    UIObject.setStyleName(tr, Gerrit.RESOURCES.css().needsReview(), !haveReview
-        && highlightUnreviewed);
+    UIObject.setStyleName(tr, Gerrit.RESOURCES.css().needsReview(),
+        !haveReview && highlightUnreviewed);
   }
 
-  GerritCallback<ApprovalSummarySet> approvalFormatter(final int dataBegin,
-      final int rows, final boolean highlightUnreviewed) {
+  GerritCallback<ApprovalSummarySet> approvalFormatter(
+      final int dataBegin, final int rows, final boolean highlightUnreviewed) {
     return new GerritCallback<ApprovalSummarySet>() {
       @Override
       public void onSuccess(final ApprovalSummarySet as) {
@@ -478,12 +481,12 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           case NONE:
             break;
           case USER:
-            PatchUtil.DETAIL_SVC.userApprovals(cids, ownerId, parent
-                .approvalFormatter(dataBegin, rows, true));
+            PatchUtil.DETAIL_SVC.userApprovals(
+                cids, ownerId, parent.approvalFormatter(dataBegin, rows, true));
             break;
           case STRONGEST:
-            PatchUtil.DETAIL_SVC.strongestApprovals(cids, parent
-                .approvalFormatter(dataBegin, rows, false));
+            PatchUtil.DETAIL_SVC.strongestApprovals(
+                cids, parent.approvalFormatter(dataBegin, rows, false));
             break;
         }
       }

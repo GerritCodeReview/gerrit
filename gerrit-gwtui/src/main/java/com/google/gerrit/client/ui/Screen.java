@@ -15,8 +15,6 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.common.PageLinks;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -146,13 +144,6 @@ public abstract class Screen extends View {
   /** Does {@link Gerrit#isSignedIn()} have to be true to be on this screen? */
   public final boolean isRequiresSignIn() {
     return requiresSignIn;
-  }
-
-  /** Invoked if this screen is the current screen and the user signs out. */
-  public void onSignOut() {
-    if (isRequiresSignIn()) {
-      History.newItem(PageLinks.toChangeQuery("status:open"));
-    }
   }
 
   public void onShowView() {

@@ -28,9 +28,9 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -42,7 +42,6 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -60,9 +59,7 @@ public class ChangeScreen extends Screen
   private final Change.Id changeId;
   private final PatchSet.Id openPatchSetId;
   private ChangeDetailCache detailCache;
-  private StarCache starred;
 
-  private Image starChange;
   private ChangeDescriptionBlock descriptionBlock;
   private ApprovalTable approvals;
 
@@ -118,14 +115,6 @@ public class ChangeScreen extends Screen
   }
 
   @Override
-  public void onSignOut() {
-    super.onSignOut();
-    if (starChange != null) {
-      starChange.setVisible(false);
-    }
-  }
-
-  @Override
   protected void onLoad() {
     super.onLoad();
     detailCache.refresh();
@@ -163,8 +152,6 @@ public class ChangeScreen extends Screen
     detailCache = cache.getChangeDetailCache();
     detailCache.addValueChangeHandler(this);
 
-    starred = cache.getStarCache();
-
     addStyleName(Gerrit.RESOURCES.css().changeScreen());
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
@@ -173,13 +160,18 @@ public class ChangeScreen extends Screen
     keysNavigation.add(new ExpandCollapseDependencySectionKeyCommand(0, 'd', Util.C.expandCollapseDependencies()));
 
     if (Gerrit.isSignedIn()) {
-      keysAction.add(starred.new KeyCommand(0, 's', Util.C.changeTableStar()));
+      final StarredChanges.Icon star = StarredChanges.createIcon(changeId, false);
+      star.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());
+      setTitleWest(star);
+
+      keysAction.add(new KeyCommand(0, 's', Util.C.changeTableStar()) {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+          star.toggleStar();
+        }
+      });
       keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
           .keyPublishComments()));
-
-      starChange = starred.createStar();
-      starChange.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());
-      setTitleWest(starChange);
     }
 
     descriptionBlock = new ChangeDescriptionBlock();

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE9H////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-04-24T02:47:34Z",
+      "side": 1,
+      "message": "Hi Brad\n I got your idea now.\n \u0027That way if the user moves the popup and then resizes the screen, it won\u0027t snap \n back to the original position.\u0027 it make me exciting ! let me create it out in a new  \n feature.\n\n new patch set coming!\n\nthanks a lot!!\n/Bruce",
+      "parentUuid": "AAAE4n///7s\u003d",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE6X////Y\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
         "patchSetId": 2

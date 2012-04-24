@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "AAAE+n////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-04-24T14:35:09Z",
+      "side": 1,
+      "message": "Hi Brad \n \u0027moves the popup  without worry about the screen resize case\u0027 is \n carried out in a new feature which is Done and under review in SOMC. \n/Bruce",
+      "parentUuid": "AAAE9X////4\u003d",
+      "revId": "c89fdaec3a47a7c819447b2b9c878ffe53ba762c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE6X////Y\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
         "patchSetId": 2

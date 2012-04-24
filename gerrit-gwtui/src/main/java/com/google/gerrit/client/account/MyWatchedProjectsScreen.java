@@ -28,8 +28,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -42,8 +40,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 import java.util.List;
 
-public class MyWatchedProjectsScreen extends SettingsScreen implements
-    ResizeHandler {
+public class MyWatchedProjectsScreen extends SettingsScreen {
   private Button addNew;
   private HintTextBox nameBox;
   private SuggestBox nameTxt;
@@ -92,7 +89,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
     /* popup */
     projectListPopup =
         new ProjectListPopup(Util.C.projects(), PageLinks.SETTINGS_PROJECTS,
-            nameTxt, this);
+            nameTxt, null);
 
     projectListPopup
         .addOpenRowHandler(new ProjectListPopup.ProjectListPopupOnOpenRowHandler() {
@@ -103,12 +100,6 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
             doAddNew();
           }
         });
-  }
-
-  @Override
-  public void onResize(final ResizeEvent event) {
-    calculatePopupCoordinates();
-    projectListPopup.resize();
   }
 
   protected void createWidgets() {

@@ -70,6 +70,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -1215,6 +1217,7 @@ public class ReceiveCommits {
     }
 
     final PatchSet.Id priorPatchSet = change.currentPatchSetId();
+    boolean trivialRebase = false;
     for (final PatchSet ps : db.patchSets().byChange(request.ontoChange)) {
       if (ps.getRevision() == null) {
         log.warn("Patch set " + ps.getId() + " has no revision");
@@ -1284,6 +1287,11 @@ public class ReceiveCommits {
             addMessage(msg.toString());
           }
         }
+
+        if (priorPatchSet.equals(ps.getId())) {
+          trivialRebase = c.getTree() == prior.getTree()
+              || isTrivialRebase(prior, c);
+        }
       } catch (IOException e) {
         log.error("Change " + change.getId() + " missing " + revIdStr, e);
         reject(request.cmd, "change state corrupt");
@@ -1327,6 +1335,7 @@ public class ReceiveCommits {
         final Ref mergedInto = findMergedInto(change.getDest().get(), c);
         result.mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
       }
+
       final PatchSetInfo info = patchSetInfoFactory.get(c, ps.getId());
       change.setCurrentPatchSet(info);
       result.change = change;
@@ -1350,12 +1359,11 @@ public class ReceiveCommits {
         if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
           final ApprovalType type = approvalTypes.byId(a.getCategoryId());
           if (a.getPatchSetId().equals(priorPatchSet)) {
-            if (type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
-              // If there was a negative vote on the prior patch set, carry it
-              // into this patch set.
-              //
-              db.patchSetApprovals().insert(
-                  Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+            if ((trivialRebase && a.getValue() != 0)
+                || (type.getCategory().isCopyMinScore() && type.isMaxNegative(a))) {
+              PatchSetApproval n = new PatchSetApproval(ps.getId(), a);
+              n.cache(change);
+              db.patchSetApprovals().insert(Collections.singleton(n));
             }
           }
         }
@@ -1476,6 +1484,27 @@ public class ReceiveCommits {
 
     sendMergedEmail(result);
     return result != null ? result.info.getKey() : null;
+  }
+
+  private boolean isTrivialRebase(RevCommit prior, RevCommit next) {
+    if (next.getParentCount() != 1) {
+      // Trivial rebases done by machine only work well on 1 parent.
+      return false;
+    }
+
+    // A trivial rebase can be detected by looking for the next commit
+    // having the same tree as would exist when the prior commit is
+    // cherry-picked onto the next commit's new first parent.
+    try {
+      ThreeWayMerger merger = MergeStrategy.RESOLVE.newMerger(repo, true);
+      merger.setBase(prior.getParent(0));
+      return merger.merge(next.getParent(0), prior)
+          && merger.getResultTreeId().equals(next.getTree());
+    } catch (IOException err) {
+      log.warn("Cannot check trivial rebase of new patch set "
+          + next.name() + " in " + project.getName(), err);
+      return false;
+    }
   }
 
   static boolean parentsEqual(RevCommit a, RevCommit b) {

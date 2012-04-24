@@ -168,7 +168,28 @@ limitations under the License.
       </properties>
     </profile>
     <profile>
+      <id>chrome</id>
+      <properties>
+        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIsafari</GerritGwtUI.browserType>
+        <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>
+      </properties>
+    </profile>
+    <profile>
+      <id>webkit</id>
+      <properties>
+        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIsafari</GerritGwtUI.browserType>
+        <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>
+      </properties>
+    </profile>
+    <profile>
       <id>gecko1_8</id>
+      <properties>
+        <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIgecko1_8</GerritGwtUI.browserType>
+        <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>
+      </properties>
+    </profile>
+    <profile>
+      <id>firefox</id>
       <properties>
         <GerritGwtUI.browserType>com.google.gerrit.GerritGwtUIgecko1_8</GerritGwtUI.browserType>
         <GerritGwtUI.draftCompile>true</GerritGwtUI.draftCompile>

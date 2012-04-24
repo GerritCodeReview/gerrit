@@ -1333,17 +1333,7 @@ public class ReceiveCommits {
       result.patchSet = ps;
       result.info = info;
 
-      final Account.Id authorId =
-          result.info.getAuthor() != null ? result.info.getAuthor().getAccount()
-              : null;
-      final Account.Id committerId =
-          result.info.getCommitter() != null ? result.info.getCommitter()
-              .getAccount() : null;
-
-      boolean haveAuthor = false;
-      boolean haveCommitter = false;
       final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
-
       oldReviewers.clear();
       oldCC.clear();
 
@@ -1358,24 +1348,16 @@ public class ReceiveCommits {
 
         // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
         if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-          final ApprovalType type =
-            approvalTypes.byId(a.getCategoryId());
-          if (a.getPatchSetId().equals(priorPatchSet)
-              && type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
-            // If there was a negative vote on the prior patch set, carry it
-            // into this patch set.
-            //
-            db.patchSetApprovals().insert(
-                Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+          final ApprovalType type = approvalTypes.byId(a.getCategoryId());
+          if (a.getPatchSetId().equals(priorPatchSet)) {
+            if (type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
+              // If there was a negative vote on the prior patch set, carry it
+              // into this patch set.
+              //
+              db.patchSetApprovals().insert(
+                  Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+            }
           }
-        }
-
-        if (!haveAuthor && authorId != null && a.getAccountId().equals(authorId)) {
-          haveAuthor = true;
-        }
-        if (!haveCommitter && committerId != null
-            && a.getAccountId().equals(committerId)) {
-          haveCommitter = true;
         }
       }
 
@@ -1383,10 +1365,18 @@ public class ReceiveCommits {
       if (allTypes.size() > 0) {
         final ApprovalCategory.Id catId =
             allTypes.get(allTypes.size() - 1).getCategory().getId();
-        if (authorId != null && haveApprovals.add(authorId)) {
+        final Account.Id authorId = result.info.getAuthor() != null
+            ? result.info.getAuthor().getAccount()
+            : null;
+        final Account.Id committerId = result.info.getCommitter() != null
+            ? result.info.getCommitter().getAccount()
+            : null;
+        if (authorId != null && !authorId.equals(change.getOwner())
+            && haveApprovals.add(authorId)) {
           insertDummyApproval(result, authorId, catId, db);
         }
-        if (committerId != null && haveApprovals.add(committerId)) {
+        if (committerId != null && !committerId.equals(change.getOwner())
+            && haveApprovals.add(committerId)) {
           insertDummyApproval(result, committerId, catId, db);
         }
         for (final Account.Id reviewer : reviewers) {

@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFAH////A\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-04-25T15:48:31Z",
+      "side": 1,
+      "message": "Nit: preference\n\nActually, for clarity I suggest this instead:\n* Add user preference to mark files reviewed automatically or manually",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFB3////8\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-04-25T15:48:31Z",
+      "side": 1,
+      "message": "Nit: s/button/checkbox/",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFB3////4\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-04-25T15:48:31Z",
+      "side": 1,
+      "message": "Nit: s/SOP/Shawn Pearce/\n\nI know he\u0027s a profile that this project will never forget, and that his short name is well known, but still.",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFB3////0\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-04-25T15:48:31Z",
+      "side": 1,
+      "message": "Is this a relevant discussion? Also, the notes mention \"I\" several times in this discussion. I would consider to remove line 102(this line) to 145. It\u0027s very implementation specific talk, with an unknown author referring to himself. Is it relevant to release notes?",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFAH////I\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-04-25T15:48:31Z",
+      "side": 1,
+      "message": "nit: instead",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFAH////E\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-04-25T15:48:31Z",
+      "side": 1,
+      "message": "What types values, and where?",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

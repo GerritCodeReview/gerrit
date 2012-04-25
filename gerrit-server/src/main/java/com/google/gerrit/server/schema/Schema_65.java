@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.primitives.Longs;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -55,6 +56,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -447,6 +449,13 @@ public class Schema_65 extends SchemaVersion {
           }
           groupAgreements.add(a);
         }
+        Collections.sort(groupAgreements, new Comparator<AccountGroupAgreement>() {
+          @Override
+          public int compare(
+              AccountGroupAgreement a1, AccountGroupAgreement a2) {
+            return Longs.compare(a1.getTime(), a2.getTime());
+          }
+        });
         return groupAgreements;
       } finally {
         rs.close();

@@ -39,7 +39,7 @@ class SshScope {
     volatile long started;
     volatile long finished;
 
-    Context(final SshSession s, final String c) {
+    private Context(final SshSession s, final String c, final long at) {
       cleanup = new RequestCleanup();
       session = s;
       commandLine = c;
@@ -47,25 +47,17 @@ class SshScope {
       map = new HashMap<Key<?>, Object>();
       map.put(RC_KEY, cleanup);
 
-      final long now = System.currentTimeMillis();
-      created = now;
-      started = now;
-      finished = now;
+      created = started = finished = at;
     }
 
     private Context(Context p, SshSession s, String c) {
-      cleanup = new RequestCleanup();
-      session = s;
-      commandLine = c;
-
-      map = new HashMap<Key<?>, Object>();
-      map.put(RC_KEY, cleanup);
-
-      created = p.created;
+      this(s, c, p.created);
       started = p.started;
       finished = p.finished;
+    }
 
-      p.cleanup.add(cleanup);
+    Context(final SshSession s, final String c) {
+      this(s, c, System.currentTimeMillis());
     }
 
     String getCommandLine() {
@@ -87,7 +79,9 @@ class SshScope {
     }
 
     synchronized Context subContext(SshSession newSession, String newCommandLine) {
-      return new Context(this, newSession, newCommandLine);
+      Context ctx = new Context(this, newSession, newCommandLine);
+      cleanup.add(ctx.cleanup);
+      return ctx;
     }
   }
 
@@ -112,7 +106,9 @@ class SshScope {
 
     @Override
     protected Context continuingContext(Context ctx) {
-      return ctx.subContext(ctx.getSession(), ctx.getCommandLine());
+      // The cleanup is not chained, since the RequestScopePropagator executors
+      // the Context's cleanup when finished executing.
+      return new Context(ctx, ctx.getSession(), ctx.getCommandLine());
     }
   }
 

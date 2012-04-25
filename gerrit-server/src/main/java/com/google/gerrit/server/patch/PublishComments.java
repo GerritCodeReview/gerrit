@@ -30,7 +30,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.CommentSender;
-import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -332,7 +331,7 @@ public class PublishComments implements Callable<VoidResult> {
         } catch (PatchSetInfoNotAvailableException e) {
           log.error("Cannot read PatchSetInfo of " + patchSetId, e);
           return;
-        } catch (OrmException e) {
+        } catch (Exception e) {
           log.error("Cannot email comments for " + patchSetId, e);
           return;
         }
@@ -344,7 +343,7 @@ public class PublishComments implements Callable<VoidResult> {
           cm.setChangeMessage(message);
           cm.setPatchLineComments(drafts);
           cm.send();
-        } catch (EmailException e) {
+        } catch (Exception e) {
           log.error("Cannot email comments for " + patchSetId, e);
         }
       }

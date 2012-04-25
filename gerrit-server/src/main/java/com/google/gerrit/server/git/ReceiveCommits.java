@@ -44,7 +44,6 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.mail.CreateChangeSender;
-import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -1122,7 +1121,7 @@ public class ReceiveCommits {
           cm.addReviewers(reviewers);
           cm.addExtraCC(cc);
           cm.send();
-        } catch (EmailException e) {
+        } catch (Exception e) {
           log.error("Cannot send email for new change " + change.getId(), e);
         }
       }
@@ -1473,7 +1472,7 @@ public class ReceiveCommits {
           cm.addReviewers(oldReviewers);
           cm.addExtraCC(oldCC);
           cm.send();
-        } catch (EmailException e) {
+        } catch (Exception e) {
           log.error("Cannot send email for new patch set " + ps.getId(), e);
         }
       }
@@ -2012,7 +2011,7 @@ public class ReceiveCommits {
             cm.setFrom(currentUser.getAccountId());
             cm.setPatchSet(result.patchSet, result.info);
             cm.send();
-          } catch (EmailException e) {
+          } catch (Exception e) {
             final PatchSet.Id psi = result.patchSet.getId();
             log.error("Cannot send email for submitted patch set " + psi, e);
           }

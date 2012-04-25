@@ -37,7 +37,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -1047,7 +1046,7 @@ public class MergeOp {
     }
   }
 
-  private boolean isMergeable(Change c) throws OrmException {
+  private boolean isMergeable(Change c) {
     final CodeReviewCommit commit = commits.get(c.getId());
     final CommitMergeStatus s = commit != null ? commit.statusCode : null;
     boolean isMergeable = false;
@@ -1061,7 +1060,7 @@ public class MergeOp {
     return isMergeable;
   }
 
-  private void updateChangeStatus() throws MergeException {
+  private void updateChangeStatus() {
     List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
 
     for (final Change c : submitted) {
@@ -1127,7 +1126,7 @@ public class MergeOp {
         GitRepositoryManager.REFS_NOTES_REVIEW);
   }
 
-  private void updateSubscriptions() throws MergeException {
+  private void updateSubscriptions() {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       SubmoduleOp subOp =
           subOpFactory.create(destBranch, mergeTip, rw, repo, destProject,
@@ -1410,7 +1409,7 @@ public class MergeOp {
           } finally {
             reviewDb.close();
           }
-        } catch (OrmException e) {
+        } catch (Exception e) {
           log.error("Cannot send email for submitted patch set " + c.getId(), e);
           return;
         }
@@ -1422,7 +1421,7 @@ public class MergeOp {
           }
           cm.setPatchSet(patchSet);
           cm.send();
-        } catch (EmailException e) {
+        } catch (Exception e) {
           log.error("Cannot send email for submitted patch set " + c.getId(), e);
         }
       }
@@ -1493,7 +1492,7 @@ public class MergeOp {
           } finally {
             reviewDb.close();
           }
-        } catch (OrmException e) {
+        } catch (Exception e) {
           log.error("Cannot send email notifications about merge failure", e);
           return;
         }
@@ -1506,7 +1505,7 @@ public class MergeOp {
           cm.setPatchSet(patchSet);
           cm.setChangeMessage(msg);
           cm.send();
-        } catch (EmailException e) {
+        } catch (Exception e) {
           log.error("Cannot send email notifications about merge failure", e);
         }
       }

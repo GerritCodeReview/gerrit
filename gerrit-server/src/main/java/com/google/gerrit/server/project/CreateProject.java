@@ -98,7 +98,15 @@ public class CreateProject {
       final String head =
           createProjectArgs.permissionsOnly ? GitRepositoryManager.REF_CONFIG
               : createProjectArgs.branch;
-      final Repository repo = repoManager.createRepository(nameKey);
+      final Repository repo;
+      try {
+        repo = repoManager.createRepository(nameKey);
+      } catch (RepositoryCaseMismatchException err) {
+        throw new ProjectCreationFailedException("Cannot create " + nameKey.get()
+            + " because the name is already occupied by another project."
+            + " The other project has the same name, only spelled in a"
+            + " different case.", err);
+      }
       try {
         replication.replicateNewProject(nameKey, head);
 
@@ -115,10 +123,6 @@ public class CreateProject {
       } finally {
         repo.close();
       }
-    } catch (IllegalStateException e) {
-      handleRepositoryExistsException(createProjectArgs.getProject(), e);
-    } catch (RepositoryCaseMismatchException ee) {
-      handleRepositoryExistsException(ee.getNameOfExistingProject(), ee);
     } catch (Exception e) {
       final String msg = "Cannot create " + createProjectArgs.getProject();
       log.error(msg, e);

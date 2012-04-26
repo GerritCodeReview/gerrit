@@ -46,6 +46,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /** Manages Git repositories stored on the local filesystem. */
 @Singleton
@@ -91,6 +93,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private final File basePath;
+  private final Lock namesUpdateLock;
+  private volatile SortedSet<Project.NameKey> names;
 
   @Inject
   LocalDiskRepositoryManager(final SitePaths site,
@@ -99,6 +103,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
+    namesUpdateLock = new ReentrantLock(true /* fair */);
+    names = list();
   }
 
   /** @return base directory under which all projects are stored. */
@@ -115,13 +121,10 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-
-    final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
-
-    if (!getProjectName(loc.getFile()).equals(name)) {
+    if (!names.contains(name)) {
       throw new RepositoryNotFoundException(gitDirOf(name));
     }
-
+    final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
     try {
       return RepositoryCache.open(loc);
     } catch (IOException e1) {
@@ -133,7 +136,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   public Repository createRepository(final Project.NameKey name)
-      throws RepositoryNotFoundException {
+      throws RepositoryNotFoundException, RepositoryCaseMismatchException {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
@@ -145,10 +148,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       //
       loc = FileKey.exact(dir, FS.DETECTED);
 
-      final Project.NameKey nameOfExistingProject =
-          getProjectName(loc.getFile());
-      if (!nameOfExistingProject.equals(name)) {
-        throw new RepositoryCaseMismatchException(name, nameOfExistingProject);
+      if (!names.contains(name)) {
+        throw new RepositoryCaseMismatchException(name);
       }
     } else {
       // It doesn't exist under any of the standard permutations
@@ -170,12 +171,25 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         null, ConfigConstants.CONFIG_KEY_LOGALLREFUPDATES, true);
       config.save();
 
+      onCreateProject(name);
+
       return db;
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;
       e2 = new RepositoryNotFoundException("Cannot create repository " + name);
       e2.initCause(e1);
       throw e2;
+    }
+  }
+
+  private void onCreateProject(final Project.NameKey newProjectName) {
+    namesUpdateLock.lock();
+    try {
+      SortedSet<Project.NameKey> n = new TreeSet<Project.NameKey>(names);
+      n.add(newProjectName);
+      names = Collections.unmodifiableSortedSet(n);
+    } finally {
+      namesUpdateLock.unlock();
     }
   }
 
@@ -268,9 +282,18 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
   @Override
   public SortedSet<Project.NameKey> list() {
-    SortedSet<Project.NameKey> names = new TreeSet<Project.NameKey>();
-    scanProjects(basePath, "", names);
-    return Collections.unmodifiableSortedSet(names);
+    // The results of this method are cached by ProjectCacheImpl. Control only
+    // enters here if the cache was flushed by the administrator to force
+    // scanning the filesystem. Don't rely on the cached names collection.
+    namesUpdateLock.lock();
+    try {
+      SortedSet<Project.NameKey> n = new TreeSet<Project.NameKey>();
+      scanProjects(basePath, "", n);
+      names = Collections.unmodifiableSortedSet(n);
+      return n;
+    } finally {
+      namesUpdateLock.unlock();
+    }
   }
 
   private void scanProjects(final File dir, final String prefix,
@@ -311,17 +334,5 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     return new Project.NameKey(projectName);
-  }
-
-  private Project.NameKey getProjectName(final File gitDir) {
-    String relativeGitPath =
-        getBasePath().toURI().relativize(gitDir.toURI()).getPath();
-    if (!relativeGitPath.endsWith("/")) {
-      relativeGitPath = relativeGitPath + "/";
-    }
-    final String prefix =
-        relativeGitPath.substring(0, relativeGitPath.length() - 1
-            - gitDir.getName().length());
-    return getProjectName(prefix, gitDir.getName());
   }
 }

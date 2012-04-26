@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFCX///80\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_66.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-26T14:11:34Z",
+      "side": 1,
+      "message": "Ironically, this is only painful for the open source servers. Basically everyone other than me. I can rename a field pretty much at a whim, provided the column ID stays the same. Which it does here.  :-)",
+      "revId": "cf90123cbd6276b61c634eabb7395191ed77cae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCX///8w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_66.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-26T14:11:34Z",
+      "side": 1,
+      "message": "FYI this probably doesn\u0027t always work. Booleans are stored as CHAR(1) with value Y for true and N for false. Not every JDBC driver out is going to grok this as a boolean value. It would be safer to use \"Y\".equals(rs.getString()) in code such as this.\n\nCan\u0027t this statement also be written as an UPDATE:\n\n  UPDATE accounts SET reverse_patch_set_order \u003d \u0027Y\u0027\n  WHERE display_patch_sets_in_reverse_order \u003d \u0027Y\u0027;\n\n  UPDATE accounts SET show_username_in_review_category \u003d \u0027Y\u0027\n  WHERE display_person_name_in_review_category \u003d \u0027Y\u0027;\n\nThis should be much faster to process, and every SQL server we support will grok those two small statements. And it avoids the problem with boolean conversion.",
+      "revId": "cf90123cbd6276b61c634eabb7395191ed77cae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

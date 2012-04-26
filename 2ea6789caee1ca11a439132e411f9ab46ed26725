@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFCn///60\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T04:11:32Z",
+      "side": 1,
+      "message": "Perhaps the 4 arguments above should be arrays to allow multiples.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCn///7M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T04:11:32Z",
+      "side": 1,
+      "message": "It might be clearer to reverse this check, the else can then be eliminated.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCn///7A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T04:11:32Z",
+      "side": 1,
+      "message": "You don\u0027t really need a new var here, why not reuse addSshKey?  Same for delete.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCn///7I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T04:11:32Z",
+      "side": 1,
+      "message": "Nit: Remove this blank line?",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCn///68\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T04:11:32Z",
+      "side": 1,
+      "message": "You probably need to verify that - is not supplied for both add and delete.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCn///6w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T04:11:32Z",
+      "side": 1,
+      "message": "readAddKey is a bit confusing, how about just key here (scope is small)?  Same for delete below.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCn///7E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T04:11:32Z",
+      "side": 1,
+      "message": "Why the catch here when you don\u0027t catch many of the other ormexceptions?",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCn///64\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T04:11:32Z",
+      "side": 1,
+      "message": "Nit: extra blank line.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

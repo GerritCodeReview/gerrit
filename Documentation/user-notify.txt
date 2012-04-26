@@ -1,0 +1,117 @@
+Gerrit Code Review - Email Notifications
+========================================
+
+Description
+-----------
+
+Gerrit can automatically notify users by email when new changes are
+uploaded for review, after comments have been posted on a change,
+or after the change has been submitted to a branch.
+
+User Level Settings
+-------------------
+
+Individual users can configure email subscriptions by editing
+watched projects through Settings > Watched Projects with the web UI.
+
+Specific projects may be watched, or the special project
+`All-Projects` can be watched to watch all projects that
+are visible to the user.
+
+Change search expressions can be used to filter change notifications
+to specific subsets, for example `branch:master` to only see changes
+proposed for the master branch.
+
+Project Level Settings
+----------------------
+
+Project owners and site administrators can configure project level
+notifications, enabling Gerrit Code Review to automatically send
+emails to team mailing lists, or groups of users. Project settings
+are stored inside of the `refs/meta/config` branch of each Git
+repository, and are placed inside of the `project.config` file.
+
+To edit the project level notify settings, ensure the project owner
+has Push permission already granted for the `refs/meta/config`
+branch. Consult link:access-control.html[access controls] for
+details on how access permissions work.
+
+Initialize a temporary Git repository to edit the configuration:
+====
+  mkdir cfg_dir
+  cd cfg_dir
+  git init
+====
+
+Download the existing configuration from Gerrit:
+====
+  git fetch ssh://localhost:29418/project refs/meta/config
+  git checkout FETCH_HEAD
+====
+
+Edit the file `project.config` with any text editor and append a
+notify section describing the email addresses to deliver to:
+----
+  [notify "team"]
+  	email = team-address@example.com
+  	email = paranoid-manager@example.com
+----
+
+Each notify section within a single project.config file must have a
+unique name. The section name itself does not matter and may later
+appear in the web UI. Naming a section after the email address or
+group it delivers to is typical. Multiple sections can be specified
+if different filters are needed.
+
+Commit the configuration change, and push it back:
+====
+  git commit -a -m "Notify team-address@example.com of changes"
+  git push ssh://localhost:29418/project HEAD:refs/meta/config
+====
+
+[[notify.email]]notify.email::
++
+List of email addresses to send matching notifications to. Each
+email address should be placed on its own line.
++
+Internal groups within Gerrit Code Review can also be named using
+`group NAME` syntax. If this format is used the group's UUID must
+also appear in the corresponding `groups` file. Gerrit will expand
+the group membership and BCC all current users.
+
+[[notify.type]]notify.type::
++
+Types of notifications to send. If not specified, all notifications
+are sent.
++
+* `new_changes`: Only newly created changes.
+* `all_comments`: Only comments on existing changes.
+* `submitted_changes`: Only changes that have been submitted.
+* `all`: All notifications.
+
++
+Like email, this variable may be list of options.
+
+[[notify.filter]]notify.filter::
++
+link:user-search.html[Change search expression] to match changes
+that should be sent to the emails named in this section.
+
+When sending email to a bare email address in a notify block,
+Gerrit Code Review ignores read access controls and assumes the
+administrator has set the filtering options correct. Project owners
+can implement security filtering by adding the `visibleto:groupname`
+predicate to the filter expression, for example:
+
+====
+  [notify "team"]
+  	email = team-address@example.com
+  	filter = visibleto:Developers
+====
+
+When sending email to an internal group, the internal group's read
+access is automatically checked by Gerrit.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

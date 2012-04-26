@@ -14,5 +14,15 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
+
 public abstract class ChangeEvent {
+  public abstract String getType();
+
+  public abstract Project.NameKey getProjectNameKey();
+
+  public abstract Change.Key getChangeKey();
+
+  public abstract String getRefName();
 }

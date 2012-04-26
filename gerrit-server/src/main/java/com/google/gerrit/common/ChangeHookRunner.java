@@ -383,6 +383,11 @@ public class ChangeHookRunner implements ChangeHooks {
     }
 
     private boolean isVisibleTo(Change change, IdentifiedUser user, ReviewDb db) throws OrmException {
+        if (user == null) {
+            // No user, which is a sentinel meaning visibility filtering is done
+            // by the event's receiver.
+            return true;
+        }
         final ProjectState pe = projectCache.get(change.getProject());
         if (pe == null) {
           return false;
@@ -392,6 +397,11 @@ public class ChangeHookRunner implements ChangeHooks {
     }
 
     private boolean isVisibleTo(Branch.NameKey branchName, IdentifiedUser user) {
+        if (user == null) {
+            // No user, which is a sentinel meaning visibility filtering is done
+            // by the event's receiver.
+            return true;
+        }
         final ProjectState pe = projectCache.get(branchName.getParentKey());
         if (pe == null) {
           return false;

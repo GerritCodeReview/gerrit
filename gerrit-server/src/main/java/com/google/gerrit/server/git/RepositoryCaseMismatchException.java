@@ -31,21 +31,11 @@ public class RepositoryCaseMismatchException extends
 
   private static final long serialVersionUID = 1L;
 
-  private final NameKey nameOfExistingProject;
-
   /**
    * @param projectName name of the project that cannot be created
-   * @param nameOfExistingProject name of the project that already exists and
-   *        occupies the name for the git repository in the file system
    */
-  public RepositoryCaseMismatchException(final Project.NameKey projectName,
-      final Project.NameKey nameOfExistingProject) {
-    super("Name occupied in other case: " + projectName.get() + "; project "
-        + nameOfExistingProject.get() + " exists");
-    this.nameOfExistingProject = nameOfExistingProject;
-  }
-
-  public NameKey getNameOfExistingProject() {
-    return nameOfExistingProject;
+  public RepositoryCaseMismatchException(final Project.NameKey projectName) {
+    super("Name occupied in other case. Project " + projectName.get()
+        + " cannot be created.");
   }
 }

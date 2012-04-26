@@ -118,10 +118,10 @@ public final class AccountGeneralPreferences {
    * (show latest patch set on top).
    */
   @Column(id = 10)
-  protected boolean displayPatchSetsInReverseOrder;
+  protected boolean reversePatchSetOrder;
 
   @Column(id = 11)
-  protected boolean displayPersonNameInReviewCategory;
+  protected boolean showUsernameInReviewCategory;
 
   public AccountGeneralPreferences() {
   }
@@ -188,20 +188,20 @@ public final class AccountGeneralPreferences {
     copySelfOnEmail = includeSelfOnEmail;
   }
 
-  public boolean isDisplayPatchSetsInReverseOrder() {
-    return displayPatchSetsInReverseOrder;
+  public boolean isReversePatchSetOrder() {
+    return reversePatchSetOrder;
   }
 
-  public void setDisplayPatchSetsInReverseOrder(final boolean displayPatchSetsInReverseOrder) {
-    this.displayPatchSetsInReverseOrder = displayPatchSetsInReverseOrder;
+  public void setReversePatchSetOrder(final boolean reversePatchSetOrder) {
+    this.reversePatchSetOrder = reversePatchSetOrder;
   }
 
-  public boolean isDisplayPersonNameInReviewCategory() {
-    return displayPersonNameInReviewCategory;
+  public boolean isShowUsernameInReviewCategory() {
+    return showUsernameInReviewCategory;
   }
 
-  public void setDisplayPersonNameInReviewCategory(final boolean displayPersonNameInReviewCategory) {
-    this.displayPersonNameInReviewCategory = displayPersonNameInReviewCategory;
+  public void setShowUsernameInReviewCategory(final boolean showUsernameInReviewCategory) {
+    this.showUsernameInReviewCategory = showUsernameInReviewCategory;
   }
 
   public DateFormat getDateFormat() {
@@ -231,8 +231,8 @@ public final class AccountGeneralPreferences {
     showSiteHeader = true;
     useFlashClipboard = true;
     copySelfOnEmail = false;
-    displayPatchSetsInReverseOrder = false;
-    displayPersonNameInReviewCategory = false;
+    reversePatchSetOrder = false;
+    showUsernameInReviewCategory = false;
     downloadUrl = null;
     downloadCommand = null;
     dateFormat = null;

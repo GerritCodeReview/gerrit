@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -32,7 +32,7 @@ import java.util.Map;
 /** Does not invoke hooks. */
 public final class DisabledChangeHooks implements ChangeHooks {
   @Override
-  public void addChangeListener(ChangeListener listener, IdentifiedUser user) {
+  public void addChangeListener(ChangeListener listener, CurrentUser user) {
   }
 
   @Override

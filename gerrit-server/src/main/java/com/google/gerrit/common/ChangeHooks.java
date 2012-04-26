@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -32,8 +32,20 @@ import java.util.Map;
 
 /** Invokes hooks on server actions. */
 public interface ChangeHooks {
-  public void addChangeListener(ChangeListener listener, IdentifiedUser user);
+  /**
+   * Add a listener to the list.
+   *
+   * @param listener listener to add.
+   * @param user end-user responsible for this listener, used for filtering
+   *     events to those visible by this user.
+   */
+  public void addChangeListener(ChangeListener listener, CurrentUser user);
 
+  /**
+   * Remove a listener from the list.
+   *
+   * @param listener listener to remove.
+   */
   public void removeChangeListener(ChangeListener listener);
 
   /**

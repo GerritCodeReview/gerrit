@@ -32,8 +32,21 @@ import java.util.Map;
 
 /** Invokes hooks on server actions. */
 public interface ChangeHooks {
+  /**
+   * Add a listener to the list.
+   *
+   * @param listener listener to add.
+   * @param user end-user responsible for this listener, used for filtering
+   *     events to those visible by this user. If {@code null}, <em>all</em>
+   *     events should be reported to the listener.
+   */
   public void addChangeListener(ChangeListener listener, IdentifiedUser user);
 
+  /**
+   * Remove a listener from the list.
+   *
+   * @param listener listener to remove.
+   */
   public void removeChangeListener(ChangeListener listener);
 
   /**

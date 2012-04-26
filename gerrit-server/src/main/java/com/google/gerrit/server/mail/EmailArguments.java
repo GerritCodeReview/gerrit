@@ -15,9 +15,11 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -44,6 +46,8 @@ class EmailArguments {
   final EmailSender emailSender;
   final PatchSetInfoFactory patchSetInfoFactory;
   final IdentifiedUser.GenericFactory identifiedUserFactory;
+  final CapabilityControl.Factory capabilityControlFactory;
+  final AnonymousUser anonymousUser;
   final Provider<String> urlProvider;
   final AllProjectsName allProjectsName;
 
@@ -58,6 +62,8 @@ class EmailArguments {
       PatchListCache patchListCache, FromAddressGenerator fromAddressGenerator,
       EmailSender emailSender, PatchSetInfoFactory patchSetInfoFactory,
       GenericFactory identifiedUserFactory,
+      CapabilityControl.Factory capabilityControlFactory,
+      AnonymousUser anonymousUser,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       AllProjectsName allProjectsName,
       ChangeQueryBuilder.Factory queryBuilder,
@@ -72,6 +78,8 @@ class EmailArguments {
     this.emailSender = emailSender;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.identifiedUserFactory = identifiedUserFactory;
+    this.capabilityControlFactory = capabilityControlFactory;
+    this.anonymousUser = anonymousUser;
     this.urlProvider = urlProvider;
     this.allProjectsName = allProjectsName;
     this.queryBuilder = queryBuilder;

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAFCn///8I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T02:56:38Z",
+      "side": 1,
+      "message": "Anyway to push this code into StarredChanges?",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFAH////8\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 1

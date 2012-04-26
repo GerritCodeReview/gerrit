@@ -14,18 +14,24 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.StarredChange;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -34,19 +40,24 @@ import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.SingleGroupUser;
 import com.google.gwtorm.server.OrmException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 
 /** Sends an email to one or more interested parties. */
 public abstract class ChangeEmail extends OutgoingEmail {
+  private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
+
   protected final Change change;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
@@ -298,15 +309,15 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
   }
 
-  /** BCC any user who has set "notify all comments" on this project. */
-  protected void bccWatchesNotifyAllComments() {
+  /** BCC users and groups that want notification of events. */
+  protected void bccWatches(NotifyType type) {
     try {
-      // BCC anyone else who has interest in this project's changes
-      //
-      for (final AccountProjectWatch w : getWatches()) {
-        if (w.isNotify(NotifyType.ALL_COMMENTS)) {
-          add(RecipientType.BCC, w.getAccountId());
-        }
+      Watchers matching = getWatches(NotifyType.SUBMITTED_CHANGES);
+      for (Account.Id user : matching.accounts) {
+        add(RecipientType.BCC, user);
+      }
+      for (Address addr : matching.emails) {
+        add(RecipientType.BCC, addr);
       }
     } catch (OrmException err) {
       // Just don't CC everyone. Better to send a partial message to those
@@ -316,32 +327,120 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   /** Returns all watches that are relevant */
-  protected final List<AccountProjectWatch> getWatches() throws OrmException {
+  protected final Watchers getWatches(NotifyType type) throws OrmException {
+    Watchers matching = new Watchers();
     if (changeData == null) {
-      return Collections.emptyList();
+      return matching;
     }
 
-    List<AccountProjectWatch> matching = new ArrayList<AccountProjectWatch>();
     Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
 
     for (AccountProjectWatch w : args.db.get().accountProjectWatches()
         .byProject(change.getProject())) {
       projectWatchers.add(w.getAccountId());
-      add(matching, w);
-    }
-
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(args.allProjectsName)) {
-      if (!projectWatchers.contains(w.getAccountId())) {
+      if (w.isNotify(type)) {
         add(matching, w);
       }
     }
 
-    return Collections.unmodifiableList(matching);
+    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
+        .byProject(args.allProjectsName)) {
+      if (!projectWatchers.contains(w.getAccountId()) && w.isNotify(type)) {
+        add(matching, w);
+      }
+    }
+
+    ProjectState state = projectState;
+    while (state != null) {
+      for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
+        if (nc.isNotify(type)) {
+          try {
+            add(matching, nc, state.getProject().getNameKey());
+          } catch (QueryParseException e) {
+            log.warn(String.format(
+                "Project %s has invalid notify filter \"%s\": %s",
+                state.getProject().getName(),
+                nc.getFilter(), e.getMessage()));
+          }
+        }
+      }
+      state = state.getParentState();
+    }
+
+    return matching;
+  }
+
+  protected static class Watchers {
+    protected final Set<Account.Id> accounts = Sets.newHashSet();
+    protected final Set<Address> emails = Sets.newHashSet();
   }
 
   @SuppressWarnings("unchecked")
-  private void add(List<AccountProjectWatch> matching, AccountProjectWatch w)
+  private void add(Watchers matching, NotifyConfig nc, Project.NameKey project)
+      throws OrmException, QueryParseException {
+    for (AccountGroup.UUID uuid : nc.getGroups()) {
+      AccountGroup group = args.groupCache.get(uuid);
+      if (group == null) {
+        log.warn(String.format(
+            "Project %s has invalid group %s in notify section",
+            project.get(), uuid.get()));
+        continue;
+      }
+
+      if (group.getType() != AccountGroup.Type.INTERNAL) {
+        log.warn(String.format(
+            "Project %s canont use group %s of type %s in notify section",
+            project.get(), uuid.get(), group.getType()));
+        continue;
+      }
+
+      ChangeQueryBuilder qb = args.queryBuilder.create(new SingleGroupUser(
+          args.capabilityControlFactory,
+          uuid));
+      qb.setAllowFile(true);
+      Predicate<ChangeData> p = qb.is_visible();
+      if (nc.getFilter() != null) {
+        p = Predicate.and(qb.parse(nc.getFilter()), p);
+        p = args.queryRewriter.get().rewrite(p);
+      }
+      if (p.match(changeData)) {
+        Set<AccountGroup.Id> seen = Sets.newHashSet();
+        Queue<AccountGroup.Id> scan = Lists.newLinkedList();
+        scan.add(group.getId());
+        seen.add(group.getId());
+        while (!scan.isEmpty()) {
+          AccountGroup.Id next = scan.remove();
+          for (AccountGroupMember m : args.db.get().accountGroupMembers()
+              .byGroup(next)) {
+            matching.accounts.add(m.getAccountId());
+          }
+          for (AccountGroupInclude m : args.db.get().accountGroupIncludes()
+              .byGroup(next)) {
+            if (seen.add(m.getIncludeId())) {
+              scan.add(m.getIncludeId());
+            }
+          }
+        }
+      }
+    }
+
+    if (!nc.getAddresses().isEmpty()) {
+      if (nc.getFilter() != null) {
+        ChangeQueryBuilder qb = args.queryBuilder.create(args.anonymousUser);
+        qb.setAllowFile(true);
+        Predicate<ChangeData> p = qb.parse(nc.getFilter());
+        p = args.queryRewriter.get().rewrite(p);
+        if (p.match(changeData)) {
+          matching.emails.addAll(nc.getAddresses());
+        }
+      } else {
+        matching.emails.addAll(nc.getAddresses());
+      }
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private void add(Watchers matching, AccountProjectWatch w)
       throws OrmException {
     IdentifiedUser user =
         args.identifiedUserFactory.create(args.db, w.getAccountId());
@@ -353,13 +452,13 @@ public abstract class ChangeEmail extends OutgoingEmail {
         p = Predicate.and(qb.parse(w.getFilter()), p);
         p = args.queryRewriter.get().rewrite(p);
         if (p.match(changeData)) {
-          matching.add(w);
+          matching.accounts.add(w.getAccountId());
         }
       } catch (QueryParseException e) {
         // Ignore broken filter expressions.
       }
     } else if (p.match(changeData)) {
-      matching.add(w);
+      matching.accounts.add(w.getAccountId());
     }
   }
 

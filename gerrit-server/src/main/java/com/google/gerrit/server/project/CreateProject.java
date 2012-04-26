@@ -93,8 +93,8 @@ public class CreateProject {
 
   public void createProject() throws ProjectCreationFailedException {
     validateParameters();
+    final Project.NameKey nameKey = createProjectArgs.getProject();
     try {
-      final Project.NameKey nameKey = createProjectArgs.getProject();
       final String head =
           createProjectArgs.permissionsOnly ? GitRepositoryManager.REF_CONFIG
               : createProjectArgs.branch;
@@ -115,12 +115,30 @@ public class CreateProject {
       } finally {
         repo.close();
       }
-    } catch (IllegalStateException e) {
-      handleRepositoryExistsException(createProjectArgs.getProject(), e);
-    } catch (RepositoryCaseMismatchException ee) {
-      handleRepositoryExistsException(ee.getNameOfExistingProject(), ee);
+    } catch (RepositoryCaseMismatchException e) {
+      throw new ProjectCreationFailedException("Cannot create " + nameKey.get()
+          + " because the name is already occupied by another project."
+          + " The other project has the same name, only spelled in a"
+          + " different case.", e);
+    } catch (RepositoryNotFoundException badName) {
+      throw new ProjectCreationFailedException("Cannot create " + nameKey, badName);
+    } catch (IllegalStateException err) {
+      try {
+        final Repository repo = repoManager.openRepository(nameKey);
+        try {
+          if (repo.getObjectDatabase().exists()) {
+            throw new ProjectCreationFailedException("project \"" + nameKey + "\" exists");
+          }
+        } finally {
+          repo.close();
+        }
+      } catch (RepositoryNotFoundException doesNotExist) {
+        final String msg = "Cannot create " + nameKey;
+        log.error(msg, err);
+        throw new ProjectCreationFailedException(msg, err);
+      }
     } catch (Exception e) {
-      final String msg = "Cannot create " + createProjectArgs.getProject();
+      final String msg = "Cannot create " + nameKey;
       log.error(msg, e);
       throw new ProjectCreationFailedException(msg, e);
     }
@@ -243,24 +261,6 @@ public class CreateProject {
       throw e;
     } finally {
       oi.release();
-    }
-  }
-
-  private void handleRepositoryExistsException(final Project.NameKey nameKey,
-      Exception e) throws ProjectCreationFailedException {
-    try {
-      Repository repo = repoManager.openRepository(nameKey);
-      try {
-        if (repo.getObjectDatabase().exists()) {
-          throw new ProjectCreationFailedException("Project \"" + nameKey
-              + "\" exists", e);
-        }
-      } finally {
-        repo.close();
-      }
-    } catch (RepositoryNotFoundException er) {
-      throw new ProjectCreationFailedException("Cannot create \"" + nameKey
-          + "\"", er);
     }
   }
 }

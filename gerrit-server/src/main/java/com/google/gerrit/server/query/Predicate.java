@@ -43,6 +43,12 @@ import java.util.List;
  * @type <T> type of object the predicate can evaluate in memory.
  */
 public abstract class Predicate<T> {
+  /** A predicate that matches any input, always, with no cost. */
+  @SuppressWarnings("unchecked")
+  public static <T> Predicate<T> any() {
+    return (Predicate<T>) Any.INSTANCE;
+  }
+
   /** Combine the passed predicates into a single AND node. */
   public static <T> Predicate<T> and(final Predicate<T>... that) {
     if (that.length == 1) {
@@ -120,4 +126,36 @@ public abstract class Predicate<T> {
 
   @Override
   public abstract boolean equals(Object other);
+
+  private static class Any<T> extends Predicate<T> {
+    private static final Any<Object> INSTANCE = new Any<Object>();
+
+    private Any() {
+    }
+
+    @Override
+    public Predicate<T> copy(Collection<? extends Predicate<T>> children) {
+      return this;
+    }
+
+    @Override
+    public boolean match(T object) {
+      return true;
+    }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
+
+    @Override
+    public int hashCode() {
+      return System.identityHashCode(this);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      return other == this;
+    }
+  }
 }

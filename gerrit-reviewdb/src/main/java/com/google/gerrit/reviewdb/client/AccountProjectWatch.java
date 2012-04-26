@@ -22,7 +22,7 @@ import com.google.gwtorm.client.StringKey;
 public final class AccountProjectWatch {
 
   public enum NotifyType {
-    NEW_CHANGES, ALL_COMMENTS, SUBMITTED_CHANGES
+    NEW_CHANGES, ALL_COMMENTS, SUBMITTED_CHANGES, ALL
   }
 
   public static final String FILTER_ALL = "*";
@@ -157,6 +157,12 @@ public final class AccountProjectWatch {
         break;
 
       case SUBMITTED_CHANGES:
+        notifySubmittedChanges = v;
+        break;
+
+      case ALL:
+        notifyNewChanges = v;
+        notifyAllComments = v;
         notifySubmittedChanges = v;
         break;
     }

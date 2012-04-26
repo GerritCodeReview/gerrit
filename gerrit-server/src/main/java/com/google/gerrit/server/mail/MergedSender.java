@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
@@ -53,8 +52,8 @@ public class MergedSender extends ReplyToChangeSender {
 
     ccAllApprovals();
     bccStarredBy();
-    bccWatchesNotifyAllComments();
-    bccWatchesNotifySubmittedChanges();
+    bccWatches(NotifyType.ALL_COMMENTS);
+    bccWatches(NotifyType.SUBMITTED_CHANGES);
   }
 
   @Override
@@ -139,21 +138,5 @@ public class MergedSender extends ReplyToChangeSender {
       list.put(ca.getAccountId(), m);
     }
     m.put(ca.getCategoryId(), ca);
-  }
-
-  private void bccWatchesNotifySubmittedChanges() {
-    try {
-      // BCC anyone else who has interest in this project's changes
-      //
-      for (final AccountProjectWatch w : getWatches()) {
-        if (w.isNotify(NotifyType.SUBMITTED_CHANGES)) {
-          add(RecipientType.BCC, w.getAccountId());
-        }
-      }
-    } catch (OrmException err) {
-      // Just don't CC everyone. Better to send a partial message to those
-      // we already have queued up then to fail deliver entirely to people
-      // who have a lower interest in the change.
-    }
   }
 }

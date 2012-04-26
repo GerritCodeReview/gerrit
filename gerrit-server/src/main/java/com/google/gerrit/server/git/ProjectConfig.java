@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.common.data.Permission.isPermission;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -23,12 +24,15 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.mail.Address;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -41,6 +45,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -67,6 +72,11 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_AUTO_VERIFY = "autoVerify";
   private static final String KEY_AGREEMENT_URL = "agreementUrl";
 
+  private static final String NOTIFY = "notify";
+  private static final String KEY_EMAIL = "email";
+  private static final String KEY_FILTER = "filter";
+  private static final String KEY_TYPE = "type";
+
   private static final String CAPABILITY = "capability";
 
   private static final String RECEIVE = "receive";
@@ -91,6 +101,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Map<AccountGroup.UUID, GroupReference> groupsByUUID;
   private Map<String, AccessSection> accessSections;
   private Map<String, ContributorAgreement> contributorAgreements;
+  private Map<String, NotifyConfig> notify;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
 
@@ -185,6 +196,10 @@ public class ProjectConfig extends VersionedMetaData {
     contributorAgreements.put(section.getName(), section);
   }
 
+  public Collection<NotifyConfig> getNotifyConfigs() {
+    return notify.values();
+  }
+
   public GroupReference resolve(AccountGroup group) {
     return resolve(GroupReference.forGroup(group));
   }
@@ -275,6 +290,7 @@ public class ProjectConfig extends VersionedMetaData {
     loadAccountsSection(rc, groupsByName);
     loadContributorAgreements(rc, groupsByName);
     loadAccessSections(rc, groupsByName);
+    loadNotifySections(rc, groupsByName);
   }
 
   private void loadAccountsSection(
@@ -315,6 +331,49 @@ public class ProjectConfig extends VersionedMetaData {
       } else {
         ca.setAutoVerify(rules.get(0).getGroup());
       }
+    }
+  }
+
+  private void loadNotifySections(
+      Config rc, Map<String, GroupReference> groupsByName) {
+    notify = Maps.newHashMap();
+    for (String sectionName : rc.getSubsections(NOTIFY)) {
+      NotifyConfig n = new NotifyConfig();
+      n.setName(sectionName);
+      n.setFilter(rc.getString(NOTIFY, sectionName, KEY_FILTER));
+
+      EnumSet<NotifyType> types = EnumSet.noneOf(NotifyType.class);
+      types.addAll(ConfigUtil.getEnumList(rc,
+          NOTIFY, sectionName, KEY_TYPE,
+          NotifyType.ALL));
+      n.setTypes(types);
+
+      for (String dst : rc.getStringList(NOTIFY, sectionName, KEY_EMAIL)) {
+        if (dst.startsWith("group ")) {
+          String groupName = dst.substring(6).trim();
+          GroupReference ref = groupsByName.get(groupName);
+          if (ref == null) {
+            ref = new GroupReference(null, groupName);
+            groupsByName.put(ref.getName(), ref);
+          }
+          if (ref.getUUID() != null) {
+            n.addEmail(ref);
+          } else {
+            error(new ValidationError(PROJECT_CONFIG,
+                "group \"" + ref.getName() + "\" not in " + GROUP_LIST));
+          }
+        } else if (dst.startsWith("user ")) {
+          error(new ValidationError(PROJECT_CONFIG, dst + " not supported"));
+        } else {
+          try {
+            n.addEmail(Address.parse(dst));
+          } catch (IllegalArgumentException err) {
+            error(new ValidationError(PROJECT_CONFIG,
+                "notify section \"" + sectionName + "\" has invalid email \"" + dst + "\""));
+          }
+        }
+      }
+      notify.put(sectionName, n);
     }
   }
 
@@ -458,6 +517,11 @@ public class ProjectConfig extends VersionedMetaData {
     saveAccountsSection(rc, keepGroups);
     saveContributorAgreements(rc, keepGroups);
     saveAccessSections(rc, keepGroups);
+    for (NotifyConfig n : notify.values()) {
+      for (GroupReference group : n.getGroups()) {
+        keepGroups.add(group.getUUID());
+      }
+    }
     groupsByUUID.keySet().retainAll(keepGroups);
 
     saveConfig(PROJECT_CONFIG, rc);

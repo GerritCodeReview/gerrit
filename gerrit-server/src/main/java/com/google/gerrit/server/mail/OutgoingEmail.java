@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
@@ -34,14 +35,13 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
@@ -53,7 +53,7 @@ public abstract class OutgoingEmail {
   protected String messageClass;
   private final HashSet<Account.Id> rcptTo = new HashSet<Account.Id>();
   private final Map<String, EmailHeader> headers;
-  private final List<Address> smtpRcptTo = new ArrayList<Address>();
+  private final Set<Address> smtpRcptTo = Sets.newHashSet();
   private Address smtpFromAddress;
   private StringBuilder body;
   protected VelocityContext velocityContext;
@@ -282,7 +282,7 @@ public abstract class OutgoingEmail {
       return false;
     }
 
-    if (rcptTo.size() == 1 && rcptTo.contains(fromId)) {
+    if (smtpRcptTo.size() == 1 && rcptTo.size() == 1 && rcptTo.contains(fromId)) {
       // If the only recipient is also the sender, don't bother.
       //
       return false;
@@ -324,14 +324,15 @@ public abstract class OutgoingEmail {
   protected void add(final RecipientType rt, final Address addr) {
     if (addr != null && addr.email != null && addr.email.length() > 0) {
       if (args.emailSender.canEmail(addr.email)) {
-        smtpRcptTo.add(addr);
-        switch (rt) {
-          case TO:
-            ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);
-            break;
-          case CC:
-            ((EmailHeader.AddressList) headers.get(HDR_CC)).add(addr);
-            break;
+        if (smtpRcptTo.add(addr)) {
+          switch (rt) {
+            case TO:
+              ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);
+              break;
+            case CC:
+              ((EmailHeader.AddressList) headers.get(HDR_CC)).add(addr);
+              break;
+          }
         }
       } else {
         log.warn("Not emailing " + addr.email + " (prohibited by allowrcpt)");

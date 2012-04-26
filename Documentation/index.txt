@@ -19,6 +19,7 @@ User Guide
 * link:access-control.html[Access Controls]
 * link:error-messages.html[Error Messages]
 * link:rest-api.html[REST API]
+* link:user-notify.html[Subscribing to Email Notifications]
 * link:user-submodules.html[Subscribing to Git Submodules]
 
 Installation

@@ -15,20 +15,13 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /** Notify interested parties of a brand new change. */
 public class CreateChangeSender extends NewChangeSender {
@@ -36,53 +29,44 @@ public class CreateChangeSender extends NewChangeSender {
     public CreateChangeSender create(Change change);
   }
 
-  private final GroupCache groupCache;
-
   @Inject
   public CreateChangeSender(EmailArguments ea,
       @AnonymousCowardName String anonymousCowardName, SshInfo sshInfo,
-      GroupCache groupCache, @Assisted Change c) {
+      @Assisted Change c) {
     super(ea, anonymousCowardName, sshInfo, c);
-    this.groupCache = groupCache;
   }
 
   @Override
   protected void init() throws EmailException {
     super.init();
 
-    bccWatchers();
-  }
-
-  private void bccWatchers() {
     try {
+      // BCC anyone who has interest in this project's changes
       // Try to mark interested owners with a TO and not a BCC line.
       //
-      final Set<Account.Id> owners = new HashSet<Account.Id>();
-      for (AccountGroup.UUID uuid : getProjectOwners()) {
-        AccountGroup group = groupCache.get(uuid);
-        if (group != null) {
-          for (AccountGroupMember m : args.db.get().accountGroupMembers()
-              .byGroup(group.getId())) {
-            owners.add(m.getAccountId());
-          }
+      Watchers matching = getWatches(NotifyType.NEW_CHANGES);
+      for (Account.Id user : matching.accounts) {
+        if (isOwnerOfProjectOrBranch(user)) {
+          add(RecipientType.TO, user);
+        } else {
+          add(RecipientType.BCC, user);
         }
       }
-
-      // BCC anyone who has interest in this project's changes
-      //
-      for (final AccountProjectWatch w : getWatches()) {
-        if (w.isNotify(NotifyType.NEW_CHANGES)) {
-          if (owners.contains(w.getAccountId())) {
-            add(RecipientType.TO, w.getAccountId());
-          } else {
-            add(RecipientType.BCC, w.getAccountId());
-          }
-        }
+      for (Address addr : matching.emails) {
+        add(RecipientType.BCC, addr);
       }
     } catch (OrmException err) {
       // Just don't CC everyone. Better to send a partial message to those
       // we already have queued up then to fail deliver entirely to people
       // who have a lower interest in the change.
     }
+  }
+
+  private boolean isOwnerOfProjectOrBranch(Account.Id user) {
+    return projectState != null
+        && change != null
+        && projectState.controlFor(args.identifiedUserFactory.create(user))
+          .controlForRef(change.getDest())
+          .isOwner();
   }
 }

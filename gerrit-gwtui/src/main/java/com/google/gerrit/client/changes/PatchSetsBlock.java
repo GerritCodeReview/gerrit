@@ -79,7 +79,7 @@ public class PatchSetsBlock extends Composite {
     if (Gerrit.isSignedIn()) {
       final AccountGeneralPreferences p =
           Gerrit.getUserAccount().getGeneralPreferences();
-      if (p.isDisplayPatchSetsInReverseOrder()) {
+      if (p.isReversePatchSetOrder()) {
         Collections.reverse(patchSets);
       }
     }

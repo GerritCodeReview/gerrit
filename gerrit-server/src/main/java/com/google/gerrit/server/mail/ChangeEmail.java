@@ -36,6 +36,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gwtorm.server.OrmException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +50,8 @@ import java.util.TreeSet;
 
 /** Sends an email to one or more interested parties. */
 public abstract class ChangeEmail extends OutgoingEmail {
+  private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
+
   protected final Change change;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
@@ -224,33 +229,38 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Create the change message and the affected file list. */
   public String getChangeDetail() {
-    StringBuilder detail = new StringBuilder();
+    try {
+      StringBuilder detail = new StringBuilder();
 
-    if (patchSetInfo != null) {
-      detail.append(patchSetInfo.getMessage().trim() + "\n");
-    } else {
-      detail.append(change.getSubject().trim() + "\n");
-    }
-
-    if (patchSet != null) {
-      detail.append("---\n");
-      PatchList patchList = getPatchList();
-      for (PatchListEntry p : patchList.getPatches()) {
-        if (Patch.COMMIT_MSG.equals(p.getNewName())) {
-          continue;
-        }
-        detail.append(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
+      if (patchSetInfo != null) {
+        detail.append(patchSetInfo.getMessage().trim() + "\n");
+      } else {
+        detail.append(change.getSubject().trim() + "\n");
       }
-      detail.append(MessageFormat.format("" //
-          + "{0,choice,0#0 files|1#1 file|1<{0} files} changed, " //
-          + "{1,choice,0#0 insertions|1#1 insertion|1<{1} insertions}(+), " //
-          + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
-          + "\n", patchList.getPatches().size() - 1, //
-          patchList.getInsertions(), //
-          patchList.getDeletions()));
-      detail.append("\n");
+
+      if (patchSet != null) {
+        detail.append("---\n");
+        PatchList patchList = getPatchList();
+        for (PatchListEntry p : patchList.getPatches()) {
+          if (Patch.COMMIT_MSG.equals(p.getNewName())) {
+            continue;
+          }
+          detail.append(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
+        }
+        detail.append(MessageFormat.format("" //
+            + "{0,choice,0#0 files|1#1 file|1<{0} files} changed, " //
+            + "{1,choice,0#0 insertions|1#1 insertion|1<{1} insertions}(+), " //
+            + "{2,choice,0#0 deletions|1#1 deletion|1<{2} deletions}(-)" //
+            + "\n", patchList.getPatches().size() - 1, //
+            patchList.getInsertions(), //
+            patchList.getDeletions()));
+        detail.append("\n");
+      }
+      return detail.toString();
+    } catch (Exception err) {
+      log.warn("Cannot format change detail", err);
+      return "";
     }
-    return detail.toString();
   }
 
 

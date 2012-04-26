@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAFCn///7s\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T03:37:59Z",
+      "side": 1,
+      "message": "Unfortunately usernames are not guaranteed to exist, should it be possible to use an accountid or email instead to I\u0027d he account?  Perhaps by adding --idByAccountId and --idByEmail?",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCn///7o\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T03:37:59Z",
+      "side": 1,
+      "message": "Perhaps this should be optional to allow users to modify their own accounts this way?",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE4n///88\u003d",
         "filename": "Documentation/cmd-set-account.txt",
         "patchSetId": 1
@@ -31,6 +65,40 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "AAAE4n///88\u003d",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCn///7k\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T03:37:59Z",
+      "side": 1,
+      "message": "If a user can modify their own account, this should probably validate in that case.",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFCn///7g\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-04-26T03:37:59Z",
+      "side": 1,
+      "message": "s/mail/email/g",
       "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

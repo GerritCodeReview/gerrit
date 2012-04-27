@@ -28,6 +28,11 @@ OPTIONS
 	Run in batch mode, skipping interactive prompts.  Reasonable
 	configuration defaults are chosen based on the whims of
 	the Gerrit developers.
++
+If during a schema migration unused objects (e.g. tables, columns)
+are detected they are *not* automatically dropped, but only a list of
+SQL statements to drop these objects is provided. To drop the unused
+objects these SQL statements have to be executed manually.
 
 \--no-auto-start::
 	Don't automatically start the daemon after initializing a

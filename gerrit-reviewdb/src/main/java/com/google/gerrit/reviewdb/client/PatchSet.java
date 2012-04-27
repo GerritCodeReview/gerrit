@@ -18,6 +18,7 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
@@ -100,6 +101,14 @@ public final class PatchSet {
   @Column(id = 5)
   protected boolean draft;
 
+  /**
+   * Number of published comments per account;
+   */
+  protected Map<Account.Id, Integer> commentCounts;
+
+  /** Number of drafts by the current user; not persisted in the datastore. */
+  protected int nbrDrafts;
+
   protected PatchSet() {
   }
 
@@ -161,6 +170,22 @@ public final class PatchSet {
     r.append('/');
     r.append(id.get());
     return r.toString();
+  }
+
+  public void setCommentCounts(Map<Account.Id, Integer> counts) {
+    commentCounts = counts;
+  }
+
+  public Map<Account.Id, Integer> getCommentCounts() {
+    return commentCounts;
+  }
+
+  public int getDraftCount() {
+    return nbrDrafts;
+  }
+
+  public void setDraftCount(final int n) {
+    nbrDrafts = n;
   }
 
   @Override

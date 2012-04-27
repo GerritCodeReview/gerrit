@@ -917,6 +917,14 @@
   font-size: 8pt;
 }
 
+.patchSetHeaderCommentCount {
+  font-weight: bold;
+}
+
+.patchSetHeaderCommentCount span.drafts {
+  color: #ff5555;
+}
+
 .selectPatchSetOldVersion {
   font-weight: bold;
   margin-right: 30px;

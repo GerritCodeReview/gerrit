@@ -56,6 +56,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -113,6 +114,22 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       draftLabel.addStyleName(Gerrit.RESOURCES.css().patchSetRevision());
       getHeader().add(draftLabel);
     }
+
+    SafeHtmlBuilder m = new SafeHtmlBuilder();
+    m.openSpan();
+    m.setStyleName(Gerrit.RESOURCES.css().patchSetHeaderCommentCount());
+    if (ps.getDraftCount() > 0 || ps.getCommentCounts() != null
+        && ps.getCommentCounts().size() > 0) {
+      m.append("[");
+    }
+    FormatUtil.commentCounts(m, ps.getDraftCount(), ps.getCommentCounts(),
+        changeDetail.getAccounts());
+    if (ps.getDraftCount() > 0 || ps.getCommentCounts() != null
+        && ps.getCommentCounts().size() > 0) {
+      m.append("]");
+    }
+    m.closeSpan();
+    getHeader().add(m.toSafeHtml().toInlineWidget());
 
     if (isOpen) {
       ensureLoaded(changeDetail.getCurrentPatchSetDetail());

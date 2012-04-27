@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFD3///+Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-27T13:29:35Z",
+      "side": 1,
+      "message": "s/Ror/For",
+      "revId": "17a74cad5eacb7a5c7a70bb3bed43737c0f6f5f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFD3///+c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-27T13:29:35Z",
+      "side": 1,
+      "message": "nit: indention seems to be wrong",
+      "revId": "17a74cad5eacb7a5c7a70bb3bed43737c0f6f5f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFD3///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-27T13:29:35Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be:\n  Watchers matching \u003d getWatches(type);\n?",
+      "revId": "17a74cad5eacb7a5c7a70bb3bed43737c0f6f5f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

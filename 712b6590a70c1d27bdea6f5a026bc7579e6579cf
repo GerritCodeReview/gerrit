@@ -34,6 +34,24 @@
       "revId": "712b6590a70c1d27bdea6f5a026bc7579e6579cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFD3///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_53.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-27T12:29:27Z",
+      "side": 1,
+      "message": "The table was not dropped because I ran the init with the --batch option. If this option is used old database objects are not automatically dropped. So there is no migration needed to do this.",
+      "parentUuid": "AAAEc3////M\u003d",
+      "revId": "712b6590a70c1d27bdea6f5a026bc7579e6579cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

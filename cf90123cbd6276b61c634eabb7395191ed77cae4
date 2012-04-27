@@ -33,6 +33,24 @@
       "revId": "cf90123cbd6276b61c634eabb7395191ed77cae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFD3///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_66.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-27T11:35:04Z",
+      "side": 1,
+      "message": "Right, just doing it with the update statements is much nicer :-)\n\nDone.",
+      "parentUuid": "AAAFCX///8w\u003d",
+      "revId": "cf90123cbd6276b61c634eabb7395191ed77cae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

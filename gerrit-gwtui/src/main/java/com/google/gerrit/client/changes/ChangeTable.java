@@ -286,13 +286,13 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     int col = BASE_COLUMNS;
     boolean haveReview = false;
 
-    boolean displayPersonNameInReviewCategory = false;
+    boolean showUsernameInReviewCategory = false;
 
     if (Gerrit.isSignedIn()) {
       AccountGeneralPreferences prefs = Gerrit.getUserAccount().getGeneralPreferences();
 
-      if (prefs.isDisplayPersonNameInReviewCategory()) {
-        displayPersonNameInReviewCategory = true;
+      if (prefs.isShowUsernameInReviewCategory()) {
+        showUsernameInReviewCategory = true;
       }
     }
 
@@ -314,7 +314,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
         if (type.isMaxNegative(ca)) {
 
-          if (displayPersonNameInReviewCategory) {
+          if (showUsernameInReviewCategory) {
             FlowPanel fp = new FlowPanel();
             fp.add(new Image(Gerrit.RESOURCES.redNot()));
             fp.add(new InlineLabel(FormatUtil.name(ai)));
@@ -325,7 +325,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
         } else if (type.isMaxPositive(ca)) {
 
-          if (displayPersonNameInReviewCategory) {
+          if (showUsernameInReviewCategory) {
             FlowPanel fp = new FlowPanel();
             fp.add(new Image(Gerrit.RESOURCES.greenCheck()));
             fp.add(new InlineLabel(FormatUtil.name(ai)));
@@ -337,7 +337,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         } else {
           String vstr = String.valueOf(ca.getValue());
 
-          if (displayPersonNameInReviewCategory) {
+          if (showUsernameInReviewCategory) {
             vstr = vstr + " " + FormatUtil.name(ai);
           }
 

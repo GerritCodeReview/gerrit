@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFD3////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-27T07:41:44Z",
+      "side": 1,
+      "message": "I\u0027m afraid the exception handling is now too simple. When the create-project command fails, the error message that is shown to the user is now always \"Cannot create ...\". I think for the error message we should be more specific here and at least differentiate between the following cases: project exists already, project exists in another case, project couldn\u0027t be created due to some other reason. Also we should take care to only write an entry into the error log if it was a real error (e.g. if the user just specified an invalid repository name, I wouldn\u0027t log this).",
+      "revId": "1f4c7eae5d18fb0789bb1169e55aa634e1533685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFD3////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-27T07:41:44Z",
+      "side": 1,
+      "message": "this method is now not used anymore and can be removed",
+      "revId": "1f4c7eae5d18fb0789bb1169e55aa634e1533685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

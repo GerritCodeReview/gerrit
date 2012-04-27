@@ -23,7 +23,6 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.PatchSetDetail;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
@@ -50,11 +49,7 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class PatchTable extends Composite {
   private final FlowPanel myBody;
@@ -612,55 +607,8 @@ public class PatchTable extends Composite {
     }
 
     void appendCommentCount(final SafeHtmlBuilder m, final Patch p) {
-      boolean first = true;
-      if (p.getDraftCount() > 0) {
-        m.openSpan();
-        m.setStyleName(Gerrit.RESOURCES.css().drafts());
-        m.append(Util.M.patchTableDrafts(p.getDraftCount()));
-        m.closeSpan();
-        first = false;
-      }
-
-      final Map<Account.Id, Integer> counts = p.getCommentCounts();
-      if (counts == null) {
-        return;
-      }
-
-      // display sorted by the number of comments descending
-      List<Account.Id> reviewers = new LinkedList<Account.Id>(counts.keySet());
-      Collections.sort(reviewers, new Comparator<Account.Id>() {
-        @Override
-        public int compare(Account.Id a1, Account.Id a2) {
-          int c1 = counts.get(a1).intValue();
-          int c2 = counts.get(a2).intValue();
-          if (c1 == c2) {
-            return accountCache.get(a1).getFullName()
-                .compareTo(accountCache.get(a2).getFullName());
-          }
-          return c2 - c1;
-        }
-      });
-      int n = 0;
-      int otherCommentsCount = 0;
-      for (Account.Id id : reviewers) {
-        if (n < 3 || reviewers.size() == 4) {
-          if (! first) {
-            m.append(", ");
-          }
-          m.append(counts.get(id));
-          m.append(" ");
-          m.append(FormatUtil.name(accountCache.get(id)));
-          first = false;
-        } else {
-          otherCommentsCount += counts.get(id).intValue();
-        }
-        n++;
-      }
-      if (reviewers.size() > 4) {
-        m.append(", ");
-        m.append(Util.M.patchTableCommentsByOtherReviewers(otherCommentsCount,
-            reviewers.size() - 3));
-      }
+      FormatUtil.commentCounts(m, p.getDraftCount(), p.getCommentCounts(),
+          accountCache);
     }
 
     void appendSize(final SafeHtmlBuilder m, final Patch p) {

@@ -14,12 +14,20 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.common.data.AccountInfo;
+import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /** Misc. formatting functions. */
 public class FormatUtil {
@@ -140,5 +148,76 @@ public class FormatUtil {
       return ai.getPreferredEmail();
     }
     return nameEmail(ai);
+  }
+
+  /**
+   * Formats the number of drafts and comments in the following format:
+   *
+   * <pre>
+   *    3 drafts, 8 reviewer1, 4 reviewer2, 2 reviewer3, 1 reviewer 4
+   * </pre>
+   *
+   * The reviewers are sorted by the number of comments, descending. If two
+   * reviewers have the same number of comments then the alphabetical order of
+   * their names will decide who comes first.
+   *
+   * If the number of reviewers exceeds 4 then the last position is used for the
+   * summary of the rest of the reviewers:
+   *
+   * <pre>
+   *    3 drafts, 8 reviewer1, 4 reviewer2, 2 reviewer3, 3 by other 2 reviewers...
+   * </pre>
+   */
+  public static void commentCounts(final SafeHtmlBuilder m,
+      final int nbrDrafts, final Map<Account.Id, Integer> counts,
+      final AccountInfoCache accountCache) {
+    boolean first = true;
+    if (nbrDrafts > 0) {
+      m.openSpan();
+      m.setStyleName(Gerrit.RESOURCES.css().drafts());
+      m.append(Util.M.patchTableDrafts(nbrDrafts));
+      m.closeSpan();
+      first = false;
+    }
+
+    if (counts == null || counts.size() == 0) {
+      return;
+    }
+
+    // display sorted by the number of comments descending
+    List<Account.Id> reviewers = new LinkedList<Account.Id>(counts.keySet());
+    Collections.sort(reviewers, new Comparator<Account.Id>() {
+      @Override
+      public int compare(Account.Id a1, Account.Id a2) {
+        int c1 = counts.get(a1).intValue();
+        int c2 = counts.get(a2).intValue();
+        if (c1 == c2) {
+          return accountCache.get(a1).getFullName()
+              .compareTo(accountCache.get(a2).getFullName());
+        }
+        return c2 - c1;
+      }
+    });
+    int n = 0;
+    int otherCommentsCount = 0;
+    for (Account.Id id : reviewers) {
+      if (n < 3 || reviewers.size() == 4) {
+        if (! first) {
+          m.append(", ");
+        }
+        m.append(counts.get(id));
+        m.append(" ");
+        m.append(FormatUtil.name(accountCache.get(id)));
+        first = false;
+      } else {
+        otherCommentsCount += counts.get(id).intValue();
+      }
+      n++;
+    }
+    if (reviewers.size() > 4) {
+      m.append(", ");
+      m.append(Util.M.patchTableCommentsByOtherReviewers(otherCommentsCount,
+          reviewers.size() - 3));
+    }
   }
 }

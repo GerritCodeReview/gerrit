@@ -70,11 +70,12 @@ public interface GitRepositoryManager {
    * @param name the repository name, relative to the base directory.
    * @return the cached Repository instance. Caller must call {@code close()}
    *         when done to decrement the resource handle.
-   * @throws RepositoryNotFoundException the name does not denote an existing
-   *         repository, or the name cannot be read as a repository.
+   * @throws RepositoryCaseMismatchException the name collides with an existing
+   *         repository name, but only in case of a character within the name.
+   * @throws RepositoryNotFoundException the name is invalid.
    */
   public abstract Repository createRepository(Project.NameKey name)
-      throws RepositoryNotFoundException;
+      throws RepositoryCaseMismatchException, RepositoryNotFoundException;
 
   /** @return set of all known projects, sorted by natural NameKey order. */
   public abstract SortedSet<Project.NameKey> list();

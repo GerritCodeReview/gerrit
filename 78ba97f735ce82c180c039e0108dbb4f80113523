@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFHX///88\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T02:31:38Z",
+      "side": 1,
+      "message": "Would it be reasonable to make this a setting in gerrit.config that the admin can use to set the default without having to edit the template file?",
+      "revId": "78ba97f735ce82c180c039e0108dbb4f80113523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFHX///9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T02:31:38Z",
+      "side": 1,
+      "message": "Perhaps also modify the example Comment.vm template file to include this usage in the header as a comment so site admins know they have it available to them?",
+      "revId": "78ba97f735ce82c180c039e0108dbb4f80113523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFHX///9I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T02:31:38Z",
+      "side": 1,
+      "message": "Don\u0027t we need a Math.min(1, lineNbr - lines + 1) here to prevent a context of 5 from causing errors when trying to view a comment placed on line 1 of a file?\n\nI prefer not to mask these sorts of things with the catch Throwable that exists around the getLine call. That was only meant to catch UTF-8 decoding errors that would make the email badly formed text, its not meant to work around programming errors caused by array indexes being negative, or past the end.",
+      "revId": "78ba97f735ce82c180c039e0108dbb4f80113523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFHX///9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T02:31:38Z",
+      "side": 1,
+      "message": "Don\u0027t we need to cap this upper limit on the number of lines in the file?",
+      "revId": "78ba97f735ce82c180c039e0108dbb4f80113523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

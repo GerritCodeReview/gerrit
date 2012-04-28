@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
 public class ChangeRestoreEvent extends ChangeEvent {
-  public final String type = "change-restored";
+  public static final String type = "change-restored";
   public ChangeAttribute change;
   public PatchSetAttribute patchSet;
   public AccountAttribute restorer;

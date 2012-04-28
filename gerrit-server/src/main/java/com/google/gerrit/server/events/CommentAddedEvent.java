@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
 public class CommentAddedEvent extends ChangeEvent {
-  public final String type = "comment-added";
+  public static final String type = "comment-added";
   public ChangeAttribute change;
   public PatchSetAttribute patchSet;
   public AccountAttribute author;

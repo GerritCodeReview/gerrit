@@ -18,7 +18,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
 public class RefUpdatedEvent extends ChangeEvent {
-  public final String type = "ref-updated";
+  public static final String type = "ref-updated";
   public AccountAttribute submitter;
   public RefUpdateAttribute refUpdate;
 

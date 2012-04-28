@@ -23,12 +23,14 @@ import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.StreamCommandExecutor;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Modifier;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -53,7 +55,9 @@ final class StreamEvents extends BaseCommand {
   private final LinkedBlockingQueue<ChangeEvent> queue =
       new LinkedBlockingQueue<ChangeEvent>(MAX_EVENTS);
 
-  private final Gson gson = new Gson();
+  private final Gson gson = new GsonBuilder()
+      .excludeFieldsWithModifiers(Modifier.TRANSIENT) // Include static fields.
+      .create();
 
   /** Special event to notify clients they missed other events. */
   private final Object droppedOutputEvent = new Object() {

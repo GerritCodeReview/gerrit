@@ -145,7 +145,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   protected void onStarClick(final int row) {
     final ChangeInfo c = getRowItem(row);
     if (c != null && Gerrit.isSignedIn()) {
-       ChangeCache.get(c.getId()).getStarCache().toggleStar();
+      ((StarredChanges.Icon) table.getWidget(row, C_STAR)).toggleStar();
     }
   }
 
@@ -198,7 +198,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     final String idstr = c.getKey().abbreviate();
     table.setWidget(row, C_ARROW, null);
     if (Gerrit.isSignedIn()) {
-      table.setWidget(row, C_STAR, cache.getStarCache().createStar());
+      table.setWidget(row, C_STAR, StarredChanges.createIcon(c.getId(), c.isStarred()));
     }
     table.setWidget(row, C_ID, new TableChangeLink(idstr, c));
 

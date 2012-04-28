@@ -68,7 +68,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -191,6 +190,86 @@ public class ChangeUtil {
     db.patchSetAncestors().insert(toInsert);
   }
 
+  private static String getRebaseRevision(PatchSet.Id patchSetId, ReviewDb db,
+      Change change, Repository git)
+      throws IOException, OrmException {
+
+    String rev=null;
+
+    List<PatchSetAncestor> patchSetAncestors =
+        db.patchSetAncestors().ancestorsOf(patchSetId).toList();
+
+    if (patchSetAncestors.size() > 1) {
+      throw new IOException(
+          "The patch set you are trying to rebase is dependent on more than one parent commits: "
+              + patchSetAncestors.toString());
+    }
+
+    if (patchSetAncestors.size() == 0) {
+      throw new IOException(
+          "Commits with no parents cannot be rebased (is this the initial commit?).");
+    }
+
+    RevId ancestorRev = patchSetAncestors.get(0).getAncestorRevision();
+    List<PatchSet> depPatchSetList =
+        db.patchSets().byRevision(ancestorRev).toList();
+
+    if (!depPatchSetList.isEmpty()) {
+      PatchSet depPatchSet = depPatchSetList.get(0);
+
+      Change.Id depChangeId = depPatchSet.getId().getParentKey();
+      Change depChange = db.changes().get(depChangeId);
+
+      if (depChange.getStatus() == Status.ABANDONED) {
+        throw new IOException("Cannot rebase against an abandoned change: "
+            + depChange.getKey().toString());
+      }
+
+      if (depChange.getStatus().isOpen()) {
+        if (depPatchSet.getId().equals(depChange.currentPatchSetId())) {
+          throw new IOException(
+              "Change is already based on the latest patch set of the dependent change.");
+        }
+        PatchSet latestDepPatchSet =
+            db.patchSets().get(depChange.currentPatchSetId());
+        rev =latestDepPatchSet.getRevision().get();
+      }
+    }
+
+    if (rev == null) {
+      // We are dependent on a merged PatchSet or have no PatchSet
+      // dependencies at all.
+      Ref destRef = git.getRef(change.getDest().get());
+      if (destRef == null) {
+        throw new IOException(
+            "The destination branch does not exist: "
+                + change.getDest().get());
+      }
+      rev = destRef.getObjectId().getName();
+      if (rev.equals(ancestorRev.get())) {
+        throw new IOException("Change is already up to date.");
+      }
+    }
+    return rev;
+  }
+
+  public static boolean canDoRebase(ReviewDb db,
+      Change change, GitRepositoryManager gitManager)
+      throws OrmException, RepositoryNotFoundException, IOException {
+
+    final Repository git = gitManager.openRepository(change.getProject());
+
+    try {
+      // If no exception is thrown, then we can do a rebase.
+      getRebaseRevision(change.currentPatchSetId(), db, change, git);
+      return true;
+    } catch (IOException e) {
+      return false;
+    } finally {
+      git.close();
+    }
+  }
+
   /**
    * Rebases a commit
    *
@@ -202,17 +281,6 @@ public class ChangeUtil {
    */
   public static CommitBuilder rebaseCommit(Repository git, RevCommit original,
       RevCommit base, PersonIdent committerIdent) throws IOException {
-
-    if (original.getParentCount() == 0) {
-      throw new IOException(
-          "Commits with no parents cannot be rebased (is this the initial commit?).");
-    }
-
-    if (original.getParentCount() > 1) {
-      throw new IOException(
-          "Patch sets with multiple parents cannot be rebased (merge commits)."
-              + " Parents: " + Arrays.toString(original.getParents()));
-    }
 
     final RevCommit parentCommit = original.getParent(0);
 
@@ -270,53 +338,8 @@ public class ChangeUtil {
         final PatchSet originalPatchSet = db.patchSets().get(patchSetId);
         RevCommit branchTipCommit = null;
 
-        List<PatchSetAncestor> patchSetAncestors =
-            db.patchSetAncestors().ancestorsOf(patchSetId).toList();
-        if (patchSetAncestors.size() > 1) {
-          throw new IOException(
-              "The patch set you are trying to rebase is dependent on several other patch sets: "
-                  + patchSetAncestors.toString());
-        }
-        if (patchSetAncestors.size() == 1) {
-          List<PatchSet> depPatchSetList = db.patchSets()
-                  .byRevision(patchSetAncestors.get(0).getAncestorRevision())
-                  .toList();
-          if (!depPatchSetList.isEmpty()) {
-            PatchSet depPatchSet = depPatchSetList.get(0);
-
-            Change.Id depChangeId = depPatchSet.getId().getParentKey();
-            Change depChange = db.changes().get(depChangeId);
-
-            if (depChange.getStatus() == Status.ABANDONED) {
-              throw new IOException("Cannot rebase against an abandoned change: "
-                  + depChange.getKey().toString());
-            }
-            if (depChange.getStatus().isOpen()) {
-              PatchSet latestDepPatchSet =
-                  db.patchSets().get(depChange.currentPatchSetId());
-              if (!depPatchSet.getId().equals(depChange.currentPatchSetId())) {
-                branchTipCommit =
-                    revWalk.parseCommit(ObjectId
-                        .fromString(latestDepPatchSet.getRevision().get()));
-              } else {
-                throw new IOException(
-                    "Change is already based on the latest patch set of the dependent change.");
-              }
-            }
-          }
-        }
-
-        if (branchTipCommit == null) {
-          // We are dependent on a merged PatchSet or have no PatchSet
-          // dependencies at all.
-          Ref destRef = git.getRef(change.getDest().get());
-          if (destRef == null) {
-            throw new IOException(
-                "The destination branch does not exist: "
-                    + change.getDest().get());
-          }
-          branchTipCommit = revWalk.parseCommit(destRef.getObjectId());
-        }
+        final String rebasedOnRev = getRebaseRevision(patchSetId, db, change, git);
+        branchTipCommit = revWalk.parseCommit(ObjectId.fromString(rebasedOnRev));
 
         final RevCommit originalCommit =
             revWalk.parseCommit(ObjectId.fromString(originalPatchSet

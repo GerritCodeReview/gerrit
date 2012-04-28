@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
 public class ChangeMergedEvent extends ChangeEvent {
-  public final String type = "change-merged";
+  public static final String type = "change-merged";
   public ChangeAttribute change;
   public PatchSetAttribute patchSet;
   public AccountAttribute submitter;

@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.account.AccountControl;
@@ -73,6 +74,7 @@ public class GerritRequestModule extends FactoryModule {
     bind(AccountResolver.class);
     bind(ChangeQueryRewriter.class);
     bind(ListProjects.class);
+    bind(ApprovalsUtil.class);
 
     bind(AnonymousUser.class).in(RequestScoped.class);
     bind(PerRequestProjectControlCache.class).in(RequestScoped.class);

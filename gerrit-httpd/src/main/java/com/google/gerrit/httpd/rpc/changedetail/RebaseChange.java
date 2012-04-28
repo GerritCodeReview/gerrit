@@ -15,12 +15,12 @@
 package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -65,7 +65,7 @@ class RebaseChange extends Handler<ChangeDetail> {
 
   private final PersonIdent myIdent;
 
-  private final ApprovalTypes approvalTypes;
+  private final ApprovalsUtil approvalsUtil;
 
   @Inject
   RebaseChange(final ChangeControl.Factory changeControlFactory,
@@ -77,7 +77,7 @@ class RebaseChange extends Handler<ChangeDetail> {
       final PatchSetInfoFactory patchSetInfoFactory,
       final ReplicationQueue replication,
       @GerritPersonIdent final PersonIdent myIdent,
-      final ApprovalTypes approvalTypes) {
+      final ApprovalsUtil approvalsUtil) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
@@ -92,7 +92,7 @@ class RebaseChange extends Handler<ChangeDetail> {
     this.replication = replication;
     this.myIdent = myIdent;
 
-    this.approvalTypes = approvalTypes;
+    this.approvalsUtil = approvalsUtil;
   }
 
   @Override
@@ -103,7 +103,7 @@ class RebaseChange extends Handler<ChangeDetail> {
 
     ChangeUtil.rebaseChange(patchSetId, currentUser, db,
         rebasedPatchSetSenderFactory, hooks, gitManager, patchSetInfoFactory,
-        replication, myIdent, changeControlFactory, approvalTypes);
+        replication, myIdent, changeControlFactory, approvalsUtil);
 
     return changeDetailFactory.create(patchSetId.getParentKey()).call();
   }

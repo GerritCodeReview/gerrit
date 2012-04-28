@@ -22,15 +22,27 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 public class ApprovalsUtil {
-  /* Resync the changeOpen status which is cached in the approvals table for
-     performance reasons*/
-  public static void syncChangeStatus(final ReviewDb db, final Change change)
+  private final ReviewDb db;
+  private final ApprovalTypes approvalTypes;
+
+  @Inject
+  ApprovalsUtil(ReviewDb db, ApprovalTypes approvalTypes) {
+    this.db = db;
+    this.approvalTypes = approvalTypes;
+  }
+
+  /**
+   * Resync the changeOpen status which is cached in the approvals table for
+   * performance reasons
+   */
+  public void syncChangeStatus(final Change change)
       throws OrmException {
     final List<PatchSetApproval> approvals =
         db.patchSetApprovals().byChange(change.getId()).toList();
@@ -44,14 +56,12 @@ public class ApprovalsUtil {
    * Moves the PatchSetApprovals to the last PatchSet on the change while
    * keeping the vetos.
    *
-   * @param db The review database
    * @param change Change to update
-   * @param approvalTypes The approval types
    * @throws OrmException
    * @throws IOException
    */
-  public static void copyVetosToLatestPatchSet(final ReviewDb db, Change change,
-      ApprovalTypes approvalTypes) throws OrmException, IOException {
+  public void copyVetosToLatestPatchSet(Change change)
+      throws OrmException, IOException {
     PatchSet.Id source;
     if (change.getNumberOfPatchSets() > 1) {
       source = new PatchSet.Id(change.getId(), change.getNumberOfPatchSets() - 1);

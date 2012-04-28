@@ -183,6 +183,7 @@ public class ReceiveCommits {
   private final ReplicationQueue replication;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHooks hooks;
+  private final ApprovalsUtil approvalsUtil;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
@@ -230,6 +231,7 @@ public class ReceiveCommits {
       final ReplicationQueue replication,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHooks hooks,
+      final ApprovalsUtil approvalsUtil,
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
@@ -252,6 +254,7 @@ public class ReceiveCommits {
     this.replication = replication;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
+    this.approvalsUtil = approvalsUtil;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
@@ -1967,7 +1970,7 @@ public class ReceiveCommits {
     change.setStatus(Change.Status.MERGED);
     ChangeUtil.updated(change);
 
-    ApprovalsUtil.syncChangeStatus(db, change);
+    approvalsUtil.syncChangeStatus(change);
 
     final StringBuilder msgBuf = new StringBuilder();
     msgBuf.append("Change has been successfully pushed");

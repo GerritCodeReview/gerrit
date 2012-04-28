@@ -16,7 +16,6 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
@@ -243,7 +242,7 @@ public class ChangeUtil {
       final PatchSetInfoFactory patchSetInfoFactory,
       final ReplicationQueue replication, PersonIdent myIdent,
       final ChangeControl.Factory changeControlFactory,
-      final ApprovalTypes approvalTypes) throws NoSuchChangeException,
+      final ApprovalsUtil approvalsUtil) throws NoSuchChangeException,
       EmailException, OrmException, MissingObjectException,
       IncorrectObjectTypeException, IOException,
       PatchSetInfoNotAvailableException, InvalidChangeOperationException {
@@ -384,7 +383,7 @@ public class ChangeUtil {
 
         replication.scheduleUpdate(change.getProject(), ru.getName());
 
-        ApprovalsUtil.copyVetosToLatestPatchSet(db, change, approvalTypes);
+        approvalsUtil.copyVetosToLatestPatchSet(change);
 
         final ChangeMessage cmsg =
             new ChangeMessage(new ChangeMessage.Key(changeId,
@@ -594,7 +593,7 @@ public class ChangeUtil {
     }
     db.changeMessages().insert(Collections.singleton(cmsg));
 
-    ApprovalsUtil.syncChangeStatus(db, change);
+    new ApprovalsUtil(db, null).syncChangeStatus(change);
 
     // Email the reviewers
     final ReplyToChangeSender cm = senderFactory.create(change);

@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
 public class PatchSetCreatedEvent extends ChangeEvent {
-  public final String type = "patchset-created";
+  public static final String type = "patchset-created";
   public ChangeAttribute change;
   public PatchSetAttribute patchSet;
   public AccountAttribute uploader;

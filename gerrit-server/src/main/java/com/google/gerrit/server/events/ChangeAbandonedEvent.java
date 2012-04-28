@@ -20,7 +20,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 
 public class ChangeAbandonedEvent extends ChangeEvent {
-  public final String type = "change-abandoned";
+  public static final String type = "change-abandoned";
   public ChangeAttribute change;
   public PatchSetAttribute patchSet;
   public AccountAttribute abandoner;

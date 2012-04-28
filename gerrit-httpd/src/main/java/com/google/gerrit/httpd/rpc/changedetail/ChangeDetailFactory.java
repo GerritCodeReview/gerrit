@@ -36,6 +36,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
@@ -141,7 +142,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet());
 
-    detail.setCanRebase(detail.getChange().getStatus().isOpen() && control.canRebase());
+    detail.setCanRebase(detail.getChange().getStatus().isOpen() && control.canRebase() &&
+        RebaseChange.canDoRebase(db, change, repoManager));
 
     detail.setCanEdit(control.getRefControl().canWrite());
 

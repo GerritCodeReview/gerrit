@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFG3///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T01:43:36Z",
+      "side": 1,
+      "message": "Yes, we are going to be using these in new code when possible.\n\nNow that Guava is part of our base dependency set, Googlers find things like Set\u003cThing\u003e things \u003d Sets.newHashSet() shorter and easier to read than Set\u003cThing\u003e things \u003d new HashSet\u003cThing\u003e(). Especially when Thing is ActuallyJustAReallyLongDomainModelName.",
+      "parentUuid": "AAAFCn///78\u003d",
+      "revId": "5776fa61aced60322b852ca82eaa73592aace1a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///74\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFHH///8o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T01:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///74\u003d",
+      "revId": "5776fa61aced60322b852ca82eaa73592aace1a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///70\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-04-26T03:18:38Z",
       "side": 1,
       "message": "Looks like the owner checks here and on1491 are not needed since this is a set and you remove the owner anyway on 1494?",
+      "revId": "5776fa61aced60322b852ca82eaa73592aace1a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFHH///8w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1484,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T01:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///70\u003d",
       "revId": "5776fa61aced60322b852ca82eaa73592aace1a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

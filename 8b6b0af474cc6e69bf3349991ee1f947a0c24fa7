@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFG3///7k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T02:23:10Z",
+      "side": 1,
+      "message": "This NPEs when openRepository fails gracefully when the repository is suddenly torn out from under Gerrit (this happens!). I would prefer to return \"\" in this case.",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFG3///7c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T02:23:10Z",
+      "side": 1,
+      "message": "This isn\u0027t actually true for renamed and copied files. If the file was renamed or copied, you want p.getOldName() here to lookup the original source text.",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFG3///7U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T02:23:10Z",
+      "side": 1,
+      "message": "On a big patch with a lot of files modified this can be more expensive than just asking the DiffFormatter to recompute everything for you. Its hard to say up front because redoing the rename detection could be more expensive, but for most patches that don\u0027t do renames re-reading all of the trees for every modified file takes a long, long time.\n\nYou may be better off just asking DiffFormatter to recompute and format everything in one shot:\n\n  DiffFormatter diff \u003d new DiffFormatter(out);\n  diff.setRepository(repo);\n  diff.setDetectRenames(true);\n  try {\n    diff.format(patchList.getOldId(), patchList.getNewId());\n  } finally {\n    diff.release();\n  }\n  return RawParseUtils.decode(out.toByteArray());",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFG3///7Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T02:23:10Z",
+      "side": 1,
+      "message": "These two lines are expensive enough that you want to be reusing the results and not doing it for every file.",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFHH///8k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T02:23:10Z",
+      "side": 1,
+      "message": "EditList extends ArrayList so you can just use addAll(edits).",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFG3///7g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T02:23:10Z",
+      "side": 1,
+      "message": "This is very unexpected. We should log the exception to the server log so the admin can troubleshoot a problem.",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFHH///84\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T00:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///8I\u003d",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFAH////8\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-25T07:28:45Z",
       "side": 1,
       "message": "This reformatting is not related to this change.",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFG3///8E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T00:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFAH////8\u003d",
       "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFHX///9g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T00:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFAH////4\u003d",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFAH////0\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-04-25T07:28:45Z",
       "side": 1,
       "message": "reformatting not related to the change",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFHX///9c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T00:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFAH////0\u003d",
       "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFG3///8A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T00:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFAH////w\u003d",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFAH////s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-04-25T07:28:45Z",
       "side": 1,
       "message": "reformatting not related to the change",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFHX///9Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T00:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFAH////s\u003d",
       "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFHX///9U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T00:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFAH////o\u003d",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFAH////k\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2012-04-25T07:28:45Z",
       "side": 1,
       "message": "reformatting not related to the change",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFHH///9A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T00:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFAH////k\u003d",
       "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFHH///88\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T00:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFAH////g\u003d",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFAH////c\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2012-04-25T07:28:45Z",
       "side": 1,
       "message": "reformatting not related to the change",
+      "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFG3///78\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-04-28T00:54:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFAH////c\u003d",
       "revId": "184ebe53805e102605d11f6b143486d15c23a09c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -112,7 +112,7 @@ public class ReceiveCommits {
   private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
-  private static final int MAX_SUBJECT_LENGTH = 65;
+  private static final int MAX_SUBJECT_LENGTH = 50;
   private static final int MAX_LINE_LENGTH = 70;
 
   interface Factory {

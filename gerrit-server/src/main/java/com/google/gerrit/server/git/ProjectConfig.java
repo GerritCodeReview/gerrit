@@ -72,6 +72,8 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String RECEIVE = "receive";
   private static final String KEY_REQUIRE_SIGNED_OFF_BY = "requireSignedOffBy";
   private static final String KEY_REQUIRE_SHORT_MESSAGE = "requireShortMessage";
+  private static final String KEY_COMMIT_SUBJECT_LENGTH = "commitSubjectLength";
+  private static final String KEY_COMMIT_BODY_LENGTH = "commitBodyLength";
   private static final String KEY_REQUIRE_CHANGE_ID = "requireChangeId";
   private static final String KEY_REQUIRE_CONTRIBUTOR_AGREEMENT =
       "requireContributorAgreement";
@@ -268,6 +270,8 @@ public class ProjectConfig extends VersionedMetaData {
     p.setUseContributorAgreements(getBoolean(rc, RECEIVE, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, false));
     p.setUseSignedOffBy(getBoolean(rc, RECEIVE, KEY_REQUIRE_SIGNED_OFF_BY, false));
     p.setRequireShortMessage(getBoolean(rc, RECEIVE, KEY_REQUIRE_SHORT_MESSAGE, false));
+    p.setCommitSubjectLength(getInt(rc, RECEIVE, KEY_COMMIT_SUBJECT_LENGTH, 50));
+    p.setCommitBodyLength(getInt(rc, RECEIVE, KEY_COMMIT_BODY_LENGTH, 70));
     p.setRequireChangeID(getBoolean(rc, RECEIVE, KEY_REQUIRE_CHANGE_ID, false));
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
@@ -450,6 +454,8 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.isUseContributorAgreements());
     set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.isUseSignedOffBy());
     set(rc, RECEIVE, null, KEY_REQUIRE_SHORT_MESSAGE, p.isRequireShortMessage());
+    set(rc, RECEIVE, null, KEY_COMMIT_SUBJECT_LENGTH, p.getCommitSubjectLength());
+    set(rc, RECEIVE, null, KEY_COMMIT_BODY_LENGTH, p.getCommitBodyLength());
     set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.isRequireChangeID());
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
@@ -619,6 +625,16 @@ public class ProjectConfig extends VersionedMetaData {
       boolean defaultValue) {
     try {
       return rc.getBoolean(section, name, defaultValue);
+    } catch (IllegalArgumentException err) {
+      error(new ValidationError(PROJECT_CONFIG, err.getMessage()));
+      return defaultValue;
+    }
+  }
+
+  private int getInt(Config rc, String section, String name,
+      int defaultValue) {
+    try {
+      return rc.getInt(section, name, defaultValue);
     } catch (IllegalArgumentException err) {
       error(new ValidationError(PROJECT_CONFIG, err.getMessage()));
       return defaultValue;

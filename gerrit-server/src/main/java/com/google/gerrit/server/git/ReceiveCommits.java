@@ -112,9 +112,6 @@ public class ReceiveCommits {
   private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
-  private static final long MAX_SUBJECT_LENGTH = 50;
-  private static final long MAX_LINE_LENGTH = 70;
-
   interface Factory {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
   }
@@ -1624,7 +1621,7 @@ public class ReceiveCommits {
 
     // Check for commit subjects that are too long
     if (project.isRequireShortMessage() &&
-      (COMMIT_SUBJECT_LENGTH < c.getShortMessage().length())) {
+      (project.getCommitSubjectLength() < c.getShortMessage().length())) {
 
       String errMsg = "first line of commit message is too long";
       reject(cmd, errMsg);
@@ -1632,7 +1629,7 @@ public class ReceiveCommits {
       StringBuilder sb = new StringBuilder();
       sb.append("ERROR: ").append(errMsg).append("\n");
       sb.append("The first line in a commit should be no more than ");
-      sb.append(COMMIT_SUBJECT_LENGTH).append(" characters\n\n");
+      sb.append(project.getCommitSubjectLength()).append(" characters\n\n");
 
       sb.append("Please ammend your commit with:\n\n");
       sb.append("  git commit --amend\n\n");
@@ -1764,7 +1761,7 @@ public class ReceiveCommits {
 
   private void warnMalformedMessage(RevCommit c) {
     ObjectReader reader = rp.getRevWalk().getObjectReader();
-    if (MAX_SUBJECT_LENGTH < c.getShortMessage().length()) {
+    if (project.getCommitSubjectLength() < c.getShortMessage().length()) {
       AbbreviatedObjectId id;
       try {
         id = reader.abbreviate(c);
@@ -1772,7 +1769,7 @@ public class ReceiveCommits {
         id = c.abbreviate(6);
       }
       addMessage("(W) " + id.name() //
-          + ": commit subject >" + MAX_SUBJECT_LENGTH //
+          + ": commit subject >" + project.getCommitSubjectLength() //
           + " characters; use shorter first line");
     }
 
@@ -1781,7 +1778,7 @@ public class ReceiveCommits {
       if (!line.trim().isEmpty()) {
         nonEmptyCnt++;
       }
-      if (MAX_LINE_LENGTH < line.length()) {
+      if (project.getCommitBodyLength() < line.length()) {
         longLineCnt++;
       }
     }
@@ -1794,7 +1791,7 @@ public class ReceiveCommits {
         id = c.abbreviate(6);
       }
       addMessage("(W) " + id.name() //
-          + ": commit message lines >" + MAX_LINE_LENGTH //
+          + ": commit message lines >" + project.getCommitBodyLength() //
           + " characters; manually wrap lines");
     }
   }

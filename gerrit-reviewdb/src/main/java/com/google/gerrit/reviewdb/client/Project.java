@@ -99,6 +99,10 @@ public final class Project {
 
   protected boolean requireShortMessage;
 
+  protected int commitSubjectLength;
+
+  protected int commitBodyLength;
+
   protected boolean requireChangeID;
 
   protected boolean useContentMerge;
@@ -148,6 +152,14 @@ public final class Project {
     return requireShortMessage;
   }
 
+  public int getCommitSubjectLength() {
+    return commitSubjectLength;
+  }
+
+  public int getCommitBodyLength() {
+    return commitBodyLength;
+  }
+
   public boolean isRequireChangeID() {
     return requireChangeID;
   }
@@ -162,6 +174,14 @@ public final class Project {
 
   public void setRequireShortMessage(final boolean sm) {
     requireShortMessage = sm;
+  }
+
+  public void setCommitSubjectLength(final int csl) {
+    commitSubjectLength = csl;
+  }
+
+  public void setCommitBodyLength(final int cbl) {
+    commitBodyLength = cbl;
   }
 
   public void setRequireChangeID(final boolean cid) {
@@ -190,6 +210,8 @@ public final class Project {
     useSignedOffBy = update.useSignedOffBy;
     useContentMerge = update.useContentMerge;
     requireShortMessage = update.requireShortMessage;
+    commitSubjectLength = update.commitSubjectLength;
+    commitBodyLength = update.commitBodyLength;
     requireChangeID = update.requireChangeID;
     submitType = update.submitType;
     state = update.state;

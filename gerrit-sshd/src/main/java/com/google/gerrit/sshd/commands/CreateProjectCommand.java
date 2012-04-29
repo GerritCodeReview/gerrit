@@ -77,6 +77,12 @@ final class CreateProjectCommand extends BaseCommand {
   @Option(name = "--require-short-message", usage = "if short commit subject is required")
   private boolean requireShortMessage;
 
+  @Option(name = "--commit-subject-length", usage = "max length for commit subjects")
+  private int commitSubjectLength;
+
+  @Option(name = "--commit-body-length", usage = "max length for commit body lines")
+  private int commitBodyLength;
+
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
   private boolean requireChangeID;
 
@@ -137,6 +143,8 @@ final class CreateProjectCommand extends BaseCommand {
             args.signedOffBy = signedOffBy;
             args.contentMerge = contentMerge;
             args.shortMessageRequired = requireShortMessage;
+            args.commitSubjectLength = commitSubjectLength;
+            args.commitBodyLength = commitBodyLength;
             args.changeIdRequired = requireChangeID;
             args.branch = branch;
             args.createEmptyCommit = createEmptyCommit;

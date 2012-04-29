@@ -33,6 +33,8 @@ public class CreateProjectArgs {
   public String branch;
   public boolean contentMerge;
   public boolean shortMessageRequired;
+  public int commitSubjectLength;
+  public int commitBodyLength;
   public boolean changeIdRequired;
   public boolean createEmptyCommit;
 

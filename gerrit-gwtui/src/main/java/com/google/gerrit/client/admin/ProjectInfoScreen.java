@@ -19,6 +19,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
@@ -28,6 +29,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -38,6 +40,8 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private Panel projectOptionsPanel;
   private CheckBox requireShortMessage;
+  private NpIntTextBox commitSubjectLength;
+  private NpIntTextBox commitBodyLength;
   private CheckBox requireChangeID;
   private ListBox submitType;
   private ListBox state;
@@ -102,6 +106,8 @@ public class ProjectInfoScreen extends ProjectScreen {
     useContributorAgreements.setEnabled(canModifyAgreements);
     useSignedOffBy.setEnabled(canModifyAgreements);
     requireShortMessage.setEnabled(canModifyMergeType);
+    commitSubjectLength.setEnabled(canModifyMergeType);
+    commitBodyLength.setEnabled(canModifyMergeType);
     requireChangeID.setEnabled(canModifyMergeType);
   }
 
@@ -151,6 +157,22 @@ public class ProjectInfoScreen extends ProjectScreen {
     requireShortMessage = new CheckBox(Util.C.requireShortMessage(), true);
     saveEnabler.listenTo(requireShortMessage);
     projectOptionsPanel.add(requireShortMessage);
+
+    final Grid commitOptionsGrid = new Grid(2, 2);
+
+    commitOptionsGrid.setText(0, 0, Util.C.commitSubjectLength() + ":");
+    commitSubjectLength = new NpIntTextBox();
+    commitSubjectLength.setVisibleLength(4);
+    saveEnabler.listenTo(commitSubjectLength);
+    commitOptionsGrid.setWidget(0, 1, commitSubjectLength);
+
+    commitOptionsGrid.setText(1, 0, Util.C.commitBodyLength() + ":");
+    commitBodyLength = new NpIntTextBox();
+    commitBodyLength.setVisibleLength(4);
+    saveEnabler.listenTo(commitBodyLength);
+    commitOptionsGrid.setWidget(1, 1, commitBodyLength);
+
+    projectOptionsPanel.add(commitOptionsGrid);
 
     requireChangeID = new CheckBox(Util.C.requireChangeID(), true);
     saveEnabler.listenTo(requireChangeID);
@@ -230,6 +252,8 @@ public class ProjectInfoScreen extends ProjectScreen {
     useSignedOffBy.setValue(project.isUseSignedOffBy());
     useContentMerge.setValue(project.isUseContentMerge());
     requireShortMessage.setValue(project.isRequireShortMessage());
+    commitSubjectLength.setIntValue(project.getCommitSubjectLength());
+    commitBodyLength.setIntValue(project.getCommitBodyLength());
     requireChangeID.setValue(project.isRequireChangeID());
     setSubmitType(project.getSubmitType());
     setState(project.getState());
@@ -243,6 +267,8 @@ public class ProjectInfoScreen extends ProjectScreen {
     project.setUseSignedOffBy(useSignedOffBy.getValue());
     project.setUseContentMerge(useContentMerge.getValue());
     project.setRequireShortMessage(requireShortMessage.getValue());
+    project.setCommitSubjectLength(commitSubjectLength.getIntValue());
+    project.setCommitBodyLength(commitBodyLength.getIntValue());
     project.setRequireChangeID(requireChangeID.getValue());
     if (submitType.getSelectedIndex() >= 0) {
       project.setSubmitType(Project.SubmitType.valueOf(submitType

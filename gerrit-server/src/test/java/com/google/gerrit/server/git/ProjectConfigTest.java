@@ -159,6 +159,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         + "  description = A new description\n" //
         + "  accepted = group Staff\n" //
         + "  agreementUrl = http://www.example.com/agree\n" //
+        + "[receive]\n"//
+        + "\tcommitSubjectLength = 50\n"//
+        + "\tcommitBodyLength = 70\n"//
         + "[project]\n"//
         + "\tstate = active\n", text(rev, "project.config"));
   }
@@ -188,6 +191,9 @@ public class ProjectConfigTest extends LocalDiskRepositoryTestCase {
         + "\tsubmit = group Staff\n" //
         + "  upload = group Developers\n" //
         + "  read = group Developers\n"//
+        + "[receive]\n"//
+        + "\tcommitSubjectLength = 50\n"//
+        + "\tcommitBodyLength = 70\n"//
         + "[project]\n"//
         + "\tstate = active\n", text(rev, "project.config"));
   }

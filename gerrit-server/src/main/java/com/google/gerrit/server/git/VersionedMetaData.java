@@ -354,6 +354,11 @@ public abstract class VersionedMetaData {
     }
   }
 
+  protected static void set(Config rc, String section, String subsection,
+      String name, int value) {
+      rc.setInt(section, subsection, name, value);
+  }
+
   protected static <E extends Enum<?>> void set(Config rc, String section,
       String subsection, String name, E value, E defaultValue) {
     if (value != defaultValue) {

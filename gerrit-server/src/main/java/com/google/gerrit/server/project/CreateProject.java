@@ -157,6 +157,8 @@ public class CreateProject {
       newProject.setUseSignedOffBy(createProjectArgs.signedOffBy);
       newProject.setUseContentMerge(createProjectArgs.contentMerge);
       newProject.setRequireShortMessage(createProjectArgs.shortMessageRequired);
+      newProject.setCommitSubjectLength(createProjectArgs.commitSubjectLength);
+      newProject.setCommitBodyLength(createProjectArgs.commitBodyLength);
       newProject.setRequireChangeID(createProjectArgs.changeIdRequired);
       if (createProjectArgs.newParent != null) {
         newProject.setParentName(createProjectArgs.newParent.getProject()

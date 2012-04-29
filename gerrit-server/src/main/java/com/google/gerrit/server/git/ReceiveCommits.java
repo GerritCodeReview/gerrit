@@ -112,6 +112,9 @@ public class ReceiveCommits {
   private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
+  private static final int MAX_SUBJECT_LENGTH = 65;
+  private static final int MAX_LINE_LENGTH = 70;
+
   interface Factory {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
   }
@@ -1741,7 +1744,7 @@ public class ReceiveCommits {
 
   private void warnMalformedMessage(RevCommit c) {
     ObjectReader reader = rp.getRevWalk().getObjectReader();
-    if (65 < c.getShortMessage().length()) {
+    if (MAX_SUBJECT_LENGTH < c.getShortMessage().length()) {
       AbbreviatedObjectId id;
       try {
         id = reader.abbreviate(c);
@@ -1749,7 +1752,8 @@ public class ReceiveCommits {
         id = c.abbreviate(6);
       }
       addMessage("(W) " + id.name() //
-          + ": commit subject >65 characters; use shorter first paragraph");
+          + ": commit subject >" + MAX_SUBJECT_LENGTH //
+          + " characters; use shorter first line");
     }
 
     int longLineCnt = 0, nonEmptyCnt = 0;
@@ -1757,7 +1761,7 @@ public class ReceiveCommits {
       if (!line.trim().isEmpty()) {
         nonEmptyCnt++;
       }
-      if (70 < line.length()) {
+      if (MAX_LINE_LENGTH < line.length()) {
         longLineCnt++;
       }
     }
@@ -1770,7 +1774,8 @@ public class ReceiveCommits {
         id = c.abbreviate(6);
       }
       addMessage("(W) " + id.name() //
-          + ": commit message lines >70 characters; manually wrap lines");
+          + ": commit message lines >" + MAX_LINE_LENGTH //
+          + " characters; manually wrap lines");
     }
   }
 

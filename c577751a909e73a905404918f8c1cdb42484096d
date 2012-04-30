@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFJH////g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-04-30T14:25:04Z",
+      "side": 1,
+      "message": "What would be the endpoint to get patch set details (without the actual lines of code)?\n\nSpecifically, my question is about the change screen and opening of a non-current patch set. At this point we need to fetch all the files, number of drafts/comments per file etc...\nWill this be done through \"/changes/\" endpoint or a new endpoint?\n\nOr, do you think that the change screen will load all this data in advance using ALL_REVISIONS+ALL_COMMITS?",
+      "revId": "c577751a909e73a905404918f8c1cdb42484096d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

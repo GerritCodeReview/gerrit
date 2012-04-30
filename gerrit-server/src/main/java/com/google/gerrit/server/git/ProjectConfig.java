@@ -89,6 +89,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Project project;
   private AccountsSection accountsSection;
   private Map<AccountGroup.UUID, GroupReference> groupsByUUID;
+  private Map<String, GroupReference> groupsByName;
   private Map<String, AccessSection> accessSections;
   private Map<String, ContributorAgreement> contributorAgreements;
   private List<ValidationError> validationErrors;
@@ -196,6 +197,7 @@ public class ProjectConfig extends VersionedMetaData {
         return ref;
       }
       groupsByUUID.put(group.getUUID(), group);
+      groupsByName.put(group.getName(), group);
     }
     return group;
   }
@@ -203,6 +205,16 @@ public class ProjectConfig extends VersionedMetaData {
   /** @return the group reference, if the group is used by at least one rule. */
   public GroupReference getGroup(AccountGroup.UUID uuid) {
     return groupsByUUID.get(uuid);
+  }
+
+  /** @return the group reference, if the group is used by at least one rule. */
+  public GroupReference getGroup(AccountGroup.NameKey name) {
+    return groupsByName.get(name.get());
+  }
+
+  /** @return the group references used in at least one rule. */
+  public Map<String, GroupReference> getGroupsByName() {
+    return Collections.unmodifiableMap(groupsByName);
   }
 
   /**
@@ -222,10 +234,12 @@ public class ProjectConfig extends VersionedMetaData {
   public boolean updateGroupNames(GroupCache groupCache) {
     boolean dirty = false;
     for (GroupReference ref : groupsByUUID.values()) {
-      AccountGroup g = groupCache.get(ref.getUUID());
-      if (g != null && !g.getName().equals(ref.getName())) {
+      GroupCache.Group g = groupCache.get(ref.getUUID());
+      if ((g != null) && !g.getName().equals(ref.getName())) {
         dirty = true;
+        groupsByName.remove(ref.getName());
         ref.setName(g.getName());
+        groupsByName.put(g.getName(), ref);
       }
     }
     return dirty;
@@ -251,7 +265,7 @@ public class ProjectConfig extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
-    Map<String, GroupReference> groupsByName = readGroupList();
+    readGroupList();
 
     rulesId = getObjectId("rules.pl");
     Config rc = readConfig(PROJECT_CONFIG);
@@ -272,20 +286,19 @@ public class ProjectConfig extends VersionedMetaData {
     p.setUseContentMerge(getBoolean(rc, SUBMIT, KEY_MERGE_CONTENT, false));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
 
-    loadAccountsSection(rc, groupsByName);
-    loadContributorAgreements(rc, groupsByName);
-    loadAccessSections(rc, groupsByName);
+    loadAccountsSection(rc);
+    loadContributorAgreements(rc);
+    loadAccessSections(rc);
   }
 
   private void loadAccountsSection(
-      Config rc, Map<String, GroupReference> groupsByName) {
+      Config rc) {
     accountsSection = new AccountsSection();
     accountsSection.setSameGroupVisibility(loadPermissionRules(
-        rc, ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY, groupsByName, false));
+        rc, ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY, false));
   }
 
-  private void loadContributorAgreements(
-      Config rc, Map<String, GroupReference> groupsByName) {
+  private void loadContributorAgreements(Config rc) {
     contributorAgreements = new HashMap<String, ContributorAgreement>();
     for (String name : rc.getSubsections(CONTRIBUTOR_AGREEMENT)) {
       ContributorAgreement ca = getContributorAgreement(name, true);
@@ -294,10 +307,10 @@ public class ProjectConfig extends VersionedMetaData {
           rc.getBoolean(CONTRIBUTOR_AGREEMENT, name, KEY_REQUIRE_CONTACT_INFORMATION, false));
       ca.setAgreementUrl(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_AGREEMENT_URL));
       ca.setAccepted(loadPermissionRules(
-          rc, CONTRIBUTOR_AGREEMENT, name, KEY_ACCEPTED, groupsByName, false));
+          rc, CONTRIBUTOR_AGREEMENT, name, KEY_ACCEPTED, false));
 
       List<PermissionRule> rules = loadPermissionRules(
-          rc, CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY, groupsByName, false);
+          rc, CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY, false);
       if (rules.isEmpty()) {
         ca.setAutoVerify(null);
       } else if (rules.size() > 1) {
@@ -318,8 +331,7 @@ public class ProjectConfig extends VersionedMetaData {
     }
   }
 
-  private void loadAccessSections(
-      Config rc, Map<String, GroupReference> groupsByName) {
+  private void loadAccessSections(Config rc) {
     accessSections = new HashMap<String, AccessSection>();
     for (String refName : rc.getSubsections(ACCESS)) {
       if (RefConfigSection.isValid(refName)) {
@@ -336,8 +348,7 @@ public class ProjectConfig extends VersionedMetaData {
         for (String varName : rc.getNames(ACCESS, refName)) {
           if (isPermission(varName)) {
             Permission perm = as.getPermission(varName, true);
-            loadPermissionRules(rc, ACCESS, refName, varName, groupsByName,
-                perm, perm.isLabel());
+            loadPermissionRules(rc, ACCESS, refName, varName, perm, perm.isLabel());
           }
         }
       }
@@ -351,25 +362,21 @@ public class ProjectConfig extends VersionedMetaData {
           accessSections.put(AccessSection.GLOBAL_CAPABILITIES, capability);
         }
         Permission perm = capability.getPermission(varName, true);
-        loadPermissionRules(rc, CAPABILITY, null, varName, groupsByName, perm,
+        loadPermissionRules(rc, CAPABILITY, null, varName, perm,
             GlobalCapability.hasRange(varName));
       }
     }
   }
 
   private List<PermissionRule> loadPermissionRules(Config rc, String section,
-      String subsection, String varName,
-      Map<String, GroupReference> groupsByName,
-      boolean useRange) {
+      String subsection, String varName, boolean useRange) {
     Permission perm = new Permission(varName);
-    loadPermissionRules(rc, section, subsection, varName, groupsByName, perm, useRange);
+    loadPermissionRules(rc, section, subsection, varName, perm, useRange);
     return perm.getRules();
   }
 
   private void loadPermissionRules(Config rc, String section,
-      String subsection, String varName,
-      Map<String, GroupReference> groupsByName, Permission perm,
-      boolean useRange) {
+      String subsection, String varName, Permission perm, boolean useRange) {
     for (String ruleString : rc.getStringList(section, subsection, varName)) {
       PermissionRule rule;
       try {
@@ -400,10 +407,9 @@ public class ProjectConfig extends VersionedMetaData {
     }
   }
 
-  private Map<String, GroupReference> readGroupList() throws IOException {
+  private void readGroupList() throws IOException {
     groupsByUUID = new HashMap<AccountGroup.UUID, GroupReference>();
-    Map<String, GroupReference> groupsByName =
-        new HashMap<String, GroupReference>();
+    groupsByName = new HashMap<String, GroupReference>();
 
     BufferedReader br = new BufferedReader(new StringReader(readUTF8(GROUP_LIST)));
     String s;
@@ -425,7 +431,6 @@ public class ProjectConfig extends VersionedMetaData {
       groupsByUUID.put(uuid, ref);
       groupsByName.put(name, ref);
     }
-    return groupsByName;
   }
 
   @Override

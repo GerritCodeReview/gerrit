@@ -63,7 +63,8 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   @Override
   public GroupDetail call() throws OrmException, NoSuchGroupException {
     control = groupControl.validateFor(groupId);
-    final AccountGroup group = control.getAccountGroup();
+    // There must be an account group, since a lookup was done by ID.
+    final AccountGroup group = control.getGroup().getAccountGroup();
     final GroupDetail detail = new GroupDetail();
     detail.setGroup(group);
     detail.setOwnerGroup(groupCache.get(group.getOwnerGroupId()));

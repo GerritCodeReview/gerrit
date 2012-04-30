@@ -102,9 +102,9 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   public void groupDetail(AccountGroup.Id groupId, AccountGroup.UUID groupUUID,
       AsyncCallback<GroupDetail> callback) {
     if (groupId == null && groupUUID != null) {
-      AccountGroup g = groupCache.get(groupUUID);
-      if (g != null) {
-        groupId = g.getId();
+      GroupCache.Group g = groupCache.get(groupUUID);
+      if ((g != null) && g.hasAccountGroup()) {
+        groupId = g.getAccountGroup().getId();
       }
     }
     groupDetailFactory.create(groupId).to(callback);
@@ -145,13 +145,13 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         final AccountGroup group = db.accountGroups().get(groupId);
         assertAmGroupOwner(db, group);
 
-        final AccountGroup owner =
+        final GroupCache.Group owner =
             groupCache.get(new AccountGroup.NameKey(newOwnerName));
-        if (owner == null) {
+        if ((owner == null) || !owner.hasAccountGroup()) {
           throw new Failure(new NoSuchEntityException());
         }
 
-        group.setOwnerGroupId(owner.getId());
+        group.setOwnerGroupId(owner.getAccountGroup().getId());
         db.accountGroups().update(Collections.singleton(group));
         groupCache.evict(group);
         return VoidResult.INSTANCE;
@@ -214,7 +214,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        // Lookup was done by Id, so the AccountGroup must exist.
+        if (control.getGroup().getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -249,7 +250,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        // Lookup was done by Id, so the AccountGroup must exist.
+        if (control.getGroup().getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -282,7 +284,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        // Lookup was done by Id, so the AccountGroup must exist.
+        if (control.getGroup().getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -336,7 +339,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        // Lookup was done by Id, so the AccountGroup must exist.
+        if (control.getGroup().getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -386,7 +390,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   private void assertAmGroupOwner(final ReviewDb db, final AccountGroup group)
       throws Failure {
     try {
-      if (!groupControlFactory.controlFor(group.getId()).isOwner()) {
+      if (!groupControlFactory.controlFor(group.getGroupUUID()).isOwner()) {
         throw new Failure(new NoSuchGroupException(group.getId()));
       }
     } catch (NoSuchGroupException e) {
@@ -405,11 +409,10 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
   private AccountGroup findGroup(final String name) throws OrmException,
       Failure {
-    final AccountGroup g = groupCache.get(new AccountGroup.NameKey(name));
-    if (g == null) {
+    GroupCache.Group g = groupCache.get(new AccountGroup.NameKey(name));
+    if ((g == null) || !g.hasAccountGroup()) {
       throw new Failure(new NoSuchGroupException(name));
     }
-    return g;
+    return g.getAccountGroup();
   }
-
 }

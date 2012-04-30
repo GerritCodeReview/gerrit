@@ -55,6 +55,9 @@ public class GroupMembers {
     this.currentUser = currentUser;
   }
 
+  /**
+   * @return accounts that are a member of an the internal group.
+   */
   public Set<Account> listAccounts(final AccountGroup.UUID groupUUID,
       final Project.NameKey project) throws NoSuchGroupException,
       NoSuchProjectException, OrmException {
@@ -67,9 +70,9 @@ public class GroupMembers {
     if (AccountGroup.PROJECT_OWNERS.equals(groupUUID)) {
       return getProjectOwners(project, seen);
     } else {
-      AccountGroup group = groupCache.get(groupUUID);
-      if (group != null) {
-        return getGroupMembers(group, project, seen);
+      GroupCache.Group group = groupCache.get(groupUUID);
+      if ((group != null) && group.hasAccountGroup()) {
+        return getGroupMembers(group.getAccountGroup(), project, seen);
       } else {
         return Collections.emptySet();
       }

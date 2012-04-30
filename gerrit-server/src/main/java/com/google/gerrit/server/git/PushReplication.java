@@ -14,13 +14,15 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
-import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -99,11 +101,12 @@ public class PushReplication implements ReplicationQueue {
   private final SchemaFactory<ReviewDb> database;
   private final ReplicationUser.Factory replicationUserFactory;
   private final GitRepositoryManager gitRepositoryManager;
+  private final GroupCache groupCache;
 
   @Inject
   PushReplication(final Injector i, final WorkQueue wq, final SitePaths site,
       final ReplicationUser.Factory ruf, final SchemaFactory<ReviewDb> db,
-      final GitRepositoryManager grm)
+      final GitRepositoryManager grm, GroupCache gc)
       throws ConfigInvalidException, IOException {
     injector = i;
     workQueue = wq;
@@ -111,6 +114,7 @@ public class PushReplication implements ReplicationQueue {
     replicationUserFactory = ruf;
     gitRepositoryManager = grm;
     configs = allConfigs(site);
+    groupCache = gc;
   }
 
   @Override
@@ -195,7 +199,6 @@ public class PushReplication implements ReplicationQueue {
         }
       }
 
-
       if (c.getPushRefSpecs().isEmpty()) {
         RefSpec spec = new RefSpec();
         spec = spec.setSourceDestination("refs/*", "refs/*");
@@ -204,7 +207,7 @@ public class PushReplication implements ReplicationQueue {
       }
 
       r.add(new ReplicationConfig(injector, workQueue, c, cfg, database,
-          replicationUserFactory, gitRepositoryManager));
+          replicationUserFactory, gitRepositoryManager, groupCache));
     }
     return Collections.unmodifiableList(r);
   }
@@ -392,7 +395,8 @@ public class PushReplication implements ReplicationQueue {
     ReplicationConfig(final Injector injector, final WorkQueue workQueue,
         final RemoteConfig rc, final Config cfg, SchemaFactory<ReviewDb> db,
         final ReplicationUser.Factory replicationUserFactory,
-        final GitRepositoryManager gitRepositoryManager) {
+        final GitRepositoryManager gitRepositoryManager,
+        GroupCache groupCache) {
 
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
@@ -406,8 +410,16 @@ public class PushReplication implements ReplicationQueue {
           cfg.getStringList("remote", rc.getName(), "authGroup");
       final GroupMembership authGroups;
       if (authGroupNames.length > 0) {
-        authGroups = new ListGroupMembership(ConfigUtil.groupsFor(db, authGroupNames, //
-            log, "Group \"{0}\" not in database, removing from authGroup"));
+        ImmutableSet.Builder<AccountGroup.UUID> builder = ImmutableSet.builder();
+        for (String name : authGroupNames) {
+          GroupCache.Group g = groupCache.get(new AccountGroup.NameKey(name));
+          if (g != null) {
+            builder.add(g.getGroupUUID());
+          } else {
+            log.warn("Group \"{0}\" not in database, removing from authGroup", name);
+          }
+        }
+        authGroups = new ListGroupMembership(builder.build());
       } else {
         authGroups = ReplicationUser.EVERYTHING_VISIBLE;
       }

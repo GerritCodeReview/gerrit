@@ -166,11 +166,11 @@ public class CreateProject {
         final AccessSection all =
             config.getAccessSection(AccessSection.ALL, true);
         for (AccountGroup.UUID ownerId : createProjectArgs.ownerIds) {
-          AccountGroup accountGroup = groupCache.get(ownerId);
-          if (accountGroup != null) {
-            GroupReference group = config.resolve(accountGroup);
+          GroupCache.Group group = groupCache.get(ownerId);
+          if (group != null) {
+            GroupReference groupRef = config.resolve(group.getGroupReference());
             all.getPermission(Permission.OWNER, true).add(
-                new PermissionRule(group));
+                new PermissionRule(groupRef));
           }
         }
       }

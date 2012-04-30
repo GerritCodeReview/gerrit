@@ -77,11 +77,13 @@ public class VisibleGroups {
     for (final ProjectControl projectControl : projects) {
       final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
       for (final GroupReference groupRef : groupsRefs) {
-        final AccountGroup group = groupCache.get(groupRef.getUUID());
+        GroupCache.Group group = groupCache.get(groupRef.getUUID());
         if (group == null) {
           throw new NoSuchGroupException(groupRef.getUUID());
         }
-        groups.add(group);
+        if (group.hasAccountGroup()) {
+          groups.add(group.getAccountGroup());
+        }
       }
     }
     return createGroupList(filterGroups(groups));
@@ -102,9 +104,9 @@ public class VisibleGroups {
       final Set<AccountGroup> groups =
           new TreeSet<AccountGroup>(new GroupComparator());
       for (final AccountGroup.UUID groupId : effective) {
-        AccountGroup group = groupCache.get(groupId);
-        if (group != null) {
-          groups.add(group);
+        GroupCache.Group group = groupCache.get(groupId);
+        if ((group != null) && group.hasAccountGroup()) {
+          groups.add(group.getAccountGroup());
         }
       }
       return createGroupList(filterGroups(groups));

@@ -63,11 +63,11 @@ public class PerformRenameGroup {
       NoSuchGroupException {
     final AccountGroup.NameKey groupNameKey =
         new AccountGroup.NameKey(groupName);
-    final AccountGroup group = groupCache.get(groupNameKey);
-    if (group == null) {
+    final GroupCache.Group group = groupCache.get(groupNameKey);
+    if ((group == null) || !group.hasAccountGroup()) {
       throw new NoSuchGroupException(groupNameKey);
     }
-    return renameGroup(group.getId(), newGroupName);
+    return renameGroup(group.getAccountGroup().getId(), newGroupName);
   }
 
   public GroupDetail renameGroup(final AccountGroup.Id groupId,

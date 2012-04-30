@@ -59,10 +59,10 @@ public class CreateChangeSender extends NewChangeSender {
       //
       final Set<Account.Id> owners = new HashSet<Account.Id>();
       for (AccountGroup.UUID uuid : getProjectOwners()) {
-        AccountGroup group = groupCache.get(uuid);
-        if (group != null) {
+        GroupCache.Group group = groupCache.get(uuid);
+        if ((group != null) && group.hasAccountGroup()) {
           for (AccountGroupMember m : args.db.get().accountGroupMembers()
-              .byGroup(group.getId())) {
+              .byGroup(group.getAccountGroup().getId())) {
             owners.add(m.getAccountId());
           }
         }

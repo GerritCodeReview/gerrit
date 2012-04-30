@@ -285,16 +285,16 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           throw new Failure(new NoSuchEntityException());
         }
 
-        AccountGroup group = groupCache.get(ca.getAutoVerify().getUUID());
-        if (group == null) {
+        GroupCache.Group group = groupCache.get(ca.getAutoVerify().getUUID());
+        if ((group == null) || !group.hasAccountGroup()) {
           throw new Failure(new NoSuchEntityException());
         }
 
         Account account = user.get().getAccount();
         hooks.doClaSignupHook(account, ca);
 
-        final AccountGroupMember.Key key =
-            new AccountGroupMember.Key(account.getId(), group.getId());
+        final AccountGroupMember.Key key = new AccountGroupMember.Key(
+            account.getId(), group.getAccountGroup().getId());
         AccountGroupMember m = db.accountGroupMembers().get(key);
         if (m == null) {
           m = new AccountGroupMember(key);

@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Strings;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EntryCreator;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -82,6 +85,7 @@ public class GroupCacheImpl implements GroupCache {
   private final Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName;
   private final Cache<ListKey,SortedSet<AccountGroup.NameKey>> list;
   private final Lock listLock;
+  private final ProjectCache projectCache;
 
   @Inject
   GroupCacheImpl(
@@ -89,19 +93,23 @@ public class GroupCacheImpl implements GroupCache {
       @Named(BYNAME_NAME) Cache<AccountGroup.NameKey, AccountGroup> byName,
       @Named(BYUUID_NAME) Cache<AccountGroup.UUID, AccountGroup> byUUID,
       @Named(BYEXT_NAME) Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName,
-      @Named(BYNAME_LIST) final Cache<ListKey, SortedSet<AccountGroup.NameKey>> list) {
+      @Named(BYNAME_LIST) final Cache<ListKey, SortedSet<AccountGroup.NameKey>> list,
+      ProjectCache projectCache) {
     this.byId = byId;
     this.byName = byName;
     this.byUUID = byUUID;
     this.byExternalName = byExternalName;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
+    this.projectCache = projectCache;
   }
 
+  @Override
   public AccountGroup get(final AccountGroup.Id groupId) {
     return byId.get(groupId);
   }
 
+  @Override
   public void evict(final AccountGroup group) {
     byId.remove(group.getId());
     byName.remove(group.getNameKey());
@@ -109,20 +117,42 @@ public class GroupCacheImpl implements GroupCache {
     byExternalName.remove(group.getExternalNameKey());
   }
 
+  @Override
   public void evictAfterRename(final AccountGroup.NameKey oldName,
       final AccountGroup.NameKey newName) {
     byName.remove(oldName);
     updateGroupList(oldName, newName);
   }
 
-  public AccountGroup get(final AccountGroup.NameKey name) {
-    return byName.get(name);
+  @Override
+  public GroupCache.Group get(final AccountGroup.NameKey name) {
+    AccountGroup group = byName.get(name);
+    if (group != null) {
+      return Group.of(group);
+    }
+
+    GroupReference ref = projectCache.getAllProjects().getConfig().getGroup(name);
+    if ((ref != null) && (ref.getUUID() != null)) {
+      return new Group(ref.getUUID(), ref.getName(), null);
+    }
+    return null;
   }
 
-  public AccountGroup get(final AccountGroup.UUID uuid) {
-    return byUUID.get(uuid);
+  @Override
+  public GroupCache.Group get(final AccountGroup.UUID uuid) {
+    AccountGroup group = byUUID.get(uuid);
+    if (group != null) {
+      return Group.of(group);
+    }
+
+    GroupReference ref = projectCache.getAllProjects().getConfig().getGroup(uuid);
+    if ((ref != null) && !Strings.isNullOrEmpty(ref.getName())) {
+      return new Group(ref.getUUID(), ref.getName(), null);
+    }
+    return null;
   }
 
+  @Override
   public Collection<AccountGroup> get(
       final AccountGroup.ExternalNameKey externalName) {
     return byExternalName.get(externalName);
@@ -132,9 +162,9 @@ public class GroupCacheImpl implements GroupCache {
   public Iterable<AccountGroup> all() {
     final List<AccountGroup> groups = new ArrayList<AccountGroup>();
     for (final AccountGroup.NameKey groupName : list.get(ListKey.ALL)) {
-      final AccountGroup group = get(groupName);
-      if (group != null) {
-        groups.add(group);
+      final GroupCache.Group group = get(groupName);
+      if ((group != null) && group.hasAccountGroup()) {
+        groups.add(group.getAccountGroup());
       }
     }
     return Collections.unmodifiableList(groups);

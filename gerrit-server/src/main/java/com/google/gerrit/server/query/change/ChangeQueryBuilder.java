@@ -367,7 +367,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     // If its not an account, maybe its a group?
     //
-    AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(who));
+    GroupCache.Group g = args.groupCache.get(new AccountGroup.NameKey(who));
     if (g != null) {
       return visibleto(new SingleGroupUser(args.capabilityControlFactory,
           g.getGroupUUID()));
@@ -410,7 +410,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> ownerin(String group)
       throws QueryParseException {
-    AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(group));
+    GroupCache.Group g = args.groupCache.get(new AccountGroup.NameKey(group));
     if (g == null) {
       throw error("Group " + group + " not found");
     }
@@ -431,7 +431,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> reviewerin(String group)
       throws QueryParseException {
-    AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(group));
+    GroupCache.Group g = args.groupCache.get(new AccountGroup.NameKey(group));
     if (g == null) {
       throw error("Group " + group + " not found");
     }

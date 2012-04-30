@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Strings.emptyToNull;
+
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
 import java.util.Collection;
@@ -22,9 +26,49 @@ import javax.annotation.Nullable;
 
 /** Tracks group objects in memory for efficient access. */
 public interface GroupCache {
+  public static class Group {
+    private final AccountGroup.UUID uuid;
+    private final String name;
+    private final AccountGroup group;
+
+    Group(AccountGroup.UUID uuid, String name, AccountGroup group) {
+      this.uuid = checkNotNull(uuid, "uuid");
+      this.name = checkNotNull(emptyToNull(name), "name");
+      this.group = group;
+    }
+
+    public static Group of(AccountGroup group) {
+      return new Group(group.getGroupUUID(), group.getName(), group);
+    }
+
+    public AccountGroup.UUID getGroupUUID() {
+      return uuid;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public boolean isVisibleToAll() {
+      return hasAccountGroup() ? getAccountGroup().isVisibleToAll() : false;
+    }
+
+    public boolean hasAccountGroup() {
+      return group != null;
+    }
+
+    public AccountGroup getAccountGroup() {
+      return group;
+    }
+
+    public GroupReference getGroupReference() {
+      return new GroupReference(getGroupUUID(), getName());
+    }
+  }
+
   public AccountGroup get(AccountGroup.Id groupId);
 
-  public AccountGroup get(AccountGroup.NameKey name);
+  public GroupCache.Group get(AccountGroup.NameKey name);
 
   /**
    * Lookup a group definition by its UUID. The returned definition may be null
@@ -32,7 +76,7 @@ public interface GroupCache {
    * copied from another server.
    */
   @Nullable
-  public AccountGroup get(AccountGroup.UUID uuid);
+  public GroupCache.Group get(AccountGroup.UUID uuid);
 
   public Collection<AccountGroup> get(AccountGroup.ExternalNameKey externalName);
 

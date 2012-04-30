@@ -107,9 +107,9 @@ public class AddReviewer implements Callable<ReviewerResult> {
     for (final String reviewer : reviewers) {
       final Account account = accountResolver.find(reviewer);
       if (account == null) {
-        AccountGroup group = groupCache.get(new AccountGroup.NameKey(reviewer));
+        GroupCache.Group group = groupCache.get(new AccountGroup.NameKey(reviewer));
 
-        if (group == null) {
+        if ((group == null) || !group.hasAccountGroup()) {
           result.addError(new ReviewerResult.Error(
               ReviewerResult.Error.Type.REVIEWER_NOT_FOUND, reviewer));
           continue;

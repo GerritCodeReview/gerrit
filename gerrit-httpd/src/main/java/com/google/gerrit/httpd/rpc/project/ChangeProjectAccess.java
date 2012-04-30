@@ -199,7 +199,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
     GroupReference ref = rule.getGroup();
     if (ref.getUUID() == null) {
       AccountGroup.NameKey name = new AccountGroup.NameKey(ref.getName());
-      AccountGroup group = groupCache.get(name);
+      GroupCache.Group group = groupCache.get(name);
       if (group == null) {
         throw new NoSuchGroupException(name);
       }

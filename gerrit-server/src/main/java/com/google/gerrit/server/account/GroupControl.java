@@ -34,18 +34,18 @@ public class GroupControl {
       user = cu;
     }
 
-    public GroupControl controlFor(final AccountGroup.Id groupId)
+    private GroupControl controlFor(final AccountGroup.Id groupId)
         throws NoSuchGroupException {
       final AccountGroup group = groupCache.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(groupCache, user.get(), group);
+      return controlFor(group);
     }
 
     public GroupControl controlFor(final AccountGroup.UUID groupId)
         throws NoSuchGroupException {
-      final AccountGroup group = groupCache.get(groupId);
+      final GroupCache.Group group = groupCache.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
@@ -53,7 +53,7 @@ public class GroupControl {
     }
 
     public GroupControl controlFor(final AccountGroup group) {
-      return new GroupControl(groupCache, user.get(), group);
+      return new GroupControl(groupCache, user.get(), GroupCache.Group.of(group));
     }
 
     public GroupControl validateFor(final AccountGroup.Id groupId)
@@ -68,10 +68,10 @@ public class GroupControl {
 
   private final GroupCache groupCache;
   private final CurrentUser user;
-  private final AccountGroup group;
+  private final GroupCache.Group group;
   private Boolean isOwner;
 
-  GroupControl(GroupCache g, CurrentUser who, AccountGroup gc) {
+  GroupControl(GroupCache g, CurrentUser who, GroupCache.Group gc) {
     groupCache = g;
     user = who;
     group = gc;
@@ -81,7 +81,7 @@ public class GroupControl {
     return user;
   }
 
-  public AccountGroup getAccountGroup() {
+  public GroupCache.Group getGroup() {
     return group;
   }
 
@@ -93,8 +93,8 @@ public class GroupControl {
   }
 
   public boolean isOwner() {
-    if (isOwner == null) {
-      AccountGroup g = groupCache.get(group.getOwnerGroupId());
+    if ((isOwner == null) && group.hasAccountGroup()) {
+      AccountGroup g = groupCache.get(group.getAccountGroup().getOwnerGroupId());
       AccountGroup.UUID ownerUUID = g != null ? g.getGroupUUID() : null;
       isOwner = getCurrentUser().getEffectiveGroups().contains(ownerUUID)
              || getCurrentUser().getCapabilities().canAdministrateServer();

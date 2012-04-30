@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ReviewerInfo;
@@ -39,6 +41,7 @@ import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -48,9 +51,11 @@ import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 class SuggestServiceImpl extends BaseServiceImplementation implements
@@ -66,6 +71,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final ChangeControl.Factory changeControlFactory;
   private final Config cfg;
   private final GroupCache groupCache;
+  private final ProjectCache projectCache;
   private final boolean suggestAccounts;
 
   @Inject
@@ -77,7 +83,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final AccountControl.Factory accountControlFactory,
       final ChangeControl.Factory changeControlFactory,
-      @GerritServerConfig final Config cfg, final GroupCache groupCache) {
+      @GerritServerConfig final Config cfg, final GroupCache groupCache,
+      final ProjectCache projectCache) {
     super(schema, currentUser);
     this.reviewDbProvider = schema;
     this.accountCache = accountCache;
@@ -88,6 +95,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     this.changeControlFactory = changeControlFactory;
     this.cfg = cfg;
     this.groupCache = groupCache;
+    this.projectCache = projectCache;
 
     if ("OFF".equals(cfg.getString("suggest", null, "accounts"))) {
       this.suggestAccounts = false;
@@ -189,20 +197,48 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     final String b = a + MAX_SUFFIX;
     final int max = 10;
     final int n = limit <= 0 ? max : Math.min(limit, max);
-    List<GroupReference> r = new ArrayList<GroupReference>(n);
+    Set<AccountGroup.UUID> r = Sets.newHashSetWithExpectedSize(n*2);
+    List<GroupReference> v = Lists.newArrayListWithExpectedSize(n*2);
+
+    // Lookup the groups in the database
     for (AccountGroupName group : db.accountGroupNames().suggestByName(a, b, n)) {
+      AccountGroup g = groupCache.get(group.getId());
+      if ((g != null) && groupControlFactory.controlFor(g).isVisible()) {
+        GroupReference ref = GroupReference.forGroup(g);
+        r.add(ref.getUUID());
+        v.add(ref);
+      }
+    }
+
+    // Lookup the groups in the All-Projects group list.
+    Map<String, GroupReference> byName =
+        projectCache.getAllProjects().getConfig().getGroupsByName();
+    for (Entry<String, GroupReference> entry : byName.entrySet()) {
       try {
-        if (groupControlFactory.controlFor(group.getId()).isVisible()) {
-          AccountGroup g = groupCache.get(group.getId());
-          if (g != null && g.getGroupUUID() != null) {
-            r.add(GroupReference.forGroup(g));
-          }
+        String name = entry.getKey();
+        GroupReference ref = entry.getValue();
+        if ((name.length() >= query.length()) &&
+            (ref.getUUID() != null) && !r.contains(ref.getUUID()) &&
+            name.substring(0, query.length()).equalsIgnoreCase(name) &&
+            groupControlFactory.controlFor(ref.getUUID()).isVisible()) {
+          r.add(ref.getUUID());
+          v.add(ref);
         }
       } catch (NoSuchGroupException e) {
         continue;
       }
     }
-    return r;
+
+    Collections.sort(v, new Comparator<GroupReference>() {
+      @Override
+      public int compare(GroupReference a, GroupReference b) {
+        return a.getName().compareToIgnoreCase(b.getName());
+      }
+    });
+    if (v.size() > n) {
+      v = v.subList(0, n);
+    }
+    return v;
   }
 
   @Override

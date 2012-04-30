@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "AAAFI3////4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-30T07:11:31Z",
+      "side": 1,
+      "message": "I think it would be better to use Account.Id here instead of String. There is already an AccountIdHandler available that would convert the String that the user provided into an Account.Id. This has the advantage that a user can specify the account by fullname, email-address, ssh username or account id and of course you don\u0027t need to find the account yourself.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFJn////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-30T07:11:31Z",
+      "side": 1,
+      "message": "s/to active/to inactive",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///60\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -36,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAAFJn////4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-30T07:11:31Z",
+      "side": 1,
+      "message": "[optional] Is this check needed? I think without this check the command would simply fail with \u0027Could not find user\u0027 if an invalid username is given. For me this would be good enough.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///7M\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -47,6 +98,23 @@
       "writtenOn": "2012-04-26T04:11:32Z",
       "side": 1,
       "message": "It might be clearer to reverse this check, the else can then be eliminated.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFJn////0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-30T07:11:31Z",
+      "side": 1,
+      "message": "Maybe print out a warning if the full-name could not be set because the realm doesn\u0027t allow edits.",
       "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +189,23 @@
     },
     {
       "key": {
+        "uuid": "AAAFKH////4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-30T07:11:31Z",
+      "side": 1,
+      "message": "If an invalid ssh key was specified, this fails here with an InvalidSshKeyException. Since it is not handled the user gets \u0027fatal: internal server error\u0027 as error message. It\u0027s not really an internal server error, but the user has just provided invalid input. I would prefer to print out a concrete error message like \u0027fatal: invalid ssh key\u0027.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///7E\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -132,6 +217,40 @@
       "writtenOn": "2012-04-26T04:11:32Z",
       "side": 1,
       "message": "Why the catch here when you don\u0027t catch many of the other ormexceptions?",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFKH////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-30T07:11:31Z",
+      "side": 1,
+      "message": "This removes the e-mail address from the accounts_external_ids table. If this e-mail address was chosen as preferred e-mail address it is additionally stored as PREFERRED_EMAIL in the accounts table. I guess you have to remove it there too and eventually set a new preferred e-mail address if further e-mail addresses are registered.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFJ3////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-04-30T07:11:31Z",
+      "side": 1,
+      "message": "This adds the e-mail address to the accounts_external_ids table, which means it appears for the user in the UI under Settings -\u003e Contact Information -\u003e Preferred Email. If it is the very first e-mail that is registered for the user it should be in addition set as PREFERRED_EMAIL in the accounts table, so that the new e-mail address is also displayed under Settings -\u003e Profile -\u003e EMail Address. At least this is done if you add the first e-mail address via the UI form.",
       "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

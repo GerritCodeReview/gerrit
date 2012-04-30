@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFJH////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-04-30T14:56:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "AAAFG3///7k\u003d",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFG3///7c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-28T02:23:10Z",
       "side": 1,
       "message": "This isn\u0027t actually true for renamed and copied files. If the file was renamed or copied, you want p.getOldName() here to lookup the original source text.",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFI3////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-04-30T14:56:40Z",
+      "side": 1,
+      "message": "The code was removed.",
+      "parentUuid": "AAAFG3///7c\u003d",
       "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFI3////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-04-30T14:56:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFG3///7U\u003d",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFG3///7Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-04-28T02:23:10Z",
       "side": 1,
       "message": "These two lines are expensive enough that you want to be reusing the results and not doing it for every file.",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFJH////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-04-30T14:56:40Z",
+      "side": 1,
+      "message": "The code was removed.",
+      "parentUuid": "AAAFG3///7Y\u003d",
       "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFI3////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-04-30T14:56:40Z",
+      "side": 1,
+      "message": "The code was removed.",
+      "parentUuid": "AAAFHH///8k\u003d",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFG3///7g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-04-28T02:23:10Z",
       "side": 1,
       "message": "This is very unexpected. We should log the exception to the server log so the admin can troubleshoot a problem.",
+      "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFI3////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-04-30T14:56:40Z",
+      "side": 1,
+      "message": "Done. I\u0027ve added a log to the catch clause.",
+      "parentUuid": "AAAFG3///7g\u003d",
       "revId": "8b6b0af474cc6e69bf3349991ee1f947a0c24fa7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

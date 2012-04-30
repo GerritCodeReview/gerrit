@@ -118,14 +118,6 @@ public class ChangeScreen extends Screen
   }
 
   @Override
-  public void onSignOut() {
-    super.onSignOut();
-    if (starChange != null) {
-      starChange.setVisible(false);
-    }
-  }
-
-  @Override
   protected void onLoad() {
     super.onLoad();
     detailCache.refresh();

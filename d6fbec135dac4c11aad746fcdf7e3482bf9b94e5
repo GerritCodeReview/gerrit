@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX////o\u003d",
+        "filename": "Documentation/dev-inspector.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-05-01T18:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///98\u003d",
+      "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE4n///9o\u003d",
         "filename": "Documentation/dev-inspector.txt",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2012-04-22T03:25:50Z",
       "side": 1,
       "message": "s/An access/Access/",
+      "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX////k\u003d",
+        "filename": "Documentation/dev-inspector.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-05-01T18:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///9o\u003d",
       "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX////g\u003d",
+        "filename": "Documentation/dev-inspector.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-05-01T18:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///9k\u003d",
+      "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE4n///9g\u003d",
         "filename": "Documentation/dev-inspector.txt",
         "patchSetId": 3
@@ -81,6 +135,24 @@
       "writtenOn": "2012-04-22T03:25:50Z",
       "side": 1,
       "message": "trailing space",
+      "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX////c\u003d",
+        "filename": "Documentation/dev-inspector.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-05-01T18:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///9g\u003d",
       "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX////s\u003d",
+        "filename": "Documentation/dev-inspector.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-05-01T18:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///9c\u003d",
+      "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE4n///9Y\u003d",
         "filename": "Documentation/pgm-daemon.txt",
         "patchSetId": 3
@@ -115,6 +205,24 @@
       "writtenOn": "2012-04-22T03:25:50Z",
       "side": 1,
       "message": "The lines above use tabs for indentation but this line used spaces. Please be consistent.",
+      "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX////I\u003d",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-05-01T18:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///9Y\u003d",
       "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX////Y\u003d",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-05-01T18:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///9U\u003d",
+      "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE4n///9Q\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
         "patchSetId": 3
@@ -149,6 +275,24 @@
       "writtenOn": "2012-04-22T03:25:50Z",
       "side": 1,
       "message": "Except for Javadoc, we use // style comments.",
+      "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX////U\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-05-01T18:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///9Q\u003d",
       "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -172,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX////Q\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-05-01T18:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///9M\u003d",
+      "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAE4n///9I\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
         "patchSetId": 3
@@ -183,6 +345,24 @@
       "writtenOn": "2012-04-22T03:25:50Z",
       "side": 1,
       "message": "Please wrap long lines by breaking before one of the + operators.",
+      "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX////M\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010822
+      },
+      "writtenOn": "2012-05-01T18:44:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAE4n///9I\u003d",
       "revId": "d6fbec135dac4c11aad746fcdf7e3482bf9b94e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

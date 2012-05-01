@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFLH///6o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeEventDeserializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-01T02:36:09Z",
+      "side": 1,
+      "message": "It might be a bit simpler without all these unneeded elses (since these ifs all have returns).",
+      "revId": "3698b8ae0e9f43b3a15aaa26518a77908bb0a122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-05-01T12:10:43Z",
+      "side": 1,
+      "message": "It is possible, but I don\u0027t think that the gerrit.config is the right place for that. If a user want to change the email\u0027s contents then he should edit the mail templates. It doesn\u0027t make sense to me to include another mean for the same task.",
+      "parentUuid": "AAAFHX///88\u003d",
+      "revId": "78ba97f735ce82c180c039e0108dbb4f80113523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFHX///9A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-28T02:31:38Z",
       "side": 1,
       "message": "Perhaps also modify the example Comment.vm template file to include this usage in the header as a comment so site admins know they have it available to them?",
+      "revId": "78ba97f735ce82c180c039e0108dbb4f80113523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFLX////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-05-01T12:10:43Z",
+      "side": 1,
+      "message": "No problem. The next patch set will include an example.",
+      "parentUuid": "AAAFHX///9A\u003d",
       "revId": "78ba97f735ce82c180c039e0108dbb4f80113523",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-05-01T12:10:43Z",
+      "side": 1,
+      "message": "Done.\n\nAre you sure about the catch utf-8 issue? It looks like encoding errors are handle internally.",
+      "parentUuid": "AAAFHX///9I\u003d",
+      "revId": "78ba97f735ce82c180c039e0108dbb4f80113523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFHX///9E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-04-28T02:31:38Z",
       "side": 1,
       "message": "Don\u0027t we need to cap this upper limit on the number of lines in the file?",
+      "revId": "78ba97f735ce82c180c039e0108dbb4f80113523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMn////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-05-01T12:10:43Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "AAAFHX///9E\u003d",
       "revId": "78ba97f735ce82c180c039e0108dbb4f80113523",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

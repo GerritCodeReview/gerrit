@@ -65,6 +65,7 @@ public class ChangeDetailCache extends ListenableValue<ChangeDetail> {
   public static void setChangeDetail(ChangeDetail detail) {
     Change.Id chgId = detail.getChange().getId();
     ChangeCache.get(chgId).getChangeDetailCache().set(detail);
+    StarredChanges.fireChangeStarEvent(chgId, detail.isStarred());
   }
 
   private final Change.Id changeId;

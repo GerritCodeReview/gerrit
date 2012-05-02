@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFL3////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2012-05-02T14:17:09Z",
+      "side": 1,
+      "message": "Nit: Not that it matters that much, but for consistency we should perhaps go with int? Today it\u0027s pretty much just the serialVersionUID that use long constants.",
+      "revId": "2403d46bfc9979738fa6a2e86b83390daa2a7827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

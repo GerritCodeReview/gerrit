@@ -16,8 +16,10 @@ package com.google.gerrit.server.auth.ldap;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
@@ -44,5 +46,7 @@ public class LdapModule extends CacheModule {
 
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
     bind(Helper.class);
+
+    DynamicSet.bind(binder(), GroupBackend.class).to(LdapGroupBackend.class);
   }
 }

@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.ApprovalCategory.Id;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -57,7 +56,7 @@ public class FunctionState {
 
   @Inject
   FunctionState(final ApprovalTypes approvalTypes,
-      final IdentifiedUser.GenericFactory userFactory, final GroupCache egc,
+      final IdentifiedUser.GenericFactory userFactory,
       @Assisted final ChangeControl c, @Assisted final PatchSet.Id psId,
       @Assisted final Collection<PatchSetApproval> all) {
     this.approvalTypes = approvalTypes;

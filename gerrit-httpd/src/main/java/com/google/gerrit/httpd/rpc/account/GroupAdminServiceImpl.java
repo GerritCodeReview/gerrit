@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.data.GroupOptions;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.InactiveAccountException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchAccountException;
@@ -34,6 +35,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
@@ -44,7 +47,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,6 +55,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   private final AccountCache accountCache;
   private final AccountResolver accountResolver;
   private final GroupCache groupCache;
+  private final GroupBackend groupBackend;
   private final GroupIncludeCache groupIncludeCache;
   private final GroupControl.Factory groupControlFactory;
 
@@ -68,6 +71,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final GroupIncludeCache groupIncludeCache,
       final AccountResolver accountResolver,
       final GroupCache groupCache,
+      final GroupBackend groupBackend,
       final GroupControl.Factory groupControlFactory,
       final CreateGroup.Factory createGroupFactory,
       final RenameGroup.Factory renameGroupFactory,
@@ -78,6 +82,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.groupIncludeCache = groupIncludeCache;
     this.accountResolver = accountResolver;
     this.groupCache = groupCache;
+    this.groupBackend = groupBackend;
     this.groupControlFactory = groupControlFactory;
     this.createGroupFactory = createGroupFactory;
     this.renameGroupFactory = renameGroupFactory;
@@ -140,13 +145,13 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         final AccountGroup group = db.accountGroups().get(groupId);
         assertAmGroupOwner(db, group);
 
-        AccountGroup owner =
-            groupCache.get(new AccountGroup.NameKey(newOwnerName));
+        GroupReference owner =
+            GroupBackends.findExactSuggestion(groupBackend, newOwnerName);
         if (owner == null) {
           throw new Failure(new NoSuchEntityException());
         }
 
-        group.setOwnerGroupUUID(owner.getGroupUUID());
+        group.setOwnerGroupUUID(owner.getUUID());
         db.accountGroups().update(Collections.singleton(group));
         groupCache.evict(group);
         return VoidResult.INSTANCE;
@@ -179,7 +184,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -214,7 +219,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -247,7 +252,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -301,7 +306,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 

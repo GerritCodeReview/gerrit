@@ -59,6 +59,7 @@ public class CreateChangeSender extends NewChangeSender {
       //
       final Set<Account.Id> owners = new HashSet<Account.Id>();
       for (AccountGroup.UUID uuid : getProjectOwners()) {
+        // TODO(cranger): merge with sop's pending change and use the group backend
         AccountGroup group = groupCache.get(uuid);
         if (group != null) {
           for (AccountGroupMember m : args.db.get().accountGroupMembers()

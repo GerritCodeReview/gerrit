@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -27,11 +29,14 @@ public class GroupControl {
   public static class Factory {
     private final GroupCache groupCache;
     private final Provider<CurrentUser> user;
+    private final GroupBackend groupBackend;
 
     @Inject
-    Factory(final GroupCache gc, final Provider<CurrentUser> cu) {
+    Factory(final GroupCache gc, final Provider<CurrentUser> cu,
+        final GroupBackend gb) {
       groupCache = gc;
       user = cu;
+      groupBackend = gb;
     }
 
     public GroupControl controlFor(final AccountGroup.Id groupId)
@@ -40,20 +45,20 @@ public class GroupControl {
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(groupCache, user.get(), group);
+      return new GroupControl(groupBackend, user.get(), group);
     }
 
     public GroupControl controlFor(final AccountGroup.UUID groupId)
         throws NoSuchGroupException {
-      final AccountGroup group = groupCache.get(groupId);
+      final GroupDescription.Basic group = groupBackend.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
-      return new GroupControl(groupCache, user.get(), group);
+      return new GroupControl(groupBackend, user.get(), group);
     }
 
     public GroupControl controlFor(final AccountGroup group) {
-      return new GroupControl(groupCache, user.get(), group);
+      return new GroupControl(groupBackend, user.get(), group);
     }
 
     public GroupControl validateFor(final AccountGroup.Id groupId)
@@ -66,23 +71,23 @@ public class GroupControl {
     }
   }
 
-  private final GroupCache groupCache;
+  private final GroupBackend groupBackend;
   private final CurrentUser user;
-  private final AccountGroup group;
+  private final GroupDescription.Basic group;
   private Boolean isOwner;
 
-  GroupControl(GroupCache g, CurrentUser who, AccountGroup gc) {
-    groupCache = g;
+  GroupControl(GroupBackend g, CurrentUser who, GroupDescription.Basic gd) {
+    groupBackend = g;
     user = who;
-    group = gc;
+    group =  gd;
+  }
+
+  GroupControl(GroupBackend g, CurrentUser who, AccountGroup ag) {
+    this(g, who, GroupDescriptions.forAccountGroup(ag));
   }
 
   public CurrentUser getCurrentUser() {
     return user;
-  }
-
-  public AccountGroup getAccountGroup() {
-    return group;
   }
 
   /** Can this user see this group exists? */
@@ -93,8 +98,12 @@ public class GroupControl {
   }
 
   public boolean isOwner() {
-    if (isOwner == null) {
-      AccountGroup g = groupCache.get(group.getOwnerGroupUUID());
+    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
+    if (accountGroup == null) {
+      isOwner = false;
+    } else if (isOwner == null) {
+      GroupDescription.Basic g =
+          groupBackend.get(accountGroup.getOwnerGroupUUID());
       AccountGroup.UUID ownerUUID = g != null ? g.getGroupUUID() : null;
       isOwner = getCurrentUser().getEffectiveGroups().contains(ownerUUID)
              || getCurrentUser().getCapabilities().canAdministrateServer();

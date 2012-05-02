@@ -15,7 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -25,9 +25,9 @@ import java.util.HashSet;
 
 public class GitUploadPackGroupsProvider extends GroupSetProvider {
   @Inject
-  public GitUploadPackGroupsProvider(GroupCache gc,
+  public GitUploadPackGroupsProvider(GroupBackend gb,
       @GerritServerConfig Config config) {
-    super(gc, config, "upload", null, "allowGroup");
+    super(gb, config, "upload", null, "allowGroup");
 
     // If no group was set, default to "registered users" and "anonymous"
     //

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -24,7 +25,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -68,14 +69,14 @@ public class CreateProject {
   private final PersonIdent serverIdent;
   private CreateProjectArgs createProjectArgs;
   private ProjectCache projectCache;
-  private GroupCache groupCache;
+  private GroupBackend groupBackend;
   private MetaDataUpdate.User metaDataUpdateFactory;
 
   @Inject
   CreateProject(@ProjectOwnerGroups Set<AccountGroup.UUID> pOwnerGroups,
       IdentifiedUser identifiedUser, GitRepositoryManager gitRepoManager,
       ReplicationQueue replicateq, ReviewDb db,
-      @GerritPersonIdent PersonIdent personIdent, final GroupCache groupCache,
+      @GerritPersonIdent PersonIdent personIdent, final GroupBackend groupBackend,
       final MetaDataUpdate.User metaDataUpdateFactory,
       @Assisted CreateProjectArgs createPArgs, ProjectCache pCache) {
     this.projectOwnerGroups = pOwnerGroups;
@@ -85,7 +86,7 @@ public class CreateProject {
     this.serverIdent = personIdent;
     this.createProjectArgs = createPArgs;
     this.projectCache = pCache;
-    this.groupCache = groupCache;
+    this.groupBackend = groupBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
   }
 
@@ -166,9 +167,9 @@ public class CreateProject {
         final AccessSection all =
             config.getAccessSection(AccessSection.ALL, true);
         for (AccountGroup.UUID ownerId : createProjectArgs.ownerIds) {
-          AccountGroup accountGroup = groupCache.get(ownerId);
-          if (accountGroup != null) {
-            GroupReference group = config.resolve(accountGroup);
+          GroupDescription.Basic g = groupBackend.get(ownerId);
+          if (g != null) {
+            GroupReference group = config.resolve(GroupReference.forGroup(g));
             all.getPermission(Permission.OWNER, true).add(
                 new PermissionRule(group));
           }

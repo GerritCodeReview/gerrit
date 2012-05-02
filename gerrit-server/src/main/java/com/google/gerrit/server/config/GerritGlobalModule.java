@@ -32,11 +32,14 @@ import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupInfoCacheFactory;
-import com.google.gerrit.server.account.MaterializedGroupMembership;
+import com.google.gerrit.server.account.IncludingGroupMembership;
+import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.ChangeMergeQueue;
@@ -64,6 +67,7 @@ import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
+import com.google.inject.multibindings.Multibinder;
 
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.Config;
@@ -121,11 +125,16 @@ public class GerritGlobalModule extends FactoryModule {
     factory(GroupInfoCacheFactory.Factory.class);
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
-    factory(MaterializedGroupMembership.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)
         .in(SINGLETON);
+
+    factory(IncludingGroupMembership.Factory.class);
+    bind(InternalGroupBackend.class).in(SINGLETON);
+    bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
+    Multibinder.newSetBinder(binder(), GroupBackend.class).addBinding()
+        .to(InternalGroupBackend.class);
 
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(ToolsCatalog.class);

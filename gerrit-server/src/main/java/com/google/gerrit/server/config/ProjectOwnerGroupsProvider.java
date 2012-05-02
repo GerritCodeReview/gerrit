@@ -14,8 +14,7 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gwtorm.server.SchemaFactory;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -33,8 +32,8 @@ import org.eclipse.jgit.lib.Config;
  */
 public class ProjectOwnerGroupsProvider extends GroupSetProvider {
   @Inject
-  public ProjectOwnerGroupsProvider(
-      @GerritServerConfig final Config config, final SchemaFactory<ReviewDb> db) {
-    super(config, db, "repository", "*", "ownerGroup");
+  public ProjectOwnerGroupsProvider(GroupCache gc,
+      @GerritServerConfig final Config config) {
+    super(gc, config, "repository", "*", "ownerGroup");
   }
 }

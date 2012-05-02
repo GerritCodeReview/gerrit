@@ -16,7 +16,6 @@ package com.google.gerrit.server.auth.ldap;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -24,11 +23,8 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
-import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.account.MaterializedGroupMembership;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.cache.Cache;
@@ -47,7 +43,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -56,6 +51,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import javax.naming.CompositeName;
+import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 
@@ -73,7 +70,6 @@ class LdapRealm implements Realm {
   private final Config config;
 
   private final Cache<String, Set<AccountGroup.UUID>> membershipCache;
-  private final MaterializedGroupMembership.Factory groupMembershipFactory;
 
   @Inject
   LdapRealm(
@@ -82,15 +78,13 @@ class LdapRealm implements Realm {
       final EmailExpander emailExpander,
       @Named(LdapModule.GROUP_CACHE) final Cache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(LdapModule.USERNAME_CACHE) final Cache<String, Account.Id> usernameCache,
-      @GerritServerConfig final Config config,
-      final MaterializedGroupMembership.Factory groupMembershipFactory) {
+      @GerritServerConfig final Config config) {
     this.helper = helper;
     this.authConfig = authConfig;
     this.emailExpander = emailExpander;
     this.usernameCache = usernameCache;
     this.membershipCache = membershipCache;
     this.config = config;
-    this.groupMembershipFactory = groupMembershipFactory;
 
     this.readOnlyAccountFields = new HashSet<Account.FieldName>();
 
@@ -187,6 +181,7 @@ class LdapRealm implements Realm {
     return r.isEmpty() ? null : r;
   }
 
+  @Override
   public AuthRequest authenticate(final AuthRequest who)
       throws AccountException {
     if (config.getBoolean("ldap", "localUsernameToLowerCase", false)) {
@@ -263,22 +258,6 @@ class LdapRealm implements Realm {
   }
 
   @Override
-  public GroupMembership groups(final AccountState who) {
-    return groupMembershipFactory.create(Iterables.concat(
-        membershipCache.get(findId(who.getExternalIds())),
-        who.getInternalGroups()));
-  }
-
-  private static String findId(final Collection<AccountExternalId> ids) {
-    for (final AccountExternalId i : ids) {
-      if (i.isScheme(AccountExternalId.SCHEME_GERRIT)) {
-        return i.getSchemeRest();
-      }
-    }
-    return null;
-  }
-
-  @Override
   public Account.Id lookup(final String accountName) {
     return usernameCache.get(accountName);
   }
@@ -336,6 +315,41 @@ class LdapRealm implements Realm {
     @Override
     public Set<AccountGroup.UUID> missing(final String key) {
       return Collections.emptySet();
+    }
+  }
+
+  static class ExistenceLoader extends EntryCreator<String, Boolean> {
+    private final Helper helper;
+
+    @Inject
+    ExistenceLoader(final Helper helper) {
+      this.helper = helper;
+    }
+
+    @Override
+    public Boolean createEntry(final String groupDn)
+        throws Exception {
+      final DirContext ctx = helper.open();
+      try {
+        Name compositeGroupName = new CompositeName().add(groupDn);
+        try {
+          ctx.getAttributes(compositeGroupName);
+          return true;
+        } catch (NamingException e) {
+          return false;
+        }
+      } finally {
+        try {
+          ctx.close();
+        } catch (NamingException e) {
+          log.warn("Cannot close LDAP query handle", e);
+        }
+      }
+    }
+
+    @Override
+    public Boolean missing(final String key) {
+      return false;
     }
   }
 }

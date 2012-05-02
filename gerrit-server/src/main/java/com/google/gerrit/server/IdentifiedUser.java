@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -24,8 +25,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.CapabilityControl;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.account.MaterializedGroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
@@ -46,13 +48,10 @@ import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.SocketAddress;
 import java.net.URL;
-import java.util.AbstractSet;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
@@ -70,7 +69,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final Realm realm;
     private final AccountCache accountCache;
-    private final MaterializedGroupMembership.Factory groupMembershipFactory;
+    private final GroupBackend groupBackend;
 
     @Inject
     GenericFactory(
@@ -79,14 +78,14 @@ public class IdentifiedUser extends CurrentUser {
         final @AnonymousCowardName String anonymousCowardName,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
-        final MaterializedGroupMembership.Factory groupMembershipFactory) {
+        final GroupBackend groupBackend) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
       this.anonymousCowardName = anonymousCowardName;
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
-      this.groupMembershipFactory = groupMembershipFactory;
+      this.groupBackend = groupBackend;
     }
 
     public IdentifiedUser create(final Account.Id id) {
@@ -96,14 +95,14 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, AccessPath.UNKNOWN,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupMembershipFactory, null, db, id);
+          groupBackend, null, db, id);
     }
 
     public IdentifiedUser create(AccessPath accessPath,
         Provider<SocketAddress> remotePeerProvider, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, accessPath,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupMembershipFactory, remotePeerProvider, null, id);
+          groupBackend, remotePeerProvider, null, id);
     }
   }
 
@@ -121,7 +120,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Provider<String> canonicalUrl;
     private final Realm realm;
     private final AccountCache accountCache;
-    private final MaterializedGroupMembership.Factory groupMembershipFactory;
+    private final GroupBackend groupBackend;
 
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
@@ -133,7 +132,7 @@ public class IdentifiedUser extends CurrentUser {
         final @AnonymousCowardName String anonymousCowardName,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
         final Realm realm, final AccountCache accountCache,
-        final MaterializedGroupMembership.Factory groupMembershipFactory,
+        final GroupBackend groupBackend,
 
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
@@ -143,7 +142,7 @@ public class IdentifiedUser extends CurrentUser {
       this.canonicalUrl = canonicalUrl;
       this.realm = realm;
       this.accountCache = accountCache;
-      this.groupMembershipFactory = groupMembershipFactory;
+      this.groupBackend = groupBackend;
 
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
@@ -153,40 +152,22 @@ public class IdentifiedUser extends CurrentUser {
         final Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, accessPath,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupMembershipFactory, remotePeerProvider, dbProvider, id);
+          groupBackend, remotePeerProvider, dbProvider, id);
     }
   }
 
   private static final Logger log =
       LoggerFactory.getLogger(IdentifiedUser.class);
 
-  private static final Set<AccountGroup.UUID> registeredGroups =
-      new AbstractSet<AccountGroup.UUID>() {
-        private final List<AccountGroup.UUID> groups =
-            Collections.unmodifiableList(Arrays.asList(new AccountGroup.UUID[] {
-                AccountGroup.ANONYMOUS_USERS, AccountGroup.REGISTERED_USERS}));
-
-        @Override
-        public boolean contains(Object o) {
-          return groups.contains(o);
-        }
-
-        @Override
-        public Iterator<AccountGroup.UUID> iterator() {
-          return groups.iterator();
-        }
-
-        @Override
-        public int size() {
-          return groups.size();
-        }
-      };
+  private static final GroupMembership registeredGroups =
+      new ListGroupMembership(ImmutableSet.of(
+          AccountGroup.ANONYMOUS_USERS,
+          AccountGroup.REGISTERED_USERS));
 
   private final Provider<String> canonicalUrl;
-  private final Realm realm;
   private final AccountCache accountCache;
-  private final MaterializedGroupMembership.Factory groupMembershipFactory;
   private final AuthConfig authConfig;
+  private final GroupBackend groupBackend;
   private final String anonymousCowardName;
 
   @Nullable
@@ -210,14 +191,13 @@ public class IdentifiedUser extends CurrentUser {
       final String anonymousCowardName,
       final Provider<String> canonicalUrl,
       final Realm realm, final AccountCache accountCache,
-      final MaterializedGroupMembership.Factory groupMembershipFactory,
+      final GroupBackend groupBackend,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
     super(capabilityControlFactory, accessPath);
     this.canonicalUrl = canonicalUrl;
-    this.realm = realm;
     this.accountCache = accountCache;
-    this.groupMembershipFactory = groupMembershipFactory;
+    this.groupBackend = groupBackend;
     this.authConfig = authConfig;
     this.anonymousCowardName = anonymousCowardName;
     this.remotePeerProvider = remotePeerProvider;
@@ -272,12 +252,11 @@ public class IdentifiedUser extends CurrentUser {
   public GroupMembership getEffectiveGroups() {
     if (effectiveGroups == null) {
       if (authConfig.isIdentityTrustable(state().getExternalIds())) {
-        effectiveGroups = realm.groups(state());
+        effectiveGroups = groupBackend.membershipsOf(state());
       } else {
-        effectiveGroups = groupMembershipFactory.create(registeredGroups);
+        effectiveGroups = registeredGroups;
       }
     }
-
     return effectiveGroups;
   }
 

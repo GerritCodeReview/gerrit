@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -32,8 +32,8 @@ import org.eclipse.jgit.lib.Config;
  */
 public class ProjectOwnerGroupsProvider extends GroupSetProvider {
   @Inject
-  public ProjectOwnerGroupsProvider(GroupCache gc,
+  public ProjectOwnerGroupsProvider(GroupBackend gb,
       @GerritServerConfig final Config config) {
-    super(gc, config, "repository", "*", "ownerGroup");
+    super(gb, config, "repository", "*", "ownerGroup");
   }
 }

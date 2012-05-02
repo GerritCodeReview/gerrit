@@ -28,6 +28,10 @@ public interface GroupMembership {
   public static final GroupMembership EMPTY =
       new ListGroupMembership(Collections.<AccountGroup.UUID>emptySet());
 
+  public interface Factory {
+    GroupMembership create(AccountState user);
+  }
+
   /**
    * Returns {@code true} when the user this object was created for is a member
    * of the specified group.
@@ -45,7 +49,7 @@ public interface GroupMembership {
    * This may not return all groups the {@link #contains(AccountGroup.UUID)}
    * would return {@code true} for, but will at least contain all top level
    * groups. This restriction stems from the API of some group systems, which
-   * make it expensive to enumate the members of a group.
+   * make it expensive to enumerate the members of a group.
    */
   Set<AccountGroup.UUID> getKnownGroups();
 }

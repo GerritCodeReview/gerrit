@@ -133,6 +133,7 @@ public class ListChanges {
       }
       ChangeData.ensureChangeLoaded(db, changes);
       ChangeData.ensureCurrentPatchSetLoaded(db, changes);
+      ChangeData.ensureCurrentApprovalsLoaded(db, changes);
 
       List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
       for (ChangeData cd : changes) {

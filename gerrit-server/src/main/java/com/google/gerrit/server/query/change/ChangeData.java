@@ -32,6 +32,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -77,6 +78,25 @@ public class ChangeData {
         ChangeData cd = missing.get(ps.getId());
         cd.currentPatchSet = ps;
         cd.patches = Lists.newArrayList(ps);
+      }
+    }
+  }
+
+  public static void ensureCurrentApprovalsLoaded(
+      Provider<ReviewDb> db, List<ChangeData> changes) throws OrmException {
+    List<ResultSet<PatchSetApproval>> pending = Lists.newArrayList();
+    for (ChangeData cd : changes) {
+      if (cd.currentApprovals == null && cd.approvals == null) {
+        pending.add(db.get().patchSetApprovals()
+            .byPatchSet(cd.change(db).currentPatchSetId()));
+      }
+    }
+    if (!pending.isEmpty()) {
+      int idx = 0;
+      for (ChangeData cd : changes) {
+        if (cd.currentApprovals == null && cd.approvals == null) {
+          cd.currentApprovals = pending.get(idx++).toList();
+        }
       }
     }
   }

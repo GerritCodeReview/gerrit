@@ -226,7 +226,7 @@ public class ListChanges {
 
     PatchSet ps = cd.currentPatchSet(db);
     Map<String, LabelInfo> labels = Maps.newLinkedHashMap();
-    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd)) {
+    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true)) {
       if (rec.labels == null) {
         continue;
       }

@@ -25,8 +25,7 @@
 %%   predicate that needs to obtain it.
 %%
 init :-
-  define_hash(commit_labels),
-  define_hash(current_user).
+  define_hash(commit_labels).
 
 define_hash(A) :- hash_exists(A), !, hash_clear(A).
 define_hash(A) :- atom(A), !, new_hash(_, [alias(A)]).
@@ -98,6 +97,10 @@ index_commit_labels([_ | Rs]) :-
 %%   Lookup the range allowed to be used.
 %%
 user_label_range(Label, Who, Min, Max) :-
+  hash_get(commit_labels, '$fast_range', true), !,
+  atom(Label),
+  assume_range_from_label(Label, Who, Min, Max).
+user_label_range(Label, Who, Min, Max) :-
   Who = user(_), !,
   atom(Label),
   current_user(Who, User),
@@ -105,6 +108,14 @@ user_label_range(Label, Who, Min, Max) :-
 user_label_range(Label, test_user(Name), Min, Max) :-
   clause(user:test_grant(Label, test_user(Name), range(Min, Max)), _)
   .
+
+assume_range_from_label :-
+  hash_put(commit_labels, '$fast_range', true).
+
+assume_range_from_label(Label, Who, Min, Max) :-
+  commit_label(label(Label, Value), Who), !,
+  Min = Value, Max = Value.
+assume_range_from_label(_, _, 0, 0).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

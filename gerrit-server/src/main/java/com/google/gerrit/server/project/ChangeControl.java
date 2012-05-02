@@ -292,11 +292,11 @@ public class ChangeControl {
   }
 
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet) {
-    return canSubmit(db, patchSet, null);
+    return canSubmit(db, patchSet, null, false);
   }
 
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
-      @Nullable ChangeData cd) {
+      @Nullable ChangeData cd, boolean fastEvalLabels) {
     if (change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
@@ -353,6 +353,10 @@ public class ChangeControl {
             + getProject().getName());
       }
 
+      if (fastEvalLabels) {
+        env.once("gerrit", "assume_range_from_label");
+      }
+
       try {
         for (Term[] template : env.all(
             "gerrit", "can_submit",
@@ -391,6 +395,10 @@ public class ChangeControl {
             parentEnv.once("gerrit", "locate_submit_filter", new VariableTerm());
         if (filterRule != null) {
           try {
+            if (fastEvalLabels) {
+              env.once("gerrit", "assume_range_from_label");
+            }
+
             Term resultsTerm = toListTerm(results);
             results.clear();
             Term[] template = parentEnv.once(

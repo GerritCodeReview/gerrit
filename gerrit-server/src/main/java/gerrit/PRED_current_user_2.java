@@ -24,6 +24,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
 import com.googlecode.prolog_cafe.lang.HashtableOfTerm;
 import com.googlecode.prolog_cafe.lang.IllegalTypeException;
@@ -103,11 +104,7 @@ class PRED_current_user_2 extends Predicate.P2 {
       final ReviewDb db = StoredValues.REVIEW_DB.getOrNull(engine);
       IdentifiedUser.GenericFactory userFactory = userFactory(engine);
       if (db != null) {
-        user = userFactory.create(new Provider<ReviewDb>() {
-          public ReviewDb get() {
-            return db;
-          }
-        }, accountId);
+        user = userFactory.create(Providers.of(db), accountId);
       } else {
         user = userFactory.create(accountId);
       }

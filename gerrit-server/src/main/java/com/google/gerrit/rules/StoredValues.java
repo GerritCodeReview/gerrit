@@ -16,12 +16,16 @@ package com.google.gerrit.rules;
 
 import static com.google.gerrit.rules.StoredValue.create;
 
+import com.google.common.collect.Maps;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -37,6 +41,8 @@ import com.googlecode.prolog_cafe.lang.SystemException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+
+import java.util.Map;
 
 public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
@@ -104,6 +110,23 @@ public final class StoredValues {
       return repo;
     }
   };
+
+  public static final StoredValue<AnonymousUser> ANONYMOUS_USER =
+      new StoredValue<AnonymousUser>() {
+        @Override
+        protected AnonymousUser createValue(Prolog engine) {
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          return env.getInjector().getInstance(AnonymousUser.class);
+        }
+      };
+
+  public static final StoredValue<Map<Account.Id, IdentifiedUser>> USERS =
+      new StoredValue<Map<Account.Id, IdentifiedUser>>() {
+        @Override
+        protected Map<Account.Id, IdentifiedUser> createValue(Prolog engine) {
+          return Maps.newHashMap();
+        }
+      };
 
   private StoredValues() {
   }

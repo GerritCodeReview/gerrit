@@ -23,7 +23,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -51,7 +51,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     ProjectAccessFactory create(@Assisted Project.NameKey name);
   }
 
-  private final GroupCache groupCache;
+  private final GroupBackend groupBackend;
   private final ProjectCache projectCache;
   private final ProjectControl.Factory projectControlFactory;
   private final GroupControl.Factory groupControlFactory;
@@ -62,7 +62,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   private ProjectControl pc;
 
   @Inject
-  ProjectAccessFactory(final GroupCache groupCache,
+  ProjectAccessFactory(final GroupBackend groupBackend,
       final ProjectCache projectCache,
       final ProjectControl.Factory projectControlFactory,
       final GroupControl.Factory groupControlFactory,
@@ -70,7 +70,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       final AllProjectsName allProjectsName,
 
       @Assisted final Project.NameKey name) {
-    this.groupCache = groupCache;
+    this.groupBackend = groupBackend;
     this.projectCache = projectCache;
     this.projectControlFactory = projectControlFactory;
     this.groupControlFactory = groupControlFactory;
@@ -94,7 +94,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     try {
       config = ProjectConfig.read(md);
 
-      if (config.updateGroupNames(groupCache)) {
+      if (config.updateGroupNames(groupBackend)) {
         md.setMessage("Update group names\n");
         if (config.commit(md)) {
           projectCache.evict(config.getProject());

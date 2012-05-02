@@ -18,11 +18,13 @@ import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
+import com.google.inject.multibindings.Multibinder;
 
 import java.util.Set;
 
@@ -44,5 +46,8 @@ public class LdapModule extends CacheModule {
 
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
     bind(Helper.class);
+
+    Multibinder.newSetBinder(binder(), GroupBackend.class).addBinding()
+        .to(LdapGroupBackend.class);
   }
 }

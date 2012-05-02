@@ -14,10 +14,12 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.data.GroupOptions;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.InactiveAccountException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchAccountException;
@@ -34,17 +36,17 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
-import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -55,7 +57,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
   private final AccountCache accountCache;
   private final AccountResolver accountResolver;
-  private final Realm accountRealm;
+  private final GroupBackend groupBackend;
+  private final InternalGroupBackend internalGroupBackend;
   private final GroupCache groupCache;
   private final GroupIncludeCache groupIncludeCache;
   private final GroupControl.Factory groupControlFactory;
@@ -70,7 +73,9 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final Provider<IdentifiedUser> currentUser,
       final AccountCache accountCache,
       final GroupIncludeCache groupIncludeCache,
-      final AccountResolver accountResolver, final Realm accountRealm,
+      final AccountResolver accountResolver,
+      final GroupBackend groupBackend,
+      final InternalGroupBackend internalGroupBackend,
       final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
       final CreateGroup.Factory createGroupFactory,
@@ -81,7 +86,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.accountCache = accountCache;
     this.groupIncludeCache = groupIncludeCache;
     this.accountResolver = accountResolver;
-    this.accountRealm = accountRealm;
+    this.groupBackend = groupBackend;
+    this.internalGroupBackend = internalGroupBackend;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.createGroupFactory = createGroupFactory;
@@ -195,9 +201,16 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
   public void searchExternalGroups(final String searchFilter,
       final AsyncCallback<List<AccountGroup.ExternalNameKey>> callback) {
-    final ArrayList<AccountGroup.ExternalNameKey> matches =
-        new ArrayList<AccountGroup.ExternalNameKey>(
-            accountRealm.lookupGroups(searchFilter));
+    final Set<GroupReference> groups = groupBackend.suggest(searchFilter);
+    final List<AccountGroup.ExternalNameKey> matches =
+        Lists.newArrayListWithCapacity(groups.size());
+    for (GroupReference ref : groups) {
+      int index = ref.getUUID().get().indexOf(':');
+      if ((index >= 0) && !internalGroupBackend.handles(ref.getUUID())) {
+        matches.add(new AccountGroup.ExternalNameKey(
+            ref.getUUID().get().substring(index + 1)));
+      }
+    }
     Collections.sort(matches, new Comparator<AccountGroup.ExternalNameKey>() {
       @Override
       public int compare(AccountGroup.ExternalNameKey a,
@@ -214,7 +227,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -249,7 +262,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -282,7 +295,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -336,7 +349,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 

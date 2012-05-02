@@ -16,8 +16,10 @@ package com.google.gerrit.server.auth.ldap;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
@@ -29,6 +31,8 @@ import java.util.Set;
 public class LdapModule extends CacheModule {
   static final String USERNAME_CACHE = "ldap_usernames";
   static final String GROUP_CACHE = "ldap_groups";
+  static final String GROUP_EXIST_CACHE = "ldap_group_existence";
+
 
   @Override
   protected void configure() {
@@ -42,7 +46,14 @@ public class LdapModule extends CacheModule {
     core(usernames, USERNAME_CACHE) //
         .populateWith(LdapRealm.UserLoader.class);
 
+    final TypeLiteral<Cache<String, Boolean>> exists =
+        new TypeLiteral<Cache<String, Boolean>>() {};
+    core(exists, GROUP_EXIST_CACHE).maxAge(1, HOURS) //
+        .populateWith(LdapRealm.ExistenceLoader.class);
+
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
     bind(Helper.class);
+
+    DynamicSet.bind(binder(), GroupBackend.class).to(LdapGroupBackend.class);
   }
 }

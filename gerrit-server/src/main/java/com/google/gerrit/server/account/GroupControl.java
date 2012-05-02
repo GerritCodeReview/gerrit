@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -27,11 +29,14 @@ public class GroupControl {
   public static class Factory {
     private final GroupCache groupCache;
     private final Provider<CurrentUser> user;
+    private final GroupBackend groupBackend;
 
     @Inject
-    Factory(final GroupCache gc, final Provider<CurrentUser> cu) {
+    Factory(final GroupCache gc, final Provider<CurrentUser> cu,
+        final GroupBackend gb) {
       groupCache = gc;
       user = cu;
+      groupBackend = gb;
     }
 
     public GroupControl controlFor(final AccountGroup.Id groupId)
@@ -45,7 +50,7 @@ public class GroupControl {
 
     public GroupControl controlFor(final AccountGroup.UUID groupId)
         throws NoSuchGroupException {
-      final AccountGroup group = groupCache.get(groupId);
+      final GroupDescription.Basic group = groupBackend.get(groupId);
       if (group == null) {
         throw new NoSuchGroupException(groupId);
       }
@@ -67,20 +72,20 @@ public class GroupControl {
   }
 
   private final CurrentUser user;
-  private final AccountGroup group;
+  private final GroupDescription.Basic group;
   private Boolean isOwner;
 
-  GroupControl(CurrentUser who, AccountGroup gc) {
+  GroupControl(CurrentUser who, GroupDescription.Basic gd) {
     user = who;
-    group = gc;
+    group =  gd;
+  }
+
+  GroupControl(CurrentUser who, AccountGroup ag) {
+    this(who, GroupDescriptions.forAccountGroup(ag));
   }
 
   public CurrentUser getCurrentUser() {
     return user;
-  }
-
-  public AccountGroup getAccountGroup() {
-    return group;
   }
 
   /** Can this user see this group exists? */
@@ -91,8 +96,11 @@ public class GroupControl {
   }
 
   public boolean isOwner() {
-    if (isOwner == null) {
-      AccountGroup.UUID ownerUUID = group.getOwnerGroupUUID();
+    AccountGroup accountGroup = GroupDescriptions.toAccountGroup(group);
+    if (accountGroup == null) {
+      isOwner = false;
+    } else if (isOwner == null) {
+      AccountGroup.UUID ownerUUID = accountGroup.getOwnerGroupUUID();
       isOwner = getCurrentUser().getEffectiveGroups().contains(ownerUUID)
              || getCurrentUser().getCapabilities().canAdministrateServer();
     }

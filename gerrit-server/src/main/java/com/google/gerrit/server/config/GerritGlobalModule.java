@@ -38,11 +38,14 @@ import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupInfoCacheFactory;
-import com.google.gerrit.server.account.MaterializedGroupMembership;
+import com.google.gerrit.server.account.IncludingGroupMembership;
+import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -130,11 +133,16 @@ public class GerritGlobalModule extends FactoryModule {
     factory(InternalUser.Factory.class);
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
-    factory(MaterializedGroupMembership.Factory.class);
     bind(PermissionCollection.Factory.class);
     bind(AccountVisibility.class)
         .toProvider(AccountVisibilityProvider.class)
         .in(SINGLETON);
+
+    factory(IncludingGroupMembership.Factory.class);
+    bind(InternalGroupBackend.class).in(SINGLETON);
+    bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
+    DynamicSet.setOf(binder(), GroupBackend.class);
+    DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
 
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(ToolsCatalog.class);

@@ -22,9 +22,9 @@ import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -60,7 +60,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
   private final ProjectAccessFactory.Factory projectAccessFactory;
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
-  private final GroupCache groupCache;
+  private final GroupBackend groupBackend;
   private final MetaDataUpdate.User metaDataUpdateFactory;
 
   private final Project.NameKey projectName;
@@ -71,7 +71,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
   @Inject
   ChangeProjectAccess(final ProjectAccessFactory.Factory projectAccessFactory,
       final ProjectControl.Factory projectControlFactory,
-      final ProjectCache projectCache, final GroupCache groupCache,
+      final ProjectCache projectCache, final GroupBackend groupBackend,
       final MetaDataUpdate.User metaDataUpdateFactory,
 
       @Assisted final Project.NameKey projectName,
@@ -81,7 +81,7 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
     this.projectAccessFactory = projectAccessFactory;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
-    this.groupCache = groupCache;
+    this.groupBackend = groupBackend;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
 
     this.projectName = projectName;
@@ -198,12 +198,12 @@ class ChangeProjectAccess extends Handler<ProjectAccess> {
   private void lookupGroup(PermissionRule rule) throws NoSuchGroupException {
     GroupReference ref = rule.getGroup();
     if (ref.getUUID() == null) {
-      AccountGroup.NameKey name = new AccountGroup.NameKey(ref.getName());
-      AccountGroup group = groupCache.get(name);
+      final GroupReference group =
+          GroupBackends.findBestSuggestion(groupBackend, ref.getName());
       if (group == null) {
-        throw new NoSuchGroupException(name);
+        throw new NoSuchGroupException(ref.getName());
       }
-      ref.setUUID(group.getGroupUUID());
+      ref.setUUID(group.getUUID());
     }
   }
 }

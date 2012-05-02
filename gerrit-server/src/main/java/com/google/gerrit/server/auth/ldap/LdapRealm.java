@@ -19,7 +19,6 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 import com.google.common.base.Optional;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -27,11 +26,8 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.EmailExpander;
-import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.account.MaterializedGroupMembership;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.config.AuthConfig;
@@ -47,8 +43,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -57,6 +51,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
+import javax.naming.CompositeName;
+import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 
@@ -74,7 +70,6 @@ class LdapRealm implements Realm {
   private final Config config;
 
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
-  private final MaterializedGroupMembership.Factory groupMembershipFactory;
 
   @Inject
   LdapRealm(
@@ -83,15 +78,13 @@ class LdapRealm implements Realm {
       final EmailExpander emailExpander,
       @Named(LdapModule.GROUP_CACHE) final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(LdapModule.USERNAME_CACHE) final LoadingCache<String, Optional<Account.Id>> usernameCache,
-      @GerritServerConfig final Config config,
-      final MaterializedGroupMembership.Factory groupMembershipFactory) {
+      @GerritServerConfig final Config config) {
     this.helper = helper;
     this.authConfig = authConfig;
     this.emailExpander = emailExpander;
     this.usernameCache = usernameCache;
     this.membershipCache = membershipCache;
     this.config = config;
-    this.groupMembershipFactory = groupMembershipFactory;
 
     this.readOnlyAccountFields = new HashSet<Account.FieldName>();
 
@@ -265,30 +258,6 @@ class LdapRealm implements Realm {
   }
 
   @Override
-  public GroupMembership groups(final AccountState who) {
-    String id = findId(who.getExternalIds());
-    Set<AccountGroup.UUID> groups;
-    try {
-      groups = membershipCache.get(id);
-    } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup groups for %s in LDAP", id), e);
-      groups = Collections.emptySet();
-    }
-    return groupMembershipFactory.create(Iterables.concat(
-        groups,
-        who.getInternalGroups()));
-  }
-
-  private static String findId(final Collection<AccountExternalId> ids) {
-    for (final AccountExternalId i : ids) {
-      if (i.isScheme(AccountExternalId.SCHEME_GERRIT)) {
-        return i.getSchemeRest();
-      }
-    }
-    return null;
-  }
-
-  @Override
   public Account.Id lookup(String accountName) {
     try {
       Optional<Account.Id> id = usernameCache.get(accountName);
@@ -337,6 +306,35 @@ class LdapRealm implements Realm {
       final DirContext ctx = helper.open();
       try {
         return helper.queryForGroups(ctx, username, null);
+      } finally {
+        try {
+          ctx.close();
+        } catch (NamingException e) {
+          log.warn("Cannot close LDAP query handle", e);
+        }
+      }
+    }
+  }
+
+  static class ExistenceLoader extends CacheLoader<String, Boolean> {
+    private final Helper helper;
+
+    @Inject
+    ExistenceLoader(final Helper helper) {
+      this.helper = helper;
+    }
+
+    @Override
+    public Boolean load(final String groupDn) throws Exception {
+      final DirContext ctx = helper.open();
+      try {
+        Name compositeGroupName = new CompositeName().add(groupDn);
+        try {
+          ctx.getAttributes(compositeGroupName);
+          return true;
+        } catch (NamingException e) {
+          return false;
+        }
       } finally {
         try {
           ctx.close();

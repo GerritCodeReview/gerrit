@@ -29,6 +29,7 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.query.change.ChangeData;
 
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SystemException;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.lib.Repository;
 public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<Change> CHANGE = create(Change.class);
+  public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
   public static final StoredValue<PatchSet> PATCH_SET = create(PatchSet.class);
   public static final StoredValue<ChangeControl> CHANGE_CONTROL = create(ChangeControl.class);
 

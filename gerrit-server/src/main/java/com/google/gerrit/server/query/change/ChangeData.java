@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -47,9 +49,42 @@ import java.util.List;
 import java.util.Map;
 
 public class ChangeData {
+  public static void ensureChangeLoaded(
+      Provider<ReviewDb> db, List<ChangeData> changes) throws OrmException {
+    Map<Change.Id, ChangeData> missing = Maps.newHashMap();
+    for (ChangeData cd : changes) {
+      if (cd.change == null) {
+        missing.put(cd.getId(), cd);
+      }
+    }
+    if (!missing.isEmpty()) {
+      for (Change change : db.get().changes().get(missing.keySet())) {
+        missing.get(change.getId()).change = change;
+      }
+    }
+  }
+
+  public static void ensureCurrentPatchSetLoaded(
+      Provider<ReviewDb> db, List<ChangeData> changes) throws OrmException {
+    Map<PatchSet.Id, ChangeData> missing = Maps.newHashMap();
+    for (ChangeData cd : changes) {
+      if (cd.currentPatchSet == null && cd.patches == null) {
+        missing.put(cd.change(db).currentPatchSetId(), cd);
+      }
+    }
+    if (!missing.isEmpty()) {
+      for (PatchSet ps : db.get().patchSets().get(missing.keySet())) {
+        ChangeData cd = missing.get(ps.getId());
+        cd.currentPatchSet = ps;
+        cd.patches = Lists.newArrayList(ps);
+      }
+    }
+  }
+
   private final Change.Id legacyId;
   private Change change;
   private String commitMessage;
+  private PatchSet currentPatchSet;
   private Collection<PatchSet> patches;
   private Collection<PatchSetApproval> approvals;
   private Map<PatchSet.Id,Collection<PatchSetApproval>> approvalsMap;
@@ -144,16 +179,19 @@ public class ChangeData {
   }
 
   public PatchSet currentPatchSet(Provider<ReviewDb> db) throws OrmException {
-    Change c = change(db);
-    if (c == null) {
-      return null;
-    }
-    for (PatchSet p : patches(db)) {
-      if (p.getId().equals(c.currentPatchSetId())) {
-        return p;
+    if (currentPatchSet == null) {
+      Change c = change(db);
+      if (c == null) {
+        return null;
+      }
+      for (PatchSet p : patches(db)) {
+        if (p.getId().equals(c.currentPatchSetId())) {
+          currentPatchSet = p;
+          return p;
+        }
       }
     }
-    return null;
+    return currentPatchSet;
   }
 
   public Collection<PatchSetApproval> currentApprovals(Provider<ReviewDb> db)
@@ -162,22 +200,14 @@ public class ChangeData {
       Change c = change(db);
       if (c == null) {
         currentApprovals = Collections.emptyList();
+      } else if (approvals != null) {
+        currentApprovals = approvalsMap(db).get(c.currentPatchSetId());
       } else {
-        currentApprovals = approvalsFor(db, c.currentPatchSetId());
+        currentApprovals = db.get().patchSetApprovals()
+            .byPatchSet(c.currentPatchSetId()).toList();
       }
     }
     return currentApprovals;
-  }
-
-  public Collection<PatchSetApproval> approvalsFor(Provider<ReviewDb> db,
-      PatchSet.Id psId) throws OrmException {
-    List<PatchSetApproval> r = new ArrayList<PatchSetApproval>();
-    for (PatchSetApproval p : approvals(db)) {
-      if (p.getPatchSetId().equals(psId)) {
-        r.add(p);
-      }
-    }
-    return r;
   }
 
   public String commitMessage(GitRepositoryManager repoManager,

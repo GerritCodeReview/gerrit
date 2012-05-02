@@ -43,6 +43,7 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 import java.io.Writer;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +136,8 @@ public class ListChanges {
           changes = changes.subList(0, imp.getLimit());
         }
       }
+      ChangeData.ensureChangeLoaded(db, changes);
+      ChangeData.ensureCurrentPatchSetLoaded(db, changes);
 
       List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
       for (ChangeData cd : changes) {
@@ -231,7 +234,7 @@ public class ListChanges {
 
     PatchSet ps = cd.currentPatchSet(db);
     Map<String, LabelInfo> labels = Maps.newLinkedHashMap();
-    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps)) {
+    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd)) {
       if (rec.labels == null) {
         continue;
       }
@@ -253,7 +256,7 @@ public class ListChanges {
       }
     }
 
-    List<PatchSetApproval> approvals = null;
+    Collection<PatchSetApproval> approvals = null;
     for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
       if (e.getValue().approved != null || e.getValue().rejected != null) {
         continue;
@@ -273,7 +276,7 @@ public class ListChanges {
       }
 
       if (approvals == null) {
-        approvals = db.get().patchSetApprovals().byPatchSet(ps.getId()).toList();
+        approvals = cd.currentApprovals(db);
       }
       for (PatchSetApproval psa : approvals) {
         short val = psa.getValue();

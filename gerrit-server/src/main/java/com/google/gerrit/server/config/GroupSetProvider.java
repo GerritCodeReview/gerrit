@@ -15,8 +15,10 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupBackends;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -34,17 +36,17 @@ public abstract class GroupSetProvider implements
   protected Set<AccountGroup.UUID> groupIds;
 
   @Inject
-  protected GroupSetProvider(GroupCache groupCache,
+  protected GroupSetProvider(GroupBackend groupBackend,
       @GerritServerConfig Config config, String section,
       String subsection, String name) {
     String[] groupNames = config.getStringList(section, subsection, name);
     ImmutableSet.Builder<AccountGroup.UUID> builder = ImmutableSet.builder();
     for (String n : groupNames) {
-      AccountGroup g = groupCache.get(new AccountGroup.NameKey(n));
-      if (g != null) {
-        builder.add(g.getGroupUUID());
-      } else {
+      GroupReference g = GroupBackends.findBestSuggestion(groupBackend, n);
+      if (g == null) {
         log.warn("Group \"{0}\" not in database, skipping.", n);
+      } else {
+        builder.add(g.getUUID());
       }
     }
     groupIds = builder.build();

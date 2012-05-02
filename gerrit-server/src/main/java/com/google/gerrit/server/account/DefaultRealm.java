@@ -15,25 +15,20 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.inject.Inject;
 
-import java.util.Collections;
 import java.util.Set;
 
 public class DefaultRealm implements Realm {
   private final EmailExpander emailExpander;
   private final AccountByEmailCache byEmail;
-  private final MaterializedGroupMembership.Factory groupMembershipFactory;
 
   @Inject
   DefaultRealm(final EmailExpander emailExpander,
-      final AccountByEmailCache byEmail,
-      final MaterializedGroupMembership.Factory groupMembershipFactory) {
+      final AccountByEmailCache byEmail) {
     this.emailExpander = emailExpander;
     this.byEmail = byEmail;
-    this.groupMembershipFactory = groupMembershipFactory;
   }
 
   @Override
@@ -62,11 +57,6 @@ public class DefaultRealm implements Realm {
 
   @Override
   public void onCreateAccount(final AuthRequest who, final Account account) {
-  }
-
-  @Override
-  public GroupMembership groups(final AccountState who) {
-    return groupMembershipFactory.create(who.getInternalGroups());
   }
 
   @Override

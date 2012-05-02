@@ -25,11 +25,12 @@ import java.util.Queue;
 import java.util.Set;
 
 /**
- * Creates a GroupMembership object from materialized collection of groups.
+ * Creates a GroupMembership checker for the internal group system, which
+ * starts with the seed groups and includes all child groups.
  */
-public class MaterializedGroupMembership implements GroupMembership {
+public class IncludingGroupMembership implements GroupMembership {
   public interface Factory {
-    MaterializedGroupMembership create(Iterable<AccountGroup.UUID> groupIds);
+    IncludingGroupMembership create(Iterable<AccountGroup.UUID> groupIds);
   }
 
   private final GroupIncludeCache groupIncludeCache;
@@ -37,7 +38,7 @@ public class MaterializedGroupMembership implements GroupMembership {
   private final Queue<AccountGroup.UUID> groupQueue;
 
   @Inject
-  MaterializedGroupMembership(
+  IncludingGroupMembership(
       GroupIncludeCache groupIncludeCache,
       @Assisted Iterable<AccountGroup.UUID> seedGroups) {
     this.groupIncludeCache = groupIncludeCache;

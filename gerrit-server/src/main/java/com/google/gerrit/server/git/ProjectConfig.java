@@ -18,6 +18,7 @@ import static com.google.gerrit.common.data.Permission.isPermission;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.common.data.ExtGroup;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
@@ -27,6 +28,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.common.data.RefConfigSection;
 
@@ -216,13 +218,13 @@ public class ProjectConfig extends VersionedMetaData {
   /**
    * Check all GroupReferences use current group name, repairing stale ones.
    *
-   * @param groupCache cache to use when looking up group information by UUID.
+   * @param groupBackend cache to use when looking up group information by UUID.
    * @return true if one or more group names was stale.
    */
-  public boolean updateGroupNames(GroupCache groupCache) {
+  public boolean updateGroupNames(GroupBackend groupBackend) {
     boolean dirty = false;
     for (GroupReference ref : groupsByUUID.values()) {
-      AccountGroup g = groupCache.get(ref.getUUID());
+      ExtGroup g = groupBackend.get(ref.getUUID());
       if (g != null && !g.getName().equals(ref.getName())) {
         dirty = true;
         ref.setName(g.getName());

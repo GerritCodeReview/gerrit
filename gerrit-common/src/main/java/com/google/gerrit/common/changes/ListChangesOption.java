@@ -30,7 +30,13 @@ public enum ListChangesOption {
 
   /** If a patch set is included, include the files of the patch set. */
   CURRENT_FILES(4),
-  ALL_FILES(5);
+  ALL_FILES(5),
+
+  /**
+   * If a file is included, include the comment counts per reviewer and the
+   * number of drafts
+   */
+  COMMENT_COUNTS(6);
 
   private final int value;
 

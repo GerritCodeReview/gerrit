@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.common.changes.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.common.changes.ListChangesOption.ALL_FILES;
 import static com.google.gerrit.common.changes.ListChangesOption.ALL_REVISIONS;
+import static com.google.gerrit.common.changes.ListChangesOption.COMMENT_COUNTS;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
@@ -32,6 +33,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -458,6 +460,8 @@ public class ListChanges {
         out.files = Maps.newTreeMap();
         for (PatchListEntry e : list.getPatches()) {
           if (Patch.COMMIT_MSG.equals(e.getNewName())) {
+            FileInfo d = new FileInfo();
+            out.files.put(e.getNewName(), d);
             continue;
           }
 
@@ -487,6 +491,56 @@ public class ListChanges {
             }
             if (o.linesDeleted != null) {
               d.linesDeleted = o.linesDeleted;
+            }
+          }
+        }
+
+        if (options.contains(COMMENT_COUNTS)) {
+          if (user instanceof IdentifiedUser) {
+            // If we are signed in, compute the number of draft comments by the
+            // current user on each of these patch files. This way they can more
+            // quickly locate where they have pending drafts, and review them.
+            //
+            final Account.Id me = ((IdentifiedUser) user).getAccountId();
+            for (final PatchLineComment c : db.get().patchComments().draftByPatchSetAuthor(in.getId(), me)) {
+              String fileName = c.getKey().getParentKey().getFileName();
+              CommentCounts counts = out.files.get(fileName).commentCounts;
+              if (counts == null) {
+                counts = new CommentCounts();
+                out.files.get(fileName).commentCounts = counts;
+              }
+              if (counts.drafts == null) {
+                counts.drafts = 1;
+              } else {
+                counts.drafts = counts.drafts + 1;
+              }
+            }
+          }
+          for (final PatchLineComment c : db.get().patchComments()
+              .publishedByPatchSet(in.getId())) {
+            String reviewerName;
+            AccountAttribute reviewer = asAccountAttribute(c.getAuthor());
+            if (reviewer == null || Strings.isNullOrEmpty(reviewer.name)) {
+              reviewerName = c.getAuthor().toString();
+            } else {
+              reviewerName = reviewer.name;
+            }
+
+            String fileName = c.getKey().getParentKey().getFileName();
+            CommentCounts counts = out.files.get(fileName).commentCounts;
+            if (counts == null) {
+              counts = new CommentCounts();
+              out.files.get(fileName).commentCounts = counts;
+            }
+
+            if (counts.byReviewer == null) {
+              counts.byReviewer = Maps.newHashMap();
+            }
+
+            if (counts.byReviewer.containsKey(reviewerName)) {
+              counts.byReviewer.put(reviewerName, counts.byReviewer.get(reviewerName) + 1);
+            } else {
+              counts.byReviewer.put(reviewerName, Integer.valueOf(1));
             }
           }
         }
@@ -604,6 +658,12 @@ public class ListChanges {
     String oldPath;
     Integer linesInserted;
     Integer linesDeleted;
+    CommentCounts commentCounts;
+  }
+
+  static class CommentCounts {
+    Integer drafts;
+    Map<String, Integer> byReviewer;
   }
 
   static class LabelInfo {

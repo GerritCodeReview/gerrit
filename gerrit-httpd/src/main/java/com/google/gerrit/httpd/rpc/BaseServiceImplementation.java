@@ -26,6 +26,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Provider;
 
 /** Support for services which require a {@link ReviewDb} instance. */
@@ -70,20 +71,14 @@ public class BaseServiceImplementation {
       callback.onFailure(new NoSuchEntityException());
     } catch (NoSuchGroupException e) {
       callback.onFailure(new NoSuchEntityException());
-
-    } catch (OrmException e) {
-      if (e.getCause() instanceof Failure) {
-        callback.onFailure(e.getCause().getCause());
-
-      } else if (e.getCause() instanceof CorruptEntityException) {
-        callback.onFailure(e.getCause());
-
-      } else if (e.getCause() instanceof NoSuchEntityException) {
-        callback.onFailure(e.getCause());
-
-      } else {
-        callback.onFailure(e);
+    } catch (OrmRuntimeException e) {
+      Exception ex = e;
+      if (e.getCause() instanceof OrmException) {
+        ex = (OrmException) e.getCause();
       }
+      handleOrmException(callback, ex);
+    } catch (OrmException e) {
+      handleOrmException(callback, e);
     } catch (Failure e) {
       if (e.getCause() instanceof NoSuchProjectException
           || e.getCause() instanceof NoSuchChangeException) {
@@ -92,6 +87,19 @@ public class BaseServiceImplementation {
       } else {
         callback.onFailure(e.getCause());
       }
+    }
+  }
+
+  private static <T> void handleOrmException(
+      final AsyncCallback<T> callback, Exception e) {
+    if (e.getCause() instanceof Failure) {
+      callback.onFailure(e.getCause().getCause());
+    } else if (e.getCause() instanceof CorruptEntityException) {
+      callback.onFailure(e.getCause());
+    } else if (e.getCause() instanceof NoSuchEntityException) {
+      callback.onFailure(e.getCause());
+    } else {
+      callback.onFailure(e);
     }
   }
 

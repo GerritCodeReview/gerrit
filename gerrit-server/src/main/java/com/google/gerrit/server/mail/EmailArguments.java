@@ -20,7 +20,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
 class EmailArguments {
   final GitRepositoryManager server;
   final ProjectCache projectCache;
-  final GroupCache groupCache;
+  final GroupBackend groupBackend;
   final AccountCache accountCache;
   final PatchListCache patchListCache;
   final FromAddressGenerator fromAddressGenerator;
@@ -58,7 +58,7 @@ class EmailArguments {
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
-      GroupCache groupCache, AccountCache accountCache,
+      GroupBackend groupBackend, AccountCache accountCache,
       PatchListCache patchListCache, FromAddressGenerator fromAddressGenerator,
       EmailSender emailSender, PatchSetInfoFactory patchSetInfoFactory,
       GenericFactory identifiedUserFactory,
@@ -71,7 +71,7 @@ class EmailArguments {
       RuntimeInstance velocityRuntime) {
     this.server = server;
     this.projectCache = projectCache;
-    this.groupCache = groupCache;
+    this.groupBackend = groupBackend;
     this.accountCache = accountCache;
     this.patchListCache = patchListCache;
     this.fromAddressGenerator = fromAddressGenerator;

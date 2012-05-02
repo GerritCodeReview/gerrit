@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -387,7 +388,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
   private void add(Watchers matching, NotifyConfig nc, Project.NameKey project)
       throws OrmException, QueryParseException {
     for (GroupReference ref : nc.getGroups()) {
-      AccountGroup group = args.groupCache.get(ref.getUUID());
+      AccountGroup group =
+          GroupDescriptions.toAccountGroup(args.groupBackend.get(ref.getUUID()));
       if (group == null) {
         log.warn(String.format(
             "Project %s has invalid group %s in notify section %s",

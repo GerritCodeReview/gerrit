@@ -80,7 +80,7 @@ public class Submit implements Callable<ReviewResult> {
       throw new NoSuchChangeException(changeId);
     }
 
-    List<SubmitRecord> submitResult = control.canSubmit(db, patchSetId);
+    List<SubmitRecord> submitResult = control.canSubmit(db, patch);
     if (submitResult.isEmpty()) {
       throw new IllegalStateException(
           "ChangeControl.canSubmit returned empty list");

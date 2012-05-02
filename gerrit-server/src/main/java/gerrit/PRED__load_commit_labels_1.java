@@ -44,10 +44,10 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
     try {
       PrologEnvironment env = (PrologEnvironment) engine.control;
       ReviewDb db = StoredValues.REVIEW_DB.get(engine);
-      PatchSet.Id patchSetId = StoredValues.PATCH_SET_ID.get(engine);
+      PatchSet patchSet = StoredValues.PATCH_SET.get(engine);
       ApprovalTypes types = env.getInjector().getInstance(ApprovalTypes.class);
 
-      for (PatchSetApproval a : db.patchSetApprovals().byPatchSet(patchSetId)) {
+      for (PatchSetApproval a : db.patchSetApprovals().byPatchSet(patchSet.getId())) {
         if (a.getValue() == 0) {
           continue;
         }

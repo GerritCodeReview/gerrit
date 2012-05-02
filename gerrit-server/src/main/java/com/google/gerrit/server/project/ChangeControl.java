@@ -278,34 +278,34 @@ public class ChangeControl {
     return false;
   }
 
-  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
+  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet) {
     if (change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
     }
 
-    if (!patchSetId.equals(change.currentPatchSetId())) {
-      return ruleError("Patch set " + patchSetId + " is not current");
+    if (!patchSet.getId().equals(change.currentPatchSetId())) {
+      return ruleError("Patch set " + patchSet.getPatchSetId() + " is not current");
     }
 
     try {
-      if (change.getStatus() == Change.Status.DRAFT){
+      if (change.getStatus() == Change.Status.DRAFT) {
         if (!isVisible(db)) {
-          return ruleError("Patch set " + patchSetId + " not found");
+          return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
         } else {
           return ruleError("Cannot submit draft changes");
         }
       }
-      if (isDraftPatchSet(patchSetId, db)) {
+      if (patchSet.isDraft()) {
         if (!isVisible(db)) {
-          return ruleError("Patch set " + patchSetId + " not found");
+          return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
         } else {
           return ruleError("Cannot submit draft patch sets");
         }
       }
     } catch (OrmException err) {
-      return logRuleError("Cannot read patch set " + patchSetId, err);
+      return logRuleError("Cannot read patch set " + patchSet.getId(), err);
     }
 
     List<Term> results = new ArrayList<Term>();
@@ -323,7 +323,7 @@ public class ChangeControl {
     try {
       env.set(StoredValues.REVIEW_DB, db);
       env.set(StoredValues.CHANGE, change);
-      env.set(StoredValues.PATCH_SET_ID, patchSetId);
+      env.set(StoredValues.PATCH_SET, patchSet);
       env.set(StoredValues.CHANGE_CONTROL, this);
 
       submitRule = env.once(

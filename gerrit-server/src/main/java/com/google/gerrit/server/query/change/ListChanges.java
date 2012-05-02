@@ -229,7 +229,7 @@ public class ListChanges {
       }
     }
 
-    PatchSet.Id ps = in.currentPatchSetId();
+    PatchSet ps = cd.currentPatchSet(db);
     Map<String, LabelInfo> labels = Maps.newLinkedHashMap();
     for (SubmitRecord rec : ctl.canSubmit(db.get(), ps)) {
       if (rec.labels == null) {
@@ -273,7 +273,7 @@ public class ListChanges {
       }
 
       if (approvals == null) {
-        approvals = db.get().patchSetApprovals().byPatchSet(ps).toList();
+        approvals = db.get().patchSetApprovals().byPatchSet(ps.getId()).toList();
       }
       for (PatchSetApproval psa : approvals) {
         short val = psa.getValue();

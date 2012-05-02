@@ -134,7 +134,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setCanEdit(control.getRefControl().canWrite());
 
     if (detail.getChange().getStatus().isOpen()) {
-      List<SubmitRecord> submitRecords = control.canSubmit(db, patch.getId());
+      List<SubmitRecord> submitRecords = control.canSubmit(db, patch);
       for (SubmitRecord rec : submitRecords) {
         if (rec.labels != null) {
           for (SubmitRecord.Label lbl : rec.labels) {

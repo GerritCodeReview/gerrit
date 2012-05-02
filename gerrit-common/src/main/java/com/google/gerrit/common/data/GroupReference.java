@@ -22,6 +22,9 @@ public class GroupReference implements Comparable<GroupReference> {
   public static GroupReference forGroup(AccountGroup group) {
     return new GroupReference(group.getGroupUUID(), group.getName());
   }
+  public static GroupReference forGroup(GroupDescription.Basic group) {
+    return new GroupReference(group.getGroupUUID(), group.getName());
+  }
 
   protected String uuid;
   protected String name;

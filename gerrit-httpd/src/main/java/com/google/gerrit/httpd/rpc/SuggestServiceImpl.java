@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ReviewerInfo;
@@ -21,8 +22,6 @@ import com.google.gerrit.common.data.SuggestService;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -31,7 +30,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountVisibility;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -65,7 +64,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final AccountControl.Factory accountControlFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final Config cfg;
-  private final GroupCache groupCache;
+  private final GroupBackend groupBackend;
   private final boolean suggestAccounts;
 
   @Inject
@@ -77,7 +76,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final AccountControl.Factory accountControlFactory,
       final ChangeControl.Factory changeControlFactory,
-      @GerritServerConfig final Config cfg, final GroupCache groupCache) {
+      @GerritServerConfig final Config cfg, final GroupBackend groupBackend) {
     super(schema, currentUser);
     this.reviewDbProvider = schema;
     this.accountCache = accountCache;
@@ -87,7 +86,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     this.accountControlFactory = accountControlFactory;
     this.changeControlFactory = changeControlFactory;
     this.cfg = cfg;
-    this.groupCache = groupCache;
+    this.groupBackend = groupBackend;
 
     if ("OFF".equals(cfg.getString("suggest", null, "accounts"))) {
       this.suggestAccounts = false;
@@ -177,32 +176,28 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   public void suggestAccountGroup(final String query, final int limit,
       final AsyncCallback<List<GroupReference>> callback) {
     run(callback, new Action<List<GroupReference>>() {
-      public List<GroupReference> run(final ReviewDb db) throws OrmException {
-        return suggestAccountGroup(db, query, limit);
+      public List<GroupReference> run(final ReviewDb db) {
+        return suggestAccountGroup(query, limit);
       }
     });
   }
 
-  private List<GroupReference> suggestAccountGroup(final ReviewDb db,
-      final String query, final int limit) throws OrmException {
-    final String a = query;
-    final String b = a + MAX_SUFFIX;
-    final int max = 10;
-    final int n = limit <= 0 ? max : Math.min(limit, max);
-    List<GroupReference> r = new ArrayList<GroupReference>(n);
-    for (AccountGroupName group : db.accountGroupNames().suggestByName(a, b, n)) {
+  private List<GroupReference> suggestAccountGroup(final String query, final int limit) {
+    final int n = limit <= 0 ? 10 : Math.min(limit, 10);
+    List<GroupReference> out = Lists.newArrayListWithCapacity(n);
+    for (GroupReference g : groupBackend.suggest(query)) {
       try {
-        if (groupControlFactory.controlFor(group.getId()).isVisible()) {
-          AccountGroup g = groupCache.get(group.getId());
-          if (g != null && g.getGroupUUID() != null) {
-            r.add(GroupReference.forGroup(g));
+        if (groupControlFactory.controlFor(g.getUUID()).isVisible()) {
+          out.add(g);
+          if (out.size() == n) {
+            break;
           }
         }
       } catch (NoSuchGroupException e) {
         continue;
       }
     }
-    return r;
+    return out;
   }
 
   @Override
@@ -241,7 +236,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
           reviewer.add(new ReviewerInfo(a));
         }
         final List<GroupReference> suggestedAccountGroups =
-            suggestAccountGroup(db, query, limit);
+            suggestAccountGroup(query, limit);
         for (final GroupReference g : suggestedAccountGroups) {
           if (suggestGroupAsReviewer(changeControl.getProject().getNameKey(), g)) {
             reviewer.add(new ReviewerInfo(g));

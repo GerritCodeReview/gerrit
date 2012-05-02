@@ -596,6 +596,12 @@ limitations under the License.
       </dependency>
 
       <dependency>
+        <groupId>com.google.inject.extensions</groupId>
+        <artifactId>guice-multibindings</artifactId>
+        <version>${guiceVersion}</version>
+      </dependency>
+
+      <dependency>
         <!-- required by Guice (whose POM is fake and lacks it) -->
         <groupId>aopalliance</groupId>
         <artifactId>aopalliance</artifactId>

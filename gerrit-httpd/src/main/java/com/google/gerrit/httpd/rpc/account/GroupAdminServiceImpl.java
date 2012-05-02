@@ -44,7 +44,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -179,7 +178,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -214,7 +213,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -247,7 +246,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -301,7 +300,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
+        if (groupCache.get(groupId).getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 

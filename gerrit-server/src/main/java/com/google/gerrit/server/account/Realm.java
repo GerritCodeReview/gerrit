@@ -15,10 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-
-import java.util.Set;
 
 public interface Realm {
   /** Can the end-user modify this field of their own account? */
@@ -34,8 +31,6 @@ public interface Realm {
 
   public void onCreateAccount(AuthRequest who, Account account);
 
-  public GroupMembership groups(AccountState who);
-
   /**
    * Locate an account whose local username is the given account name.
    * <p>
@@ -45,9 +40,4 @@ public interface Realm {
    * user by that email address.
    */
   public Account.Id lookup(String accountName);
-
-  /**
-   * Search for matching external groups.
-   */
-  public Set<AccountGroup.ExternalNameKey> lookupGroups(String name);
 }

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -24,9 +24,9 @@ import java.util.Collections;
 
 public class GitReceivePackGroupsProvider extends GroupSetProvider {
   @Inject
-  public GitReceivePackGroupsProvider(GroupCache gc,
+  public GitReceivePackGroupsProvider(GroupBackend gb,
       @GerritServerConfig Config config) {
-    super(gc, config, "receive", null, "allowGroup");
+    super(gb, config, "receive", null, "allowGroup");
 
     // If no group was set, default to "registered users"
     //

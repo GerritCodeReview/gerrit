@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -40,6 +41,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   private final ReviewDb db;
   private final GroupControl.Factory groupControl;
   private final GroupCache groupCache;
+  private final GroupBackend groupBackend;
   private final AccountInfoCacheFactory aic;
   private final GroupInfoCacheFactory gic;
 
@@ -49,12 +51,14 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   @Inject
   GroupDetailFactory(final ReviewDb db,
       final GroupControl.Factory groupControl, final GroupCache groupCache,
+      final GroupBackend groupBackend,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final GroupInfoCacheFactory.Factory groupInfoCacheFactory,
       @Assisted final AccountGroup.Id groupId) {
     this.db = db;
     this.groupControl = groupControl;
     this.groupCache = groupCache;
+    this.groupBackend = groupBackend;
     this.aic = accountInfoCacheFactory.create();
     this.gic = groupInfoCacheFactory.create();
 
@@ -64,10 +68,10 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
   @Override
   public GroupDetail call() throws OrmException, NoSuchGroupException {
     control = groupControl.validateFor(groupId);
-    final AccountGroup group = control.getAccountGroup();
+    final AccountGroup group = groupCache.get(groupId);
     final GroupDetail detail = new GroupDetail();
     detail.setGroup(group);
-    AccountGroup ownerGroup = groupCache.get(group.getGroupUUID());
+    GroupDescription.Basic ownerGroup = groupBackend.get(group.getGroupUUID());
     if (ownerGroup != null) {
       detail.setOwnerGroup(GroupReference.forGroup(ownerGroup));
     }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -26,7 +27,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -105,7 +107,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final ChangeControl.Factory changeControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final AccountResolver accountResolver;
-    final GroupCache groupCache;
+    final GroupBackend groupBackend;
     final ApprovalTypes approvalTypes;
     final AllProjectsName allProjectsName;
     final PatchListCache patchListCache;
@@ -119,7 +121,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         CapabilityControl.Factory capabilityControlFactory,
         ChangeControl.Factory changeControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
-        AccountResolver accountResolver, GroupCache groupCache,
+        AccountResolver accountResolver,
+        GroupBackend groupBackend,
         ApprovalTypes approvalTypes,
         AllProjectsName allProjectsName,
         PatchListCache patchListCache,
@@ -132,7 +135,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.changeControlFactory = changeControlFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.accountResolver = accountResolver;
-      this.groupCache = groupCache;
+      this.groupBackend = groupBackend;
       this.approvalTypes = approvalTypes;
       this.allProjectsName = allProjectsName;
       this.patchListCache = patchListCache;
@@ -367,18 +370,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     // If its not an account, maybe its a group?
     //
-    AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(who));
-    if (g != null) {
-      return visibleto(new SingleGroupUser(args.capabilityControlFactory,
-          g.getGroupUUID()));
-    }
-
-    Collection<AccountGroup> matches =
-        args.groupCache.get(new AccountGroup.ExternalNameKey(who));
-    if (matches != null && !matches.isEmpty()) {
+    Collection<GroupReference> suggestions = args.groupBackend.suggest(who);
+    if (!suggestions.isEmpty()) {
       HashSet<AccountGroup.UUID> ids = new HashSet<AccountGroup.UUID>();
-      for (AccountGroup group : matches) {
-        ids.add(group.getGroupUUID());
+      for (GroupReference ref : suggestions) {
+        ids.add(ref.getUUID());
       }
       return visibleto(new SingleGroupUser(args.capabilityControlFactory, ids));
     }
@@ -410,11 +406,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> ownerin(String group)
       throws QueryParseException {
-    AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(group));
+    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
     if (g == null) {
       throw error("Group " + group + " not found");
     }
-    return new OwnerinPredicate(args.dbProvider, args.userFactory, g.getGroupUUID());
+    return new OwnerinPredicate(args.dbProvider, args.userFactory, g.getUUID());
   }
 
   @Operator
@@ -431,11 +427,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   @Operator
   public Predicate<ChangeData> reviewerin(String group)
       throws QueryParseException {
-    AccountGroup g = args.groupCache.get(new AccountGroup.NameKey(group));
+    GroupReference g = GroupBackends.findBestSuggestion(args.groupBackend, group);
     if (g == null) {
       throw error("Group " + group + " not found");
     }
-    return new ReviewerinPredicate(args.dbProvider, args.userFactory, g.getGroupUUID());
+    return new ReviewerinPredicate(args.dbProvider, args.userFactory, g.getUUID());
   }
 
   @Operator

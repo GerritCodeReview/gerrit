@@ -1,5 +1,5 @@
-Gerrit Code Review - Installation Guide
-=======================================
+Gerrit Code Review - Jetty Installation Guide
+=============================================
 
 [[requirements]]
 Requirements

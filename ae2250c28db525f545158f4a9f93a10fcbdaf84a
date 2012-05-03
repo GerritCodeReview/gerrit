@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFP3///98\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T22:27:33Z",
+      "side": 1,
+      "message": "We prefer commit message styles where there is a short subject on a single line, a blank line, and then the elaboration paragraphs.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFP3///94\u003d",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T22:27:33Z",
+      "side": 1,
+      "message": "This isn\u0027t really installation into Jetty the way the Tomcat guide is into Tomcat. Its more how to install using the stand alone daemon.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFQH///90\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T22:27:33Z",
+      "side": 1,
+      "message": "\"the Gerrit\" is an awkward turn of phrase. Gerrit is a proper name so doesn\u0027t need \"the\" in front of it.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFP3///9s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T22:27:33Z",
+      "side": 1,
+      "message": "For links use link:http:// to make this automatically linked in the documentation.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFQX///8U\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T22:27:33Z",
+      "side": 1,
+      "message": "please clean up trailing spaces",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFP3///9o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T22:27:33Z",
+      "side": 1,
+      "message": "user or usr?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFQX///7w\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T22:27:33Z",
+      "side": 1,
+      "message": "Commands to be typed should use \u003d\u003d\u003d\u003d as the block format, while \"screenshot\" text uses ----.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFQX///8Q\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T22:27:33Z",
+      "side": 1,
+      "message": "Standalone Daemon?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

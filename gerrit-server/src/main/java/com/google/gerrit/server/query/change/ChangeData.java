@@ -222,6 +222,9 @@ public class ChangeData {
         currentApprovals = Collections.emptyList();
       } else if (approvals != null) {
         currentApprovals = approvalsMap(db).get(c.currentPatchSetId());
+        if (currentApprovals == null) {
+          currentApprovals = Collections.emptyList();
+        }
       } else {
         currentApprovals = db.get().patchSetApprovals()
             .byPatchSet(c.currentPatchSetId()).toList();

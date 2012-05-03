@@ -255,6 +255,11 @@ class LdapRealm implements Realm {
   }
 
   @Override
+  public AuthRequest unlink(ReviewDb db, Account.Id from, AuthRequest who) {
+    return who;
+  }
+
+  @Override
   public void onCreateAccount(final AuthRequest who, final Account account) {
     usernameCache.put(who.getLocalUser(), account.getId());
   }

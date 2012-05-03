@@ -32,6 +32,8 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /** Create a new project. **/
@@ -79,7 +81,8 @@ final class CreateProjectCommand extends BaseCommand {
 
   @Option(name = "--branch", aliases = {"-b"}, metaVar = "BRANCH", usage = "initial branch name\n"
       + "(default: master)")
-  private String branch = Constants.MASTER;
+  // TOASK what is the best way to create modifiable list?
+  private List<String> branch = new ArrayList<String>(Collections.singletonList(Constants.MASTER));
 
   @Option(name = "--empty-commit", usage = "to create initial empty commit")
   private boolean createEmptyCommit;

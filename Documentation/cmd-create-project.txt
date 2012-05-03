@@ -19,7 +19,7 @@ SYNOPSIS
   [--use-signed-off-by | --so]
   [--use-content-merge]
   [--require-change-id | --id]
-  [--branch <REF> | -b <REF>]
+  [--branch <REF> ... | -b <REF> ...]
   [--empty-commit]
   { <NAME> | --name <NAME> }
 
@@ -59,7 +59,8 @@ OPTIONS
 
 --branch::
 -b::
-	Name of the initial branch in the newly created project.
+	Name of the initial branch(es) in the newly created project.
+	Several branches can be specified on the command line.
 	Defaults to 'master'.
 
 --owner::

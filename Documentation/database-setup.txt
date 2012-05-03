@@ -1,0 +1,63 @@
+[[createdb]]
+Database Setup
+--------------
+
+[[createdb_h2]]
+H2
+~~
+
+During the init phase of Gerrit you will need to specify which database to use.
+If you choose H2, Gerrit will automatically set up the embedded H2 database as
+backend so no set up in advance is necessary.  Also, no additional configuration is
+necessary.  Using the embedded H2 database is the easiest way to get a Gerrit
+site up and running, making it ideal for proof of concepts or small team
+servers.  On the flip side, H2 is not the recommended option for large
+corporate installations. This is because there is no easy way to interact
+with the database while Gerrit is offline, it's not easy to backup the data,
+and it's not possible to set up H2 in a load balanced/hotswap configuration.
+
+
+If this option interests you, you might want to consider link:install-quick.html[the quick guide].
+
+[[createdb_postgres]]
+PostgreSQL
+~~~~~~~~~~
+
+This option is more complicated than the H2 option but is recommended
+for larger installations. It's the database backend with the largest userbase
+in the Gerrit community.
+
+Create a user for the web application within Postgres, assign it a
+password, create a database to store the metadata, and grant the user
+full rights on the newly created database:
+
+----
+  $ createuser --username=postgres -A -D -P -E gerrit2
+  $ createdb --username=postgres -E UTF-8 -O gerrit2 reviewdb
+----
+
+Visit PostgreSQL's link:http://www.postgresql.org/docs/9.1/interactive/index.html[documentation] for further information regarding
+using PostgreSQL.
+
+[[createdb_mysql]]
+MySQL
+~~~~~
+
+This option is also more complicated than the H2 option. Just as with
+PostgreSQL it's also recommended for larger installations.
+
+Create a user for the web application within the database, assign it a
+password, create a database, and give the newly created user full
+rights on it:
+
+----
+  mysql
+
+  CREATE USER 'gerrit2'@'localhost' IDENTIFIED BY 'secret';
+  CREATE DATABASE reviewdb;
+  ALTER DATABASE reviewdb charset=latin1;
+  GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
+  FLUSH PRIVILEGES;
+----
+
+Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further information using MySQL.

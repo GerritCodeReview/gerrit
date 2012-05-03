@@ -73,7 +73,7 @@ final class Replicate extends BaseCommand {
 
   private void schedule() throws Failure {
     if (all && projectNames.size() > 0) {
-      throw new Failure(1, "error: cannot combine --all and PROJECT");
+      throw new UnloggedFailure(1, "error: cannot combine --all and PROJECT");
     }
 
     if (!replication.isEnabled()) {
@@ -89,7 +89,7 @@ final class Replicate extends BaseCommand {
         if (projectCache.get(key) != null) {
           replication.scheduleFullSync(key, urlMatch);
         } else {
-          throw new Failure(1, "error: '" + name + "': not a Gerrit project");
+          throw new UnloggedFailure(1, "error: '" + name + "': not a Gerrit project");
         }
       }
     }

@@ -279,7 +279,7 @@ public class QueryProcessor {
             if (current != null) {
               c.currentPatchSet = eventFactory.asPatchSetAttribute(current);
               eventFactory.addApprovals(c.currentPatchSet, //
-                  d.approvalsFor(db, current.getId()));
+                  d.currentApprovals(db));
 
               if (includeFiles) {
                 eventFactory.addPatchSetFileNames(c.currentPatchSet,

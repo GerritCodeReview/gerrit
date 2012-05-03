@@ -26,10 +26,11 @@ import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
 import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -48,6 +49,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.annotation.Nullable;
 
 
 /** Access control management for a user accessing a single change. */
@@ -161,7 +164,7 @@ public class ChangeControl {
 
   /** Can this user see this change? */
   public boolean isVisible(ReviewDb db) throws OrmException {
-    if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db)) {
+    if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db, null)) {
       return false;
     }
     return isRefVisible();
@@ -174,7 +177,7 @@ public class ChangeControl {
 
   /** Can this user see the given patchset? */
   public boolean isPatchVisible(PatchSet ps, ReviewDb db) throws OrmException {
-    if (ps.isDraft() && !isDraftVisible(db)) {
+    if (ps.isDraft() && !isDraftVisible(db, null)) {
       return false;
     }
     return isVisible(db);
@@ -235,10 +238,20 @@ public class ChangeControl {
 
   /** Is this user a reviewer for the change? */
   public boolean isReviewer(ReviewDb db) throws OrmException {
+    return isReviewer(db, null);
+  }
+
+  /** Is this user a reviewer for the change? */
+  public boolean isReviewer(ReviewDb db, @Nullable ChangeData cd)
+      throws OrmException {
     if (getCurrentUser() instanceof IdentifiedUser) {
       final IdentifiedUser user = (IdentifiedUser) getCurrentUser();
-      ResultSet<PatchSetApproval> results =
-        db.patchSetApprovals().byChange(change.getId());
+      Iterable<PatchSetApproval> results;
+      if (cd != null) {
+        results = cd.currentApprovals(Providers.of(db));
+      } else {
+        results = db.patchSetApprovals().byChange(change.getId());
+      }
       for (PatchSetApproval approval : results) {
         if (user.getAccountId().equals(approval.getAccountId())) {
           return true;
@@ -278,34 +291,39 @@ public class ChangeControl {
     return false;
   }
 
-  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet.Id patchSetId) {
+  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet) {
+    return canSubmit(db, patchSet, null, false);
+  }
+
+  public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
+      @Nullable ChangeData cd, boolean fastEvalLabels) {
     if (change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
     }
 
-    if (!patchSetId.equals(change.currentPatchSetId())) {
-      return ruleError("Patch set " + patchSetId + " is not current");
+    if (!patchSet.getId().equals(change.currentPatchSetId())) {
+      return ruleError("Patch set " + patchSet.getPatchSetId() + " is not current");
     }
 
     try {
-      if (change.getStatus() == Change.Status.DRAFT){
-        if (!isVisible(db)) {
-          return ruleError("Patch set " + patchSetId + " not found");
+      if (change.getStatus() == Change.Status.DRAFT) {
+        if (!isDraftVisible(db, cd)) {
+          return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
         } else {
           return ruleError("Cannot submit draft changes");
         }
       }
-      if (isDraftPatchSet(patchSetId, db)) {
-        if (!isVisible(db)) {
-          return ruleError("Patch set " + patchSetId + " not found");
+      if (patchSet.isDraft()) {
+        if (!isDraftVisible(db, cd)) {
+          return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
         } else {
           return ruleError("Cannot submit draft patch sets");
         }
       }
     } catch (OrmException err) {
-      return logRuleError("Cannot read patch set " + patchSetId, err);
+      return logRuleError("Cannot read patch set " + patchSet.getId(), err);
     }
 
     List<Term> results = new ArrayList<Term>();
@@ -323,7 +341,8 @@ public class ChangeControl {
     try {
       env.set(StoredValues.REVIEW_DB, db);
       env.set(StoredValues.CHANGE, change);
-      env.set(StoredValues.PATCH_SET_ID, patchSetId);
+      env.set(StoredValues.CHANGE_DATA, cd);
+      env.set(StoredValues.PATCH_SET, patchSet);
       env.set(StoredValues.CHANGE_CONTROL, this);
 
       submitRule = env.once(
@@ -332,6 +351,10 @@ public class ChangeControl {
       if (submitRule == null) {
         return logRuleError("No user:submit_rule found for "
             + getProject().getName());
+      }
+
+      if (fastEvalLabels) {
+        env.once("gerrit", "assume_range_from_label");
       }
 
       try {
@@ -372,6 +395,10 @@ public class ChangeControl {
             parentEnv.once("gerrit", "locate_submit_filter", new VariableTerm());
         if (filterRule != null) {
           try {
+            if (fastEvalLabels) {
+              env.once("gerrit", "assume_range_from_label");
+            }
+
             Term resultsTerm = toListTerm(results);
             results.clear();
             Term[] template = parentEnv.once(
@@ -515,16 +542,9 @@ public class ChangeControl {
     }
   }
 
-  private boolean isDraftVisible(ReviewDb db) throws OrmException {
-    return isOwner() || isReviewer(db);
-  }
-
-  private boolean isDraftPatchSet(PatchSet.Id id, ReviewDb db) throws OrmException {
-    PatchSet ps = db.patchSets().get(id);
-    if (ps == null) {
-      throw new OrmException("Patch set " + id + " not found");
-    }
-    return ps.isDraft();
+  private boolean isDraftVisible(ReviewDb db, ChangeData cd)
+      throws OrmException {
+    return isOwner() || isReviewer(db, cd);
   }
 
   private static boolean isUser(Term who) {

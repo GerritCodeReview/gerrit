@@ -27,8 +27,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.events.AccountAttribute;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -43,6 +41,7 @@ import org.kohsuke.args4j.Option;
 import java.io.IOException;
 import java.io.Writer;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +49,6 @@ import java.util.Map;
 public class ListChanges {
   private final QueryProcessor imp;
   private final Provider<ReviewDb> db;
-  private final AccountCache accountCache;
   private final ApprovalTypes approvalTypes;
   private final CurrentUser user;
   private final ChangeControl.Factory changeControlFactory;
@@ -88,13 +86,11 @@ public class ListChanges {
   @Inject
   ListChanges(QueryProcessor qp,
       Provider<ReviewDb> db,
-      AccountCache ac,
       ApprovalTypes at,
       CurrentUser u,
       ChangeControl.Factory cf) {
     this.imp = qp;
     this.db = db;
-    this.accountCache = ac;
     this.approvalTypes = at;
     this.user = u;
     this.changeControlFactory = cf;
@@ -135,6 +131,9 @@ public class ListChanges {
           changes = changes.subList(0, imp.getLimit());
         }
       }
+      ChangeData.ensureChangeLoaded(db, changes);
+      ChangeData.ensureCurrentPatchSetLoaded(db, changes);
+      ChangeData.ensureCurrentApprovalsLoaded(db, changes);
 
       List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
       for (ChangeData cd : changes) {
@@ -148,6 +147,13 @@ public class ListChanges {
         }
       }
       res.add(info);
+    }
+
+    if (!accounts.isEmpty()) {
+      for (Account account : db.get().accounts().get(accounts.keySet())) {
+        AccountAttribute a = accounts.get(account.getId());
+        a.name = Strings.emptyToNull(account.getFullName());
+      }
     }
 
     if (format.isJson()) {
@@ -199,22 +205,11 @@ public class ListChanges {
   }
 
   private AccountAttribute asAccountAttribute(Account.Id user) {
-    if (user == null) {
-      return null;
-    } else if (accounts.containsKey(user)) {
-      return accounts.get(user);
+    AccountAttribute a = accounts.get(user);
+    if (a == null) {
+      a = new AccountAttribute();
+      accounts.put(user, a);
     }
-
-    AccountState state = accountCache.get(user);
-    String name = state.getAccount().getFullName();
-    if (Strings.isNullOrEmpty(name)) {
-      accounts.put(user, null);
-      return null;
-    }
-
-    AccountAttribute a = new AccountAttribute();
-    a.name = name;
-    accounts.put(user, a);
     return a;
   }
 
@@ -229,9 +224,9 @@ public class ListChanges {
       }
     }
 
-    PatchSet.Id ps = in.currentPatchSetId();
+    PatchSet ps = cd.currentPatchSet(db);
     Map<String, LabelInfo> labels = Maps.newLinkedHashMap();
-    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps)) {
+    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true)) {
       if (rec.labels == null) {
         continue;
       }
@@ -253,7 +248,7 @@ public class ListChanges {
       }
     }
 
-    List<PatchSetApproval> approvals = null;
+    Collection<PatchSetApproval> approvals = null;
     for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
       if (e.getValue().approved != null || e.getValue().rejected != null) {
         continue;
@@ -273,7 +268,7 @@ public class ListChanges {
       }
 
       if (approvals == null) {
-        approvals = db.get().patchSetApprovals().byPatchSet(ps).toList();
+        approvals = cd.currentApprovals(db);
       }
       for (PatchSetApproval psa : approvals) {
         short val = psa.getValue();

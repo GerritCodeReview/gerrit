@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -29,6 +28,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -68,31 +68,39 @@ public class PatchSetInfoFactory {
   }
 
   public PatchSetInfo get(ReviewDb db, PatchSet.Id patchSetId)
-    throws PatchSetInfoNotAvailableException {
-    Repository repo = null;
+      throws PatchSetInfoNotAvailableException {
     try {
       final PatchSet patchSet = db.patchSets().get(patchSetId);
       final Change change = db.changes().get(patchSet.getId().getParentKey());
-      final Project.NameKey projectKey = change.getProject();
-      repo = repoManager.openRepository(projectKey);
+      return get(change, patchSet);
+    } catch (OrmException e) {
+      throw new PatchSetInfoNotAvailableException(e);
+    }
+  }
+
+  public PatchSetInfo get(Change change, PatchSet patchSet)
+      throws PatchSetInfoNotAvailableException {
+    Repository repo;
+    try {
+      repo = repoManager.openRepository(change.getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new PatchSetInfoNotAvailableException(e);
+    }
+    try {
       final RevWalk rw = new RevWalk(repo);
       try {
         final RevCommit src =
             rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
-        PatchSetInfo info = get(src, patchSetId);
+        PatchSetInfo info = get(src, patchSet.getId());
         info.setParents(toParentInfos(src.getParents(), rw));
         return info;
       } finally {
         rw.release();
       }
-    } catch (OrmException e) {
-      throw new PatchSetInfoNotAvailableException(e);
     } catch (IOException e) {
       throw new PatchSetInfoNotAvailableException(e);
     } finally {
-      if (repo != null) {
-        repo.close();
-      }
+      repo.close();
     }
   }
 

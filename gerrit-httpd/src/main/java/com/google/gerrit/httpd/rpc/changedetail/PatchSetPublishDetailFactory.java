@@ -83,7 +83,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
-    patchSetInfo = infoFactory.get(db, patchSetId);
+    PatchSet patchSet = db.patchSets().get(patchSetId);
+    patchSetInfo = infoFactory.get(change, patchSet);
     drafts = db.patchComments().draftByPatchSetAuthor(patchSetId, user.getAccountId()).toList();
 
     aic.want(change.getOwner());
@@ -119,7 +120,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
           .toList();
 
       boolean couldSubmit = false;
-      List<SubmitRecord> submitRecords = control.canSubmit(db, patchSetId);
+      List<SubmitRecord> submitRecords = control.canSubmit(db, patchSet);
       for (SubmitRecord rec : submitRecords) {
         if (rec.status == SubmitRecord.Status.OK) {
           couldSubmit = true;

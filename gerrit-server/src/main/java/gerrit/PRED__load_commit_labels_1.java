@@ -9,7 +9,9 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
+import com.google.inject.util.Providers;
 
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.JavaException;
@@ -44,10 +46,18 @@ class PRED__load_commit_labels_1 extends Predicate.P1 {
     try {
       PrologEnvironment env = (PrologEnvironment) engine.control;
       ReviewDb db = StoredValues.REVIEW_DB.get(engine);
-      PatchSet.Id patchSetId = StoredValues.PATCH_SET_ID.get(engine);
+      PatchSet patchSet = StoredValues.PATCH_SET.get(engine);
+      ChangeData cd = StoredValues.CHANGE_DATA.getOrNull(engine);
       ApprovalTypes types = env.getInjector().getInstance(ApprovalTypes.class);
 
-      for (PatchSetApproval a : db.patchSetApprovals().byPatchSet(patchSetId)) {
+      Iterable<PatchSetApproval> approvals;
+      if (cd != null) {
+        approvals = cd.currentApprovals(Providers.of(db));
+      } else {
+        approvals = db.patchSetApprovals().byPatchSet(patchSet.getId());
+      }
+
+      for (PatchSetApproval a : approvals) {
         if (a.getValue() == 0) {
           continue;
         }

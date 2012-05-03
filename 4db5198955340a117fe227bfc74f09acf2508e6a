@@ -16,6 +16,24 @@
       "revId": "4db5198955340a117fe227bfc74f09acf2508e6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFK3///p4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-03T05:14:09Z",
+      "side": 1,
+      "message": "Ah ok, I get it, never mind.",
+      "parentUuid": "AAAFLH///vI\u003d",
+      "revId": "4db5198955340a117fe227bfc74f09acf2508e6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

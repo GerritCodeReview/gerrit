@@ -302,7 +302,7 @@ if test -z "$GERRIT_WAR" -a -n "$GERRIT_USER" ; then
   done
 fi
 if test -z "$GERRIT_WAR" ; then
-  echo >&2 "** ERROR: Cannot find gerrit.war (try setting gerrit.war)"
+  echo >&2 "** ERROR: Cannot find gerrit.war (try setting \$GERRIT_WAR)"
   exit 1
 fi
 

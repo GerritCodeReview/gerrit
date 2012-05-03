@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.TrackingId;
@@ -221,7 +222,12 @@ public class ChangeData {
       if (c == null) {
         currentApprovals = Collections.emptyList();
       } else if (approvals != null) {
-        currentApprovals = approvalsMap(db).get(c.currentPatchSetId());
+        Map<Id, Collection<PatchSetApproval>> map = approvalsMap(db);
+        currentApprovals = map.get(c.currentPatchSetId());
+        if (currentApprovals == null) {
+          currentApprovals = Collections.emptyList();
+          map.put(c.currentPatchSetId(), currentApprovals);
+        }
       } else {
         currentApprovals = db.get().patchSetApprovals()
             .byPatchSet(c.currentPatchSetId()).toList();

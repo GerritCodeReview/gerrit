@@ -51,6 +51,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 
@@ -101,7 +103,7 @@ public class CreateProject {
     try {
       final String head =
           createProjectArgs.permissionsOnly ? GitRepositoryManager.REF_CONFIG
-              : createProjectArgs.branch;
+              : createProjectArgs.branch.get(0);
       final Repository repo = repoManager.createRepository(nameKey);
       try {
         NewProjectCreatedListener.Event event = new NewProjectCreatedListener.Event() {
@@ -127,7 +129,7 @@ public class CreateProject {
 
         if (!createProjectArgs.permissionsOnly
             && createProjectArgs.createEmptyCommit) {
-          createEmptyCommit(repo, nameKey, createProjectArgs.branch);
+          createEmptyCommits(repo, nameKey, createProjectArgs.branch);
         }
       } finally {
         repo.close();
@@ -235,20 +237,32 @@ public class CreateProject {
           new ArrayList<AccountGroup.UUID>(projectOwnerGroups);
     }
 
-    while (createProjectArgs.branch.startsWith("/")) {
-      createProjectArgs.branch = createProjectArgs.branch.substring(1);
+    List<String> transformedBranches = new ArrayList<String>();
+    if (createProjectArgs.branch == null ||
+        createProjectArgs.branch.isEmpty()) {
+      createProjectArgs.branch = Collections.singletonList(Constants.MASTER);
     }
-    if (!createProjectArgs.branch.startsWith(Constants.R_HEADS)) {
-      createProjectArgs.branch = Constants.R_HEADS + createProjectArgs.branch;
+    for (String branch : createProjectArgs.branch) {
+      while (branch.startsWith("/")) {
+        branch = branch.substring(1);
+      }
+      if (!branch.startsWith(Constants.R_HEADS)) {
+        branch = Constants.R_HEADS + branch;
+      }
+      if (!Repository.isValidRefName(branch)) {
+        throw new ProjectCreationFailedException(String.format(
+            "Branch \"%s\" is not a valid name.", branch));
+      }
+      if (!transformedBranches.contains(branch)) {
+        transformedBranches.add(branch);
+      }
     }
-    if (!Repository.isValidRefName(createProjectArgs.branch)) {
-      throw new ProjectCreationFailedException(String.format(
-          "Branch \"%s\" is not a valid name.", createProjectArgs.branch));
-    }
+    createProjectArgs.branch = transformedBranches;
   }
 
-  private void createEmptyCommit(final Repository repo,
-      final Project.NameKey project, final String ref) throws IOException {
+  private void createEmptyCommits(final Repository repo,
+      final Project.NameKey project, final List<String> refs)
+      throws IOException {
     ObjectInserter oi = repo.newObjectInserter();
     try {
       CommitBuilder cb = new CommitBuilder();
@@ -260,15 +274,18 @@ public class CreateProject {
       ObjectId id = oi.insert(cb);
       oi.flush();
 
-      RefUpdate ru = repo.updateRef(Constants.HEAD);
-      ru.setNewObjectId(id);
-      final Result result = ru.update();
-      switch (result) {
-        case NEW:
-          referenceUpdated.fire(project, ref);
-          break;
-        default: {
-          throw new IOException(result.name());
+      for (String ref : refs) {
+        RefUpdate ru = repo.updateRef(ref);
+        ru.setNewObjectId(id);
+        final Result result = ru.update();
+        switch (result) {
+          case NEW:
+            referenceUpdated.fire(project, ref);
+            break;
+          default: {
+            throw new IOException(String.format(
+              "Failed to create ref \"%s\": %s", ref, result.name()));
+          }
         }
       }
     } catch (IOException e) {

@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,15 +14,10 @@
 
 package com.google.gerrit.server.git;
 
-/** Indicates the current branch's queue cannot be processed at this time. */
-public class MergeException extends Exception {
+public class IncompleteUserInfoException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  MergeException(final String msg) {
-    super(msg, null);
-  }
-
-  MergeException(final String msg, final Throwable why) {
-    super(msg, why);
+  public IncompleteUserInfoException(final String userName, final String missingInfo) {
+    super("For the user \"" + userName + "\" " + missingInfo + " is not set.");
   }
 }

@@ -36,6 +36,7 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.sshd.args4j.AccountGroupIdHandler;
 import com.google.gerrit.sshd.args4j.AccountGroupUUIDHandler;
 import com.google.gerrit.sshd.args4j.AccountIdHandler;
+import com.google.gerrit.sshd.args4j.ObjectIdHandler;
 import com.google.gerrit.sshd.args4j.PatchSetIdHandler;
 import com.google.gerrit.sshd.args4j.ProjectControlHandler;
 import com.google.gerrit.sshd.args4j.SocketAddressHandler;
@@ -48,6 +49,7 @@ import com.google.inject.servlet.RequestScoped;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PublickeyAuthenticator;
+import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.spi.OptionHandler;
 
 import java.net.SocketAddress;
@@ -118,6 +120,7 @@ public class SshModule extends FactoryModule {
     registerOptionHandler(Account.Id.class, AccountIdHandler.class);
     registerOptionHandler(AccountGroup.Id.class, AccountGroupIdHandler.class);
     registerOptionHandler(AccountGroup.UUID.class, AccountGroupUUIDHandler.class);
+    registerOptionHandler(ObjectId.class, ObjectIdHandler.class);
     registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
     registerOptionHandler(ProjectControl.class, ProjectControlHandler.class);
     registerOptionHandler(SocketAddress.class, SocketAddressHandler.class);

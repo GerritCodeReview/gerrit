@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFP3///9c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T22:42:22Z",
+      "side": 1,
+      "message": "Please drop the [DRAFT] keyword.",
+      "revId": "bdea615bc2ed5e87570159f19f7b950604a9a5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

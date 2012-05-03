@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMn////E\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///+E\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFAH////A\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-25T15:48:31Z",
       "side": 1,
       "message": "Nit: preference\n\nActually, for clarity I suggest this instead:\n* Add user preference to mark files reviewed automatically or manually",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFN3////8\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFAH////A\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMn///+8\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFB3////8\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///+A\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMn///+4\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///+A\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFB3////4\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2012-04-25T15:48:31Z",
       "side": 1,
       "message": "Nit: s/SOP/Shawn Pearce/\n\nI know he\u0027s a profile that this project will never forget, and that his short name is well known, but still.",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFN3////4\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFB3////4\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +212,42 @@
     },
     {
       "key": {
+        "uuid": "AAAFN3////w\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///98\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFN3////0\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "I left only the first paragraph of this commit message.",
+      "parentUuid": "AAAFB3////0\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///94\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -133,6 +259,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "Kill this paragraph.",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMn///+0\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///94\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX///+g\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9w\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///90\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -167,6 +329,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "Kill paragraph",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX///+c\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///90\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -190,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFN3////s\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9s\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///9o\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -201,6 +399,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "Kill entry (uninteresting Internal code change)",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFN3////o\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9o\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -224,6 +440,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX///9w\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9k\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///9g\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -235,6 +469,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "I would keep only this headline",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFN3////k\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9g\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -258,6 +510,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMn///+w\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9c\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFAH////I\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -269,6 +539,24 @@
       "writtenOn": "2012-04-25T15:48:31Z",
       "side": 1,
       "message": "nit: instead",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMn///+s\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done. Actually removed the complete entry.",
+      "parentUuid": "AAAFAH////I\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -292,6 +580,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFN3////g\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9Y\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///9U\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -303,6 +609,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "Internal, kill?",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFN3////Y\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9U\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -326,6 +650,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMn///+o\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9Q\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///9M\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -337,6 +679,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "Internal kill?",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX///+Y\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9M\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -360,6 +720,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFN3////c\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9I\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///9E\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -371,6 +749,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "Kill entry?",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFN3////U\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9E\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -394,6 +790,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX///+U\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///9A\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///88\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -405,6 +819,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "Kill entry?",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX///+Q\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Removed the whole Command Line Interface section.",
+      "parentUuid": "AAAFCn///88\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -428,6 +860,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFN3////Q\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///84\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///80\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -439,6 +889,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "I think this was a fix for the change 2 above, kill?",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX///+M\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///80\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -462,6 +930,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFN3////M\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///8w\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///8s\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -473,6 +959,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "Kill",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFN3////I\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///8s\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -496,6 +1000,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX///+I\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///8o\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///8k\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -507,6 +1029,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "s/don\u0027t/doesn\u0027t/",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX///+E\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///8k\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -530,6 +1070,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMX///+A\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///8g\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///8c\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -541,6 +1099,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "Fix for change introduced in this release?",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX///98\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "good catch. Done",
+      "parentUuid": "AAAFCn///8c\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -564,6 +1140,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFN3////E\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///8Y\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///8U\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -575,6 +1169,24 @@
       "writtenOn": "2012-04-26T02:37:09Z",
       "side": 1,
       "message": "Same",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX///94\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///8U\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -598,6 +1210,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFMn///+g\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///8Q\u003d",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFAH////E\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
         "patchSetId": 1
@@ -609,6 +1239,24 @@
       "writtenOn": "2012-04-25T15:48:31Z",
       "side": 1,
       "message": "What types values, and where?",
+      "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFMX///90\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-03T14:10:42Z",
+      "side": 1,
+      "message": "Removed the paragraph",
+      "parentUuid": "AAAFAH////E\u003d",
       "revId": "379060174c51a68d9257a0804db7b13c9bbc7706",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

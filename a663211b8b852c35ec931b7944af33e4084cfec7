@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFQH////4\u003d",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T20:39:27Z",
+      "side": 1,
+      "message": "Please use a tab for indentation here.",
+      "revId": "a663211b8b852c35ec931b7944af33e4084cfec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFQH////0\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/InteractiveShell.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T20:39:27Z",
+      "side": 1,
+      "message": "Please use the generic AOSP copyright header used in other source files.",
+      "revId": "a663211b8b852c35ec931b7944af33e4084cfec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFQX////8\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T20:39:27Z",
+      "side": 1,
+      "message": "Please use the generic AOSP copyright header used in other source files.",
+      "revId": "a663211b8b852c35ec931b7944af33e4084cfec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFP3////w\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/shell/JythonShell.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T20:39:27Z",
+      "side": 1,
+      "message": "nit: we prefer blank lines between all method declarations, even for small utilities like these.",
+      "revId": "a663211b8b852c35ec931b7944af33e4084cfec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFP3////0\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/Startup.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-03T20:39:27Z",
+      "side": 1,
+      "message": "Please use the generic AOSP copyright header used in other source files.",
+      "revId": "a663211b8b852c35ec931b7944af33e4084cfec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

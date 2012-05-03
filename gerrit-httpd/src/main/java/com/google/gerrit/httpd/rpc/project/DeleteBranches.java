@@ -18,11 +18,13 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -34,6 +36,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 class DeleteBranches extends Handler<Set<Branch.NameKey>> {
@@ -50,6 +53,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   private final ReplicationQueue replication;
   private final IdentifiedUser identifiedUser;
   private final ChangeHooks hooks;
+  private final ReviewDb db;
 
   private final Project.NameKey projectName;
   private final Set<Branch.NameKey> toRemove;
@@ -60,6 +64,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
       final ReplicationQueue replication,
       final IdentifiedUser identifiedUser,
       final ChangeHooks hooks,
+      final ReviewDb db,
 
       @Assisted Project.NameKey name, @Assisted Set<Branch.NameKey> toRemove) {
     this.projectControlFactory = projectControlFactory;
@@ -67,6 +72,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
     this.replication = replication;
     this.identifiedUser = identifiedUser;
     this.hooks = hooks;
+    this.db = db;
 
     this.projectName = name;
     this.toRemove = toRemove;
@@ -74,16 +80,22 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
 
   @Override
   public Set<Branch.NameKey> call() throws NoSuchProjectException,
-      RepositoryNotFoundException {
+      RepositoryNotFoundException, OrmException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 
-    for (Branch.NameKey k : toRemove) {
+    final Iterator<Branch.NameKey> branchIt = toRemove.iterator();
+    while (branchIt.hasNext()) {
+      final Branch.NameKey k = branchIt.next();
       if (!projectName.equals(k.getParentKey())) {
         throw new IllegalArgumentException("All keys must be from same project");
       }
       if (!projectControl.controlForRef(k).canDelete()) {
         throw new IllegalStateException("Cannot delete " + k.getShortName());
+      }
+
+      if (db.changes().byBranchOpenAll(k).iterator().hasNext()) {
+        branchIt.remove();
       }
     }
 

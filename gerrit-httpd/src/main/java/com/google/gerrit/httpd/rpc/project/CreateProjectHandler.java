@@ -28,6 +28,8 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.lib.Constants;
 
+import java.util.Collections;
+
 public class CreateProjectHandler extends Handler<VoidResult> {
 
   interface Factory {
@@ -74,7 +76,7 @@ public class CreateProjectHandler extends Handler<VoidResult> {
     }
     args.projectDescription = "";
     args.submitType = SubmitType.MERGE_IF_NECESSARY;
-    args.branch = Constants.MASTER;
+    args.branch = Collections.singletonList(Constants.MASTER);
     args.createEmptyCommit = emptyCommit;
     args.permissionsOnly = permissionsOnly;
 

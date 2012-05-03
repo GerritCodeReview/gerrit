@@ -1,0 +1,24 @@
+<Context path="" docBase="/amcc/usr/local/confluence" debug="0" reloadable="false">
+
+<!--  
+    JNDI Settings for setting up mail.
+    http://tomcat.apache.org/tomcat-7.0-doc/jndi-resources-howto.html#JavaMail_Sessions
+
+    <Resource name="mail/Session" auth="Container" type="javax.mail.Session"
+	      mail.smtp.host="smtp.corporation.com"
+	      mail.smtp.port="465"
+	      mail.smtp.auth="true"
+	      mail.smtp.user="build@corporation.com"
+	      password="secret"
+	      mail.smtp.ssl.enable="true"
+	      mail.smtp.starttls.enable="false"
+	      mail.smtp.socketFactory.class="javax.net.ssl.SSLSocketFactory"/>
+-->
+
+    <Resource name="jdbc/ReviewDb"
+              type="javax.sql.DataSource"
+              username="gerrit2"
+              driverClassName="org.postgresql.Driver"
+              password="secret"
+              url="dbc:postgresql://yourPsqlServer:5432/reviewdb" />
+</Context>

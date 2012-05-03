@@ -1,5 +1,5 @@
-Gerrit Code Review - Installation Guide
-=======================================
+Gerrit Code Review - Standalone Daemon Installation Guide
+=========================================================
 
 [[requirements]]
 Requirements

@@ -4,3 +4,5 @@
 /.settings/org.eclipse.jdt.core.prefs
 /.settings/org.maven.ide.eclipse.prefs
 /test_site
+/.idea
+/gerrit-parent.iml

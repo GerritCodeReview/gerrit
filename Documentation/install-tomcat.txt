@@ -32,31 +32,31 @@ Linux
 
 Create the following directory layout to support Gerrit:
 
-* /user/local/gerrit - Gerrit base directory
-* /user/local/gerrit/tomcat - Tomcat Servlet Container, if not using package manager to deploy.
-* /user/local/gerrit/gerrit-X.X - Gerrit war deployment
+* /usr/local/gerrit - Gerrit base directory
+* /usr/local/gerrit/tomcat - Tomcat Servlet Container, if not using package manager to deploy.
+* /usr/local/gerrit/gerrit-X.X - Gerrit war deployment
 * /var/data/gerrit - Gerrit configuration and cache
 
 Install http://tomcat.apache.org/download-60.cgi[tomcat] to:
 
 ----
-/user/local/gerrit/tomcat
+/usr/local/gerrit/tomcat
 ----
 
 Create a user and group for Gerrit:
 
 ----
   $ groupadd gerrit
-  $ useradd -s /sbin/nologin -g tomcat -d /user/local/gerrit gerrit
+  $ useradd -s /sbin/nologin -g tomcat -d /usr/local/gerrit gerrit
   $ passwd gerrit
 ----
 
 Adjust Ownership For New Users And Groups
 
 ----
-  # sudo chown -R tomcat.tomcat /user/local/gerrit
+  # sudo chown -R tomcat.tomcat /usr/local/gerrit
   # sudo chown -R tomcat.tomcat /var/data/gerrit
-  # sudo chmod 775 -R /user/local/gerrit
+  # sudo chmod 775 -R /usr/local/gerrit
   # sudo chmod 775 -R /var/data/gerrit
   # su gerrit
 ----
@@ -144,7 +144,7 @@ I recommend downloading the latest `*.war` package, gerrit-X.X-rcX.war.
 Copy the war file to your base gerrit directory. Linux:
 
 ----
-/user/local/gerrit/gerrit-X.X
+/usr/local/gerrit/gerrit-X.X
 ----
 
 Windows:
@@ -203,7 +203,22 @@ rights on it:
 Deploy Gerrit
 -------------
 
-Change directory to Gerrit base and execute the following. Linux:
+Change directory to Gerrit base:
+
+Linux:
+
+----
+$cd /usr/local/gerrit/
+----
+
+Windows:
+
+----
+$cd C:\Program Files\Gerrit\
+----
+
+Execute the following to deploy Gerrit's initial configuration and working 
+directory structure.
 
 [[linuxDeploy]]
 Linux
@@ -213,6 +228,23 @@ Linux
 java -jar gerrit-X.X-rcX.war init -d /var/data/gerrit
 ----
 
+On Linux, allow the initialization process download bouncy castles:
+
+----
+Gerrit Code Review is not shipped with Bouncy Castle Crypto v144
+  If available, Gerrit can take advantage of features
+  in the library, but will also function without it.
+Download and install it now [Y/n]?
+Downloading http://www.bouncycastle.org/download/bcprov-jdk16-144.jar ...
+----
+
+After the process, the service will startup automatically. Make sure the service is 
+stopped before proceeding:
+
+----
+/var/data/gerrit/bin/gerrit.sh stop
+----
+
 [[WindowsDeploy]]
 Windows Server 2008
 ~~~~~~~~~~~~~~~~~~~
@@ -220,6 +252,9 @@ Windows Server 2008
 ----
 java -jar gerrit-X.X-rcX.war init -d config
 ----
+
+On Windows, you will have to download the bouncy castle jars separately. Don't 
+have the initialization process deploy or you will encounter an error.
 
 [[Terminal]]
 Terminal Configuraiton
@@ -286,13 +321,6 @@ Listen on address              [*]:
 Listen on port                 [8080]:
 Initialized C:\your_path\gitserver\gerrit\config
 Automatic startup not supported on Win32.
-----
-
-On Linux, the service will startup automatically. Make sure the service is 
-stopped before proceeding:
-
-----
-/var/data/gerrit/bin/gerrit.sh stop
 ----
 
 [[further]]
@@ -369,6 +397,9 @@ local LDAP directory. I recomend using http://jxplorer.org[JXExplorer] for this.
 Bouncy Castles
 ~~~~~~~~~~~~~~
 
+This step is only required for Windows. If your hosting on linux, these should 
+have been dowloaded for you already.
+
 Gerrit relies on Bouncy Catle's API for authentication purposes. You will need 
 to download and install the latest jars from http://www.bouncycastle.org/latest_releases.html[bouncycastle.org].
 
@@ -393,7 +424,7 @@ Add the context and connectors for Gerrit:
 <Service name="Catalina">
  <Engine name="Catalina" defaultHost="localhost">
   <Host name="localhost"  appBase="webapps" unpackWARs="true">
-    <Context path="" docBase="C:\your_path\gitserver\gerrit\gerrit-2.4" debug="0" reloadable="false">
+    <Context path="" docBase="C:\Program Files\gerrit\gerrit-2.4" debug="0" reloadable="false">
         <Resource
            name="jdbc/ReviewDb"
            type="javax.sql.DataSource"

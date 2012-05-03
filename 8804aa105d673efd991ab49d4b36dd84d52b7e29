@@ -16,6 +16,24 @@
       "revId": "8804aa105d673efd991ab49d4b36dd84d52b7e29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFHn///0w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-05-03T17:15:10Z",
+      "side": 1,
+      "message": "I think anyone using MyISAM is asking to get shot in the foot...we really should encourage the use of InnoDB (and I wouldn\u0027t be opposed to adding ENGINE\u003dInnoDB to CREATE DATABASE statements, see issue 1331).\n\nAs far as latin1 goes--there\u0027s two possible fixes here. One is by specifying the character set and collation at table creation time. We\u0027ve now down this at Wikimedia after the fact and we\u0027ve got utf-8 working now. The other option is making all the fields binary so we can pretend they\u0027re unicode (this is what we\u0027ve done in MediaWiki for years since MySQL\u0027s utf-8 support was so lacking for so long). Existing MySQL setups will possibly have some migration pain, but there\u0027s no reason we can\u0027t make it work out-of-the-box.\n\nIn any case, you\u0027re probably right that hardcoding it here is bad, but I think we could possibly detect the proper settings and connect with those.",
+      "parentUuid": "AAAEtH///8I\u003d",
+      "revId": "8804aa105d673efd991ab49d4b36dd84d52b7e29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

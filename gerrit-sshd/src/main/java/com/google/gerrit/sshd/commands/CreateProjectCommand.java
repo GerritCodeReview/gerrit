@@ -79,7 +79,7 @@ final class CreateProjectCommand extends SshCommand {
 
   @Option(name = "--branch", aliases = {"-b"}, metaVar = "BRANCH", usage = "initial branch name\n"
       + "(default: master)")
-  private String branch = Constants.MASTER;
+  private List<String> branch;
 
   @Option(name = "--empty-commit", usage = "to create initial empty commit")
   private boolean createEmptyCommit;

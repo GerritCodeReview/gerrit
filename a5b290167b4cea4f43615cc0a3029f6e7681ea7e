@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFNH////w\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:18:02Z",
+      "side": 1,
+      "message": "Following Edwin\u0027s comment, I changed it to \u003cIDENTIFIER\u003e, so it will be able to find with fullname, email-address, ssh username or account id.",
+      "parentUuid": "AAAFCn///7s\u003d",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///7o\u003d",
         "filename": "Documentation/cmd-set-account.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-04-26T03:37:59Z",
       "side": 1,
       "message": "Perhaps this should be optional to allow users to modify their own accounts this way?",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFNH////s\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:18:02Z",
+      "side": 1,
+      "message": "I disagree here. This is an administrator command and as such it\u0027s intention is to modify other people\u0027s accounts, regular users should use the UI instead. That is of course just my idea, and I am open to discussions about it :)",
+      "parentUuid": "AAAFCn///7o\u003d",
       "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFNH////o\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:18:02Z",
+      "side": 1,
+      "message": "See my comment above.",
+      "parentUuid": "AAAFCn///7k\u003d",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///7g\u003d",
         "filename": "Documentation/cmd-set-account.txt",
         "patchSetId": 1
@@ -99,6 +153,24 @@
       "writtenOn": "2012-04-26T03:37:59Z",
       "side": 1,
       "message": "s/mail/email/g",
+      "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFNH////k\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:18:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///7g\u003d",
       "revId": "a5b290167b4cea4f43615cc0a3029f6e7681ea7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

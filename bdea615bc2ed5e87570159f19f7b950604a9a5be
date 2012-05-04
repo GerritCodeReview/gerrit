@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "AAAFSH///9o\u003d",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T11:11:59Z",
+      "side": 1,
+      "message": "In the commit msg the example says\n\n-b one -b two -b three\n\nwhile the syntax suggested here would allow\n\n-b one two three\n\nPlease fix either syntax according to what\u0027s correct.\n\nSuggestion to allow many -b:\n\n\n[[--branch \u003cREF\u003e | -b \u003cREF\u003e ] ... ]",
+      "revId": "bdea615bc2ed5e87570159f19f7b950604a9a5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///90\u003d",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T11:11:59Z",
+      "side": 1,
+      "message": "does a single -b take several branches, or does each branch require an individual -b?",
+      "revId": "bdea615bc2ed5e87570159f19f7b950604a9a5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFR3////8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
         "patchSetId": 3

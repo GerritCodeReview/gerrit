@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFRn///6I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-04T18:28:17Z",
+      "side": 1,
+      "message": "Document this in a comment in the *.vm files?",
+      "revId": "1cd650b662b4f26a48b9c41ba29e598e7cb2b5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFQ3///34\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-04T18:28:17Z",
+      "side": 1,
+      "message": "nit: we put the logger first in a class, and we put static fields before instance fields, so this really should be added above sshInfo.",
+      "revId": "1cd650b662b4f26a48b9c41ba29e598e7cb2b5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFRH///0o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-04T18:28:17Z",
+      "side": 1,
+      "message": "an opened repository needs to be closed in a try/finally. these are reference counted resources that could leak in memory if its not released after use.",
+      "revId": "1cd650b662b4f26a48b9c41ba29e598e7cb2b5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

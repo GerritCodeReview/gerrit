@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "AAAFR3////w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Nit, Optional: Commit messages should preferrably not be written in the past, but should describe the change it introduces in a time neutral fashion.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Nit: While assimulating is a word that seem to exist, my only association was that it was a misspelling of assimilate. This leads me to believe that it\u0027s a word that non-native English readers might have trouble interpreting the right nuance of. This is the commit message however, so in this case it isn\u0027t the end of the world, not many will read it compared to the actual guide. :)",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFP3///94\u003d",
         "filename": "Documentation/index.txt",
         "patchSetId": 1
@@ -30,6 +64,24 @@
       "writtenOn": "2012-05-03T22:27:33Z",
       "side": 1,
       "message": "This isn\u0027t really installation into Jetty the way the Tomcat guide is into Tomcat. Its more how to install using the stand alone daemon.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////s\u003d",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Additional to Shawns comments: Did you really mean to move this line? I believe it\u0027s still regarded as the standard installation procedure.",
+      "parentUuid": "AAAFP3///94\u003d",
       "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "AAAFSH////E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Why restrict requirements to two specific Linux distributions and the latest Windows software, the server edition at that? I\u0027ll bet you it\u0027ll run on OSX or Windows XP too. ;-)\nI think this is an unnecessary requirement alltogheter. As long as the OS can run Java and Tomcat, we should be fine, and that\u0027s a requirement that Tomcat will sort out for us.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFP3///9s\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 1
@@ -64,6 +133,74 @@
       "writtenOn": "2012-05-03T22:27:33Z",
       "side": 1,
       "message": "For links use link:http:// to make this automatically linked in the documentation.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX////4\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "I assume you want to spellcheck s/6.035/6.0.35/ here.\n\nAlso, what\u0027s introduced in .35 that makes it impossible to use any previous tomcat version?\n\nTomcat 7 is stable and well supported by now, perhaps we should refer to that version by default?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH////A\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Suggestion: \n* http://www.postgresql.org/[PostgreSQL] or http://www.mysql.com[MySQL]",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "MSYSGit comes with the keygen command you\u0027re using below, so I think this isn\u0027t a requirement really.\n\nPerhaps you could put it under an optional section, but I think this is just an unnecessary option. It doesn\u0027t really make a difference to the user, it\u0027s only a potential cause for making it messier for them.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////k\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Gerrit is what this guide help the reader install. So I disagree that it\u0027s a requirement to begin with. :-)",
       "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +241,278 @@
     },
     {
       "key": {
+        "uuid": "AAAFR3////g\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "When tomcat is downloaded, in what format do you get the software? In an installer or as a compressed file? Choose wording accordingly:\n\nDownload from [URL] and run the installer/deflate the archive into:",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX////0\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "You probably want to help them generate ssh keys for the gerrit service user as well.. in my experience they come in handy for the user sooner or later.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+8\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "I\u0027m missing some additional preparations of tomcat here. If the ambition of this guide is for the reader to use this installation to install a production tomcat in an enterprise environment, the least we should do is to help that user remove the example webapps.\n\nrm -rf $TOMCAT/webapps/*\n\nAlso, I believe there are some additional jars required to get jdbc connections to work properly? I could be wrong here, please correct me in that case.\n\nSuggested addtitions:\n$ java -jar webapps/gerrit.war cat lib/commons-dbcp-1.2.2.jar \u003e$TOMCAT/lib/ext/commons-dbcp-1.2.2.jar\n$ java -jar webapps/gerrit.war cat lib/commons-pool-1.5.4.jar \u003e$TOMCAT/lib/ext/commons-pool-1.5.4.jar\n$ java -jar webapps/gerrit.war cat lib/h2-1.2.128.jar \u003e$TOMCAT/lib/ext/h2-1.2.128.jar\n$ java -jar webapps/gerrit.war cat lib/postgresql-8.4-701.jdbc4.jar \u003e$TOMCAT/lib/ext/postgresql-8.4-701.jdbc4.jar\n\n(In the guide I was working on for tomcat the gerrit.war was deployed to the webapps directory, hance the example. Feel free to modify accordingly.)",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX////w\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Again, this will work on other windows editions than 2008 Server. I suggest you refer to it as just Windows.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+Q\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "The formatting between this section and the above that mentions the four directories differ. When referring to directories/locations, it could be nice to distinguish them from the other text. One example to get a nice formatting around them is to use the + character, that gives a monospace font for these paths.\n\nSuggestion: Change above lines to \n\n* +THE_PATH+\n\nand remove this section and change the above sentence to\n\nInstall http://tomcat.apache.org/download-60.cgi[tomcat] to +C:\\Program Files\\Gerrit\\tomcat+\n\nThere are other places in this documentation that refers to paths as well, they probably benefit from +PATH+ formatting too.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+M\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Is this on your client on on the server account?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+g\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "If it\u0027s on the server account, I believe the real name of the reader shouldn\u0027t be used as example.\n\nPlease prefix command lines consistently.\nIt is common to let just a single $ represent the *nix prompt.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure whether this is a sane default or not. There\u0027s probably a reason why it\u0027s not already a default in git? There\u0027s many options I personally prefer in a git setup, but that\u0027s not to say it\u0027s a truth for everyone. I think the autocrlf is such an option, and I think this guide should be more generic and not recommend this setting.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+c\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "What is this sandbox used for?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "the author shouldn\u0027t be a part of the story. this should be rewritten without the I.\n\nIt\u0027s not at all clear what the reader should do as exercise to get to know Gerrit better. What kind of exercises can be had on a bare git? What\u0027s important to know about bare gits?\n\nPlease provide a link to concepts, or some phrases of concepts for the user to search on.\n\nYou state in the requirements that the user should have strong domain knowledge. Yet the user is assumed to not know about bare gits. I think the word strong could be interpreted very different by different people, it\u0027s a pretty fuzzy definition. :)",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+Y\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": ".. but also include what version this guide was written with in mind. You\u0027ve tested the commands on a specific version. That\u0027s the one you want to include a reference to, in case future versions change behaviour with reagrds to any of your command line examples or screen shots.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////A\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "You might want to give a link or two to send the user off into the postgres world of installation/configuration here, just for reference.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+A\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "prefix with prompt symbol $.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+Q\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "provide any output provided by a successful command.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+U\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "$",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3///+8\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "prefix with mysql prompt sign, and provide any output provided by a successful command.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFQX///7w\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 1
@@ -121,6 +530,567 @@
     },
     {
       "key": {
+        "uuid": "AAAFSX///+M\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "This line break diffuses the fact that 636 belongs to the above line.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "This line break diffuses the fact that ocal belongs to the above line and really should say local.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3///+0\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Include a note on where to download/find the proper gitweb.cgi, and help user make it executable if needed.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "writing to config files directly via an editor is discouraged both by the gerrit and git communities. It\u0027s always recommended to write to the config files via the git config command.\n\n$ git config -f etc/gerrit.config gitweb.cgi $PATH_TO_GITWEB\n$ git config -f etc/gerrit.config gitweb.url https://gitweb.corporation.com\n\nYou can always output the expected content for reference after the commands have been written if you like, but please recommend users to enter the values via git config. This way the escapes (\\\\ instead of \\) is handled correct automatically as well.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+A\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "again, use git config to write the values.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///98\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "We want the user to be self going after they\u0027ve complete this guide. Include a link to the scheme docs so they can look up and learn any the arguments they think they need in their environment.\n\nRecommended link:\nlink:https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#_a_id_download_a_section_download[download section manual]",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3///+w\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "s+config+etc/gerrit.config+\n\nAgain, refer to the git config command.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+4\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "As I\u0027m not too experienced with all the tomcat configuration alternatives, will this line make Gerrit the default root app? Otherwise it makes sense to make it the root app.\n\nAlso, I haven\u0027t looked this up myself, consider this a humble question:\n\nIsn\u0027t the conf/context.xml the tomcat standard place for contexts? If so, I think this guide should follow the tomcat standard.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX////o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "While perhaps I shouldn\u0027t demand a full guide of how to do that here, at least I would suggest to send the reader in some direction on how to achieve this by a link to  documentation that helps you set up the AJP connector.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX////s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "I think it would be better to split this up more clearly with separate sub headlines, one complete example for the Postgres context, and one complete example for the Mysql context.\n\nOr, as we are able to include pre-created files in the gerrit.war file, this would be a good opportunity to use that feature.\n\nIf you examine gerrit-war/src/main/webapp/WEB-INF/extra/jetty7/ in the source tree, you\u0027ll find some Jetty config files there. I propose you create two context files under /gerrit-war/src/main/webapp/WEB-INF/extra/tomcat7/, one for postgres and one for mysql that the user then can extract with the following command:\n\n$ java -jar webapps/gerrit.war cat extra/tomcat7/postgres-context.xml \u003e$TOMCAT/conf/context.xml\n\nThis is just an example, please edit as you see fit.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "In my own incomplete documentation of installing under tomcat I have written the below. Perhaps you want to add it to your version.\n\n+If OpenID authentication (or certain enterprise single-sign-on\n+solutions) is being used, you may need to increase the\n+header buffer size parameter, due to very long header lines\n+being used by the OpenID authentication handshake process.\n+Add the following to `\u0027$TOMCAT_HOME\u0027/etc/tomcat.xml` under\n+`org.eclipse.tomcat.server.nio.SelectChannelConnector`:\n+\n+----\n+  \u003cSet name\u003d\"headerBufferSize\"\u003e16384\u003c/Set\u003e\n+----",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Where did you get this script? Is it possible to provide a link to the original place in case it gets updated in the future?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX////k\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "this is a very specific editor you\u0027re choosing for the reader. And even though many can handle it, it still has a very special syntax when using it.\nI think easy is good, I\u0027d rather have $ cat \u003e tomcat and a finishing ^D (ctrl-D) afterwards. Less can go wrong with this.\n\nIf you still want to recommend vi, please have the user use :insert for the paste operation, which is specifically made with paste operations in mind.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////c\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "This is within the quote, but isn\u0027t a command for vi. It\u0027s assumed that the user knows to type \u0027i\u0027 or \u0027:insert\u0027 before pasting...",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX////g\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "... and here it\u0027s assumed the reader doesn\u0027t know how to save and quit the editor. It doesn\u0027t say what it does, and with the exclamation mark it doesn\u0027t care for any errors such as trying to write to a read-only file.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Service? Too generic example.\n\nI haven\u0027t tested this myself, but shouldn\u0027t a sudo here make the startup of tomcat able to acquire the 80 port above? Does it \"deroot\" before or after acquiring ports?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+k\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Windows",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX////Q\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "These two lines are hard for the human eye to discover differences in. I\u0027m not sure how to do it better, but I\u0027m playing with the idea that perhaps we can break the lines up a bit. If my memory serves me right, the \\ really means a line break, so perhaps we could exercise a real line break too. That way it\u0027s easier for the reader to discover differences between these two lines.\n\nOr, we could go through each option separately after this big line have been presented like this. I think it serves and educational purpose to make this operation more transparent to the eye.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////U\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure the storyteller should make herself present like this (\"I have faith\"), I think this sentence need to be more generic.\n\nsuggestion: \"You may find errors in the logs, but as they wary from case to case it\u0027s very hard to predict any of them. Please refer to the tomcat documentation or web search to find help with your issues.\"",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "This section is a copy of the troubleshooting section below. I suggest you link to that section instead of having the same text twice.\n\nSuggestion:\nIf you still have problems, there are \u003c\u003cTroubleshooting,a variety of places to get help\u003e\u003e.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX////A\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "the?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+8\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Steer your browser to: http://review.corporation.com:8080",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+0\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "You should make it clear to the user that this command should be run under their own ID, and not under the gerrit service account. Or perhaps both accounts. Not sure what you had in mind here.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+w\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Perhaps you could include an example output here too. Also, cut away the prompt other than the $-sign please.\n\nWe\u0027ve had many user issues over time which touches on the fact that it\u0027s hard to paste this output into the browser without introducing extra line breaks. Perhaps it\u0027s worth issuing a warning to be careful when pasting the key.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+c\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "For convenience it would be nice with an example URL to the screenshotted page below. This screenshot may be old in 6 monhts or a year from now, it would be nice with a disclaimer of the gerrit version it was taken from.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+g\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Nit: Two spaces. s/ects  exis/ects exis/",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+Y\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "It\u0027s not that common to have a prompt over two lines. It is common to let just a single $ represent the *nix prompt, so I suggest you remove this entire line and just keep the one below.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////M\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Provide example output from clone command.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFR3////Q\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "It\u0027s not that common to have a prompt over two lines. It is common to let just a single $ represent the *nix prompt, so I suggest you remove this entire line and just keep the one below.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Perhaps anonymize this output?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "It\u0027s not that common to have a prompt over two lines. It is common to let just a single $ represent the *nix prompt, so I suggest you remove this entire line and just keep the one below.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSH///+U\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 759,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Very nice with a link. It\u0027s for a specific gerrit version though. Perhaps the guide should be aimed at installing a specific gerrit version all together?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX///+k\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "Nit: Troubleshooting is one word, no camel casing necessary.",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFQX///8Q\u003d",
         "filename": "Documentation/install.txt",
         "patchSetId": 1
@@ -132,6 +1102,24 @@
       "writtenOn": "2012-05-03T22:27:33Z",
       "side": 1,
       "message": "Standalone Daemon?",
+      "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFSX////8\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T10:41:12Z",
+      "side": 1,
+      "message": "I agree that this guide was written as the first guide, and probably should have an attribute to it as suggested. As it probably is the most common alternative still, my suggestion is:\n\ns/Jetty/Standard Daemon/",
+      "parentUuid": "AAAFQX///8Q\u003d",
       "revId": "ae2250c28db525f545158f4a9f93a10fcbdaf84a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

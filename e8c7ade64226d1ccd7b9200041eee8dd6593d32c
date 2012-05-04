@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFRH///08\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-04T18:21:33Z",
+      "side": 1,
+      "message": "It makes more sense to say maxLines \u003d 0 when we can\u0027t get the line count. Then the file appears to be empty if we can\u0027t load its content, which should nicely cause the ranges to collapse down to nothing in the subsequent logic.",
+      "revId": "e8c7ade64226d1ccd7b9200041eee8dd6593d32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFQ3///4E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-04T18:21:33Z",
+      "side": 1,
+      "message": "Eh, instead of this and the comment before it I probably would have just copied and pasted in the if a \u003d\u003d null and if b \u003d\u003d null code from getLine above.",
+      "revId": "e8c7ade64226d1ccd7b9200041eee8dd6593d32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFRn///6Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-04T18:21:33Z",
+      "side": 1,
+      "message": "Behave like getLine above and just throw in the switch:\n\n  switch (file) {\n    case 0:\n    case 1:\n    default:\n      throw new NoSuchEntityException();\n  }\n\nThe return -1 is pretty ugly and the 2 lines of comment explaining why this can\u0027t be reached is even worse.",
+      "revId": "e8c7ade64226d1ccd7b9200041eee8dd6593d32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

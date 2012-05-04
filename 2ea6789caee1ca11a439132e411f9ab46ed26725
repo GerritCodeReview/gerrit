@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAFSX///9s\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T11:50:48Z",
+      "side": 1,
+      "message": "This is a discussion I\u0027ve had with Shawn in the past, he doesn\u0027t approve of Administrators being able to add sshkeys to impersonate other users. (it was a discussion for similar functionality but in the UI..) I suspect this discussion may rise again with this change.\n\nIt\u0027s more likely to be submitted without the possibility to add any ssh key to any user of the system. Deleting a key is not a problem, as isn\u0027t any of the other settings. It\u0027s the addition of keys that is considered an intrusion.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFD3///+M\u003d",
         "filename": "Documentation/cmd-set-account.txt",
         "patchSetId": 2

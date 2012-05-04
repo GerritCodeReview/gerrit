@@ -16,6 +16,24 @@
       "revId": "42cd92d82c68a9a925d7fdf47b1af38c419d403a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFRH///2A\u003d",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-04T17:50:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFSH///9s\u003d",
+      "revId": "42cd92d82c68a9a925d7fdf47b1af38c419d403a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

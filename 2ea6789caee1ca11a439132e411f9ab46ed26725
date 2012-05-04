@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFNH////g\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFD3///+M\u003d",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFI3////4\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2012-04-30T07:11:31Z",
       "side": 1,
       "message": "I think it would be better to use Account.Id here instead of String. There is already an AccountIdHandler available that would convert the String that the user provided into an Account.Id. This has the advantage that a user can specify the account by fullname, email-address, ssh username or account id and of course you don\u0027t need to find the account yourself.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFNH////E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "There is one thing to keep in mind here. AccountIdHandler will create the account (in LDAP Scheme) if the user hasn\u0027t logged in before.",
+      "parentUuid": "AAAFI3////4\u003d",
       "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFNH////c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFJn////8\u003d",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///60\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -81,6 +135,24 @@
       "writtenOn": "2012-04-26T04:11:32Z",
       "side": 1,
       "message": "Perhaps the 4 arguments above should be arrays to allow multiples.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFNH///+k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///60\u003d",
       "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFNH////A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFJn////4\u003d",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///7M\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -115,6 +205,24 @@
       "writtenOn": "2012-04-26T04:11:32Z",
       "side": 1,
       "message": "It might be clearer to reverse this check, the else can then be eliminated.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFNH///+8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///7M\u003d",
       "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFNH///+4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFJn////0\u003d",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///7A\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -149,6 +275,24 @@
       "writtenOn": "2012-04-26T04:11:32Z",
       "side": 1,
       "message": "You don\u0027t really need a new var here, why not reuse addSshKey?  Same for delete.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFNH///+o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///7A\u003d",
       "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -172,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFNH///+0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///7I\u003d",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///68\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -183,6 +345,24 @@
       "writtenOn": "2012-04-26T04:11:32Z",
       "side": 1,
       "message": "You probably need to verify that - is not supplied for both add and delete.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFNH///+s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///68\u003d",
       "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +386,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFNH////I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///6w\u003d",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFKH////4\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -217,6 +415,24 @@
       "writtenOn": "2012-04-30T07:11:31Z",
       "side": 1,
       "message": "If an invalid ssh key was specified, this fails here with an InvalidSshKeyException. Since it is not handled the user gets \u0027fatal: internal server error\u0027 as error message. It\u0027s not really an internal server error, but the user has just provided invalid input. I would prefer to print out a concrete error message like \u0027fatal: invalid ssh key\u0027.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFNH///+w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFKH////4\u003d",
       "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -240,6 +456,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFNH////M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///7E\u003d",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFKH////8\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -251,6 +485,24 @@
       "writtenOn": "2012-04-30T07:11:31Z",
       "side": 1,
       "message": "This removes the e-mail address from the accounts_external_ids table. If this e-mail address was chosen as preferred e-mail address it is additionally stored as PREFERRED_EMAIL in the accounts table. I guess you have to remove it there too and eventually set a new preferred e-mail address if further e-mail addresses are registered.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFNH////Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Indeed. If the email removed is PREFERRED_EMAIL, we set the preferred mail to \u0027null\u0027.",
+      "parentUuid": "AAAFKH////8\u003d",
       "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -274,6 +526,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFNH////U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "It\u0027s done by the AccountManager that way, I am glad I could delegate this to it without any change :)",
+      "parentUuid": "AAAFJ3////8\u003d",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFCn///64\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -285,6 +555,24 @@
       "writtenOn": "2012-04-26T04:11:32Z",
       "side": 1,
       "message": "Nit: extra blank line.",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFNH////Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-04T14:19:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFCn///64\u003d",
       "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

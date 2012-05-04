@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFSH///9s\u003d",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-04T11:05:54Z",
+      "side": 1,
+      "message": "Nit: Write to config files through the git config command to have it handle any formatting challenges.\n\nExample:\n$ git config -f project.config notify.team.email team-addess@example.com",
+      "revId": "42cd92d82c68a9a925d7fdf47b1af38c419d403a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

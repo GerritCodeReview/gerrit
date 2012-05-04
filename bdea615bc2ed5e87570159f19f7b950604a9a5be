@@ -33,6 +33,24 @@
       "revId": "bdea615bc2ed5e87570159f19f7b950604a9a5be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFRn///9U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2012-05-04T02:32:14Z",
+      "side": 1,
+      "message": "The first specified branch becomes HEAD (in your case it will be branch1). I should add it to the documentation.",
+      "parentUuid": "AAAFR3////8\u003d",
+      "revId": "bdea615bc2ed5e87570159f19f7b950604a9a5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

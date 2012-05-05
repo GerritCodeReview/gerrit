@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFT3///5M\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T04:50:18Z",
+      "side": 1,
+      "message": "Work + \"to\"",
+      "revId": "6337d65ad35b911f8a24c9bca4afe80f215e1d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///5I\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.4.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T04:50:18Z",
+      "side": 1,
+      "message": "Maybe this one should just go under search since it is tue sole entry under ssh?",
+      "revId": "6337d65ad35b911f8a24c9bca4afe80f215e1d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

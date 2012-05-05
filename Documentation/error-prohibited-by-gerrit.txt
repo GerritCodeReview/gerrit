@@ -1,4 +1,4 @@
-prohibited by Gerrit
+Prohibited by Gerrit
 ====================
 
 This is a general error message that is returned by Gerrit if a push

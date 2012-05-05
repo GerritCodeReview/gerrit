@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFRH///3Y\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T05:15:40Z",
+      "side": 1,
+      "message": "Perhaps USER would be clearer?",
+      "revId": "6873f9e866fe06260658f20b226f7f8f7297e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///48\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T05:15:40Z",
+      "side": 1,
+      "message": "Suggestion: \"--active and --inactive options are mutually exclusive.\"",
+      "revId": "6873f9e866fe06260658f20b226f7f8f7297e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///44\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T05:15:40Z",
+      "side": 1,
+      "message": "Suggestion: \"Only one option may use the stdin\" might be enough of a message for both error cases (124 \u0026 128)",
+      "revId": "6873f9e866fe06260658f20b226f7f8f7297e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///40\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T05:15:40Z",
+      "side": 1,
+      "message": "Hmm, why not at least one (I know harder to code, but perhaps less confusing to the user)?",
+      "revId": "6873f9e866fe06260658f20b226f7f8f7297e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///4w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T05:15:40Z",
+      "side": 1,
+      "message": "Why not?",
+      "revId": "6873f9e866fe06260658f20b226f7f8f7297e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///4s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T05:15:40Z",
+      "side": 1,
+      "message": "Conditions not needed (loops simply won\u0027t run)?",
+      "revId": "6873f9e866fe06260658f20b226f7f8f7297e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///4o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T05:15:40Z",
+      "side": 1,
+      "message": "If you reverse this equals check you can probably skip the preceding null check.",
+      "revId": "6873f9e866fe06260658f20b226f7f8f7297e3c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

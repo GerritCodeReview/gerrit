@@ -1,0 +1,15 @@
+prohibited by Gerrit
+====================
+
+This is a general error message that is returned by Gerrit if a push
+has been rejected because of failed validation by one or more plugins.
+
+You may want to check the list of plugins installed on Gerrit /plugins
+directory: one or more implement the CommitValidationListener
+interface and have rejected one of the received commits.
+Please refer to the plugin author documentation for knowing the
+validation rule applied.
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

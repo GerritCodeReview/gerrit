@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFUH///oA\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ExtGroup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "I kind of wonder if we can\u0027t use GroupReference instead of this. Is the name GroupDescription used yet? Maybe GroupDescription is a better name for this class, its the GroupReference stuff plus extra data describing the group.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///oU\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ExtGroup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "please fix all trailing whitespace",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///oE\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ExtGroup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "This should not be in the interface.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///oM\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ExtGroup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "This should not be in the interface.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///n8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupReference.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "nit: blank line before new method, even though its just an overload of the prior method.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///n4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupInfoScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "please pull this bug fix into its own commit so we can merge it ahead of this work. its a useful fix.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///n0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "I think we talked about the backend knowing who the caller is and doing its own isVisible check inside of suggest(), thereby removing the need to perform this call here. And this whole groupControlFactory notion moves into an implementation detail of the InternalGroupBackend.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///no\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "imho this could die as part of your change, along with the UI code related to it. once this is merged new ldap group references should use the new ldap backend directly, and not be mirrored into the internal group backend.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///nw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "please don\u0027t prefix anything with the AuthType enum.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///ns\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "The external LDAP stuff should be just \"ldap:\" so we get UUIDs like:\n\n  ldap:CN\u003dDevelopers,DC\u003dexample,DC\u003dcom",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///44\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackends.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "Iterables.getOnlyElement(refs) ?",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///nk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "Instead of the hasOwnerGroupId in ExtGroup, I would hold the AccountGroup as a field in this class and return false if the AccountGroup was null because the ExtGroup constructor was used. Require callers to use the AccountGroup constructor to set the AccountGroup field if they are going to need an accurate answer from isOwner() for an internal group.\n\nMost of GroupControl is related to internal groups anyway, and should drift towards being an implementation detail of the internal group system.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///ng\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "I would say:\n\n  return uuid.get().startsWith(\"global:\") || uuid.matches(\"[0-9a-f]{40}\");\n\nThe internal system always uses a SHA-1 in lowercase hex format. Done.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///nc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "starts with ignore case?",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///5k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "Do we want to throw IAE in contains, or just return false? I\u0027m not sure which is right.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///nQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "I woud prefer \"ldap:\"",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///nM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "Hmmph. Not sure I want to use this prefix here like this.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///nU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "Right now shouldn\u0027t we always bind the InternalGroupBackend to support all existing installations?",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///nY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CreateChangeSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:14:16Z",
+      "side": 1,
+      "message": "Rebase onto my notify change? It should merge soon.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

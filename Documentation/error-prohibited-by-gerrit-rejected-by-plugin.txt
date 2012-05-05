@@ -1,0 +1,14 @@
+Prohibited by Gerrit (rejected by plugin X)
+===========================================
+
+This is the default error message that is returned by Gerrit if a push
+has been rejected because of failed validation by plugin X.
+
+Bear in mind that the (rejected by plugin X) message is always present
+and X indicates the plugin name as it appears in /#/admin/plugins/ list.
+Please refer to the plugin author documentation for knowing the
+validation rule applied.
+
+GERRIT
+------
+Part of link:error-messages.html[Gerrit Error Messages]

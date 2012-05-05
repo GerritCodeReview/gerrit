@@ -35,6 +35,7 @@ Error Messages
 * link:error-squash-commits-first.html[squash commits first]
 * link:error-upload-denied.html[Upload denied for project \'...']
 * link:error-not-allowed-to-upload-merges.html[you are not allowed to upload merges]
+* link:error-prohibited-by-gerrit-reject-by-plugin.html[Prohibited by Gerrit (rejected by plugin X)]
 
 
 General Hints

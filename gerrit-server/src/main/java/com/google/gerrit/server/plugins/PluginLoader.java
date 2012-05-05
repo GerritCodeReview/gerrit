@@ -60,6 +60,7 @@ import java.util.jar.Manifest;
 
 @Singleton
 public class PluginLoader implements LifecycleListener {
+  static final String PLUGIN_TMP_PREFIX = "plugin_";
   static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
   private final File pluginsDir;
@@ -471,7 +472,7 @@ public class PluginLoader implements LifecycleListener {
 
   private static String tempNameFor(String name) {
     SimpleDateFormat fmt = new SimpleDateFormat("yyMMdd_HHmm");
-    return "plugin_" + name + "_" + fmt.format(new Date()) + "_";
+    return PLUGIN_TMP_PREFIX + name + "_" + fmt.format(new Date()) + "_";
   }
 
   private Class<? extends Module> load(String name, ClassLoader pluginLoader)
@@ -508,5 +509,31 @@ public class PluginLoader implements LifecycleListener {
       return Collections.emptyList();
     }
     return Arrays.asList(matches);
+  }
+
+  public String getPluginName(Object pluginObject) {
+    ClassLoader pluginClassLoader = pluginObject.getClass().getClassLoader();
+    if (!(pluginClassLoader instanceof URLClassLoader)) {
+      throw new IllegalArgumentException("Object does not belong to a plugin");
+    }
+
+    String loaderFileName =
+        ((URLClassLoader) pluginClassLoader).getURLs()[0].getFile();
+    int pluginPrefixPos = loaderFileName.indexOf(PLUGIN_TMP_PREFIX);
+    if (pluginPrefixPos < 0) {
+      throw new IllegalArgumentException(
+          "Object does not belong to a plugin (loaded from " + loaderFileName
+              + ")");
+    }
+
+    loaderFileName =
+        removeSuffix(
+            loaderFileName.substring(pluginPrefixPos + PLUGIN_TMP_PREFIX.length()), '_');
+    loaderFileName = removeSuffix(loaderFileName, '_');
+    return removeSuffix(loaderFileName, '_');
+  }
+
+  private String removeSuffix(String loaderFileName, char suffixTerm) {
+    return loaderFileName.substring(0, loaderFileName.lastIndexOf(suffixTerm));
   }
 }

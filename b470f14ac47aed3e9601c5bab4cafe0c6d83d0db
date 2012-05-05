@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFT3///4I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/RefUpdatedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T17:36:58Z",
+      "side": 1,
+      "message": "Perhaps much of the duplicated code could be eliminated in this change if this class were changed to no longer inherit from ChangeEvent?",
+      "revId": "b470f14ac47aed3e9601c5bab4cafe0c6d83d0db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

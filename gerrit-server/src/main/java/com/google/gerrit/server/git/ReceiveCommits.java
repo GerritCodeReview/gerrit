@@ -24,6 +24,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -39,6 +40,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.NoSuchAccountException;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -57,12 +59,16 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.validators.CommitValidationResult;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -288,6 +294,8 @@ public class ReceiveCommits {
   private Task commandProgress;
   private MessageSender messageSender;
   private BatchRefUpdate batch;
+  private final DynamicSet<CommitValidationListener> commitValidators;
+  private final PluginLoader pluginLoader;
 
   @Inject
   ReceiveCommits(final ReviewDb db,
@@ -311,10 +319,11 @@ public class ReceiveCommits {
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
       final SshInfo sshInfo,
-
+      final DynamicSet<CommitValidationListener> commitValidationListeners,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
-      final SubmoduleOp.Factory subOpFactory) throws IOException {
+      final SubmoduleOp.Factory subOpFactory,
+      final PluginLoader pluginLoader) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.schemaFactory = schemaFactory;
@@ -340,10 +349,12 @@ public class ReceiveCommits {
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
     this.repo = repo;
+    this.pluginLoader = pluginLoader;
     this.rp = new ReceivePack(repo);
     this.rejectCommits = loadRejectCommitsMap();
 
     this.subOpFactory = subOpFactory;
+    this.commitValidators = commitValidationListeners;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -2026,6 +2037,20 @@ public class ReceiveCommits {
             + " tried to push invalid project configuration "
             + cmd.getNewId().name() + " for " + project.getName(), e);
         return false;
+      }
+    }
+
+    for (CommitValidationListener validator : commitValidators) {
+      CommitValidationResult validationResult =
+          validator.onCommitReceived(new CommitReceivedEvent(cmd, project, ctl
+              .getRefName(), c, currentUser));
+      String pluginName = pluginLoader.getPluginName(validator);
+      if (!validationResult.validated) {
+        reject(cmd, String.format("%s (rejected by plugin %s)",
+            validationResult.message, pluginName));
+        return false;
+      } else if(!Strings.isNullOrEmpty(validationResult.message)) {
+        addMessage(String.format("%s (from plugin %s)", pluginName));
       }
     }
 

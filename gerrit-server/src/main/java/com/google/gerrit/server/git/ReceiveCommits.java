@@ -23,6 +23,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.NoSuchAccountException;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -40,8 +41,11 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.validators.RejectionHandler;
+import com.google.gerrit.server.git.validators.ValidationListener;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -56,11 +60,13 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -100,7 +106,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 /** Receives change upload using the Git receive-pack protocol. */
-public class ReceiveCommits {
+public class ReceiveCommits implements RejectionHandler {
   private static final Logger log =
       LoggerFactory.getLogger(ReceiveCommits.class);
 
@@ -247,6 +253,7 @@ public class ReceiveCommits {
   private Task closeProgress;
   private Task commandProgress;
   private MessageSender messageSender;
+  private final DynamicSet<ValidationListener> commitValidators;
 
   @Inject
   ReceiveCommits(final ReviewDb db,
@@ -266,9 +273,10 @@ public class ReceiveCommits {
       final TrackingFooters trackingFooters,
       final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator,
-
+      @GerritServerConfig final Config config, final Injector injector,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
+      final DynamicSet<ValidationListener> commitValidationListeners,
       final SubmoduleOp.Factory subOpFactory) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
@@ -312,6 +320,8 @@ public class ReceiveCommits {
     advHooks.add(rp.getAdvertiseRefsHook());
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
+
+    commitValidators = commitValidationListeners;
   }
 
   /** Add reviewers for new (or updated) changes. */
@@ -429,11 +439,11 @@ public class ReceiveCommits {
     return MagicBranch.checkMagicBranchRefs(repo, project);
   }
 
-  private void addMessage(String message) {
+  public void addMessage(String message) {
     messages.add(new Message(message, false));
   }
 
-  void addError(String error) {
+  public void addError(String error) {
     messages.add(new Message(error, true));
   }
 
@@ -1732,6 +1742,12 @@ public class ReceiveCommits {
       }
     }
 
+    for (ValidationListener validator : commitValidators) {
+      if (!validator.isValid(this, cmd, project, ctl.getRefName(), c, currentUser)) {
+        return false;
+      }
+    }
+
     return true;
   }
 
@@ -2041,7 +2057,7 @@ public class ReceiveCommits {
     reject(cmd, "prohibited by Gerrit");
   }
 
-  private void reject(final ReceiveCommand cmd, final String why) {
+  public void reject(final ReceiveCommand cmd, final String why) {
     cmd.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON, why);
     commandProgress.update(1);
   }

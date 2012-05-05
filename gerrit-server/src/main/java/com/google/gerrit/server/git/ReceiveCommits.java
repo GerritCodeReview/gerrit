@@ -43,8 +43,10 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.hooks.CommitValidator;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -59,11 +61,13 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -251,6 +255,7 @@ public class ReceiveCommits {
   private Task closeProgress;
   private Task commandProgress;
   private MessageSender messageSender;
+  private final List<CommitValidator> commitValidators;
 
   @Inject
   ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
@@ -270,7 +275,7 @@ public class ReceiveCommits {
       final TrackingFooters trackingFooters,
       final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator,
-
+      @GerritServerConfig final Config config, final Injector injector,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
       final SubmoduleOp.Factory subOpFactory) throws IOException {
@@ -317,7 +322,31 @@ public class ReceiveCommits {
     advHooks.add(rp.getAdvertiseRefsHook());
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
+
+    commitValidators = createCommitValidators(config, injector);
   }
+
+private List<CommitValidator> createCommitValidators(Config config,
+    Injector injector) {
+  String allClassNames =
+      config.getString("gitHooks", null, "commit-validators");
+  if (allClassNames == null) return Collections.emptyList();
+
+  List<CommitValidator> hooks = new ArrayList<CommitValidator>();
+  String[] classeNames = allClassNames.split(",");
+  for (String className : classeNames) {
+    try {
+      CommitValidator hook =
+          (CommitValidator) injector.getInstance(Class.forName(className
+              .trim()));
+      hooks.add(hook);
+    } catch (Exception e) {
+      log.error("Unable to create commit validator class " + className, e);
+    }
+  }
+
+  return hooks;
+}
 
   /** Add reviewers for new (or updated) changes. */
   public void addReviewers(Collection<Account.Id> who) {
@@ -1747,6 +1776,11 @@ public class ReceiveCommits {
             + cmd.getNewId().name() + " for " + project.getName(), e);
         return false;
       }
+    }
+
+    // invoke external validators
+    for (CommitValidator hook : commitValidators) {
+      if (!hook.validCommit(ctl, cmd, c)) return false;
     }
 
     return true;

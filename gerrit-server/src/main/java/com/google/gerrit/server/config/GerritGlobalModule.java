@@ -50,6 +50,7 @@ import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.SecureCredentialsProvider;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.validators.CommitValidatorListener;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
 import com.google.gerrit.server.mail.VelocityRuntimeProvider;
@@ -157,5 +158,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(GitReferenceUpdated.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
+    DynamicSet.setOf(binder(), CommitValidatorListener.class);
   }
 }

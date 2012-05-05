@@ -2050,7 +2050,7 @@ public class ReceiveCommits {
         reject(cmd, String.format("%s (rejected by plugin %s)", message, pluginName));
         return false;
       } else if (!Strings.isNullOrEmpty(message)) {
-        addMessage(String.format("%s (from plugin %s)", message, pluginName));
+        addMessage(String.format("(W) %s (from plugin %s)", message, pluginName));
       }
     }
 

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFRH///3U\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-05T04:43:12Z",
+      "side": 1,
+      "message": "I am not sure I get the reasoning here.  Anyone with db access can do it anyway, so why prevent it from bein done more conveniently?  But I do wonder whether modifying a user should be a capability?",
+      "parentUuid": "AAAFSX///9s\u003d",
+      "revId": "2ea6789caee1ca11a439132e411f9ab46ed26725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFD3///+M\u003d",
         "filename": "Documentation/cmd-set-account.txt",
         "patchSetId": 2

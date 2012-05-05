@@ -172,6 +172,23 @@
     },
     {
       "key": {
+        "uuid": "AAAFUH///nA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-05T02:51:47Z",
+      "side": 1,
+      "message": "As tempting as AccountState is, its the wrong type. This should be IdentifiedUser, or some new wrapper that exposes more of the active web session. Remember I want to allow group backends to get access to session state data, which may mean some sort of authentication token data.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUX///44\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackends.java",
         "patchSetId": 4

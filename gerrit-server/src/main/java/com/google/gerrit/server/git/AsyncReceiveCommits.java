@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue.Executor;
+import com.google.gerrit.server.git.validators.ValidationListener;
+import com.google.gerrit.server.git.validators.ValidationModule;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.assistedinject.Assisted;
@@ -58,6 +61,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   public static class Module extends PrivateModule {
     @Override
     public void configure() {
+
       install(new FactoryModuleBuilder()
           .build(AsyncReceiveCommits.Factory.class));
       expose(AsyncReceiveCommits.Factory.class);
@@ -65,6 +69,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       // be using AsyncReceiveCommits.Factory instead.
       install(new FactoryModuleBuilder()
           .build(ReceiveCommits.Factory.class));
+
+      install(new ValidationModule());
     }
 
     @Provides

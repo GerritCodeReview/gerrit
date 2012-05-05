@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.ApprovalAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
@@ -133,6 +134,8 @@ public class ChangeHookRunner implements ChangeHooks {
 
     private final EventFactory eventFactory;
 
+    private final SitePaths sitePaths;
+
     /**
      * Create a new ChangeHookRunner.
      *
@@ -149,7 +152,7 @@ public class ChangeHookRunner implements ChangeHooks {
       final @AnonymousCowardName String anonymousCowardName,
       final SitePaths sitePath, final ProjectCache projectCache,
       final AccountCache accountCache, final ApprovalTypes approvalTypes,
-      final EventFactory eventFactory) {
+      final EventFactory eventFactory, final SitePaths sitePaths) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -157,6 +160,7 @@ public class ChangeHookRunner implements ChangeHooks {
         this.accountCache = accountCache;
         this.approvalTypes = approvalTypes;
         this.eventFactory = eventFactory;
+        this.sitePaths = sitePath;
 
         final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
 
@@ -481,10 +485,12 @@ public class ChangeHookRunner implements ChangeHooks {
           repo = openRepository(project);
         }
 
+        final Map<String, String> env = pb.environment();
+        env.put("GERRIT_SITE", sitePaths.site_path.getAbsolutePath());
+
         if (repo != null) {
           pb.directory(repo.getDirectory());
 
-          final Map<String, String> env = pb.environment();
           env.put("GIT_DIR", repo.getDirectory().getAbsolutePath());
         }
 

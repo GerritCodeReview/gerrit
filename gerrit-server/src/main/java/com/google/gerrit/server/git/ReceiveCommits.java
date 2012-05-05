@@ -39,6 +39,7 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.NoSuchAccountException;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -57,8 +58,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.validators.CommitValidationResult;
+import com.google.gerrit.server.git.validators.CommitValidatorListener;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -288,6 +292,7 @@ public class ReceiveCommits {
   private Task commandProgress;
   private MessageSender messageSender;
   private BatchRefUpdate batch;
+  private final DynamicSet<CommitValidatorListener> commitValidators;
 
   @Inject
   ReceiveCommits(final ReviewDb db,
@@ -311,10 +316,10 @@ public class ReceiveCommits {
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
       final SshInfo sshInfo,
-
+      final DynamicSet<CommitValidatorListener> commitValidationListeners,
+      final SubmoduleOp.Factory subOpFactory,
       @Assisted final ProjectControl projectControl,
-      @Assisted final Repository repo,
-      final SubmoduleOp.Factory subOpFactory) throws IOException {
+      @Assisted final Repository repo) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.schemaFactory = schemaFactory;
@@ -344,6 +349,7 @@ public class ReceiveCommits {
     this.rejectCommits = loadRejectCommitsMap();
 
     this.subOpFactory = subOpFactory;
+    this.commitValidators = commitValidationListeners;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -2025,6 +2031,16 @@ public class ReceiveCommits {
         log.error("User " + currentUser.getUserName()
             + " tried to push invalid project configuration "
             + cmd.getNewId().name() + " for " + project.getName(), e);
+        return false;
+      }
+    }
+
+    for (CommitValidatorListener validator : commitValidators) {
+      CommitValidationResult validationResult =
+          validator.onCommitReceived(new CommitReceivedEvent(cmd, project, ctl
+              .getRefName(), c, currentUser));
+      if (!validationResult.validated) {
+        reject(cmd, validationResult.why);
         return false;
       }
     }

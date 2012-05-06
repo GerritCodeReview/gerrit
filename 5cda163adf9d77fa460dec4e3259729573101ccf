@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFT3///3M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-06T05:06:09Z",
+      "side": 1,
+      "message": "If there is a query which returns both the drafts and the published comments at the same time, it is probably worth combining them to save on query latencies.",
+      "revId": "5cda163adf9d77fa460dec4e3259729573101ccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///3I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-06T05:06:09Z",
+      "side": 1,
+      "message": "Is the integer.valueof needed?",
+      "revId": "5cda163adf9d77fa460dec4e3259729573101ccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

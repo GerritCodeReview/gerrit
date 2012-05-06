@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFVn////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-05-06T09:52:06Z",
+      "side": 1,
+      "message": "I changed to it: maxLines \u003d lineNbr;\n\nThat way the second if-loop, which append the lines that preceding the commented line, won\u0027t be executed because its condition (line \u003c stopLine) will fail on first evaluation.",
+      "parentUuid": "AAAFRH///08\u003d",
+      "revId": "e8c7ade64226d1ccd7b9200041eee8dd6593d32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFQ3///4E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFVn////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-05-06T09:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFQ3///4E\u003d",
+      "revId": "e8c7ade64226d1ccd7b9200041eee8dd6593d32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFRn///6Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-04T18:21:33Z",
       "side": 1,
       "message": "Behave like getLine above and just throw in the switch:\n\n  switch (file) {\n    case 0:\n    case 1:\n    default:\n      throw new NoSuchEntityException();\n  }\n\nThe return -1 is pretty ugly and the 2 lines of comment explaining why this can\u0027t be reached is even worse.",
+      "revId": "e8c7ade64226d1ccd7b9200041eee8dd6593d32c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFV3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchFile.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006906
+      },
+      "writtenOn": "2012-05-06T09:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFRn///6Q\u003d",
       "revId": "e8c7ade64226d1ccd7b9200041eee8dd6593d32c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

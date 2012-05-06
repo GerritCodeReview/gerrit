@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFT3///3A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-06T05:11:54Z",
+      "side": 1,
+      "message": "Maybe this should be GERRIT_DIR?",
+      "revId": "e839c5ee7d081d038dc9b48114ae28efb8df16be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

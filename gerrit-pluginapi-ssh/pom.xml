@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2012 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.google.gerrit</groupId>
+    <artifactId>gerrit-parent</artifactId>
+    <version>2.5-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>gerrit-pluginapi-ssh</artifactId>
+  <name>Gerrit Code Review - SSH API</name>
+
+  <description>
+    API for SSH command plugins to compile against
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-sshd</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <configuration>
+          <artifactSet>
+            <excludes>
+              <exclude>gwtexpui:gwtexpui</exclude>
+              <exclude>gwtjsonrpc:gwtjsonrpc</exclude>
+              <exclude>com.google.gerrit:gerrit-ehcache</exclude>
+              <exclude>com.google.gerrit:gerrit-prettify</exclude>
+              <exclude>com.google.gerrit:gerrit-patch-commonsnet</exclude>
+              <exclude>com.google.gerrit:gerrit-patch-jgit</exclude>
+              <exclude>com.google.gerrit:gerrit-util-ssl</exclude>
+              <exclude>com.google.gerrit:juniversalchardet</exclude>
+
+              <exclude>com.googlecode.prolog-cafe:PrologCafe</exclude>
+              <exclude>org.slf4j:slf4j-log4j12</exclude>
+              <exclude>log4j:log4j</exclude>
+
+              <exclude>commons-collections:commons-collections</exclude>
+              <exclude>commons-codec:commons-codec</exclude>
+              <exclude>commons-dbcp:commons-dbcp</exclude>
+              <exclude>commons-lang:commons-lang</exclude>
+              <exclude>commons-net:commons-net</exclude>
+              <exclude>commons-pool:commons-pool</exclude>
+
+              <exclude>asm:asm</exclude>
+              <exclude>eu.medsea.mimeutil:mime-util</exclude>
+              <exclude>net.sf.ehcache:ehcache-core</exclude>
+              <exclude>org.antlr:antlr</exclude>
+              <exclude>org.antlr:antlr-runtime</exclude>
+              <exclude>org.apache.mina:mina-core</exclude>
+              <exclude>org.apache.sshd:sshd-core</exclude>
+              <exclude>oro:oro</exclude>
+            </excludes>
+            <filters>
+              <filter>
+                <artifact>com.google.gerrit:gerrit-server</artifact>
+                <excludes>
+                  <exclude>gerrit/**</exclude>
+                </excludes>
+              </filter>
+            </filters>
+          </artifactSet>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

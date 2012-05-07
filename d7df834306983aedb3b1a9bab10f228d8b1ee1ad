@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFT3///uU\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T22:52:53Z",
+      "side": 1,
+      "message": "This is true for all commands. I think it doesn\u0027t have to be part of every commands documentation.",
+      "revId": "d7df834306983aedb3b1a9bab10f228d8b1ee1ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///uQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T22:52:53Z",
+      "side": 1,
+      "message": "I would remove this comment.\nThe help text of each command is provided by using the \u0027--help\u0027 option.\nIn addition, this comment may quickly get outdated by adding new option(s) to this command.",
+      "revId": "d7df834306983aedb3b1a9bab10f228d8b1ee1ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///uA\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T22:52:53Z",
+      "side": 1,
+      "message": "Instead of inserting one by one you can collect all accountKeys\nin a collection and then call db.accountKeys().insert(Iterable ...)\nto insert them in batch mode.",
+      "revId": "d7df834306983aedb3b1a9bab10f228d8b1ee1ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///t8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T22:52:53Z",
+      "side": 1,
+      "message": "this could be done only once after all DB operations are done.",
+      "revId": "d7df834306983aedb3b1a9bab10f228d8b1ee1ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///tw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T22:52:53Z",
+      "side": 1,
+      "message": "collect all keys that have to be deleted and then use\ndb.accountSshKeys().delete(Iterable ...)",
+      "revId": "d7df834306983aedb3b1a9bab10f228d8b1ee1ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///ts\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T22:52:53Z",
+      "side": 1,
+      "message": "this could be done only once after all DB operations are done.",
+      "revId": "d7df834306983aedb3b1a9bab10f228d8b1ee1ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

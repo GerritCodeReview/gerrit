@@ -1,0 +1,40 @@
+Gerrit Code Review - Plugin Development
+=======================================
+
+A plugin in gerrit is tightly coupled code that runs in the same
+JVM as gerrit. It has full access to all gerrit internals. Plugins
+are coupled to a specific major.minor gerrit version.
+
+REQUIREMENTS
+------------
+
+To start development, you may download the sample maven project, which downloads
+the following dependencies;
+
+* gerrit-sdk.jar file that matches the war file you are developing against
+
+
+Manifest
+--------
+
+Plugins need to include the following data in the jar manifest file;
+Gerrit-Plugin = plugin_name
+Gerrit-Module = pkg.class
+
+SSH Commands
+------------
+
+You may develop plugins which provide commands that can be accessed through the SSH interface.
+These commands register themselves as a part of SSH Commands (link).
+
+Each of your plugins commands needs to extend BaseCommand.
+
+Any plugin which implements at least one ssh command needs to also provide a class which extends
+the PluginCommandModule in order to register the ssh command(s) in its configure method which you
+must override.
+
+Registering is done by calling the command(String commandName).to(ClassName<? extends BaseCommand> klass)
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

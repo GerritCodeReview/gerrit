@@ -29,6 +29,7 @@ public final class SitePaths {
   public final File etc_dir;
   public final File lib_dir;
   public final File logs_dir;
+  public final File plugins_dir;
   public final File mail_dir;
   public final File hooks_dir;
   public final File static_dir;
@@ -62,6 +63,7 @@ public final class SitePaths {
     bin_dir = new File(site_path, "bin");
     etc_dir = new File(site_path, "etc");
     lib_dir = new File(site_path, "lib");
+    plugins_dir = new File(site_path, "plugins");
     logs_dir = new File(site_path, "logs");
     mail_dir = new File(etc_dir, "mail");
     hooks_dir = new File(site_path, "hooks");

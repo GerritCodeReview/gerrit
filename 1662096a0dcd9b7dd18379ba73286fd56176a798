@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFUH///f4\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-07T21:29:32Z",
+      "side": 1,
+      "message": "A cleaner way to write these two lines is:\n\n  MasterPluginsModule pluginModule \u003d cfgInjector.getInstance(MasterPluginsModule.class);\n\nGuice will both make and inject the data members for you.\n\nI think then you have one line of code:\n\n  modules.add(cfgInjector.getInstance(MasterPluginsModule.class));\n\nThis also has to go into WebAppInitializer. Any change in Daemon mostly has to be reflected there too.",
+      "revId": "1662096a0dcd9b7dd18379ba73286fd56176a798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///fo\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterPluginsModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-07T21:29:32Z",
+      "side": 1,
+      "message": "Use the constructor with @Inject annotation to get arguments, not @Inject on instance members.\n\nBecause you are made downstream from the cfgInjector now, you can use @GerritServerConfig Config as an argument in the constructor to get the already loaded config.",
+      "revId": "1662096a0dcd9b7dd18379ba73286fd56176a798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///fk\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterPluginsModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-07T21:29:32Z",
+      "side": 1,
+      "message": "This should be an enumeration of plugins that you load the module extension from, make the module, and pass the module instance to the base class\u0027s install() method.",
+      "revId": "1662096a0dcd9b7dd18379ba73286fd56176a798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

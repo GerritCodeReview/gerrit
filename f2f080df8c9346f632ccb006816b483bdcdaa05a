@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFT3///xs\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-05-07T20:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAD7n////k\u003d",
+      "revId": "f2f080df8c9346f632ccb006816b483bdcdaa05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD7n////o\u003d",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFT3///xo\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-05-07T20:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAD7n////o\u003d",
+      "revId": "f2f080df8c9346f632ccb006816b483bdcdaa05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAD7n////0\u003d",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2012-03-14T04:27:36Z",
       "side": 1,
       "message": "s/required/requires/",
+      "revId": "f2f080df8c9346f632ccb006816b483bdcdaa05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///xk\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-05-07T20:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAD7n////0\u003d",
       "revId": "f2f080df8c9346f632ccb006816b483bdcdaa05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -81,6 +135,24 @@
       "writtenOn": "2012-03-14T04:27:36Z",
       "side": 1,
       "message": "* send an email to the mailing list to announce the release.  Include at least the following in the email, a link to the release and the releasenotes (if a final release).  Perhaps also a link to the docs.  I suggest also describing the type of release (stable, bug fix, RC...)",
+      "revId": "f2f080df8c9346f632ccb006816b483bdcdaa05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///xQ\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-05-07T20:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAD7n////s\u003d",
       "revId": "f2f080df8c9346f632ccb006816b483bdcdaa05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

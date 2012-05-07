@@ -50,6 +50,8 @@ Developer Documentation
 * link:dev-contributing.html[Contributing to Gerrit]
 * link:dev-design.html[System Design]
 * link:i18n-readme.html[i18n Support]
+* link:dev-release.html[Developer Release]
+* link:dev-release-subproject.html[Developer Subproject Release]
 
 Resources
 ---------

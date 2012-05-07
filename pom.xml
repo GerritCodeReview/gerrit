@@ -87,6 +87,8 @@ limitations under the License.
     <module>gerrit-gwtdebug</module>
     <module>gerrit-war</module>
 
+    <module>gerrit-plugin-api</module>
+
     <module>gerrit-gwtui</module>
   </modules>
 
@@ -333,7 +335,7 @@ limitations under the License.
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>1.4</version>
+          <version>1.6</version>
         </plugin>
 
         <plugin>
@@ -425,6 +427,14 @@ limitations under the License.
         </configuration>
       </plugin>
     </plugins>
+
+    <extensions>
+      <extension>
+        <groupId>net.anzix.aws</groupId>
+        <artifactId>s3-maven-wagon</artifactId>
+        <version>3.2</version>
+      </extension>
+    </extensions>
   </build>
 
   <dependencies>

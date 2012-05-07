@@ -87,7 +87,7 @@ and Git's own data integrity checks.
 
 Each Git commit created on the client desktop system is converted
 into a unique change record which can be reviewed independently.
-Change records are stored in a database: PostgreSQL, MySql, or the
+Change records are stored in a database: PostgreSQL, MySQL, or the
 built-in H2, where they can be queried to present customized user
 dashboards, enumerating any pending changes.
 
@@ -669,11 +669,11 @@ lag largely allows for some downtime in a disaster scenario.
 Backups
 ~~~~~~~
 
-PostgreSQL can be configured to save its write-ahead-log (WAL)
-and ship these logs to other systems, where they are applied to
-a warm-standby backup in real time.  Gerrit instances which care
-about reduduncy will setup this feature of PostgreSQL to ensure
-the warm-standby is reasonably current should the master go offline.
+PostgreSQL and MySQL can be configured to replicate their data to
+other systems, where they are applied to a warm-standby backup in
+real time.  Gerrit instances which care about reduduncy will setup
+this feature of PostgreSQL or MySQL to ensure the warm-standby is
+reasonably current should the master go offline.
 
 Gerrit can be configured to replicate changes made to the local
 Git repositories over any standard Git transports.  This can be

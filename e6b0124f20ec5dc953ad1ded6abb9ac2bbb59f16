@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFVH///+w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T03:17:25Z",
+      "side": 1,
+      "message": "By convention, we use present tense to describe what is done with this commit. Therefore: s/Added/Add/",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFVH///+0\u003d",
+        "filename": "gerrit-httpd/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T03:17:25Z",
+      "side": 1,
+      "message": "By convention, we use spaces for indentation in Gerrit source code.",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFVH///+s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T03:17:25Z",
+      "side": 1,
+      "message": "Why is this not injected through constructor like all other fields?\n\nBtw, I don\u0027t find any guice module where injection of the HTMLReplaceProcessor is configured. Does the injection of this field actually work?",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFVH////E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T03:17:25Z",
+      "side": 1,
+      "message": "Indent the code inside the else block one level.",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFVH///+8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/HTMLNodeFindReplace.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T03:17:25Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFVH///+E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/HTMLNodeFindReplace.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T03:17:25Z",
+      "side": 1,
+      "message": "It looks like the this method will be called for each regex and the visitStringNode will also be called multiple times.\nTherefore, compiling of the same set of regular expressions will happen for each invocation of the visitStringNode.\n\nDoes it make sense to cache the compiled Patterns or Matchers?",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFVH////A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/HTMLReplaceProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T03:17:25Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFVH///+4\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/gitweb/HTMLReplaceProcessorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-07T03:17:25Z",
+      "side": 1,
+      "message": "missing license header",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

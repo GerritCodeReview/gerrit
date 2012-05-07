@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFUH///gQ\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-07T21:23:24Z",
+      "side": 1,
+      "message": "commons io is at least at version 2.0.1 right now, do we want a more recent version?",
+      "revId": "daf8bf668ceccf776684a275833d2be08ec615e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///gM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-07T21:23:24Z",
+      "side": 1,
+      "message": "missing AOSP header",
+      "revId": "daf8bf668ceccf776684a275833d2be08ec615e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///gI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-07T21:23:24Z",
+      "side": 1,
+      "message": "This isn\u0027t what i was thinking. :-(\n\nEach plugin should be given its own ClassLoader, and the easiest way to do the ClassLoader for a plugin is to use URLClassLoader supplying the URL of the single plugin JAR in $site_path/plugins.",
+      "revId": "daf8bf668ceccf776684a275833d2be08ec615e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///gE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-07T21:23:24Z",
+      "side": 1,
+      "message": "This should be site_path/plugins not site_path/lib/plugins",
+      "revId": "daf8bf668ceccf776684a275833d2be08ec615e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///gA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-07T21:23:24Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is worth the dependency on commons-io. Its fairly trivial to write an anonymous class filter to pass to java.io.File.listFiles to match only files that end with .jar.",
+      "revId": "daf8bf668ceccf776684a275833d2be08ec615e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

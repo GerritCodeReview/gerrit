@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFUH///gY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-07T21:18:32Z",
+      "side": 1,
+      "message": "Lets drop the [hackaton] marker from the commits. We can use the topic name at push time e.g. git push URL HEAD:refs/for/master/hackathon to tag commits instead.",
+      "revId": "a006bcfe00d107de67aacf1916badd3e58474164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

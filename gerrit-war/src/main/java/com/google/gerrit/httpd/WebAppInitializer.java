@@ -43,6 +43,7 @@ import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
+import com.google.gerrit.sshd.commands.MasterPluginsModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -211,6 +212,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new SshModule());
     modules.add(new MasterCommandModule());
+    modules.add(cfgInjector.getInstance(MasterPluginsModule.class));
     return sysInjector.createChildInjector(modules);
   }
 

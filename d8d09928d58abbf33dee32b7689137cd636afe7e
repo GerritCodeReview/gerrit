@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAFUX///04\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/hooks/CommitValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-07T04:15:02Z",
+      "side": 1,
+      "message": "Forgot to include Apache 2.0 copyright ... including now.",
+      "revId": "d8d09928d58abbf33dee32b7689137cd636afe7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFT3///24\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/hooks/CommitValidator.java",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2012-05-06T05:20:36Z",
       "side": 1,
       "message": "Maybe just isValid?",
+      "revId": "d8d09928d58abbf33dee32b7689137cd636afe7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///08\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/hooks/CommitValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-07T04:15:02Z",
+      "side": 1,
+      "message": "You are right, it make more sense.\n\nTypically the isXXX() is more for JavaBeans property access, but here increases clarify so it definitely a better name :-)",
+      "parentUuid": "AAAFT3///24\u003d",
       "revId": "d8d09928d58abbf33dee32b7689137cd636afe7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

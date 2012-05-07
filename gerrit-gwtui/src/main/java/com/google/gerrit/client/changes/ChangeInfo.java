@@ -95,8 +95,8 @@ public class ChangeInfo extends JavaScriptObject {
     final native short _value()
     /*-{
       if (this.value) return this.value;
-      if (this.recommended) return 1;
       if (this.disliked) return -1;
+      if (this.recommended) return 1;
       return 0;
     }-*/;
 

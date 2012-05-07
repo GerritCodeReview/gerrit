@@ -25,7 +25,7 @@ public abstract class PluginCommandModule extends CommandModule {
   private String pluginName;
 
   public void initSshModule(String name) {
-    name = pluginName;
+    pluginName = name ;
   }
 
   @Override

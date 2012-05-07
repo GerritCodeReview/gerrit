@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFUX///y8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-07T21:43:22Z",
+      "side": 1,
+      "message": "licence header is missing",
+      "revId": "809b1934861ee7b368feebc0eea2ceff8a7ab06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///y4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-07T21:43:22Z",
+      "side": 1,
+      "message": "nit: import is not used and can be removed",
+      "revId": "809b1934861ee7b368feebc0eea2ceff8a7ab06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///y0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-07T21:43:22Z",
+      "side": 1,
+      "message": "nit: import is not used and can be removed",
+      "revId": "809b1934861ee7b368feebc0eea2ceff8a7ab06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///ys\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-07T21:43:22Z",
+      "side": 1,
+      "message": "[optional] should we rather have \u0027sitePaths.plugin_dir\u0027?",
+      "revId": "809b1934861ee7b368feebc0eea2ceff8a7ab06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///yo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-07T21:43:22Z",
+      "side": 1,
+      "message": "add \u0027@Override\u0027 for the methods that are overwritten",
+      "revId": "809b1934861ee7b368feebc0eea2ceff8a7ab06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///yk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-07T21:43:22Z",
+      "side": 1,
+      "message": "nit: In Gerrit we normally have curly braces also around single-line-blocks\n\nif (loadedClass !\u003d null) {\n  return loadedClass;\n}",
+      "revId": "809b1934861ee7b368feebc0eea2ceff8a7ab06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///yg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-07T21:43:22Z",
+      "side": 1,
+      "message": "move this to line 72?",
+      "revId": "809b1934861ee7b368feebc0eea2ceff8a7ab06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///yY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-07T21:43:22Z",
+      "side": 1,
+      "message": "nit: only have one blank line between the methods",
+      "revId": "809b1934861ee7b368feebc0eea2ceff8a7ab06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///yU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PlugInClassLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-07T21:43:22Z",
+      "side": 1,
+      "message": "move this to line 103?",
+      "revId": "809b1934861ee7b368feebc0eea2ceff8a7ab06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

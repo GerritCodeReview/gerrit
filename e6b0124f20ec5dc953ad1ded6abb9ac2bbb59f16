@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///1k\u003d",
+        "filename": "gerrit-httpd/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-07T04:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFVH///+0\u003d",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFVH///+s\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2012-05-07T03:17:25Z",
       "side": 1,
       "message": "Why is this not injected through constructor like all other fields?\n\nBtw, I don\u0027t find any guice module where injection of the HTMLReplaceProcessor is configured. Does the injection of this field actually work?",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///1o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-07T04:04:29Z",
+      "side": 1,
+      "message": "Moving to the parameter injection, for consistency with other part of the code.\n\nThe injection works as I am referring directly to the class (and not to an interface). Further binding is not needed as it actually works :-)\n\nWe could argue tomorrow at coffee time @Google, but the @Inject on the instance variable was creating less \"boiler plate\" code than passing as parameter ;-) ... but I accept the consistency of the class with other injections.",
+      "parentUuid": "AAAFVH///+s\u003d",
       "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///1g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-07T04:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFVH////E\u003d",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFVH///+8\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/HTMLNodeFindReplace.java",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2012-05-07T03:17:25Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///1c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/HTMLNodeFindReplace.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-07T04:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFVH///+8\u003d",
       "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///1s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/HTMLNodeFindReplace.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-07T04:04:29Z",
+      "side": 1,
+      "message": "Yes, good idea: in case of massive output generated then avoiding pattern and matcher compile would help out reducing GC.",
+      "parentUuid": "AAAFVH///+E\u003d",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFVH////A\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/HTMLReplaceProcessor.java",
         "patchSetId": 1
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///1Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/HTMLReplaceProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-07T04:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFVH////A\u003d",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFVH///+4\u003d",
         "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/gitweb/HTMLReplaceProcessorTest.java",
         "patchSetId": 1
@@ -132,6 +240,24 @@
       "writtenOn": "2012-05-07T03:17:25Z",
       "side": 1,
       "message": "missing license header",
+      "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///1U\u003d",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/gitweb/HTMLReplaceProcessorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-07T04:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFVH///+4\u003d",
       "revId": "e6b0124f20ec5dc953ad1ded6abb9ac2bbb59f16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

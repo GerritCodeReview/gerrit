@@ -16,6 +16,24 @@
       "revId": "e839c5ee7d081d038dc9b48114ae28efb8df16be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///1I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-07T04:07:48Z",
+      "side": 1,
+      "message": "Typically the env var where GERRIT directory are located is defined as \"GERRIT_SITE\".\n\nFrom gerrit.sh:\n\n\n# GERRIT_SITE\n#   Path of the Gerrit site to run.  $GERRIT_SITE/etc/gerrit.config\n#   will be used to configure the process.",
+      "parentUuid": "AAAFT3///3A\u003d",
+      "revId": "e839c5ee7d081d038dc9b48114ae28efb8df16be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

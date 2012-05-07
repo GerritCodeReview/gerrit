@@ -50,6 +50,7 @@ import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
+import com.google.gerrit.sshd.commands.MasterPluginsModule;
 import com.google.gerrit.sshd.commands.SlaveCommandModule;
 import com.google.inject.Injector;
 import com.google.inject.Module;
@@ -242,6 +243,9 @@ public class Daemon extends SiteProgram {
         modules.add(new SlaveCommandModule());
       } else {
         modules.add(new MasterCommandModule());
+        MasterPluginsModule pluginModule = new MasterPluginsModule();
+        cfgInjector.injectMembers(pluginModule);
+        modules.add(pluginModule);
       }
     } else {
       modules.add(new NoSshModule());

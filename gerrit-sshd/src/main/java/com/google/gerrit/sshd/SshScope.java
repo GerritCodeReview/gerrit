@@ -14,23 +14,19 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.server.RequestCleanup;
+import com.google.common.collect.Maps;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 /** Guice scopes for state during an SSH connection. */
 class SshScope {
   static class Context {
-    private static final Key<RequestCleanup> RC_KEY =
-        Key.get(RequestCleanup.class);
-
-    private final RequestCleanup cleanup;
     private final SshSession session;
     private final String commandLine;
     private final Map<Key<?>, Object> map;
@@ -40,13 +36,9 @@ class SshScope {
     volatile long finished;
 
     private Context(final SshSession s, final String c, final long at) {
-      cleanup = new RequestCleanup();
       session = s;
       commandLine = c;
-
-      map = new HashMap<Key<?>, Object>();
-      map.put(RC_KEY, cleanup);
-
+      map = Maps.newHashMap();
       created = started = finished = at;
     }
 
@@ -78,10 +70,8 @@ class SshScope {
       return t;
     }
 
-    synchronized Context subContext(SshSession newSession, String newCommandLine) {
-      Context ctx = new Context(this, newSession, newCommandLine);
-      cleanup.add(ctx.cleanup);
-      return ctx;
+    Context subContext(SshSession newSession, String newCommandLine) {
+      return new Context(this, newSession, newCommandLine);
     }
   }
 
@@ -109,6 +99,21 @@ class SshScope {
       // The cleanup is not chained, since the RequestScopePropagator executors
       // the Context's cleanup when finished executing.
       return new Context(ctx, ctx.getSession(), ctx.getCommandLine());
+    }
+
+    <T> Callable<T> wrap(final Context newContext, final Callable<T> callable) {
+      return new Callable<T>() {
+        @Override
+        public T call() throws Exception {
+          Context old = set(newContext);
+          try {
+            return wrapCleanup(callable).call();
+          } finally {
+            set(old);
+          }
+        }
+
+      };
     }
   }
 

@@ -19,6 +19,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -30,6 +31,7 @@ import org.kohsuke.args4j.Argument;
 
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.util.concurrent.Callable;
 
 public abstract class AbstractGitCommand extends BaseCommand {
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
@@ -50,34 +52,41 @@ public abstract class AbstractGitCommand extends BaseCommand {
   @Inject
   private IdentifiedUser.GenericFactory userFactory;
 
+  @Inject
+  private SshScope.Propagator scopePropagator;
+
   protected Repository repo;
   protected Project project;
 
   @Override
   public void start(final Environment env) {
     Context ctx = context.subContext(newSession(), context.getCommandLine());
-    final Context old = SshScope.set(ctx);
-    try {
-      startThread(new ProjectCommandRunnable() {
-        @Override
-        public void executeParseCommand() throws Exception {
-          parseCommandLine();
-        }
+    final Callable<Void> wrapped =
+        scopePropagator.wrap(ctx, new Callable<Void>() {
+          @Override
+          public Void call() throws Exception {
+            AbstractGitCommand.this.service();
+            return null;
+          }
+        });
 
-        @Override
-        public void run() throws Exception {
-          AbstractGitCommand.this.service();
-        }
+    startThread(new ProjectCommandRunnable() {
+      @Override
+      public void executeParseCommand() throws Exception {
+        parseCommandLine();
+      }
 
-        @Override
-        public Project.NameKey getProjectName() {
-          Project project = projectControl.getProjectState().getProject();
-          return project.getNameKey();
-        }
-      });
-    } finally {
-      SshScope.set(old);
-    }
+      @Override
+      public void run() throws Exception {
+        wrapped.call();
+      }
+
+      @Override
+      public Project.NameKey getProjectName() {
+        Project project = projectControl.getProjectState().getProject();
+        return project.getNameKey();
+      }
+    });
   }
 
   private SshSession newSession() {

@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
@@ -49,6 +48,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 public abstract class BaseCommand implements Command {
@@ -74,7 +74,7 @@ public abstract class BaseCommand implements Command {
   private CmdLineParser.Factory cmdLineParserFactory;
 
   @Inject
-  private RequestCleanup cleanup;
+  private SshScope.Propagator scopePropagator;
 
   @Inject
   @CommandExecutor
@@ -269,15 +269,12 @@ public abstract class BaseCommand implements Command {
   /**
    * Terminate this command and return a result code to the remote client.
    * <p>
-   * Commands should invoke this at most once. Once invoked, the command may
-   * lose access to request based resources as any callbacks previously
-   * registered with {@link RequestCleanup} will fire.
+   * Commands should invoke this at most once.
    *
    * @param rc exit code for the remote client.
    */
   protected void onExit(final int rc) {
     exit.onExit(rc);
-    cleanup.run();
   }
 
   /** Wrap the supplied output stream in a UTF-8 encoded PrintWriter. */
@@ -389,23 +386,28 @@ public abstract class BaseCommand implements Command {
       final Thread thisThread = Thread.currentThread();
       final String thisName = thisThread.getName();
       int rc = 0;
-      final Context old = SshScope.set(context);
       try {
         context.started = System.currentTimeMillis();
         thisThread.setName("SSH " + taskName);
 
-        if (thunk instanceof ProjectCommandRunnable) {
-          ((ProjectCommandRunnable) thunk).executeParseCommand();
-          projectName = ((ProjectCommandRunnable) thunk).getProjectName();
-        }
+        scopePropagator.wrap(context, new Callable<Void>() {
+          @Override
+          public Void call() throws Exception {
+            if (thunk instanceof ProjectCommandRunnable) {
+              ((ProjectCommandRunnable) thunk).executeParseCommand();
+              projectName = ((ProjectCommandRunnable) thunk).getProjectName();
+            }
 
-        try {
-          thunk.run();
-        } catch (NoSuchProjectException e) {
-          throw new UnloggedFailure(1, e.getMessage() + " no such project");
-        } catch (NoSuchChangeException e) {
-          throw new UnloggedFailure(1, e.getMessage() + " no such change");
-        }
+            try {
+              thunk.run();
+            } catch (NoSuchProjectException e) {
+              throw new UnloggedFailure(1, e.getMessage() + " no such project");
+            } catch (NoSuchChangeException e) {
+              throw new UnloggedFailure(1, e.getMessage() + " no such change");
+            }
+            return null;
+          }
+        }).call();
 
         out.flush();
         err.flush();
@@ -423,7 +425,6 @@ public abstract class BaseCommand implements Command {
         try {
           onExit(rc);
         } finally {
-          SshScope.set(old);
           thisThread.setName(thisName);
         }
       }

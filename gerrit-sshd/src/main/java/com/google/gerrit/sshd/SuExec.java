@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.base.Throwables;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Executes any other command as a different user identity.
@@ -42,6 +44,7 @@ import java.util.List;
  */
 public final class SuExec extends BaseCommand {
   private final DispatchCommandProvider dispatcher;
+  private final SshScope.Propagator scopePropagator;
 
   private Provider<CurrentUser> caller;
   private Provider<SshSession> session;
@@ -63,33 +66,41 @@ public final class SuExec extends BaseCommand {
   SuExec(@CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
       final Provider<CurrentUser> caller, final Provider<SshSession> session,
       final IdentifiedUser.GenericFactory userFactory,
-      final SshScope.Context callingContext) {
+      final SshScope.Context callingContext,
+      final SshScope.Propagator scopePropagator) {
     this.dispatcher = dispatcher;
     this.caller = caller;
     this.session = session;
     this.userFactory = userFactory;
     this.callingContext = callingContext;
+    this.scopePropagator = scopePropagator;
   }
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(final Environment env) throws IOException {
     try {
       if (caller.get() instanceof PeerDaemonUser) {
         parseCommandLine();
 
-        final Context ctx = callingContext.subContext(newSession(), join(args));
-        final Context old = SshScope.set(ctx);
         try {
-          final BaseCommand cmd = dispatcher.get();
-          cmd.setArguments(args.toArray(new String[args.size()]));
-          provideStateTo(cmd);
+          Context ctx = callingContext.subContext(newSession(), join(args));
+          scopePropagator.wrap(ctx, new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+              final BaseCommand cmd = dispatcher.get();
+              cmd.setArguments(args.toArray(new String[args.size()]));
+              provideStateTo(cmd);
 
-          synchronized (this) {
-            this.cmd = cmd;
-          }
-          cmd.start(env);
-        } finally {
-          SshScope.set(old);
+              synchronized (SuExec.this) {
+                SuExec.this.cmd = cmd;
+              }
+              cmd.start(env);
+              return null;
+            }
+          }).call();
+        } catch (Exception e) {
+          Throwables.propagateIfInstanceOf(e, IOException.class);
+          throw Throwables.propagate(e);
         }
 
       } else {

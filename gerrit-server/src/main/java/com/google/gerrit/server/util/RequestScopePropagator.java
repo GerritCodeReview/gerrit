@@ -70,25 +70,7 @@ public abstract class RequestScopePropagator {
    * @return a new Callable which will execute in the current request scope.
    */
   public final <T> Callable<T> wrap(final Callable<T> callable) {
-    final Callable<T> wrapped = wrapImpl(new Callable<T>() {
-      @Override
-      public T call() throws Exception {
-        RequestCleanup cleanup = scope.scope(
-            Key.get(RequestCleanup.class),
-            new Provider<RequestCleanup>() {
-              @Override
-              public RequestCleanup get() {
-                return new RequestCleanup();
-              }
-            }).get();
-
-        try {
-          return callable.call();
-        } finally {
-          cleanup.run();
-        }
-      }
-    });
+    final Callable<T> wrapped = wrapImpl(wrapCleanup(callable));
 
     return new Callable<T>() {
       @Override
@@ -178,4 +160,26 @@ public abstract class RequestScopePropagator {
    * @see #wrap(Callable)
    */
   protected abstract <T> Callable<T> wrapImpl(final Callable<T> callable);
+
+  protected final <T> Callable<T> wrapCleanup(final Callable<T> callable) {
+    return new Callable<T>() {
+      @Override
+      public T call() throws Exception {
+        RequestCleanup cleanup = scope.scope(
+            Key.get(RequestCleanup.class),
+            new Provider<RequestCleanup>() {
+              @Override
+              public RequestCleanup get() {
+                return new RequestCleanup();
+              }
+            }).get();
+
+        try {
+          return callable.call();
+        } finally {
+          cleanup.run();
+        }
+      }
+    };
+  }
 }

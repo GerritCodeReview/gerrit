@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///zg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T22:42:52Z",
+      "side": 1,
+      "message": "not sure plugin deserves to be a proper noun in either error message",
+      "revId": "f17dd9bd46d9066227c272c21685e5de4f149117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///zk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T22:42:52Z",
+      "side": 1,
+      "message": "handle these missing more gracefully than NPE",
+      "revId": "f17dd9bd46d9066227c272c21685e5de4f149117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///zo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T22:42:52Z",
+      "side": 1,
+      "message": "Module is sufficient, we don\u0027t need AbstractModule here.",
+      "revId": "f17dd9bd46d9066227c272c21685e5de4f149117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -3,7 +3,7 @@ Gerrit Code Review - Installation Guide
 
 [[requirements]]
 Requirements
------------
+------------
 To run the Gerrit service, the following requirements must be met on
 the host:
 
@@ -220,6 +220,13 @@ Gerrit's internal SSH daemon.  See the `git-daemon` documentation
 for details on how to configure this if anonymous access is desired.
 
 * http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[man git-daemon]
+
+
+[[plugins]]
+Plugins
+-------
+
+Place Gerrit plugins in the site_path/plugins directory to have them loaded on Gerrit startup.
 
 
 External Documentation Links

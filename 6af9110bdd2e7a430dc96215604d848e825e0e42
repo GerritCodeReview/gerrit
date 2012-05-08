@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFaH///+4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:30:08Z",
+      "side": 1,
+      "message": "Can you add a sentence to explain the motiviation for adding this command? The abandon functionality is already available with the review command, what\u0027s better with having it in addition as own command?",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH////I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:30:08Z",
+      "side": 1,
+      "message": "s/2009/2012",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///+0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:30:08Z",
+      "side": 1,
+      "message": "nit: this import is not used and can be removed",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH////A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:30:08Z",
+      "side": 1,
+      "message": "maybe rebase this on Shawn\u0027s change [1] that introduces the SshCommand as base class for all SSH commands.\n\n[1] https://gerrit-review.googlesource.com/35101",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///+8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:30:08Z",
+      "side": 1,
+      "message": "s/ReviewCommand/AbandonCommand",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///+s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:30:08Z",
+      "side": 1,
+      "message": "[optional] maybe for abandon it would be sufficient to specify the change, rather than a concrete patch set?",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH////E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:30:08Z",
+      "side": 1,
+      "message": "[optional] s/patch to review/patch to abandon",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///+w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:30:08Z",
+      "side": 1,
+      "message": "Is this the same method as in ReviewCommand? Can we avoid duplicating this code?",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

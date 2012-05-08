@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///8g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Plugin.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-08T16:21:49Z",
+      "side": 1,
+      "message": "Class\u003c? extends AbstractPlugin\u003e\n\nabstract String getName();\n\nOr are we going to use annotations?",
+      "revId": "69fd01312c5bed89925d1148284aa9ca883c091a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

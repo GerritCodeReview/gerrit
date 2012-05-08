@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///vs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUX///wA\u003d",
+      "revId": "62ea66df32a3c6cbd93c1315b72c8da58cb7b2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUX///v4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-07T23:51:12Z",
       "side": 1,
       "message": "Having both \u0027getPlugins()\u0027 and \u0027getPlugIns()\u0027 is quite confusing. Better rename one of the methods.",
+      "revId": "62ea66df32a3c6cbd93c1315b72c8da58cb7b2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///vw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:04:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUX///v4\u003d",
       "revId": "62ea66df32a3c6cbd93c1315b72c8da58cb7b2d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFUH///bU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T01:09:55Z",
+      "side": 1,
+      "message": "based on current conversation, this should say \"for plugins\" or \"for tightly-coupled plugins\"",
+      "revId": "78db1ce32aed87e36815f747ecb3412dd2adfb76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

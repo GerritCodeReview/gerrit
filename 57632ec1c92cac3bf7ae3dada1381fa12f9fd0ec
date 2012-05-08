@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAFXn////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-08T05:08:59Z",
+      "side": 1,
+      "message": "Maybe make clearAllButVetoes?",
+      "revId": "57632ec1c92cac3bf7ae3dada1381fa12f9fd0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFXn////I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 9

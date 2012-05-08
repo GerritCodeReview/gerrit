@@ -34,6 +34,40 @@
       "revId": "69fd01312c5bed89925d1148284aa9ca883c091a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///7A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T17:26:27Z",
+      "side": 1,
+      "message": "listFiles can return null if the directory exists but isn\u0027t accessible to the calling process. I would guard against this:\n\n  File[] plugins \u003d pluginsDir.listFiles();\n  if (plugins \u003d\u003d null) {\n    log.warn(\"Cannot list \" + pluginsDir.getAbsolutePath());\n    return Collections.emptyList();\n  }\n  return Arrays.asList(plugins);",
+      "revId": "69fd01312c5bed89925d1148284aa9ca883c091a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///7Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T17:26:27Z",
+      "side": 1,
+      "message": "pathname.isFile() \u0026\u0026",
+      "revId": "69fd01312c5bed89925d1148284aa9ca883c091a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

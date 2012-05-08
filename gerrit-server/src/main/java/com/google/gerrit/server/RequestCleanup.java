@@ -14,15 +14,13 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.collect.Lists;
 import com.google.inject.servlet.RequestScoped;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-
 
 /**
  * Registers cleanup activities to be completed when a scope ends.
@@ -32,7 +30,7 @@ public class RequestCleanup implements Runnable {
   private static final Logger log =
       LoggerFactory.getLogger(RequestCleanup.class);
 
-  private final List<Runnable> cleanup = new LinkedList<Runnable>();
+  private final LinkedList<Runnable> cleanup = Lists.newLinkedList();
   private boolean ran;
 
   /** Register a task to be completed after the request ends. */
@@ -41,20 +39,20 @@ public class RequestCleanup implements Runnable {
       if (ran) {
         throw new IllegalStateException("Request has already been cleaned up");
       }
-      cleanup.add(task);
+      cleanup.push(task);
     }
   }
 
+  @Override
   public void run() {
     synchronized (cleanup) {
       ran = true;
-      for (final Iterator<Runnable> i = cleanup.iterator(); i.hasNext();) {
+      while (!cleanup.isEmpty()) {
         try {
-          i.next().run();
+          cleanup.pop().run();
         } catch (Throwable err) {
           log.error("Failed to execute per-request cleanup", err);
         }
-        i.remove();
       }
     }
   }

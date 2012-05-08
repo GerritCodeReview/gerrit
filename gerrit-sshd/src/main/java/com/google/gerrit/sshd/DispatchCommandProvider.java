@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.collect.Maps;
+import com.google.gerrit.server.guice.RegistrationHandle;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -23,11 +25,8 @@ import com.google.inject.TypeLiteral;
 import org.apache.sshd.server.Command;
 
 import java.lang.annotation.Annotation;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Creates DispatchCommand using commands registered by {@link CommandModule}.
@@ -42,7 +41,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   private final String dispatcherName;
   private final CommandName parent;
 
-  private volatile Map<String, Provider<Command>> map;
+  private volatile ConcurrentMap<String, Provider<Command>> map;
 
   public DispatchCommandProvider(final CommandName cn) {
     this(Commands.nameOf(cn), cn);
@@ -59,7 +58,21 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     return factory.create(dispatcherName, getMap());
   }
 
-  private Map<String, Provider<Command>> getMap() {
+  public RegistrationHandle register(final CommandName name,
+      final Provider<Command> cmd) {
+    final ConcurrentMap<String, Provider<Command>> m = getMap();
+    if (m.putIfAbsent(name.value(), cmd) != null) {
+      throw new IllegalArgumentException(name.value() + " exists");
+    }
+    return new RegistrationHandle() {
+      @Override
+      public void remove() {
+        m.remove(name.value(), cmd);
+      }
+    };
+  }
+
+  private ConcurrentMap<String, Provider<Command>> getMap() {
     if (map == null) {
       synchronized (this) {
         if (map == null) {
@@ -71,10 +84,8 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   }
 
   @SuppressWarnings("unchecked")
-  private Map<String, Provider<Command>> createMap() {
-    final Map<String, Provider<Command>> m =
-        new TreeMap<String, Provider<Command>>();
-
+  private ConcurrentMap<String, Provider<Command>> createMap() {
+    ConcurrentMap<String, Provider<Command>> m = Maps.newConcurrentMap();
     for (final Binding<?> b : allCommands()) {
       final Annotation annotation = b.getKey().getAnnotation();
       if (annotation instanceof CommandName) {
@@ -84,9 +95,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
         }
       }
     }
-
-    return Collections.unmodifiableMap(
-        new LinkedHashMap<String, Provider<Command>>(m));
+    return m;
   }
 
   private static final TypeLiteral<Command> type =

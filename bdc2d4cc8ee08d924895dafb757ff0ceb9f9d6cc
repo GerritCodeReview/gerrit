@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///y4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1395,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T22:48:04Z",
+      "side": 0,
+      "message": "Why did you remove this line? It seems like we still need this to feed into addReviewers().",
+      "revId": "bdc2d4cc8ee08d924895dafb757ff0ceb9f9d6cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

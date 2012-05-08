@@ -16,6 +16,24 @@
       "revId": "69fd01312c5bed89925d1148284aa9ca883c091a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///8I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Plugin.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T16:27:47Z",
+      "side": 1,
+      "message": "Would name it \"AbstractPluginModule\" as it would be a Guice Module provided by the plugin",
+      "parentUuid": "AAAFX3///8g\u003d",
+      "revId": "69fd01312c5bed89925d1148284aa9ca883c091a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

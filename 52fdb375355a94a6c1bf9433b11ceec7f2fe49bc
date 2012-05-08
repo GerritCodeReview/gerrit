@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFUH///cE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:26:27Z",
+      "side": 1,
+      "message": "Why are we using reflection to make this? new URLClassLoader should work.",
+      "revId": "52fdb375355a94a6c1bf9433b11ceec7f2fe49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///cI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:26:27Z",
+      "side": 1,
+      "message": "I still don\u0027t like the idea of depending on commons-io for this trivial of a function, but I guess I am losing that argument. :-)",
+      "revId": "52fdb375355a94a6c1bf9433b11ceec7f2fe49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///9I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterPluginsModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-08T15:54:27Z",
+      "side": 1,
+      "message": "This package is missing",
+      "revId": "9d06fd9de112aa440c09e83201aab096aa12c77c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///9E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterPluginsModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-08T15:54:27Z",
+      "side": 1,
+      "message": "Unused import",
+      "revId": "9d06fd9de112aa440c09e83201aab096aa12c77c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///9A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterPluginsModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-08T15:54:27Z",
+      "side": 1,
+      "message": "2 above imports (Command and Config) aren\u0027t used",
+      "revId": "9d06fd9de112aa440c09e83201aab096aa12c77c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///88\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/MasterPluginsModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-08T15:54:27Z",
+      "side": 1,
+      "message": "@SuppressWarnings(\"unchecked\")\n\nfor type safety on unchecked cast",
+      "revId": "9d06fd9de112aa440c09e83201aab096aa12c77c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

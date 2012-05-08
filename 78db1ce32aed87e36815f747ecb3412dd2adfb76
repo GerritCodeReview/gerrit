@@ -16,6 +16,23 @@
       "revId": "78db1ce32aed87e36815f747ecb3412dd2adfb76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFT3///rY\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginCommandModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-08T01:10:19Z",
+      "side": 1,
+      "message": "Is this what we want to do??\n\nmaybe pluginName \u003d name?",
+      "revId": "78db1ce32aed87e36815f747ecb3412dd2adfb76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

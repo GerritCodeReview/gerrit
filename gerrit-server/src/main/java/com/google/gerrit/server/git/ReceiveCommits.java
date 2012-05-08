@@ -20,13 +20,10 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.NoSuchAccountException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -204,7 +201,6 @@ public class ReceiveCommits {
 
   private final IdentifiedUser currentUser;
   private final ReviewDb db;
-  private final ApprovalTypes approvalTypes;
   private final AccountResolver accountResolver;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final MergedSender.Factory mergedSenderFactory;
@@ -253,7 +249,7 @@ public class ReceiveCommits {
   private MessageSender messageSender;
 
   @Inject
-  ReceiveCommits(final ReviewDb db, final ApprovalTypes approvalTypes,
+  ReceiveCommits(final ReviewDb db,
       final AccountResolver accountResolver,
       final CreateChangeSender.Factory createChangeSenderFactory,
       final MergedSender.Factory mergedSenderFactory,
@@ -276,7 +272,6 @@ public class ReceiveCommits {
       final SubmoduleOp.Factory subOpFactory) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
-    this.approvalTypes = approvalTypes;
     this.accountResolver = accountResolver;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.mergedSenderFactory = mergedSenderFactory;
@@ -1387,33 +1382,21 @@ public class ReceiveCommits {
       result.patchSet = ps;
       result.info = info;
 
+      List<PatchSetApproval> patchSetApprovals = approvalsUtil.copyVetosToLatestPatchSet(change);
+
       final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
       oldReviewers.clear();
       oldCC.clear();
 
-      for (PatchSetApproval a : db.patchSetApprovals().byChange(change.getId())) {
+      for (PatchSetApproval a : patchSetApprovals) {
         haveApprovals.add(a.getAccountId());
-
         if (a.getValue() != 0) {
           oldReviewers.add(a.getAccountId());
         } else {
           oldCC.add(a.getAccountId());
         }
-
-        // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
-        if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-          final ApprovalType type = approvalTypes.byId(a.getCategoryId());
-          if (a.getPatchSetId().equals(priorPatchSet)) {
-            if (type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
-              // If there was a negative vote on the prior patch set, carry it
-              // into this patch set.
-              //
-              db.patchSetApprovals().insert(
-                  Collections.singleton(new PatchSetApproval(ps.getId(), a)));
-            }
-          }
-        }
       }
+
       approvalsUtil.addReviewers(change, ps, info, reviewers, haveApprovals);
 
       msg =

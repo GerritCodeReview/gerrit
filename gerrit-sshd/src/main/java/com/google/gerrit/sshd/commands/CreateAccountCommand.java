@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -26,12 +27,12 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.RequiresCapability;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -45,7 +46,8 @@ import java.util.HashSet;
 import java.util.List;
 
 /** Create a new user account. **/
-final class CreateAccountCommand extends BaseCommand {
+@RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
+final class CreateAccountCommand extends SshCommand {
   @Option(name = "--group", aliases = {"-g"}, metaVar = "GROUP", usage = "groups to add account to")
   private List<AccountGroup.Id> groups = new ArrayList<AccountGroup.Id>();
 
@@ -77,24 +79,7 @@ final class CreateAccountCommand extends BaseCommand {
   private AccountByEmailCache byEmailCache;
 
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        if (!currentUser.getCapabilities().canCreateAccount()) {
-          String msg = String.format(
-            "fatal: %s does not have \"Create Account\" capability.",
-            currentUser.getUserName());
-          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
-        }
-
-        parseCommandLine();
-        createAccount();
-      }
-    });
-  }
-
-  private void createAccount() throws OrmException, IOException,
+  protected void run() throws OrmException, IOException,
       InvalidSshKeyException, UnloggedFailure {
     if (!username.matches(Account.USER_NAME_PATTERN)) {
       throw die("Username '" + username + "'"

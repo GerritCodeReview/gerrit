@@ -14,15 +14,17 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.PerformCreateGroup;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.RequiresCapability;
+import com.google.gerrit.sshd.SshCommand;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -34,7 +36,8 @@ import java.util.Set;
  * <p>
  * Optionally, puts an initial set of user in the newly created group.
  */
-final class CreateGroupCommand extends BaseCommand {
+@RequiresCapability(GlobalCapability.CREATE_GROUP)
+final class CreateGroupCommand extends SshCommand {
   @Option(name = "--owner", aliases = {"-o"}, metaVar = "GROUP", usage = "owning group, if not specified the group will be self-owning")
   private AccountGroup.Id ownerGroupId;
 
@@ -65,25 +68,19 @@ final class CreateGroupCommand extends BaseCommand {
   private PerformCreateGroup.Factory performCreateGroupFactory;
 
   @Override
-  public void start(Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine();
-        try {
-          performCreateGroupFactory.create().createGroup(groupName,
-              groupDescription,
-              visibleToAll,
-              ownerGroupId,
-              initialMembers,
-              initialGroups);
-        } catch (PermissionDeniedException e) {
-          throw die(e);
+  protected void run() throws Failure, OrmException {
+    try {
+      performCreateGroupFactory.create().createGroup(groupName,
+          groupDescription,
+          visibleToAll,
+          ownerGroupId,
+          initialMembers,
+          initialGroups);
+    } catch (PermissionDeniedException e) {
+      throw die(e);
 
-        } catch (NameAlreadyUsedException e) {
-          throw die(e);
-        }
-      }
-    });
+    } catch (NameAlreadyUsedException e) {
+      throw die(e);
+    }
   }
 }

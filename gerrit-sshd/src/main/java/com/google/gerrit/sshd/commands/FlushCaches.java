@@ -14,21 +14,22 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.RequiresCapability;
 import com.google.inject.Inject;
 
 import net.sf.ehcache.Ehcache;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 
 /** Causes the caches to purge all entries and reload. */
+@RequiresCapability(GlobalCapability.FLUSH_CACHES)
 final class FlushCaches extends CacheCommand {
   private static final String WEB_SESSIONS = "web_sessions";
 
@@ -44,27 +45,8 @@ final class FlushCaches extends CacheCommand {
   @Inject
   IdentifiedUser currentUser;
 
-  private PrintWriter p;
-
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        if (!currentUser.getCapabilities().canFlushCaches()) {
-          String msg = String.format(
-            "fatal: %s does not have \"Flush Caches\" capability.",
-            currentUser.getUserName());
-          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
-        }
-
-        parseCommandLine();
-        flush();
-      }
-    });
-  }
-
-  private void flush() throws Failure {
+  protected void run() throws Failure {
     if (caches.contains(WEB_SESSIONS)
         && !currentUser.getCapabilities().canAdministrateServer()) {
       String msg = String.format(
@@ -73,7 +55,6 @@ final class FlushCaches extends CacheCommand {
       throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
     }
 
-    p = toPrintWriter(err);
     if (list) {
       if (all || caches.size() > 0) {
         throw error("error: cannot use --list with --all or --cache");
@@ -106,10 +87,10 @@ final class FlushCaches extends CacheCommand {
 
   private void doList() {
     for (final String name : cacheNames()) {
-      p.print(name);
-      p.print('\n');
+      stderr.print(name);
+      stderr.print('\n');
     }
-    p.flush();
+    stderr.flush();
   }
 
   private void doBulkFlush() {
@@ -120,12 +101,12 @@ final class FlushCaches extends CacheCommand {
           try {
             c.removeAll();
           } catch (Throwable e) {
-            p.println("error: cannot flush cache \"" + name + "\": " + e);
+            stderr.println("error: cannot flush cache \"" + name + "\": " + e);
           }
         }
       }
     } finally {
-      p.flush();
+      stderr.flush();
     }
   }
 

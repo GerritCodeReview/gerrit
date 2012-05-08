@@ -17,17 +17,13 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.server.account.PerformRenameGroup;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 
-import java.io.IOException;
-
-public class RenameGroupCommand extends BaseCommand {
-
+public class RenameGroupCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of the group to be renamed")
   private String groupName;
 
@@ -38,21 +34,15 @@ public class RenameGroupCommand extends BaseCommand {
   private PerformRenameGroup.Factory performRenameGroupFactory;
 
   @Override
-  public void start(final Environment env) throws IOException {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine();
-        try {
-          performRenameGroupFactory.create().renameGroup(groupName, newGroupName);
-        } catch (OrmException e) {
-          throw die(e);
-        } catch (NameAlreadyUsedException e) {
-          throw die(e);
-        } catch (NoSuchGroupException e) {
-          throw die(e);
-        }
-      }
-    });
+  protected void run() throws Failure {
+    try {
+      performRenameGroupFactory.create().renameGroup(groupName, newGroupName);
+    } catch (OrmException e) {
+      throw die(e);
+    } catch (NameAlreadyUsedException e) {
+      throw die(e);
+    } catch (NoSuchGroupException e) {
+      throw die(e);
+    }
   }
 }

@@ -14,25 +14,24 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.util.IdGenerator;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.AdminHighPriorityCommand;
+import com.google.gerrit.sshd.RequiresCapability;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 
-import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
 /** Kill a task in the work queue. */
-final class KillCommand extends BaseCommand {
-  @Inject
-  private IdentifiedUser currentUser;
-
+@AdminHighPriorityCommand
+@RequiresCapability(GlobalCapability.KILL_TASK)
+final class KillCommand extends SshCommand {
   @Inject
   private WorkQueue workQueue;
 
@@ -48,33 +47,14 @@ final class KillCommand extends BaseCommand {
   }
 
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        if (!currentUser.getCapabilities().canKillTask()) {
-          String msg = String.format(
-            "fatal: %s does not have \"Kill Task\" capability.",
-            currentUser.getUserName());
-          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
-        }
-
-        parseCommandLine();
-        KillCommand.this.commitMurder();
-      }
-    });
-  }
-
-  private void commitMurder() {
-    final PrintWriter p = toPrintWriter(err);
+  protected void run() {
     for (final Integer id : taskIds) {
       final Task<?> task = workQueue.getTask(id);
       if (task != null) {
         task.cancel(true);
       } else {
-        p.print("kill: " + IdGenerator.format(id) + ": No such task\n");
+        stderr.print("kill: " + IdGenerator.format(id) + ": No such task\n");
       }
     }
-    p.flush();
   }
 }

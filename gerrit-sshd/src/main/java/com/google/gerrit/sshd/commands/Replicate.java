@@ -14,15 +14,16 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.RequiresCapability;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -31,7 +32,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /** Force a project to replicate, again. */
-final class Replicate extends BaseCommand {
+@RequiresCapability(GlobalCapability.START_REPLICATION)
+final class Replicate extends SshCommand {
   @Option(name = "--all", usage = "push all known projects")
   private boolean all;
 
@@ -54,24 +56,7 @@ final class Replicate extends BaseCommand {
   private ProjectCache projectCache;
 
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        if (!currentUser.getCapabilities().canStartReplication()) {
-          String msg = String.format(
-            "fatal: %s does not have \"Start Replication\" capability.",
-            currentUser.getUserName());
-          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
-        }
-
-        parseCommandLine();
-        Replicate.this.schedule();
-      }
-    });
-  }
-
-  private void schedule() throws Failure {
+  protected void run() throws Failure {
     if (all && projectNames.size() > 0) {
       throw new UnloggedFailure(1, "error: cannot combine --all and PROJECT");
     }

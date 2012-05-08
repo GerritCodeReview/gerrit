@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.sshd.args4j.SubcommandHandler;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -70,13 +71,7 @@ final class DispatchCommand extends BaseCommand {
       }
 
       final Command cmd = p.get();
-
-      if (isAdminCommand(cmd)
-          && !currentUser.get().getCapabilities().canAdministrateServer()) {
-        final String msg = "fatal: Not a Gerrit administrator";
-        throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
-      }
-
+      checkRequiresCapability(cmd);
       if (cmd instanceof BaseCommand) {
         final BaseCommand bc = (BaseCommand) cmd;
         if (prefix.isEmpty())
@@ -107,8 +102,18 @@ final class DispatchCommand extends BaseCommand {
     }
   }
 
-  private boolean isAdminCommand(final Command cmd) {
-    return cmd.getClass().getAnnotation(AdminCommand.class) != null;
+  private void checkRequiresCapability(Command cmd) throws UnloggedFailure {
+    RequiresCapability rc = cmd.getClass().getAnnotation(RequiresCapability.class);
+    if (rc != null) {
+      CurrentUser user = currentUser.get();
+      CapabilityControl ctl = user.getCapabilities();
+      if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
+        String msg = String.format(
+            "fatal: %s does not have \"%s\" capability.",
+            user.getUserName(), rc.value());
+        throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+      }
+    }
   }
 
   @Override

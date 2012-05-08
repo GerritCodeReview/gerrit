@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///5s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T17:53:13Z",
+      "side": 1,
+      "message": "This is where you should be getting the old id from and checking if it exists or not.",
+      "revId": "9c5aee3378dd967a5d64835fda190fece1d51db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///5w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T17:53:13Z",
+      "side": 1,
+      "message": "This should come from the mergeTip that was read at the start of the merge op, *not* one that is read at the end of the merge op.",
+      "revId": "9c5aee3378dd967a5d64835fda190fece1d51db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -12,21 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.server.plugins;
 
-import com.google.inject.Module;
+import com.google.inject.Injector;
+import com.google.inject.Singleton;
 
-public class Plugin {
-  public final String name;
-  public final Class<? extends Module> sshModule;
+import javax.inject.Inject;
 
-  public Plugin(String name, Class<? extends Module> sshModule) {
-    this.name = name;
-    this.sshModule = sshModule;
+@Singleton
+public class PluginEnvironment {
+  private final Injector sysInjector;
+  private Injector sshInjector;
+
+  @Inject
+  PluginEnvironment(Injector sysInjector) {
+    this.sysInjector = sysInjector;
   }
 
-  @Override
-  public String toString() {
-    return "Plugin [" + name + "; SshModule=" + sshModule.getName() + "]";
+  public Injector getSysInjector() {
+    return sysInjector;
+  }
+
+  public Injector getSshInjector() {
+    return sshInjector;
+  }
+
+  public void setSshInjector(Injector sshInjector) {
+    this.sshInjector = sshInjector;
   }
 }

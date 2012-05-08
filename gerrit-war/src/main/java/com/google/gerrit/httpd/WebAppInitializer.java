@@ -37,6 +37,8 @@ import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
+import com.google.gerrit.server.plugins.PluginEnvironment;
+import com.google.gerrit.server.plugins.PluginLoaderModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
@@ -112,6 +114,9 @@ public class WebAppInitializer extends GuiceServletContextListener {
       sysInjector = createSysInjector();
       sshInjector = createSshInjector();
       webInjector = createWebInjector();
+
+      sysInjector.getInstance(PluginEnvironment.class)
+          .setSshInjector(sshInjector);
 
       // Push the Provider<HttpServletRequest> down into the canonical
       // URL provider. Its optional for that provider, but since we can
@@ -198,6 +203,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PushReplication.Module());
+    modules.add(new PluginLoaderModule());
     modules.add(new CanonicalWebUrlModule() {
       @Override
       protected Class<? extends Provider<String>> provider() {

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.Plugin;
-import com.google.gerrit.common.PluginLoader;
+import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.inject.Inject;
 

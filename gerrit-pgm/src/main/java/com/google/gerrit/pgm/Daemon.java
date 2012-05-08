@@ -46,6 +46,8 @@ import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
+import com.google.gerrit.server.plugins.PluginEnvironment;
+import com.google.gerrit.server.plugins.PluginLoaderModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.sshd.SshModule;
@@ -209,6 +211,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PushReplication.Module());
+    modules.add(new PluginLoaderModule());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override
@@ -232,6 +235,8 @@ public class Daemon extends SiteProgram {
 
   private void initSshd() {
     sshInjector = createSshInjector();
+    sysInjector.getInstance(PluginEnvironment.class)
+        .setSshInjector(sshInjector);
     manager.add(sshInjector);
   }
 

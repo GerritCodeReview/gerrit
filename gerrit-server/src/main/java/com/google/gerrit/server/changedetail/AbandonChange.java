@@ -35,6 +35,8 @@ import com.google.inject.assistedinject.Assisted;
 
 import java.util.concurrent.Callable;
 
+import javax.annotation.Nullable;
+
 public class AbandonChange implements Callable<ReviewResult> {
 
   public interface Factory {
@@ -55,7 +57,7 @@ public class AbandonChange implements Callable<ReviewResult> {
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
       final IdentifiedUser currentUser, final ChangeHooks hooks,
       @Assisted final PatchSet.Id patchSetId,
-      @Assisted final String changeComment) {
+      @Nullable @Assisted final String changeComment) {
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.changeControlFactory = changeControlFactory;
     this.db = db;

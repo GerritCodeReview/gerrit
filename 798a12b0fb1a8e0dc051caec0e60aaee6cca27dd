@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFX3///3k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T21:45:18Z",
+      "side": 1,
+      "message": "as class is \"PluginLoader\" think get(pluginName) would have been clear enough ;-)",
+      "parentUuid": "AAAFXn///2g\u003d",
+      "revId": "798a12b0fb1a8e0dc051caec0e60aaee6cca27dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFXn///2k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
         "patchSetId": 12
@@ -64,6 +82,24 @@
       "writtenOn": "2012-05-08T21:28:12Z",
       "side": 1,
       "message": "I wouldn\u0027t expect a getter to go and load all the plugins as a side effect, it might be better to reconsider this approach in the future.",
+      "revId": "798a12b0fb1a8e0dc051caec0e60aaee6cca27dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///3g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T21:45:18Z",
+      "side": 1,
+      "message": "Possibly getAll() is a better name for this.\nThe initialize() is not really a side-effect but only a lazy initialisation (very much like what Gerrit does with Caching, don\u0027t load at startup and trigger a load at first get())",
+      "parentUuid": "AAAFXn///2k\u003d",
       "revId": "798a12b0fb1a8e0dc051caec0e60aaee6cca27dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFX3///3s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T21:45:18Z",
+      "side": 1,
+      "message": "Error maybe, but not blocking the Gerrit start-up for sure. As we use sl4j and we don\u0027t have FATAL in SL4J and IMHO it is not fatal (Gerrit can continue anyway), warn is the best we can do without displaying a fatal error.\n\nGerrit should be able to start without loading plugins.",
+      "parentUuid": "AAAFXn///2c\u003d",
+      "revId": "798a12b0fb1a8e0dc051caec0e60aaee6cca27dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFXn///2Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
         "patchSetId": 12
@@ -98,6 +152,24 @@
       "writtenOn": "2012-05-08T21:28:12Z",
       "side": 1,
       "message": "Will this output a warning simply because there are no plugins?",
+      "revId": "798a12b0fb1a8e0dc051caec0e60aaee6cca27dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///3o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T21:45:18Z",
+      "side": 1,
+      "message": "Not really, docs says:\n\"Returns null if this abstract pathname does not denote a directory, or if an I/O error occurs.\"\n\nSo if plugins is null (and NOT an empty array), then we have a potential problem in the I/O from reading list of files from plugins.",
+      "parentUuid": "AAAFXn///2Y\u003d",
       "revId": "798a12b0fb1a8e0dc051caec0e60aaee6cca27dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

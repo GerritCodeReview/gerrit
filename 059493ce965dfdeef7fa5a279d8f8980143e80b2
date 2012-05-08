@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFaH///+k\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:36:43Z",
+      "side": 1,
+      "message": "Can you name the sample maven project and explain how to download it?",
+      "revId": "059493ce965dfdeef7fa5a279d8f8980143e80b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///+g\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:36:43Z",
+      "side": 1,
+      "message": "formatting: maybe surround the example Manifest with \u0027\u003d\u003d\u003d\u003d\u0027",
+      "revId": "059493ce965dfdeef7fa5a279d8f8980143e80b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///+c\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:36:43Z",
+      "side": 1,
+      "message": "link? Do you still want to insert a link here?",
+      "revId": "059493ce965dfdeef7fa5a279d8f8980143e80b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///+Y\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:36:43Z",
+      "side": 1,
+      "message": "You may need to adapt this when Shawns change [1] gets merged that introduces SshCommand as new base class for all SSH commands.\n\n[1] https://gerrit-review.googlesource.com/35101",
+      "revId": "059493ce965dfdeef7fa5a279d8f8980143e80b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

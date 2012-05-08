@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,12 +21,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation tagged on a concrete Command that requires administrator access.
- * <p>
- * Currently this annotation is only enforced by DispatchCommand after it has
- * created the command object, but before it populates it or starts execution.
+ * Annotation on {@link SshCommand} declaring a capability must be granted.
  */
-@Target( {ElementType.TYPE})
+@Target({ElementType.TYPE})
 @Retention(RUNTIME)
-public @interface AdminCommand {
+public @interface RequiresCapability {
+  String value();
 }

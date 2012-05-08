@@ -33,13 +33,12 @@ import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -52,7 +51,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ReviewCommand extends BaseCommand {
+public class ReviewCommand extends SshCommand {
   private static final Logger log =
       LoggerFactory.getLogger(ReviewCommand.class);
 
@@ -130,63 +129,55 @@ public class ReviewCommand extends BaseCommand {
   private List<ApproveOption> optionList;
 
   @Override
-  public final void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Failure {
-        initOptionList();
-        parseCommandLine();
-        if (abandonChange) {
-          if (restoreChange) {
-            throw error("abandon and restore actions are mutually exclusive");
-          }
-          if (submitChange) {
-            throw error("abandon and submit actions are mutually exclusive");
-          }
-          if (publishPatchSet) {
-            throw error("abandon and publish actions are mutually exclusive");
-          }
-          if (deleteDraftPatchSet) {
-            throw error("abandon and delete actions are mutually exclusive");
-          }
-        }
-        if (publishPatchSet) {
-          if (restoreChange) {
-            throw error("publish and restore actions are mutually exclusive");
-          }
-          if (submitChange) {
-            throw error("publish and submit actions are mutually exclusive");
-          }
-          if (deleteDraftPatchSet) {
-            throw error("publish and delete actions are mutually exclusive");
-          }
-        }
-
-        boolean ok = true;
-        for (final PatchSet.Id patchSetId : patchSetIds) {
-          try {
-            approveOne(patchSetId);
-          } catch (UnloggedFailure e) {
-            ok = false;
-            writeError("error: " + e.getMessage() + "\n");
-          } catch (NoSuchChangeException e) {
-            ok = false;
-            writeError("no such change " + patchSetId.getParentKey().get());
-          } catch (Exception e) {
-            ok = false;
-            writeError("fatal: internal server error while approving "
-                + patchSetId + "\n");
-            log.error("internal error while approving " + patchSetId, e);
-          }
-        }
-
-        if (!ok) {
-          throw new UnloggedFailure(1, "one or more approvals failed;"
-              + " review output above");
-        }
-
+  protected void run() throws UnloggedFailure {
+    if (abandonChange) {
+      if (restoreChange) {
+        throw error("abandon and restore actions are mutually exclusive");
       }
-    });
+      if (submitChange) {
+        throw error("abandon and submit actions are mutually exclusive");
+      }
+      if (publishPatchSet) {
+        throw error("abandon and publish actions are mutually exclusive");
+      }
+      if (deleteDraftPatchSet) {
+        throw error("abandon and delete actions are mutually exclusive");
+      }
+    }
+    if (publishPatchSet) {
+      if (restoreChange) {
+        throw error("publish and restore actions are mutually exclusive");
+      }
+      if (submitChange) {
+        throw error("publish and submit actions are mutually exclusive");
+      }
+      if (deleteDraftPatchSet) {
+        throw error("publish and delete actions are mutually exclusive");
+      }
+    }
+
+    boolean ok = true;
+    for (final PatchSet.Id patchSetId : patchSetIds) {
+      try {
+        approveOne(patchSetId);
+      } catch (UnloggedFailure e) {
+        ok = false;
+        writeError("error: " + e.getMessage() + "\n");
+      } catch (NoSuchChangeException e) {
+        ok = false;
+        writeError("no such change " + patchSetId.getParentKey().get());
+      } catch (Exception e) {
+        ok = false;
+        writeError("fatal: internal server error while approving "
+            + patchSetId + "\n");
+        log.error("internal error while approving " + patchSetId, e);
+      }
+    }
+
+    if (!ok) {
+      throw new UnloggedFailure(1, "one or more approvals failed;"
+          + " review output above");
+    }
   }
 
   private void approveOne(final PatchSet.Id patchSetId) throws
@@ -344,7 +335,8 @@ public class ReviewCommand extends BaseCommand {
     return projectControl.getProject().getNameKey().equals(change.getProject());
   }
 
-  private void initOptionList() {
+  @Override
+  protected void parseCommandLine() throws UnloggedFailure {
     optionList = new ArrayList<ApproveOption>();
 
     for (ApprovalType type : approvalTypes.getApprovalTypes()) {
@@ -360,6 +352,8 @@ public class ReviewCommand extends BaseCommand {
           "--" + category.getName().toLowerCase().replace(' ', '-');
       optionList.add(new ApproveOption(name, usage, type));
     }
+
+    super.parseCommandLine();
   }
 
   private void writeError(final String msg) {

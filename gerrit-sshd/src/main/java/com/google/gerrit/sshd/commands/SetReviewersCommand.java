@@ -25,12 +25,11 @@ import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -43,7 +42,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SetReviewersCommand extends BaseCommand {
+public class SetReviewersCommand extends SshCommand {
   private static final Logger log =
       LoggerFactory.getLogger(SetReviewersCommand.class);
 
@@ -85,28 +84,21 @@ public class SetReviewersCommand extends BaseCommand {
   private Set<Change.Id> changes = new HashSet<Change.Id>();
 
   @Override
-  public final void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Failure {
-        parseCommandLine();
-
-        boolean ok = true;
-        for (Change.Id changeId : changes) {
-          try {
-            ok &= modifyOne(changeId);
-          } catch (Exception err) {
-            ok = false;
-            log.error("Error updating reviewers on change " + changeId, err);
-            writeError("fatal", "internal error while updating " + changeId);
-          }
-        }
-
-        if (!ok) {
-          throw error("fatal: one or more updates failed; review output above");
-        }
+  protected void run() throws UnloggedFailure {
+    boolean ok = true;
+    for (Change.Id changeId : changes) {
+      try {
+        ok &= modifyOne(changeId);
+      } catch (Exception err) {
+        ok = false;
+        log.error("Error updating reviewers on change " + changeId, err);
+        writeError("fatal", "internal error while updating " + changeId);
       }
-    });
+    }
+
+    if (!ok) {
+      throw error("fatal: one or more updates failed; review output above");
+    }
   }
 
   private boolean modifyOne(Change.Id changeId) throws Exception {

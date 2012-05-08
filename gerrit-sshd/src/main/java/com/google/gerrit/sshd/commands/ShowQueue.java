@@ -23,13 +23,13 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 
 /** Display the current work queue. */
 @AdminHighPriorityCommand
-final class ShowQueue extends BaseCommand {
+final class ShowQueue extends SshCommand {
   @Option(name = "-w", usage = "display without line width truncation")
   private boolean wide;
 
@@ -52,12 +52,11 @@ final class ShowQueue extends BaseCommand {
   @Inject
   private IdentifiedUser currentUser;
 
-  private PrintWriter p;
   private int columns = 80;
   private int taskNameWidth;
 
   @Override
-  public void start(final Environment env) {
+  public void start(final Environment env) throws IOException {
     String s = env.getEnv().get(Environment.ENV_COLUMNS);
     if (s != null && !s.isEmpty()) {
       try {
@@ -66,19 +65,11 @@ final class ShowQueue extends BaseCommand {
         columns = 80;
       }
     }
-
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine();
-        ShowQueue.this.display();
-      }
-    });
+    super.start(env);
   }
 
-  private void display() {
-    p = toPrintWriter(out);
-
+  @Override
+  protected void run() {
     final List<Task<?>> pending = workQueue.getTasks();
     Collections.sort(pending, new Comparator<Task<?>>() {
       public int compare(Task<?> a, Task<?> b) {
@@ -103,9 +94,9 @@ final class ShowQueue extends BaseCommand {
 
     taskNameWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 8 - 4;
 
-    p.print(String.format("%-8s %-12s %-8s %s\n", //
+    stdout.print(String.format("%-8s %-12s %-8s %s\n", //
         "Task", "State", "", "Command"));
-    p.print("----------------------------------------------"
+    stdout.print("----------------------------------------------"
         + "--------------------------------\n");
 
     int numberOfPendingTasks = 0;
@@ -158,7 +149,7 @@ final class ShowQueue extends BaseCommand {
 
       // Shows information about tasks depending on the user rights
       if (viewAll || (!hasCustomizedPrint && regularUserCanSee)) {
-        p.print(String.format("%8s %-12s %-8s %s\n", //
+        stdout.print(String.format("%8s %-12s %-8s %s\n", //
             id(task.getTaskId()), start, "", format(task)));
       } else if (regularUserCanSee) {
         if (remoteName == null) {
@@ -167,20 +158,18 @@ final class ShowQueue extends BaseCommand {
           remoteName = remoteName + "/" + projectName;
         }
 
-        p.print(String.format("%8s %-12s %-8s %s\n", //
+        stdout.print(String.format("%8s %-12s %-8s %s\n", //
             id(task.getTaskId()), start, "", remoteName));
       }
     }
-    p.print("----------------------------------------------"
+    stdout.print("----------------------------------------------"
         + "--------------------------------\n");
 
     if (viewAll) {
       numberOfPendingTasks = pending.size();
     }
 
-    p.print("  " + numberOfPendingTasks + " tasks\n");
-
-    p.flush();
+    stdout.print("  " + numberOfPendingTasks + " tasks\n");
   }
 
   private static String id(final int id) {

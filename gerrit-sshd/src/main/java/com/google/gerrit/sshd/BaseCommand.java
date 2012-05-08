@@ -246,8 +246,8 @@ public abstract class BaseCommand implements Command {
   protected synchronized void startThread(final CommandRunnable thunk) {
     final TaskThunk tt = new TaskThunk(thunk);
 
-    if (isAdminCommand() || (isAdminHighPriorityCommand()
-        && userProvider.get().getCapabilities().canAdministrateServer())) {
+    if (isAdminHighPriorityCommand()
+        && userProvider.get().getCapabilities().canAdministrateServer()) {
       // Admin commands should not block the main work threads (there
       // might be an interactive shell there), nor should they wait
       // for the main work threads.
@@ -256,10 +256,6 @@ public abstract class BaseCommand implements Command {
     } else {
       task = executor.submit(tt);
     }
-  }
-
-  private final boolean isAdminCommand() {
-    return getClass().getAnnotation(AdminCommand.class) != null;
   }
 
   private final boolean isAdminHighPriorityCommand() {

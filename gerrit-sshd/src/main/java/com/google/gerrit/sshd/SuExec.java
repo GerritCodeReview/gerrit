@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Executes any other command as a different user identity.
@@ -57,7 +59,7 @@ public final class SuExec extends BaseCommand {
   @Argument(index = 0, multiValued = true, metaVar = "COMMAND")
   private List<String> args = new ArrayList<String>();
 
-  private Command cmd;
+  private final AtomicReference<Command> atomicCmd;
 
   @Inject
   SuExec(@CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
@@ -69,6 +71,7 @@ public final class SuExec extends BaseCommand {
     this.session = session;
     this.userFactory = userFactory;
     this.callingContext = callingContext;
+    atomicCmd = Atomics.newReference();
   }
 
   @Override
@@ -83,10 +86,7 @@ public final class SuExec extends BaseCommand {
           final BaseCommand cmd = dispatcher.get();
           cmd.setArguments(args.toArray(new String[args.size()]));
           provideStateTo(cmd);
-
-          synchronized (this) {
-            this.cmd = cmd;
-          }
+          atomicCmd.set(cmd);
           cmd.start(env);
         } finally {
           SshScope.set(old);
@@ -136,11 +136,9 @@ public final class SuExec extends BaseCommand {
 
   @Override
   public void destroy() {
-    synchronized (this) {
-      if (cmd != null) {
+    Command cmd = atomicCmd.getAndSet(null);
+    if (cmd != null) {
         cmd.destroy();
-        cmd = null;
-      }
     }
   }
 }

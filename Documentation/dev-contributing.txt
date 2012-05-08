@@ -191,6 +191,7 @@ when coding:
     on slow links.  If the action buttons are disabled, they cannot
     be resubmitted and the user can see that Gerrit is still busy.
   * GWT EventBus is the new way forward.
+  * ...and so is Guava (previously known as Google Collections).
 
 
 Tests

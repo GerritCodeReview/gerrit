@@ -15,16 +15,15 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.server.query.change.QueryProcessor;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.util.List;
 
-class Query extends BaseCommand {
+class Query extends SshCommand {
   @Inject
   private QueryProcessor processor;
 
@@ -75,19 +74,14 @@ class Query extends BaseCommand {
   private List<String> query;
 
   @Override
-  public void start(Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        processor.setOutput(out, QueryProcessor.OutputFormat.TEXT);
-        parseCommandLine();
-        verifyCommandLine();
-        processor.query(join(query, " "));
-      }
-    });
+  protected void run() throws Exception {
+    processor.query(join(query, " "));
   }
 
-  private void verifyCommandLine() throws UnloggedFailure {
+  @Override
+  protected void parseCommandLine() throws UnloggedFailure {
+    processor.setOutput(out, QueryProcessor.OutputFormat.TEXT);
+    super.parseCommandLine();
     if (processor.getIncludeFiles() &&
         !(processor.getIncludePatchSets() || processor.getIncludeCurrentPatchSet())) {
       throw new UnloggedFailure(1, "--files option needs --patch-sets or --current-patch-set");

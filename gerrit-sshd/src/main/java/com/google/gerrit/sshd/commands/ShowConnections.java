@@ -14,21 +14,21 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.util.IdGenerator;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.RequiresCapability;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
-import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Option;
 
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -40,39 +40,16 @@ import java.util.Date;
 import java.util.List;
 
 /** Show the current SSH connections. */
-final class ShowConnections extends BaseCommand {
+@RequiresCapability(GlobalCapability.VIEW_CONNECTIONS)
+final class ShowConnections extends SshCommand {
   @Option(name = "--numeric", aliases = {"-n"}, usage = "don't resolve names")
   private boolean numeric;
-
-  private PrintWriter p;
-
-  @Inject
-  IdentifiedUser currentUser;
 
   @Inject
   private SshDaemon daemon;
 
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        if (!currentUser.getCapabilities().canViewConnections()) {
-          String msg = String.format(
-            "fatal: %s does not have \"View Connections\" capability.",
-            currentUser.getUserName());
-          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
-        }
-
-        parseCommandLine();
-        ShowConnections.this.display();
-      }
-    });
-  }
-
-  private void display() throws Failure {
-    p = toPrintWriter(out);
-
+  protected void run() throws Failure {
     final IoAcceptor acceptor = daemon.getIoAcceptor();
     if (acceptor == null) {
       throw new Failure(1, "fatal: sshd no longer running");
@@ -93,9 +70,9 @@ final class ShowConnections extends BaseCommand {
     });
 
     final long now = System.currentTimeMillis();
-    p.print(String.format("%-8s %8s %8s   %-15s %s\n", //
+    stdout.print(String.format("%-8s %8s %8s   %-15s %s\n", //
         "Session", "Start", "Idle", "User", "Remote Host"));
-    p.print("--------------------------------------------------------------\n");
+    stdout.print("--------------------------------------------------------------\n");
     for (final IoSession io : list) {
       ServerSession s = (ServerSession) ServerSession.getSession(io, true);
       SshSession sd = s != null ? s.getAttribute(SshSession.KEY) : null;
@@ -104,16 +81,14 @@ final class ShowConnections extends BaseCommand {
       final long start = io.getCreationTime();
       final long idle = now - io.getLastIoTime();
 
-      p.print(String.format("%8s %8s %8s  %-15.15s %.30s\n", //
+      stdout.print(String.format("%8s %8s %8s  %-15.15s %.30s\n", //
           id(sd), //
           time(now, start), //
           age(idle), //
           username(sd), //
           hostname(remoteAddress)));
     }
-    p.print("--\n");
-
-    p.flush();
+    stdout.print("--\n");
   }
 
   private static String id(final SshSession sd) {

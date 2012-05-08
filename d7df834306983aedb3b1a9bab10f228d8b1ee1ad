@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFX3///7w\u003d",
+        "filename": "Documentation/cmd-set-account.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-08T17:44:34Z",
+      "side": 1,
+      "message": "It is provided for other commands. This is a copy paste from:\n\nhttps://gerrit-review.googlesource.com/Documentation/cmd-create-account.html#_options",
+      "parentUuid": "AAAFXn///8M\u003d",
+      "revId": "d7df834306983aedb3b1a9bab10f228d8b1ee1ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFT3///uQ\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 4

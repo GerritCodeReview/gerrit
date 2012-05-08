@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
@@ -50,6 +51,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class BaseCommand implements Command {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
@@ -87,13 +89,17 @@ public abstract class BaseCommand implements Command {
   private Provider<SshScope.Context> contextProvider;
 
   /** The task, as scheduled on a worker thread. */
-  private Future<?> task;
+  private final AtomicReference<Future<?>> task;
 
   /** Text of the command line which lead up to invoking this instance. */
   private String commandName = "";
 
   /** Unparsed command line options. */
   private String[] argv;
+
+  public BaseCommand() {
+    task = Atomics.newReference();
+  }
 
   public void setInputStream(final InputStream in) {
     this.in = in;
@@ -121,8 +127,9 @@ public abstract class BaseCommand implements Command {
 
   @Override
   public void destroy() {
-    if (task != null && !task.isDone()) {
-      task.cancel(true);
+    Future<?> future = task.getAndSet(null);
+    if (future != null && !future.isDone()) {
+      future.cancel(true);
     }
   }
 
@@ -243,7 +250,7 @@ public abstract class BaseCommand implements Command {
    * @param thunk the runnable to execute on the thread, performing the
    *        command's logic.
    */
-  protected synchronized void startThread(final CommandRunnable thunk) {
+  protected void startThread(final CommandRunnable thunk) {
     final TaskThunk tt = new TaskThunk(thunk);
 
     if (isAdminCommand() || (isAdminHighPriorityCommand()
@@ -254,7 +261,7 @@ public abstract class BaseCommand implements Command {
       //
       new Thread(tt, tt.toString()).start();
     } else {
-      task = executor.submit(tt);
+      task.set(executor.submit(tt));
     }
   }
 

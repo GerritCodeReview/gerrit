@@ -16,6 +16,24 @@
       "revId": "c7af1f50b9aca53ecefb92722ff09a2eba7e93d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH////Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-08T13:11:01Z",
+      "side": 1,
+      "message": "If we go for plugins vs. extensions, I would prefer gerrit-api-plugins and gerrit-api-extensions.",
+      "parentUuid": "AAAFXn////o\u003d",
+      "revId": "c7af1f50b9aca53ecefb92722ff09a2eba7e93d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

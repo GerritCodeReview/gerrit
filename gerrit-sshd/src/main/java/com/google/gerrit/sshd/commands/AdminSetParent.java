@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -21,11 +22,10 @@ import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.sshd.AdminCommand;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.RequiresCapability;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
@@ -34,14 +34,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@AdminCommand
-final class AdminSetParent extends BaseCommand {
+@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+final class AdminSetParent extends SshCommand {
   private static final Logger log = LoggerFactory.getLogger(AdminSetParent.class);
 
   @Option(name = "--parent", aliases = {"-p"}, metaVar = "NAME", usage = "new parent project")
@@ -68,26 +67,10 @@ final class AdminSetParent extends BaseCommand {
   @Inject
   private AllProjectsName allProjectsName;
 
-  private PrintWriter stdout;
   private Project.NameKey newParentKey = null;
 
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        stdout = toPrintWriter(out);
-        try {
-          parseCommandLine();
-          updateParents();
-        } finally {
-          stdout.flush();
-        }
-      }
-    });
-  }
-
-  private void updateParents() throws Failure {
+  protected void run() throws Failure {
     if (oldParent == null && children.isEmpty()) {
       throw new UnloggedFailure(1, "fatal: child projects have to be specified as " +
                                    "arguments or the --children-of option has to be set");

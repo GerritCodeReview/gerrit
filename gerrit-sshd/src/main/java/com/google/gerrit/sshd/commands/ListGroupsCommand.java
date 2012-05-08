@@ -22,20 +22,16 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListGroupsCommand extends BaseCommand {
-
+public class ListGroupsCommand extends SshCommand {
   @Inject
   private VisibleGroups.Factory visibleGroupsFactory;
 
@@ -57,18 +53,7 @@ public class ListGroupsCommand extends BaseCommand {
   private Account.Id user;
 
   @Override
-  public void start(final Environment env) throws IOException {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine();
-        ListGroupsCommand.this.display();
-      }
-    });
-  }
-
-  private void display() throws Failure {
-    final PrintWriter stdout = toPrintWriter(out);
+  protected void run() throws Failure {
     try {
       if (user != null && !projects.isEmpty()) {
         throw new UnloggedFailure(1, "fatal: --user and --project options are not compatible.");
@@ -92,8 +77,6 @@ public class ListGroupsCommand extends BaseCommand {
       throw die(e);
     } catch (NoSuchGroupException e) {
       throw die(e);
-    } finally {
-      stdout.flush();
     }
   }
 }

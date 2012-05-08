@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFUH///dE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Plugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:13:52Z",
+      "side": 1,
+      "message": "(optional) could be declared final",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///dA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Plugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:13:52Z",
+      "side": 1,
+      "message": "(optional) could be declared final",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///ck\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:13:52Z",
+      "side": 1,
+      "message": "This should probably be @Singleton",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///c8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:13:52Z",
+      "side": 1,
+      "message": "(optional) With Guava this can be Maps.newHashMap();",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///c4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:13:52Z",
+      "side": 1,
+      "message": "This is a no-op, the catch will return before this value is consumed so we don\u0027t have to assign it a value.",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///cs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:13:52Z",
+      "side": 1,
+      "message": "please try to line wrap lines longer than 80 columns\n\nwhy not the more direct:\n\n  ClassLoader parent \u003d PluginLoader.class.getClassLoader();\n  new URLClassLoader(getPluginURLs(jarFile), parent)?",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///co\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:13:52Z",
+      "side": 1,
+      "message": "Class.forName(moduleName, false, jarClassLoader)",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///cw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:13:52Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUH///c0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T00:13:52Z",
+      "side": 1,
+      "message": "style-nit: wrap the then block in curly braces",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

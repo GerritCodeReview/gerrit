@@ -39,9 +39,9 @@ public class MasterPluginsModule extends CommandModule {
   protected void configure() {
     Collection<Plugin> plugins = pluginLoader.getPlugins();
     for (Plugin p : plugins) {
-      if (PluginCommandModule.class.isAssignableFrom(p.moduleClass)) {
+      if (PluginCommandModule.class.isAssignableFrom(p.sshModule)) {
         @SuppressWarnings("unchecked")
-        Class<PluginCommandModule> c = (Class<PluginCommandModule>) p.moduleClass;
+        Class<PluginCommandModule> c = (Class<PluginCommandModule>) p.sshModule;
         try {
           PluginCommandModule module = c.newInstance();
           module.initSshModule(p.name);

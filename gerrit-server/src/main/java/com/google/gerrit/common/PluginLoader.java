@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -34,15 +35,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 @Singleton
 public class PluginLoader {
-  private static Logger log = LoggerFactory.getLogger(PluginLoader.class);
+  private static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
-  private File pluginsDir;
-
+  private final File pluginsDir;
   private Map<String, Plugin> pluginCache;
 
   @Inject
@@ -99,24 +100,25 @@ public class PluginLoader {
     ClassLoader jarClassLoader =
         new URLClassLoader(getPluginURLs(jarFile), parentLoader);
 
-    String pluginName = getMandatoryAttribute(jarManifest, "Gerrit-Plugin");
-    String moduleName = getMandatoryAttribute(jarManifest, "Gerrit-SshModule");
+    Attributes attrs = jarManifest.getMainAttributes();
+    String pluginName = attrs.getValue("Gerrit-Plugin");
+    if (Strings.isNullOrEmpty(pluginName)) {
+      throw new IOException("No Gerrit-Plugin attribute in manifest");
+    }
+
+    String moduleName = attrs.getValue("Gerrit-SshModule");
+    if (Strings.isNullOrEmpty(moduleName)) {
+      throw new IOException("No Gerrit-SshModule attribute in manifest");
+    }
 
     Class<?> moduleClass = Class.forName(moduleName, false, jarClassLoader);
     if (!Module.class.isAssignableFrom(moduleClass)) {
-      throw new ClassNotFoundException("Class "
-          + moduleClass.getName() + " is not a Guice Module");
+      throw new ClassNotFoundException(String.format(
+          "Gerrit-SshModule %s is not a Guice Module",
+          moduleClass.getName()));
     }
 
     return new Plugin(pluginName, (Class<? extends Module>) moduleClass);
-  }
-
-  private String getMandatoryAttribute(Manifest manifest, String attrName) throws IOException {
-    String value = manifest.getMainAttributes().getValue(attrName);
-    if(value == null || value.trim().isEmpty())
-      throw new IOException("Missing mandatory attribute " + attrName + " in manifest");
-
-    return value;
   }
 
   private URL[] getPluginURLs(File jarFile) throws MalformedURLException {

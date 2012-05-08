@@ -36,6 +36,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Creates a CommandFactory using commands registered by {@link CommandModule}.
@@ -79,11 +80,12 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     private Environment env;
     private Context ctx;
     private DispatchCommand cmd;
-    private boolean logged;
+    private final AtomicBoolean logged;
 
     Trampoline(final String cmdLine) {
       commandLine = cmdLine;
       argv = split(cmdLine);
+      logged = new AtomicBoolean();
     }
 
     public void setInputStream(final InputStream in) {
@@ -173,11 +175,8 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     }
 
     private void log(final int rc) {
-      synchronized (this) {
-        if (!logged) {
-          log.onExecute(rc);
-          logged = true;
-        }
+      if (logged.compareAndSet(false, true)) {
+        log.onExecute(rc);
       }
     }
 

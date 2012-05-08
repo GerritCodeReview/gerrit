@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.sshd.args4j.SubcommandHandler;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Command that dispatches to a subcommand from its command table.
@@ -41,7 +43,7 @@ final class DispatchCommand extends BaseCommand {
   private final Provider<CurrentUser> currentUser;
   private final String prefix;
   private final Map<String, Provider<Command>> commands;
-  private Command cmd;
+  private final AtomicReference<Command> atomicCmd;
 
   @Argument(index = 0, required = true, metaVar = "COMMAND", handler = SubcommandHandler.class)
   private String commandName;
@@ -55,6 +57,7 @@ final class DispatchCommand extends BaseCommand {
     currentUser = cu;
     prefix = pfx;
     commands = all;
+    atomicCmd = Atomics.newReference();
   }
 
   @Override
@@ -85,10 +88,7 @@ final class DispatchCommand extends BaseCommand {
       }
 
       provideStateTo(cmd);
-
-      synchronized (this) {
-        this.cmd = cmd;
-      }
+      atomicCmd.set(cmd);
       cmd.start(env);
 
     } catch (UnloggedFailure e) {
@@ -118,11 +118,9 @@ final class DispatchCommand extends BaseCommand {
 
   @Override
   public void destroy() {
-    synchronized (this) {
-      if (cmd != null) {
+    Command cmd = atomicCmd.getAndSet(null);
+    if (cmd != null) {
         cmd.destroy();
-        cmd = null;
-      }
     }
   }
 

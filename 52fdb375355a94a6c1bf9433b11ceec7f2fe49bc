@@ -87,6 +87,24 @@
       "revId": "52fdb375355a94a6c1bf9433b11ceec7f2fe49bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///uc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:56:32Z",
+      "side": 1,
+      "message": "You read in my thoughts ... already done in Patch10 using listFiles(FilenameFilter).\n\nCode is less readable though, but a new dependency was overkill :-)",
+      "parentUuid": "AAAFT3///rs\u003d",
+      "revId": "52fdb375355a94a6c1bf9433b11ceec7f2fe49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

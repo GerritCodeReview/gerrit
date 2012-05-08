@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.util.concurrent.Atomics;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.sshd.SshScope.Context;
@@ -36,7 +38,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Creates a CommandFactory using commands registered by {@link CommandModule}.
@@ -47,7 +53,8 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
 
   private final DispatchCommandProvider dispatcher;
   private final SshLog log;
-  private final Executor startExecutor;
+  private final ScheduledExecutorService startExecutor;
+  private final Executor destroyExecutor;
 
   @Inject
   CommandFactoryProvider(
@@ -59,6 +66,11 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
 
     int threads = cfg.getInt("sshd","commandStartThreads", 2);
     startExecutor = workQueue.createQueue(threads, "SshCommandStart");
+    destroyExecutor = Executors.newSingleThreadExecutor(
+        new ThreadFactoryBuilder()
+          .setNameFormat("SshCommandDestroy-%s")
+          .setDaemon(true)
+          .build());
   }
 
   @Override
@@ -81,11 +93,13 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     private Context ctx;
     private DispatchCommand cmd;
     private final AtomicBoolean logged;
+    private final AtomicReference<Future<?>> task;
 
     Trampoline(final String cmdLine) {
       commandLine = cmdLine;
       argv = split(cmdLine);
       logged = new AtomicBoolean();
+      task = Atomics.newReference();
     }
 
     public void setInputStream(final InputStream in) {
@@ -112,7 +126,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     public void start(final Environment env) throws IOException {
       this.env = env;
       final Context ctx = this.ctx;
-      startExecutor.execute(new Runnable() {
+      task.set(startExecutor.submit(new Runnable() {
         public void run() {
           try {
             onStart();
@@ -126,7 +140,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
         public String toString() {
           return "start (user " + ctx.getSession().getUsername() + ")";
         }
-      });
+      }));
     }
 
     private void onStart() throws IOException {
@@ -182,6 +196,19 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
 
     @Override
     public void destroy() {
+      Future<?> future = task.getAndSet(null);
+      if (future != null) {
+        future.cancel(true);
+        destroyExecutor.execute(new Runnable() {
+          @Override
+          public void run() {
+            onDestroy();
+          }
+        });
+      }
+    }
+
+    private void onDestroy() {
       synchronized (this) {
         if (cmd != null) {
           final Context old = SshScope.set(ctx);

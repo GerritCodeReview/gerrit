@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///4o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T18:51:51Z",
+      "side": 1,
+      "message": "toFileList() might be shorter.",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///40\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T18:51:51Z",
+      "side": 1,
+      "message": "This has to be increased because you modified the key format.",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///44\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T18:51:51Z",
+      "side": 1,
+      "message": "This can\u0027t be transient, its part of the hashcode and equals methods.\n\nboolean not Boolean",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///4w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T18:51:51Z",
+      "side": 1,
+      "message": "boolean not Boolean",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///4s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T18:51:51Z",
+      "side": 1,
+      "message": "h \u003dh * 31 + (isRebaseTransparent ? 1 : 0)",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///4k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T18:51:51Z",
+      "side": 1,
+      "message": "You can\u0027t modify a patch list inside of the cache.",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///2g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-08T21:28:12Z",
+      "side": 1,
+      "message": "getPlugin() might be clearer.",
+      "revId": "798a12b0fb1a8e0dc051caec0e60aaee6cca27dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///2k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-08T21:28:12Z",
+      "side": 1,
+      "message": "I wouldn\u0027t expect a getter to go and load all the plugins as a side effect, it might be better to reconsider this approach in the future.",
+      "revId": "798a12b0fb1a8e0dc051caec0e60aaee6cca27dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///2c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-08T21:28:12Z",
+      "side": 1,
+      "message": "This feels like an error, not a warning.",
+      "revId": "798a12b0fb1a8e0dc051caec0e60aaee6cca27dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///2Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-08T21:28:12Z",
+      "side": 1,
+      "message": "Will this output a warning simply because there are no plugins?",
+      "revId": "798a12b0fb1a8e0dc051caec0e60aaee6cca27dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

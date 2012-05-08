@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///+c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-08T16:28:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFaH////I\u003d",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFaH///+0\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2012-05-08T13:30:08Z",
       "side": 1,
       "message": "nit: this import is not used and can be removed",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///84\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-08T16:28:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFaH///+0\u003d",
       "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFXn///8U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-08T16:28:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFaH////A\u003d",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFaH///+8\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2012-05-08T13:30:08Z",
       "side": 1,
       "message": "s/ReviewCommand/AbandonCommand",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///9M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-08T16:28:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFaH///+8\u003d",
       "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +193,42 @@
     },
     {
       "key": {
+        "uuid": "AAAFXn///80\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-08T16:28:28Z",
+      "side": 1,
+      "message": "Actually, Shawn and I were talking about identifiers lately.  What you are saying makes sense, but I\u0027m wondering if he wants a consistent identifier across all these commands.",
+      "parentUuid": "AAAFaH///+s\u003d",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///+Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-08T16:28:28Z",
+      "side": 1,
+      "message": "same",
+      "parentUuid": "AAAFaH////E\u003d",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFaH///+w\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
         "patchSetId": 1
@@ -132,6 +240,24 @@
       "writtenOn": "2012-05-08T13:30:08Z",
       "side": 1,
       "message": "Is this the same method as in ReviewCommand? Can we avoid duplicating this code?",
+      "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///8w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-08T16:28:28Z",
+      "side": 1,
+      "message": "Yea, I made a comment on this in the top level comment thread.  Once again, I\u0027m wondering if there is something better than this entirely, rather than just refactoring it out.",
+      "parentUuid": "AAAFaH///+w\u003d",
       "revId": "6af9110bdd2e7a430dc96215604d848e825e0e42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

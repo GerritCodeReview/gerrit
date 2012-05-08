@@ -114,6 +114,12 @@ WAR File
 ** new war: [release-candidate], featured...
 ** old war: deprecated
 
+Plugin API JAR File
+~~~~~~~~~~~~~~~~~~~
+
+* Push JAR to commondatastorage.googleapis.com
+** Run tools/deploy_plugin_api.sh
+
 Tag
 ~~~
 

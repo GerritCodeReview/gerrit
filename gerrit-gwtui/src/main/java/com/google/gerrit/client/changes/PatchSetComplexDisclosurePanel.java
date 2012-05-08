@@ -437,15 +437,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
           Util.MANAGE_SVC.submit(patchSet.getId(),
-              new GerritCallback<ChangeDetail>() {
+              new ChangeDetailCache.GerritWidgetCallback(b) {
                 public void onSuccess(ChangeDetail result) {
                   onSubmitResult(result);
-                }
-
-                @Override
-                public void onFailure(Throwable caught) {
-                  b.setEnabled(true);
-                  super.onFailure(caught);
                 }
               });
         }
@@ -611,17 +605,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       public void onClick(final ClickEvent event) {
         b.setEnabled(false);
         Util.MANAGE_SVC.publish(patchSet.getId(),
-            new GerritCallback<ChangeDetail>() {
-              public void onSuccess(ChangeDetail result) {
-                detailCache.set(result);
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                b.setEnabled(true);
-                super.onFailure(caught);
-              }
-            });
+            new ChangeDetailCache.GerritWidgetCallback(b));
       }
     });
     actionsPanel.add(b);
@@ -634,19 +618,13 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       public void onClick(final ClickEvent event) {
         b.setEnabled(false);
         PatchUtil.DETAIL_SVC.deleteDraftPatchSet(patchSet.getId(),
-            new GerritCallback<ChangeDetail>() {
+            new ChangeDetailCache.GerritWidgetCallback(b) {
               public void onSuccess(final ChangeDetail result) {
                 if (result != null) {
                   detailCache.set(result);
                 } else {
                   Gerrit.display(PageLinks.MINE);
                 }
-              }
-
-              @Override
-              public void onFailure(Throwable caught) {
-                b.setEnabled(true);
-                super.onFailure(caught);
               }
             });
       }

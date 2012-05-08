@@ -15,29 +15,16 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Version;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.SshCommand;
 
-import org.apache.sshd.server.Environment;
-
-import java.io.PrintWriter;
-
-final class VersionCommand extends BaseCommand {
+final class VersionCommand extends SshCommand {
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Failure {
-        parseCommandLine();
+  protected void run() throws Failure {
+    String v = Version.getVersion();
+    if (v == null) {
+      throw new Failure(1, "fatal: version unavailable");
+    }
 
-        String v = Version.getVersion();
-        if (v == null) {
-          throw new Failure(1, "fatal: version unavailable");
-        }
-
-        final PrintWriter stdout = toPrintWriter(out);
-        stdout.println("gerrit version " + v);
-        stdout.flush();
-      }
-    });
+    stdout.println("gerrit version " + v);
   }
 }

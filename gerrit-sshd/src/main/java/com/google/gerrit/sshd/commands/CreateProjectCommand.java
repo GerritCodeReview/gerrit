@@ -14,28 +14,28 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SuggestParentCandidates;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.RequiresCapability;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.lib.Constants;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.io.PrintWriter;
 import java.util.List;
 
 /** Create a new project. **/
-final class CreateProjectCommand extends BaseCommand {
+@RequiresCapability(GlobalCapability.CREATE_PROJECT)
+final class CreateProjectCommand extends SshCommand {
   @Option(name = "--name", aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created (deprecated option)")
   void setProjectNameFromOption(String name) {
     if (projectName != null) {
@@ -96,64 +96,45 @@ final class CreateProjectCommand extends BaseCommand {
   }
 
   @Inject
-  private IdentifiedUser currentUser;
-
-  @Inject
   private CreateProject.Factory CreateProjectFactory;
 
   @Inject
   private SuggestParentCandidates.Factory suggestParentCandidatesFactory;
 
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        if (!currentUser.getCapabilities().canCreateProject()) {
-          String msg =
-              String.format(
-                  "fatal: %s does not have \"Create Project\" capability.",
-                  currentUser.getUserName());
-          throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+  protected void run() throws Exception {
+    try {
+      if (!suggestParent) {
+        if (projectName == null) {
+          throw new UnloggedFailure(1, "fatal: Project name is required.");
         }
-        PrintWriter p = toPrintWriter(out);
-        parseCommandLine();
-        try {
-          if (!suggestParent) {
-            if (projectName == null) {
-              throw new UnloggedFailure(1, "fatal: Project name is required.");
-            }
-            final CreateProjectArgs args = new CreateProjectArgs();
-            args.setProjectName(projectName);
-            args.ownerIds = ownerIds;
-            args.newParent = newParent;
-            args.permissionsOnly = permissionsOnly;
-            args.projectDescription = projectDescription;
-            args.submitType = submitType;
-            args.contributorAgreements = contributorAgreements;
-            args.signedOffBy = signedOffBy;
-            args.contentMerge = contentMerge;
-            args.changeIdRequired = requireChangeID;
-            args.branch = branch;
-            args.createEmptyCommit = createEmptyCommit;
+        final CreateProjectArgs args = new CreateProjectArgs();
+        args.setProjectName(projectName);
+        args.ownerIds = ownerIds;
+        args.newParent = newParent;
+        args.permissionsOnly = permissionsOnly;
+        args.projectDescription = projectDescription;
+        args.submitType = submitType;
+        args.contributorAgreements = contributorAgreements;
+        args.signedOffBy = signedOffBy;
+        args.contentMerge = contentMerge;
+        args.changeIdRequired = requireChangeID;
+        args.branch = branch;
+        args.createEmptyCommit = createEmptyCommit;
 
-            final CreateProject createProject =
-                CreateProjectFactory.create(args);
-            createProject.createProject();
-          } else {
-            List<Project.NameKey> parentCandidates =
-                suggestParentCandidatesFactory.create().getNameKeys();
+        final CreateProject createProject =
+            CreateProjectFactory.create(args);
+        createProject.createProject();
+      } else {
+        List<Project.NameKey> parentCandidates =
+            suggestParentCandidatesFactory.create().getNameKeys();
 
-            for (Project.NameKey parent : parentCandidates) {
-              p.print(parent + "\n");
-            }
-          }
-        } catch (ProjectCreationFailedException err) {
-          throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
-        } finally {
-          p.flush();
+        for (Project.NameKey parent : parentCandidates) {
+          stdout.print(parent + "\n");
         }
       }
-    });
+    } catch (ProjectCreationFailedException err) {
+      throw new UnloggedFailure(1, "fatal: " + err.getMessage(), err);
+    }
   }
 }

@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.ehcache.EhcachePoolImpl;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
 import net.sf.ehcache.CacheManager;
@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-abstract class CacheCommand extends BaseCommand {
+abstract class CacheCommand extends SshCommand {
   @Inject
   protected EhcachePoolImpl cachePool;
 

@@ -14,16 +14,18 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.sshd.AdminCommand;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.sshd.AdminHighPriorityCommand;
+import com.google.gerrit.sshd.RequiresCapability;
+import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
 /** Opens a query processor. */
-@AdminCommand
-final class AdminQueryShell extends BaseCommand {
+@AdminHighPriorityCommand
+@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+final class AdminQueryShell extends SshCommand {
   @Inject
   private QueryShell.Factory factory;
 
@@ -34,19 +36,13 @@ final class AdminQueryShell extends BaseCommand {
   private String query;
 
   @Override
-  public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine();
-        final QueryShell shell = factory.create(in, out);
-        shell.setOutputFormat(format);
-        if (query != null) {
-          shell.execute(query);
-        } else {
-          shell.run();
-        }
-      }
-    });
+  protected void run() {
+    final QueryShell shell = factory.create(in, out);
+    shell.setOutputFormat(format);
+    if (query != null) {
+      shell.execute(query);
+    } else {
+      shell.run();
+    }
   }
 }

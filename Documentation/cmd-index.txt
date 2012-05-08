@@ -51,6 +51,9 @@ see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 [[user_commands]]User Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+link:cmd-abandon.html[gerrit abandon]::
+	Abandon a change from the command line.
+
 'gerrit approve'::
 	'Deprecated alias for `gerrit review`.'
 

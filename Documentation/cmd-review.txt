@@ -69,6 +69,7 @@ successfully, even if the label could not be changed.
 	complete listing of supported approval categories and values.
 
 --abandon::
+	(Deprecated!  Please use link:cmd-abandon.html[gerrit abandon] instead.)
 	Abandon the specified patch set(s).
 	(option is mutually exclusive with --submit and --restore)
 

@@ -1,0 +1,62 @@
+gerrit abandon
+==============
+
+NAME
+----
+gerrit abandon - Abandon a change
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit abandon'
+  [--message <MESSAGE>]
+  PROJECT,BRANCH,CHANGEID
+
+DESCRIPTION
+-----------
+Abandons a change, sending out email notifications and updating
+the database.
+
+Changes should be specified as a project, branch, and complete
+Change-Id.
+
+OPTIONS
+-------
+
+--message::
+-m::
+	Optional cover letter to include as part of the message
+	sent to reviewers when the approval states are updated.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+Abandon the change with Change-Id I01d0e3830d29a84e3a0decf15e5de3c680e47320
+in project my/project in branch master:
+=====
+	$ ssh -p 29418 review.example.com gerrit abandon my/project,master,I01d0e3830d29a84e3a0decf15e5de3c680e47320
+=====
+
+Append the message "Change is obsolete". Notice two levels of quoting is
+required, one for the local shell, and another for the argument parser
+inside the Gerrit server:
+=====
+	$ ssh -p 29418 review.example.com gerrit abandon -m '"Change is obsolete"' my/project,master,I01d0e3830d29a84e3a0decf15e5de3c680e47320
+=====
+
+SEE ALSO
+--------
+
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

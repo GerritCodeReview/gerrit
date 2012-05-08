@@ -132,6 +132,8 @@ public class ReviewCommand extends SshCommand {
   @Override
   protected void run() throws UnloggedFailure {
     if (abandonChange) {
+      writeError("`gerrit review --abandon` is deprecated!  "
+                 + "Use `gerrit abandon' instead.");
       if (restoreChange) {
         throw error("abandon and restore actions are mutually exclusive");
       }
@@ -202,7 +204,7 @@ public class ReviewCommand extends SshCommand {
 
       if (abandonChange) {
         final ReviewResult result = abandonChangeFactory.create(
-            patchSetId, changeComment).call();
+            patchSetId.getParentKey(), changeComment).call();
         handleReviewResultErrors(result);
       } else if (restoreChange) {
         final ReviewResult result = restoreChangeFactory.create(

@@ -35,10 +35,12 @@ import com.google.inject.assistedinject.Assisted;
 
 import java.util.concurrent.Callable;
 
+import javax.annotation.Nullable;
+
 public class AbandonChange implements Callable<ReviewResult> {
 
   public interface Factory {
-    AbandonChange create(PatchSet.Id patchSetId, String changeComment);
+    AbandonChange create(Change.Id changeId, String changeComment);
   }
 
   private final AbandonedSender.Factory abandonedSenderFactory;
@@ -47,22 +49,22 @@ public class AbandonChange implements Callable<ReviewResult> {
   private final IdentifiedUser currentUser;
   private final ChangeHooks hooks;
 
-  private final PatchSet.Id patchSetId;
+  private final Change.Id changeId;
   private final String changeComment;
 
   @Inject
   AbandonChange(final AbandonedSender.Factory abandonedSenderFactory,
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
       final IdentifiedUser currentUser, final ChangeHooks hooks,
-      @Assisted final PatchSet.Id patchSetId,
-      @Assisted final String changeComment) {
+      @Assisted final Change.Id changeId,
+      @Nullable @Assisted final String changeComment) {
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
     this.hooks = hooks;
 
-    this.patchSetId = patchSetId;
+    this.changeId = changeId;
     this.changeComment = changeComment;
   }
 
@@ -71,9 +73,10 @@ public class AbandonChange implements Callable<ReviewResult> {
       InvalidChangeOperationException, NoSuchChangeException, OrmException {
     final ReviewResult result = new ReviewResult();
 
-    final Change.Id changeId = patchSetId.getParentKey();
     result.setChangeId(changeId);
     final ChangeControl control = changeControlFactory.validateFor(changeId);
+    final Change change = db.changes().get(changeId);
+    final PatchSet.Id patchSetId = change.currentPatchSetId();
     final PatchSet patch = db.patchSets().get(patchSetId);
     if (!control.canAbandon()) {
       result.addError(new ReviewResult.Error(

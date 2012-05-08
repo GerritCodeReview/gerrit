@@ -60,7 +60,7 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
       EmailException, NoSuchEntityException, InvalidChangeOperationException,
       PatchSetInfoNotAvailableException {
     final ReviewResult result =
-        abandonChangeFactory.create(patchSetId, message).call();
+        abandonChangeFactory.create(patchSetId.getParentKey(), message).call();
     if (result.getErrors().size() > 0) {
       throw new NoSuchChangeException(result.getChangeId());
     }

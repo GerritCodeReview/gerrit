@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///5w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-08T18:25:10Z",
+      "side": 1,
+      "message": "private Map\u003cString, Plugin\u003e pluginCache;",
+      "revId": "e83edc742726429d3eba3bbaf41cb36a4cd26d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///5c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-08T18:25:10Z",
+      "side": 1,
+      "message": "Place loggers first in your class?",
+      "revId": "e83edc742726429d3eba3bbaf41cb36a4cd26d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

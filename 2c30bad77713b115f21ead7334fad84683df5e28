@@ -16,6 +16,24 @@
       "revId": "2c30bad77713b115f21ead7334fad84683df5e28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///6Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-08T17:44:51Z",
+      "side": 1,
+      "message": "Sorry. Was working on ChangeUtil too, and my brain broke.",
+      "parentUuid": "AAAFXn///6c\u003d",
+      "revId": "2c30bad77713b115f21ead7334fad84683df5e28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

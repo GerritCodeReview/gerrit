@@ -1,0 +1,83 @@
+gerrit review
+==============
+
+NAME
+----
+gerrit abandon - Abandon a change
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit abandon'
+  [--message <MESSAGE>]
+  PROJECT,BRANCH,CHANGEID
+
+DESCRIPTION
+-----------
+Abandons a change, sending out email notifications and updating
+the database.
+
+Patch sets should be specified as complete or abbreviated commit
+SHA-1s.  If the same commit is available in multiple projects the
+--project option may be used to limit where Gerrit searches for
+the change to only the contents of the specified project.
+
+For current backward compatibility with user tools patch sets may
+also be specified in the legacy 'CHANGEID,PATCHSET' format, such as
+'8242,2'.  Support for this legacy format is planned to be removed
+in a future edition of Gerrit Code Review.  Use of commit SHA-1s
+is strongly encouraged.
+
+OPTIONS
+-------
+
+--message::
+-m::
+	Optional cover letter to include as part of the message
+	sent to reviewers when the approval states are updated.
+
++
+Used by some scripts/CI-systems, where the results (or links
+to the result) are posted as a message after completion of a
+build (often together with a label-change, indicating the success
+of the build).
++
+If the change is abandoned successfully, the cmd will return
+successfully, even if the label could not be changed.
+
+--help::
+-h::
+	Display site-specific usage information, including the
+	complete listing of supported approval categories and values.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+Abandon the change with Change-Id Ic0ff33 in project my/project in branch master:
+=====
+	$ ssh -p 29418 review.example.com gerrit abandon my/project,master,Ic0ff33
+=====
+
+Append the message "Change is obsolete". Notice two levels of quoting is
+required, one for the local shell, and another for the argument parser
+inside the Gerrit server:
+=====
+	$ ssh -p 29418 review.example.com gerrit abandon -m '"Change is obsolete"' my/project,master,Ic0ff33
+=====
+
+SEE ALSO
+--------
+
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

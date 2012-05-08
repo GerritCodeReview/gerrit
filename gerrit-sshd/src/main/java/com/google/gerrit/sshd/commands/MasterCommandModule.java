@@ -25,6 +25,7 @@ public class MasterCommandModule extends CommandModule {
   protected void configure() {
     final CommandName gerrit = Commands.named("gerrit");
 
+    command(gerrit, "abandon").to(AbandonCommand.class);
     command(gerrit, "approve").to(ReviewCommand.class);
     command(gerrit, "create-account").to(CreateAccountCommand.class);
     command(gerrit, "create-group").to(CreateGroupCommand.class);

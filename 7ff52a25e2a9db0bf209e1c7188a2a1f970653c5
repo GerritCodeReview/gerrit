@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///0E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T22:37:43Z",
+      "side": 1,
+      "message": "If a plugin has no name, should we log a warning and skip it?",
+      "revId": "7ff52a25e2a9db0bf209e1c7188a2a1f970653c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///0I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T22:37:43Z",
+      "side": 1,
+      "message": "If a plugin doesn\u0027t define Gerrit-SshModule should we gracefully log a warning and skip it?",
+      "revId": "7ff52a25e2a9db0bf209e1c7188a2a1f970653c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///0M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-08T22:37:43Z",
+      "side": 1,
+      "message": "Module should be a more generic interface that is legal here.",
+      "revId": "7ff52a25e2a9db0bf209e1c7188a2a1f970653c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

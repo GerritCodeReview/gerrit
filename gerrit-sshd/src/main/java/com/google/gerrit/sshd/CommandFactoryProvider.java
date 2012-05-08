@@ -182,6 +182,20 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
 
     @Override
     public void destroy() {
+      startExecutor.execute(new Runnable() {
+        @Override
+        public void run() {
+          onDestroy();
+        }
+
+        @Override
+        public String toString() {
+          return "destroy";
+        }
+      });
+    }
+
+    private void onDestroy() {
       synchronized (this) {
         if (cmd != null) {
           final Context old = SshScope.set(ctx);

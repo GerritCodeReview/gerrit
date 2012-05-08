@@ -379,55 +379,59 @@ public abstract class BaseCommand implements Command {
 
     @Override
     public void cancel() {
-      final Context old = SshScope.set(context);
-      try {
-        onExit(STATUS_CANCEL);
-      } finally {
-        SshScope.set(old);
+      synchronized (this) {
+        final Context old = SshScope.set(context);
+        try {
+          onExit(STATUS_CANCEL);
+        } finally {
+          SshScope.set(old);
+        }
       }
     }
 
     @Override
     public void run() {
-      final Thread thisThread = Thread.currentThread();
-      final String thisName = thisThread.getName();
-      int rc = 0;
-      final Context old = SshScope.set(context);
-      try {
-        context.started = System.currentTimeMillis();
-        thisThread.setName("SSH " + taskName);
-
-        if (thunk instanceof ProjectCommandRunnable) {
-          ((ProjectCommandRunnable) thunk).executeParseCommand();
-          projectName = ((ProjectCommandRunnable) thunk).getProjectName();
-        }
-
+      synchronized (this) {
+        final Thread thisThread = Thread.currentThread();
+        final String thisName = thisThread.getName();
+        int rc = 0;
+        final Context old = SshScope.set(context);
         try {
-          thunk.run();
-        } catch (NoSuchProjectException e) {
-          throw new UnloggedFailure(1, e.getMessage() + " no such project");
-        } catch (NoSuchChangeException e) {
-          throw new UnloggedFailure(1, e.getMessage() + " no such change");
-        }
+          context.started = System.currentTimeMillis();
+          thisThread.setName("SSH " + taskName);
 
-        out.flush();
-        err.flush();
-      } catch (Throwable e) {
-        try {
+          if (thunk instanceof ProjectCommandRunnable) {
+            ((ProjectCommandRunnable) thunk).executeParseCommand();
+            projectName = ((ProjectCommandRunnable) thunk).getProjectName();
+          }
+
+          try {
+            thunk.run();
+          } catch (NoSuchProjectException e) {
+            throw new UnloggedFailure(1, e.getMessage() + " no such project");
+          } catch (NoSuchChangeException e) {
+            throw new UnloggedFailure(1, e.getMessage() + " no such change");
+          }
+
           out.flush();
-        } catch (Throwable e2) {
-        }
-        try {
           err.flush();
-        } catch (Throwable e2) {
-        }
-        rc = handleError(e);
-      } finally {
-        try {
-          onExit(rc);
+        } catch (Throwable e) {
+          try {
+            out.flush();
+          } catch (Throwable e2) {
+          }
+          try {
+            err.flush();
+          } catch (Throwable e2) {
+          }
+          rc = handleError(e);
         } finally {
-          SshScope.set(old);
-          thisThread.setName(thisName);
+          try {
+            onExit(rc);
+          } finally {
+            SshScope.set(old);
+            thisThread.setName(thisName);
+          }
         }
       }
     }

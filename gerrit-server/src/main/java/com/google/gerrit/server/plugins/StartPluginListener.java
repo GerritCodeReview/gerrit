@@ -12,21 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.server.plugins;
 
-import com.google.inject.Module;
-
-public class Plugin {
-  public final String name;
-  public final Class<? extends Module> sshModule;
-
-  public Plugin(String name, Class<? extends Module> sshModule) {
-    this.name = name;
-    this.sshModule = sshModule;
-  }
-
-  @Override
-  public String toString() {
-    return "Plugin [" + name + "; SshModule=" + sshModule.getName() + "]";
-  }
+/** Broadcasts event indicating a plugin was loaded. */
+public interface StartPluginListener {
+  public void onStartPlugin(Plugin plugin);
 }

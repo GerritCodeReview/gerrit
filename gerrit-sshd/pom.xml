@@ -54,6 +54,11 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-multibindings</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-util-cli</artifactId>
       <version>${project.version}</version>

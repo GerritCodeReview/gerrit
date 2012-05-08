@@ -37,13 +37,14 @@ import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
+import com.google.gerrit.server.plugins.PluginEnvironment;
+import com.google.gerrit.server.plugins.PluginLoaderModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
-import com.google.gerrit.sshd.commands.MasterPluginsModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -112,6 +113,9 @@ public class WebAppInitializer extends GuiceServletContextListener {
       sysInjector = createSysInjector();
       sshInjector = createSshInjector();
       webInjector = createWebInjector();
+
+      sysInjector.getInstance(PluginEnvironment.class)
+          .setSshInjector(sshInjector);
 
       // Push the Provider<HttpServletRequest> down into the canonical
       // URL provider. Its optional for that provider, but since we can
@@ -198,6 +202,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PushReplication.Module());
+    modules.add(new PluginLoaderModule());
     modules.add(new CanonicalWebUrlModule() {
       @Override
       protected Class<? extends Provider<String>> provider() {
@@ -212,7 +217,6 @@ public class WebAppInitializer extends GuiceServletContextListener {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new SshModule());
     modules.add(new MasterCommandModule());
-    modules.add(cfgInjector.getInstance(MasterPluginsModule.class));
     return sysInjector.createChildInjector(modules);
   }
 

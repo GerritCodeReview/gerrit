@@ -46,11 +46,12 @@ import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
+import com.google.gerrit.server.plugins.PluginEnvironment;
+import com.google.gerrit.server.plugins.PluginLoaderModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
-import com.google.gerrit.sshd.commands.MasterPluginsModule;
 import com.google.gerrit.sshd.commands.SlaveCommandModule;
 import com.google.inject.Injector;
 import com.google.inject.Module;
@@ -209,6 +210,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PushReplication.Module());
+    modules.add(new PluginLoaderModule());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override
@@ -232,6 +234,8 @@ public class Daemon extends SiteProgram {
 
   private void initSshd() {
     sshInjector = createSshInjector();
+    sysInjector.getInstance(PluginEnvironment.class)
+        .setSshInjector(sshInjector);
     manager.add(sshInjector);
   }
 
@@ -243,7 +247,6 @@ public class Daemon extends SiteProgram {
         modules.add(new SlaveCommandModule());
       } else {
         modules.add(new MasterCommandModule());
-        modules.add(cfgInjector.getInstance(MasterPluginsModule.class));
       }
     } else {
       modules.add(new NoSshModule());

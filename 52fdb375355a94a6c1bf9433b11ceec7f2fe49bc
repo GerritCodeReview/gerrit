@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///uw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:50:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///cE\u003d",
+      "revId": "52fdb375355a94a6c1bf9433b11ceec7f2fe49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///cI\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
         "patchSetId": 9
@@ -47,6 +65,24 @@
       "writtenOn": "2012-05-08T00:47:27Z",
       "side": 1,
       "message": "I agree, it is a shame to pull in all of commons-io for such a simple thing.  File.listFiles (http://docs.oracle.com/javase/1.4.2/docs/api/java/io/File.html#listFiles(java.io.FilenameFilter)) works well?",
+      "parentUuid": "AAAFUH///cI\u003d",
+      "revId": "52fdb375355a94a6c1bf9433b11ceec7f2fe49bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///uk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:50:33Z",
+      "side": 1,
+      "message": "Sooner or later we could need commons-io ... but point taken, not worth the pain right now :-)\n\nI liked the commons-io version though ;-)",
       "parentUuid": "AAAFUH///cI\u003d",
       "revId": "52fdb375355a94a6c1bf9433b11ceec7f2fe49bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

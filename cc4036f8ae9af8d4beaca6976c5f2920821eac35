@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///vk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Plugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:22:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///dE\u003d",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///dA\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Plugin.java",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///vg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/Plugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:22:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///dA\u003d",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///ck\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-08T00:13:52Z",
       "side": 1,
       "message": "This should probably be @Singleton",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///vY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:22:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///ck\u003d",
       "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///vU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:22:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///c4\u003d",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///cs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
         "patchSetId": 8
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///vQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:22:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///co\u003d",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///cw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
         "patchSetId": 8
@@ -138,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFUX///vM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:22:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///cw\u003d",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///c0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
         "patchSetId": 8
@@ -149,6 +257,24 @@
       "writtenOn": "2012-05-08T00:13:52Z",
       "side": 1,
       "message": "style-nit: wrap the then block in curly braces",
+      "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFUX///vE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/PluginLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-08T00:22:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///c0\u003d",
       "revId": "cc4036f8ae9af8d4beaca6976c5f2920821eac35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

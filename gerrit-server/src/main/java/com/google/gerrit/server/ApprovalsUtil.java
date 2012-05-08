@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 
 import java.io.IOException;
@@ -65,8 +66,9 @@ public class ApprovalsUtil {
    * @param change Change to update
    * @throws OrmException
    * @throws IOException
+   * @return ResultSet<PatchSetApproval> The previous approvals
    */
-  public void copyVetosToLatestPatchSet(Change change)
+  public ResultSet<PatchSetApproval> copyVetosToLatestPatchSet(Change change)
       throws OrmException, IOException {
     PatchSet.Id source;
     if (change.getNumberOfPatchSets() > 1) {
@@ -76,7 +78,8 @@ public class ApprovalsUtil {
     }
 
     PatchSet.Id dest = change.currPatchSetId();
-    for (PatchSetApproval a : db.patchSetApprovals().byPatchSet(source)) {
+    ResultSet<PatchSetApproval> patchSetApprovals = db.patchSetApprovals().byPatchSet(source);
+    for (PatchSetApproval a : patchSetApprovals) {
       // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
       if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
         final ApprovalType type = approvalTypes.byId(a.getCategoryId());
@@ -86,6 +89,7 @@ public class ApprovalsUtil {
         }
       }
     }
+    return patchSetApprovals;
   }
 
 

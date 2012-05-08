@@ -45,6 +45,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -383,24 +384,24 @@ public class ChangeUtil {
 
         replication.scheduleUpdate(change.getProject(), ru.getName());
 
-        approvalsUtil.copyVetosToLatestPatchSet(change);
-
-        final ChangeMessage cmsg =
-            new ChangeMessage(new ChangeMessage.Key(changeId,
-                ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
-        cmsg.setMessage("Patch Set " + patchSetId.get() + ": Rebased");
-        db.changeMessages().insert(Collections.singleton(cmsg));
+        ResultSet<PatchSetApproval> patchSetApprovals = approvalsUtil.copyVetosToLatestPatchSet(change);
 
         final Set<Account.Id> oldReviewers = new HashSet<Account.Id>();
         final Set<Account.Id> oldCC = new HashSet<Account.Id>();
 
-        for (PatchSetApproval a : db.patchSetApprovals().byChange(change.getId())) {
+        for (PatchSetApproval a : patchSetApprovals) {
           if (a.getValue() != 0) {
             oldReviewers.add(a.getAccountId());
           } else {
             oldCC.add(a.getAccountId());
           }
         }
+
+        final ChangeMessage cmsg =
+            new ChangeMessage(new ChangeMessage.Key(changeId,
+                ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
+        cmsg.setMessage("Patch Set " + patchSetId.get() + ": Rebased");
+        db.changeMessages().insert(Collections.singleton(cmsg));
 
         final ReplacePatchSetSender cm =
             rebasedPatchSetSenderFactory.create(change);

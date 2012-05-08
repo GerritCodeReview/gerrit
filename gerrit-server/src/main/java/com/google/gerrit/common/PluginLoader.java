@@ -14,9 +14,10 @@
 
 package com.google.gerrit.common;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
@@ -40,10 +41,9 @@ import java.util.jar.Manifest;
 
 @Singleton
 public class PluginLoader {
-  private static Logger log = LoggerFactory.getLogger(PluginLoader.class);
+  private static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
-  private File pluginsDir;
-
+  private final File pluginsDir;
   private Map<String, Plugin> pluginCache;
 
   @Inject
@@ -85,9 +85,9 @@ public class PluginLoader {
         plugin = loadPlugin(jarFile);
         pluginCache.put(plugin.name, plugin);
       } catch (IOException e) {
-        log.error("Cannot access Plugin jar " + jarFile, e);
+        log.error("Cannot access plugin jar " + jarFile, e);
       } catch (ClassNotFoundException e) {
-        log.error("Cannot load Plugin class module from " + jarFile, e);
+        log.error("Cannot load plugin class module from " + jarFile, e);
       }
     }
   }
@@ -102,15 +102,23 @@ public class PluginLoader {
 
     Attributes attrs = jarManifest.getMainAttributes();
     String pluginName = attrs.getValue("Gerrit-Plugin");
-    String moduleName = attrs.getValue("Gerrit-SshModule");
-
-    Class<?> moduleClass = Class.forName(moduleName, false, jarClassLoader);
-    if (!AbstractModule.class.isAssignableFrom(moduleClass)) {
-      throw new ClassNotFoundException("ModuleClass "
-          + moduleClass.getName() + " is not a Guice AbstractModule");
+    if (Strings.isNullOrEmpty(pluginName)) {
+      throw new IOException("No Gerrit-Plugin attribute in manifest");
     }
 
-    return new Plugin(pluginName, (Class<? extends AbstractModule>) moduleClass);
+    String moduleName = attrs.getValue("Gerrit-SshModule");
+    if (Strings.isNullOrEmpty(moduleName)) {
+      throw new IOException("No Gerrit-SshModule attribute in manifest");
+    }
+
+    Class<?> moduleClass = Class.forName(moduleName, false, jarClassLoader);
+    if (!Module.class.isAssignableFrom(moduleClass)) {
+      throw new ClassNotFoundException(String.format(
+          "Gerrit-SshModule %s is not a Guice Module",
+          moduleClass.getName()));
+    }
+
+    return new Plugin(pluginName, (Class<? extends Module>) moduleClass);
   }
 
   private URL[] getPluginURLs(File jarFile) throws MalformedURLException {

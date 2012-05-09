@@ -77,11 +77,15 @@ public class PluginLoader implements LifecycleListener {
     broken = Maps.newHashMap();
     cleanupQueue = new ReferenceQueue<ClassLoader>();
     cleanupHandles = Maps.newConcurrentMap();
-    scanner = new PluginScannerThread(
-        this,
-        ConfigUtil.getTimeUnit(cfg,
-            "plugins", null, "checkFrequency",
-            TimeUnit.MINUTES.toMillis(1), TimeUnit.MILLISECONDS));
+
+    long checkFrequency = ConfigUtil.getTimeUnit(cfg,
+        "plugins", null, "checkFrequency",
+        TimeUnit.MINUTES.toMillis(1), TimeUnit.MILLISECONDS);
+    if (checkFrequency > 0) {
+      scanner = new PluginScannerThread(this, checkFrequency);
+    } else {
+      scanner = null;
+    }
   }
 
   public synchronized List<Plugin> getPlugins() {
@@ -182,12 +186,16 @@ public class PluginLoader implements LifecycleListener {
   public synchronized void start() {
     log.info("Loading plugins from " + pluginsDir.getAbsolutePath());
     rescan(false);
-    scanner.start();
+    if (scanner != null) {
+      scanner.start();
+    }
   }
 
   @Override
   public void stop() {
-    scanner.end();
+    if (scanner != null) {
+      scanner.end();
+    }
     synchronized (this) {
       boolean clean = !running.isEmpty();
       for (Plugin p : running.values()) {

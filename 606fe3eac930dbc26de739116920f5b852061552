@@ -16,6 +16,41 @@
       "revId": "606fe3eac930dbc26de739116920f5b852061552",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///z0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T00:46:39Z",
+      "side": 1,
+      "message": "We don\u0027t, it\u0027s just a plan to make things simpler.",
+      "parentUuid": "AAAFXn///wg\u003d",
+      "revId": "606fe3eac930dbc26de739116920f5b852061552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///yg\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T00:46:39Z",
+      "side": 1,
+      "message": "Maybe this could be a feature of SshCommand?",
+      "revId": "606fe3eac930dbc26de739116920f5b852061552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

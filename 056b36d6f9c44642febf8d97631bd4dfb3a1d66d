@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///uM\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T21:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///xo\u003d",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFYH///x0\u003d",
         "filename": "Documentation/cmd-abandon.txt",
         "patchSetId": 9
@@ -155,6 +173,24 @@
       "writtenOn": "2012-05-09T18:19:40Z",
       "side": 1,
       "message": "Is this still true? I though you now need to specify PROJECT,BRANCH,CHANGEID, don\u0027t you?",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///o0\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T21:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///x0\u003d",
       "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -178,6 +214,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///uI\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T21:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///xw\u003d",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFYH///xs\u003d",
         "filename": "Documentation/cmd-abandon.txt",
         "patchSetId": 9
@@ -189,6 +243,24 @@
       "writtenOn": "2012-05-09T18:19:40Z",
       "side": 1,
       "message": "this blank line is too much and spoils the asciidoc formatting (with this blank line the \u0027+\u0027s below are printed as is)",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///s0\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T21:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///xs\u003d",
       "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -212,6 +284,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///t8\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T21:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///xk\u003d",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFYH///xY\u003d",
         "filename": "Documentation/cmd-abandon.txt",
         "patchSetId": 9
@@ -223,6 +313,24 @@
       "writtenOn": "2012-05-09T18:19:40Z",
       "side": 1,
       "message": "Is this true for the abandon command? I think you can simply remove the section for the --help option. For most other commands it\u0027s also not mentioned.",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///t4\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T21:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///xY\u003d",
       "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -246,6 +354,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFX3///ss\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/args4j/ChangeIdHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T21:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///xU\u003d",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFYH///xM\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 9
@@ -257,6 +383,24 @@
       "writtenOn": "2012-05-09T18:19:40Z",
       "side": 1,
       "message": "s/depricated/deprecated\n\nShould the --abandon option also be marked as deprecated in the documentation of the gerrit review command?",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///tw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T21:58:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///xM\u003d",
       "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///s4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-09T17:02:18Z",
+      "side": 1,
+      "message": "Should we still do this even if the plugin isn\u0027t running?  Maybe it was disabled first, because the admin thought that would be a good idea?",
+      "revId": "bf5be2d3605333aa8eea1f39ffa7693de4ec182c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///s0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-09T17:02:18Z",
+      "side": 1,
+      "message": "mv old back to jar?",
+      "revId": "bf5be2d3605333aa8eea1f39ffa7693de4ec182c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

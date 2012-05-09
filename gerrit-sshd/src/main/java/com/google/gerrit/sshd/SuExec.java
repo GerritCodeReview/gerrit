@@ -43,6 +43,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * key, or a key on this daemon's peer host key ring.
  */
 public final class SuExec extends BaseCommand {
+  private final SshScope sshScope;
   private final DispatchCommandProvider dispatcher;
 
   private Provider<CurrentUser> caller;
@@ -62,10 +63,12 @@ public final class SuExec extends BaseCommand {
   private final AtomicReference<Command> atomicCmd;
 
   @Inject
-  SuExec(@CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
+  SuExec(final SshScope sshScope,
+      @CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
       final Provider<CurrentUser> caller, final Provider<SshSession> session,
       final IdentifiedUser.GenericFactory userFactory,
       final SshScope.Context callingContext) {
+    this.sshScope = sshScope;
     this.dispatcher = dispatcher;
     this.caller = caller;
     this.session = session;
@@ -81,7 +84,7 @@ public final class SuExec extends BaseCommand {
         parseCommandLine();
 
         final Context ctx = callingContext.subContext(newSession(), join(args));
-        final Context old = SshScope.set(ctx);
+        final Context old = sshScope.set(ctx);
         try {
           final BaseCommand cmd = dispatcher.get();
           cmd.setArguments(args.toArray(new String[args.size()]));
@@ -89,7 +92,7 @@ public final class SuExec extends BaseCommand {
           atomicCmd.set(cmd);
           cmd.start(env);
         } finally {
-          SshScope.set(old);
+          sshScope.set(old);
         }
 
       } else {

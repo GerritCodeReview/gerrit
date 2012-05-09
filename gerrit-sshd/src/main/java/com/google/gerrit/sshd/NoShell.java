@@ -58,6 +58,7 @@ class NoShell implements Factory<Command> {
 
   static class SendMessage implements Command, SessionAware {
     private final Provider<MessageFactory> messageFactory;
+    private final SshScope sshScope;
 
     private InputStream in;
     private OutputStream out;
@@ -66,8 +67,9 @@ class NoShell implements Factory<Command> {
     private Context context;
 
     @Inject
-    SendMessage(Provider<MessageFactory> messageFactory) {
+    SendMessage(Provider<MessageFactory> messageFactory, SshScope sshScope) {
       this.messageFactory = messageFactory;
+      this.sshScope = sshScope;
     }
 
     public void setInputStream(final InputStream in) {
@@ -91,12 +93,12 @@ class NoShell implements Factory<Command> {
     }
 
     public void start(final Environment env) throws IOException {
-      Context old = SshScope.set(context);
+      Context old = sshScope.set(context);
       String message;
       try {
         message = messageFactory.get().getMessage();
       } finally {
-        SshScope.set(old);
+        sshScope.set(old);
       }
       err.write(Constants.encode(message.toString()));
       err.flush();

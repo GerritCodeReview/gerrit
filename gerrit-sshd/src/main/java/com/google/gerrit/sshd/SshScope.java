@@ -123,7 +123,7 @@ class SshScope {
     return ctx;
   }
 
-  static Context set(Context ctx) {
+  Context set(Context ctx) {
     Context old = current.get();
     current.set(ctx);
     return old;
@@ -149,7 +149,4 @@ class SshScope {
       return "SshScopes.REQUEST";
     }
   };
-
-  private SshScope() {
-  }
 }

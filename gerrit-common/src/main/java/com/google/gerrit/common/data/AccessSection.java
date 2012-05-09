@@ -118,4 +118,38 @@ public class AccessSection extends RefConfigSection implements
   public String toString() {
     return "AccessSection[" + getName() + "]";
   }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (!super.equals(obj)) {
+      return false;
+    }
+
+    if (!(obj instanceof AccessSection)) {
+      return false;
+    }
+
+    final AccessSection other = (AccessSection) obj;
+    if (permissions.size() != other.permissions.size()) {
+      return false;
+    }
+
+    final HashSet<Permission> same =  new HashSet<Permission>(permissions);
+    final HashSet<Permission> different =
+        new HashSet<Permission>(2 * permissions.size());
+    different.addAll(permissions);
+    different.addAll(other.permissions);
+    same.retainAll(other.permissions);
+    different.removeAll(same);
+    return different.isEmpty();
+  }
+
+  @Override
+  public int hashCode() {
+    int hashCode = super.hashCode();
+    for (final Permission p : permissions) {
+      hashCode += p.hashCode();
+    }
+    return hashCode;
+  }
 }

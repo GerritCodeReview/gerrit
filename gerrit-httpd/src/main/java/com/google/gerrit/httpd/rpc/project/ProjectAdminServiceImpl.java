@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.ProjectAdminService;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.common.data.ProjectList;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -34,6 +35,7 @@ import java.util.Set;
 class ProjectAdminServiceImpl implements ProjectAdminService {
   private final AddBranch.Factory addBranchFactory;
   private final ChangeProjectAccess.Factory changeProjectAccessFactory;
+  private final ReviewProjectAccess.Factory reviewProjectAccessFactory;
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
   private final DeleteBranches.Factory deleteBranchesFactory;
   private final ListBranches.Factory listBranchesFactory;
@@ -47,6 +49,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
       final ChangeProjectAccess.Factory changeProjectAccessFactory,
+      final ReviewProjectAccess.Factory reviewProjectAccessFactory,
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
       final DeleteBranches.Factory deleteBranchesFactory,
       final ListBranches.Factory listBranchesFactory,
@@ -58,6 +61,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final CreateProjectHandler.Factory createNewProjectFactory) {
     this.addBranchFactory = addBranchFactory;
     this.changeProjectAccessFactory = changeProjectAccessFactory;
+    this.reviewProjectAccessFactory = reviewProjectAccessFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
     this.listBranchesFactory = listBranchesFactory;
@@ -113,6 +117,14 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       base = null;
     }
     changeProjectAccessFactory.create(projectName, base, sections, msg).to(cb);
+  }
+
+  @Override
+  public void reviewProjectAccess(Project.NameKey projectName,
+      String baseRevision, String msg, List<AccessSection> sections,
+      AsyncCallback<Change.Id> cb) {
+    ObjectId base = ObjectId.fromString(baseRevision);
+    reviewProjectAccessFactory.create(projectName, base, sections, msg).to(cb);
   }
 
   @Override

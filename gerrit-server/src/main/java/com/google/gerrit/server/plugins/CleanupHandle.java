@@ -15,20 +15,31 @@
 package com.google.gerrit.server.plugins;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
+import java.util.jar.JarFile;
 
 class CleanupHandle extends WeakReference<ClassLoader> {
   private final File tmpFile;
+  private final JarFile jarFile;
 
-  CleanupHandle(File jarFile,
+  CleanupHandle(File tmpFile,
+      JarFile jarFile,
       ClassLoader ref,
       ReferenceQueue<ClassLoader> queue) {
     super(ref, queue);
-    this.tmpFile = jarFile;
+    this.tmpFile = tmpFile;
+    this.jarFile = jarFile;
   }
 
   void cleanup() {
-    tmpFile.delete();
+    try {
+      jarFile.close();
+    } catch (IOException err) {
+    }
+    if (!tmpFile.delete() && tmpFile.exists()) {
+      PluginLoader.log.warn("Cannot delete " + tmpFile.getAbsolutePath());
+    }
   }
 }

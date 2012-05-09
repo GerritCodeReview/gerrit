@@ -27,6 +27,7 @@ import org.eclipse.jgit.storage.file.FileSnapshot;
 
 import java.io.File;
 import java.util.jar.Attributes;
+import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 import javax.annotation.Nullable;
@@ -40,9 +41,10 @@ public class Plugin {
   }
 
   private final String name;
-  private final File jar;
-  private final Manifest manifest;
+  private final File srcJar;
   private final FileSnapshot snapshot;
+  private final JarFile jarFile;
+  private final Manifest manifest;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
   private Class<? extends Module> httpModule;
@@ -53,23 +55,25 @@ public class Plugin {
   private LifecycleManager manager;
 
   public Plugin(String name,
-      File jar,
-      Manifest manifest,
+      File srcJar,
       FileSnapshot snapshot,
+      JarFile jarFile,
+      Manifest manifest,
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule,
       @Nullable Class<? extends Module> httpModule) {
     this.name = name;
-    this.jar = jar;
-    this.manifest = manifest;
+    this.srcJar = srcJar;
     this.snapshot = snapshot;
+    this.jarFile = jarFile;
+    this.manifest = manifest;
     this.sysModule = sysModule;
     this.sshModule = sshModule;
     this.httpModule = httpModule;
   }
 
-  File getJar() {
-    return jar;
+  File getSrcJar() {
+    return srcJar;
   }
 
   public String getName() {
@@ -149,6 +153,10 @@ public class Plugin {
       sshInjector = null;
       httpInjector = null;
     }
+  }
+
+  public JarFile getJarFile() {
+    return jarFile;
   }
 
   @Nullable

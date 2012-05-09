@@ -37,6 +37,40 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///20\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-09T01:14:02Z",
+      "side": 1,
+      "message": "Most of the imports are unused and can be removed, the used ones are:\n\n\nimport com.google.gerrit.common.data.ReviewResult;\n\nimport com.google.gerrit.reviewdb.client.Change;\n\nimport com.google.gerrit.server.changedetail.AbandonChange;\n\nimport com.google.gerrit.server.project.InvalidChangeOperationException;\n\nimport com.google.gerrit.sshd.SshCommand;\n\nimport com.google.inject.Inject;\n\n\nimport org.kohsuke.args4j.Argument;\n\nimport org.kohsuke.args4j.Option;\n\nimport org.slf4j.Logger;\n\nimport org.slf4j.LoggerFactory;",
+      "revId": "606fe3eac930dbc26de739116920f5b852061552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///24\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-09T01:14:02Z",
+      "side": 1,
+      "message": "db variable is not removed and can be removed",
+      "revId": "606fe3eac930dbc26de739116920f5b852061552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFXn///yg\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
         "patchSetId": 6
@@ -48,6 +82,24 @@
       "writtenOn": "2012-05-09T00:46:39Z",
       "side": 1,
       "message": "Maybe this could be a feature of SshCommand?",
+      "revId": "606fe3eac930dbc26de739116920f5b852061552",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///2w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-09T01:14:02Z",
+      "side": 1,
+      "message": "I think this fits better as an overload in UnloggedFailure?",
+      "parentUuid": "AAAFXn///yg\u003d",
       "revId": "606fe3eac930dbc26de739116920f5b852061552",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

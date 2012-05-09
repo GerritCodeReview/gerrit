@@ -21,11 +21,15 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 
+import org.eclipse.jgit.storage.file.FileSnapshot;
+
+import java.io.File;
+
 import javax.annotation.Nullable;
 
 public class Plugin {
   private final String name;
-  private final ClassLoader loader;
+  private final FileSnapshot snapshot;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
 
@@ -33,17 +37,22 @@ public class Plugin {
   private Injector sshInjector;
   private LifecycleManager manager;
 
-  public Plugin(String name, ClassLoader loader,
+  public Plugin(String name,
+      FileSnapshot snapshot,
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule) {
     this.name = name;
-    this.loader = loader;
+    this.snapshot = snapshot;
     this.sysModule = sysModule;
     this.sshModule = sshModule;
   }
 
   public String getName() {
     return name;
+  }
+
+  boolean isModified(File jar) {
+    return snapshot.lastModified() != jar.lastModified();
   }
 
   public void start(PluginGuiceEnvironment env) throws Exception {
@@ -84,10 +93,9 @@ public class Plugin {
   public void stop() {
     if (manager != null) {
       manager.stop();
-
+      manager = null;
       sysInjector = null;
       sshInjector = null;
-      manager = null;
     }
   }
 

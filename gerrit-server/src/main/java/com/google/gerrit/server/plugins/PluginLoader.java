@@ -15,28 +15,32 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileSnapshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -48,112 +52,154 @@ public class PluginLoader implements LifecycleListener {
   private final File pluginsDir;
   private final PluginGuiceEnvironment env;
   private final Map<String, Plugin> running;
+  private final Map<String, FileSnapshot> broken;
+  private final PluginScannerThread scanner;
 
   @Inject
-  public PluginLoader(SitePaths sitePaths, PluginGuiceEnvironment pe) {
+  public PluginLoader(SitePaths sitePaths,
+      PluginGuiceEnvironment pe,
+      @GerritServerConfig Config cfg) {
     pluginsDir = sitePaths.plugins_dir;
     env = pe;
     running = Maps.newHashMap();
+    broken = Maps.newHashMap();
+    scanner = new PluginScannerThread(
+        this,
+        ConfigUtil.getTimeUnit(cfg,
+            "plugins", null, "checkFrequency",
+            TimeUnit.MINUTES.toMillis(1), TimeUnit.MILLISECONDS));
   }
 
   @Override
   public synchronized void start() {
     log.info("Loading plugins from " + pluginsDir.getAbsolutePath());
-    for (Plugin p : scanPlugins()) {
-      if (running.containsKey(p.getName())) {
-        log.error("Skipping duplicate plugin " + p.getName());
-        continue;
-      }
-      try {
-        p.start(env);
-      } catch (Exception err) {
-        log.error("Cannot start plugin " + p.getName(), err);
-        continue;
-      }
-      running.put(p.getName(), p);
-    }
+    rescan();
+    scanner.start();
   }
 
   @Override
-  public synchronized void stop() {
-    for (Plugin p : running.values()) {
-      p.stop();
+  public void stop() {
+    scanner.end();
+    synchronized (this) {
+      for (Plugin p : running.values()) {
+        p.stop();
+      }
+      running.clear();
+      broken.clear();
     }
-    running.clear();
   }
 
-  private Collection<Plugin> scanPlugins() {
-    Collection<File> pluginJars;
-    try {
-      pluginJars = getPluginFiles();
-    } catch (IOException e) {
-      log.error("Cannot scan Gerrit plugins directory looking for jar files", e);
-      return Collections.emptyList();
-    }
+  public synchronized void rescan() {
+    List<File> jars = scanJarsInPluginsDirectory();
 
-    List<Plugin> all = Lists.newArrayListWithCapacity(pluginJars.size());
-    for (File jarFile : pluginJars) {
+    stopRemovedPlugins(jars);
+
+    for (File jar : jars) {
+      String name = nameOf(jar);
+      FileSnapshot brokenTime = broken.get(name);
+      if (brokenTime != null && !brokenTime.isModified(jar)) {
+        continue;
+      }
+
+      Plugin active = running.get(name);
+      if (active != null && !active.isModified(jar)) {
+        continue;
+      }
+
+      if (active != null) {
+        log.warn(String.format(
+            "Detected %s was replaced/overwritten."
+            + " This is not a safe way to update a plugin.",
+            jar.getAbsolutePath()));
+        log.info(String.format("Reloading plugin %s", name));
+        active.stop();
+        running.remove(name);
+      }
+
+      FileSnapshot snapshot = FileSnapshot.save(jar);
+      Plugin next;
       try {
-        all.add(loadPlugin(jarFile));
-      } catch (IOException e) {
-        log.error("Cannot access plugin jar " + jarFile, e);
-      } catch (ClassNotFoundException e) {
-        log.error("Cannot load plugin class module from " + jarFile, e);
+        next = loadPlugin(name, snapshot, jar);
+        next.start(env);
+      } catch (Throwable err) {
+        log.warn(String.format("Cannot load plugin %s", name), err);
+        broken.put(name, snapshot);
+        continue;
+      }
+      broken.remove(name);
+      running.put(name, next);
+
+      if (active == null) {
+        log.info(String.format("Loaded plugin %s", name));
       }
     }
-    return all;
   }
 
-  @SuppressWarnings("unchecked")
-  private Plugin loadPlugin(File jarFile) throws IOException,
-      ClassNotFoundException {
-    Manifest jarManifest = new JarFile(jarFile).getManifest();
+  private void stopRemovedPlugins(List<File> jars) {
+    Set<String> unload = Sets.newHashSet(running.keySet());
+    for (File jar : jars) {
+      unload.remove(nameOf(jar));
+    }
+    for (String name : unload){
+      log.info(String.format("Unloading plugin %s", name));
+      running.remove(name).stop();
+    }
+  }
+
+  private static String nameOf(File jar) {
+    String name = jar.getName();
+    int ext = name.lastIndexOf('.');
+    return 0 < ext ? name.substring(0, ext) : name;
+  }
+
+  private Plugin loadPlugin(String name, FileSnapshot snapshot, File jarFile)
+      throws IOException, ClassNotFoundException {
+    Manifest manifest = new JarFile(jarFile).getManifest();
+
+    Attributes main = manifest.getMainAttributes();
+    String sysName = main.getValue("Gerrit-Module");
+    String sshName = main.getValue("Gerrit-SshModule");
+
+    URL[] urls = {jarFile.toURI().toURL()};
     ClassLoader parentLoader = PluginLoader.class.getClassLoader();
-    ClassLoader pluginLoader =
-        new URLClassLoader(getPluginURLs(jarFile), parentLoader);
+    ClassLoader pluginLoader = new URLClassLoader(urls, parentLoader);
 
-    Attributes attrs = jarManifest.getMainAttributes();
-    String pluginName = attrs.getValue("Gerrit-Plugin");
-    if (Strings.isNullOrEmpty(pluginName)) {
-      throw new IOException("No Gerrit-Plugin attribute in manifest");
-    }
-
-    String moduleName = attrs.getValue("Gerrit-SshModule");
-    if (Strings.isNullOrEmpty(moduleName)) {
-      throw new IOException("No Gerrit-SshModule attribute in manifest");
-    }
-
-    Class<? extends Module> moduleClass =
-        (Class<? extends Module>) Class
-            .forName(moduleName, false, pluginLoader);
-    if (!Module.class.isAssignableFrom(moduleClass)) {
-      throw new ClassNotFoundException(String.format(
-          "Gerrit-SshModule %s is not a Guice Module", moduleClass.getName()));
-    }
-
-    return new Plugin(pluginName, pluginLoader, null, moduleClass);
+    Class<? extends Module> sysModule = load(sysName, pluginLoader);
+    Class<? extends Module> sshModule = load(sshName, pluginLoader);
+    return new Plugin(name, snapshot, sysModule, sshModule);
   }
 
-  private URL[] getPluginURLs(File jarFile) throws MalformedURLException {
-    return new URL[] {jarFile.toURI().toURL()};
+  private Class<? extends Module> load(String name, ClassLoader pluginLoader)
+      throws ClassNotFoundException {
+    if (Strings.isNullOrEmpty(name)) {
+      return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    Class<? extends Module> clazz =
+        (Class<? extends Module>) Class.forName(name, false, pluginLoader);
+    if (!Module.class.isAssignableFrom(clazz)) {
+      throw new ClassCastException(String.format(
+          "Class %s does not implement %s",
+          name, Module.class.getName()));
+    }
+    return clazz;
   }
 
-  private List<File> getPluginFiles() throws IOException {
+  private List<File> scanJarsInPluginsDirectory() {
     if (pluginsDir == null || !pluginsDir.exists()) {
       return Collections.emptyList();
     }
-
-    File[] plugins = pluginsDir.listFiles(new FileFilter() {
+    File[] matches = pluginsDir.listFiles(new FileFilter() {
       @Override
       public boolean accept(File pathname) {
-        return pathname.isFile() && pathname.getName().endsWith(".jar");
+        return pathname.getName().endsWith(".jar") && pathname.isFile();
       }
     });
-    if (plugins == null) {
+    if (matches == null) {
       log.error("Cannot list " + pluginsDir.getAbsolutePath());
       return Collections.emptyList();
     }
-
-    return Arrays.asList(plugins);
+    return Arrays.asList(matches);
   }
 }

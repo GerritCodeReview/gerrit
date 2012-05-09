@@ -257,4 +257,21 @@ public class PermissionRule implements Comparable<PermissionRule> {
     }
     return Integer.parseInt(value);
   }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (!(obj instanceof PermissionRule)) {
+      return false;
+    }
+    final PermissionRule other = (PermissionRule)obj;
+    return action.equals(other.action) && force == other.force
+        && min == other.min && max == other.max && group.equals(other.group);
+  }
+
+  @Override
+  public int hashCode() {
+    return action.hashCode() + Boolean.valueOf(force).hashCode()
+        + Integer.valueOf(min).hashCode() + Integer.valueOf(max).hashCode()
+        + group.hashCode();
+  }
 }

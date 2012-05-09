@@ -33,16 +33,21 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.ReferenceQueue;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -53,9 +58,12 @@ public class PluginLoader implements LifecycleListener {
   static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
   private final File pluginsDir;
+  private final File tmpDir;
   private final PluginGuiceEnvironment env;
   private final Map<String, Plugin> running;
   private final Map<String, FileSnapshot> broken;
+  private final ReferenceQueue<ClassLoader> cleanupQueue;
+  private final ConcurrentMap<CleanupHandle, Boolean> cleanupHandles;
   private final PluginScannerThread scanner;
 
   @Inject
@@ -63,9 +71,12 @@ public class PluginLoader implements LifecycleListener {
       PluginGuiceEnvironment pe,
       @GerritServerConfig Config cfg) {
     pluginsDir = sitePaths.plugins_dir;
+    tmpDir = sitePaths.tmp_dir;
     env = pe;
     running = Maps.newHashMap();
     broken = Maps.newHashMap();
+    cleanupQueue = new ReferenceQueue<ClassLoader>();
+    cleanupHandles = Maps.newConcurrentMap();
     scanner = new PluginScannerThread(
         this,
         ConfigUtil.getTimeUnit(cfg,
@@ -87,8 +98,8 @@ public class PluginLoader implements LifecycleListener {
     name = nameOf(jar);
 
     File old = new File(pluginsDir, ".last_" + name + ".zip");
-    File tmp = copyToTemp(name, in);
-
+    File tmp = asTemp(in, ".next_" + name, ".zip", pluginsDir);
+    boolean clean = false;
     synchronized (this) {
       Plugin active = running.get(name);
       if (active != null) {
@@ -97,21 +108,31 @@ public class PluginLoader implements LifecycleListener {
         jar.renameTo(old);
       }
 
+      new File(pluginsDir, name + ".jar.disabled").delete();
       tmp.renameTo(jar);
       try {
         runPlugin(name, jar, active);
         if (active == null) {
           log.info(String.format("Installed plugin %s", name));
+        } else {
+          clean = true;
         }
       } catch (PluginInstallException e) {
         jar.delete();
         throw e;
       }
     }
+
+    if (clean) {
+      System.gc();
+      processPendingCleanups();
+    }
   }
 
-  private File copyToTemp(String name, InputStream in) throws IOException {
-    File tmp = File.createTempFile(".next_" + name, ".zip", pluginsDir);
+  private static File asTemp(InputStream in,
+      String prefix, String suffix,
+      File dir) throws IOException {
+    File tmp = File.createTempFile(prefix, suffix, dir);
     boolean keep = false;
     try {
       FileOutputStream out = new FileOutputStream(tmp);
@@ -133,26 +154,34 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  public synchronized void disablePlugins(Set<String> names) {
-    for (String name : names) {
-      Plugin active = running.get(name);
-      if (active == null) {
-        continue;
+  public void disablePlugins(Set<String> names) {
+    boolean clean = false;
+    synchronized (this) {
+      for (String name : names) {
+        Plugin active = running.get(name);
+        if (active == null) {
+          continue;
+        }
+
+        log.info(String.format("Disabling plugin %s", name));
+        File off = new File(pluginsDir, active.getName() + ".jar.disabled");
+        active.getJar().renameTo(off);
+
+        active.stop();
+        running.remove(name);
+        clean = true;
       }
-
-      log.info(String.format("Disabling plugin %s", name));
-      active.stop();
-      running.remove(name);
-
-      File off = new File(pluginsDir, active.getName() + ".jar.disabled");
-      active.getJar().renameTo(off);
+    }
+    if (clean) {
+      System.gc();
+      processPendingCleanups();
     }
   }
 
   @Override
   public synchronized void start() {
     log.info("Loading plugins from " + pluginsDir.getAbsolutePath());
-    rescan();
+    rescan(false);
     scanner.start();
   }
 
@@ -160,18 +189,29 @@ public class PluginLoader implements LifecycleListener {
   public void stop() {
     scanner.end();
     synchronized (this) {
+      boolean clean = !running.isEmpty();
       for (Plugin p : running.values()) {
         p.stop();
       }
       running.clear();
       broken.clear();
+      if (clean) {
+        System.gc();
+        processPendingCleanups();
+      }
     }
   }
 
-  public synchronized void rescan() {
-    List<File> jars = scanJarsInPluginsDirectory();
+  public void rescan(boolean forceCleanup) {
+    if (rescanImp() || forceCleanup) {
+      System.gc();
+      processPendingCleanups();
+    }
+  }
 
-    stopRemovedPlugins(jars);
+  private synchronized boolean rescanImp() {
+    List<File> jars = scanJarsInPluginsDirectory();
+    boolean clean = stopRemovedPlugins(jars);
 
     for (File jar : jars) {
       String name = nameOf(jar);
@@ -186,10 +226,6 @@ public class PluginLoader implements LifecycleListener {
       }
 
       if (active != null) {
-        log.warn(String.format(
-            "Detected %s was replaced/overwritten."
-            + " This is not a safe way to update a plugin.",
-            jar.getAbsolutePath()));
         log.info(String.format("Reloading plugin %s", name));
       }
 
@@ -197,11 +233,14 @@ public class PluginLoader implements LifecycleListener {
         runPlugin(name, jar, active);
         if (active == null) {
           log.info(String.format("Loaded plugin %s", name));
+        } else {
+          clean = true;
         }
       } catch (PluginInstallException e) {
         log.warn(String.format("Cannot load plugin %s", name), e.getCause());
       }
     }
+    return clean;
   }
 
   private void runPlugin(String name, File jar, Plugin oldPlugin)
@@ -231,7 +270,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private void stopRemovedPlugins(List<File> jars) {
+  private boolean stopRemovedPlugins(List<File> jars) {
     Set<String> unload = Sets.newHashSet(running.keySet());
     for (File jar : jars) {
       unload.remove(nameOf(jar));
@@ -239,6 +278,15 @@ public class PluginLoader implements LifecycleListener {
     for (String name : unload){
       log.info(String.format("Unloading plugin %s", name));
       running.remove(name).stop();
+    }
+    return !unload.isEmpty();
+  }
+
+  private synchronized void processPendingCleanups() {
+    CleanupHandle h;
+    while ((h = (CleanupHandle) cleanupQueue.poll()) != null) {
+      h.cleanup();
+      cleanupHandles.remove(h);
     }
   }
 
@@ -250,22 +298,37 @@ public class PluginLoader implements LifecycleListener {
 
   private Plugin loadPlugin(String name, File jarFile, FileSnapshot snapshot)
       throws IOException, ClassNotFoundException {
-    Manifest manifest = new JarFile(jarFile).getManifest();
+    File tmp;
+    FileInputStream in = new FileInputStream(jarFile);
+    try {
+      tmp = asTemp(in, tempNameFor(name), ".jar", tmpDir);
+    } finally {
+      in.close();
+    }
 
+    Manifest manifest = new JarFile(tmp).getManifest();
     Attributes main = manifest.getMainAttributes();
     String sysName = main.getValue("Gerrit-Module");
     String sshName = main.getValue("Gerrit-SshModule");
     String httpName = main.getValue("Gerrit-HttpModule");
 
-    URL[] urls = {jarFile.toURI().toURL()};
+    URL[] urls = {tmp.toURI().toURL()};
     ClassLoader parentLoader = PluginLoader.class.getClassLoader();
     ClassLoader pluginLoader = new URLClassLoader(urls, parentLoader);
+    cleanupHandles.put(
+        new CleanupHandle(tmp, pluginLoader, cleanupQueue),
+        Boolean.TRUE);
 
     Class<? extends Module> sysModule = load(sysName, pluginLoader);
     Class<? extends Module> sshModule = load(sshName, pluginLoader);
     Class<? extends Module> httpModule = load(httpName, pluginLoader);
     return new Plugin(name, jarFile, manifest, snapshot,
         sysModule, sshModule, httpModule);
+  }
+
+  private static String tempNameFor(String name) {
+    SimpleDateFormat fmt = new SimpleDateFormat("yyMMdd_HHmm");
+    return "plugin_" + name + "_" + fmt.format(new Date()) + "_";
   }
 
   private Class<? extends Module> load(String name, ClassLoader pluginLoader)

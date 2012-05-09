@@ -67,6 +67,7 @@ public class SitePathInitializer {
     mkdir(site.bin_dir);
     mkdir(site.etc_dir);
     mkdir(site.lib_dir);
+    mkdir(site.tmp_dir);
     mkdir(site.logs_dir);
     mkdir(site.mail_dir);
     mkdir(site.static_dir);
@@ -84,6 +85,7 @@ public class SitePathInitializer {
 
     extract(site.gerrit_sh, Init.class, "gerrit.sh");
     chmod(0755, site.gerrit_sh);
+    chmod(0700, site.tmp_dir);
 
     extractMailExample("Abandoned.vm");
     extractMailExample("ChangeFooter.vm");

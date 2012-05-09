@@ -176,6 +176,8 @@ test -r "$GERRIT_CONFIG" || {
 
 GERRIT_PID="$GERRIT_SITE/logs/gerrit.pid"
 GERRIT_RUN="$GERRIT_SITE/logs/gerrit.run"
+GERRIT_TMP="$GERRIT_SITE/tmp"
+export GERRIT_TMP
 
 ##################################################
 # Check for JAVA_HOME
@@ -492,6 +494,7 @@ case "$ACTION" in
     echo "  GERRIT_SITE     =  $GERRIT_SITE"
     echo "  GERRIT_CONFIG   =  $GERRIT_CONFIG"
     echo "  GERRIT_PID      =  $GERRIT_PID"
+    echo "  GERRIT_TMP      =  $GERRIT_TMP"
     echo "  GERRIT_WAR      =  $GERRIT_WAR"
     echo "  GERRIT_FDS      =  $GERRIT_FDS"
     echo "  GERRIT_USER     =  $GERRIT_USER"

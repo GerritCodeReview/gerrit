@@ -508,6 +508,15 @@ public abstract class BaseCommand implements Command {
     /**
      * Create a new failure.
      *
+     * @param msg message to also send to the client's stderr.
+     */
+    public UnloggedFailure(final String msg) {
+      this(1, msg);
+    }
+
+    /**
+     * Create a new failure.
+     *
      * @param exitCode exit code to return the client, which indicates the
      *        failure status of this command. Should be between 1 and 255,
      *        inclusive.

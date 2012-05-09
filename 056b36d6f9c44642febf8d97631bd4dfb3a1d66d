@@ -88,6 +88,142 @@
       "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///xo\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-09T18:19:40Z",
+      "side": 1,
+      "message": "s/review/abandon",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///x0\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-09T18:19:40Z",
+      "side": 1,
+      "message": "Is this still true? I though you now need to specify PROJECT,BRANCH,CHANGEID, don\u0027t you?",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///xw\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-09T18:19:40Z",
+      "side": 1,
+      "message": "Does this command have a --project option?",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///xs\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-09T18:19:40Z",
+      "side": 1,
+      "message": "this blank line is too much and spoils the asciidoc formatting (with this blank line the \u0027+\u0027s below are printed as is)",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///xk\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-09T18:19:40Z",
+      "side": 1,
+      "message": "Not sure if I understand this, which label is actually changed by the abandon command? How would I trigger this?",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///xY\u003d",
+        "filename": "Documentation/cmd-abandon.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-09T18:19:40Z",
+      "side": 1,
+      "message": "Is this true for the abandon command? I think you can simply remove the section for the --help option. For most other commands it\u0027s also not mentioned.",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///xU\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/args4j/ChangeIdHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-09T18:19:40Z",
+      "side": 1,
+      "message": "Can we somehow avoid to load that many changes?\n\nI guess you need to load by keyRange to support abbreviated Change-ID\u0027s?\n\nCan we add a new query that immediately filters by branch, e.g.\ndb.changes().byBranchKeyRange(branch, key, key.max())?",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///xM\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-09T18:19:40Z",
+      "side": 1,
+      "message": "s/depricated/deprecated\n\nShould the --abandon option also be marked as deprecated in the documentation of the gerrit review command?",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

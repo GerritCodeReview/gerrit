@@ -52,6 +52,24 @@
       "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///xg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T17:57:59Z",
+      "side": 1,
+      "message": "the namespace sounds good to me, even more 1:1 with the http commands than what I was doing.\n\nHowever, for the other commands I would be adding a second \"patchsets\" namespace to handle the patchset commands.  All the review commands would end up being deprecated.\n\nThe review command will be deprecated, but live on until we have something to replace it with a way of chaining the other commands.",
+      "parentUuid": "AAAFXn///sI\u003d",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

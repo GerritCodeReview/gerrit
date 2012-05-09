@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.common.base.Optional;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -34,7 +33,6 @@ import com.google.inject.name.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -48,7 +46,6 @@ public class GroupCacheImpl implements GroupCache {
   private static final String BYID_NAME = "groups";
   private static final String BYNAME_NAME = "groups_byname";
   private static final String BYUUID_NAME = "groups_byuuid";
-  private static final String BYEXT_NAME = "groups_byext";
 
   public static Module module() {
     return new CacheModule() {
@@ -69,11 +66,6 @@ public class GroupCacheImpl implements GroupCache {
             new TypeLiteral<Optional<AccountGroup>>() {})
           .loader(ByUUIDLoader.class);
 
-        cache(BYEXT_NAME,
-            String.class,
-            new TypeLiteral<Collection<AccountGroup>>() {})
-          .loader(ByExternalNameLoader.class);
-
         bind(GroupCacheImpl.class);
         bind(GroupCache.class).to(GroupCacheImpl.class);
       }
@@ -83,7 +75,6 @@ public class GroupCacheImpl implements GroupCache {
   private final LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId;
   private final LoadingCache<String, Optional<AccountGroup>> byName;
   private final LoadingCache<String, Optional<AccountGroup>> byUUID;
-  private final LoadingCache<String, Collection<AccountGroup>> byExternalName;
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject
@@ -91,15 +82,14 @@ public class GroupCacheImpl implements GroupCache {
       @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId,
       @Named(BYNAME_NAME) LoadingCache<String, Optional<AccountGroup>> byName,
       @Named(BYUUID_NAME) LoadingCache<String, Optional<AccountGroup>> byUUID,
-      @Named(BYEXT_NAME) LoadingCache<String, Collection<AccountGroup>> byExternalName,
       SchemaFactory<ReviewDb> schema) {
     this.byId = byId;
     this.byName = byName;
     this.byUUID = byUUID;
-    this.byExternalName = byExternalName;
     this.schema = schema;
   }
 
+  @Override
   public AccountGroup get(final AccountGroup.Id groupId) {
     try {
       Optional<AccountGroup> g = byId.get(groupId);
@@ -110,6 +100,7 @@ public class GroupCacheImpl implements GroupCache {
     }
   }
 
+  @Override
   public void evict(final AccountGroup group) {
     if (group.getId() != null) {
       byId.invalidate(group.getId());
@@ -120,11 +111,9 @@ public class GroupCacheImpl implements GroupCache {
     if (group.getGroupUUID() != null) {
       byUUID.invalidate(group.getGroupUUID().get());
     }
-    if (group.getExternalNameKey() != null) {
-      byExternalName.invalidate(group.getExternalNameKey().get());
-    }
   }
 
+  @Override
   public void evictAfterRename(final AccountGroup.NameKey oldName,
       final AccountGroup.NameKey newName) {
     if (oldName != null) {
@@ -135,6 +124,7 @@ public class GroupCacheImpl implements GroupCache {
     }
   }
 
+  @Override
   public AccountGroup get(AccountGroup.NameKey name) {
     if (name == null) {
       return null;
@@ -147,6 +137,7 @@ public class GroupCacheImpl implements GroupCache {
     }
   }
 
+  @Override
   public AccountGroup get(AccountGroup.UUID uuid) {
     if (uuid == null) {
       return null;
@@ -156,18 +147,6 @@ public class GroupCacheImpl implements GroupCache {
     } catch (ExecutionException e) {
       log.warn(String.format("Cannot lookup group %s by name", uuid.get()), e);
       return null;
-    }
-  }
-
-  public Collection<AccountGroup> get(AccountGroup.ExternalNameKey name) {
-    if (name == null) {
-      return Collections.emptyList();
-    }
-    try {
-      return byExternalName.get(name.get());
-    } catch (ExecutionException e) {
-      log.warn("Cannot lookup external group " + name, e);
-      return Collections.emptyList();
     }
   }
 
@@ -267,29 +246,6 @@ public class GroupCacheImpl implements GroupCache {
         } else {
           throw new OrmDuplicateKeyException("Duplicate group UUID " + uuid);
         }
-      } finally {
-        db.close();
-      }
-    }
-  }
-
-  static class ByExternalNameLoader extends
-      CacheLoader<String, Collection<AccountGroup>> {
-    private final SchemaFactory<ReviewDb> schema;
-
-    @Inject
-    ByExternalNameLoader(final SchemaFactory<ReviewDb> sf) {
-      schema = sf;
-    }
-
-    @Override
-    public Collection<AccountGroup> load(String name)
-        throws Exception {
-      final ReviewDb db = schema.open();
-      try {
-        return ImmutableList.copyOf(db.accountGroups()
-          .byExternalName(new AccountGroup.ExternalNameKey(name))
-          .toList());
       } finally {
         db.close();
       }

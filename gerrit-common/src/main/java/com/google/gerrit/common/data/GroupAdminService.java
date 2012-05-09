@@ -24,7 +24,6 @@ import com.google.gwtjsonrpc.common.RpcImpl;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
 
-import java.util.List;
 import java.util.Set;
 
 @RpcImpl(version = Version.V2_0)
@@ -58,14 +57,6 @@ public interface GroupAdminService extends RemoteJsonService {
   @SignInRequired
   void changeGroupType(AccountGroup.Id groupId, AccountGroup.Type newType,
       AsyncCallback<VoidResult> callback);
-
-  @SignInRequired
-  void changeExternalGroup(AccountGroup.Id groupId,
-      AccountGroup.ExternalNameKey bindTo, AsyncCallback<VoidResult> callback);
-
-  @SignInRequired
-  void searchExternalGroups(String searchFilter,
-      AsyncCallback<List<AccountGroup.ExternalNameKey>> callback);
 
   @SignInRequired
   void addGroupMember(AccountGroup.Id groupId, String nameOrEmail,

@@ -245,6 +245,7 @@ public class PluginLoader implements LifecycleListener {
     Attributes main = manifest.getMainAttributes();
     String sysName = main.getValue("Gerrit-Module");
     String sshName = main.getValue("Gerrit-SshModule");
+    String httpName = main.getValue("Gerrit-HttpModule");
 
     URL[] urls = {jarFile.toURI().toURL()};
     ClassLoader parentLoader = PluginLoader.class.getClassLoader();
@@ -252,7 +253,9 @@ public class PluginLoader implements LifecycleListener {
 
     Class<? extends Module> sysModule = load(sysName, pluginLoader);
     Class<? extends Module> sshModule = load(sshName, pluginLoader);
-    return new Plugin(name, jarFile, manifest, snapshot, sysModule, sshModule);
+    Class<? extends Module> httpModule = load(httpName, pluginLoader);
+    return new Plugin(name, jarFile, manifest, snapshot,
+        sysModule, sshModule, httpModule);
   }
 
   private Class<? extends Module> load(String name, ClassLoader pluginLoader)

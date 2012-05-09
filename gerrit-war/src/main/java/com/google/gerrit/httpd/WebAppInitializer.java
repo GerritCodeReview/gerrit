@@ -20,6 +20,7 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.ehcache.EhcachePoolImpl;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
+import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -117,6 +118,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
       PluginGuiceEnvironment env = sysInjector.getInstance(PluginGuiceEnvironment.class);
       env.setCfgInjector(cfgInjector);
       env.setSshInjector(sshInjector);
+      env.setHttpInjector(webInjector);
 
       // Push the Provider<HttpServletRequest> down into the canonical
       // URL provider. Its optional for that provider, but since we can
@@ -228,6 +230,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(sshInjector.getInstance(WebSshGlueModule.class));
     modules.add(CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
+    modules.add(new HttpPluginModule());
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     if (authConfig.getAuthType() == AuthType.OPENID) {

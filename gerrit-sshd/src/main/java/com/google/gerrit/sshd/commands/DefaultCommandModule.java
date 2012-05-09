@@ -28,6 +28,7 @@ public class DefaultCommandModule extends CommandModule {
   protected void configure() {
     final CommandName git = Commands.named("git");
     final CommandName gerrit = Commands.named("gerrit");
+    final CommandName plugin = Commands.named(gerrit, "plugin");
 
     // The following commands can be ran on a server in either Master or Slave
     // mode. If a command should only be used on a server in one mode, but not
@@ -45,6 +46,14 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, "show-queue").to(ShowQueue.class);
     command(gerrit, "stream-events").to(StreamEvents.class);
     command(gerrit, "version").to(VersionCommand.class);
+
+    command(gerrit, "plugin").toProvider(new DispatchCommandProvider(plugin));
+    command(plugin, "ls").to(PluginLsCommand.class);
+    command(plugin, "install").to(PluginInstallCommand.class);
+    command(plugin, "reload").to(PluginReloadCommand.class);
+    command(plugin, "remove").to(PluginRemoveCommand.class);
+    command(plugin, "add").to(Commands.key(plugin, "install"));
+    command(plugin, "rm").to(Commands.key(plugin, "remove"));
 
     command(git).toProvider(new DispatchCommandProvider(git));
     command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));

@@ -28,6 +28,7 @@ public final class SitePaths {
   public final File bin_dir;
   public final File etc_dir;
   public final File lib_dir;
+  public final File tmp_dir;
   public final File logs_dir;
   public final File plugins_dir;
   public final File mail_dir;
@@ -63,6 +64,7 @@ public final class SitePaths {
     bin_dir = new File(site_path, "bin");
     etc_dir = new File(site_path, "etc");
     lib_dir = new File(site_path, "lib");
+    tmp_dir = new File(site_path, "tmp");
     plugins_dir = new File(site_path, "plugins");
     logs_dir = new File(site_path, "logs");
     mail_dir = new File(etc_dir, "mail");

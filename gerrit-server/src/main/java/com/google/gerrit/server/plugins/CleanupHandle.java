@@ -12,21 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.commands;
+package com.google.gerrit.server.plugins;
 
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.server.plugins.PluginLoader;
-import com.google.gerrit.sshd.RequiresCapability;
-import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
+import java.io.File;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-final class PluginReloadCommand extends SshCommand {
-  @Inject
-  private PluginLoader loader;
+class CleanupHandle extends WeakReference<ClassLoader> {
+  private final File tmpFile;
 
-  @Override
-  protected void run() {
-    loader.rescan(true);
+  CleanupHandle(File jarFile,
+      ClassLoader ref,
+      ReferenceQueue<ClassLoader> queue) {
+    super(ref, queue);
+    this.tmpFile = jarFile;
+  }
+
+  void cleanup() {
+    tmpFile.delete();
   }
 }

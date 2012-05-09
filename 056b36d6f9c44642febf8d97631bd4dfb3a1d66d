@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///sQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-09T17:34:02Z",
+      "side": 1,
+      "message": "I agree that the review command is a bit unwieldy, but I am concerned that making separate commands for each of these things will simply push the problem to the global ssh gerrit command namespace.  I am not sure that littering the gerrit namespace is better than litterting a sub command.",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

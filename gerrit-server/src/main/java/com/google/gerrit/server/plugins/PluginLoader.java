@@ -50,7 +50,7 @@ import java.util.jar.Manifest;
 
 @Singleton
 public class PluginLoader implements LifecycleListener {
-  private static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
+  static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
   private final File pluginsDir;
   private final PluginGuiceEnvironment env;
@@ -93,26 +93,19 @@ public class PluginLoader implements LifecycleListener {
       Plugin active = running.get(name);
       if (active != null) {
         log.info(String.format("Replacing plugin %s", name));
-        active.stop();
-        running.remove(name);
         old.delete();
         jar.renameTo(old);
       }
 
       tmp.renameTo(jar);
-      FileSnapshot snapshot = FileSnapshot.save(jar);
-      Plugin next;
       try {
-        next = loadPlugin(name, snapshot, jar);
-        next.start(env);
-      } catch (Throwable err) {
+        runPlugin(name, jar, active);
+        if (active == null) {
+          log.info(String.format("Installed plugin %s", name));
+        }
+      } catch (PluginInstallException e) {
         jar.delete();
-        throw new PluginInstallException(err);
-      }
-      broken.remove(name);
-      running.put(name, next);
-      if (active == null) {
-        log.info(String.format("Installed plugin %s", name));
+        throw e;
       }
     }
   }
@@ -198,26 +191,43 @@ public class PluginLoader implements LifecycleListener {
             + " This is not a safe way to update a plugin.",
             jar.getAbsolutePath()));
         log.info(String.format("Reloading plugin %s", name));
-        active.stop();
+      }
+
+      try {
+        runPlugin(name, jar, active);
+        if (active == null) {
+          log.info(String.format("Loaded plugin %s", name));
+        }
+      } catch (PluginInstallException e) {
+        log.warn(String.format("Cannot load plugin %s", name), e.getCause());
+      }
+    }
+  }
+
+  private void runPlugin(String name, File jar, Plugin oldPlugin)
+      throws PluginInstallException {
+    FileSnapshot snapshot = FileSnapshot.save(jar);
+    try {
+      Plugin newPlugin = loadPlugin(name, jar, snapshot);
+      boolean reload = oldPlugin != null
+          && oldPlugin.canReload()
+          && newPlugin.canReload();
+      if (!reload && oldPlugin != null) {
+        oldPlugin.stop();
         running.remove(name);
       }
-
-      FileSnapshot snapshot = FileSnapshot.save(jar);
-      Plugin next;
-      try {
-        next = loadPlugin(name, snapshot, jar);
-        next.start(env);
-      } catch (Throwable err) {
-        log.warn(String.format("Cannot load plugin %s", name), err);
-        broken.put(name, snapshot);
-        continue;
+      newPlugin.start(env);
+      if (reload) {
+        env.onReloadPlugin(oldPlugin, newPlugin);
+        oldPlugin.stop();
+      } else {
+        env.onStartPlugin(newPlugin);
       }
+      running.put(name, newPlugin);
       broken.remove(name);
-      running.put(name, next);
-
-      if (active == null) {
-        log.info(String.format("Loaded plugin %s", name));
-      }
+    } catch (Throwable err) {
+      broken.put(name, snapshot);
+      throw new PluginInstallException(err);
     }
   }
 
@@ -238,7 +248,7 @@ public class PluginLoader implements LifecycleListener {
     return 0 < ext ? name.substring(0, ext) : name;
   }
 
-  private Plugin loadPlugin(String name, FileSnapshot snapshot, File jarFile)
+  private Plugin loadPlugin(String name, File jarFile, FileSnapshot snapshot)
       throws IOException, ClassNotFoundException {
     Manifest manifest = new JarFile(jarFile).getManifest();
 

@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.RegistrationHandle;
+import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
@@ -42,7 +43,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 class HttpPluginServlet extends HttpServlet
-    implements StartPluginListener {
+    implements StartPluginListener, ReloadPluginListener {
   private static final long serialVersionUID = 1L;
   private static final Logger log
       = LoggerFactory.getLogger(HttpPluginServlet.class);
@@ -59,7 +60,10 @@ class HttpPluginServlet extends HttpServlet
     String path = config.getServletContext().getContextPath();
     base = Strings.nullToEmpty(path) + "/plugins/";
     for (Plugin plugin : pending) {
-      start(plugin);
+      GuiceFilter filter = load(plugin);
+      if (filter != null) {
+        plugins.put(plugin.getName(), filter);
+      }
     }
     pending = null;
   }
@@ -69,11 +73,22 @@ class HttpPluginServlet extends HttpServlet
     if (pending != null) {
       pending.add(plugin);
     } else {
-      start(plugin);
+      GuiceFilter filter = load(plugin);
+      if (filter != null) {
+        plugins.put(plugin.getName(), filter);
+      }
     }
   }
 
-  private void start(Plugin plugin) {
+  @Override
+  public void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
+    GuiceFilter filter = load(newPlugin);
+    if (filter != null) {
+      plugins.put(newPlugin.getName(), filter);
+    }
+  }
+
+  private GuiceFilter load(Plugin plugin) {
     if (plugin.getHttpInjector() != null) {
       final String name = plugin.getName();
       final GuiceFilter filter;
@@ -81,7 +96,7 @@ class HttpPluginServlet extends HttpServlet
         filter = plugin.getHttpInjector().getInstance(GuiceFilter.class);
       } catch (RuntimeException e) {
         log.warn(String.format("Plugin %s cannot load GuiceFilter", name), e);
-        return;
+        return null;
       }
 
       try {
@@ -89,7 +104,7 @@ class HttpPluginServlet extends HttpServlet
         filter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
         log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);
-        return;
+        return null;
       }
 
       plugin.add(new RegistrationHandle() {
@@ -102,8 +117,9 @@ class HttpPluginServlet extends HttpServlet
           }
         }
       });
-      plugins.put(name, filter);
+      return filter;
     }
+    return null;
   }
 
   @Override

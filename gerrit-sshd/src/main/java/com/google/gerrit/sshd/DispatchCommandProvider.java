@@ -72,6 +72,18 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     };
   }
 
+  public RegistrationHandle replace(final CommandName name,
+      final Provider<Command> cmd) {
+    final ConcurrentMap<String, Provider<Command>> m = getMap();
+    m.put(name.value(), cmd);
+    return new RegistrationHandle() {
+      @Override
+      public void remove() {
+        m.remove(name.value(), cmd);
+      }
+    };
+  }
+
   private ConcurrentMap<String, Provider<Command>> getMap() {
     if (map == null) {
       synchronized (this) {

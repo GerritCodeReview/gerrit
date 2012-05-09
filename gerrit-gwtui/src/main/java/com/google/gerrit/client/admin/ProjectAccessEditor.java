@@ -120,7 +120,7 @@ public class ProjectAccessEditor extends Composite implements
       history.getStyle().setDisplay(Display.NONE);
     }
 
-    addSection.setVisible(value != null && editing && !value.getOwnerOf().isEmpty());
+    addSection.setVisible(value != null && editing && value.canUpload());
   }
 
   @Override

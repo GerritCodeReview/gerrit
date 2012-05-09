@@ -176,10 +176,7 @@ public class CreateProject {
       }
 
       md.setMessage("Created project\n");
-      if (!config.commit(md)) {
-        throw new IOException("Cannot create "
-            + createProjectArgs.getProjectName());
-      }
+      config.commit(md);
     } finally {
       md.close();
     }

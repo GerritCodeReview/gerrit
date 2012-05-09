@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.base.Objects;
+
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -145,12 +146,12 @@ public abstract class VersionedMetaData {
    * Update this metadata branch, recording a new commit on its reference.
    *
    * @param update helper information to define the update that will occur.
-   * @return true if the update was successful, false if it failed because of a
-   *         concurrent update to the same reference.
+   * @return the commit that was created
    * @throws IOException if there is a storage problem and the update cannot be
-   *         executed as requested.
+   *         executed as requested or if it failed because of a concurrent
+   *         update to the same reference
    */
-  public boolean commit(MetaDataUpdate update) throws IOException {
+  public RevCommit commit(MetaDataUpdate update) throws IOException {
     BatchMetaDataUpdate batch = openUpdate(update);
     try {
       batch.write(update.getCommitBuilder());
@@ -160,11 +161,32 @@ public abstract class VersionedMetaData {
     }
   }
 
+  /**
+   * Creates a new commit and a new ref based on this commit.
+   *
+   * @param update helper information to define the update that will occur.
+   * @param refName name of the ref that should be created
+   * @return the commit that was created
+   * @throws IOException if there is a storage problem and the update cannot be
+   *         executed as requested or if it failed because of a concurrent
+   *         update to the same reference
+   */
+  public RevCommit commitToNewRef(MetaDataUpdate update, String refName) throws IOException {
+    BatchMetaDataUpdate batch = openUpdate(update);
+    try {
+      batch.write(update.getCommitBuilder());
+      return batch.createRef(refName);
+    } finally {
+      batch.close();
+    }
+  }
+
   public interface BatchMetaDataUpdate {
     void write(CommitBuilder commit) throws IOException;
     void write(VersionedMetaData config, CommitBuilder commit) throws IOException;
-    boolean commit() throws IOException;
-    boolean commitAt(ObjectId revision) throws IOException;
+    RevCommit createRef(String refName) throws IOException;
+    RevCommit commit() throws IOException;
+    RevCommit commitAt(ObjectId revision) throws IOException;
     void close();
   }
 
@@ -224,14 +246,35 @@ public abstract class VersionedMetaData {
       }
 
       @Override
-      public boolean commit() throws IOException {
+      public RevCommit createRef(String refName) throws IOException {
+        if (Objects.equal(src, revision)) {
+          return revision;
+        }
+
+        RefUpdate ru = db.updateRef(refName);
+        ru.setExpectedOldObjectId(ObjectId.zeroId());
+        ru.setNewObjectId(src);
+        RefUpdate.Result result = ru.update();
+        switch (result) {
+          case NEW:
+            revision = rw.parseCommit(ru.getNewObjectId());
+            update.replicate(ru.getName());
+            return revision;
+          default:
+            throw new IOException("Cannot update " + ru.getName() + " in "
+                + db.getDirectory() + ": " + ru.getResult());
+        }
+      }
+
+      @Override
+      public RevCommit commit() throws IOException {
         return commitAt(revision);
       }
 
       @Override
-      public boolean commitAt(ObjectId expected) throws IOException {
+      public RevCommit commitAt(ObjectId expected) throws IOException {
         if (Objects.equal(src, expected)) {
-          return true;
+          return revision;
         }
 
         RefUpdate ru = db.updateRef(getRefName());
@@ -249,10 +292,7 @@ public abstract class VersionedMetaData {
           case FAST_FORWARD:
             revision = rw.parseCommit(ru.getNewObjectId());
             update.replicate(ru.getName());
-            return true;
-
-          case LOCK_FAILURE:
-            return false;
+            return revision;
 
           default:
             throw new IOException("Cannot update " + ru.getName() + " in "

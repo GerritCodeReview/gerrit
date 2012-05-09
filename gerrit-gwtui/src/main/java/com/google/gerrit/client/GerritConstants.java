@@ -98,4 +98,5 @@ public interface GerritConstants extends Constants {
   String jumpMineStarred();
 
   String projectAccessError();
+  String projectAccessProposeForReviewHint();
 }

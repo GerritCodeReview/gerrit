@@ -96,10 +96,9 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
       if (config.updateGroupNames(groupCache)) {
         md.setMessage("Update group names\n");
-        if (config.commit(md)) {
-          projectCache.evict(config.getProject());
-          pc = open();
-        }
+        config.commit(md);
+        projectCache.evict(config.getProject());
+        pc = open();
       } else if (config.getRevision() != null
           && !config.getRevision().equals(
               pc.getProjectState().getConfig().getRevision())) {
@@ -195,6 +194,8 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
     detail.setLocal(local);
     detail.setOwnerOf(ownerOf);
+    detail.setCanUpload(!ownerOf.isEmpty()
+        || pc.controlForRef(GitRepositoryManager.REF_CONFIG).canUpload());
     detail.setConfigVisible(pc.isOwner()
         || pc.controlForRef(GitRepositoryManager.REF_CONFIG).isVisible());
     return detail;

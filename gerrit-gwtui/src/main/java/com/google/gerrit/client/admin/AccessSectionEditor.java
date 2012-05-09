@@ -182,7 +182,7 @@ public class AccessSectionEditor extends Composite implements
     Collections.sort(value.getPermissions());
 
     this.value = value;
-    this.readOnly = !editing || !projectAccess.isOwnerOf(value);
+    this.readOnly = !editing || !projectAccess.canUpload();
 
     name.setEnabled(!readOnly);
     deleteSection.setVisible(!readOnly);

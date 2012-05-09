@@ -107,9 +107,7 @@ public class Schema_64 extends SchemaVersion {
       }
 
       md.setMessage("Upgrade to Gerrit Code Review schema 64\n");
-      if (!config.commit(md)) {
-        throw new OrmException("Cannot update " + allProjects);
-      }
+      config.commit(md);
     } catch (IOException e) {
       throw new OrmException(e);
     } catch (ConfigInvalidException e) {

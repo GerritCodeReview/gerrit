@@ -20,6 +20,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
@@ -79,6 +80,9 @@ public class ProjectAccessScreen extends ProjectScreen {
   @UiField
   Button commit;
 
+  @UiField
+  Button review;
+
   private Driver driver;
 
   private ProjectAccess access;
@@ -112,8 +116,8 @@ public class ProjectAccessScreen extends ProjectScreen {
   private void displayReadOnly(ProjectAccess access) {
     this.access = access;
     accessEditor.setEditing(false);
-    UIObject.setVisible(editTools, !access.getOwnerOf().isEmpty());
-    edit.setEnabled(!access.getOwnerOf().isEmpty());
+    UIObject.setVisible(editTools, access.canUpload());
+    edit.setEnabled(access.canUpload());
     cancel1.setVisible(false);
     UIObject.setVisible(commitTools, false);
     driver.edit(access);
@@ -124,6 +128,7 @@ public class ProjectAccessScreen extends ProjectScreen {
     edit.setEnabled(false);
     cancel1.setVisible(true);
     UIObject.setVisible(commitTools, true);
+    commit.setVisible(!access.getOwnerOf().isEmpty());
     accessEditor.setEditing(true);
     driver.edit(access);
   }
@@ -167,6 +172,9 @@ public class ProjectAccessScreen extends ProjectScreen {
               for (final String diff : diffs) {
                 error.add(new Label(diff));
               }
+              if (access.canUpload()) {
+                error.add(new Label(Gerrit.C.projectAccessProposeForReviewHint()));
+              }
             }
           }
 
@@ -207,9 +215,52 @@ public class ProjectAccessScreen extends ProjectScreen {
         });
   }
 
+  @UiHandler("review")
+  void onReview(ClickEvent event) {
+    final ProjectAccess access = driver.flush();
+
+    if (driver.hasErrors()) {
+      Window.alert(Util.C.errorsMustBeFixed());
+      return;
+    }
+
+    String message = commitMessage.getText().trim();
+    if ("".equals(message)) {
+      message = null;
+    }
+
+    enable(false);
+    Util.PROJECT_SVC.reviewProjectAccess( //
+        getProjectKey(), //
+        access.getRevision(), //
+        message, //
+        access.getLocal(), //
+        new GerritCallback<Change.Id>() {
+          @Override
+          public void onSuccess(Change.Id changeId) {
+            enable(true);
+            commitMessage.setText("");
+            error.clear();
+            if (changeId != null) {
+              Gerrit.display(PageLinks.toChange(changeId));
+            } else {
+              displayReadOnly(access);
+            }
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            error.clear();
+            enable(true);
+            super.onFailure(caught);
+          }
+        });
+  }
+
   private void enable(boolean enabled) {
     commitMessage.setEnabled(enabled);
     commit.setEnabled(enabled);
+    review.setEnabled(enabled);
     cancel1.setEnabled(enabled);
     cancel2.setEnabled(enabled);
   }

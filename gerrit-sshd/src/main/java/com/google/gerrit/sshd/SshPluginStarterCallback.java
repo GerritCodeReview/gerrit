@@ -66,6 +66,7 @@ class SshPluginStarterCallback
         log.warn(String.format(
             "Plugin %s did not define its top-level command",
             plugin.getName()), err);
+        plugin.setStartupException(err);
       }
     }
     return null;

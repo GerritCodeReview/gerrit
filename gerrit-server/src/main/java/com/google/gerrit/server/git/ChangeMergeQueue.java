@@ -20,16 +20,17 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.RequestScoped;
 
@@ -43,6 +44,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
@@ -57,6 +59,7 @@ public class ChangeMergeQueue implements MergeQueue {
 
   private final WorkQueue workQueue;
   private final Provider<MergeOp.Factory> bgFactory;
+  private final PerThreadRequestScope.Scoper threadScoper;
 
   @Inject
   ChangeMergeQueue(final WorkQueue wq, Injector parent) {
@@ -68,15 +71,9 @@ public class ChangeMergeQueue implements MergeQueue {
         bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
         bind(RequestScopePropagator.class)
             .to(PerThreadRequestScope.Propagator.class);
+        bind(PerThreadRequestScope.Propagator.class);
         install(new GerritRequestModule());
 
-        bind(CurrentUser.class).to(IdentifiedUser.class);
-        bind(IdentifiedUser.class).toProvider(new Provider<IdentifiedUser>() {
-          @Override
-          public IdentifiedUser get() {
-            throw new OutOfScopeException("No user on merge thread");
-          }
-        });
         bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
             new Provider<SocketAddress>() {
               @Override
@@ -91,8 +88,26 @@ public class ChangeMergeQueue implements MergeQueue {
           }
         });
       }
+
+      @Provides
+      public PerThreadRequestScope.Scoper provideScoper(
+          final PerThreadRequestScope.Propagator propagator) {
+        final RequestContext requestContext = new RequestContext() {
+          @Override
+          public CurrentUser getCurrentUser() {
+            throw new OutOfScopeException("No user on merge thread");
+          }
+        };
+        return new PerThreadRequestScope.Scoper() {
+          @Override
+          public <T> Callable<T> scope(Callable<T> callable) {
+            return propagator.scope(requestContext, callable);
+          }
+        };
+      }
     });
     bgFactory = child.getProvider(MergeOp.Factory.class);
+    threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
   }
 
   @Override
@@ -186,19 +201,15 @@ public class ChangeMergeQueue implements MergeQueue {
     }
   }
 
-  private void mergeImpl(Branch.NameKey branch) {
+  private void mergeImpl(final Branch.NameKey branch) {
     try {
-      PerThreadRequestScope ctx = new PerThreadRequestScope();
-      PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
-      try {
-        try {
+      threadScoper.scope(new Callable<Void>(){
+        @Override
+        public Void call() throws Exception {
           bgFactory.get().create(branch).merge();
-        } finally {
-          ctx.cleanup.run();
+          return null;
         }
-      } finally {
-        PerThreadRequestScope.set(old);
-      }
+      }).call();
     } catch (Throwable e) {
       log.error("Merge attempt for " + branch + " failed", e);
     } finally {

@@ -104,11 +104,6 @@ public class SshModule extends FactoryModule {
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         SshRemotePeerProvider.class).in(SshScope.REQUEST);
 
-    bind(CurrentUser.class).toProvider(SshCurrentUserProvider.class).in(
-        SshScope.REQUEST);
-    bind(IdentifiedUser.class).toProvider(SshIdentifiedUserProvider.class).in(
-        SshScope.REQUEST);
-
     bind(WorkQueue.Executor.class).annotatedWith(CommandExecutor.class)
         .toProvider(CommandExecutorProvider.class).in(SshScope.REQUEST);
 

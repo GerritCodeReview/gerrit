@@ -14,8 +14,14 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.RequestFactory;
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
+import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -26,10 +32,10 @@ import java.util.Map;
 
 /** Guice scopes for state during an SSH connection. */
 class SshScope {
-  static class Context {
-    private static final Key<RequestCleanup> RC_KEY =
-        Key.get(RequestCleanup.class);
+  private static final Key<RequestCleanup> RC_KEY =
+      Key.get(RequestCleanup.class);
 
+  class Context implements RequestContext {
     private final RequestCleanup cleanup;
     private final SshSession session;
     private final String commandLine;
@@ -56,16 +62,22 @@ class SshScope {
       finished = p.finished;
     }
 
-    Context(final SshSession s, final String c) {
-      this(s, c, System.currentTimeMillis());
-    }
-
     String getCommandLine() {
       return commandLine;
     }
 
     SshSession getSession() {
       return session;
+    }
+
+    @Override
+    public CurrentUser getCurrentUser() {
+      final CurrentUser user = session.getCurrentUser();
+      if (user instanceof IdentifiedUser) {
+        return userFactory.create(user.getAccessPath(), //
+            ((IdentifiedUser) user).getAccountId());
+      }
+      return user;
     }
 
     synchronized <T> T get(Key<T> key, Provider<T> creator) {
@@ -100,15 +112,19 @@ class SshScope {
   }
 
   static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
-    Propagator() {
-      super(REQUEST, current);
+    private final SshScope sshScope;
+
+    @Inject
+    Propagator(SshScope sshScope, ThreadLocalRequestContext local) {
+      super(REQUEST, current, local);
+      this.sshScope = sshScope;
     }
 
     @Override
     protected Context continuingContext(Context ctx) {
       // The cleanup is not chained, since the RequestScopePropagator executors
       // the Context's cleanup when finished executing.
-      return new Context(ctx, ctx.getSession(), ctx.getCommandLine());
+      return sshScope.newContinuingContext(ctx);
     }
   }
 
@@ -123,9 +139,28 @@ class SshScope {
     return ctx;
   }
 
+  private final ThreadLocalRequestContext local;
+  private final RequestFactory userFactory;
+
+  @Inject
+  SshScope(ThreadLocalRequestContext local,
+      IdentifiedUser.RequestFactory userFactory) {
+    this.local = local;
+    this.userFactory = userFactory;
+  }
+
+  Context newContext(SshSession session, String commandLine) {
+    return new Context(session, commandLine, System.currentTimeMillis());
+  }
+
+  private Context newContinuingContext(Context ctx) {
+    return new Context(ctx, ctx.getSession(), ctx.getCommandLine());
+  }
+
   Context set(Context ctx) {
     Context old = current.get();
     current.set(ctx);
+    local.setContext(ctx);
     return old;
   }
 

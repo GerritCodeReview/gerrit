@@ -26,6 +26,7 @@ public class ProjectAccess {
   protected List<AccessSection> local;
   protected Set<String> ownerOf;
   protected boolean isConfigVisible;
+  protected boolean canUpload;
 
   public ProjectAccess() {
   }
@@ -93,5 +94,13 @@ public class ProjectAccess {
 
   public void setConfigVisible(boolean isConfigVisible) {
     this.isConfigVisible = isConfigVisible;
+  }
+
+  public boolean canUpload() {
+    return canUpload;
+  }
+
+  public void setCanUpload(boolean canUpload) {
+    this.canUpload = canUpload;
   }
 }

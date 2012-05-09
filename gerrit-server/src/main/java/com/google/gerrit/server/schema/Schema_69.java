@@ -181,9 +181,7 @@ public class Schema_69 extends SchemaVersion {
         }
 
         md.setMessage("Switch LDAP group UUIDs to DNs\n");
-        if (!config.commit(md)) {
-          throw new OrmException("Cannot update " + name);
-        }
+        config.commit(md);
       } catch (IOException e) {
         throw new OrmException(e);
       } catch (ConfigInvalidException e) {

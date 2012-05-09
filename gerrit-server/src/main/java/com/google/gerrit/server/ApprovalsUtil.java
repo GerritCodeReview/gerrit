@@ -34,6 +34,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+/**  Approvals are overloaded, they represent both approvals and reviewers
+ *   which should be CCed on a change.  To ensure that reviewers are not lost
+ *   there must always be an approval on each patchset for each reviewer, 
+ *   even if the reviewer hasn't actually given a score to the change.  To 
+ *   mark the "no score" case, a dummy approval with a score of 0 is used.
+ */
+
 public class ApprovalsUtil {
   private final ReviewDb db;
   private final ApprovalTypes approvalTypes;

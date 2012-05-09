@@ -25,9 +25,10 @@ import java.util.Date;
 public class FormatUtil {
   private static final long ONE_YEAR = 182L * 24 * 60 * 60 * 1000;
 
-  private static DateTimeFormat sTime = DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.TIME_SHORT);
-  private static DateTimeFormat sDate = DateTimeFormat.getFormat("MMM d");
-  private static DateTimeFormat mDate = DateTimeFormat.getFormat(DateTimeFormat.PredefinedFormat.DATE_MEDIUM);
+  private static DateTimeFormat sTime;
+  private static DateTimeFormat sDate;
+  private static DateTimeFormat sdtFmt;
+  private static DateTimeFormat mDate;
   private static DateTimeFormat dtfmt;
 
   public static void setPreferences(AccountGeneralPreferences pref) {
@@ -41,10 +42,12 @@ public class FormatUtil {
     }
 
     String fmt_sTime = pref.getTimeFormat().getFormat();
+    String fmt_sDate = pref.getDateFormat().getShortFormat();
     String fmt_mDate = pref.getDateFormat().getLongFormat();
 
     sTime = DateTimeFormat.getFormat(fmt_sTime);
-    sDate = DateTimeFormat.getFormat(pref.getDateFormat().getShortFormat());
+    sDate = DateTimeFormat.getFormat(fmt_sDate);
+    sdtFmt = DateTimeFormat.getFormat(fmt_sDate + " " + fmt_sTime);
     mDate = DateTimeFormat.getFormat(fmt_mDate);
     dtfmt = DateTimeFormat.getFormat(fmt_mDate + " " + fmt_sTime);
   }
@@ -67,6 +70,32 @@ public class FormatUtil {
       // Within the last year, show a shorter date.
       //
       return sDate.format(dt);
+
+    } else {
+      // Report only date and year, its far away from now.
+      //
+      return mDate.format(dt);
+    }
+  }
+
+  /** Format a date using a really short format. */
+  public static String shortFormatDayTime(Date dt) {
+    if (dt == null) {
+      return "";
+    }
+
+    ensureInited();
+    final Date now = new Date();
+    dt = new Date(dt.getTime());
+    if (mDate.format(now).equals(mDate.format(dt))) {
+      // Same day as today, report only the time.
+      //
+      return sTime.format(dt);
+
+    } else if (Math.abs(now.getTime() - dt.getTime()) < ONE_YEAR) {
+      // Within the last year, show a shorter date.
+      //
+      return sdtFmt.format(dt);
 
     } else {
       // Report only date and year, its far away from now.

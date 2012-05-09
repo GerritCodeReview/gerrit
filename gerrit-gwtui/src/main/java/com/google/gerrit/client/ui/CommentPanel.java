@@ -61,7 +61,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
 
     setMessageText(message);
     setAuthorNameText(FormatUtil.name(author));
-    setDateText(FormatUtil.shortFormat(when));
+    setDateText(FormatUtil.shortFormatDayTime(when));
 
     final CellFormatter fmt = header.getCellFormatter();
     fmt.getElement(0, 0).setTitle(FormatUtil.nameEmail(author));

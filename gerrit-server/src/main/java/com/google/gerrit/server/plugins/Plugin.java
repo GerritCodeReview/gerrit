@@ -24,11 +24,15 @@ import com.google.inject.Module;
 import org.eclipse.jgit.storage.file.FileSnapshot;
 
 import java.io.File;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 import javax.annotation.Nullable;
 
 public class Plugin {
   private final String name;
+  private final File jar;
+  private final Manifest manifest;
   private final FileSnapshot snapshot;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
@@ -38,17 +42,30 @@ public class Plugin {
   private LifecycleManager manager;
 
   public Plugin(String name,
+      File jar,
+      Manifest manifest,
       FileSnapshot snapshot,
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule) {
     this.name = name;
+    this.jar = jar;
+    this.manifest = manifest;
     this.snapshot = snapshot;
     this.sysModule = sysModule;
     this.sshModule = sshModule;
   }
 
+  File getJar() {
+    return jar;
+  }
+
   public String getName() {
     return name;
+  }
+
+  public String getVersion() {
+    Attributes main = manifest.getMainAttributes();
+    return main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
   }
 
   boolean isModified(File jar) {

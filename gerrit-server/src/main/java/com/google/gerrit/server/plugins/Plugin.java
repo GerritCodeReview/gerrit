@@ -54,6 +54,13 @@ public class Plugin {
   private Injector httpInjector;
   private LifecycleManager manager;
 
+  public static enum Status {
+    LOADED, STARTED, STOPPED, FAILED
+  }
+
+  private Status status = Status.LOADED;
+  private Exception startupException;
+
   public Plugin(String name,
       File srcJar,
       FileSnapshot snapshot,
@@ -107,6 +114,7 @@ public class Plugin {
   }
 
   public void start(PluginGuiceEnvironment env) throws Exception {
+    startupException = null;
     Injector root = newRootInjector(env);
     manager = new LifecycleManager();
 
@@ -151,6 +159,11 @@ public class Plugin {
     }
 
     manager.start();
+
+    if (startupException == null)
+      setStatus(Status.STARTED);
+    else
+      setStatus(Status.FAILED);
   }
 
   private Injector newRootInjector(PluginGuiceEnvironment env) {
@@ -173,6 +186,7 @@ public class Plugin {
       sysInjector = null;
       sshInjector = null;
       httpInjector = null;
+      setStatus(Status.STOPPED);
     }
   }
 
@@ -210,5 +224,17 @@ public class Plugin {
   @Override
   public String toString() {
     return "Plugin [" + name + "]";
+  }
+
+  public Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(Status newStatus) {
+    this.status = newStatus;
+  }
+
+  public void setStartupException(Exception e) {
+    this.startupException = e;
   }
 }

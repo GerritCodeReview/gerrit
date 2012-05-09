@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAFXn///tw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-09T14:26:42Z",
+      "side": 1,
+      "message": "I would use // style comments here, or /*, as this isn\u0027t really class documentation.\n\nAlternatively really make it class documentation by removing the blank line before \"public class\" and inserting a new prefix e.g.:\n\n  /**\n    * Utility functions to copy approvals between patch sets.\n    * \u003cp\u003e\n    * ....",
+      "revId": "328e378c8544336819fe28b4606ba3bbacbfc12c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFXn///vo\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 1
@@ -13,6 +30,23 @@
       "writtenOn": "2012-05-09T01:42:41Z",
       "side": 1,
       "message": "Please remove trailing whitespace.",
+      "revId": "328e378c8544336819fe28b4606ba3bbacbfc12c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///t0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-09T14:26:42Z",
+      "side": 1,
+      "message": "add a remark about the category being chosen at random to store this 0.",
       "revId": "328e378c8544336819fe28b4606ba3bbacbfc12c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

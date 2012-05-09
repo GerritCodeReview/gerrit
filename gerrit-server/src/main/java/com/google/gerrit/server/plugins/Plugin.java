@@ -45,6 +45,10 @@ public class Plugin {
         .setLevel(java.util.logging.Level.OFF);
   }
 
+  public static enum Status {
+    LOADED, STARTED, STOPPED, FAILED
+  }
+
   private final String name;
   private final File srcJar;
   private final FileSnapshot snapshot;
@@ -60,6 +64,11 @@ public class Plugin {
   private Injector httpInjector;
   private LifecycleManager manager;
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
+
+
+
+  private Status status = Status.LOADED;
+  private Exception startupException;
 
   public Plugin(String name,
       File srcJar,
@@ -94,6 +103,10 @@ public class Plugin {
     return main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
   }
 
+  public Status getStatus() {
+    return status;
+  }
+
   boolean canReload() {
     Attributes main = manifest.getMainAttributes();
     String v = main.getValue("Gerrit-ReloadMode");
@@ -114,6 +127,7 @@ public class Plugin {
   }
 
   public void start(PluginGuiceEnvironment env) throws Exception {
+    startupException = null;
     Injector root = newRootInjector(env);
     manager = new LifecycleManager();
 
@@ -162,6 +176,11 @@ public class Plugin {
     }
 
     manager.start();
+
+    if (startupException == null)
+      setStatus(Status.STARTED);
+    else
+      setStatus(Status.FAILED);
   }
 
   private Injector newRootInjector(PluginGuiceEnvironment env) {
@@ -184,6 +203,7 @@ public class Plugin {
       sysInjector = null;
       sshInjector = null;
       httpInjector = null;
+      setStatus(Status.STOPPED);
     }
   }
 
@@ -239,5 +259,13 @@ public class Plugin {
   @Override
   public String toString() {
     return "Plugin [" + name + "]";
+  }
+
+  void setStatus(Status newStatus) {
+    this.status = newStatus;
+  }
+
+  public void setStartupException(Exception e) {
+    this.startupException = e;
   }
 }

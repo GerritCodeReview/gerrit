@@ -170,6 +170,11 @@ limitations under the License.
       <groupId>com.googlecode.prolog-cafe</groupId>
       <artifactId>PrologCafe</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>org.pegdown</groupId>
+      <artifactId>pegdown</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

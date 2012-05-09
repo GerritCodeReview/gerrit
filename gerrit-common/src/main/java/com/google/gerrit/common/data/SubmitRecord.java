@@ -84,5 +84,34 @@ public class SubmitRecord {
     public String label;
     public Status status;
     public Account.Id appliedBy;
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append(label).append(": ").append(status);
+      if (appliedBy != null) {
+        sb.append(" by ").append(appliedBy);
+      }
+      return sb.toString();
+    }
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(status);
+    if (status == Status.RULE_ERROR && errorMessage != null) {
+      sb.append('(').append(errorMessage).append(')');
+    }
+    sb.append('[');
+    if (labels != null) {
+      String delimiter = "";
+      for (Label label : labels) {
+        sb.append(delimiter).append(label);
+        delimiter = ", ";
+      }
+    }
+    sb.append(']');
+    return sb.toString();
   }
 }

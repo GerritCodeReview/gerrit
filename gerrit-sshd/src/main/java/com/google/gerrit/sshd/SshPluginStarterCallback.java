@@ -47,6 +47,7 @@ class SshPluginStarterCallback implements StartPluginListener {
       try {
         cmd = plugin.getSshInjector().getProvider(key);
       } catch (RuntimeException err) {
+        plugin.setStartupException(err);
         log.warn(String.format("Plugin %s does not define command",
             plugin.getName()), err);
         return;

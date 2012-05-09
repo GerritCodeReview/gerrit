@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFYH///xA\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/args4j/ChangeIdHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-09T18:34:04Z",
+      "side": 1,
+      "message": "Can we somehow avoid to load that many changes?\n\nI guess you need to load by keyRange to support abbreviated Change-ID\u0027s?\n\nCan we add a new query that immediately filters by branch, e.g. db.changes().byBranchKeyRange(branch, key, key.max())?",
+      "revId": "e041bbf072e5c8b7c043080ed3e12a403cf332b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

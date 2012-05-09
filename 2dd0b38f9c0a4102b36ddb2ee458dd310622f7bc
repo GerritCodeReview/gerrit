@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFYH///vw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/args4j/ChangeIdHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-09T19:21:18Z",
+      "side": 1,
+      "message": "Now you could directly specify the branch in the query:\n\n  final Branch.NameKey branch \u003d new Branch.NameKey(new Project.NameKey(tokens[0]), tokens[1]);\n  db.changes().byBranchKey(branch, key)\n\nThis should simplify the code.",
+      "revId": "2dd0b38f9c0a4102b36ddb2ee458dd310622f7bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,31 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd;
+package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
-@Singleton
-class SshCurrentUserProvider implements Provider<CurrentUser> {
-  private final Provider<SshSession> session;
-  private final Provider<IdentifiedUser> identifiedProvider;
+class HttpRequestContext implements RequestContext {
+  private final WebSession session;
 
   @Inject
-  SshCurrentUserProvider(Provider<SshSession> s, Provider<IdentifiedUser> p) {
-    session = s;
-    identifiedProvider = p;
+  HttpRequestContext(final WebSession session) {
+    this.session = session;
   }
 
   @Override
-  public CurrentUser get() {
-    final CurrentUser user = session.get().getCurrentUser();
-    if (user instanceof IdentifiedUser) {
-      return identifiedProvider.get();
-    }
-    return session.get().getCurrentUser();
+  public CurrentUser getCurrentUser() {
+    return session.getCurrentUser();
   }
 }

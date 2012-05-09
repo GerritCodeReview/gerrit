@@ -14,50 +14,86 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.server.RequestCleanup;
+import com.google.common.collect.Maps;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
+import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 class PerThreadRequestScope {
-  static class Propagator
-      extends ThreadLocalRequestScopePropagator<PerThreadRequestScope> {
-    Propagator() {
-      super(REQUEST, current);
+  private static class Context {
+    private final Map<Key<?>, Object> map;
+
+    private Context() {
+      map = Maps.newHashMap();
     }
 
-    @Override
-    protected PerThreadRequestScope continuingContext(
-        PerThreadRequestScope ctx) {
-      return new PerThreadRequestScope();
+    private <T> T get(Key<T> key, Provider<T> creator) {
+      @SuppressWarnings("unchecked")
+      T t = (T) map.get(key);
+      if (t == null) {
+        t = creator.get();
+        map.put(key, t);
+      }
+      return t;
     }
   }
 
-  private static final ThreadLocal<PerThreadRequestScope> current =
-      new ThreadLocal<PerThreadRequestScope>();
+  static class Propagator extends ThreadLocalRequestScopePropagator<Context> {
+    @Inject
+    Propagator(ThreadLocalRequestContext local) {
+      super(REQUEST, current, local);
+    }
 
-  private static PerThreadRequestScope requireContext() {
-    final PerThreadRequestScope ctx = current.get();
+    @Override
+    protected Context continuingContext(Context ctx) {
+      return new Context();
+    }
+
+    <T> Callable<T> scope(RequestContext requestContext, Callable<T> callable) {
+      final Context ctx = new Context();
+      final Callable<T> wrapped = context(requestContext, cleanup(callable));
+      return new Callable<T>() {
+        @Override
+        public T call() throws Exception {
+          Context old = current.get();
+          current.set(ctx);
+          try {
+            return wrapped.call();
+          } finally {
+            current.set(old);
+          }
+        }
+      };
+    }
+  }
+
+  interface Scoper {
+    <T> Callable<T> scope(Callable<T> callable);
+  }
+
+  private static final ThreadLocal<Context> current = new ThreadLocal<Context>();
+
+  private static Context requireContext() {
+    final Context ctx = current.get();
     if (ctx == null) {
       throw new OutOfScopeException("Not in command/request");
     }
     return ctx;
   }
 
-  static PerThreadRequestScope set(PerThreadRequestScope ctx) {
-    PerThreadRequestScope old = current.get();
-    current.set(ctx);
-    return old;
-  }
-
   static final Scope REQUEST = new Scope() {
+    @Override
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
       return new Provider<T>() {
+        @Override
         public T get() {
           return requireContext().get(key, creator);
         }
@@ -75,25 +111,4 @@ class PerThreadRequestScope {
     }
   };
 
-  private static final Key<RequestCleanup> RC_KEY =
-      Key.get(RequestCleanup.class);
-
-  final RequestCleanup cleanup;
-  private final Map<Key<?>, Object> map;
-
-  PerThreadRequestScope() {
-    cleanup = new RequestCleanup();
-    map = new HashMap<Key<?>, Object>();
-    map.put(RC_KEY, cleanup);
-  }
-
-  synchronized <T> T get(Key<T> key, Provider<T> creator) {
-    @SuppressWarnings("unchecked")
-    T t = (T) map.get(key);
-    if (t == null) {
-      t = creator.get();
-      map.put(key, t);
-    }
-    return t;
-  }
 }

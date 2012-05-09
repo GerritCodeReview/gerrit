@@ -21,6 +21,7 @@ import com.google.gerrit.ehcache.EhcachePoolImpl;
 import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
+import com.google.gerrit.httpd.RequestContextFilter;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
@@ -269,6 +270,7 @@ public class Daemon extends SiteProgram {
 
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<Module>();
+    modules.add(RequestContextFilter.module());
     modules.add(CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));

@@ -20,6 +20,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.servlet.GuiceFilter;
 
 import org.eclipse.jgit.storage.file.FileSnapshot;
 
@@ -30,15 +31,24 @@ import java.util.jar.Manifest;
 import javax.annotation.Nullable;
 
 public class Plugin {
+  static {
+    // Guice logs warnings about multiple injectors being created.
+    // Silence this in case HTTP plugins are used.
+    java.util.logging.Logger.getLogger(GuiceFilter.class.getName())
+        .setLevel(java.util.logging.Level.OFF);
+  }
+
   private final String name;
   private final File jar;
   private final Manifest manifest;
   private final FileSnapshot snapshot;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
+  private Class<? extends Module> httpModule;
 
   private Injector sysInjector;
   private Injector sshInjector;
+  private Injector httpInjector;
   private LifecycleManager manager;
 
   public Plugin(String name,
@@ -46,13 +56,15 @@ public class Plugin {
       Manifest manifest,
       FileSnapshot snapshot,
       @Nullable Class<? extends Module> sysModule,
-      @Nullable Class<? extends Module> sshModule) {
+      @Nullable Class<? extends Module> sshModule,
+      @Nullable Class<? extends Module> httpModule) {
     this.name = name;
     this.jar = jar;
     this.manifest = manifest;
     this.snapshot = snapshot;
     this.sysModule = sysModule;
     this.sshModule = sshModule;
+    this.httpModule = httpModule;
   }
 
   File getJar() {
@@ -90,6 +102,13 @@ public class Plugin {
       manager.add(sshInjector);
     }
 
+    if (httpModule != null && env.hasHttpModule()) {
+      httpInjector = sysInjector.createChildInjector(
+          env.getHttpModule(),
+          sysInjector.getInstance(httpModule));
+      manager.add(httpInjector);
+    }
+
     manager.start();
     env.onStartPlugin(this);
   }
@@ -113,12 +132,18 @@ public class Plugin {
       manager = null;
       sysInjector = null;
       sshInjector = null;
+      httpInjector = null;
     }
   }
 
   @Nullable
   public Injector getSshInjector() {
     return sshInjector;
+  }
+
+  @Nullable
+  public Injector getHttpInjector() {
+    return httpInjector;
   }
 
   public void add(final RegistrationHandle handle) {

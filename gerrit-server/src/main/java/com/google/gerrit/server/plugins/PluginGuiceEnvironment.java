@@ -45,6 +45,7 @@ public class PluginGuiceEnvironment {
   private final List<StartPluginListener> listeners;
   private Module sysModule;
   private Module sshModule;
+  private Module httpModule;
 
   @Inject
   PluginGuiceEnvironment(Injector sysInjector, CopyConfigModule ccm) {
@@ -82,6 +83,19 @@ public class PluginGuiceEnvironment {
 
   Module getSshModule() {
     return sshModule;
+  }
+
+  public void setHttpInjector(Injector httpInjector) {
+    httpModule = copy(httpInjector);
+    listeners.addAll(getListeners(httpInjector));
+  }
+
+  boolean hasHttpModule() {
+    return httpModule != null;
+  }
+
+  Module getHttpModule() {
+    return httpModule;
   }
 
   void onStartPlugin(Plugin plugin) {
@@ -126,15 +140,74 @@ public class PluginGuiceEnvironment {
 
   private static boolean shouldCopy(Key<?> key) {
     Class<?> type = key.getTypeLiteral().getRawType();
-    if (type == LifecycleListener.class) {
+    if (LifecycleListener.class.isAssignableFrom(type)) {
       return false;
     }
-    if (type == StartPluginListener.class) {
+    if (StartPluginListener.class.isAssignableFrom(type)) {
       return false;
     }
-    if ("org.apache.sshd.server.Command".equals(type.getName())) {
+
+    if (type.getName().startsWith("com.google.inject.")) {
+      return false;
+    }
+
+    if (is("org.apache.sshd.server.Command", type)) {
+      return false;
+    }
+
+    if (is("javax.servlet.Filter", type)) {
+      return false;
+    }
+    if (is("javax.servlet.ServletContext", type)) {
+      return false;
+    }
+    if (is("javax.servlet.ServletRequest", type)) {
+      return false;
+    }
+    if (is("javax.servlet.ServletResponse", type)) {
+      return false;
+    }
+    if (is("javax.servlet.http.HttpServlet", type)) {
+      return false;
+    }
+    if (is("javax.servlet.http.HttpServletRequest", type)) {
+      return false;
+    }
+    if (is("javax.servlet.http.HttpServletResponse", type)) {
+      return false;
+    }
+    if (is("javax.servlet.http.HttpSession", type)) {
+      return false;
+    }
+    if (Map.class.isAssignableFrom(type)
+        && key.getAnnotationType() != null
+        && "com.google.inject.servlet.RequestParameters"
+            .equals(key.getAnnotationType().getName())) {
+      return false;
+    }
+    if (type.getName().startsWith("com.google.gerrit.httpd.GitOverHttpServlet$")) {
       return false;
     }
     return true;
+  }
+
+  private static boolean is(String name, Class<?> type) {
+    Class<?> p = type;
+    while (p != null) {
+      if (name.equals(p.getName())) {
+        return true;
+      }
+      p = p.getSuperclass();
+    }
+
+    Class<?>[] interfaces = type.getInterfaces();
+    if (interfaces != null) {
+      for (Class<?> i : interfaces) {
+        if (is(name, i)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

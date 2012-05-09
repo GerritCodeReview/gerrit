@@ -16,6 +16,7 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -52,6 +53,11 @@ public interface ProjectAdminService extends RemoteJsonService {
   void changeProjectAccess(Project.NameKey projectName, String baseRevision,
       String message, List<AccessSection> sections,
       AsyncCallback<ProjectAccess> callback);
+
+  @SignInRequired
+  void reviewProjectAccess(Project.NameKey projectName, String baseRevision,
+      String message, List<AccessSection> sections,
+      AsyncCallback<Change.Id> callback);
 
   void listBranches(Project.NameKey projectName,
       AsyncCallback<ListBranchesResult> callback);

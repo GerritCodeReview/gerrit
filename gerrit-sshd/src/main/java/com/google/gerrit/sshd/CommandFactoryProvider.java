@@ -53,6 +53,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
 
   private final DispatchCommandProvider dispatcher;
   private final SshLog log;
+  private final SshScope sshScope;
   private final ScheduledExecutorService startExecutor;
   private final Executor destroyExecutor;
 
@@ -60,9 +61,10 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
   CommandFactoryProvider(
       @CommandName(Commands.ROOT) final DispatchCommandProvider d,
       @GerritServerConfig final Config cfg, final WorkQueue workQueue,
-      final SshLog l) {
+      final SshLog l, final SshScope s) {
     dispatcher = d;
     log = l;
+    sshScope = s;
 
     int threads = cfg.getInt("sshd","commandStartThreads", 2);
     startExecutor = workQueue.createQueue(threads, "SshCommandStart");
@@ -145,7 +147,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
 
     private void onStart() throws IOException {
       synchronized (this) {
-        final Context old = SshScope.set(ctx);
+        final Context old = sshScope.set(ctx);
         try {
           cmd = dispatcher.get();
           cmd.setArguments(argv);
@@ -167,7 +169,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
           });
           cmd.start(env);
         } finally {
-          SshScope.set(old);
+          sshScope.set(old);
         }
       }
     }
@@ -211,14 +213,14 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     private void onDestroy() {
       synchronized (this) {
         if (cmd != null) {
-          final Context old = SshScope.set(ctx);
+          final Context old = sshScope.set(ctx);
           try {
             cmd.destroy();
             log(BaseCommand.STATUS_CANCEL);
           } finally {
             ctx = null;
             cmd = null;
-            SshScope.set(old);
+            sshScope.set(old);
           }
         }
       }

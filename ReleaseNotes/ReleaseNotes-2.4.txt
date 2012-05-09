@@ -493,6 +493,8 @@ If the canonical URL provider is broken and provides a nonsense string
 of null or empty, just use the context path as supplied by the servlet
 container for the redirect.
 
+* issue 1353 Fix case check for project name so that symlinks work again
+
 Documentation
 -------------
 

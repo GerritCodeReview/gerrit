@@ -1,0 +1,111 @@
+gerrit set-project
+==================
+
+NAME
+----
+gerrit set-project - Change a project's settings.
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit set-project'
+  [--description <DESC> | -d <DESC>]
+  [--submit-type <TYPE> |  -t <TYPE>]
+  [--use-contributor-agreements | --ca]
+  [--use-signed-off-by | --so]
+  [--use-content-merge]
+  [--require-change-id | --id]
+  [--project-state | --ps]
+  <NAME>
+
+DESCRIPTION
+-----------
+Modifies a given project's settings. This command can be useful to
+batch change projects.
+
+The command is argument-safe, that is, if no argument is given the
+previous settings are kept intact.
+
+ACCESS
+------
+Caller must be a member of the privileged 'Administrators' group.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+OPTIONS
+-------
+<NAME>::
+    Required; name of the project to edit.  If name ends
+    with `.git` the suffix will be automatically removed.
+
+--description::
+-d::
+    New description of the project.  If not specified,
+    the old description is kept.
++
+Description values containing spaces should be quoted in single quotes
+(').  This most likely requires double quoting the value, for example
+`--description "'A description string'"`.
+
+--submit-type::
+-t::
+    Action used by Gerrit to submit an approved change to its
+    destination branch.  Supported options are:
++
+* FAST_FORWARD_ONLY: produces a strictly linear history.
+* MERGE_IF_NECESSARY: create a merge commit when required.
+* MERGE_ALWAYS: always create a merge commit.
+* CHERRY_PICK: always cherry-pick the commit.
+
++
+For more details see
+link:project-setup.html#submit_type[Change Submit Actions].
+
+--use-content-merge::
+    If enabled, Gerrit will try to perform a 3-way merge of text
+    file content when a file has been modified by both the
+    destination branch and the change being submitted.  This
+    option only takes effect if submit type is not
+    FAST_FORWARD_ONLY.
+
+--use-contributor-agreements::
+--ca::
+    If enabled, authors must complete a contributor agreement
+    on the site before pushing any commits or changes to this
+    project.
+
+--use-signed-off-by::
+--so:
+    If enabled, each change must contain a Signed-off-by line
+    from either the author or the uploader in the commit message.
+
+--require-change-id::
+--id::
+    Require a valid link:user-changeid.html[Change-Id] footer
+    in any commit uploaded for review. This does not apply to
+    commits pushed directly to a branch or tag.
+
+--project-state::
+--ps::
+    Set project's visibility.
++
+* ACTIVE: project is regular and is the default value.
+* READ_ONLY: users can see the project if read permission
+is granted, but all modification operations are disabled.
+* HIDDEN: the project is not visible for those who are not owners
+
+EXAMPLES
+--------
+Change project `example` to be hidden, require change id, use content merge and use
+merge if necessary as merge strategy:
+
+====
+    $ ssh -p 29418 review.example.com gerrit set-project example --submit-type MERGE_IF_NECESSARY\
+    --require-change-id --use-content-merge --project-state HIDDEN
+====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

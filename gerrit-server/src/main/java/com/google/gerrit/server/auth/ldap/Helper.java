@@ -17,7 +17,6 @@ package com.google.gerrit.server.auth.ldap;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
@@ -47,7 +46,8 @@ import javax.naming.directory.InitialDirContext;
 import javax.net.ssl.SSLSocketFactory;
 
 @Singleton class Helper {
-  private final GroupCache groupCache;
+  static final String LDAP_UUID = "ldap:";
+
   private final Config config;
   private final String server;
   private final String username;
@@ -58,8 +58,7 @@ import javax.net.ssl.SSLSocketFactory;
   private final String readTimeOutMillis;
 
   @Inject
-  Helper(@GerritServerConfig final Config config, final GroupCache groupCache) {
-    this.groupCache = groupCache;
+  Helper(@GerritServerConfig final Config config) {
     this.config = config;
     this.server = LdapRealm.required(config, "server");
     this.username = LdapRealm.optional(config, "username");
@@ -195,12 +194,7 @@ import javax.net.ssl.SSLSocketFactory;
 
     final Set<AccountGroup.UUID> actual = new HashSet<AccountGroup.UUID>();
     for (String dn : groupDNs) {
-      for (AccountGroup group : groupCache
-          .get(new AccountGroup.ExternalNameKey(dn))) {
-        if (group.getType() == AccountGroup.Type.LDAP) {
-          actual.add(group.getGroupUUID());
-        }
-      }
+      actual.add(new AccountGroup.UUID(LDAP_UUID + dn));
     }
 
     if (actual.isEmpty()) {

@@ -42,7 +42,8 @@ import javax.inject.Inject;
 public class PluginGuiceEnvironment {
   private final Injector sysInjector;
   private final CopyConfigModule copyConfigModule;
-  private final List<StartPluginListener> listeners;
+  private final List<StartPluginListener> onStart;
+  private final List<ReloadPluginListener> onReload;
   private Module sysModule;
   private Module sshModule;
   private Module httpModule;
@@ -51,8 +52,12 @@ public class PluginGuiceEnvironment {
   PluginGuiceEnvironment(Injector sysInjector, CopyConfigModule ccm) {
     this.sysInjector = sysInjector;
     this.copyConfigModule = ccm;
-    this.listeners = new CopyOnWriteArrayList<StartPluginListener>();
-    this.listeners.addAll(getListeners(sysInjector));
+
+    onStart = new CopyOnWriteArrayList<StartPluginListener>();
+    onStart.addAll(listeners(sysInjector, StartPluginListener.class));
+
+    onReload = new CopyOnWriteArrayList<ReloadPluginListener>();
+    onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
   }
 
   Module getSysModule() {
@@ -72,9 +77,10 @@ public class PluginGuiceEnvironment {
     };
   }
 
-  public void setSshInjector(Injector sshInjector) {
-    sshModule = copy(sshInjector);
-    listeners.addAll(getListeners(sshInjector));
+  public void setSshInjector(Injector injector) {
+    sshModule = copy(injector);
+    onStart.addAll(listeners(injector, StartPluginListener.class));
+    onReload.addAll(listeners(injector, ReloadPluginListener.class));
   }
 
   boolean hasSshModule() {
@@ -85,9 +91,10 @@ public class PluginGuiceEnvironment {
     return sshModule;
   }
 
-  public void setHttpInjector(Injector httpInjector) {
-    httpModule = copy(httpInjector);
-    listeners.addAll(getListeners(httpInjector));
+  public void setHttpInjector(Injector injector) {
+    httpModule = copy(injector);
+    onStart.addAll(listeners(injector, StartPluginListener.class));
+    onReload.addAll(listeners(injector, ReloadPluginListener.class));
   }
 
   boolean hasHttpModule() {
@@ -99,17 +106,21 @@ public class PluginGuiceEnvironment {
   }
 
   void onStartPlugin(Plugin plugin) {
-    for (StartPluginListener l : listeners) {
+    for (StartPluginListener l : onStart) {
       l.onStartPlugin(plugin);
     }
   }
 
-  private static List<StartPluginListener> getListeners(Injector src) {
-    List<Binding<StartPluginListener>> bindings =
-        src.findBindingsByType(new TypeLiteral<StartPluginListener>() {});
-    List<StartPluginListener> found =
-        Lists.newArrayListWithCapacity(bindings.size());
-    for (Binding<StartPluginListener> b : bindings) {
+  void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
+    for (ReloadPluginListener l : onReload) {
+      l.onReloadPlugin(oldPlugin, newPlugin);
+    }
+  }
+
+  private static <T> List<T> listeners(Injector src, Class<T> type) {
+    List<Binding<T>> bindings = src.findBindingsByType(TypeLiteral.get(type));
+    List<T> found = Lists.newArrayListWithCapacity(bindings.size());
+    for (Binding<T> b : bindings) {
       found.add(b.getProvider().get());
     }
     return found;

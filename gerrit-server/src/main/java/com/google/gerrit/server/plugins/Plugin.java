@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.inject.AbstractModule;
@@ -80,6 +81,21 @@ public class Plugin {
     return main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
   }
 
+  boolean canReload() {
+    Attributes main = manifest.getMainAttributes();
+    String v = main.getValue("Gerrit-ReloadMode");
+    if (Strings.isNullOrEmpty(v) || "reload".equalsIgnoreCase(v)) {
+      return true;
+    } else if ("restart".equalsIgnoreCase(v)) {
+      return false;
+    } else {
+      PluginLoader.log.warn(String.format(
+          "Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart",
+          name, v));
+      return false;
+    }
+  }
+
   boolean isModified(File jar) {
     return snapshot.lastModified() != jar.lastModified();
   }
@@ -110,7 +126,6 @@ public class Plugin {
     }
 
     manager.start();
-    env.onStartPlugin(this);
   }
 
   private Injector newRootInjector(PluginGuiceEnvironment env) {

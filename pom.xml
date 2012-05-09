@@ -87,6 +87,7 @@ limitations under the License.
     <module>gerrit-gwtdebug</module>
     <module>gerrit-war</module>
 
+    <module>gerrit-extension-api</module>
     <module>gerrit-plugin-api</module>
 
     <module>gerrit-gwtui</module>

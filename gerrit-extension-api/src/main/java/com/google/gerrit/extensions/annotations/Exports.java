@@ -12,10 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.plugins;
+package com.google.gerrit.extensions.annotations;
 
-/** Handle for registered information. */
-public interface RegistrationHandle {
-  /** Delete this registration. */
-  public void remove();
+/** Static constructors for {@link Export} annotations. */
+public final class Exports {
+  /** Create an annotation to export under a specific name. */
+  public static Export named(String name) {
+    return new ExportImpl(name);
+  }
+
+  private Exports() {
+  }
 }

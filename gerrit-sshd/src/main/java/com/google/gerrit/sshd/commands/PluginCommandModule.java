@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Preconditions;
-import com.google.gerrit.server.plugins.PluginName;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
 import com.google.gerrit.sshd.DispatchCommandProvider;

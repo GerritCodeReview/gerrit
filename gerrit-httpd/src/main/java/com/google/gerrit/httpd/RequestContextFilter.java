@@ -15,9 +15,13 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.servlet.ServletModule;
 
 import java.io.IOException;
 
@@ -30,12 +34,27 @@ import javax.servlet.ServletResponse;
 
 /** Executes any pending {@link RequestCleanup} at the end of a request. */
 @Singleton
-class RequestCleanupFilter implements Filter {
+public class RequestContextFilter implements Filter {
+  public static Module module() {
+    return new ServletModule() {
+      @Override
+      protected void configureServlets() {
+        filter("/*").through(RequestContextFilter.class);
+      }
+    };
+  }
+
   private final Provider<RequestCleanup> cleanup;
+  private final Provider<HttpRequestContext> requestContext;
+  private final ThreadLocalRequestContext local;
 
   @Inject
-  RequestCleanupFilter(final Provider<RequestCleanup> r) {
+  RequestContextFilter(final Provider<RequestCleanup> r,
+      final Provider<HttpRequestContext> c,
+      final ThreadLocalRequestContext l) {
     cleanup = r;
+    requestContext = c;
+    local = l;
   }
 
   @Override
@@ -50,10 +69,15 @@ class RequestCleanupFilter implements Filter {
   public void doFilter(final ServletRequest request,
       final ServletResponse response, final FilterChain chain)
       throws IOException, ServletException {
+    RequestContext old = local.setContext(requestContext.get());
     try {
-      chain.doFilter(request, response);
+      try {
+        chain.doFilter(request, response);
+      } finally {
+        cleanup.get().run();
+      }
     } finally {
-      cleanup.get().run();
+      local.setContext(old);
     }
   }
 }

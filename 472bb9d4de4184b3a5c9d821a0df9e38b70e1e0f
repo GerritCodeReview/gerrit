@@ -16,6 +16,24 @@
       "revId": "472bb9d4de4184b3a5c9d821a0df9e38b70e1e0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///vQ\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-09T05:12:55Z",
+      "side": 1,
+      "message": "So far, yes.  As we change the code, the doc should change.",
+      "parentUuid": "AAAFYH///3I\u003d",
+      "revId": "472bb9d4de4184b3a5c9d821a0df9e38b70e1e0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///rE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-09T18:48:59Z",
+      "side": 1,
+      "message": "The fact that patchSetId is need feels like it is questioning the general assumption that abandons happen on changes?",
+      "revId": "40579917e28e7822c28312dbb19705e6fb1494be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

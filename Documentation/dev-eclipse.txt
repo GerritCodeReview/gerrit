@@ -94,6 +94,16 @@ Duplicate the existing `gwtui_dbg` launch configuration:
 * Change Save as to be Local file.
 
 
+Known problems
+--------------
+
+When running Gerrit under the Eclipse debugger, code that attempts
+to load Prolog code may erroneously raise ClassNotFoundException,
+claiming that classes in the `Gerrit` package can't be found. The
+error can often be resolved by rebuilding Gerrit with `mvn package`
+and restarting the debug session.
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

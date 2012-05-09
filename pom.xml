@@ -822,6 +822,12 @@ limitations under the License.
         <artifactId>PrologCafe</artifactId>
         <version>1.3</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.pegdown</groupId>
+        <artifactId>pegdown</artifactId>
+        <version>1.1.0</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -849,6 +855,11 @@ limitations under the License.
     <repository>
       <id>clojars-repo</id>
       <url>http://clojars.org/repo</url>
+    </repository>
+
+    <repository>
+      <id>scala-tools</id>
+      <url>http://scala-tools.org/repo-releases</url>
     </repository>
   </repositories>
 </project>

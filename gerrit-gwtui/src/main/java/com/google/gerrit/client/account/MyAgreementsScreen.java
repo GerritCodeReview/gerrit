@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -24,8 +23,6 @@ import com.google.gerrit.common.data.AgreementInfo;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwtexpui.safehtml.client.SafeHtml;
-import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class MyAgreementsScreen extends SettingsScreen {
   private AgreementTable agreements;

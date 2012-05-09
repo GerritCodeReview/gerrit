@@ -29,13 +29,11 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.cache.ConcurrentHashMapCache;
@@ -44,7 +42,6 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -375,8 +372,6 @@ public class RefControlTest extends TestCase {
   }
 
   private ProjectControl user(String name, AccountGroup.UUID... memberOf) {
-    SchemaFactory<ReviewDb> schema = null;
-    GroupCache groupCache = null;
     String canonicalWebUrl = "http://localhost";
 
     return new ProjectControl(Collections.<AccountGroup.UUID> emptySet(),

@@ -40,6 +40,8 @@ public interface EmailTokenVerifier {
 
   /** Exception thrown when a token does not parse correctly. */
   public static class InvalidTokenException extends Exception {
+    private static final long serialVersionUID = 1L;
+
     public InvalidTokenException() {
       super("Invalid token");
     }

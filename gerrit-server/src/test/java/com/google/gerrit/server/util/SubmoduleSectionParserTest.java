@@ -224,7 +224,7 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
             break;
           } else {
             expect(repoManager.list()).andReturn(
-                new TreeSet<Project.NameKey>(Collections.EMPTY_LIST));
+                new TreeSet<Project.NameKey>(Collections.<Project.NameKey> emptyList()));
           }
         }
       }

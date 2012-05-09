@@ -73,6 +73,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   private GitRepositoryManager repoManager;
   private ReplicationQueue replication;
 
+  @SuppressWarnings("unchecked")
   @Override
   @Before
   public void setUp() throws Exception {

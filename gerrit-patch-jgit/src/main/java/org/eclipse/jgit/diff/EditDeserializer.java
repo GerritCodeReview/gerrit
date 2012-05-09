@@ -76,7 +76,7 @@ public class EditDeserializer implements JsonDeserializer<Edit>,
   public JsonElement serialize(final Edit src, final Type typeOfSrc,
       final JsonSerializationContext context) {
     if (src == null) {
-      return new JsonNull();
+      return JsonNull.INSTANCE;
     }
     final JsonArray a = new JsonArray();
     add(a, src);

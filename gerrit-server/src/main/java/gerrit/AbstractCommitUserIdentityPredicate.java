@@ -27,7 +27,6 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
 abstract class AbstractCommitUserIdentityPredicate extends Predicate.P3 {
-  private static final long serialVersionUID = 1L;
   private static final SymbolTerm user = SymbolTerm.intern("user", 1);
   private static final SymbolTerm anonymous = SymbolTerm.intern("anonymous");
 

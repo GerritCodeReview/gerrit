@@ -169,7 +169,7 @@ public class PluginLoader implements LifecycleListener {
 
         log.info(String.format("Disabling plugin %s", name));
         File off = new File(pluginsDir, active.getName() + ".jar.disabled");
-        active.getJar().renameTo(off);
+        active.getSrcJar().renameTo(off);
 
         active.stop();
         running.remove(name);
@@ -304,34 +304,45 @@ public class PluginLoader implements LifecycleListener {
     return 0 < ext ? name.substring(0, ext) : name;
   }
 
-  private Plugin loadPlugin(String name, File jarFile, FileSnapshot snapshot)
+  private Plugin loadPlugin(String name, File srcJar, FileSnapshot snapshot)
       throws IOException, ClassNotFoundException {
     File tmp;
-    FileInputStream in = new FileInputStream(jarFile);
+    FileInputStream in = new FileInputStream(srcJar);
     try {
       tmp = asTemp(in, tempNameFor(name), ".jar", tmpDir);
     } finally {
       in.close();
     }
 
-    Manifest manifest = new JarFile(tmp).getManifest();
-    Attributes main = manifest.getMainAttributes();
-    String sysName = main.getValue("Gerrit-Module");
-    String sshName = main.getValue("Gerrit-SshModule");
-    String httpName = main.getValue("Gerrit-HttpModule");
+    JarFile jarFile = new JarFile(tmp);
+    boolean keep = false;
+    try {
+      Manifest manifest = jarFile.getManifest();
+      Attributes main = manifest.getMainAttributes();
+      String sysName = main.getValue("Gerrit-Module");
+      String sshName = main.getValue("Gerrit-SshModule");
+      String httpName = main.getValue("Gerrit-HttpModule");
 
-    URL[] urls = {tmp.toURI().toURL()};
-    ClassLoader parentLoader = PluginLoader.class.getClassLoader();
-    ClassLoader pluginLoader = new URLClassLoader(urls, parentLoader);
-    cleanupHandles.put(
-        new CleanupHandle(tmp, pluginLoader, cleanupQueue),
-        Boolean.TRUE);
+      URL[] urls = {tmp.toURI().toURL()};
+      ClassLoader parentLoader = PluginLoader.class.getClassLoader();
+      ClassLoader pluginLoader = new URLClassLoader(urls, parentLoader);
+      cleanupHandles.put(
+          new CleanupHandle(tmp, jarFile, pluginLoader, cleanupQueue),
+          Boolean.TRUE);
 
-    Class<? extends Module> sysModule = load(sysName, pluginLoader);
-    Class<? extends Module> sshModule = load(sshName, pluginLoader);
-    Class<? extends Module> httpModule = load(httpName, pluginLoader);
-    return new Plugin(name, jarFile, manifest, snapshot,
-        sysModule, sshModule, httpModule);
+      Class<? extends Module> sysModule = load(sysName, pluginLoader);
+      Class<? extends Module> sshModule = load(sshName, pluginLoader);
+      Class<? extends Module> httpModule = load(httpName, pluginLoader);
+      keep = true;
+      return new Plugin(name,
+          srcJar, snapshot,
+          jarFile, manifest,
+          sysModule, sshModule, httpModule);
+    } finally {
+      if (!keep) {
+        jarFile.close();
+      }
+    }
   }
 
   private static String tempNameFor(String name) {

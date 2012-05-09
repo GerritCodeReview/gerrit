@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFXn///uc\u003d",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-09T14:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFT3///4A\u003d",
+      "revId": "c7562d9c6a6e12ad54e9241b6d509049e008d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFT3///38\u003d",
         "filename": "Documentation/user-notify.txt",
         "patchSetId": 9
@@ -47,6 +65,24 @@
       "writtenOn": "2012-05-05T19:55:45Z",
       "side": 1,
       "message": "s/correct/correctly/",
+      "revId": "c7562d9c6a6e12ad54e9241b6d509049e008d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///uY\u003d",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-09T14:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFT3///38\u003d",
       "revId": "c7562d9c6a6e12ad54e9241b6d509049e008d142",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFXn///uU\u003d",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-09T14:11:41Z",
+      "side": 1,
+      "message": "Yes. visibleto is documented under the \"Magical Operators\" section at the end of the document.",
+      "parentUuid": "AAAFT3///3s\u003d",
+      "revId": "c7562d9c6a6e12ad54e9241b6d509049e008d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFT3///34\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 9
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFXn///uM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-09T14:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFT3///34\u003d",
+      "revId": "c7562d9c6a6e12ad54e9241b6d509049e008d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFT3///30\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
         "patchSetId": 9
@@ -98,6 +170,24 @@
       "writtenOn": "2012-05-05T19:55:45Z",
       "side": 1,
       "message": "It would be nice to have sample entries inline close to the parsing to make it easier to debug in the future.",
+      "revId": "c7562d9c6a6e12ad54e9241b6d509049e008d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///uQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-09T14:11:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFT3///30\u003d",
       "revId": "c7562d9c6a6e12ad54e9241b6d509049e008d142",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

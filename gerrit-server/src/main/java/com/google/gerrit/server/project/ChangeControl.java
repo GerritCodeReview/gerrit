@@ -204,7 +204,8 @@ public class ChangeControl {
 
   /** Can this user rebase this change? */
   public boolean canRebase() {
-    return isOwner() || getRefControl().canSubmit();
+    return isOwner() || getRefControl().canSubmit()
+        || getRefControl().canRebase();
   }
 
   /** Can this user restore this change? */

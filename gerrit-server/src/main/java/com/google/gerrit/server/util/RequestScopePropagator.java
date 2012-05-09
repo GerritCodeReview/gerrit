@@ -42,9 +42,12 @@ import java.util.concurrent.Executors;
 public abstract class RequestScopePropagator {
 
   private final Scope scope;
+  private final ThreadLocalRequestContext local;
 
-  protected RequestScopePropagator(Scope scope) {
+  protected RequestScopePropagator(Scope scope,
+      ThreadLocalRequestContext local) {
     this.scope = scope;
+    this.local = local;
   }
 
   /**
@@ -70,26 +73,8 @@ public abstract class RequestScopePropagator {
    * @return a new Callable which will execute in the current request scope.
    */
   public final <T> Callable<T> wrap(final Callable<T> callable) {
-    final Callable<T> wrapped = wrapImpl(new Callable<T>() {
-      @Override
-      public T call() throws Exception {
-        RequestCleanup cleanup = scope.scope(
-            Key.get(RequestCleanup.class),
-            new Provider<RequestCleanup>() {
-              @Override
-              public RequestCleanup get() {
-                return new RequestCleanup();
-              }
-            }).get();
-
-        try {
-          return callable.call();
-        } finally {
-          cleanup.run();
-        }
-      }
-    });
-
+    final Callable<T> wrapped =
+        wrapImpl(context(local.getContext(), cleanup(callable)));
     return new Callable<T>() {
       @Override
       public T call() throws Exception {
@@ -178,4 +163,41 @@ public abstract class RequestScopePropagator {
    * @see #wrap(Callable)
    */
   protected abstract <T> Callable<T> wrapImpl(final Callable<T> callable);
+
+  protected <T> Callable<T> context(final RequestContext context,
+      final Callable<T> callable) {
+    return new Callable<T>() {
+      @Override
+      public T call() throws Exception {
+        RequestContext old = local.setContext(context);
+        try {
+          return callable.call();
+        } finally {
+          local.setContext(old);
+        }
+      }
+    };
+  }
+
+  protected <T> Callable<T> cleanup(final Callable<T> callable) {
+    return new Callable<T>() {
+      @Override
+      public T call() throws Exception {
+        RequestCleanup cleanup = scope.scope(
+            Key.get(RequestCleanup.class),
+            new Provider<RequestCleanup>() {
+              @Override
+              public RequestCleanup get() {
+                return new RequestCleanup();
+              }
+            }).get();
+
+        try {
+          return callable.call();
+        } finally {
+          cleanup.run();
+        }
+      }
+    };
+  }
 }

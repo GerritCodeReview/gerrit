@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -28,10 +29,12 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.PerRequestProjectControlCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.util.RequestContext;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.RequestScoped;
 
@@ -69,6 +72,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /** Manages automatic replication to remote repositories. */
@@ -391,6 +395,7 @@ public class PushReplication implements ReplicationQueue {
     private final ProjectControl.Factory projectControlFactory;
     private final GitRepositoryManager mgr;
     private final boolean replicatePermissions;
+    private final PerThreadRequestScope.Scoper threadScoper;
 
     ReplicationConfig(final Injector injector, final WorkQueue workQueue,
         final RemoteConfig rc, final Config cfg, SchemaFactory<ReviewDb> db,
@@ -432,24 +437,38 @@ public class PushReplication implements ReplicationQueue {
       final ReplicationUser remoteUser =
           replicationUserFactory.create(authGroups);
 
-      projectControlFactory =
-          injector.createChildInjector(new AbstractModule() {
-            @Override
-            protected void configure() {
-              bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
-              bind(PerRequestProjectControlCache.class).in(RequestScoped.class);
-              bind(CurrentUser.class).toInstance(remoteUser);
-            }
-          }).getInstance(ProjectControl.Factory.class);
-
-      opFactory = injector.createChildInjector(new FactoryModule() {
+      Injector child = injector.createChildInjector(new FactoryModule() {
         @Override
         protected void configure() {
+          bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
+          bind(PerThreadRequestScope.Propagator.class);
+          bind(PerRequestProjectControlCache.class).in(RequestScoped.class);
+
           bind(PushReplication.ReplicationConfig.class).toInstance(ReplicationConfig.this);
           bind(RemoteConfig.class).toInstance(remote);
           factory(PushOp.Factory.class);
         }
-      }).getInstance(PushOp.Factory.class);
+
+        @Provides
+        public PerThreadRequestScope.Scoper provideScoper(
+            final PerThreadRequestScope.Propagator propagator) {
+          final RequestContext requestContext = new RequestContext() {
+            @Override
+            public CurrentUser getCurrentUser() {
+              return remoteUser;
+            }
+          };
+          return new PerThreadRequestScope.Scoper() {
+            @Override
+            public <T> Callable<T> scope(Callable<T> callable) {
+              return propagator.scope(requestContext, callable);
+            }
+          };
+        }
+      });
+      projectControlFactory = child.getInstance(ProjectControl.Factory.class);
+      opFactory = child.getInstance(PushOp.Factory.class);
+      threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
     }
 
     private int getInt(final RemoteConfig rc, final Config cfg,
@@ -459,20 +478,22 @@ public class PushReplication implements ReplicationQueue {
 
     void schedule(final Project.NameKey project, final String ref,
         final URIish uri) {
-      PerThreadRequestScope ctx = new PerThreadRequestScope();
-      PerThreadRequestScope old = PerThreadRequestScope.set(ctx);
       try {
-        try {
-          if (!controlFor(project).isVisible()) {
-            return;
+        boolean visible = threadScoper.scope(new Callable<Boolean>(){
+          @Override
+          public Boolean call() throws NoSuchProjectException {
+            return controlFor(project).isVisible();
           }
-        } catch (NoSuchProjectException e1) {
-          log.error("Internal error: project " + project
-              + " not found during replication");
+        }).call();
+        if (!visible) {
           return;
         }
-      } finally {
-        PerThreadRequestScope.set(old);
+      } catch (NoSuchProjectException e1) {
+        log.error("Internal error: project " + project
+            + " not found during replication");
+        return;
+      } catch (Exception e) {
+        throw Throwables.propagate(e);
       }
 
       if (!replicatePermissions) {

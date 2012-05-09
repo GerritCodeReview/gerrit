@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
@@ -62,8 +63,10 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
+import com.google.inject.servlet.RequestScoped;
 
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.Config;
@@ -115,6 +118,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new AccessControlModule());
     install(new GitModule());
     install(new PrologModule());
+    install(ThreadLocalRequestContext.module());
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(CapabilityControl.Factory.class);
@@ -151,5 +155,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ProjectControl.GenericFactory.class);
     factory(FunctionState.Factory.class);
     factory(ReplicationUser.Factory.class);
+
+    bind(AnonymousUser.class);
   }
 }

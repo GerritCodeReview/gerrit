@@ -89,7 +89,7 @@ class NoShell implements Factory<Command> {
     }
 
     public void setSession(final ServerSession session) {
-      this.context = new Context(session.getAttribute(SshSession.KEY), "");
+      this.context = sshScope.newContext(session.getAttribute(SshSession.KEY), "");
     }
 
     public void start(final Environment env) throws IOException {

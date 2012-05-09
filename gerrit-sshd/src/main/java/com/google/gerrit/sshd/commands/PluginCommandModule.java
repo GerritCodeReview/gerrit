@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.server.plugins.PluginName;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
 import com.google.gerrit.sshd.DispatchCommandProvider;
@@ -22,11 +23,14 @@ import com.google.inject.binder.LinkedBindingBuilder;
 
 import org.apache.sshd.server.Command;
 
-public abstract class PluginCommandModule extends AbstractModule {
-  private CommandName command;
+import javax.inject.Inject;
 
-  public void initSshModule(String pluginName) {
-    command = Commands.named(pluginName);
+public abstract class PluginCommandModule extends AbstractModule {
+  private final CommandName command;
+
+  @Inject
+  public PluginCommandModule(@PluginName String name) {
+    this.command = Commands.named(name);
   }
 
   @Override

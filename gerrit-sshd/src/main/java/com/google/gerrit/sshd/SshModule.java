@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -44,6 +45,7 @@ import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
+import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
 
 import org.apache.sshd.common.KeyPairProvider;
@@ -89,6 +91,9 @@ public class SshModule extends FactoryModule {
     install(new LifecycleModule() {
       @Override
       protected void configure() {
+        bind(StartPluginListener.class)
+          .annotatedWith(UniqueAnnotations.create())
+          .to(SshPluginStarterCallback.class);
         listener().to(SshLog.class);
         listener().to(SshDaemon.class);
       }

@@ -73,6 +73,9 @@ public abstract class BaseCommand implements Command {
   private ExitCallback exit;
 
   @Inject
+  private SshScope sshScope;
+
+  @Inject
   private CmdLineParser.Factory cmdLineParserFactory;
 
   @Inject
@@ -379,11 +382,11 @@ public abstract class BaseCommand implements Command {
 
     @Override
     public void cancel() {
-      final Context old = SshScope.set(context);
+      final Context old = sshScope.set(context);
       try {
         onExit(STATUS_CANCEL);
       } finally {
-        SshScope.set(old);
+        sshScope.set(old);
       }
     }
 
@@ -392,7 +395,7 @@ public abstract class BaseCommand implements Command {
       final Thread thisThread = Thread.currentThread();
       final String thisName = thisThread.getName();
       int rc = 0;
-      final Context old = SshScope.set(context);
+      final Context old = sshScope.set(context);
       try {
         context.started = System.currentTimeMillis();
         thisThread.setName("SSH " + taskName);
@@ -426,7 +429,7 @@ public abstract class BaseCommand implements Command {
         try {
           onExit(rc);
         } finally {
-          SshScope.set(old);
+          sshScope.set(old);
           thisThread.setName(thisName);
         }
       }

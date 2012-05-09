@@ -26,6 +26,7 @@ import java.util.Map;
 
 /** Guice scopes for state during an SSH connection. */
 class SshScope {
+
   static class Context {
     private static final Key<RequestCleanup> RC_KEY =
         Key.get(RequestCleanup.class);
@@ -123,7 +124,7 @@ class SshScope {
     return ctx;
   }
 
-  static Context set(Context ctx) {
+  Context set(Context ctx) {
     Context old = current.get();
     current.set(ctx);
     return old;
@@ -149,7 +150,4 @@ class SshScope {
       return "SshScopes.REQUEST";
     }
   };
-
-  private SshScope() {
-  }
 }

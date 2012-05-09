@@ -60,6 +60,7 @@ public class SshModule extends FactoryModule {
   protected void configure() {
     bindScope(RequestScoped.class, SshScope.REQUEST);
     bind(RequestScopePropagator.class).to(SshScope.Propagator.class);
+    bind(SshScope.class).in(SINGLETON);
 
     configureRequestScope();
     configureCmdLineParser();

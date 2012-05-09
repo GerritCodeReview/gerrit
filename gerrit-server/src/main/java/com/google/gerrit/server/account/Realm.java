@@ -45,9 +45,4 @@ public interface Realm {
    * user by that email address.
    */
   public Account.Id lookup(String accountName);
-
-  /**
-   * Search for matching external groups.
-   */
-  public Set<AccountGroup.ExternalNameKey> lookupGroups(String name);
 }

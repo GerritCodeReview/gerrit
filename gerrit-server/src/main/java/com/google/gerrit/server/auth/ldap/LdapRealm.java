@@ -34,7 +34,6 @@ import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.MaterializedGroupMembership;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
-import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -66,7 +65,6 @@ class LdapRealm implements Realm {
   static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
   static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   static final String USERNAME = "username";
-  private static final String GROUPNAME = "groupname";
 
   private final Helper helper;
   private final AuthConfig authConfig;
@@ -190,6 +188,7 @@ class LdapRealm implements Realm {
     return r.isEmpty() ? null : r;
   }
 
+  @Override
   public AuthRequest authenticate(final AuthRequest who)
       throws AccountException {
     if (config.getBoolean("ldap", "localUsernameToLowerCase", false)) {
@@ -298,40 +297,6 @@ class LdapRealm implements Realm {
       log.warn(String.format("Cannot lookup account %s in LDAP", accountName), e);
       return null;
     }
-  }
-
-  @Override
-  public Set<AccountGroup.ExternalNameKey> lookupGroups(String name) {
-    final Set<AccountGroup.ExternalNameKey> out;
-    final Map<String, String> params = Collections.<String, String> emptyMap();
-
-    out = new HashSet<AccountGroup.ExternalNameKey>();
-    try {
-      final DirContext ctx = helper.open();
-      try {
-        final LdapSchema schema = helper.getSchema(ctx);
-        final ParameterizedString filter =
-            ParameterizedString.asis(schema.groupPattern
-                .replace(GROUPNAME, name).toString());
-        for (String groupBase : schema.groupBases) {
-          final LdapQuery query =
-              new LdapQuery(groupBase, schema.groupScope, filter, Collections
-                  .<String> emptySet());
-          for (LdapQuery.Result res : query.query(ctx, params)) {
-            out.add(new AccountGroup.ExternalNameKey(res.getDN()));
-          }
-        }
-      } finally {
-        try {
-          ctx.close();
-        } catch (NamingException e) {
-          log.warn("Cannot close LDAP query handle", e);
-        }
-      }
-    } catch (NamingException e) {
-      log.warn("Cannot query LDAP for groups matching requested name", e);
-    }
-    return out;
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {

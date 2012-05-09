@@ -79,9 +79,4 @@ public class DefaultRealm implements Realm {
     }
     return null;
   }
-
-  @Override
-  public Set<AccountGroup.ExternalNameKey> lookupGroups(String name) {
-    return Collections.emptySet();
-  }
 }

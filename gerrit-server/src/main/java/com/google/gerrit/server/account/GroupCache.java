@@ -16,8 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
-import java.util.Collection;
-
 import javax.annotation.Nullable;
 
 /** Tracks group objects in memory for efficient access. */
@@ -33,8 +31,6 @@ public interface GroupCache {
    */
   @Nullable
   public AccountGroup get(AccountGroup.UUID uuid);
-
-  public Collection<AccountGroup> get(AccountGroup.ExternalNameKey externalName);
 
   /** @return sorted iteration of groups. */
   public abstract Iterable<AccountGroup> all();

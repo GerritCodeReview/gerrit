@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFXn///rU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-09T18:35:41Z",
+      "side": 1,
+      "message": "You can either use the new plugin framework (evolving quickly...), or you can probably just register the top level \"changes\" namespace directly for now.  See how the \"gerrit\" namespace is registered in DefaultCommandModule.java",
+      "parentUuid": "AAAFXn///r8\u003d",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFYH///xo\u003d",
         "filename": "Documentation/cmd-abandon.txt",
         "patchSetId": 9

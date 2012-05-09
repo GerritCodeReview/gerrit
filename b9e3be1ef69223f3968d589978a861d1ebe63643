@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///qY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginScannerThread.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-09T21:03:56Z",
+      "side": 1,
+      "message": "nit: ignore probably:\n\n  while (!done.await(checkFrequencyMillis, TimeUnit.MILLISECONDS))\n\nmight be clearer.",
+      "revId": "b9e3be1ef69223f3968d589978a861d1ebe63643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "40579917e28e7822c28312dbb19705e6fb1494be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///ws\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T18:55:04Z",
+      "side": 1,
+      "message": "Eh, this is just to post a message.  If we could post messages at the change level, we would.",
+      "parentUuid": "AAAFXn///rE\u003d",
+      "revId": "40579917e28e7822c28312dbb19705e6fb1494be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

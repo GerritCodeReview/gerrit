@@ -150,7 +150,7 @@ Here are some guidelines that Gerrit uses:
     should be before the instance members.
   * Annotations should go before language keywords (final, private...) +
     Example: @Assisted @Nullable final type varName
-  * Imports should be mostly aphabetical (uppercase sorts before
+  * Imports should be mostly alphabetical (uppercase sorts before
     all lowercase, which means classes come before packages at the
     same level).
 
@@ -164,7 +164,7 @@ back and consult this section when creating them.
 Design
 ------
 
-Here are some design level ojectives that you should keep in mind
+Here are some design level objectives that you should keep in mind
 when coding:
 
   * ORM entity objects should match exactly one row in the database.

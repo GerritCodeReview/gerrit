@@ -33,7 +33,7 @@ uses the default_submit predicate in common_rules.pl.
 +
 Projects now inherit the prolog rules defined in their parent
 project. Submit results from the child project are filtered by the
-parent project using the filter predicate defined the parent's
+parent project using the filter predicate defined in the parent's
 rules.pl. The results of the filtering are then passed up to the
 parent's parent and filtered, repeating this process up to the top
 level All-Projects.
@@ -56,7 +56,7 @@ deleted afterwards.
 * prolog-shell: Simple command line Prolog interpreter
 +
 Define a small interactive interpreter that users or site
-administartors can play around with by downloading the Gerrit WAR
+administrators can play around with by downloading the Gerrit WAR
 file and executing: java -jar gerrit.war prolog-shell
 
 Prolog Predicates

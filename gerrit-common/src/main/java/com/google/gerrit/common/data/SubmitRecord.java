@@ -78,5 +78,22 @@ public class SubmitRecord {
     public String label;
     public Status status;
     public Account.Id appliedBy;
+
+    public String toString() {
+      return "(" + label + ", " + status + ", " + appliedBy + ")";
+    }
+  }
+
+  public String toString() {
+    StringBuffer labelList = new StringBuffer();
+    if (labels != null) {
+      for (Label label : labels) {
+        if (labelList.length() != 0) {
+          labelList.append(", ");
+        }
+        labelList.append(label.toString());
+      }
+    }
+    return status + "[" + labelList + "]";
   }
 }

@@ -41,10 +41,12 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
+import javax.annotation.Nullable;
+
 public class RestoreChange implements Callable<ReviewResult> {
 
   public interface Factory {
-    RestoreChange create(PatchSet.Id patchSetId, String changeComment);
+    RestoreChange create(Change.Id changeId, String changeComment);
   }
 
   private final RestoredSender.Factory restoredSenderFactory;
@@ -54,15 +56,15 @@ public class RestoreChange implements Callable<ReviewResult> {
   private final IdentifiedUser currentUser;
   private final ChangeHooks hooks;
 
-  private final PatchSet.Id patchSetId;
+  private final Change.Id changeId;
   private final String changeComment;
 
   @Inject
   RestoreChange(final RestoredSender.Factory restoredSenderFactory,
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
       final GitRepositoryManager repoManager, final IdentifiedUser currentUser,
-      final ChangeHooks hooks, @Assisted final PatchSet.Id patchSetId,
-      @Assisted final String changeComment) {
+      final ChangeHooks hooks, @Assisted final Change.Id changeId,
+      @Assisted @Nullable final String changeComment) {
     this.restoredSenderFactory = restoredSenderFactory;
     this.changeControlFactory = changeControlFactory;
     this.db = db;
@@ -70,7 +72,7 @@ public class RestoreChange implements Callable<ReviewResult> {
     this.currentUser = currentUser;
     this.hooks = hooks;
 
-    this.patchSetId = patchSetId;
+    this.changeId = changeId;
     this.changeComment = changeComment;
   }
 
@@ -79,10 +81,11 @@ public class RestoreChange implements Callable<ReviewResult> {
       InvalidChangeOperationException, NoSuchChangeException, OrmException,
       RepositoryNotFoundException, IOException {
     final ReviewResult result = new ReviewResult();
-
-    final Change.Id changeId = patchSetId.getParentKey();
     result.setChangeId(changeId);
+
     final ChangeControl control = changeControlFactory.validateFor(changeId);
+    final Change change = db.changes().get(changeId);
+    final PatchSet.Id patchSetId = change.currentPatchSetId();
     if (!control.canRestore()) {
       result.addError(new ReviewResult.Error(
           ReviewResult.Error.Type.RESTORE_NOT_PERMITTED));

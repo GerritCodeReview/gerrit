@@ -202,11 +202,11 @@ public class ReviewCommand extends SshCommand {
 
       if (abandonChange) {
         final ReviewResult result = abandonChangeFactory.create(
-            patchSetId, changeComment).call();
+            patchSetId.getParentKey(), changeComment).call();
         handleReviewResultErrors(result);
       } else if (restoreChange) {
         final ReviewResult result = restoreChangeFactory.create(
-            patchSetId, changeComment).call();
+            patchSetId.getParentKey(), changeComment).call();
         handleReviewResultErrors(result);
       }
       if (submitChange) {

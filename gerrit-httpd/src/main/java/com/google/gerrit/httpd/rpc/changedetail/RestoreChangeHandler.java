@@ -64,7 +64,7 @@ class RestoreChangeHandler extends Handler<ChangeDetail> {
       PatchSetInfoNotAvailableException, RepositoryNotFoundException,
       IOException {
     final ReviewResult result =
-        restoreChangeFactory.create(patchSetId, message).call();
+        restoreChangeFactory.create(patchSetId.getParentKey(), message).call();
     if (result.getErrors().size() > 0) {
       throw new NoSuchChangeException(result.getChangeId());
     }

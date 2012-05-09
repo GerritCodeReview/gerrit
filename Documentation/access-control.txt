@@ -703,6 +703,21 @@ be suitable in a corporate deployment if the HTTP access control
 is already restricted to the correct set of users.
 
 
+[[category_rebase]]
+Rebase
+~~~~~~
+
+This category permits users to rebase changes via the web UI by pushing
+the `Rebase Change` button.
+
+The change owner and submitters can always rebase changes in the web UI
+(even without having the `Rebase` access right assigned).
+
+Users without this access right who are able to upload new patch sets
+can still do the rebase locally and upload the rebased commit as a new
+patch set.
+
+
 [[category_submit]]
 Submit
 ~~~~~~

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFZH////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-05-09T02:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFXn///4o\u003d",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFXn///40\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFZH////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-05-09T02:12:51Z",
+      "side": 1,
+      "message": "good coach!",
+      "parentUuid": "AAAFXn///40\u003d",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFXn///44\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-08T18:51:51Z",
       "side": 1,
       "message": "This can\u0027t be transient, its part of the hashcode and equals methods.\n\nboolean not Boolean",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZH////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-05-09T02:12:51Z",
+      "side": 1,
+      "message": "a bit confused . will you please help me out.\nas oldId , newId and whitespace are transient and are also part of the hasscode and equals methods.\nwhy inRebasetTransparent is a exception?",
+      "parentUuid": "AAAFXn///44\u003d",
       "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -81,6 +135,24 @@
       "writtenOn": "2012-05-08T18:51:51Z",
       "side": 1,
       "message": "h \u003dh * 31 + (isRebaseTransparent ? 1 : 0)",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZH////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-05-09T02:12:51Z",
+      "side": 1,
+      "message": "great coach!",
+      "parentUuid": "AAAFXn///4s\u003d",
       "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

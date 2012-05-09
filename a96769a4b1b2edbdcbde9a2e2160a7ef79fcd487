@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYX////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-05-09T07:35:26Z",
+      "side": 1,
+      "message": "Hi Shawn\nI guess the reason we have to let oldId, newId and whitespace to be  transient is \n\nserialization cannot handle them by default and we really serialize them. \n\nnow let writeObject() and readObject() also process isRebaseTransparent, \n\nand not let both method  call defaultWriteObject( ) and defaultReadObject();\n\nthus I think it is not different to let isRebaseTransparent to be transient or not.\n\nalthough I let isRebaseTransparent to be not transient now.\n\nDone!\n\n/B",
+      "parentUuid": "AAAFZH////I\u003d",
+      "revId": "a96769a4b1b2edbdcbde9a2e2160a7ef79fcd487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFXn///4w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 4

@@ -70,6 +70,7 @@ public class SitePathInitializer {
     mkdir(site.logs_dir);
     mkdir(site.mail_dir);
     mkdir(site.static_dir);
+    mkdir(site.plugins_dir);
 
     for (InitStep step : steps) {
       step.run();

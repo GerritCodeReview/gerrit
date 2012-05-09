@@ -20,6 +20,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeInfo.LabelInfo;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.ProjectLink;
@@ -209,7 +210,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     if (c.owner() != null && c.owner().name() != null) {
       owner = c.owner().name();
     }
-    table.setText(row, C_OWNER, owner);
+
+    table.setWidget(row, C_OWNER, new InlineHyperlink(owner,
+        PageLinks.toAccountQuery(owner)));
 
     table.setWidget(
         row, C_PROJECT, new ProjectLink(c.project_name_key(), c.status()));

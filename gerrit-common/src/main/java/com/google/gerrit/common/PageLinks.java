@@ -59,6 +59,11 @@ public class PageLinks {
     return "/admin/projects/" + p.get() + ",access";
   }
 
+  public static String toAccountQuery(final String fullname) {
+    String user = KeyUtil.encode(fullname).replaceAll("%3[Aa]", ":");
+    return "/q/owner:\"" + user + "\"," + TOP;
+  }
+
   public static String toAccountDashboard(final AccountInfo acct) {
     return toAccountDashboard(acct.getId());
   }

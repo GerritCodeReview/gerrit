@@ -39,6 +39,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -180,8 +181,9 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  private void approveOne(final PatchSet.Id patchSetId) throws
-      NoSuchChangeException, OrmException, EmailException, Failure {
+  private void approveOne(final PatchSet.Id patchSetId)
+      throws NoSuchChangeException, OrmException, EmailException, Failure,
+      RepositoryNotFoundException, IOException {
 
     if (changeComment == null) {
       changeComment = "";
@@ -260,6 +262,9 @@ public class ReviewCommand extends SshCommand {
           break;
         case GIT_ERROR:
           errMsg += "error writing change to git repository";
+          break;
+        case DEST_BRANCH_NOT_FOUND:
+          errMsg += "destination branch not found";
           break;
         default:
           errMsg += "failure in review";

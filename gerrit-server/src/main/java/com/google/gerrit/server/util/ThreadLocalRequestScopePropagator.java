@@ -31,8 +31,8 @@ public abstract class ThreadLocalRequestScopePropagator<C>
   private final ThreadLocal<C> threadLocal;
 
   protected ThreadLocalRequestScopePropagator(Scope scope,
-      ThreadLocal<C> threadLocal) {
-    super(scope);
+      ThreadLocal<C> threadLocal, ThreadLocalRequestContext local) {
+    super(scope, local);
     this.threadLocal = threadLocal;
   }
 

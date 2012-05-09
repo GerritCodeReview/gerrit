@@ -38,17 +38,15 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
 
   private final String url;
   private final SocketAddress peer;
-  private final CurrentUser user;
 
   @Inject
   GuiceRequestScopePropagator(
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       @RemotePeer Provider<SocketAddress> remotePeerProvider,
-      Provider<CurrentUser> currentUserProvider) {
-    super(ServletScopes.REQUEST);
+      ThreadLocalRequestContext local) {
+    super(ServletScopes.REQUEST, local);
     this.url = urlProvider != null ? urlProvider.get() : null;
     this.peer = remotePeerProvider.get();
-    this.user = currentUserProvider.get();
   }
 
   /**
@@ -68,9 +66,6 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
     seedMap.put(Key.get(typeOfProvider(SocketAddress.class), RemotePeer.class),
         Providers.of(peer));
     seedMap.put(Key.get(SocketAddress.class, RemotePeer.class), peer);
-
-    seedMap.put(Key.get(typeOfProvider(CurrentUser.class)), Providers.of(user));
-    seedMap.put(Key.get(CurrentUser.class), user);
 
     return ServletScopes.continueRequest(callable, seedMap);
   }

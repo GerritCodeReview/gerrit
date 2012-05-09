@@ -25,8 +25,6 @@ import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
@@ -78,13 +76,8 @@ public class WebModule extends FactoryModule {
 
   @Override
   protected void configure() {
-    install(new ServletModule() {
-      @Override
-      protected void configureServlets() {
-        filter("/*").through(RequestCleanupFilter.class);
-      }
-    });
     bind(RequestScopePropagator.class).to(GuiceRequestScopePropagator.class);
+    bind(HttpRequestContext.class);
 
     if (wantSSL) {
       install(new RequireSslFilter.Module());
@@ -146,9 +139,6 @@ public class WebModule extends FactoryModule {
 
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         HttpRemotePeerProvider.class).in(RequestScoped.class);
-
-    bind(CurrentUser.class).toProvider(HttpCurrentUserProvider.class);
-    bind(IdentifiedUser.class).toProvider(HttpIdentifiedUserProvider.class);
 
     install(new LifecycleModule() {
       @Override

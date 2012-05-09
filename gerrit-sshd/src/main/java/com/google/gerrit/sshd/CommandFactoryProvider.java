@@ -122,7 +122,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
 
     public void setSession(final ServerSession session) {
       final SshSession s = session.getAttribute(SshSession.KEY);
-      this.ctx = new Context(s, commandLine);
+      this.ctx = sshScope.newContext(s, commandLine);
     }
 
     public void start(final Environment env) throws IOException {

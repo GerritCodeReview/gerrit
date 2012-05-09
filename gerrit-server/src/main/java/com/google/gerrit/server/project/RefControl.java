@@ -125,6 +125,12 @@ public class RefControl {
         && canWrite();
   }
 
+  /** @return true if this user can rebase changes on this ref */
+  public boolean canRebase() {
+    return canPerform(Permission.REBASE)
+        && canWrite();
+  }
+
   /** @return true if this user can submit patch sets to this ref */
   public boolean canSubmit() {
     if (GitRepositoryManager.REF_CONFIG.equals(refName)) {

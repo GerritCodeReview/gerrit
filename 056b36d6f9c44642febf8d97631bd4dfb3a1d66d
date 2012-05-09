@@ -34,6 +34,24 @@
       "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///sI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-09T17:46:05Z",
+      "side": 1,
+      "message": "Perhaps what you want is a whole new \"change\" namespace, can you say plugin, :) for operations which operate directly on changes?  So instead of:\n\n   ssh... gerrit review --approve\n\nYou get:\n\n  ssh ... change approve\n\nThis way the review command can live on, which has the advantage that it still allows automation systems to make several changes (verifed, submit...) with only one log message (and therefore one email).",
+      "parentUuid": "AAAFX3///u4\u003d",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFXn///rw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-09T18:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFXn///tw\u003d",
+      "revId": "328e378c8544336819fe28b4606ba3bbacbfc12c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFXn///vo\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFXn///rs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-09T18:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFXn///vo\u003d",
+      "revId": "328e378c8544336819fe28b4606ba3bbacbfc12c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFXn///t0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-09T14:26:42Z",
       "side": 1,
       "message": "add a remark about the category being chosen at random to store this 0.",
+      "revId": "328e378c8544336819fe28b4606ba3bbacbfc12c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///ro\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-09T18:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFXn///t0\u003d",
       "revId": "328e378c8544336819fe28b4606ba3bbacbfc12c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

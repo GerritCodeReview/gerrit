@@ -99,4 +99,6 @@ public interface GerritConstants extends Constants {
   String jumpMineWatched();
   String jumpMineStarred();
   String jumpMineDraftComments();
+
+  String projectAccessError();
 }

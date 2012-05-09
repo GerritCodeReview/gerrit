@@ -32,6 +32,11 @@ limitations under the License.
   .commitMessage .gwt-TextArea {
     margin: 5px 5px 5px 5px;
   }
+  .errorMessage {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: red;
+  }
 </ui:style>
 
 <g:HTMLPanel>
@@ -58,6 +63,10 @@ limitations under the License.
           spellCheck='true'
           />
     </div>
+    <g:VerticalPanel
+      styleName='{style.errorMessage}'
+      ui:field='error'>
+    </g:VerticalPanel>
     <g:Button
         ui:field='commit'
         text='Save Changes'>

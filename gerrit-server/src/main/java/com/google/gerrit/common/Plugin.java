@@ -18,16 +18,15 @@ import com.google.inject.Module;
 
 public class Plugin {
   public final String name;
+  public final Class<? extends Module> sshModule;
 
-  public final Class<? extends Module> moduleClass;
-
-  public Plugin(String name, Class<? extends Module> moduleClass) {
+  public Plugin(String name, Class<? extends Module> sshModule) {
     this.name = name;
-    this.moduleClass = moduleClass;
+    this.sshModule = sshModule;
   }
 
   @Override
   public String toString() {
-    return "Plugin [" + name + "]: ModuleClass=" + moduleClass.getName();
+    return "Plugin [" + name + "; SshModule=" + sshModule.getName() + "]";
   }
 }

@@ -37,25 +37,21 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
-import com.google.gerrit.server.account.Realm;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
   private final AccountCache accountCache;
   private final AccountResolver accountResolver;
-  private final Realm accountRealm;
   private final GroupCache groupCache;
   private final GroupIncludeCache groupIncludeCache;
   private final GroupControl.Factory groupControlFactory;
@@ -70,7 +66,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final Provider<IdentifiedUser> currentUser,
       final AccountCache accountCache,
       final GroupIncludeCache groupIncludeCache,
-      final AccountResolver accountResolver, final Realm accountRealm,
+      final AccountResolver accountResolver,
       final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
       final CreateGroup.Factory createGroupFactory,
@@ -81,7 +77,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.accountCache = accountCache;
     this.groupIncludeCache = groupIncludeCache;
     this.accountResolver = accountResolver;
-    this.accountRealm = accountRealm;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.createGroupFactory = createGroupFactory;
@@ -176,36 +171,6 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         return VoidResult.INSTANCE;
       }
     });
-  }
-
-  public void changeExternalGroup(final AccountGroup.Id groupId,
-      final AccountGroup.ExternalNameKey bindTo,
-      final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final AccountGroup group = db.accountGroups().get(groupId);
-        assertAmGroupOwner(db, group);
-        group.setExternalNameKey(bindTo);
-        db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(group);
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
-  public void searchExternalGroups(final String searchFilter,
-      final AsyncCallback<List<AccountGroup.ExternalNameKey>> callback) {
-    final ArrayList<AccountGroup.ExternalNameKey> matches =
-        new ArrayList<AccountGroup.ExternalNameKey>(
-            accountRealm.lookupGroups(searchFilter));
-    Collections.sort(matches, new Comparator<AccountGroup.ExternalNameKey>() {
-      @Override
-      public int compare(AccountGroup.ExternalNameKey a,
-          AccountGroup.ExternalNameKey b) {
-        return a.get().compareTo(b.get());
-      }
-    });
-    callback.onSuccess(matches);
   }
 
   public void addGroupMember(final AccountGroup.Id groupId,

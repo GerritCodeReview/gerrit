@@ -79,32 +79,6 @@ public final class AccountGroup {
     }
   }
 
-  /** Distinguished name, within organization directory server. */
-  public static class ExternalNameKey extends
-      StringKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
-
-    @Column(id = 1)
-    protected String name;
-
-    protected ExternalNameKey() {
-    }
-
-    public ExternalNameKey(final String n) {
-      name = n;
-    }
-
-    @Override
-    public String get() {
-      return name;
-    }
-
-    @Override
-    protected void set(String newValue) {
-      name = newValue;
-    }
-  }
-
   /** Synthetic key to link to within the database */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -157,20 +131,7 @@ public final class AccountGroup {
      * who is a member of the owner group. These groups are not treated special
      * in the code.
      */
-    INTERNAL,
-
-    /**
-     * Group defined by external LDAP database.
-     * <p>
-     * A group whose membership is determined by the LDAP directory that we
-     * connect to for user and group information. In UI contexts the membership
-     * of the group is not displayed, as it may be exceedingly large, or might
-     * contain users who have never logged into this server before (and thus
-     * have no matching account record). Adding or removing users from an LDAP
-     * group requires making edits through the LDAP directory, and cannot be
-     * done through our UI.
-     */
-    LDAP;
+    INTERNAL;
   }
 
   /** Common UUID assigned to the "Project Owners" placeholder group. */
@@ -208,10 +169,6 @@ public final class AccountGroup {
   /** Is the membership managed by some external means? */
   @Column(id = 5, length = 8)
   protected String groupType;
-
-  /** Distinguished name in the directory server. */
-  @Column(id = 6, notNull = false)
-  protected ExternalNameKey externalName;
 
   @Column(id = 7)
   protected boolean visibleToAll;
@@ -271,14 +228,6 @@ public final class AccountGroup {
 
   public void setType(final Type t) {
     groupType = t.name();
-  }
-
-  public ExternalNameKey getExternalNameKey() {
-    return externalName;
-  }
-
-  public void setExternalNameKey(final ExternalNameKey k) {
-    externalName = k;
   }
 
   public void setVisibleToAll(final boolean visibleToAll) {

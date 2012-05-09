@@ -41,11 +41,11 @@ final class PluginLsCommand extends SshCommand {
       }
     });
 
-    stdout.format("%-30s %-10s\n", "Name", "Version");
+    stdout.format("%-30s %-10s %-6s\n", "Name", "Version", "Status");
     stdout.print("----------------------------------------------------------------------\n");
     for (Plugin p : running) {
-      stdout.format("%-30s %-10s\n", p.getName(),
-          Strings.nullToEmpty(p.getVersion()));
+      stdout.format("%-30s %-10s %-6s\n", p.getName(),
+          Strings.nullToEmpty(p.getVersion()), p.getStatus());
     }
   }
 }

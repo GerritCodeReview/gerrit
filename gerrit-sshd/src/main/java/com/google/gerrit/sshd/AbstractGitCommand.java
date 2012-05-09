@@ -36,6 +36,9 @@ public abstract class AbstractGitCommand extends BaseCommand {
   protected ProjectControl projectControl;
 
   @Inject
+  private SshScope sshScope;
+
+  @Inject
   private GitRepositoryManager repoManager;
 
   @Inject
@@ -56,7 +59,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
   @Override
   public void start(final Environment env) {
     Context ctx = context.subContext(newSession(), context.getCommandLine());
-    final Context old = SshScope.set(ctx);
+    final Context old = sshScope.set(ctx);
     try {
       startThread(new ProjectCommandRunnable() {
         @Override
@@ -76,7 +79,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
         }
       });
     } finally {
-      SshScope.set(old);
+      sshScope.set(old);
     }
   }
 

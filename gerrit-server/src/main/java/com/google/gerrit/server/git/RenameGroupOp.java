@@ -123,11 +123,11 @@ public class RenameGroupOp extends DefaultQueueOp {
       ref.setName(newName);
       md.getCommitBuilder().setAuthor(author);
       md.setMessage("Rename group " + oldName + " to " + newName + "\n");
-      if (config.commit(md)) {
+      try {
+        config.commit(md);
         projectCache.evict(config.getProject());
         success = true;
-
-      } else {
+      } catch (IOException e) {
         try {
           Thread.sleep(25 /* milliseconds */);
         } catch (InterruptedException wakeUp) {

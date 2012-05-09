@@ -65,6 +65,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   private final IdentifiedUser.GenericFactory userFactory;
   private final PeerDaemonUser.Factory peerFactory;
   private final Config config;
+  private final SshScope sshScope;
   private final Set<PublicKey> myHostKeys;
   private volatile PeerKeyCache peerKeyCache;
 
@@ -72,12 +73,13 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SshLog l,
       final IdentifiedUser.GenericFactory uf, final PeerDaemonUser.Factory pf,
       final SitePaths site, final KeyPairProvider hostKeyProvider,
-      final @GerritServerConfig Config cfg) {
+      final @GerritServerConfig Config cfg, final SshScope s) {
     sshKeyCache = skc;
     sshLog = l;
     userFactory = uf;
     peerFactory = pf;
     config = cfg;
+    sshScope = s;
     myHostKeys = myHostKeys(hostKeyProvider);
     peerKeyCache = new PeerKeyCache(site.peer_keys);
   }
@@ -172,11 +174,11 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       // a close listener to record a logout event.
       //
       Context ctx = new Context(sd, null);
-      Context old = SshScope.set(ctx);
+      Context old = sshScope.set(ctx);
       try {
         sshLog.onLogin();
       } finally {
-        SshScope.set(old);
+        sshScope.set(old);
       }
 
       session.getIoSession().getCloseFuture().addListener(
@@ -184,11 +186,11 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
             @Override
             public void operationComplete(IoFuture future) {
               final Context ctx = new Context(sd, null);
-              final Context old = SshScope.set(ctx);
+              final Context old = sshScope.set(ctx);
               try {
                 sshLog.onLogout();
               } finally {
-                SshScope.set(old);
+                sshScope.set(old);
               }
             }
           });

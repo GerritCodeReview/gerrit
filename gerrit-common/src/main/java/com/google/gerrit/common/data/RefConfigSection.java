@@ -45,4 +45,17 @@ public abstract class RefConfigSection {
   public void setName(String name) {
     this.name = name;
   }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (!(obj instanceof RefConfigSection)) {
+      return false;
+    }
+    return name.equals(((RefConfigSection) obj).name);
+  }
+
+  @Override
+  public int hashCode() {
+    return name.hashCode();
+  }
 }

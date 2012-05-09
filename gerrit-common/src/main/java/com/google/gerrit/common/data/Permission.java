@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -207,5 +208,24 @@ public class Permission implements Comparable<Permission> {
 
     int index = NAMES_LC.indexOf(a.getName().toLowerCase());
     return 0 <= index ? index : NAMES_LC.size();
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (!(obj instanceof Permission)) {
+      return false;
+    }
+
+    final Permission other = (Permission) obj;
+    if (!name.equals(other.name) || exclusiveGroup != other.exclusiveGroup) {
+      return false;
+    }
+    return new HashSet<PermissionRule>(rules)
+        .equals(new HashSet<PermissionRule>(other.rules));
+  }
+
+  @Override
+  public int hashCode() {
+    return name.hashCode();
   }
 }

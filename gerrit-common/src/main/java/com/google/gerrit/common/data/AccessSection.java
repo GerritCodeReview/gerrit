@@ -118,4 +118,13 @@ public class AccessSection extends RefConfigSection implements
   public String toString() {
     return "AccessSection[" + getName() + "]";
   }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (!super.equals(obj) || !(obj instanceof AccessSection)) {
+      return false;
+    }
+    return new HashSet<Permission>(permissions).equals(new HashSet<Permission>(
+        ((AccessSection) obj).permissions));
+  }
 }

@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
@@ -30,8 +31,13 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProjectAccessScreen extends ProjectScreen {
   interface Binder extends UiBinder<HTMLPanel, ProjectAccessScreen> {
@@ -55,6 +61,9 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   @UiField
   Button cancel2;
+
+  @UiField
+  VerticalPanel error;
 
   @UiField
   ProjectAccessEditor accessEditor;
@@ -124,7 +133,7 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   @UiHandler("commit")
   void onCommit(ClickEvent event) {
-    ProjectAccess access = driver.flush();
+    final ProjectAccess access = driver.flush();
 
     if (driver.hasErrors()) {
       Window.alert(Util.C.errorsMustBeFixed());
@@ -144,14 +153,43 @@ public class ProjectAccessScreen extends ProjectScreen {
         access.getLocal(), //
         new GerritCallback<ProjectAccess>() {
           @Override
-          public void onSuccess(ProjectAccess access) {
+          public void onSuccess(ProjectAccess newAccess) {
             enable(true);
             commitMessage.setText("");
-            displayReadOnly(access);
+            error.clear();
+            final Set<String> diffs = getDiffs(access, newAccess);
+            if (diffs.isEmpty()) {
+              displayReadOnly(newAccess);
+            } else {
+              error.add(new Label(Gerrit.C.projectAccessError()));
+              for (final String diff : diffs) {
+                error.add(new Label(diff));
+              }
+            }
+          }
+
+          private Set<String> getDiffs(ProjectAccess wantedAccess,
+              ProjectAccess newAccess) {
+            final HashSet<AccessSection> same =
+                new HashSet<AccessSection>(wantedAccess.getLocal());
+            final HashSet<AccessSection> different =
+                new HashSet<AccessSection>(wantedAccess.getLocal().size()
+                    + newAccess.getLocal().size());
+            different.addAll(wantedAccess.getLocal());
+            different.addAll(newAccess.getLocal());
+            same.retainAll(newAccess.getLocal());
+            different.removeAll(same);
+
+            final Set<String> differentNames = new HashSet<String>();
+            for (final AccessSection s : different) {
+              differentNames.add(s.getName());
+            }
+            return differentNames;
           }
 
           @Override
           public void onFailure(Throwable caught) {
+            error.clear();
             enable(true);
             super.onFailure(caught);
           }

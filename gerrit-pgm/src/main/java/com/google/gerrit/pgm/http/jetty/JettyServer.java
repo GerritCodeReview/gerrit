@@ -40,6 +40,7 @@ import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.FilterMapping;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -328,7 +329,8 @@ public class JettyServer {
     // of using the listener to create the injector pass the one we
     // already have built.
     //
-    app.addFilter(GuiceFilter.class, "/*", FilterMapping.DEFAULT);
+    GuiceFilter filter = env.webInjector.getInstance(GuiceFilter.class);
+    app.addFilter(new FilterHolder(filter), "/*", FilterMapping.DEFAULT);
     app.addEventListener(new GuiceServletContextListener() {
       @Override
       protected Injector getInjector() {

@@ -16,6 +16,24 @@
       "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///u4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-05-09T17:37:25Z",
+      "side": 1,
+      "message": "The goal is to make a 1:1 mapping from the ssh interface to the http interface.  I\u0027ve talked about this with Shawn.  We can pull him in if you want.",
+      "parentUuid": "AAAFXn///sQ\u003d",
+      "revId": "056b36d6f9c44642febf8d97631bd4dfb3a1d66d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

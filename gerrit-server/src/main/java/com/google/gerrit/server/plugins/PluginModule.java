@@ -12,10 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.guice;
+package com.google.gerrit.server.plugins;
 
-/** Handle for registered information. */
-public interface RegistrationHandle {
-  /** Delete this registration. */
-  public void remove();
+import com.google.gerrit.lifecycle.LifecycleModule;
+
+public class PluginModule extends LifecycleModule {
+  @Override
+  protected void configure() {
+    bind(PluginGuiceEnvironment.class);
+    bind(PluginLoader.class);
+    bind(CopyConfigModule.class);
+    listener().to(PluginLoader.class);
+  }
 }

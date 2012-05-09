@@ -12,21 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.server.plugins;
 
-import com.google.inject.Module;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-public class Plugin {
-  public final String name;
-  public final Class<? extends Module> sshModule;
+import com.google.inject.BindingAnnotation;
 
-  public Plugin(String name, Class<? extends Module> sshModule) {
-    this.name = name;
-    this.sshModule = sshModule;
-  }
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-  @Override
-  public String toString() {
-    return "Plugin [" + name + "; SshModule=" + sshModule.getName() + "]";
-  }
+@Target({ElementType.PARAMETER, ElementType.FIELD})
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface PluginName {
 }

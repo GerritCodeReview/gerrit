@@ -65,6 +65,10 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
 
+import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.server.ApprovalsUtil;
+
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.Config;
 
@@ -151,5 +155,10 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ProjectControl.GenericFactory.class);
     factory(FunctionState.Factory.class);
     factory(ReplicationUser.Factory.class);
+
+    DynamicMap.mapOf(binder(), ApprovalsUtil.ApprovalsFunction.class);
+    bind(ApprovalsUtil.ApprovalsFunction.class)
+        .annotatedWith(Exports.named("CopyVetos"))
+        .to(ApprovalsUtil.CopyOnlyVetos.class);
   }
 }

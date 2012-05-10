@@ -229,7 +229,9 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
           public boolean isVisible(Account account) throws OrmException {
             IdentifiedUser who =
                 identifiedUserFactory.create(reviewDbProvider, account.getId());
-            return changeControl.forUser(who).isVisible(reviewDbProvider.get());
+            // we can't use changeControl directly as it won't suggest reviewers
+            // to drafts
+            return changeControl.forUser(who).isRefVisible();
           }
         };
 

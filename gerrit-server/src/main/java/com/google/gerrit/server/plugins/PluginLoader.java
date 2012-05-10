@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -305,7 +306,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private Plugin loadPlugin(String name, File srcJar, FileSnapshot snapshot)
-      throws IOException, ClassNotFoundException {
+      throws IOException, ClassNotFoundException, InvalidPluginException {
     File tmp;
     FileInputStream in = new FileInputStream(srcJar);
     try {
@@ -318,13 +319,20 @@ public class PluginLoader implements LifecycleListener {
     boolean keep = false;
     try {
       Manifest manifest = jarFile.getManifest();
+      Plugin.ApiType type = Plugin.getApiType(manifest);
       Attributes main = manifest.getMainAttributes();
       String sysName = main.getValue("Gerrit-Module");
       String sshName = main.getValue("Gerrit-SshModule");
       String httpName = main.getValue("Gerrit-HttpModule");
 
+      if (!Strings.isNullOrEmpty(sshName) && type != Plugin.ApiType.PLUGIN) {
+        throw new InvalidPluginException(String.format(
+            "Using Gerrit-SshModule requires Gerrit-ApiType: %s",
+            Plugin.ApiType.PLUGIN));
+      }
+
       URL[] urls = {tmp.toURI().toURL()};
-      ClassLoader parentLoader = PluginLoader.class.getClassLoader();
+      ClassLoader parentLoader = parentFor(type);
       ClassLoader pluginLoader = new URLClassLoader(urls, parentLoader);
       cleanupHandles.put(
           new CleanupHandle(tmp, jarFile, pluginLoader, cleanupQueue),
@@ -343,6 +351,18 @@ public class PluginLoader implements LifecycleListener {
       if (!keep) {
         jarFile.close();
       }
+    }
+  }
+
+  private static ClassLoader parentFor(Plugin.ApiType type)
+      throws InvalidPluginException {
+    switch (type) {
+      case EXTENSION:
+        return PluginName.class.getClassLoader();
+      case PLUGIN:
+        return PluginLoader.class.getClassLoader();
+      default:
+        throw new InvalidPluginException("Unsupported ApiType " + type);
     }
   }
 

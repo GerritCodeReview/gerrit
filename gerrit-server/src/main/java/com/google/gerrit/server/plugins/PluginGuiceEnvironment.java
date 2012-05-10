@@ -14,8 +14,14 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
@@ -25,11 +31,17 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
+import com.google.inject.internal.UniqueAnnotations;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 /**
@@ -45,12 +57,17 @@ public class PluginGuiceEnvironment {
   private final CopyConfigModule copyConfigModule;
   private final List<StartPluginListener> onStart;
   private final List<ReloadPluginListener> onReload;
+
   private Module sysModule;
   private Module sshModule;
   private Module httpModule;
 
   private Provider<ModuleGenerator> sshGen;
   private Provider<ModuleGenerator> httpGen;
+
+  private Map<Class<?>, DynamicSet<?>> sysSets;
+  private Map<Class<?>, DynamicSet<?>> sshSets;
+  private Map<Class<?>, DynamicSet<?>> httpSets;
 
   @Inject
   PluginGuiceEnvironment(Injector sysInjector, CopyConfigModule ccm) {
@@ -62,6 +79,14 @@ public class PluginGuiceEnvironment {
 
     onReload = new CopyOnWriteArrayList<ReloadPluginListener>();
     onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
+
+    sysSets = dynamicSetsOf(sysInjector);
+  }
+
+  boolean hasDynamicSet(Class<?> type) {
+    return sysSets.containsKey(type)
+        || (sshSets != null && sshSets.containsKey(type))
+        || (httpSets != null && httpSets.containsKey(type));
   }
 
   Module getSysModule() {
@@ -84,6 +109,7 @@ public class PluginGuiceEnvironment {
   public void setSshInjector(Injector injector) {
     sshModule = copy(injector);
     sshGen = injector.getProvider(ModuleGenerator.class);
+    sshSets = dynamicSetsOf(injector);
     onStart.addAll(listeners(injector, StartPluginListener.class));
     onReload.addAll(listeners(injector, ReloadPluginListener.class));
   }
@@ -103,6 +129,7 @@ public class PluginGuiceEnvironment {
   public void setHttpInjector(Injector injector) {
     httpModule = copy(injector);
     httpGen = injector.getProvider(ModuleGenerator.class);
+    httpSets = dynamicSetsOf(injector);
     onStart.addAll(listeners(injector, StartPluginListener.class));
     onReload.addAll(listeners(injector, ReloadPluginListener.class));
   }
@@ -123,16 +150,116 @@ public class PluginGuiceEnvironment {
     for (StartPluginListener l : onStart) {
       l.onStartPlugin(plugin);
     }
+    attach(sysSets, plugin.getSysInjector(), plugin);
+    attach(sshSets, plugin.getSshInjector(), plugin);
+    attach(httpSets, plugin.getHttpInjector(), plugin);
+  }
+
+  private void attach(Map<Class<?>, DynamicSet<?>> sets,
+      @Nullable Injector src,
+      Plugin plugin) {
+    if (src != null && sets != null && !sets.isEmpty()) {
+      for (Map.Entry<Class<?>, DynamicSet<?>> e : sets.entrySet()) {
+        @SuppressWarnings("unchecked")
+        DynamicSet<Object> set = (DynamicSet<Object>) e.getValue();
+        for (Binding<?> b : bindings(src, e.getKey())) {
+          plugin.add(set.add(b.getKey(), b.getProvider().get()));
+        }
+      }
+    }
   }
 
   void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
     for (ReloadPluginListener l : onReload) {
       l.onReloadPlugin(oldPlugin, newPlugin);
     }
+
+    // Index all old registrations by the raw type. These may be replaced
+    // during the reattach calls below. Any that are not replaced will be
+    // removed when the old plugin does its stop routine.
+    ListMultimap<Class<?>, ReloadableRegistrationHandle<?>> old =
+        LinkedListMultimap.create();
+    for (ReloadableRegistrationHandle<?> h : oldPlugin.getReloadableHandles()) {
+      old.put(h.getKey().getTypeLiteral().getRawType(), h);
+    }
+
+    reattach(old, sysSets, newPlugin.getSysInjector(), newPlugin);
+    reattach(old, sshSets, newPlugin.getSshInjector(), newPlugin);
+    reattach(old, httpSets, newPlugin.getHttpInjector(), newPlugin);
   }
 
-  private static <T> List<T> listeners(Injector src, Class<T> type) {
-    List<Binding<T>> bindings = src.findBindingsByType(TypeLiteral.get(type));
+  /** Type used to declare unique annotations. Guice hides this, so extract it. */
+  private static final Class<?> UNIQUE_ANNOTATION =
+      UniqueAnnotations.create().getClass();
+
+  private void reattach(
+      ListMultimap<Class<?>, ReloadableRegistrationHandle<?>> oldHandles,
+      Map<Class<?>, DynamicSet<?>> sets,
+      @Nullable Injector src,
+      Plugin newPlugin) {
+    if (src == null || sets == null || sets.isEmpty()) {
+      return;
+    }
+
+    for (Map.Entry<Class<?>, DynamicSet<?>> e : sets.entrySet()) {
+      @SuppressWarnings("unchecked")
+      DynamicSet<Object> set = (DynamicSet<Object>) e.getValue();
+
+      // Index all old handles that match this DynamicSet<T> keyed by
+      // annotations. Ignore the unique annotations, thereby favoring
+      // the @Named annotations or some other non-unique naming.
+      List<ReloadableRegistrationHandle<?>> old = oldHandles.get(e.getKey());
+      Map<Annotation, ReloadableRegistrationHandle<?>> am = Maps.newHashMap();
+      Iterator<ReloadableRegistrationHandle<?>> oi = old.iterator();
+      while (oi.hasNext()) {
+        ReloadableRegistrationHandle<?> h = oi.next();
+        if (h.getKey().getAnnotation() != null
+            && !UNIQUE_ANNOTATION.isInstance(h.getKey().getAnnotation())) {
+          am.put(h.getKey().getAnnotation(), h);
+          oi.remove();
+        }
+      }
+
+      // Replace old handles with new bindings, favoring cases where there
+      // is an exact match on an @Named annotation. If there is no match
+      // pick any handle and replace it. We generally expect only one
+      // handle of each DynamicSet type when using unique annotations, but
+      // possibly multiple ones if @Named was used. Plugin authors that want
+      // atomic replacement across reloads should use @Named annotations with
+      // stable names that do not change across plugin versions to ensure the
+      // handles are swapped correctly.
+      oi = old.iterator();
+      for (Binding<?> b : bindings(src, e.getKey())) {
+        Key<?> key = b.getKey();
+        ReloadableRegistrationHandle<?> h = am.get(key.getAnnotation());
+        if (h != null) {
+          newPlugin.add(replace(h, b));
+          continue;
+        }
+
+        if (oi.hasNext()) {
+          h = oi.next();
+          oi.remove();
+          newPlugin.add(replace(h, b));
+          continue;
+        }
+
+        newPlugin.add(set.add(b.getKey(), b.getProvider().get()));
+      }
+    }
+  }
+
+  private static RegistrationHandle replace(
+      ReloadableRegistrationHandle<?> h,
+      Binding<?> b) {
+    @SuppressWarnings("unchecked")
+    ReloadableRegistrationHandle<Object> handle =
+        (ReloadableRegistrationHandle<Object>) h;
+    return handle.replace(b.getKey(), b.getProvider().get());
+  }
+
+  static <T> List<T> listeners(Injector src, Class<T> type) {
+    List<Binding<T>> bindings = bindings(src, type);
     List<T> found = Lists.newArrayListWithCapacity(bindings.size());
     for (Binding<T> b : bindings) {
       found.add(b.getProvider().get());
@@ -140,9 +267,38 @@ public class PluginGuiceEnvironment {
     return found;
   }
 
+  private static <T> List<Binding<T>> bindings(Injector src, Class<T> type) {
+    return src.findBindingsByType(TypeLiteral.get(type));
+  }
+
+  private static Map<Class<?>, DynamicSet<?>> dynamicSetsOf(Injector src) {
+    Map<Class<?>, DynamicSet<?>> m = Maps.newHashMap();
+    for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
+      if (e.getKey().getTypeLiteral().getRawType() == DynamicSet.class) {
+        ParameterizedType t =
+            (ParameterizedType) e.getKey().getTypeLiteral().getType();
+        Class<?> member = (Class<?>) t.getActualTypeArguments()[0];
+        m.put(member, (DynamicSet<?>) e.getValue().getProvider().get());
+      }
+    }
+    return m;
+  }
+
   private static Module copy(Injector src) {
+    Set<Class<?>> dynamicSetTypes = Sets.newHashSet();
+    for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
+      if (e.getKey().getTypeLiteral().getRawType() == DynamicSet.class) {
+        ParameterizedType t =
+            (ParameterizedType) e.getKey().getTypeLiteral().getType();
+        dynamicSetTypes.add((Class<?>) t.getActualTypeArguments()[0]);
+      }
+    }
+
     final Map<Key<?>, Binding<?>> bindings = Maps.newLinkedHashMap();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
+      if (dynamicSetTypes.contains(e.getKey().getTypeLiteral().getType())) {
+        continue;
+      }
       if (shouldCopy(e.getKey())) {
         bindings.put(e.getKey(), e.getValue());
       }

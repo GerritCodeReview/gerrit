@@ -12,15 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.plugins;
+package com.google.gerrit.extensions.registration;
 
-import com.google.gerrit.extensions.annotations.Export;
-import com.google.inject.Module;
+import com.google.inject.Key;
 
-public interface ModuleGenerator {
-  void setPluginName(String name);
+public interface ReloadableRegistrationHandle<T> extends RegistrationHandle {
+  public Key<?> getKey();
 
-  void export(Export export, Class<?> type) throws InvalidPluginException;
-
-  Module create() throws InvalidPluginException;
+  public RegistrationHandle replace(Key<?> key, T item);
 }

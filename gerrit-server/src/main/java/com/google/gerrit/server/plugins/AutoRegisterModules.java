@@ -16,8 +16,15 @@ package com.google.gerrit.server.plugins;
 
 import static com.google.gerrit.server.plugins.PluginGuiceEnvironment.is;
 
-import com.google.gerrit.extensions.Export;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.annotations.Export;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.annotations.Listen;
+import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.Scopes;
+import com.google.inject.internal.UniqueAnnotations;
 
 import org.eclipse.jgit.util.IO;
 import org.objectweb.asm.AnnotationVisitor;
@@ -31,7 +38,10 @@ import org.objectweb.asm.Type;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -39,10 +49,14 @@ class AutoRegisterModules {
   private static final int SKIP_ALL = ClassReader.SKIP_CODE
       | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
   private final String pluginName;
+  private final PluginGuiceEnvironment env;
   private final JarFile jarFile;
   private final ClassLoader classLoader;
   private final ModuleGenerator sshGen;
   private final ModuleGenerator httpGen;
+
+  private Set<Class<?>> sysSingletons;
+  private Map<Class<?>, Class<?>> sysListen;
 
   Module sysModule;
   Module sshModule;
@@ -53,6 +67,7 @@ class AutoRegisterModules {
       JarFile jarFile,
       ClassLoader classLoader) {
     this.pluginName = pluginName;
+    this.env = env;
     this.jarFile = jarFile;
     this.classLoader = classLoader;
     this.sshGen = env.hasSshModule() ? env.newSshModuleGenerator() : null;
@@ -60,6 +75,9 @@ class AutoRegisterModules {
   }
 
   AutoRegisterModules discover() throws InvalidPluginException {
+    sysSingletons = Sets.newHashSet();
+    sysListen = Maps.newHashMap();
+
     if (sshGen != null) {
       sshGen.setPluginName(pluginName);
     }
@@ -69,6 +87,9 @@ class AutoRegisterModules {
 
     scan();
 
+    if (!sysSingletons.isEmpty() || !sysListen.isEmpty()) {
+      sysModule = makeSystemModule();
+    }
     if (sshGen != null) {
       sshModule = sshGen.create();
     }
@@ -76,6 +97,33 @@ class AutoRegisterModules {
       httpModule = httpGen.create();
     }
     return this;
+  }
+
+  private Module makeSystemModule() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        for (Class<?> clazz : sysSingletons) {
+          bind(clazz).in(Scopes.SINGLETON);
+        }
+        for (Map.Entry<Class<?>,Class<?>> e : sysListen.entrySet()) {
+          @SuppressWarnings("unchecked")
+          Class<Object> type = (Class<Object>) e.getKey();
+
+          @SuppressWarnings("unchecked")
+          Class<Object> impl = (Class<Object>) e.getValue();
+
+          Annotation n = impl.getAnnotation(javax.inject.Named.class);
+          if (n == null) {
+            n = impl.getAnnotation(com.google.inject.name.Named.class);
+          }
+          if (n == null) {
+            n = UniqueAnnotations.create();
+          }
+          bind(type).annotatedWith(n).to(impl);
+        }
+      }
+    };
   }
 
   private void scan() throws InvalidPluginException {
@@ -103,7 +151,17 @@ class AutoRegisterModules {
           export(def);
         } else {
           PluginLoader.log.warn(String.format(
-              "Plugin %s tries to export abstract class %s",
+              "Plugin %s tries to @Export(\"%s\") abstract class %s",
+              pluginName, def.exportedAsName, def.className));
+        }
+      }
+
+      if (def.listen) {
+        if (def.isConcrete()) {
+          listen(def);
+        } else {
+          PluginLoader.log.warn(String.format(
+              "Plugin %s tries to @Listen abstract class %s",
               pluginName, def.className));
         }
       }
@@ -143,6 +201,51 @@ class AutoRegisterModules {
     }
   }
 
+  private void listen(ClassData def) throws InvalidPluginException {
+    Class<?> clazz;
+    try {
+      clazz = Class.forName(def.className, false, classLoader);
+    } catch (ClassNotFoundException err) {
+      throw new InvalidPluginException(String.format(
+          "Cannot load %s with @Listen",
+          def.className), err);
+    }
+
+    Listen listen = clazz.getAnnotation(Listen.class);
+    if (listen == null) {
+      PluginLoader.log.warn(String.format(
+          "In plugin %s asm incorrectly parsed %s with @Listen",
+          pluginName, clazz.getName()));
+      return;
+    }
+    listen(clazz, clazz);
+  }
+
+  private void listen(Class<?> type, Class<?> clazz)
+      throws InvalidPluginException {
+    while (type != null) {
+      if (type.getAnnotation(ExtensionPoint.class) != null) {
+        if (!env.hasDynamicSet(type)) {
+          throw new InvalidPluginException(String.format(
+              "Cannot load %s with @Listen, server does not accept %s",
+              clazz.getName(), type.getName()));
+        }
+        sysSingletons.add(clazz);
+        sysListen.put(type, clazz);
+        return;
+      }
+
+      Class<?>[] interfaces = type.getInterfaces();
+      if (interfaces != null) {
+        for (Class<?> i : interfaces) {
+          listen(i, clazz);
+        }
+      }
+
+      type = type.getSuperclass();
+    }
+  }
+
   private static boolean skip(JarEntry entry) {
     if (!entry.getName().endsWith(".class")) {
       return true; // Avoid non-class resources.
@@ -169,9 +272,12 @@ class AutoRegisterModules {
 
   private static class ClassData implements ClassVisitor {
     private static final String EXPORT = Type.getType(Export.class).getDescriptor();
+    private static final String LISTEN = Type.getType(Listen.class).getDescriptor();
+
     String className;
     int access;
     String exportedAsName;
+    boolean listen;
 
     boolean isConcrete() {
       return (access & Opcodes.ACC_ABSTRACT) == 0
@@ -194,6 +300,10 @@ class AutoRegisterModules {
             exportedAsName = (String) value;
           }
         };
+      }
+      if (visible && LISTEN.equals(desc)) {
+        listen = true;
+        return null;
       }
       return null;
     }

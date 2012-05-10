@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.plugins;
+package com.google.gerrit.extensions.annotations;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -22,8 +22,31 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-@Target({ElementType.PARAMETER, ElementType.FIELD})
+/**
+ * Annotation applied to auto-registered, exported types.
+ * <p>
+ * Plugins or extensions using auto-registration should apply this annotation to
+ * any non-abstract class they want exported for access.
+ * <p>
+ * For SSH commands the @Export annotation names the subcommand:
+ *
+ * <pre>
+ *   @Export("print")
+ *   class MyCommand extends SshCommand {
+ * </pre>
+ *
+ * For HTTP servlets, the @Export annotation names the URL the servlet is bound
+ * to, relative to the plugin or extension's namespace within the Gerrit
+ * container.
+ *
+ * <pre>
+ *  @Export("/index.html")
+ *  class ShowIndexHtml extends HttpServlet {
+ * </pre>
+ */
+@Target({ElementType.TYPE})
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface PluginName {
+public @interface Export {
+  String value();
 }

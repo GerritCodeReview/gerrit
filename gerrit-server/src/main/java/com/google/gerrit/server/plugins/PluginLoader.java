@@ -15,6 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.lifecycle.LifecycleListener;
@@ -32,7 +33,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
@@ -68,6 +71,89 @@ public class PluginLoader implements LifecycleListener {
         ConfigUtil.getTimeUnit(cfg,
             "plugins", null, "checkFrequency",
             TimeUnit.MINUTES.toMillis(1), TimeUnit.MILLISECONDS));
+  }
+
+  public synchronized List<Plugin> getPlugins() {
+    return Lists.newArrayList(running.values());
+  }
+
+  public void installPluginFromStream(String name, InputStream in)
+      throws IOException, PluginInstallException {
+    if (!name.endsWith(".jar")) {
+      name += ".jar";
+    }
+
+    File jar = new File(pluginsDir, name);
+    name = nameOf(jar);
+
+    File old = new File(pluginsDir, ".last_" + name + ".zip");
+    File tmp = copyToTemp(name, in);
+
+    synchronized (this) {
+      Plugin active = running.get(name);
+      if (active != null) {
+        log.info(String.format("Replacing plugin %s", name));
+        active.stop();
+        running.remove(name);
+        old.delete();
+        jar.renameTo(old);
+      }
+
+      tmp.renameTo(jar);
+      FileSnapshot snapshot = FileSnapshot.save(jar);
+      Plugin next;
+      try {
+        next = loadPlugin(name, snapshot, jar);
+        next.start(env);
+      } catch (Throwable err) {
+        jar.delete();
+        throw new PluginInstallException(err);
+      }
+      broken.remove(name);
+      running.put(name, next);
+      if (active == null) {
+        log.info(String.format("Installed plugin %s", name));
+      }
+    }
+  }
+
+  private File copyToTemp(String name, InputStream in) throws IOException {
+    File tmp = File.createTempFile(".next_" + name, ".zip", pluginsDir);
+    boolean keep = false;
+    try {
+      FileOutputStream out = new FileOutputStream(tmp);
+      try {
+        byte[] data = new byte[8192];
+        int n;
+        while ((n = in.read(data)) > 0) {
+          out.write(data, 0, n);
+        }
+        keep = true;
+        return tmp;
+      } finally {
+        out.close();
+      }
+    } finally {
+      if (!keep) {
+        tmp.delete();
+      }
+    }
+  }
+
+  public synchronized void disablePlugins(Set<String> names) {
+    for (String name : names) {
+      Plugin active = running.get(name);
+      if (active == null) {
+        continue;
+      }
+
+      log.info(String.format("Disabling plugin %s", name));
+      active.stop();
+      running.remove(name);
+
+      File off = new File(pluginsDir, active.getName() + ".jar.disabled");
+      active.getJar().renameTo(off);
+    }
   }
 
   @Override
@@ -166,7 +252,7 @@ public class PluginLoader implements LifecycleListener {
 
     Class<? extends Module> sysModule = load(sysName, pluginLoader);
     Class<? extends Module> sshModule = load(sshName, pluginLoader);
-    return new Plugin(name, snapshot, sysModule, sshModule);
+    return new Plugin(name, jarFile, manifest, snapshot, sysModule, sshModule);
   }
 
   private Class<? extends Module> load(String name, ClassLoader pluginLoader)

@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.plugins;
+package com.google.gerrit.extensions.registration;
 
-/** Handle for registered information. */
-public interface RegistrationHandle {
-  /** Delete this registration. */
-  public void remove();
+import com.google.inject.Key;
+
+public interface ReloadableRegistrationHandle<T> extends RegistrationHandle {
+  public Key<T> getKey();
+
+  public RegistrationHandle replace(Key<T> key, T item);
 }

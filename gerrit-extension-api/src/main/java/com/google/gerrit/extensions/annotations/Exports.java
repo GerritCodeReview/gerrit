@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.plugins;
+package com.google.gerrit.extensions.annotations;
 
-import com.google.gerrit.extensions.annotations.Export;
-import com.google.inject.Module;
+/** Static constructors for {@link Export} annotations. */
+public final class Exports {
+  /** Create an annotation to export under a specific name. */
+  public static Export named(String name) {
+    return new ExportImpl(name);
+  }
 
-public interface ModuleGenerator {
-  void setPluginName(String name);
-
-  void export(Export export, Class<?> type) throws InvalidPluginException;
-
-  Module create() throws InvalidPluginException;
+  private Exports() {
+  }
 }

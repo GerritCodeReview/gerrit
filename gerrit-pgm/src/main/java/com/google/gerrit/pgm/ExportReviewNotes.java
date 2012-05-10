@@ -22,12 +22,10 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupCacheImpl;
-import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.config.ApprovalTypesProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
@@ -36,6 +34,7 @@ import com.google.gerrit.server.git.CodeReviewNoteCreationException;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -45,7 +44,6 @@ import com.google.inject.Injector;
 import com.google.inject.Scopes;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.lib.ThreadSafeProgressMonitor;
@@ -97,7 +95,6 @@ public class ExportReviewNotes extends SiteProgram {
             Scopes.SINGLETON);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)
             .toProvider(CanonicalWebUrlProvider.class).in(Scopes.SINGLETON);
-        bind(CachePool.class);
 
         install(AccountCacheImpl.module());
         install(GroupCacheImpl.module());
@@ -106,6 +103,7 @@ public class ExportReviewNotes extends SiteProgram {
           @Override
           protected void configure() {
             factory(CreateCodeReviewNotes.Factory.class);
+            factory(NotesBranchUtil.Factory.class);
           }
         });
         install(new LifecycleModule() {
@@ -174,21 +172,8 @@ public class ExportReviewNotes extends SiteProgram {
     }
     try {
       CreateCodeReviewNotes notes = codeReviewNotesFactory.create(db, git);
-      try {
-        notes.loadBase();
-        for (Change change : changes) {
-          monitor.update(1);
-          PatchSet ps = db.patchSets().get(change.currentPatchSetId());
-          if (ps == null) {
-            continue;
-          }
-          notes.add(change, ObjectId.fromString(ps.getRevision().get()));
-        }
-        notes.commit("Exported prior reviews from Gerrit Code Review\n");
-        notes.updateRef();
-      } finally {
-        notes.release();
-      }
+      notes.create(changes, null,
+          "Exported prior reviews from Gerrit Code Review\n", monitor);
     } finally {
       git.close();
     }

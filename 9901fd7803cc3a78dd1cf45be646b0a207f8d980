@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///es\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-10T23:49:03Z",
+      "side": 0,
+      "message": "I would undo this refactoring.",
+      "revId": "9901fd7803cc3a78dd1cf45be646b0a207f8d980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

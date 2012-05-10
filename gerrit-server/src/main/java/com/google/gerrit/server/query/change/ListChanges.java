@@ -226,7 +226,7 @@ public class ListChanges {
 
     PatchSet ps = cd.currentPatchSet(db);
     Map<String, LabelInfo> labels = Maps.newLinkedHashMap();
-    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true)) {
+    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true, false)) {
       if (rec.labels == null) {
         continue;
       }
@@ -243,6 +243,7 @@ public class ListChanges {
               n.rejected = asAccountAttribute(r.appliedBy);
               break;
           }
+          n.required = n._status != SubmitRecord.Label.Status.MAY;
           labels.put(r.label, n);
         }
       }
@@ -314,5 +315,6 @@ public class ListChanges {
     AccountAttribute recommended;
     AccountAttribute disliked;
     Short value;
+    boolean required;
   }
 }

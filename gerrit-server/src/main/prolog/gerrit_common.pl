@@ -149,6 +149,7 @@ call_submit_rule(X, Arg) :- !, F =.. [X, Arg], F.
 
 is_all_ok([]).
 is_all_ok([label(_, ok(__)) | Ls]) :- is_all_ok(Ls).
+is_all_ok([label(_, may(__)) | Ls]) :- is_all_ok(Ls).
 is_all_ok(_) :- fail.
 
 
@@ -209,8 +210,8 @@ default_submit([Type | Types], Tmp, Out) :-
 %%
 legacy_submit_rule('MaxWithBlock', Label, Id, Min, Max, T) :- !, max_with_block(Label, Min, Max, T).
 legacy_submit_rule('MaxNoBlock', Label, Id, Min, Max, T) :- !, max_no_block(Label, Max, T).
-legacy_submit_rule('NoBlock', Label, Id, Min, Max, T) :- !, T = ok(_).
-legacy_submit_rule('NoOp', Label, Id, Min, Max, T) :- !, T = ok(_).
+legacy_submit_rule('NoBlock', Label, Id, Min, Max, T) :- !, T = may(_).
+legacy_submit_rule('NoOp', Label, Id, Min, Max, T) :- !, T = may(_).
 legacy_submit_rule(Fun, Label, Id, Min, Max, T) :- T = impossible(unsupported(Fun)).
 
 

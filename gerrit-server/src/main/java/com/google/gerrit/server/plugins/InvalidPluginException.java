@@ -14,8 +14,14 @@
 
 package com.google.gerrit.server.plugins;
 
-/** Handle for registered information. */
-public interface RegistrationHandle {
-  /** Delete this registration. */
-  public void remove();
+public class InvalidPluginException extends Exception {
+  private static final long serialVersionUID = 1L;
+
+  public InvalidPluginException(String message) {
+    super(message);
+  }
+
+  public InvalidPluginException(String message, Throwable why) {
+    super(message, why);
+  }
 }

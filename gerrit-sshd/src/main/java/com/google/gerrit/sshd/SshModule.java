@@ -31,6 +31,7 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.project.ProjectControl;
@@ -94,6 +95,7 @@ public class SshModule extends FactoryModule {
     install(new LifecycleModule() {
       @Override
       protected void configure() {
+        bind(ModuleGenerator.class).to(SshAutoRegisterModuleGenerator.class);
         bind(SshPluginStarterCallback.class);
         bind(StartPluginListener.class)
           .annotatedWith(UniqueAnnotations.create())

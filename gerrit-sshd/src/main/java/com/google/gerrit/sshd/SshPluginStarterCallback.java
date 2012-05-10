@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -27,7 +28,8 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 @Singleton
-class SshPluginStarterCallback implements StartPluginListener {
+class SshPluginStarterCallback
+    implements StartPluginListener, ReloadPluginListener {
   private static final Logger log = LoggerFactory
       .getLogger(SshPluginStarterCallback.class);
 
@@ -41,17 +43,31 @@ class SshPluginStarterCallback implements StartPluginListener {
 
   @Override
   public void onStartPlugin(Plugin plugin) {
-    if (plugin.getSshInjector() != null) {
-      Key<Command> key = Commands.key(plugin.getName());
-      Provider<Command> cmd;
-      try {
-        cmd = plugin.getSshInjector().getProvider(key);
-      } catch (RuntimeException err) {
-        log.warn(String.format("Plugin %s does not define command",
-            plugin.getName()), err);
-        return;
-      }
+    Provider<Command> cmd = load(plugin);
+    if (cmd != null) {
       plugin.add(root.register(Commands.named(plugin.getName()), cmd));
     }
+  }
+
+  @Override
+  public void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
+    Provider<Command> cmd = load(newPlugin);
+    if (cmd != null) {
+      newPlugin.add(root.replace(Commands.named(newPlugin.getName()), cmd));
+    }
+  }
+
+  private Provider<Command> load(Plugin plugin) {
+    if (plugin.getSshInjector() != null) {
+      Key<Command> key = Commands.key(plugin.getName());
+      try {
+        return plugin.getSshInjector().getProvider(key);
+      } catch (RuntimeException err) {
+        log.warn(String.format(
+            "Plugin %s did not define its top-level command",
+            plugin.getName()), err);
+      }
+    }
+    return null;
   }
 }

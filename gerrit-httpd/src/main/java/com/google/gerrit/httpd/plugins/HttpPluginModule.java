@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
@@ -21,9 +22,14 @@ import com.google.inject.servlet.ServletModule;
 public class HttpPluginModule extends ServletModule {
   @Override
   protected void configureServlets() {
+    bind(HttpPluginServlet.class);
     serve("/plugins/*").with(HttpPluginServlet.class);
 
     bind(StartPluginListener.class)
+      .annotatedWith(UniqueAnnotations.create())
+      .to(HttpPluginServlet.class);
+
+    bind(ReloadPluginListener.class)
       .annotatedWith(UniqueAnnotations.create())
       .to(HttpPluginServlet.class);
   }

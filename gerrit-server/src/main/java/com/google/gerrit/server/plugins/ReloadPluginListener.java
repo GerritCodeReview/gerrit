@@ -12,21 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.commands;
+package com.google.gerrit.server.plugins;
 
-import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.server.plugins.PluginLoader;
-import com.google.gerrit.sshd.RequiresCapability;
-import com.google.gerrit.sshd.SshCommand;
-import com.google.inject.Inject;
-
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-final class PluginReloadCommand extends SshCommand {
-  @Inject
-  private PluginLoader loader;
-
-  @Override
-  protected void run() {
-    loader.rescan(true);
-  }
+/** Broadcasts event indicating a plugin was reloaded. */
+public interface ReloadPluginListener {
+  public void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin);
 }

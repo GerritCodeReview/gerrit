@@ -1680,6 +1680,22 @@ auto-detected and one thread per CPU is used, per client request.
 By default, 1.
 
 
+[[plugins]]Section plugins
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[plugins.checkFrequency]]plugins.checkFrequency::
++
+How often plugins should be examined for new plugins to load, removed
+plugins to be unloaded, or updated plugins to be reloaded.  Values can
+be specified using standard time unit abbreviations ('ms', 'sec',
+'min', etc.).
++
+If set to 0, automatic plugin reloading is disabled.  Administrators
+may force reloading with link:cmd-plugin.html[gerrit plugin reload].
++
+Default is 1 minute.
+
+
 [[receive]]Section receive
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 This section is used to set who can execute the 'receive-pack' and

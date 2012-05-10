@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.extensions.Function;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
@@ -31,6 +32,7 @@ import com.google.inject.Inject;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -68,6 +70,52 @@ public class ApprovalsUtil {
     db.patchSetApprovals().update(approvals);
   }
 
+  public interface ApprovalsFunction
+    extends Function<Set<PatchSetApproval>,Set<PatchSetApproval>> {
+  };
+
+  public class CopyOnlyVetos implements ApprovalsFunction {
+    public Set<PatchSetApproval> apply(Set<PatchSetApproval> approvals) {
+      Set<PatchSetApproval> vetos = new HashSet<PatchSetApproval>();
+      for (PatchSetApproval a : approvals) {
+        // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
+        if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+          final ApprovalType type = approvalTypes.byId(a.getCategoryId());
+          if (type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
+            vetos.add(a);
+          }
+        }
+      }
+      return vetos;
+    }
+  }
+
+  /**
+   * Moves the PatchSetApprovals to the last PatchSet on the change while
+   * keeping the vetos.
+   *
+   * @param change Change to update
+   * @throws OrmException
+   * @throws IOException
+   */
+  public List<PatchSetApproval> applyForRebase(Change change)
+      throws OrmException, IOException {
+    return applyApprovalsFromPreviousPatchSet(change, this.new CopyOnlyVetos());
+  }
+
+  /**
+   * Moves the PatchSetApprovals to the last PatchSet on the change while
+   * keeping the vetos.
+   *
+   * @param change Change to update
+   * @throws OrmException
+   * @throws IOException
+   */
+  public List<PatchSetApproval> applyToNewPatchSet(Change change)
+      throws OrmException, IOException {
+    return applyApprovalsFromPreviousPatchSet(change, this.new CopyOnlyVetos());
+  }
+
   /**
    * Moves the PatchSetApprovals to the last PatchSet on the change while
    * keeping the vetos.
@@ -77,8 +125,8 @@ public class ApprovalsUtil {
    * @throws IOException
    * @return List<PatchSetApproval> The previous approvals
    */
-  public List<PatchSetApproval> copyVetosToLatestPatchSet(Change change)
-      throws OrmException, IOException {
+  public List<PatchSetApproval> applyApprovalsFromPreviousPatchSet(Change change,
+      ApprovalsFunction f) throws OrmException, IOException {
     PatchSet.Id source;
     if (change.getNumberOfPatchSets() > 1) {
       source = new PatchSet.Id(change.getId(), change.getNumberOfPatchSets() - 1);
@@ -88,21 +136,21 @@ public class ApprovalsUtil {
 
     PatchSet.Id dest = change.currPatchSetId();
     List<PatchSetApproval> patchSetApprovals = db.patchSetApprovals().byChange(change.getId()).toList();
+    Set<PatchSetApproval> prev = new HashSet<PatchSetApproval>();
     for (PatchSetApproval a : patchSetApprovals) {
-      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
-      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-        final ApprovalType type = approvalTypes.byId(a.getCategoryId());
-        if (a.getPatchSetId().equals(source) &&
-            type.getCategory().isCopyMinScore() &&
-            type.isMaxNegative(a)) {
-          db.patchSetApprovals().insert(
-              Collections.singleton(new PatchSetApproval(dest, a)));
-        }
+      if (a.getPatchSetId().equals(source)) {
+        prev.add(a);
       }
     }
+
+    Set<PatchSetApproval> cur = new HashSet<PatchSetApproval>();
+    for (PatchSetApproval a : f.apply(prev)) {
+      cur.add(new PatchSetApproval(dest, a));
+    }
+    db.patchSetApprovals().insert(cur);
+
     return patchSetApprovals;
   }
-
 
   /** Attach reviewers to a change. */
   public void addReviewers(Change change, PatchSet ps, PatchSetInfo info,

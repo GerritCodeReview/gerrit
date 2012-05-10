@@ -17,7 +17,7 @@ package com.google.gerrit.client.changes;
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.ProjectLink;
@@ -92,7 +92,7 @@ public class ChangeInfoBlock extends Composite {
     changeIdLabel.setPreviewText(chg.getKey().get());
     table.setWidget(R_CHANGE_ID, 1, changeIdLabel);
 
-    table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
+    table.setWidget(R_OWNER, 1, AccountLink.link(acc, chg.getOwner()));
     table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
     table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), chg
         .getProject(), chg.getStatus(), dst.get(), null));

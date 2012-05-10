@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.collect.Maps;
-import com.google.gerrit.server.plugins.RegistrationHandle;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;

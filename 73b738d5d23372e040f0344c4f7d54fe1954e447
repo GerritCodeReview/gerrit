@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFYH///lU\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-10T21:05:34Z",
+      "side": 1,
+      "message": "Why you would need to this replacement of \"%3[Aa]\" to \":\"?",
+      "revId": "73b738d5d23372e040f0344c4f7d54fe1954e447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

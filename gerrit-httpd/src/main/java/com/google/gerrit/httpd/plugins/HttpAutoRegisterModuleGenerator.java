@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.plugins;
 
 import com.google.common.collect.Maps;
-import com.google.gerrit.extensions.Export;
+import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.inject.Module;

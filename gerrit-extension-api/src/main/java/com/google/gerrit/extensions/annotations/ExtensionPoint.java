@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions;
+package com.google.gerrit.extensions.annotations;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.inject.BindingAnnotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-/** Annotation applied to auto-registered, exported types. */
+/**
+ * Annotation for interfaces that accept auto-registered implementations.
+ * <p>
+ * Interfaces that accept automatically registered implementations into their
+ * {@link DynamicSet} must be tagged with this annotation.
+ * <p>
+ * Plugins or extensions that implement an {@code @ExtensionPoint} interface
+ * should use the {@link Listen} annotation to automatically register.
+ *
+ * @see Listen
+ */
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)
-public @interface Export {
-  String value();
+@BindingAnnotation
+public @interface ExtensionPoint {
 }

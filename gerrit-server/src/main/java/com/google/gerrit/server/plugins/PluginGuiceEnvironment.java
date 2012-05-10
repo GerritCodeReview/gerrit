@@ -45,6 +45,7 @@ public class PluginGuiceEnvironment {
   private final CopyConfigModule copyConfigModule;
   private final List<StartPluginListener> onStart;
   private final List<ReloadPluginListener> onReload;
+  private final List<RemovePluginListener> onRemove;
   private Module sysModule;
   private Module sshModule;
   private Module httpModule;
@@ -62,6 +63,9 @@ public class PluginGuiceEnvironment {
 
     onReload = new CopyOnWriteArrayList<ReloadPluginListener>();
     onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
+
+    onRemove  = new CopyOnWriteArrayList<RemovePluginListener>();
+    onRemove.addAll(listeners(sysInjector, RemovePluginListener.class));
   }
 
   Module getSysModule() {
@@ -131,6 +135,11 @@ public class PluginGuiceEnvironment {
     }
   }
 
+  void onRemovePlugin(Plugin plugin) {
+    for (RemovePluginListener l : onRemove) {
+      l.onRemovePlugin(plugin);
+    }
+  }
   private static <T> List<T> listeners(Injector src, Class<T> type) {
     List<Binding<T>> bindings = src.findBindingsByType(TypeLiteral.get(type));
     List<T> found = Lists.newArrayListWithCapacity(bindings.size());

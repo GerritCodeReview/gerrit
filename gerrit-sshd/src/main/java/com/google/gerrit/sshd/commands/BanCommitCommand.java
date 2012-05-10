@@ -22,6 +22,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -79,6 +80,8 @@ public class BanCommitCommand extends SshCommand {
     } catch (MergeException e) {
       throw die(e);
     } catch (InterruptedException e) {
+      throw die(e);
+    } catch (ConcurrentRefUpdateException e) {
       throw die(e);
     }
   }

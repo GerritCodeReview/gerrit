@@ -17,8 +17,8 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
+import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.Hyperlink;
@@ -286,7 +286,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       CheckBox checkBox = new CheckBox();
       table.setWidget(row, 1, checkBox);
       checkBox.setEnabled(enabled);
-      table.setWidget(row, 2, AccountDashboardLink.link(accounts, accountId));
+      table.setWidget(row, 2, AccountLink.link(accounts, accountId));
       table.setText(row, 3, accounts.get(accountId).getPreferredEmail());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();

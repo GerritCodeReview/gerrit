@@ -20,9 +20,9 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
@@ -383,7 +383,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     if (who.getName() != null) {
       final Account.Id aId = who.getAccount();
       if (aId != null) {
-        fp.add(new AccountDashboardLink(who.getName(), aId));
+        fp.add(new InlineHyperlink(who.getName(), PageLinks.toAccountQuery(who
+            .getName())));
       } else {
         final InlineLabel lbl = new InlineLabel(who.getName());
         lbl.setStyleName(Gerrit.RESOURCES.css().accountName());

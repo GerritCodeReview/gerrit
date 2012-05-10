@@ -50,6 +50,23 @@
       "revId": "e5b6e014a7509444486b08348a3fe62277fb1a47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///4M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-10T19:53:50Z",
+      "side": 1,
+      "message": "When \"old-style\" annotations are used (with only one of sysModule, sshModule or httpModule in manifest), auto is null and you have NPE at this point.\n\nLet\u0027s drop the \"old-style\" annotations and we are sure then to avoid auto var to be null.",
+      "revId": "e5b6e014a7509444486b08348a3fe62277fb1a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

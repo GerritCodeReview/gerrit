@@ -383,7 +383,7 @@ public class ChangeUtil {
 
         replication.scheduleUpdate(change.getProject(), ru.getName());
 
-        approvalsUtil.copyVetosToLatestPatchSet(change);
+        approvalsUtil.applyRebase(change);
 
         final ChangeMessage cmsg =
             new ChangeMessage(new ChangeMessage.Key(changeId,

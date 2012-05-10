@@ -119,7 +119,7 @@ public class AccessSection implements Comparable<AccessSection> {
       if (dst != null) {
         dst.mergeFrom(src);
       } else {
-        permissions.add(dst);
+        permissions.add(src);
       }
     }
   }

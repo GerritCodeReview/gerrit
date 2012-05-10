@@ -16,6 +16,24 @@
       "revId": "3367e916c888ea380e07a0306292664d50e37c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///k8\u003d",
+        "filename": "gerrit-launcher/src/main/java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-10T22:19:14Z",
+      "side": 1,
+      "message": "It shouldn\u0027t break, it just doesn\u0027t use the $site_path/tmp location until gerrit.sh is updated to a new version to supply GERRIT_TMP in the environment when launching the daemon.\n\nWe already have schema upgrades between 2.4 and 2.5. I think most users will be running init anyway.",
+      "parentUuid": "AAAFXn///oE\u003d",
+      "revId": "3367e916c888ea380e07a0306292664d50e37c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -18,6 +18,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.extensions.annotations.Export;
+import com.google.gerrit.extensions.Function;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
@@ -31,8 +33,10 @@ import com.google.inject.Inject;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.google.gerrit.extensions.registration.DynamicMap;
 
 /**
  * Utility functions to manipulate patchset approvals.
@@ -47,11 +51,14 @@ import java.util.Set;
 public class ApprovalsUtil {
   private final ReviewDb db;
   private final ApprovalTypes approvalTypes;
+  private final DynamicMap<ApprovalsUtil.ApprovalsFunction> dynamicMap;
 
   @Inject
-  ApprovalsUtil(ReviewDb db, ApprovalTypes approvalTypes) {
+  ApprovalsUtil(ReviewDb db, ApprovalTypes approvalTypes,
+      DynamicMap<ApprovalsUtil.ApprovalsFunction> dynamicMap) {
     this.db = db;
     this.approvalTypes = approvalTypes;
+    this.dynamicMap = dynamicMap;
   }
 
   /**
@@ -68,6 +75,72 @@ public class ApprovalsUtil {
     db.patchSetApprovals().update(approvals);
   }
 
+  public interface ApprovalsFunction
+    extends Function<Set<PatchSetApproval>,Set<PatchSetApproval>> {
+  };
+
+  @Export("RebaseApprovals")
+  public interface RebaseApprovals extends ApprovalsFunction {
+  };
+
+  @Export("CopyVetos")
+  public static class CopyOnlyVetos implements RebaseApprovals {
+    private final ApprovalTypes approvalTypes;
+
+    @Inject
+    public CopyOnlyVetos (ApprovalTypes approvalTypes) {
+      this.approvalTypes = approvalTypes;
+    }
+
+    public Set<PatchSetApproval> apply(Set<PatchSetApproval> approvals) {
+      Set<PatchSetApproval> vetos = new HashSet<PatchSetApproval>();
+      for (PatchSetApproval a : approvals) {
+        // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
+        if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+          final ApprovalType type = approvalTypes.byId(a.getCategoryId());
+          if (type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
+            vetos.add(a);
+          }
+        }
+      }
+      return vetos;
+    }
+  }
+
+  @Export("CopyAll")
+  public static class CopyAll implements ApprovalsFunction {
+    public Set<PatchSetApproval> apply(Set<PatchSetApproval> approvals) {
+      return approvals;
+    }
+  }
+
+  /**
+   * Moves the PatchSetApprovals to the last PatchSet on the change while
+   * keeping the vetos.
+   *
+   * @param change Change to update
+   * @throws OrmException
+   * @throws IOException
+   */
+  public List<PatchSetApproval> applyForRebase(Change change)
+      throws OrmException, IOException {
+    ApprovalsFunction f = dynamicMap.get("gerrit", "RebaseApprovals");
+    return applyApprovalsFromPreviousPatchSet(change, f);
+  }
+
+  /**
+   * Moves the PatchSetApprovals to the last PatchSet on the change while
+   * keeping the vetos.
+   *
+   * @param change Change to update
+   * @throws OrmException
+   * @throws IOException
+   */
+  public List<PatchSetApproval> applyToNewPatchSet(Change change)
+      throws OrmException, IOException {
+    return applyApprovalsFromPreviousPatchSet(change, new CopyOnlyVetos(approvalTypes));
+  }
+
   /**
    * Moves the PatchSetApprovals to the last PatchSet on the change while
    * keeping the vetos.
@@ -77,8 +150,8 @@ public class ApprovalsUtil {
    * @throws IOException
    * @return List<PatchSetApproval> The previous approvals
    */
-  public List<PatchSetApproval> copyVetosToLatestPatchSet(Change change)
-      throws OrmException, IOException {
+  public List<PatchSetApproval> applyApprovalsFromPreviousPatchSet(Change change,
+      ApprovalsFunction f) throws OrmException, IOException {
     PatchSet.Id source;
     if (change.getNumberOfPatchSets() > 1) {
       source = new PatchSet.Id(change.getId(), change.getNumberOfPatchSets() - 1);
@@ -88,21 +161,21 @@ public class ApprovalsUtil {
 
     PatchSet.Id dest = change.currPatchSetId();
     List<PatchSetApproval> patchSetApprovals = db.patchSetApprovals().byChange(change.getId()).toList();
+    Set<PatchSetApproval> prev = new HashSet<PatchSetApproval>();
     for (PatchSetApproval a : patchSetApprovals) {
-      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
-      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-        final ApprovalType type = approvalTypes.byId(a.getCategoryId());
-        if (a.getPatchSetId().equals(source) &&
-            type.getCategory().isCopyMinScore() &&
-            type.isMaxNegative(a)) {
-          db.patchSetApprovals().insert(
-              Collections.singleton(new PatchSetApproval(dest, a)));
-        }
+      if (a.getPatchSetId().equals(source)) {
+        prev.add(a);
       }
     }
+
+    Set<PatchSetApproval> cur = new HashSet<PatchSetApproval>();
+    for (PatchSetApproval a : f.apply(prev)) {
+      cur.add(new PatchSetApproval(dest, a));
+    }
+    db.patchSetApprovals().insert(cur);
+
     return patchSetApprovals;
   }
-
 
   /** Attach reviewers to a change. */
   public void addReviewers(Change change, PatchSet ps, PatchSetInfo info,

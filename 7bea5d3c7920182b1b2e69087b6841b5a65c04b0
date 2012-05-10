@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFYH///s0\u003d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/Export.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-10T00:18:21Z",
+      "side": 1,
+      "message": "2009?",
+      "revId": "7bea5d3c7920182b1b2e69087b6841b5a65c04b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

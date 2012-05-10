@@ -1,61 +1,296 @@
 Gerrit Code Review - Plugin Development
 =======================================
 
-A plugin in gerrit is tightly coupled code that runs in the same
-JVM as gerrit. It has full access to all gerrit internals. Plugins
-are coupled to a specific major.minor gerrit version.
+A plugin in Gerrit is tightly coupled code that runs in the same
+JVM as Gerrit. It has full access to all server internals. Plugins
+are tightly coupled to a specific major.minor server version and
+may require source code changes to compile against a different
+server version.
+
+An extension in Gerrit runs inside of the same JVM as Gerrit
+in the same way as a plugin, but has limited visibility to the
+server's internals. The limited visiblity reduces the extension's
+dependencies, enabling it to be compatiable across a wider range
+of server versions.
+
+Most of this documentation refers to either type as a plugin.
 
 Requirements
 ------------
 
-To start development, download the sample maven project, which downloads the
-following dependencies:
+To start development, download the sample maven project, which
+downloads the dependencies file that matches the war file to develop
+against. Dependencies are offered in two different formats:
 
-* gerrit-sdk.jar file that matches the war file to develop against
+gerrit-extension-api.jar::
+  A stable but thin interface. Suitable for extensions that need
+  to be notified of events, but do not require tight coupling to
+  the internals of Gerrit. Extensions built against this API can
+  expect to be binary compatible across a wide range of server
+  versions.
 
+gerrit-plugin-api.jar::
+  The complete internals of the Gerrit server, permitting a
+  plugin to tightly couple itself and provide additional
+  functionality that is not possible as an extension. Plugins
+  built against this API are expected to break at the source
+  code level between every major.minor Gerrit release. A plugin
+  that compiles against 2.5 will probably need source code level
+  changes to work with 2.6, 2.7, and so on.
 
 Manifest
 --------
 
-Plugins need to include the following data in the jar manifest file:
+Plugins may provide optional description information with standard
+manifest fields:
 
-  Gerrit-Module = pkg.class
+====
+  Implementation-Title: Example plugin showing examples
+  Implementation-Version: 1.0
+  Implementation-Vendor: Example, Inc.
+  Implementation-URL: http://example.com/opensource/plugin-foo/
+====
 
-Optionally include:
+ApiType
+~~~~~~~
 
-  Gerrit-ReloadMode = 'reload' (default) or 'restart'
+Plugins using the tightly coupled `gerrit-plugin-api.jar` must
+declare this API dependency in the manifest to gain access to server
+internals. If no Gerrit-ApiType is specified the stable `extension`
+API will be assumed. This may cause ClassNotFoundExceptions when
+loading a plugin that needs the plugin API.
 
-If the plugin holds an exclusive resource that must be released before loading
-the plugin again, ReloadMode must be set to 'restart'. Otherwise 'reload' is
-sufficient.
+====
+  Gerrit-ApiType: plugin
+====
+
+Explicit Registration
+~~~~~~~~~~~~~~~~~~~~~
+
+Plugins that use explicit Guice registration must name the Guice
+modules in the manifest. Up to three modules can be named in the
+manifest. Gerrit-Module supplies bindings to the core server;
+Gerrit-SshModule supplies SSH commands to the SSH server (if
+enabled); Gerrit-HttpModule supplies servlets and filters to the HTTP
+server (if enabled). If no modules are named automatic registration
+will be performed by scanning all classes in the plugin JAR for
+`@Listen` and `@Export("")` annotations.
+
+====
+  Gerrit-Module:     tld.example.project.CoreModuleClassName
+  Gerrit-SshModule:  tld.example.project.SshModuleClassName
+  Gerrit-HttpModule: tld.example.project.HttpModuleClassName
+====
+
+Reload Method
+~~~~~~~~~~~~~
+
+If a plugin holds an exclusive resource that must be released before
+loading the plugin again (for example listening on a network port or
+acquiring a file lock) the manifest must declare Gerrit-ReloadMode
+to be `restart`. Otherwise the preferred method of `reload` will
+be used, as it enables the server to hot-patch an updated plugin
+with no down time.
+
+====
+  Gerrit-ReloadMode: restart
+====
+
+In either mode ('restart' or 'reload') any plugin or extension can
+be updated without restarting the Gerrit server. The difference is
+how Gerrit handles the upgrade:
+
+restart::
+  The old plugin is completely stopped. All registrations of SSH
+  commands and HTTP servlets are removed. All registrations of any
+  extension points are removed. All registered LifecycleListeners
+  have their `stop()` method invoked in reverse order. The new
+  plugin is started, and registrations are made from the new
+  plugin. There is a brief window where neither the old nor the
+  new plugin is connected to the server. This means SSH commands
+  and HTTP servlets will return not found errors, and the plugin
+  will not be notified of events that occurred during the restart.
+
+reload::
+  The new plugin is started. Its LifecycleListeners are permitted
+  to perform their `start()` methods. All SSH and HTTP registrations
+  are atomically swapped out from the old plugin to the new plugin,
+  ensuring the server never returns a not found error. All extension
+  point listeners are atomically swapped out from the old plugin to
+  the new plugin, ensuring no events are missed (however some events
+  may still route to the old plugin if the swap wasn't complete yet).
+  The old plugin is stopped.
+
+Classpath
+---------
+
+Each plugin is loaded into its own ClassLoader, isolating plugins
+from each other. A plugin or extension inherits the Java runtime
+and the Gerrit API chosen by `Gerrit-ApiType` (extension or plugin)
+from the hosting server.
+
+Plugins are loaded from a single JAR file. If a plugin needs
+additional libraries, it must include those dependencies within
+its own JAR. Plugins built using Maven may be able to use the
+link:http://maven.apache.org/plugins/maven-shade-plugin/[shade plugin]
+to package additional dependencies. Relocating (or renaming) classes
+should not be necessary due to the ClassLoader isolation.
 
 SSH Commands
 ------------
 
-Plugins may provide commands that can be accessed through the SSH interface.
-These commands register themselves as a part of link:cmd-index.html[SSH Commands].
+Plugins may provide commands that can be accessed through the SSH
+interface (extensions do not have this option).
 
-Each of the plugin commands needs to extend SshCommand.
+Command implementations must extend the base class SshCommand:
 
-Any plugin which implements at least one ssh command needs to also provide a
-class which extends the PluginCommandModule in order to register the ssh
-command(s) in its configure method which must be overriden.
+====
+  import com.google.gerrit.sshd.SshCommand;
 
-Registering is done by calling:
+  class PrintHello extends SshCommand {
+    protected abstract void run() {
+      stdout.print("Hello\n");
+    }
+  }
+====
 
-  command(String commandName).to(ClassName<? extends SshCommand> klass)
+If no Guice modules are declared in the manifest, SSH commands may
+use auto-registration by providing an @Export annotatation:
+
+====
+  import com.google.gerrit.extensions.annotations.Export;
+  import com.google.gerrit.sshd.SshCommand;
+
+  @Export("print")
+  class PrintHello extends SshCommand {
+    protected abstract void run() {
+      stdout.print("Hello\n");
+    }
+  }
+====
+
+If explicit registration is being used, a Guice module must be
+supplied to register the SSH command and declared in the manifest
+with the `Gerrit-SshModule` attribute:
+
+====
+  import com.google.gerrit.sshd.PluginCommandModule;
+
+  class MyCommands extends PluginCommandModule {
+    protected void configureCommands() {
+      command("print").to(PrintHello.class);
+    }
+  }
+====
+
+For a plugin installed as name `helloworld`, the command implemented
+by PrintHello class will be available to users as:
+
+----
+$ ssh -P 29418 review.example.com helloworld print
+----
+
+HTTP Servlets
+-------------
+
+Plugins or extensions may register additional HTTP servlets, and
+wrap them with HTTP filters.
+
+Servlets may use auto-registration to declare the URL they handle:
+
+====
+  import com.google.gerrit.extensions.annotations.Export;
+  import com.google.inject.Singleton;
+  import javax.servlet.http.HttpServlet;
+  import javax.servlet.http.HttpServletRequest;
+  import javax.servlet.http.HttpServletResponse;
+
+  @Export("/print")
+  @Singleton
+  class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+      res.setContentType("text/plain");
+      res.setCharacterEncoding("UTF-8");
+      res.getWriter().write("Hello");
+    }
+  }
+====
+
+If explicit registration is being used, a Guice ServletModule must
+be supplied to register the HTTP servlets, and the module must be
+declared in the manifest with the `Gerrit-HttpModule` attribute:
+
+====
+  import com.google.inject.servlet.ServletModule;
+
+  class MyWebUrls extends ServletModule {
+    protected void configureServlets() {
+      serve("/print").with(HelloServlet.class);
+    }
+  }
+====
+
+For a plugin installed as name `helloworld`, the servlet implemented
+by HelloServlet class will be available to users as:
+
+----
+$ curl http://review.example.com/plugins/helloworld/print
+----
 
 Documentation
 -------------
 
-Place files into Documentation/ or static/ and package them into the plugin jar
-to access them in a browser via <canonicalWebURL>/plugins/<pluginName>/...
+If a plugin does not register a filter or servlet to handle URLs
+`/Documentation/*` or `/static/*`, the core Gerrit server will
+automatically export these resources over HTTP from the plugin JAR.
+
+Static resources under `static/` directory in the JAR will be
+available as `/plugins/helloworld/static/resource`.
+
+Documentation files under `Documentation/` directory in the JAR
+will be available as `/plugins/helloworld/Documentation/resource`.
+
+Documentation may be written in
+link:http://daringfireball.net/projects/markdown/[Markdown] style
+if the file name ends with `.md`. Gerrit will automatically convert
+Markdown to HTML if accessed with extension `.html`.
 
 Deployment
 ----------
 
-Deploy plugins into <review_site>/plugins/. The file name in that directory will
-be the plugin name on the server.
+Compiled plugins and extensions can be deployed to a
+running Gerrit server using the SSH interface by any user with
+link:access-control.html#capability_administrateServer[Administrate Server]
+capability. Binaries can be specified in three different formats:
+
+* Absolute file path on the server's host. The server will copy
+  the plugin from this location to its own site path.
++
+----
+$ ssh -P 29418 localhost gerrit plugin install -n name $(pwd)/my-plugin.jar
+----
+
+* Valid URL, including any HTTP or FTP site reachable by the
+  server. The server will download the plugin and save a copy in
+  its own site path.
++
+----
+$ ssh -P 29418 localhost gerrit plugin install -n name http://build-server/output/our-plugin.jar
+----
+
+* As piped input to the plugin install command. The server will
+  copy input until EOF, and save a copy under its own site path.
++
+----
+$ ssh -P 29418 localhost gerrit plugin install -n name - <target/name-0.1.jar
+----
+
+Plugins can also be copied directly into the server's
+directory at `$site_path/plugins/$name.jar`.  The name of
+the JAR file, minus the `.jar` extension, will be used as the
+plugin name. Unless disabled, servers periodically scan this
+directory for updated plugins. The time can be adjusted by
+link:config-gerrit.html#plugins.checkFrequency[plugins.checkFrequency].
 
 GERRIT
 ------

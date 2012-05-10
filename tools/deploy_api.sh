@@ -15,25 +15,44 @@ case $VER in
 esac
 URL=s3://gerrit-api@commondatastorage.googleapis.com/$type
 
-echo "Deploying API $VER to $URL"
-for module in gerrit-extension-api gerrit-plugin-api
-do
-  mvn deploy:deploy-file \
-    -DgroupId=com.google.gerrit \
-    -DartifactId=$module \
-    -Dversion=$VER \
-    -Dpackaging=jar \
-    -Dfile=$module/target/$module-$VER.jar \
-    -DrepositoryId=gerrit-api-repository \
-    -Durl=$URL
 
-  mvn deploy:deploy-file \
-    -DgroupId=com.google.gerrit \
-    -DartifactId=$module \
-    -Dversion=$VER \
-    -Dpackaging=java-source \
-    -Dfile=$module/target/$module-$VER-sources.jar \
-    -Djava-source=false \
-    -DrepositoryId=gerrit-api-repository \
-    -Durl=$URL
-done
+echo "Deploying $type gerrit-extension-api $VER"
+mvn deploy:deploy-file \
+  -DgroupId=com.google.gerrit \
+  -DartifactId=gerrit-extension-api \
+  -Dversion=$VER \
+  -Dpackaging=jar \
+  -Dfile=$module/target/gerrit-extension-api-$VER-all.jar \
+  -DrepositoryId=gerrit-api-repository \
+  -Durl=$URL
+
+mvn deploy:deploy-file \
+  -DgroupId=com.google.gerrit \
+  -DartifactId=gerrit-extension-api \
+  -Dversion=$VER \
+  -Dpackaging=java-source \
+  -Dfile=$module/target/gerrit-extension-api-$VER-all-sources.jar \
+  -Djava-source=false \
+  -DrepositoryId=gerrit-api-repository \
+  -Durl=$URL
+
+
+echo "Deploying $type gerrit-plugin-api $VER"
+mvn deploy:deploy-file \
+  -DgroupId=com.google.gerrit \
+  -DartifactId=gerrit-plugin-api \
+  -Dversion=$VER \
+  -Dpackaging=jar \
+  -Dfile=$module/target/gerrit-plugin-api-$VER.jar \
+  -DrepositoryId=gerrit-api-repository \
+  -Durl=$URL
+
+mvn deploy:deploy-file \
+  -DgroupId=com.google.gerrit \
+  -DartifactId=gerrit-plugin-api \
+  -Dversion=$VER \
+  -Dpackaging=java-source \
+  -Dfile=$module/target/gerrit-plugin-api-$VER-sources.jar \
+  -Djava-source=false \
+  -DrepositoryId=gerrit-api-repository \
+  -Durl=$URL

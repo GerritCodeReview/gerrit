@@ -52,6 +52,24 @@
       "revId": "0106c7a649dfa601edbcfb29a1e2d3db472bd17d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///ns\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-10T19:46:27Z",
+      "side": 1,
+      "message": "Actually my solution didn\u0027t work. It turned out that inheriting from a class with a generic type declaration is not a good idea if the class needs to be serializable with JSon :-(\n\nFor this change I will go back to the solution in this patch set (2). Maybe we can find later a more generic solution for improving the overall error handling.",
+      "parentUuid": "AAAESH////s\u003d",
+      "revId": "0106c7a649dfa601edbcfb29a1e2d3db472bd17d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFaH///3c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-10T23:59:42Z",
+      "side": 1,
+      "message": "Not really, manager.start() triggers the loading of the plugin module. In case it fails a warning / error message is logged and setStartupException() will be called ... so this could be not null and thus plugin startup status is set to FAILED.",
+      "parentUuid": "AAAFX3///fo\u003d",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///fg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
         "patchSetId": 9
@@ -47,6 +65,24 @@
       "writtenOn": "2012-05-10T23:43:46Z",
       "side": 1,
       "message": "I would move this alongside of getName() and getVersion()",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///3Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-10T23:59:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///fg\u003d",
       "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFaH///3U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-10T23:59:42Z",
+      "side": 1,
+      "message": "Yes, fair enough. Package only (as it doesn\u0027t need and doesn\u0027t have other classes in other packages to force its status)",
+      "parentUuid": "AAAFX3///fk\u003d",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///fc\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
         "patchSetId": 9
@@ -81,6 +135,24 @@
       "writtenOn": "2012-05-10T23:43:46Z",
       "side": 1,
       "message": "Not sure this should be public. Package visible?",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///3Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-10T23:59:42Z",
+      "side": 1,
+      "message": "This is really intended for other parts of Gerrit to notify Plugin initialisation failures. (i.e. SshPluginStarterCallback)",
+      "parentUuid": "AAAFX3///fc\u003d",
       "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFaH///3M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-10T23:59:42Z",
+      "side": 1,
+      "message": "Not really: PluginLoader already manages to avoid the Plugin object to be created in case of loading failure. This is another case: when the plugin callback is called from lifecycle listener it may have other reasons to fail.\n\nIn this case a command could not been correctly bound and thus the plugin fails to start. (happened to me locally: I had the impression plugin was started whilst it wasn\u0027t).\n\nWarning is not enough IMHO: we should trace in the plugin the problem happened and its status set of FAILED.",
+      "parentUuid": "AAAFX3///fU\u003d",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///f0\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginLsCommand.java",
         "patchSetId": 9
@@ -115,6 +205,24 @@
       "writtenOn": "2012-05-10T23:43:46Z",
       "side": 1,
       "message": "This returns only the loaded plugins... aka the runs that are running. So the status isn\u0027t as useful.",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///3I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginLsCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-10T23:59:42Z",
+      "side": 1,
+      "message": "What shall we do for FAILED plugins then ?\nShould we list them (and thus giving the impression that they have been loaded) and if yes, how can we \"tag\" them ?",
+      "parentUuid": "AAAFX3///f0\u003d",
       "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

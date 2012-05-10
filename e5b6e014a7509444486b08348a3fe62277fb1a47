@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///kw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-10T16:44:34Z",
+      "side": 1,
+      "message": "These two annotations need to get in the plugin-dev docs.",
+      "revId": "e5b6e014a7509444486b08348a3fe62277fb1a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///ks\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterModules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-10T16:44:34Z",
+      "side": 1,
+      "message": "Seems like an arbitrary size, should this become a config option?",
+      "revId": "e5b6e014a7509444486b08348a3fe62277fb1a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///ko\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-10T16:44:34Z",
+      "side": 1,
+      "message": "Should we bother to even support the old style module registration if we now have annotations instead?",
+      "revId": "e5b6e014a7509444486b08348a3fe62277fb1a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

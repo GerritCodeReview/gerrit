@@ -42,11 +42,28 @@ import java.util.jar.Manifest;
 import javax.annotation.Nullable;
 
 public class Plugin {
+  public static enum ApiType {
+    EXTENSION, PLUGIN;
+  }
+
   static {
     // Guice logs warnings about multiple injectors being created.
     // Silence this in case HTTP plugins are used.
     java.util.logging.Logger.getLogger("com.google.inject.servlet.GuiceFilter")
         .setLevel(java.util.logging.Level.OFF);
+  }
+
+  static ApiType getApiType(Manifest manifest) throws InvalidPluginException {
+    Attributes main = manifest.getMainAttributes();
+    String v = main.getValue("Gerrit-ApiType");
+    if (Strings.isNullOrEmpty(v)
+        || ApiType.EXTENSION.name().equalsIgnoreCase(v)) {
+      return ApiType.EXTENSION;
+    } else if (ApiType.PLUGIN.name().equalsIgnoreCase(v)) {
+      return ApiType.PLUGIN;
+    } else {
+      throw new InvalidPluginException("Invalid Gerrit-ApiType: " + v);
+    }
   }
 
   private final String name;
@@ -96,9 +113,19 @@ public class Plugin {
     return name;
   }
 
+  @Nullable
   public String getVersion() {
     Attributes main = manifest.getMainAttributes();
     return main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
+  }
+
+  @Nullable
+  public ApiType getApiType() {
+    try {
+      return getApiType(manifest);
+    } catch (InvalidPluginException e) {
+      return null;
+    }
   }
 
   boolean canReload() {
@@ -121,7 +148,8 @@ public class Plugin {
   }
 
   public void start(PluginGuiceEnvironment env) throws Exception {
-    Injector root = newRootInjector(env);
+    ApiType type = getApiType(manifest);
+    Injector root = newRootInjector(type, env);
     manager = new LifecycleManager();
 
     AutoRegisterModules auto = null;
@@ -141,29 +169,33 @@ public class Plugin {
     }
 
     if (env.hasSshModule()) {
+      List<Module> modules = Lists.newLinkedList();
+      if (type == ApiType.PLUGIN) {
+        modules.add(env.getSshModule());
+      }
       if (sshModule != null) {
-        sshInjector = sysInjector.createChildInjector(
-            env.getSshModule(),
-            sysInjector.getInstance(sshModule));
+        modules.add(sysInjector.getInstance(sshModule));
+        sshInjector = sysInjector.createChildInjector(modules);
         manager.add(sshInjector);
       } else if (auto != null && auto.sshModule != null) {
-        sshInjector = sysInjector.createChildInjector(
-            env.getSshModule(),
-            auto.sshModule);
+        modules.add(auto.sshModule);
+        sshInjector = sysInjector.createChildInjector(modules);
         manager.add(sshInjector);
       }
     }
 
     if (env.hasHttpModule()) {
+      List<Module> modules = Lists.newLinkedList();
+      if (type == ApiType.PLUGIN) {
+        modules.add(env.getHttpModule());
+      }
       if (httpModule != null) {
-        httpInjector = sysInjector.createChildInjector(
-            env.getHttpModule(),
-            sysInjector.getInstance(httpModule));
+        modules.add(sysInjector.getInstance(httpModule));
+        httpInjector = sysInjector.createChildInjector(modules);
         manager.add(httpInjector);
       } else if (auto != null && auto.httpModule != null) {
-        httpInjector = sysInjector.createChildInjector(
-            env.getHttpModule(),
-            auto.httpModule);
+        modules.add(auto.httpModule);
+        httpInjector = sysInjector.createChildInjector(modules);
         manager.add(httpInjector);
       }
     }
@@ -171,9 +203,11 @@ public class Plugin {
     manager.start();
   }
 
-  private Injector newRootInjector(PluginGuiceEnvironment env) {
+  private Injector newRootInjector(ApiType type, PluginGuiceEnvironment env) {
     List<Module> modules = Lists.newArrayListWithCapacity(4);
-    modules.add(env.getSysModule());
+    if (type == ApiType.PLUGIN) {
+      modules.add(env.getSysModule());
+    }
     final ServerInformation srvInfo = env.getServerInformation();
     modules.add(new AbstractModule() {
       @Override

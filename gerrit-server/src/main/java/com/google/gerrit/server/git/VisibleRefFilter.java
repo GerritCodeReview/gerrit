@@ -93,7 +93,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     //
     if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeperately)) {
       TagMatcher tags = tagCache.get(projectName).
-          matcher(db, filterTagsSeperately ? filter(db.getAllRefs()).values() : result.values());
+          matcher(db, filterTagsSeperately ? filter(refs).values() : result.values());
       for (Ref tag : deferredTags) {
         if (tags.isReachable(tag)) {
           result.put(tag.getName(), tag);

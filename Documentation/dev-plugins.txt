@@ -5,7 +5,7 @@ A plugin in gerrit is tightly coupled code that runs in the same
 JVM as gerrit. It has full access to all gerrit internals. Plugins
 are coupled to a specific major.minor gerrit version.
 
-REQUIREMENTS
+Requirements
 ------------
 
 To start development, you may download the sample maven project, which downloads
@@ -18,7 +18,6 @@ Manifest
 --------
 
 Plugins need to include the following data in the jar manifest file;
-Gerrit-Plugin = plugin_name
 Gerrit-Module = pkg.class
 
 SSH Commands
@@ -34,6 +33,18 @@ the PluginCommandModule in order to register the ssh command(s) in its configure
 must override.
 
 Registering is done by calling the command(String commandName).to(ClassName<? extends BaseCommand> klass)
+
+Documentation
+-------------
+
+If you put files into Documentation/ or static/ and package them into your jar,
+you can access them in a browser via <canonicalWebURL>/plugins/<pluginName>/...
+
+Deployment
+----------
+
+Deploy plugins into <sitePath>/plugins/. The file name in that directory will be
+the plugin name on the server.
 
 GERRIT
 ------

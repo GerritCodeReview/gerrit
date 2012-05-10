@@ -130,6 +130,16 @@ public class ChangeControl {
     }
   }
 
+  /**
+   * Exception thrown when the label term of a submit record
+   * unexpectedly didn't contain a user term.
+   */
+  public static class UserTermExpected extends Exception {
+    public UserTermExpected(SubmitRecord.Label label) {
+      super("A label with the status " + label.toString() + " must contain a user.");
+    }
+  }
+
   private final RefControl refControl;
   private final Change change;
 
@@ -488,24 +498,28 @@ public class ChangeControl {
         lbl.label = state.arg(0).name();
         Term status = state.arg(1);
 
-        if ("ok".equals(status.name())) {
-          lbl.status = SubmitRecord.Label.Status.OK;
-          appliedBy(lbl, status);
+        try {
+          if ("ok".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.OK;
+            appliedBy(lbl, status);
 
-        } else if ("reject".equals(status.name())) {
-          lbl.status = SubmitRecord.Label.Status.REJECT;
-          appliedBy(lbl, status);
+          } else if ("reject".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.REJECT;
+            appliedBy(lbl, status);
 
-        } else if ("need".equals(status.name())) {
-          lbl.status = SubmitRecord.Label.Status.NEED;
+          } else if ("need".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.NEED;
 
-        } else if ("may".equals(status.name())) {
-          lbl.status = SubmitRecord.Label.Status.MAY;
+          } else if ("may".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.MAY;
 
-        } else if ("impossible".equals(status.name())) {
-          lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
+          } else if ("impossible".equals(status.name())) {
+            lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
 
-        } else {
+          } else {
+            return logInvalidResult(submitRule, submitRecord);
+          }
+        } catch (UserTermExpected e) {
           return logInvalidResult(submitRule, submitRecord);
         }
       }
@@ -541,11 +555,14 @@ public class ChangeControl {
     return Collections.singletonList(rec);
   }
 
-  private void appliedBy(SubmitRecord.Label label, Term status) {
+  private void appliedBy(SubmitRecord.Label label, Term status)
+      throws UserTermExpected {
     if (status.isStructure() && status.arity() == 1) {
       Term who = status.arg(0);
       if (isUser(who)) {
         label.appliedBy = new Account.Id(((IntegerTerm) who.arg(0)).intValue());
+      } else {
+        throw new UserTermExpected(label);
       }
     }
   }

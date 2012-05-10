@@ -446,7 +446,7 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
     if (groupDetail.ownerGroup != null) {
       ownerTxt.setText(groupDetail.ownerGroup.getName());
     } else {
-      ownerTxt.setText(Util.M.deletedGroup(group.getOwnerGroupId().get()));
+      ownerTxt.setText(Util.M.deletedReference(group.getOwnerGroupUUID().get()));
     }
     descTxt.setText(group.getDescription());
 

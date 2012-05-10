@@ -102,15 +102,15 @@ public class Schema_65 extends SchemaVersion {
       ui.message("Moved contributor agreements to project.config");
 
       // Create the auto verify groups.
-      List<AccountGroup.Id> adminGroupIds = getAdministrateServerGroups(db, config);
+      List<AccountGroup.UUID> adminGroupUUIDs = getAdministrateServerGroups(db, config);
       for (ContributorAgreement agreement : agreements.values()) {
         if (agreement.getAutoVerify() != null) {
-          getOrCreateGroupForIndividuals(db, config, adminGroupIds, agreement);
+          getOrCreateGroupForIndividuals(db, config, adminGroupUUIDs, agreement);
         }
       }
 
       // Scan AccountAgreement
-      long minTime = addAccountAgreements(db, config, adminGroupIds, agreements);
+      long minTime = addAccountAgreements(db, config, adminGroupUUIDs, agreements);
 
       ProjectConfig base = ProjectConfig.read(md, null);
       for (ContributorAgreement agreement : agreements.values()) {
@@ -258,14 +258,14 @@ public class Schema_65 extends SchemaVersion {
   }
 
   private AccountGroup createGroup(ReviewDb db, String groupName,
-      AccountGroup.Id adminGroupId, String description)
+      AccountGroup.UUID adminGroupUUID, String description)
           throws OrmException {
     final AccountGroup.Id groupId =
         new AccountGroup.Id(db.nextAccountGroupId());
     final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);
     final AccountGroup.UUID uuid = GroupUUID.make(groupName, serverUser);
     final AccountGroup group = new AccountGroup(nameKey, groupId, uuid);
-    group.setOwnerGroupId(adminGroupId);
+    group.setOwnerGroupUUID(adminGroupUUID);
     group.setDescription(description);
     final AccountGroupName gn = new AccountGroupName(group);
     // first insert the group name to validate that the group name hasn't
@@ -275,21 +275,17 @@ public class Schema_65 extends SchemaVersion {
     return group;
   }
 
-  private List<AccountGroup.Id> getAdministrateServerGroups(
-      ReviewDb db, ProjectConfig cfg) throws OrmException {
+  private List<AccountGroup.UUID> getAdministrateServerGroups(
+      ReviewDb db, ProjectConfig cfg) {
     List<PermissionRule> rules = cfg.getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
        .getPermission(GlobalCapability.ADMINISTRATE_SERVER)
        .getRules();
 
-    List<AccountGroup.Id> groups =
+    List<AccountGroup.UUID> groups =
         Lists.newArrayListWithExpectedSize(rules.size());
     for (PermissionRule rule : rules) {
       if (rule.getAction() == Action.ALLOW) {
-        groups.add(db.accountGroups()
-            .byUUID(rule.getGroup().getUUID())
-            .toList()
-            .get(0)
-            .getId());
+        groups.add(rule.getGroup().getUUID());
       }
     }
     if (groups.isEmpty()) {
@@ -300,7 +296,7 @@ public class Schema_65 extends SchemaVersion {
   }
 
   private GroupReference getOrCreateGroupForIndividuals(ReviewDb db,
-      ProjectConfig config, List<AccountGroup.Id> adminGroupIds,
+      ProjectConfig config, List<AccountGroup.UUID> adminGroupUUIDs,
       ContributorAgreement agreement)
           throws OrmException {
     if (!agreement.getAccepted().isEmpty()) {
@@ -318,12 +314,12 @@ public class Schema_65 extends SchemaVersion {
             "account group name exists but account group does not: " + name);
       }
 
-      if (!adminGroupIds.contains(ag.getOwnerGroupId())) {
+      if (!adminGroupUUIDs.contains(ag.getOwnerGroupUUID())) {
         throw new IllegalStateException(
             "individual group exists with non admin owner group: " + name);
       }
     } else {
-      ag = createGroup(db, name, adminGroupIds.get(0),
+      ag = createGroup(db, name, adminGroupUUIDs.get(0),
           String.format("Users who have accepted the %s CLA", agreement.getName()));
     }
     GroupReference group = config.resolve(ag);
@@ -345,7 +341,7 @@ public class Schema_65 extends SchemaVersion {
   }
 
   private long addAccountAgreements(ReviewDb db, ProjectConfig config,
-      List<AccountGroup.Id> adminGroupIds,
+      List<AccountGroup.UUID> adminGroupUUIDs,
       Map<Integer, ContributorAgreement> agreements)
           throws SQLException, OrmException {
     Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
@@ -374,7 +370,7 @@ public class Schema_65 extends SchemaVersion {
 
           // Enter Agreement
           GroupReference individualGroup =
-              getOrCreateGroupForIndividuals(db, config, adminGroupIds, agreement);
+              getOrCreateGroupForIndividuals(db, config, adminGroupUUIDs, agreement);
           AccountGroup.Id groupId = db.accountGroups()
               .byUUID(individualGroup.getUUID())
               .toList()

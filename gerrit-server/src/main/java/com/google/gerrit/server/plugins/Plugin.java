@@ -21,7 +21,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.servlet.GuiceFilter;
 
 import org.eclipse.jgit.storage.file.FileSnapshot;
 
@@ -36,7 +35,7 @@ public class Plugin {
   static {
     // Guice logs warnings about multiple injectors being created.
     // Silence this in case HTTP plugins are used.
-    java.util.logging.Logger.getLogger(GuiceFilter.class.getName())
+    java.util.logging.Logger.getLogger("com.google.inject.servlet.GuiceFilter")
         .setLevel(java.util.logging.Level.OFF);
   }
 
@@ -45,6 +44,7 @@ public class Plugin {
   private final FileSnapshot snapshot;
   private final JarFile jarFile;
   private final Manifest manifest;
+  private final ClassLoader classLoader;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
   private Class<? extends Module> httpModule;
@@ -59,6 +59,7 @@ public class Plugin {
       FileSnapshot snapshot,
       JarFile jarFile,
       Manifest manifest,
+      ClassLoader classLoader,
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule,
       @Nullable Class<? extends Module> httpModule) {
@@ -67,6 +68,7 @@ public class Plugin {
     this.snapshot = snapshot;
     this.jarFile = jarFile;
     this.manifest = manifest;
+    this.classLoader = classLoader;
     this.sysModule = sysModule;
     this.sshModule = sshModule;
     this.httpModule = httpModule;
@@ -108,8 +110,17 @@ public class Plugin {
     Injector root = newRootInjector(env);
     manager = new LifecycleManager();
 
+    AutoRegisterModules auto = null;
+    if (sysModule == null && sshModule == null && httpModule == null) {
+      auto = new AutoRegisterModules(name, env, jarFile, classLoader);
+      auto.discover();
+    }
+
     if (sysModule != null) {
       sysInjector = root.createChildInjector(root.getInstance(sysModule));
+      manager.add(sysInjector);
+    } else if (auto.sysModule != null) {
+      sysInjector = root.createChildInjector(auto.sysModule);
       manager.add(sysInjector);
     } else {
       sysInjector = root;
@@ -120,12 +131,22 @@ public class Plugin {
           env.getSshModule(),
           sysInjector.getInstance(sshModule));
       manager.add(sshInjector);
+    } else if (auto.sshModule != null && env.hasSshModule()) {
+      sshInjector = sysInjector.createChildInjector(
+          env.getSshModule(),
+          auto.sshModule);
+      manager.add(sshInjector);
     }
 
     if (httpModule != null && env.hasHttpModule()) {
       httpInjector = sysInjector.createChildInjector(
           env.getHttpModule(),
           sysInjector.getInstance(httpModule));
+      manager.add(httpInjector);
+    } else if (auto.httpModule != null && env.hasHttpModule()) {
+      httpInjector = sysInjector.createChildInjector(
+          env.getHttpModule(),
+          auto.httpModule);
       manager.add(httpInjector);
     }
 

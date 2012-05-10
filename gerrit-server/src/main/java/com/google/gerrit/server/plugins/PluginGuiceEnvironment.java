@@ -22,6 +22,7 @@ import com.google.inject.Binding;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 
@@ -47,6 +48,9 @@ public class PluginGuiceEnvironment {
   private Module sysModule;
   private Module sshModule;
   private Module httpModule;
+
+  private Provider<ModuleGenerator> sshGen;
+  private Provider<ModuleGenerator> httpGen;
 
   @Inject
   PluginGuiceEnvironment(Injector sysInjector, CopyConfigModule ccm) {
@@ -79,6 +83,7 @@ public class PluginGuiceEnvironment {
 
   public void setSshInjector(Injector injector) {
     sshModule = copy(injector);
+    sshGen = injector.getProvider(ModuleGenerator.class);
     onStart.addAll(listeners(injector, StartPluginListener.class));
     onReload.addAll(listeners(injector, ReloadPluginListener.class));
   }
@@ -91,8 +96,13 @@ public class PluginGuiceEnvironment {
     return sshModule;
   }
 
+  ModuleGenerator newSshModuleGenerator() {
+    return sshGen.get();
+  }
+
   public void setHttpInjector(Injector injector) {
     httpModule = copy(injector);
+    httpGen = injector.getProvider(ModuleGenerator.class);
     onStart.addAll(listeners(injector, StartPluginListener.class));
     onReload.addAll(listeners(injector, ReloadPluginListener.class));
   }
@@ -103,6 +113,10 @@ public class PluginGuiceEnvironment {
 
   Module getHttpModule() {
     return httpModule;
+  }
+
+  ModuleGenerator newHttpModuleGenerator() {
+    return httpGen.get();
   }
 
   void onStartPlugin(Plugin plugin) {
@@ -202,22 +216,22 @@ public class PluginGuiceEnvironment {
     return true;
   }
 
-  private static boolean is(String name, Class<?> type) {
-    Class<?> p = type;
-    while (p != null) {
-      if (name.equals(p.getName())) {
+  static boolean is(String name, Class<?> type) {
+    while (type != null) {
+      if (name.equals(type.getName())) {
         return true;
       }
-      p = p.getSuperclass();
-    }
 
-    Class<?>[] interfaces = type.getInterfaces();
-    if (interfaces != null) {
-      for (Class<?> i : interfaces) {
-        if (is(name, i)) {
-          return true;
+      Class<?>[] interfaces = type.getInterfaces();
+      if (interfaces != null) {
+        for (Class<?> i : interfaces) {
+          if (is(name, i)) {
+            return true;
+          }
         }
       }
+
+      type = type.getSuperclass();
     }
     return false;
   }

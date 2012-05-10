@@ -337,6 +337,7 @@ public class PluginLoader implements LifecycleListener {
       return new Plugin(name,
           srcJar, snapshot,
           jarFile, manifest,
+          pluginLoader,
           sysModule, sshModule, httpModule);
     } finally {
       if (!keep) {

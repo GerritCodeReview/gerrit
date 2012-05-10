@@ -1,0 +1,146 @@
+<link href="asciidoc.css" rel="stylesheet"></link>
+
+gerrit review
+==============
+
+NAME
+----
+gerrit review - Verify, approve and/or submit one or more patch sets
+
+SYNOPSIS
+--------
+>     ssh -p <port> <host> gerrit review
+>      [--project <PROJECT>]
+>      [--message <MESSAGE>]
+>      [--force-message]
+>      [--submit]
+>      [--abandon | --restore]
+>      [--publish]
+>      [--delete]
+>      [--verified <N>] [--code-review <N>]
+>      {COMMIT | CHANGEID,PATCHSET}...
+
+DESCRIPTION
+-----------
+Updates the current user's approval status of the specified patch
+sets and/or submits them for merging, sending out email
+notifications and updating the database.
+
+Patch sets should be specified as complete or abbreviated commit
+SHA-1s.  If the same commit is available in multiple projects the
+--project option may be used to limit where Gerrit searches for
+the change to only the contents of the specified project.
+
+For current backward compatibility with user tools patch sets may
+also be specified in the legacy *CHANGEID,PATCHSET* format, such as
+*8242,2*.  Support for this legacy format is planned to be removed
+in a future edition of Gerrit Code Review.  Use of commit SHA-1s
+is strongly encouraged.
+
+OPTIONS
+-------
+
+--project
+
+-p
+> Name of the project the intended changes are contained
+> within.  This option must be supplied before the commit
+> SHA-1 in order to take effect.
+
+--message
+
+-m
+> Optional cover letter to include as part of the message
+> sent to reviewers when the approval states are updated.
+
+--force-message
+> Option which allows Gerrit to publish the --message, even
+> when the labels could not be applied due to change being
+> closed).
+
+> Used by some scripts/CI-systems, where the results (or links
+> to the result) are posted as a message after completion of a
+> build (often together with a label-change, indicating the success
+> of the build).
+
+> If the message is posted successfully, the cmd will return
+> successfully, even if the label could not be changed.
+
+--help
+
+-h
+> Display site-specific usage information, including the
+> complete listing of supported approval categories and values.
+
+--abandon
+> Abandon the specified patch set(s).
+> (option is mutually exclusive with --submit and --restore)
+
+--restore
+> Restore the specified abandoned patch set(s).
+> (option is mutually exclusive with --abandon)
+
+--submit
+
+-s
+> Submit the specified patch set(s) for merging.
+> (option is mutually exclusive with --abandon)
+
+--publish
+> Publish the specified draft patch set(s).
+> (option is mutually exclusive with --submit, --restore, --abandon, and --delete)
+
+--delete
+> Delete the specified draft patch set(s).
+> (option is mutually exclusive with --submit, --restore, --abandon, and --publish)
+
+--code-review
+
+--verified
+> Set the approval category to the value *N*.  The exact
+> option names supported and the range of values permitted
+> differs per site, check the output of --help, or contact
+> your site administrator for further details.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+Approve the change with commit c0ff33 as "Verified +1"
+
+>     $ ssh -p 29418 review.example.com gerrit review --verified +1 c0ff33
+
+Append the message "Build Successful". Notice two levels of quoting is
+required, one for the local shell, and another for the argument parser
+inside the Gerrit server:
+
+>     $ ssh -p 29418 review.example.com gerrit review -m '"Build Successful"' c0ff33
+
+Mark the unmerged commits both "Verified +1" and "Code Review +2" and
+submit them for merging:
+>     $ ssh -p 29418 review.example.com gerrit review \
+>         --verified +1 \
+>         --code-review +2 \
+>         --submit \
+>         --project this/project \
+>         $(git rev-list origin/master..HEAD)
+
+Abandon an active change:
+
+>     $ ssh -p 29418 review.example.com gerrit review --abandon c0ff33
+
+SEE ALSO
+--------
+
+* [Access Controls](access-control.html)
+
+GERRIT
+------
+Part of [Gerrit Code Review](index.html)

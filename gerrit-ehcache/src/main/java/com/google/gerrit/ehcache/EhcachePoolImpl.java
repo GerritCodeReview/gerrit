@@ -94,6 +94,7 @@ public class EhcachePoolImpl implements CachePool {
     this.caches = new HashMap<String, CacheProvider<?, ?>>();
   }
 
+  @SuppressWarnings({"rawtypes", "unchecked"})
   private void start() {
     synchronized (lock) {
       if (manager != null) {

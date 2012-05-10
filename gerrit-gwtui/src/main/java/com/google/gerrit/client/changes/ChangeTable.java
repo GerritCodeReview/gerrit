@@ -20,7 +20,7 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -226,8 +226,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     setRowItem(row, c);
   }
 
-  private AccountDashboardLink link(final Account.Id id) {
-    return AccountDashboardLink.link(accountCache, id);
+  private AccountLink link(final Account.Id id) {
+    return AccountLink.link(accountCache, id);
   }
 
   public void addSection(final Section s) {

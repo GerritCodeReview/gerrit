@@ -12,18 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.plugins;
+package com.google.gerrit.extensions.registration;
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-import com.google.inject.BindingAnnotation;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-@Target({ElementType.PARAMETER, ElementType.FIELD})
-@Retention(RUNTIME)
-@BindingAnnotation
-public @interface PluginName {
+/** Handle for registered information. */
+public interface RegistrationHandle {
+  /** Delete this registration. */
+  public void remove();
 }

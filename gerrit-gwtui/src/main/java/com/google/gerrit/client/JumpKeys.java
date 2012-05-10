@@ -55,6 +55,12 @@ class JumpKeys {
       jumps.add(new KeyCommand(0, 'd', Gerrit.C.jumpMineDrafts()) {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
+          Gerrit.display(PageLinks.toChangeQuery("is:draft"));
+        }
+      });
+      jumps.add(new KeyCommand(0, 'c', Gerrit.C.jumpMineDraftComments()) {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
           Gerrit.display(PageLinks.toChangeQuery("has:draft"));
         }
       });

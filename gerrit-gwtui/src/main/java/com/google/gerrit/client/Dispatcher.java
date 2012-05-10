@@ -235,6 +235,10 @@ public class Dispatcher {
     }
 
     if (matchExact("mine,drafts", token)) {
+      return PageLinks.toChangeQuery("is:draft");
+    }
+
+    if (matchExact("mine,comments", token)) {
       return PageLinks.toChangeQuery("has:draft");
     }
 

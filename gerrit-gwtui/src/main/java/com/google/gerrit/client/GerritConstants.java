@@ -60,6 +60,7 @@ public interface GerritConstants extends Constants {
   String menuMyDrafts();
   String menuMyWatchedChanges();
   String menuMyStarredChanges();
+  String menuMyDraftComments();
 
   String menuDiff();
   String menuDiffCommit();
@@ -96,4 +97,5 @@ public interface GerritConstants extends Constants {
   String jumpMineDrafts();
   String jumpMineWatched();
   String jumpMineStarred();
+  String jumpMineDraftComments();
 }

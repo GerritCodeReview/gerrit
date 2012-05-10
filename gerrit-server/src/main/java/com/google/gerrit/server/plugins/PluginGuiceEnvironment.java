@@ -59,7 +59,7 @@ public class PluginGuiceEnvironment {
   private final CopyConfigModule copyConfigModule;
   private final List<StartPluginListener> onStart;
   private final List<ReloadPluginListener> onReload;
-
+  private final List<RemovePluginListener> onRemove;
   private Module sysModule;
   private Module sshModule;
   private Module httpModule;
@@ -85,6 +85,9 @@ public class PluginGuiceEnvironment {
 
     onReload = new CopyOnWriteArrayList<ReloadPluginListener>();
     onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
+
+    onRemove  = new CopyOnWriteArrayList<RemovePluginListener>();
+    onRemove.addAll(listeners(sysInjector, RemovePluginListener.class));
 
     sysSets = dynamicSetsOf(sysInjector);
     sysMaps = dynamicMapsOf(sysInjector);
@@ -373,6 +376,12 @@ public class PluginGuiceEnvironment {
 
   private static <T> List<Binding<T>> bindings(Injector src, TypeLiteral<T> type) {
     return src.findBindingsByType(type);
+  }
+
+  void onRemovePlugin(Plugin plugin) {
+    for (RemovePluginListener l : onRemove) {
+      l.onRemovePlugin(plugin);
+    }
   }
 
   private static Map<TypeLiteral<?>, DynamicSet<?>> dynamicSetsOf(Injector src) {

@@ -374,39 +374,41 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
         new GerritCallback<List<AccountGroup.ExternalNameKey>>() {
           @Override
           public void onSuccess(List<AccountGroup.ExternalNameKey> result) {
-            final CellFormatter fmt = externalMatches.getCellFormatter();
+            try {
+              final CellFormatter fmt = externalMatches.getCellFormatter();
 
-            if (result.isEmpty()) {
-              externalMatches.resize(1, 1);
-              externalMatches.setText(0, 0, Util.C.errorNoMatchingGroups());
+              if (result.isEmpty()) {
+                externalMatches.resize(1, 1);
+                externalMatches.setText(0, 0, Util.C.errorNoMatchingGroups());
+                fmt.setStyleName(0, 0, Gerrit.RESOURCES.css().header());
+                return;
+              }
+
+              externalMatches.resize(1 + result.size(), 2);
+
+              externalMatches.setText(0, 0, Util.C.columnGroupName());
+              externalMatches.setText(0, 1, "");
               fmt.setStyleName(0, 0, Gerrit.RESOURCES.css().header());
-              return;
+              fmt.setStyleName(0, 1, Gerrit.RESOURCES.css().header());
+
+              for (int row = 0; row < result.size(); row++) {
+                final AccountGroup.ExternalNameKey key = result.get(row);
+                final Button b = new Button(Util.C.buttonSelectGroup());
+                b.addClickHandler(new ClickHandler() {
+                  @Override
+                  public void onClick(ClickEvent event) {
+                    setExternalGroup(key);
+                  }
+                });
+                externalMatches.setText(1 + row, 0, key.get());
+                externalMatches.setWidget(1 + row, 1, b);
+                fmt.setStyleName(1 + row, 1, Gerrit.RESOURCES.css().rightmost());
+              }
+            } finally {
+              externalMatches.setVisible(true);
+              externalNameFilter.setEnabled(true);
+              externalNameSearch.setEnabled(true);
             }
-
-            externalMatches.resize(1 + result.size(), 2);
-
-            externalMatches.setText(0, 0, Util.C.columnGroupName());
-            externalMatches.setText(0, 1, "");
-            fmt.setStyleName(0, 0, Gerrit.RESOURCES.css().header());
-            fmt.setStyleName(0, 1, Gerrit.RESOURCES.css().header());
-
-            for (int row = 0; row < result.size(); row++) {
-              final AccountGroup.ExternalNameKey key = result.get(row);
-              final Button b = new Button(Util.C.buttonSelectGroup());
-              b.addClickHandler(new ClickHandler() {
-                @Override
-                public void onClick(ClickEvent event) {
-                  setExternalGroup(key);
-                }
-              });
-              externalMatches.setText(1 + row, 0, key.get());
-              externalMatches.setWidget(1 + row, 1, b);
-              fmt.setStyleName(1 + row, 1, Gerrit.RESOURCES.css().rightmost());
-            }
-            externalMatches.setVisible(true);
-
-            externalNameFilter.setEnabled(true);
-            externalNameSearch.setEnabled(true);
           }
 
           @Override

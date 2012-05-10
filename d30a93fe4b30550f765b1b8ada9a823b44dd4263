@@ -16,6 +16,24 @@
       "revId": "d30a93fe4b30550f765b1b8ada9a823b44dd4263",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///nE\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshScope.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T20:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFXn///j0\u003d",
+      "revId": "d30a93fe4b30550f765b1b8ada9a823b44dd4263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

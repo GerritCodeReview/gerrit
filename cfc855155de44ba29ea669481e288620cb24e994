@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///hM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-10T19:26:56Z",
+      "side": 1,
+      "message": "This needs to be based on the destination ref of the change instead of change visibility or draft status.",
+      "revId": "cfc855155de44ba29ea669481e288620cb24e994",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

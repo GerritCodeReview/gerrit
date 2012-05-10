@@ -171,6 +171,7 @@ public class PluginLoader implements LifecycleListener {
         File off = new File(pluginsDir, active.getName() + ".jar.disabled");
         active.getSrcJar().renameTo(off);
 
+        env.onRemovePlugin(active);
         active.stop();
         running.remove(name);
         clean = true;
@@ -285,7 +286,9 @@ public class PluginLoader implements LifecycleListener {
     }
     for (String name : unload){
       log.info(String.format("Unloading plugin %s", name));
-      running.remove(name).stop();
+      Plugin removedPlugin = running.remove(name);
+      removedPlugin.stop();
+      env.onRemovePlugin(removedPlugin);
     }
     return !unload.isEmpty();
   }

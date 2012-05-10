@@ -8,42 +8,73 @@ are coupled to a specific major.minor gerrit version.
 Requirements
 ------------
 
-To start development, download the sample maven project, which downloads the
-following dependencies:
+To start development, download the sample maven project, which
+downloads the dependencies file that matches the war file to develop
+against. Dependencies are offered in two different formats:
 
-* gerrit-sdk.jar file that matches the war file to develop against
+gerrit-extension-api.jar::
+	A stable but thin interface. Suitable for extensions that need
+	to be notified of events, but do not require tight coupling to
+	the internals of Gerrit. Extensions built against this API can
+	expect to be binary compatible across a wide range of server
+	versions.
 
+gerrit-plugin-api.jar::
+	The complete internals of the Gerrit server, permitting a
+	plugin to tightly couple itself and provide additional
+	functionality that is not possible as an extension. Plugins
+	built against this API are expected to break at the source
+	code level between every major.minor Gerrit release. A plugin
+	that compiles against 2.5 will probably need source code level
+	changes to work with 2.6, 2.7, and so on.
 
 Manifest
 --------
 
-Plugins need to include the following data in the jar manifest file:
+Plugins that wish (or need) to use explicit Guice registration must
+include the following data in the jar manifest file:
 
-  Gerrit-Module = pkg.class
+====
+  Gerrit-Module: tld.example.project.ModuleClassName
+====
 
-Optionally include:
+If a plugin holds an exclusive resource that must be released before
+loading the plugin again (e.g. a network port or a file lock), the
+manifest must declare a Gerrit-ReloadMode to be 'restart'. Otherwise
+the default method of 'reload' isp preferred, as it enables the server
+to hot-patch an updated plugin with no down time.
 
-  Gerrit-ReloadMode = 'reload' (default) or 'restart'
+====
+  Gerrit-ReloadMode: reload' (default) or 'restart'
+====
 
-If the plugin holds an exclusive resource that must be released before loading
-the plugin again, ReloadMode must be set to 'restart'. Otherwise 'reload' is
-sufficient.
+Plugins building against the tightly coupled `gerrit-plugin-api.jar`
+must declare this in the manifest to gain access to the internals at
+runtime. The default is the stable extension API.
+
+====
+  Gerrit-ApiType: plugin
+====
 
 SSH Commands
 ------------
 
-Plugins may provide commands that can be accessed through the SSH interface.
-These commands register themselves as a part of link:cmd-index.html[SSH Commands].
+Plugins may provide commands that can be accessed through the SSH
+interface.  These commands register themselves as a part of
+link:cmd-index.html[SSH Commands].
 
 Each of the plugin commands needs to extend SshCommand.
 
-Any plugin which implements at least one ssh command needs to also provide a
-class which extends the PluginCommandModule in order to register the ssh
-command(s) in its configure method which must be overriden.
+Any plugin which implements at least one ssh command needs to also
+provide a class which extends the PluginCommandModule in order to
+register the ssh command(s) in its configure method which must be
+overriden.
 
 Registering is done by calling:
 
-  command(String commandName).to(ClassName<? extends SshCommand> klass)
+====
+  command("print").to()
+====
 
 Documentation
 -------------
@@ -54,8 +85,14 @@ to access them in a browser via <canonicalWebURL>/plugins/<pluginName>/...
 Deployment
 ----------
 
-Deploy plugins into <review_site>/plugins/. The file name in that directory will
-be the plugin name on the server.
+Deploy plugins using the SSH interface:
+
+====
+  ssh -P 29418 localhost gerrit plugin install -n name - <target/name-0.1.jar
+====
+
+or copy the plugin JAR into <review_site>/plugins/. The file name
+(minus the `.jar` extension) will be used as the plugin name.
 
 GERRIT
 ------

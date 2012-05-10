@@ -205,6 +205,9 @@ public class ListChanges {
   }
 
   private AccountAttribute asAccountAttribute(Account.Id user) {
+    if (user == null) {
+      return null;
+    }
     AccountAttribute a = accounts.get(user);
     if (a == null) {
       a = new AccountAttribute();
@@ -226,7 +229,7 @@ public class ListChanges {
 
     PatchSet ps = cd.currentPatchSet(db);
     Map<String, LabelInfo> labels = Maps.newLinkedHashMap();
-    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true)) {
+    for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true, false)) {
       if (rec.labels == null) {
         continue;
       }
@@ -243,6 +246,7 @@ public class ListChanges {
               n.rejected = asAccountAttribute(r.appliedBy);
               break;
           }
+          n.optional = n._status == SubmitRecord.Label.Status.MAY ? true : null;
           labels.put(r.label, n);
         }
       }
@@ -314,5 +318,6 @@ public class ListChanges {
     AccountAttribute recommended;
     AccountAttribute disliked;
     Short value;
+    Boolean optional;
   }
 }

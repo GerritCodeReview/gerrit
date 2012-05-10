@@ -113,6 +113,10 @@ public class Submit implements Callable<ReviewResult> {
                 errMsg.append("change " + changeId + ": needs " + lbl.label);
                 break;
 
+              case MAY:
+                // The MAY label didn't cause the NOT_READY status
+                break;
+
               case IMPOSSIBLE:
                 if (errMsg.length() > 0) errMsg.append("; ");
                 errMsg.append("change " + changeId + ": needs " + lbl.label

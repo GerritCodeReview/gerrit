@@ -81,6 +81,8 @@ public class ChangeInfo extends JavaScriptObject {
         return SubmitRecord.Label.Status.OK;
       } else if (rejected() != null) {
         return SubmitRecord.Label.Status.REJECT;
+      } else if (optional()) {
+        return SubmitRecord.Label.Status.MAY;
       } else {
         return SubmitRecord.Label.Status.NEED;
       }
@@ -92,6 +94,7 @@ public class ChangeInfo extends JavaScriptObject {
 
     public final native AccountInfo recommended() /*-{ return this.recommended; }-*/;
     public final native AccountInfo disliked() /*-{ return this.disliked; }-*/;
+    public final native boolean optional() /*-{ return this.optional ? true : false; }-*/;
     final native short _value()
     /*-{
       if (this.value) return this.value;

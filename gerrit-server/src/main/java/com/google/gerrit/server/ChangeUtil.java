@@ -383,7 +383,13 @@ public class ChangeUtil {
 
         replication.scheduleUpdate(change.getProject(), ru.getName());
 
-        List<PatchSetApproval> patchSetApprovals = approvalsUtil.copyVetosToLatestPatchSet(change);
+        List<PatchSetApproval> patchSetApprovals = approvalsUtil.applyRebase(change);
+
+        final ChangeMessage cmsg =
+            new ChangeMessage(new ChangeMessage.Key(changeId,
+                ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
+        cmsg.setMessage("Patch Set " + patchSetId.get() + ": Rebased");
+        db.changeMessages().insert(Collections.singleton(cmsg));
 
         final Set<Account.Id> oldReviewers = new HashSet<Account.Id>();
         final Set<Account.Id> oldCC = new HashSet<Account.Id>();

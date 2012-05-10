@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///fs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-10T23:43:46Z",
+      "side": 1,
+      "message": "Please declare public static enum before the private instance members.",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///fo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-10T23:43:46Z",
+      "side": 1,
+      "message": "This cannot be set during this method, so the value is always null when we reach here, and thus we set it to STARTED don\u0027t we?",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///fg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-10T23:43:46Z",
+      "side": 1,
+      "message": "I would move this alongside of getName() and getVersion()",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///fk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-10T23:43:46Z",
+      "side": 1,
+      "message": "Not sure this should be public. Package visible?",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///fc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-10T23:43:46Z",
+      "side": 1,
+      "message": "Not sure this should be public. Package visible?",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///fU\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-10T23:43:46Z",
+      "side": 1,
+      "message": "Actually this should be caught in the PluginLoader and set there as a lot more reasons can cause a plugin to not load correctly.",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///f0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginLsCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-10T23:43:46Z",
+      "side": 1,
+      "message": "This returns only the loaded plugins... aka the runs that are running. So the status isn\u0027t as useful.",
+      "revId": "f858b6b225dc73052612fffd3e304aac2602aa28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

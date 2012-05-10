@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFXn///hc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-10T19:15:23Z",
+      "side": 1,
+      "message": "nit:remove extra line.",
+      "revId": "e9b05b740d5411e96002e058cdf7bf08c865d748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFXn///hY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-10T19:15:23Z",
+      "side": 1,
+      "message": "I know not your change, but can this just be changesToGet.add(ck);?",
+      "revId": "e9b05b740d5411e96002e058cdf7bf08c865d748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

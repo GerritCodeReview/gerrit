@@ -107,7 +107,10 @@ public class PerformCreateGroup {
     final AccountGroup group = new AccountGroup(nameKey, groupId, uuid);
     group.setVisibleToAll(visibleToAll);
     if (ownerGroupId != null) {
-      group.setOwnerGroupId(ownerGroupId);
+      AccountGroup ownerGroup = groupCache.get(ownerGroupId);
+      if (ownerGroup != null) {
+        group.setOwnerGroupUUID(ownerGroup.getGroupUUID());
+      }
     }
     if (groupDescription != null) {
       group.setDescription(groupDescription);

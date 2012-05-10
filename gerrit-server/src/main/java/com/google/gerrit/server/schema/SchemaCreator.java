@@ -161,7 +161,7 @@ public class SchemaCreator {
     anonymous =
         newGroup(c, "Anonymous Users", AccountGroup.ANONYMOUS_USERS);
     anonymous.setDescription("Any user, signed-in or not");
-    anonymous.setOwnerGroupId(admin.getId());
+    anonymous.setOwnerGroupUUID(admin.getGroupUUID());
     anonymous.setType(AccountGroup.Type.SYSTEM);
     c.accountGroups().insert(Collections.singleton(anonymous));
     c.accountGroupNames().insert(
@@ -170,7 +170,7 @@ public class SchemaCreator {
     registered =
         newGroup(c, "Registered Users", AccountGroup.REGISTERED_USERS);
     registered.setDescription("Any signed-in user");
-    registered.setOwnerGroupId(admin.getId());
+    registered.setOwnerGroupUUID(admin.getGroupUUID());
     registered.setType(AccountGroup.Type.SYSTEM);
     c.accountGroups().insert(Collections.singleton(registered));
     c.accountGroupNames().insert(
@@ -178,7 +178,7 @@ public class SchemaCreator {
 
     final AccountGroup batchUsers = newGroup(c, "Non-Interactive Users", null);
     batchUsers.setDescription("Users who perform batch actions on Gerrit");
-    batchUsers.setOwnerGroupId(admin.getId());
+    batchUsers.setOwnerGroupUUID(admin.getGroupUUID());
     batchUsers.setType(AccountGroup.Type.INTERNAL);
     c.accountGroups().insert(Collections.singleton(batchUsers));
     c.accountGroupNames().insert(
@@ -186,7 +186,7 @@ public class SchemaCreator {
 
     owners = newGroup(c, "Project Owners", AccountGroup.PROJECT_OWNERS);
     owners.setDescription("Any owner of the project");
-    owners.setOwnerGroupId(admin.getId());
+    owners.setOwnerGroupUUID(admin.getGroupUUID());
     owners.setType(AccountGroup.Type.SYSTEM);
     c.accountGroups().insert(Collections.singleton(owners));
     c.accountGroupNames().insert(

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFYH///qg\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-10T16:19:13Z",
+      "side": 1,
+      "message": "nit: import is not used and can be removed",
+      "revId": "3f9d10e08ef096a928d6d7fcd96fd961af076ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///qc\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-10T16:19:13Z",
+      "side": 1,
+      "message": "nit: import is not used and can be removed",
+      "revId": "3f9d10e08ef096a928d6d7fcd96fd961af076ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///qM\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-10T16:19:13Z",
+      "side": 1,
+      "message": "Can we have this as List\u003cChange.Id\u003e ? \n\nIt would be cool if we are able to abandon many changes at once.",
+      "revId": "3f9d10e08ef096a928d6d7fcd96fd961af076ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///qk\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AbandonCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-10T16:19:13Z",
+      "side": 1,
+      "message": "nit: we normally have no blank line at the end of a class",
+      "revId": "3f9d10e08ef096a928d6d7fcd96fd961af076ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///qI\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-10T16:19:13Z",
+      "side": 1,
+      "message": "Can you add a \u0027\\n\u0027 at the end of the message, so that other messages that follow get printed in a new line, right now the output in an error case would look like this:\n\n  `gerrit review --abandon` is deprecated!  Use `gerrit abandon\u0027 instead.error: Change is no longer open or patchset is not latest one or more approvals failed; review output above",
+      "revId": "3f9d10e08ef096a928d6d7fcd96fd961af076ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

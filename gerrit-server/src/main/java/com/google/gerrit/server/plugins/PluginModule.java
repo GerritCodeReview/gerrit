@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common;
+package com.google.gerrit.server.plugins;
 
-import com.google.inject.Module;
+import com.google.gerrit.lifecycle.LifecycleModule;
 
-public class Plugin {
-  public final String name;
-  public final Class<? extends Module> sshModule;
-
-  public Plugin(String name, Class<? extends Module> sshModule) {
-    this.name = name;
-    this.sshModule = sshModule;
-  }
-
+public class PluginModule extends LifecycleModule {
   @Override
-  public String toString() {
-    return "Plugin [" + name + "; SshModule=" + sshModule.getName() + "]";
+  protected void configure() {
+    bind(PluginGuiceEnvironment.class);
+    bind(PluginLoader.class);
+    bind(CopyConfigModule.class);
+    listener().to(PluginLoader.class);
   }
 }

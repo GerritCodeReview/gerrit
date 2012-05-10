@@ -243,6 +243,7 @@ public class ListChanges {
               n.rejected = asAccountAttribute(r.appliedBy);
               break;
           }
+          n.required = n._status != SubmitRecord.Label.Status.MAY;
           labels.put(r.label, n);
         }
       }
@@ -314,5 +315,6 @@ public class ListChanges {
     AccountAttribute recommended;
     AccountAttribute disliked;
     Short value;
+    boolean required;
   }
 }

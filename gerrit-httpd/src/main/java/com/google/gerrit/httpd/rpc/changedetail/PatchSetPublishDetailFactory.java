@@ -145,6 +145,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
 
             switch (lbl.status) {
               case OK:
+              case MAY:
                 ok++;
                 break;
 

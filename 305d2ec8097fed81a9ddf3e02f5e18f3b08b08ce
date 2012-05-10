@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///mE\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ExtGroup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "no GroupDescription yet. I did something different. take a look a the latest patch set.",
+      "parentUuid": "AAAFUH///oA\u003d",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///oU\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ExtGroup.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-05T02:14:16Z",
       "side": 1,
       "message": "please fix all trailing whitespace",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///mA\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ExtGroup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///oU\u003d",
       "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///l8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ExtGroup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///oE\u003d",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///oM\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ExtGroup.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2012-05-05T02:14:16Z",
       "side": 1,
       "message": "This should not be in the interface.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///l4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ExtGroup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///oM\u003d",
       "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///l0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/GroupReference.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///n8\u003d",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///n4\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupInfoScreen.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2012-05-05T02:14:16Z",
       "side": 1,
       "message": "please pull this bug fix into its own commit so we can merge it ahead of this work. its a useful fix.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///lw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupInfoScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///n4\u003d",
       "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///lc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "I was going either way on this.  Yes, you shouldn\u0027t be suggested groups you can\u0027t see, but then how do i do a lookup by name?",
+      "parentUuid": "AAAFUH///n0\u003d",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///no\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
         "patchSetId": 4
@@ -132,6 +258,24 @@
       "writtenOn": "2012-05-05T02:14:16Z",
       "side": 1,
       "message": "imho this could die as part of your change, along with the UI code related to it. once this is merged new ldap group references should use the new ldap backend directly, and not be mirrored into the internal group backend.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///ls\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///no\u003d",
       "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///lo\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///nw\u003d",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///ns\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
         "patchSetId": 4
@@ -166,6 +328,24 @@
       "writtenOn": "2012-05-05T02:14:16Z",
       "side": 1,
       "message": "The external LDAP stuff should be just \"ldap:\" so we get UUIDs like:\n\n  ldap:CN\u003dDevelopers,DC\u003dexample,DC\u003dcom",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///lk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///ns\u003d",
       "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///mo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///nA\u003d",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUX///44\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackends.java",
         "patchSetId": 4
@@ -200,6 +398,24 @@
       "writtenOn": "2012-05-05T02:14:16Z",
       "side": 1,
       "message": "Iterables.getOnlyElement(refs) ?",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///mk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackends.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUX///44\u003d",
       "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///mg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///nk\u003d",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///ng\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
         "patchSetId": 4
@@ -234,6 +468,24 @@
       "writtenOn": "2012-05-05T02:14:16Z",
       "side": 1,
       "message": "I would say:\n\n  return uuid.get().startsWith(\"global:\") || uuid.matches(\"[0-9a-f]{40}\");\n\nThe internal system always uses a SHA-1 in lowercase hex format. Done.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///mY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///ng\u003d",
       "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///mc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/InternalGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///nc\u003d",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFT3///5k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
         "patchSetId": 4
@@ -268,6 +538,24 @@
       "writtenOn": "2012-05-05T02:14:16Z",
       "side": 1,
       "message": "Do we want to throw IAE in contains, or just return false? I\u0027m not sure which is right.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///mU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/UniversalGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "I think an IllegalArgumentException should be thrown, since it means the system is mis-configured. However, I can see how this would be inconvenient if the group backend was removed.",
+      "parentUuid": "AAAFT3///5k\u003d",
       "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -291,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///mQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFUH///nQ\u003d",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///nM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
         "patchSetId": 4
@@ -302,6 +608,24 @@
       "writtenOn": "2012-05-05T02:14:16Z",
       "side": 1,
       "message": "Hmmph. Not sure I want to use this prefix here like this.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///mM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "updated to ldap/",
+      "parentUuid": "AAAFUH///nM\u003d",
       "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -325,6 +649,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///mI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "Yes, but i had to first decouple it from the ldap backend.",
+      "parentUuid": "AAAFUH///nU\u003d",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFUH///nY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CreateChangeSender.java",
         "patchSetId": 4
@@ -336,6 +678,24 @@
       "writtenOn": "2012-05-05T02:14:16Z",
       "side": 1,
       "message": "Rebase onto my notify change? It should merge soon.",
+      "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///lg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/CreateChangeSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-10T21:21:25Z",
+      "side": 1,
+      "message": "need to learn the proper way to do this. i\u0027m assuming i can cherry pick this from gerrit and it will do the right thing.",
+      "parentUuid": "AAAFUH///nY\u003d",
       "revId": "305d2ec8097fed81a9ddf3e02f5e18f3b08b08ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

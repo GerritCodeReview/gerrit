@@ -26,7 +26,7 @@ public class GroupDetail {
   public AccountGroup group;
   public List<AccountGroupMember> members;
   public List<AccountGroupInclude> includes;
-  public AccountGroup ownerGroup;
+  public GroupReference ownerGroup;
   public boolean canModify;
 
   public GroupDetail() {
@@ -52,7 +52,7 @@ public class GroupDetail {
     includes = i;
   }
 
-  public void setOwnerGroup(AccountGroup g) {
+  public void setOwnerGroup(GroupReference g) {
     ownerGroup = g;
   }
 

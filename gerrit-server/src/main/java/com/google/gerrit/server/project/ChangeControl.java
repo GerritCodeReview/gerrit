@@ -495,6 +495,9 @@ public class ChangeControl {
         } else if ("need".equals(status.name())) {
           lbl.status = SubmitRecord.Label.Status.NEED;
 
+        } else if ("may".equals(status.name())) {
+          lbl.status = SubmitRecord.Label.Status.MAY;
+
         } else if ("impossible".equals(status.name())) {
           lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
 

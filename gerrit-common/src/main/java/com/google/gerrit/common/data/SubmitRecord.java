@@ -68,6 +68,12 @@ public class SubmitRecord {
       NEED,
 
       /**
+       * The label may be set, but it's neither necessary for submission
+       * nor does it block submission if set.
+       */
+      MAY,
+
+      /**
        * The label is required for submission, but is impossible to complete.
        * The likely cause is access has not been granted correctly by the
        * project owner or site administrator.

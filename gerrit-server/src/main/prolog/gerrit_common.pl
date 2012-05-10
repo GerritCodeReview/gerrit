@@ -209,8 +209,8 @@ default_submit([Type | Types], Tmp, Out) :-
 %%
 legacy_submit_rule('MaxWithBlock', Label, Id, Min, Max, T) :- !, max_with_block(Label, Min, Max, T).
 legacy_submit_rule('MaxNoBlock', Label, Id, Min, Max, T) :- !, max_no_block(Label, Max, T).
-legacy_submit_rule('NoBlock', Label, Id, Min, Max, T) :- !, T = ok(_).
-legacy_submit_rule('NoOp', Label, Id, Min, Max, T) :- !, T = ok(_).
+legacy_submit_rule('NoBlock', Label, Id, Min, Max, T) :- !, T = may(_).
+legacy_submit_rule('NoOp', Label, Id, Min, Max, T) :- !, T = may(_).
 legacy_submit_rule(Fun, Label, Id, Min, Max, T) :- T = impossible(unsupported(Fun)).
 
 

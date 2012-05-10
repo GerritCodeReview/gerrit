@@ -69,6 +69,6 @@ class SshAutoRegisterModuleGenerator
   @Override
   public Module create() throws InvalidPluginException {
     Preconditions.checkState(command != null, "pluginName must be provided");
-    return this;
+    return !commands.isEmpty() ? this : null;
   }
 }

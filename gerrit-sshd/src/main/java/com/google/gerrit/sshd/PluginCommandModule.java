@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.commands;
+package com.google.gerrit.sshd;
 
 import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.annotations.PluginName;

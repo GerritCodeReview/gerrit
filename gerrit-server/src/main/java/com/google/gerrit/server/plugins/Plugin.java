@@ -42,11 +42,28 @@ import java.util.jar.Manifest;
 import javax.annotation.Nullable;
 
 public class Plugin {
+  public static enum ApiType {
+    EXTENSION, PLUGIN;
+  }
+
   static {
     // Guice logs warnings about multiple injectors being created.
     // Silence this in case HTTP plugins are used.
     java.util.logging.Logger.getLogger("com.google.inject.servlet.GuiceFilter")
         .setLevel(java.util.logging.Level.OFF);
+  }
+
+  static ApiType getApiType(Manifest manifest) throws InvalidPluginException {
+    Attributes main = manifest.getMainAttributes();
+    String v = main.getValue("Gerrit-ApiType");
+    if (Strings.isNullOrEmpty(v)
+        || ApiType.EXTENSION.name().equalsIgnoreCase(v)) {
+      return ApiType.EXTENSION;
+    } else if (ApiType.PLUGIN.name().equalsIgnoreCase(v)) {
+      return ApiType.PLUGIN;
+    } else {
+      throw new InvalidPluginException("Invalid Gerrit-ApiType: " + v);
+    }
   }
 
   private final String name;
@@ -55,6 +72,7 @@ public class Plugin {
   private final JarFile jarFile;
   private final Manifest manifest;
   private final File dataDir;
+  private final ApiType apiType;
   private final ClassLoader classLoader;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
@@ -72,6 +90,7 @@ public class Plugin {
       JarFile jarFile,
       Manifest manifest,
       File dataDir,
+      ApiType apiType,
       ClassLoader classLoader,
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule,
@@ -82,6 +101,7 @@ public class Plugin {
     this.jarFile = jarFile;
     this.manifest = manifest;
     this.dataDir = dataDir;
+    this.apiType = apiType;
     this.classLoader = classLoader;
     this.sysModule = sysModule;
     this.sshModule = sshModule;
@@ -96,9 +116,14 @@ public class Plugin {
     return name;
   }
 
+  @Nullable
   public String getVersion() {
     Attributes main = manifest.getMainAttributes();
     return main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
+  }
+
+  public ApiType getApiType() {
+    return apiType;
   }
 
   boolean canReload() {
@@ -141,29 +166,33 @@ public class Plugin {
     }
 
     if (env.hasSshModule()) {
+      List<Module> modules = Lists.newLinkedList();
+      if (apiType == ApiType.PLUGIN) {
+        modules.add(env.getSshModule());
+      }
       if (sshModule != null) {
-        sshInjector = sysInjector.createChildInjector(
-            env.getSshModule(),
-            sysInjector.getInstance(sshModule));
+        modules.add(sysInjector.getInstance(sshModule));
+        sshInjector = sysInjector.createChildInjector(modules);
         manager.add(sshInjector);
       } else if (auto != null && auto.sshModule != null) {
-        sshInjector = sysInjector.createChildInjector(
-            env.getSshModule(),
-            auto.sshModule);
+        modules.add(auto.sshModule);
+        sshInjector = sysInjector.createChildInjector(modules);
         manager.add(sshInjector);
       }
     }
 
     if (env.hasHttpModule()) {
+      List<Module> modules = Lists.newLinkedList();
+      if (apiType == ApiType.PLUGIN) {
+        modules.add(env.getHttpModule());
+      }
       if (httpModule != null) {
-        httpInjector = sysInjector.createChildInjector(
-            env.getHttpModule(),
-            sysInjector.getInstance(httpModule));
+        modules.add(sysInjector.getInstance(httpModule));
+        httpInjector = sysInjector.createChildInjector(modules);
         manager.add(httpInjector);
       } else if (auto != null && auto.httpModule != null) {
-        httpInjector = sysInjector.createChildInjector(
-            env.getHttpModule(),
-            auto.httpModule);
+        modules.add(auto.httpModule);
+        httpInjector = sysInjector.createChildInjector(modules);
         manager.add(httpInjector);
       }
     }
@@ -173,14 +202,17 @@ public class Plugin {
 
   private Injector newRootInjector(PluginGuiceEnvironment env) {
     List<Module> modules = Lists.newArrayListWithCapacity(4);
-    modules.add(env.getSysModule());
-    final ServerInformation srvInfo = env.getServerInformation();
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(ServerInformation.class).toInstance(srvInfo);
-      }
-    });
+    if (apiType == ApiType.PLUGIN) {
+      modules.add(env.getSysModule());
+    } else {
+      final ServerInformation srvInfo = env.getServerInformation();
+      modules.add(new AbstractModule() {
+        @Override
+        protected void configure() {
+          bind(ServerInformation.class).toInstance(srvInfo);
+        }
+      });
+    }
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {

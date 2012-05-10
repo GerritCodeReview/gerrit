@@ -31,9 +31,10 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.security.CodeSource;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -196,7 +197,7 @@ public final class GerritLauncher {
       throw e;
     }
 
-    final ArrayList<URL> jars = new ArrayList<URL>();
+    final SortedMap<String, URL> jars = new TreeMap<String, URL>();
     try {
       final ZipFile zf = new ZipFile(path);
       try {
@@ -208,6 +209,7 @@ public final class GerritLauncher {
           }
 
           if (ze.getName().startsWith("WEB-INF/lib/")) {
+            String name = ze.getName().substring("WEB-INF/lib/".length());
             final File tmp = createTempFile(safeName(ze), ".jar");
             final FileOutputStream out = new FileOutputStream(tmp);
             try {
@@ -224,7 +226,7 @@ public final class GerritLauncher {
             } finally {
               out.close();
             }
-            jars.add(tmp.toURI().toURL());
+            jars.put(name, tmp.toURI().toURL());
           }
         }
       } finally {
@@ -237,13 +239,38 @@ public final class GerritLauncher {
     if (jars.isEmpty()) {
       return GerritLauncher.class.getClassLoader();
     }
-    Collections.sort(jars, new Comparator<URL>() {
-      public int compare(URL o1, URL o2) {
-        return o1.toString().compareTo(o2.toString());
-      }
-    });
 
-    return new URLClassLoader(jars.toArray(new URL[jars.size()]));
+    // The extension API needs to be its own ClassLoader, along
+    // with a few of its dependencies. Try to construct this first.
+    List<URL> extapi = new ArrayList<URL>();
+    move(jars, "gerrit-extension-api-", extapi);
+    move(jars, "guice-", extapi);
+    move(jars, "javax.inject-1.jar", extapi);
+    move(jars, "aopalliance-1.0.jar", extapi);
+    move(jars, "guice-servlet-", extapi);
+    move(jars, "servlet-api-", extapi);
+
+    ClassLoader parent = ClassLoader.getSystemClassLoader();
+    if (!extapi.isEmpty()) {
+      parent = new URLClassLoader(
+          extapi.toArray(new URL[extapi.size()]),
+          parent);
+    }
+    return new URLClassLoader(
+        jars.values().toArray(new URL[jars.size()]),
+        parent);
+  }
+
+  private static void move(SortedMap<String, URL> jars,
+      String prefix,
+      List<URL> extapi) {
+    SortedMap<String, URL> matches = jars.tailMap(prefix);
+    if (!matches.isEmpty()) {
+      String first = matches.firstKey();
+      if (first.startsWith(prefix)) {
+        extapi.add(jars.remove(first));
+      }
+    }
   }
 
   private static String safeName(final ZipEntry ze) {

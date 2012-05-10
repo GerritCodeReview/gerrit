@@ -193,14 +193,6 @@ public final class AccountGroup {
   @Column(id = 2)
   protected Id groupId;
 
-  /**
-   * Identity of the group whose members can manage this group.
-   * <p>
-   * This can be a self-reference to indicate the group's members manage itself.
-   */
-  @Column(id = 3)
-  protected Id ownerGroupId;
-
   /** A textual description of the group's purpose. */
   @Column(id = 4, length = Integer.MAX_VALUE, notNull = false)
   protected String description;
@@ -220,6 +212,14 @@ public final class AccountGroup {
   @Column(id = 9)
   protected UUID groupUUID;
 
+  /**
+   * Identity of the group whose members can manage this group.
+   * <p>
+   * This can be a self-reference to indicate the group's members manage itself.
+   */
+  @Column(id = 10)
+  protected UUID ownerGroupUUID;
+
   protected AccountGroup() {
   }
 
@@ -227,9 +227,9 @@ public final class AccountGroup {
       final AccountGroup.Id newId, final AccountGroup.UUID uuid) {
     name = newName;
     groupId = newId;
-    ownerGroupId = groupId;
     visibleToAll = false;
     groupUUID = uuid;
+    ownerGroupUUID = groupUUID;
     setType(Type.INTERNAL);
   }
 
@@ -257,12 +257,12 @@ public final class AccountGroup {
     description = d;
   }
 
-  public AccountGroup.Id getOwnerGroupId() {
-    return ownerGroupId;
+  public AccountGroup.UUID getOwnerGroupUUID() {
+    return ownerGroupUUID;
   }
 
-  public void setOwnerGroupId(final AccountGroup.Id id) {
-    ownerGroupId = id;
+  public void setOwnerGroupUUID(final AccountGroup.UUID uuid) {
+    ownerGroupUUID = uuid;
   }
 
   public Type getType() {

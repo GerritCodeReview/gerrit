@@ -182,6 +182,9 @@ public class ApprovalTable extends Composite {
               break;
             }
 
+            case MAY:
+              break;
+
             case NEED:
             case IMPOSSIBLE:
               if (reportedMissing.add(lbl.label)) {

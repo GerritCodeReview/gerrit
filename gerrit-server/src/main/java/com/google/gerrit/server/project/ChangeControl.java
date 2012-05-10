@@ -292,13 +292,17 @@ public class ChangeControl {
     return false;
   }
 
+  public List<SubmitRecord> getSubmitRecords(ReviewDb db, PatchSet patchSet) {
+    return canSubmit(db, patchSet, null, false, true);
+  }
+
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet) {
-    return canSubmit(db, patchSet, null, false);
+    return canSubmit(db, patchSet, null, false, false);
   }
 
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
-      @Nullable ChangeData cd, boolean fastEvalLabels) {
-    if (change.getStatus().isClosed()) {
+      @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed) {
+    if (!allowClosed && change.getStatus().isClosed()) {
       SubmitRecord rec = new SubmitRecord();
       rec.status = SubmitRecord.Status.CLOSED;
       return Collections.singletonList(rec);
@@ -494,6 +498,9 @@ public class ChangeControl {
 
         } else if ("need".equals(status.name())) {
           lbl.status = SubmitRecord.Label.Status.NEED;
+
+        } else if ("may".equals(status.name())) {
+          lbl.status = SubmitRecord.Label.Status.MAY;
 
         } else if ("impossible".equals(status.name())) {
           lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;

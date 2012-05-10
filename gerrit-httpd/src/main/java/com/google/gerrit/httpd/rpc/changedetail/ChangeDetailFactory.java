@@ -143,20 +143,20 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setCanEdit(control.getRefControl().canWrite());
 
-    if (detail.getChange().getStatus().isOpen()) {
-      List<SubmitRecord> submitRecords = control.canSubmit(db, patch);
-      for (SubmitRecord rec : submitRecords) {
-        if (rec.labels != null) {
-          for (SubmitRecord.Label lbl : rec.labels) {
-            aic.want(lbl.appliedBy);
-          }
-        }
-        if (rec.status == SubmitRecord.Status.OK && control.getRefControl().canSubmit()) {
-          detail.setCanSubmit(true);
+    List<SubmitRecord> submitRecords = control.getSubmitRecords(db, patch);
+    for (SubmitRecord rec : submitRecords) {
+      if (rec.labels != null) {
+        for (SubmitRecord.Label lbl : rec.labels) {
+          aic.want(lbl.appliedBy);
         }
       }
-      detail.setSubmitRecords(submitRecords);
+      if (detail.getChange().getStatus().isOpen()
+          && rec.status == SubmitRecord.Status.OK
+          && control.getRefControl().canSubmit()) {
+        detail.setCanSubmit(true);
+      }
     }
+    detail.setSubmitRecords(submitRecords);
 
     patchsetsById = new HashMap<PatchSet.Id, PatchSet>();
     loadPatchSets();

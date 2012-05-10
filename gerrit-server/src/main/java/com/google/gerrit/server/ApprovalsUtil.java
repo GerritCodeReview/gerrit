@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.extensions.Function;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
@@ -31,6 +32,7 @@ import com.google.inject.Inject;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -58,6 +60,23 @@ public class ApprovalsUtil {
     db.patchSetApprovals().update(approvals);
   }
 
+  public class CopyOnlyVetos
+      implements Function<Set<PatchSetApproval>,Set<PatchSetApproval>> {
+    public Set<PatchSetApproval> apply(Set<PatchSetApproval> approvals) {
+      Set<PatchSetApproval> vetos = new HashSet<PatchSetApproval>();
+      for (PatchSetApproval a : approvals) {
+        // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
+        if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+          final ApprovalType type = approvalTypes.byId(a.getCategoryId());
+          if (type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
+            vetos.add(a);
+          }
+        }
+      }
+      return vetos;
+    }
+  }
+
   /**
    * Moves the PatchSetApprovals to the last PatchSet on the change while
    * keeping the vetos.
@@ -76,15 +95,14 @@ public class ApprovalsUtil {
     }
 
     PatchSet.Id dest = change.currPatchSetId();
-    for (PatchSetApproval a : db.patchSetApprovals().byPatchSet(source)) {
-      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
-      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-        final ApprovalType type = approvalTypes.byId(a.getCategoryId());
-        if (type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
-          db.patchSetApprovals().insert(
-              Collections.singleton(new PatchSetApproval(dest, a)));
-        }
-      }
+
+    Set<PatchSetApproval> prev = new HashSet<PatchSetApproval>();
+    prev.addAll(db.patchSetApprovals().byPatchSet(source).toList());
+    Set<PatchSetApproval> vetos = this.new CopyOnlyVetos().apply(prev);
+    
+    for (PatchSetApproval a : vetos) {
+      db.patchSetApprovals().insert(
+          Collections.singleton(new PatchSetApproval(dest, a)));
     }
   }
 

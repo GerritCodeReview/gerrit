@@ -39,6 +39,7 @@ import com.google.gerrit.server.account.MaterializedGroupMembership;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
@@ -112,6 +113,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ProjectCacheImpl.module());
     install(SectionSortCache.module());
     install(TagCache.module());
+    install(ChangeCache.module());
     install(new AccessControlModule());
     install(new GitModule());
     install(new PrologModule());

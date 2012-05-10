@@ -73,6 +73,7 @@ class PushOp implements ProjectRunnable {
   private final RemoteConfig config;
   private final CredentialsProvider credentialsProvider;
   private final TagCache tagCache;
+  private final ChangeCache changeCache;
 
   private final Set<String> delta = new HashSet<String>();
   private final Project.NameKey projectName;
@@ -92,7 +93,7 @@ class PushOp implements ProjectRunnable {
   PushOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> s,
       final PushReplication.ReplicationConfig p, final RemoteConfig c,
       final SecureCredentialsProvider.Factory cpFactory,
-      final TagCache tc,
+      final TagCache tc, final ChangeCache cc,
       @Assisted final Project.NameKey d, @Assisted final URIish u) {
     repoManager = grm;
     schema = s;
@@ -100,6 +101,7 @@ class PushOp implements ProjectRunnable {
     config = c;
     credentialsProvider = cpFactory.create(c.getName());
     tagCache = tc;
+    changeCache = cc;
     projectName = d;
     uri = u;
   }
@@ -314,7 +316,7 @@ class PushOp implements ProjectRunnable {
         return Collections.emptyList();
       }
       try {
-        local = new VisibleRefFilter(tagCache, db, pc, meta, true).filter(local, true);
+        local = new VisibleRefFilter(tagCache, changeCache, db, pc, meta, true).filter(local, true);
       } finally {
         meta.close();
       }

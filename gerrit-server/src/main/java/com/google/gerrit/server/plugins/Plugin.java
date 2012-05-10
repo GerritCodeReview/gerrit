@@ -15,8 +15,10 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.inject.AbstractModule;
@@ -27,6 +29,8 @@ import com.google.inject.Module;
 import org.eclipse.jgit.storage.file.FileSnapshot;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -55,6 +59,7 @@ public class Plugin {
   private Injector sshInjector;
   private Injector httpInjector;
   private LifecycleManager manager;
+  private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
   public Plugin(String name,
       File srcJar,
@@ -186,6 +191,10 @@ public class Plugin {
     return jarFile;
   }
 
+  public Injector getSysInjector() {
+    return sysInjector;
+  }
+
   @Nullable
   public Injector getSshInjector() {
     return sshInjector;
@@ -197,6 +206,13 @@ public class Plugin {
   }
 
   public void add(final RegistrationHandle handle) {
+    if (handle instanceof ReloadableRegistrationHandle) {
+      if (reloadableHandles == null) {
+        reloadableHandles = Lists.newArrayList();
+      }
+      reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
+    }
+
     add(new LifecycleListener() {
       @Override
       public void start() {
@@ -211,6 +227,13 @@ public class Plugin {
 
   public void add(LifecycleListener listener) {
     manager.add(listener);
+  }
+
+  List<ReloadableRegistrationHandle<?>> getReloadableHandles() {
+    if (reloadableHandles != null) {
+      return reloadableHandles;
+    }
+    return Collections.emptyList();
   }
 
   @Override

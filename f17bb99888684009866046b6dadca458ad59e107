@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///fY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-10T23:43:45Z",
+      "side": 1,
+      "message": "Maybe change ProjectListPopup to not even accept a ResizeHandler?  This will clean up a lot of extra unused code.",
+      "revId": "f17bb99888684009866046b6dadca458ad59e107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

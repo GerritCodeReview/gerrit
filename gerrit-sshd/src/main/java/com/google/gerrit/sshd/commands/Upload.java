@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.VisibleRefFilter;
@@ -37,6 +38,9 @@ final class Upload extends AbstractGitCommand {
   @Inject
   private TagCache tagCache;
 
+  @Inject
+  private ChangeCache changeCache;
+
   @Override
   protected void runImpl() throws IOException, Failure {
     if (!projectControl.canRunUploadPack()) {
@@ -45,7 +49,7 @@ final class Upload extends AbstractGitCommand {
 
     final UploadPack up = new UploadPack(repo);
     if (!projectControl.allRefsAreVisible()) {
-      up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, repo,
+      up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo,
           projectControl, db.get(), true));
     }
     up.setPackConfig(config.getPackConfig());

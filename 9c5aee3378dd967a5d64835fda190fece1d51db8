@@ -33,6 +33,24 @@
       "revId": "9c5aee3378dd967a5d64835fda190fece1d51db8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///so\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-10T00:43:11Z",
+      "side": 1,
+      "message": "Done?\n\nI hope I it right now.",
+      "parentUuid": "AAAFXn///5w\u003d",
+      "revId": "9c5aee3378dd967a5d64835fda190fece1d51db8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

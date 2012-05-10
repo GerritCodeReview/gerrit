@@ -208,6 +208,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     }
 
     final PatchSet.Id psId = detail.getChange().currentPatchSetId();
+
     final List<PatchSetApproval> allApprovals =
         db.patchSetApprovals().byChange(changeId).toList();
 
@@ -274,13 +275,16 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       }
     }
 
-    final RevId cprev = loader.patchSet.getRevision();
     final Set<Change.Id> descendants = new HashSet<Change.Id>();
-    if (cprev != null) {
-      for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(cprev)) {
-        final Change.Id ck = a.getPatchSet().getParentKey();
-        if (descendants.add(ck)) {
-          changesToGet.add(a.getPatchSet().getParentKey());
+    RevId cprev;
+    for (PatchSet p : detail.getPatchSets()) {
+      cprev = p.getRevision();
+      if (cprev != null) {
+        for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(cprev)) {
+          final Change.Id ck = a.getPatchSet().getParentKey();
+          if (descendants.add(ck)) {
+            changesToGet.add(a.getPatchSet().getParentKey());
+          }
         }
       }
     }

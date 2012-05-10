@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///f8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-10T23:40:10Z",
+      "side": 1,
+      "message": "Why do we need this? Most things are handled through the plugin\u0027s LifecycleManager.",
+      "revId": "03a8df20b3ced633a32837878b82adf0494655c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

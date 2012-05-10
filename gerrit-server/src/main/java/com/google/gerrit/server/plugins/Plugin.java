@@ -195,6 +195,11 @@ public class Plugin {
   }
 
   @Nullable
+  public Injector getSysInjector() {
+    return sysInjector;
+  }
+
+  @Nullable
   public Injector getSshInjector() {
     return sshInjector;
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///Vk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-11T22:09:32Z",
+      "side": 1,
+      "message": "s/%s to large/%s too large/\n\nWe should also include the plugin name here. entryName doesn\u0027t have it.",
+      "revId": "86a69cb53aee56ae766f336fcbc7fc3580d7e377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

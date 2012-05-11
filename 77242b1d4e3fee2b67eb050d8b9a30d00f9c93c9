@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFbX///6I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-11T23:42:58Z",
+      "side": 1,
+      "message": "I think this title is not very accurate. It should probably describe what issue the change fixes.",
+      "revId": "77242b1d4e3fee2b67eb050d8b9a30d00f9c93c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbX///6E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-11T23:42:58Z",
+      "side": 1,
+      "message": "I think this one should be added: http://code.google.com/p/gerrit/issues/detail?id\u003d1142",
+      "revId": "77242b1d4e3fee2b67eb050d8b9a30d00f9c93c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbX///5E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-11T23:42:58Z",
+      "side": 1,
+      "message": "I\u0027m a bit worried about how much database will be queried here.",
+      "revId": "77242b1d4e3fee2b67eb050d8b9a30d00f9c93c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbX///5U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-11T23:42:58Z",
+      "side": 1,
+      "message": "nit: wrong indentation",
+      "revId": "77242b1d4e3fee2b67eb050d8b9a30d00f9c93c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

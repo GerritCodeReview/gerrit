@@ -169,13 +169,15 @@ class HttpPluginServlet extends HttpServlet
       HttpServletResponse res) throws IOException {
     String uri = req.getRequestURI();
     String ctx = req.getContextPath();
-    String file = uri.substring(ctx.length() + 1);
-    if (file.startsWith("Documentation/") || file.startsWith("static/")) {
-      JarFile jar = holder.plugin.getJarFile();
-      JarEntry entry = jar.getJarEntry(file);
-      if (entry != null && entry.getSize() > 0) {
-        sendResource(jar, entry, res);
-        return;
+    if (uri.length() > ctx.length()) {
+      String file = uri.substring(ctx.length() + 1);
+      if (file.startsWith("Documentation/") || file.startsWith("static/")) {
+        JarFile jar = holder.plugin.getJarFile();
+        JarEntry entry = jar.getJarEntry(file);
+        if (entry != null && entry.getSize() > 0) {
+          sendResource(jar, entry, res);
+          return;
+        }
       }
     }
 

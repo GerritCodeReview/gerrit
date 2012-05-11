@@ -29,7 +29,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.ReplicationUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
@@ -185,7 +185,7 @@ public class ProjectControl {
 
   /** Can this user see this project exists? */
   public boolean isVisible() {
-    return (visibleForReplication()
+    return (user instanceof InternalUser
         || canPerformOnAnyRef(Permission.READ)) && !isHidden();
   }
 
@@ -196,14 +196,8 @@ public class ProjectControl {
 
   /** Can this user see all the refs in this projects? */
   public boolean allRefsAreVisible() {
-    return visibleForReplication()
+    return user instanceof InternalUser
         || canPerformOnAllRefs(Permission.READ);
-  }
-
-  /** Is this project completely visible for replication? */
-  boolean visibleForReplication() {
-    return user instanceof ReplicationUser
-        && ((ReplicationUser) user).isEverythingVisible();
   }
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */

@@ -23,9 +23,9 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.NoReplication;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -92,7 +92,7 @@ public class Schema_64 extends SchemaVersion {
     }
     try {
       MetaDataUpdate md =
-          new MetaDataUpdate(new NoReplication(), allProjects, git);
+          new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjects, git);
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
 

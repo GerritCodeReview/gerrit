@@ -111,9 +111,6 @@ link:cmd-flush-caches.html[gerrit flush-caches]::
 link:cmd-gsql.html[gerrit gsql]::
 	Administrative interface to active database.
 
-link:cmd-replicate.html[gerrit replicate]::
-	Manually trigger replication, to recover a node.
-
 link:cmd-set-project-parent.html[gerrit set-project-parent]::
 	Change the project permissions are inherited from.
 

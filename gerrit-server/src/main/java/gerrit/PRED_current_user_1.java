@@ -20,7 +20,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
-import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.project.ChangeControl;
 
 import com.googlecode.prolog_cafe.lang.EvaluationException;
@@ -61,8 +60,6 @@ public class PRED_current_user_1 extends Predicate.P1 {
       resultTerm = anonymous;
     } else if (curUser instanceof PeerDaemonUser) {
       resultTerm = peerDaemon;
-    } else if (curUser instanceof ReplicationUser) {
-      resultTerm = replication;
     } else {
       throw new EvaluationException("Unknown user type");
     }

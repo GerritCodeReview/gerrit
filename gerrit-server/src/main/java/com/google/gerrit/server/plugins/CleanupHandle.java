@@ -40,6 +40,8 @@ class CleanupHandle extends WeakReference<ClassLoader> {
     }
     if (!tmpFile.delete() && tmpFile.exists()) {
       PluginLoader.log.warn("Cannot delete " + tmpFile.getAbsolutePath());
+    } else {
+      PluginLoader.log.info("Cleaned plugin " + tmpFile.getName());
     }
   }
 }

@@ -23,8 +23,10 @@ public class PluginModule extends LifecycleModule {
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
 
+    bind(PluginCleanerTask.class);
     bind(PluginGuiceEnvironment.class);
     bind(PluginLoader.class);
+
     bind(CopyConfigModule.class);
     listener().to(PluginLoader.class);
   }

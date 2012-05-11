@@ -97,8 +97,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     List<PermissionRange> allowed = Collections.emptyList();
     List<PatchSetApproval> given = Collections.emptyList();
 
-    if (change.getStatus().isOpen()
-        && patchSetId.equals(change.currentPatchSetId())) {
+    if (patchSetId.equals(change.currentPatchSetId())) {
       // TODO Push this selection of labels down into the Prolog interpreter.
       // Ideally we discover the labels the user can apply here based on doing
       // a findall() over the space of labels they can apply combined against
@@ -120,7 +119,13 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
           .toList();
 
       boolean couldSubmit = false;
-      List<SubmitRecord> submitRecords = control.canSubmit(db, patchSet);
+      List<SubmitRecord> submitRecords;
+      if (change.getStatus().isOpen()) {
+        submitRecords = control.canSubmit(db, patchSet);
+      } else {
+        submitRecords = control.canReviewSubmitted(db, patchSet);
+      }
+
       for (SubmitRecord rec : submitRecords) {
         if (rec.status == SubmitRecord.Status.OK) {
           couldSubmit = true;
@@ -157,7 +162,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
             }
           }
 
-          if (rec.status == SubmitRecord.Status.NOT_READY
+          if (change.getStatus().isOpen()
+              && rec.status == SubmitRecord.Status.NOT_READY
               && ok == rec.labels.size()) {
             couldSubmit = true;
           }

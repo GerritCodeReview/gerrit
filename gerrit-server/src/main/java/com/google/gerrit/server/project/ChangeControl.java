@@ -346,6 +346,47 @@ public class ChangeControl {
         "locate_submit_filter", "filter_submit_results");
   }
 
+  public List<SubmitRecord> canReviewSubmitted(ReviewDb db,
+      PatchSet patchSet) {
+    return canReviewSubmitted(db, patchSet, null, false);
+  }
+
+  public List<SubmitRecord> canReviewSubmitted(ReviewDb db, PatchSet patchSet,
+      @Nullable ChangeData cd, boolean fastEvalLabels) {
+    if (!change.getStatus().isClosed()) {
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.OPEN;
+      return Collections.singletonList(rec);
+    }
+
+    if (!patchSet.getId().equals(change.currentPatchSetId())) {
+      return ruleError("Patch set " + patchSet.getPatchSetId() + " is not current");
+    }
+
+    try {
+      if (change.getStatus() == Change.Status.DRAFT) {
+        if (!isDraftVisible(db, cd)) {
+          return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
+        } else {
+          return ruleError("Cannot submit draft changes");
+        }
+      }
+      if (patchSet.isDraft()) {
+        if (!isDraftVisible(db, cd)) {
+          return ruleError("Patch set " + patchSet.getPatchSetId() + " not found");
+        } else {
+          return ruleError("Cannot submit draft patch sets");
+        }
+      }
+    } catch (OrmException err) {
+      return logRuleError("Cannot read patch set " + patchSet.getId(), err);
+    }
+
+    return evaluatePrologRules(db, patchSet, cd, fastEvalLabels,
+        "postsubmit_rule", "locate_postsubmit_rule", "can_postsubmit",
+        "locate_postsubmit_filter", "filter_postsubmit_results");
+  }
+
   /**
    * Evaluates a Prolog rule found in the rules.pl file of the current
    * project and filters the results through rules found in the parent
@@ -507,8 +548,9 @@ public class ChangeControl {
       //
       submitRecord = submitRecord.arg(0);
 
+      // The submit record may be empty, i.e. contain zero labels. That's fine.
       if (!submitRecord.isStructure()) {
-        return logInvalidResult(submitRule, submitRecord);
+        break;
       }
 
       rec.labels = new ArrayList<SubmitRecord.Label> (submitRecord.arity());

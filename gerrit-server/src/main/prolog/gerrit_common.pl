@@ -328,6 +328,76 @@ locate_submit_filter(FilterName) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
+%% can_postsubmit/2:
+%%
+%%   Executes the PostSubmitRule for each solution until one where all of the
+%%   states has the format label(_, ok(_)) is found, then cut away any
+%%   remaining choice points leaving this as the last solution.
+%%
+:- public can_postsubmit/2.
+%%
+can_postsubmit(PostSubmitRule, S) :-
+  call_submit_rule(PostSubmitRule, Tmp),
+  Tmp =.. [submit | Ls],
+  ( is_all_ok(Ls) -> S = ok(Tmp), ! ; S = not_ready(Tmp) ).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% locate_postsubmit_rule/1:
+%%
+%%   Finds a postsubmit_rule depending on what rules are available.
+%%   If none are available, use default_postsubmit/1.
+%%
+:- public locate_postsubmit_rule/1.
+%%
+
+locate_postsubmit_rule(RuleName) :-
+  '$compiled_predicate'(user, postsubmit_rule, 1),
+  !,
+  RuleName = user:postsubmit_rule
+  .
+locate_postsubmit_rule(RuleName) :-
+  clause(user:postsubmit_rule(_), _),
+  !,
+  RuleName = user:postsubmit_rule
+  .
+locate_postsubmit_rule(RuleName) :-
+  RuleName = gerrit:default_postsubmit.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% default_postsubmit/1:
+%%
+%%   Return an empty list to disable postsubmit scoring.
+%%
+:- public default_postsubmit/1.
+%%
+default_postsubmit(submit).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% locate_postsubmit_filter/1:
+%%
+%%   Finds a postsubmit_filter if available.
+%%
+:- public locate_postsubmit_filter/1.
+%%
+locate_postsubmit_filter(FilterName) :-
+  '$compiled_predicate'(user, postsubmit_filter, 2),
+  !,
+  FilterName = user:postsubmit_filter
+  .
+locate_postsubmit_filter(FilterName) :-
+  clause(user:postsubmit_filter(_,_), _),
+  FilterName = user:postsubmit_filter
+  .
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
 %% find_label/3:
 %%
 %%   Finds labels successively and fails when there are no more results.

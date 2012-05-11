@@ -147,7 +147,7 @@ public abstract class DynamicMap<T> {
     public boolean equals(Object other) {
       if (other instanceof NamePair) {
         NamePair np = (NamePair) other;
-        return pluginName.equals(np) && exportName.equals(np);
+        return pluginName.equals(np.pluginName) && exportName.equals(np.exportName);
       }
       return false;
     }

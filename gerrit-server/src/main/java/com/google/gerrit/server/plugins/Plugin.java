@@ -16,6 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
@@ -26,6 +27,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.storage.file.FileSnapshot;
 
@@ -51,6 +54,7 @@ public class Plugin {
   private final FileSnapshot snapshot;
   private final JarFile jarFile;
   private final Manifest manifest;
+  private final File dataDir;
   private final ClassLoader classLoader;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
@@ -67,6 +71,7 @@ public class Plugin {
       FileSnapshot snapshot,
       JarFile jarFile,
       Manifest manifest,
+      File dataDir,
       ClassLoader classLoader,
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule,
@@ -76,6 +81,7 @@ public class Plugin {
     this.snapshot = snapshot;
     this.jarFile = jarFile;
     this.manifest = manifest;
+    this.dataDir = dataDir;
     this.classLoader = classLoader;
     this.sysModule = sysModule;
     this.sshModule = sshModule;
@@ -181,6 +187,27 @@ public class Plugin {
         bind(String.class)
           .annotatedWith(PluginName.class)
           .toInstance(name);
+
+        bind(File.class)
+          .annotatedWith(PluginData.class)
+          .toProvider(new Provider<File>() {
+            private volatile boolean ready;
+
+            @Override
+            public File get() {
+              if (!ready) {
+                synchronized (dataDir) {
+                  if (!dataDir.exists() && !dataDir.mkdirs()) {
+                    throw new ProvisionException(String.format(
+                        "Cannot create %s for plugin %s",
+                        dataDir.getAbsolutePath(), name));
+                  }
+                  ready = true;
+                }
+              }
+              return dataDir;
+            }
+          });
       }
     });
     return Guice.createInjector(modules);

@@ -161,7 +161,7 @@ public class PluginGuiceEnvironment {
     return httpGen.get();
   }
 
-  void onStartPlugin(Plugin plugin) {
+  void onStartPlugin(Plugin plugin) throws InvalidPluginException {
     for (StartPluginListener l : onStart) {
       l.onStartPlugin(plugin);
     }
@@ -215,7 +215,7 @@ public class PluginGuiceEnvironment {
     }
   }
 
-  void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
+  void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) throws InvalidPluginException {
     for (ReloadPluginListener l : onReload) {
       l.onReloadPlugin(oldPlugin, newPlugin);
     }

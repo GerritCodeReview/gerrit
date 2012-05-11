@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
+import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
@@ -76,13 +77,18 @@ class HttpPluginServlet extends HttpServlet
     String path = config.getServletContext().getContextPath();
     base = Strings.nullToEmpty(path) + "/plugins/";
     for (Plugin plugin : pending) {
-      install(plugin);
+      try {
+        install(plugin);
+      } catch (InvalidPluginException e) {
+        throw new ServletException(String.format(
+            "Plugin %s installation failed", plugin.getName()), e);
+      }
     }
     pending = null;
   }
 
   @Override
-  public synchronized void onStartPlugin(Plugin plugin) {
+  public synchronized void onStartPlugin(Plugin plugin) throws InvalidPluginException {
     if (pending != null) {
       pending.add(plugin);
     } else {
@@ -91,11 +97,11 @@ class HttpPluginServlet extends HttpServlet
   }
 
   @Override
-  public void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
+  public void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) throws InvalidPluginException {
     install(newPlugin);
   }
 
-  private void install(Plugin plugin) {
+  private void install(Plugin plugin) throws InvalidPluginException {
     GuiceFilter filter = load(plugin);
     final String name = plugin.getName();
     final PluginHolder holder = new PluginHolder(plugin, filter);
@@ -108,23 +114,21 @@ class HttpPluginServlet extends HttpServlet
     plugins.put(name, holder);
   }
 
-  private GuiceFilter load(Plugin plugin) {
+  private GuiceFilter load(Plugin plugin) throws InvalidPluginException {
     if (plugin.getHttpInjector() != null) {
       final String name = plugin.getName();
       final GuiceFilter filter;
       try {
         filter = plugin.getHttpInjector().getInstance(GuiceFilter.class);
       } catch (RuntimeException e) {
-        log.warn(String.format("Plugin %s cannot load GuiceFilter", name), e);
-        return null;
+        throw new InvalidPluginException(String.format("Plugin %s cannot load GuiceFilter", name), e);
       }
 
       try {
         WrappedContext ctx = new WrappedContext(plugin, base + name);
         filter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
-        log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);
-        return null;
+        throw new InvalidPluginException(String.format("Plugin %s failed to initialize HTTP", name), e);
       }
 
       plugin.add(new RegistrationHandle() {

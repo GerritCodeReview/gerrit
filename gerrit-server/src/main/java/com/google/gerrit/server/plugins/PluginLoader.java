@@ -59,6 +59,7 @@ public class PluginLoader implements LifecycleListener {
   static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
 
   private final File pluginsDir;
+  private final File dataDir;
   private final File tmpDir;
   private final PluginGuiceEnvironment env;
   private final Map<String, Plugin> running;
@@ -72,6 +73,7 @@ public class PluginLoader implements LifecycleListener {
       PluginGuiceEnvironment pe,
       @GerritServerConfig Config cfg) {
     pluginsDir = sitePaths.plugins_dir;
+    dataDir = sitePaths.data_dir;
     tmpDir = sitePaths.tmp_dir;
     env = pe;
     running = Maps.newHashMap();
@@ -345,7 +347,7 @@ public class PluginLoader implements LifecycleListener {
       return new Plugin(name,
           srcJar, snapshot,
           jarFile, manifest,
-          pluginLoader,
+          new File(dataDir, name), pluginLoader,
           sysModule, sshModule, httpModule);
     } finally {
       if (!keep) {

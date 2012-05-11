@@ -245,7 +245,7 @@ public class Daemon extends SiteProgram {
   private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<Module>();
     if (sshd) {
-      modules.add(new SshModule());
+      modules.add(sysInjector.getInstance(SshModule.class));
       if (slave) {
         modules.add(new SlaveCommandModule());
       } else {

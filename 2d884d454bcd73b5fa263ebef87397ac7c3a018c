@@ -1,0 +1,616 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFZn///88\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Ah, so this should be a server side test git? If so, better off creating it with for example\n\n$ ssh gerrit-server-name-and-url-and-port gerrit create-project -p education/sandbox\n\nThat way the git will get the proper refs/meta/config section setup as well, which is nice. :)\n\nBut it\u0027s an excellent idea with a sandbox / hello world-style git where anything goes.. We should have this!",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX////M\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Nit: I\u0027m afraid I have to point out the fact that this output doesn\u0027t get the monospace font unless the $ is prefixed with one or two spaces, not sure which is minimum. I feel like I should\u0027ve seen this before telling you about the $ prefix that I asked for, but now it seems I didn\u0027t see this in time. Sorry. :)\n\nThis is valid for several of the commands below.",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///84\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Is this only for yum users, or is it for *nix users now?",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Add the gitweb[...]",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///80\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Nit: It compiles well in my version of asciidoc, but I suppose it should still have a \"link:\" in front of it.",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+k\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Nit: Appropriate",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "I think you should inject explicit linebreaks in this line, right now it just goes off the screen in the asciidoc version.",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX////I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "/usr/local/gerrit/bin/gerrit.sh ?",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Suggestion: \n.. an error that looks like [pasted!]",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Ocngifarutoin. :)",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+g\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Nit: Plural?",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+c\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "dowNloaded\n\n...unless you\u0027re on linux but behind a firewall and have to download them manually anyway. :)",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX////E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Castle",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8k\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Suggestion: A link to send them off in the right direction.\n\nhttps://gerrit-review.googlesource.com/Documentation/config-gerrit.html",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8g\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "I didn\u0027t test myself if you need to escape the backslash. do you still need it? Also, the -f option uses forward slashes, inconsistent.\nI suspect you just forgot to change it.\n\nI would recommend adding a note at the top of the doc where you state that wherever a generic example is provided, you will use *nix styled path separators, and then let the windows users replace them with a backslash whenever needed. Most of them will be running msysgit anyway, and that uses forward slashes for a better *nix-feeling. :-)",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8w\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "For the sake of consistency, the above test url says http://localhost/gerrit.\n\nThis indicates to me that this example also needs the additional gerrit/ directory added to this URL. Either that, or we could put the above apache config inside a virtualhost entry.. You choose. :)",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX////A\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "I haven\u0027t heard about this customization before, and I want to know more about it. Maybe the reader too. :-)\n\nLink to some docs please?",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+Y\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Why link here? sed gone wrong or intentional? :)\n\nAlso, no response to my previous comment; i\u0027ll repaste. Please respond something, even if you don\u0027t like my suggestion, that way I know it was considered and accepted or rejected:\n\nWe want the user to be self going after they\u0027ve complete this guide. Include a link to the scheme docs so they can look up and learn any the arguments they think they need in their environment.\n\nRecommended link: link:https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#_a_id_download_a_section_download[download section manual]",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8c\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "s/I recomend using/You can use for example/",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8Y\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "For other reviewers: Please look at patch set 1, the discussion on line 396 (the same line as this in that patch set). Please help me here, do you think this example is fine, or should we refer to the somewhat newer standard with a separate context.xml?",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8U\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Please adjust according to discussion on patch set 1, line 421.",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+U\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "No response to previous comment at patch set 1, line 423.",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8Q\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "No implementation of previous comment at patch set 1, line 436.",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX///+8\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Stopping",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX///+4\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "We have a nastiness with our gerrit in tomcat where it never exits properly. The application shuts down, but never lets tomcat know, and therefore tomcat can never finish properly.\n\ntherefore, we force the shutdown of tomcat after 25 seconds in our script.\n\n\"$TOMCAT/bin/shutdown.sh 25 -force\"\n\nNot sure if that should go into this generic script for everyone.. perhaps it could be mentioned somewhere?",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8M\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "there\u0027s a pid-file, at least in T7.\n\nthe pid-file is created by tomcat/bin/catalina.sh if CATALINA_PID is set (I believe, didn\u0027t read too closely), and seems to be standard procedure in tomcat.\n\nIf it isn\u0027t set, you could hardcode the default location here as well:\n\nCATALINA_PID\u003d$TOMCAT/logs/catalina.pid\n\nWith that in place you can do this instead of piping command output from many different systems into a generic grep and hope for the best:\n\nwhile test -s $CATALINA_PID \u0026\u0026 ps -p `cat $CATALINA_PID` \u003e /dev/null",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+Q\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Do you really type \"service\" here? Which linux dist flavor if it matters?",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX///+w\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "... in the a variety...\n\nSuggestion:\n\nIf you need help, please check \u003c\u003cTroubleshooting,the recommended resources in this section to get help\u003e\u003e.",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+M\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "+the ?",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "I moved this over from patch set 1, line 671:\n\nWe\u0027ve had many user issues over time which touches on the fact that it\u0027s hard to paste this output into the browser without introducing extra line breaks. Perhaps it\u0027s worth issuing a warning to be careful when pasting the key.",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "From patch set 1, line 679:\n\nFor convenience it would be nice with an example URL to the screenshotted page. This screenshot may be old in 6 months or a year from now, it would be nice with a disclaimer of the gerrit version it was taken from.",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX///+s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Anonymize corporation.",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "prompt",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///8I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "Ahem. :-)",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX///+o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "user@...",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///+A\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-05-11T15:45:46Z",
+      "side": 1,
+      "message": "I..",
+      "revId": "2d884d454bcd73b5fa263ebef87397ac7c3a018c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

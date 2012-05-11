@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,40 +14,37 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-public class ReplicationUser extends CurrentUser {
-  /** Magic set of groups enabling read of any project and reference. */
-  public static final GroupMembership EVERYTHING_VISIBLE =
-      new ListGroupMembership(Collections.<AccountGroup.UUID>emptySet());
-
+/**
+ * User identity for plugin code that needs an identity.
+ * <p>
+ * An InternalUser has no real identity, it acts as the server and can access
+ * anything it wants, anytime it wants, given the JVM's own direct access to
+ * data. Plugins may use this when they need to have a CurrentUser with read
+ * permission on anything.
+ */
+public class InternalUser extends CurrentUser {
   public interface Factory {
-    ReplicationUser create(@Assisted GroupMembership authGroups);
+    InternalUser create();
   }
 
-  private final GroupMembership effectiveGroups;
-
   @Inject
-  protected ReplicationUser(CapabilityControl.Factory capabilityControlFactory,
-      @Assisted GroupMembership authGroups) {
-    super(capabilityControlFactory, AccessPath.REPLICATION);
-    effectiveGroups = authGroups;
+  protected InternalUser(CapabilityControl.Factory capabilityControlFactory) {
+    super(capabilityControlFactory, AccessPath.UNKNOWN);
   }
 
   @Override
   public GroupMembership getEffectiveGroups() {
-    return effectiveGroups;
+    return GroupMembership.EMPTY;
   }
 
   @Override
@@ -60,7 +57,8 @@ public class ReplicationUser extends CurrentUser {
     return Collections.emptySet();
   }
 
-  public boolean isEverythingVisible() {
-    return getEffectiveGroups() == EVERYTHING_VISIBLE;
+  @Override
+  public String toString() {
+    return "InternalUser";
   }
 }

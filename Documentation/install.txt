@@ -203,7 +203,6 @@ For more information, see the related topic in this manual:
 
 * link:config-reverseproxy.html[Reverse Proxy]
 * link:config-sso.html[Single Sign-On Systems]
-* link:config-replication.html[Git Replication/Mirroring]
 * link:config-headerfooter.html[Site Header/Footer]
 * link:config-gitweb.html[Gitweb Integration]
 * link:config-gerrit.html[Other System Settings]

@@ -34,9 +34,9 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.NoReplication;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.VersionedMetaData.BatchMetaDataUpdate;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -92,7 +92,7 @@ public class Schema_65 extends SchemaVersion {
     }
     try {
       MetaDataUpdate md =
-          new MetaDataUpdate(new NoReplication(), allProjects, git);
+          new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjects, git);
       ProjectConfig config = ProjectConfig.read(md);
       Map<Integer, ContributorAgreement> agreements = getAgreementToAdd(db, config);
       if (agreements.isEmpty()) {

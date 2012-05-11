@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
@@ -131,17 +132,27 @@ public class PublishComments implements Callable<VoidResult> {
     }
     drafts = drafts();
 
+    boolean canScore;
+    if (change.getStatus().isOpen()) {
+      canScore = true;
+    } else {
+      List<SubmitRecord> sr = ctl.canReviewSubmitted(db, patchSet);
+      canScore = sr.isEmpty()
+          || sr.get(0).status != SubmitRecord.Status.RULE_ERROR;
+    }
+
     db.changes().beginTransaction(changeId);
     try {
       publishDrafts();
 
       final boolean isCurrent = patchSetId.equals(change.currentPatchSetId());
-      if (isCurrent && change.getStatus().isOpen()) {
+      if (isCurrent && canScore) {
         publishApprovals(ctl);
       } else if (approvals.isEmpty() || forceMessage) {
         publishMessageOnly();
       } else {
-        throw new InvalidChangeOperationException("Change is closed");
+        throw new InvalidChangeOperationException(
+            "Change isn't in a state where it can be scored");
       }
 
       touchChange();

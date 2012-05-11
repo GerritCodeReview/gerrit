@@ -272,9 +272,7 @@ public class PublishCommentScreen extends AccountScreen implements
         patchSetId.get()));
     descBlock.display(r.getChange(), r.getPatchSetInfo(), r.getAccounts());
 
-    if (r.getChange().getStatus().isOpen()) {
-      initApprovals(r, approvalPanel);
-    }
+    initApprovals(r, approvalPanel);
 
     if (lastState != null && patchSetId.equals(lastState.patchSetId)) {
       message.setText(lastState.message);

@@ -50,6 +50,23 @@
       "revId": "de914f7e9bbbcd2f15a4284cad956c777da79cf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///aU\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-11T14:47:41Z",
+      "side": 1,
+      "message": "please include license information for pegdown in Documentation/licenses.txt",
+      "revId": "de914f7e9bbbcd2f15a4284cad956c777da79cf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

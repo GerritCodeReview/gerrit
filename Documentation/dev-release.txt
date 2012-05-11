@@ -118,7 +118,7 @@ Plugin API JAR File
 ~~~~~~~~~~~~~~~~~~~
 
 * Push JAR to commondatastorage.googleapis.com
-** Run tools/deploy_plugin_api.sh
+** Run tools/deploy_api.sh
 
 Tag
 ~~~

@@ -32,6 +32,9 @@ public class SubmitRecord {
     /** The change has been closed. */
     CLOSED,
 
+    /** The change is open. */
+    OPEN,
+
     /**
      * An internal server error occurred preventing computation.
      * <p>

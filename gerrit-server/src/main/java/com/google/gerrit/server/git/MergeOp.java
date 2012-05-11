@@ -37,6 +37,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -134,7 +135,7 @@ public class MergeOp {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ProjectCache projectCache;
   private final FunctionState.Factory functionState;
-  private final ReplicationQueue replication;
+  private final GitReferenceUpdated replication;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
   private final Provider<String> urlProvider;
@@ -170,7 +171,7 @@ public class MergeOp {
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
       final ProjectCache pc, final FunctionState.Factory fs,
-      final ReplicationQueue rq, final MergedSender.Factory msf,
+      final GitReferenceUpdated rq, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
       @CanonicalWebUrl @Nullable final Provider<String> cwu,
       final ApprovalTypes approvalTypes, final PatchSetInfoFactory psif,
@@ -1029,8 +1030,7 @@ public class MergeOp {
                   ps.getProject().getDescription());
             }
 
-            replication.scheduleUpdate(destBranch.getParentKey(), branchUpdate
-                .getName());
+            replication.fire(destBranch.getParentKey(), branchUpdate.getName());
 
             Account account = null;
             final PatchSetApproval submitter = getSubmitter(db, mergeTip.patchsetId);
@@ -1125,7 +1125,7 @@ public class MergeOp {
     } catch (CodeReviewNoteCreationException e) {
       log.error(e.getMessage());
     }
-    replication.scheduleUpdate(destBranch.getParentKey(),
+    replication.fire(destBranch.getParentKey(),
         GitRepositoryManager.REFS_NOTES_REVIEW);
   }
 

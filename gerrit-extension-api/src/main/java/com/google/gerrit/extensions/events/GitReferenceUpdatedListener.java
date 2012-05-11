@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.extensions.events;
 
-/** How the {@link CurrentUser} is accessing Gerrit. */
-public enum AccessPath {
-  /** An unknown access path, probably should not be special. */
-  UNKNOWN,
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-  /** Access through the web UI. */
-  WEB_UI,
+import java.util.List;
 
-  /** Access through an SSH command that is not invoked by Git. */
-  SSH_COMMAND,
+/** Notified when one or more references are modified. */
+@ExtensionPoint
+public interface GitReferenceUpdatedListener {
+  public interface Update {
+    String getRefName();
+  }
 
-  /** Access from a Git client using any Git protocol. */
-  GIT;
+  public interface Event {
+    String getProjectName();
+    List<Update> getUpdates();
+  }
+
+  void onGitReferenceUpdated(Event event);
 }

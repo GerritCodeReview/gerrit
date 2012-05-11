@@ -26,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.SubmoduleSubscriptionAccess;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.ResultSet;
@@ -71,7 +72,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   private ReviewDb schema;
   private Provider<String> urlProvider;
   private GitRepositoryManager repoManager;
-  private ReplicationQueue replication;
+  private GitReferenceUpdated replication;
 
   @SuppressWarnings("unchecked")
   @Override
@@ -84,7 +85,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     subscriptions = createStrictMock(SubmoduleSubscriptionAccess.class);
     urlProvider = createStrictMock(Provider.class);
     repoManager = createStrictMock(GitRepositoryManager.class);
-    replication = createStrictMock(ReplicationQueue.class);
+    replication = createStrictMock(GitReferenceUpdated.class);
   }
 
   private void doReplay() {
@@ -638,7 +639,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
         .andReturn(targetRepository);
 
-    replication.scheduleUpdate(targetBranchNameKey.getParentKey(),
+    replication.fire(targetBranchNameKey.getParentKey(),
         targetBranchNameKey.get());
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
@@ -739,7 +740,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
         .andReturn(targetRepository);
 
-    replication.scheduleUpdate(targetBranchNameKey.getParentKey(),
+    replication.fire(targetBranchNameKey.getParentKey(),
         targetBranchNameKey.get());
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);

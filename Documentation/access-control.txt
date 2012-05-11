@@ -1142,7 +1142,8 @@ command, but also to the web UI results pagination size.
 Start Replication
 ~~~~~~~~~~~~~~~~~
 
-Allow access to execute link:cmd-replicate.html[the `gerrit replicate` command].
+Allow access to execute `replication start` command, if the
+replication plugin is installed on the server.
 
 
 [[capability_viewCaches]]

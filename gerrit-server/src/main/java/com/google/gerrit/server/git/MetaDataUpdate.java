@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -84,13 +85,13 @@ public class MetaDataUpdate {
         @Assisted Repository db);
   }
 
-  private final ReplicationQueue replication;
+  private final GitReferenceUpdated replication;
   private final Project.NameKey projectName;
   private final Repository db;
   private final CommitBuilder commit;
 
   @Inject
-  public MetaDataUpdate(ReplicationQueue replication,
+  public MetaDataUpdate(GitReferenceUpdated replication,
       @Assisted Project.NameKey projectName, @Assisted Repository db) {
     this.replication = replication;
     this.projectName = projectName;
@@ -121,8 +122,6 @@ public class MetaDataUpdate {
   }
 
   void replicate(String ref) {
-    if (replication.isEnabled()) {
-      replication.scheduleUpdate(projectName, ref);
-    }
+    replication.fire(projectName, ref);
   }
 }

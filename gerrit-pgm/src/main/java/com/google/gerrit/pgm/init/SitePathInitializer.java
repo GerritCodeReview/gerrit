@@ -81,10 +81,6 @@ public class SitePathInitializer {
     savePublic(flags.cfg);
     saveSecure(flags.sec);
 
-    if (!site.replication_config.exists()) {
-      site.replication_config.createNewFile();
-    }
-
     extract(site.gerrit_sh, Init.class, "gerrit.sh");
     chmod(0755, site.gerrit_sh);
     chmod(0700, site.tmp_dir);

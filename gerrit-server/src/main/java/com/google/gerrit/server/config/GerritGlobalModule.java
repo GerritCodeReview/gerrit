@@ -17,13 +17,16 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
-import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
@@ -39,10 +42,10 @@ import com.google.gerrit.server.account.MaterializedGroupMembership;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
-import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.SecureCredentialsProvider;
 import com.google.gerrit.server.git.TagCache;
@@ -119,6 +122,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(AccountInfoCacheFactory.Factory.class);
     factory(CapabilityControl.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);
+    factory(InternalUser.Factory.class);
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
     factory(MaterializedGroupMembership.Factory.class);
@@ -133,7 +137,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(TransferConfig.class);
 
     factory(SecureCredentialsProvider.Factory.class);
-    factory(PushAllProjectsOp.Factory.class);
 
     bind(ChangeMergeQueue.class).in(SINGLETON);
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
@@ -150,6 +153,9 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ChangeControl.GenericFactory.class);
     bind(ProjectControl.GenericFactory.class);
     factory(FunctionState.Factory.class);
-    factory(ReplicationUser.Factory.class);
+
+    bind(GitReferenceUpdated.class);
+    DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
+    DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
   }
 }

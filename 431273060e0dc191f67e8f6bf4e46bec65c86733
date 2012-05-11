@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///aI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-11T15:50:20Z",
+      "side": 1,
+      "message": "Why a Set? Would a List be better?",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///aM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-11T15:50:20Z",
+      "side": 1,
+      "message": "use int, not Integer",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///aA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-11T15:50:20Z",
+      "side": 1,
+      "message": "numRefs should be type int, not Integer.",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Z8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-11T15:50:20Z",
+      "side": 1,
+      "message": "You can\u0027t trust the number of refs to tell you if the cache entry is stale or not.\n\nIt would be better to hold the number of refs under refs/changes/*, or have the caller identify the cache entry is stale because it has a refs/changes/ ref and no information about it in the cache data, which means the cache is stale so the caller would invalidate the cache entry.",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Z4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-11T15:50:20Z",
+      "side": 1,
+      "message": "Instead of createLock make the cache auto-loading by supplying an implementation of the EntryCreator interface in the cache binding in the Module above. Ehcache will automatically call you when the item isn\u0027t in the cache, and manage a creation lock.",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///aE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-11T15:50:20Z",
+      "side": 1,
+      "message": "The cache itself is thread safe, so you don\u0027t need to lock something to remove from the cache.",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

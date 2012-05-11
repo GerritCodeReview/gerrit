@@ -37,7 +37,7 @@ final class PluginReloadCommand extends SshCommand {
   @Override
   protected void run() throws UnloggedFailure {
     if (names == null || names.isEmpty()) {
-      loader.rescan(true);
+      loader.rescan();
     } else {
       try {
         loader.reload(names);

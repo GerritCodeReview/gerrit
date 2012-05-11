@@ -27,6 +27,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
@@ -69,12 +70,14 @@ public class PluginLoader implements LifecycleListener {
   private final Map<String, FileSnapshot> broken;
   private final ReferenceQueue<ClassLoader> cleanupQueue;
   private final ConcurrentMap<CleanupHandle, Boolean> cleanupHandles;
+  private final Provider<PluginCleanerTask> cleaner;
   private final PluginScannerThread scanner;
 
   @Inject
   public PluginLoader(SitePaths sitePaths,
       PluginGuiceEnvironment pe,
       ServerInformationImpl sii,
+      Provider<PluginCleanerTask> pct,
       @GerritServerConfig Config cfg) {
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
@@ -85,6 +88,7 @@ public class PluginLoader implements LifecycleListener {
     broken = Maps.newHashMap();
     cleanupQueue = new ReferenceQueue<ClassLoader>();
     cleanupHandles = Maps.newConcurrentMap();
+    cleaner = pct;
 
     long checkFrequency = ConfigUtil.getTimeUnit(cfg,
         "plugins", null, "checkFrequency",
@@ -111,7 +115,6 @@ public class PluginLoader implements LifecycleListener {
 
     File old = new File(pluginsDir, ".last_" + name + ".zip");
     File tmp = asTemp(in, ".next_" + name, ".zip", pluginsDir);
-    boolean clean = false;
     synchronized (this) {
       Plugin active = running.get(name);
       if (active != null) {
@@ -126,18 +129,13 @@ public class PluginLoader implements LifecycleListener {
         runPlugin(name, jar, active);
         if (active == null) {
           log.info(String.format("Installed plugin %s", name));
-        } else {
-          clean = true;
         }
       } catch (PluginInstallException e) {
         jar.delete();
         throw e;
       }
-    }
 
-    if (clean) {
-      System.gc();
-      processPendingCleanups();
+      cleanInBackground();
     }
   }
 
@@ -167,7 +165,6 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public void disablePlugins(Set<String> names) {
-    boolean clean = false;
     synchronized (this) {
       for (String name : names) {
         Plugin active = running.get(name);
@@ -181,12 +178,8 @@ public class PluginLoader implements LifecycleListener {
 
         active.stop();
         running.remove(name);
-        clean = true;
       }
-    }
-    if (clean) {
-      System.gc();
-      processPendingCleanups();
+      cleanInBackground();
     }
   }
 
@@ -194,7 +187,7 @@ public class PluginLoader implements LifecycleListener {
   public synchronized void start() {
     log.info("Loading plugins from " + pluginsDir.getAbsolutePath());
     srvInfoImpl.state = ServerInformation.State.STARTUP;
-    rescan(false);
+    rescan();
     srvInfoImpl.state = ServerInformation.State.RUNNING;
     if (scanner != null) {
       scanner.start();
@@ -208,23 +201,15 @@ public class PluginLoader implements LifecycleListener {
     }
     srvInfoImpl.state = ServerInformation.State.SHUTDOWN;
     synchronized (this) {
-      boolean clean = !running.isEmpty();
       for (Plugin p : running.values()) {
         p.stop();
       }
       running.clear();
       broken.clear();
-      if (clean) {
+      if (cleanupHandles.size() > running.size()) {
         System.gc();
         processPendingCleanups();
       }
-    }
-  }
-
-  public void rescan(boolean forceCleanup) {
-    if (rescanImp() || forceCleanup) {
-      System.gc();
-      processPendingCleanups();
     }
   }
 
@@ -257,14 +242,14 @@ public class PluginLoader implements LifecycleListener {
           throw e;
         }
       }
-      System.gc();
-      processPendingCleanups();
+
+      cleanInBackground();
     }
   }
 
-  private synchronized boolean rescanImp() {
+  public synchronized void rescan() {
     List<File> jars = scanJarsInPluginsDirectory();
-    boolean clean = stopRemovedPlugins(jars);
+    stopRemovedPlugins(jars);
 
     for (File jar : jars) {
       String name = nameOf(jar);
@@ -286,14 +271,13 @@ public class PluginLoader implements LifecycleListener {
         runPlugin(name, jar, active);
         if (active == null) {
           log.info(String.format("Loaded plugin %s", name));
-        } else {
-          clean = true;
         }
       } catch (PluginInstallException e) {
         log.warn(String.format("Cannot load plugin %s", name), e.getCause());
       }
     }
-    return clean;
+
+    cleanInBackground();
   }
 
   private void runPlugin(String name, File jar, Plugin oldPlugin)
@@ -323,7 +307,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  private boolean stopRemovedPlugins(List<File> jars) {
+  private void stopRemovedPlugins(List<File> jars) {
     Set<String> unload = Sets.newHashSet(running.keySet());
     for (File jar : jars) {
       unload.remove(nameOf(jar));
@@ -332,14 +316,21 @@ public class PluginLoader implements LifecycleListener {
       log.info(String.format("Unloading plugin %s", name));
       running.remove(name).stop();
     }
-    return !unload.isEmpty();
   }
 
-  private synchronized void processPendingCleanups() {
+  synchronized int processPendingCleanups() {
     CleanupHandle h;
     while ((h = (CleanupHandle) cleanupQueue.poll()) != null) {
       h.cleanup();
       cleanupHandles.remove(h);
+    }
+    return Math.max(0, cleanupHandles.size() - running.size());
+  }
+
+  private void cleanInBackground() {
+    int cnt = Math.max(0, cleanupHandles.size() - running.size());
+    if (0 < cnt) {
+      cleaner.get().clean(cnt);
     }
   }
 

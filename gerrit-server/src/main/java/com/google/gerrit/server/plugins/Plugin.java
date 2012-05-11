@@ -16,6 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.PluginDefinition;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
@@ -45,7 +46,7 @@ public class Plugin {
         .setLevel(java.util.logging.Level.OFF);
   }
 
-  private final String name;
+  private final PluginDefinition definition;
   private final File srcJar;
   private final FileSnapshot snapshot;
   private final JarFile jarFile;
@@ -70,7 +71,9 @@ public class Plugin {
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule,
       @Nullable Class<? extends Module> httpModule) {
-    this.name = name;
+    Attributes main = manifest.getMainAttributes();
+    String version = main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
+    definition = new PluginDefinition(name, version);
     this.srcJar = srcJar;
     this.snapshot = snapshot;
     this.jarFile = jarFile;
@@ -86,12 +89,11 @@ public class Plugin {
   }
 
   public String getName() {
-    return name;
+    return definition.getName();
   }
 
   public String getVersion() {
-    Attributes main = manifest.getMainAttributes();
-    return main.getValue(Attributes.Name.IMPLEMENTATION_VERSION);
+    return definition.getVersion();
   }
 
   boolean canReload() {
@@ -104,7 +106,7 @@ public class Plugin {
     } else {
       PluginLoader.log.warn(String.format(
           "Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart",
-          name, v));
+          definition.getName(), v));
       return false;
     }
   }
@@ -119,7 +121,8 @@ public class Plugin {
 
     AutoRegisterModules auto = null;
     if (sysModule == null && sshModule == null && httpModule == null) {
-      auto = new AutoRegisterModules(name, env, jarFile, classLoader);
+      auto = new AutoRegisterModules(definition.getName(), env, jarFile,
+              classLoader);
       auto.discover();
     }
 
@@ -172,7 +175,7 @@ public class Plugin {
           protected void configure() {
             bind(String.class)
               .annotatedWith(PluginName.class)
-              .toInstance(name);
+              .toInstance(definition.getName());
           }
         });
   }
@@ -238,6 +241,6 @@ public class Plugin {
 
   @Override
   public String toString() {
-    return "Plugin [" + name + "]";
+    return "Plugin [" + definition.getName() + "]";
   }
 }

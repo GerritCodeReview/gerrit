@@ -216,7 +216,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
 
   private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new SshModule());
+    modules.add(sysInjector.getInstance(SshModule.class));
     modules.add(new MasterCommandModule());
     return sysInjector.createChildInjector(modules);
   }

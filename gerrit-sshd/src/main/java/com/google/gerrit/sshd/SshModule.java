@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.collect.Maps;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.plugins.ModuleGenerator;
@@ -47,19 +49,32 @@ import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
+import com.google.inject.Inject;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
 
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PublickeyAuthenticator;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.spi.OptionHandler;
 
 import java.net.SocketAddress;
+import java.util.Map;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends FactoryModule {
+  private final Map<String, String> aliases;
+
+  @Inject
+  SshModule(@GerritServerConfig Config cfg) {
+    aliases = Maps.newHashMap();
+    for (String name : cfg.getNames("ssh-alias")) {
+      aliases.put(name, cfg.getString("ssh-alias", null, name));
+    }
+  }
+
   @Override
   protected void configure() {
     bindScope(RequestScoped.class, SshScope.REQUEST);
@@ -67,6 +82,7 @@ public class SshModule extends FactoryModule {
 
     configureRequestScope();
     configureCmdLineParser();
+    configureAliases();
 
     install(SshKeyCacheImpl.module());
     bind(SshLog.class);
@@ -76,7 +92,7 @@ public class SshModule extends FactoryModule {
     factory(PeerDaemonUser.Factory.class);
 
     bind(DispatchCommandProvider.class).annotatedWith(Commands.CMD_ROOT)
-        .toInstance(new DispatchCommandProvider("", Commands.CMD_ROOT));
+        .toInstance(new DispatchCommandProvider(Commands.CMD_ROOT));
     bind(CommandFactoryProvider.class);
     bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
     bind(WorkQueue.Executor.class).annotatedWith(StreamCommandExecutor.class)
@@ -107,6 +123,20 @@ public class SshModule extends FactoryModule {
         listener().to(SshDaemon.class);
       }
     });
+  }
+
+  private void configureAliases() {
+    CommandName gerrit = Commands.named("gerrit");
+    for (Map.Entry<String, String> e : aliases.entrySet()) {
+      String name = e.getKey();
+      String[] dest = e.getValue().split("[ \\t]+");
+      CommandName cmd = Commands.named(dest[0]);
+      for (int i = 1; i < dest.length; i++) {
+        cmd = Commands.named(cmd, dest[i]);
+      }
+      bind(Commands.key(gerrit, name))
+        .toProvider(new AliasCommandProvider(cmd));
+    }
   }
 
   private void configureRequestScope() {

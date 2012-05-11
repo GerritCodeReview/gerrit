@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -59,6 +60,7 @@ public class PluginLoader implements LifecycleListener {
   private final File pluginsDir;
   private final File tmpDir;
   private final PluginGuiceEnvironment env;
+  private final ServerInformationImpl srvInfoImpl;
   private final ConcurrentMap<String, Plugin> running;
   private final Map<String, FileSnapshot> broken;
   private final ReferenceQueue<ClassLoader> cleanupQueue;
@@ -68,10 +70,12 @@ public class PluginLoader implements LifecycleListener {
   @Inject
   public PluginLoader(SitePaths sitePaths,
       PluginGuiceEnvironment pe,
+      ServerInformationImpl sii,
       @GerritServerConfig Config cfg) {
     pluginsDir = sitePaths.plugins_dir;
     tmpDir = sitePaths.tmp_dir;
     env = pe;
+    srvInfoImpl = sii;
     running = Maps.newConcurrentMap();
     broken = Maps.newHashMap();
     cleanupQueue = new ReferenceQueue<ClassLoader>();
@@ -184,7 +188,9 @@ public class PluginLoader implements LifecycleListener {
   @Override
   public synchronized void start() {
     log.info("Loading plugins from " + pluginsDir.getAbsolutePath());
+    srvInfoImpl.state = ServerInformation.State.STARTUP;
     rescan(false);
+    srvInfoImpl.state = ServerInformation.State.RUNNING;
     if (scanner != null) {
       scanner.start();
     }
@@ -195,6 +201,7 @@ public class PluginLoader implements LifecycleListener {
     if (scanner != null) {
       scanner.end();
     }
+    srvInfoImpl.state = ServerInformation.State.SHUTDOWN;
     synchronized (this) {
       boolean clean = !running.isEmpty();
       for (Plugin p : running.values()) {

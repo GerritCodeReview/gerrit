@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
+import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
@@ -56,6 +57,7 @@ import javax.inject.Inject;
 @Singleton
 public class PluginGuiceEnvironment {
   private final Injector sysInjector;
+  private final ServerInformation srvInfo;
   private final CopyConfigModule copyConfigModule;
   private final List<StartPluginListener> onStart;
   private final List<ReloadPluginListener> onReload;
@@ -76,8 +78,12 @@ public class PluginGuiceEnvironment {
   private Map<TypeLiteral<?>, DynamicMap<?>> httpMaps;
 
   @Inject
-  PluginGuiceEnvironment(Injector sysInjector, CopyConfigModule ccm) {
+  PluginGuiceEnvironment(
+      Injector sysInjector,
+      ServerInformation srvInfo,
+      CopyConfigModule ccm) {
     this.sysInjector = sysInjector;
+    this.srvInfo = srvInfo;
     this.copyConfigModule = ccm;
 
     onStart = new CopyOnWriteArrayList<StartPluginListener>();
@@ -88,6 +94,10 @@ public class PluginGuiceEnvironment {
 
     sysSets = dynamicSetsOf(sysInjector);
     sysMaps = dynamicMapsOf(sysInjector);
+  }
+
+  ServerInformation getServerInformation() {
+    return srvInfo;
   }
 
   boolean hasDynamicSet(TypeLiteral<?> type) {

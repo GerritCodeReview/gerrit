@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///Xs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1624,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-11T19:09:02Z",
+      "side": 1,
+      "message": "nit: space after exclamation mark",
+      "revId": "4153ca3474fa176295db2bcb6c68d14b1dae931c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

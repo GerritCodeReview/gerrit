@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gerrit.server.changedetail.AbandonChange;
+import com.google.gerrit.server.changedetail.ChangeIdFromTriplet;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.changedetail.RestoreChange;
@@ -96,6 +97,7 @@ public class GerritRequestModule extends FactoryModule {
     factory(AbandonChange.Factory.class);
     factory(AddReviewer.Factory.class);
     factory(AddReviewerSender.Factory.class);
+    factory(ChangeIdFromTriplet.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(DeleteDraftPatchSet.Factory.class);
     factory(PublishComments.Factory.class);

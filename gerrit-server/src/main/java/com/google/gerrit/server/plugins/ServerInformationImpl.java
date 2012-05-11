@@ -15,17 +15,14 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
-import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.inject.Singleton;
 
-public class PluginModule extends LifecycleModule {
+@Singleton
+class ServerInformationImpl implements ServerInformation {
+  volatile State state = State.STARTUP;
+
   @Override
-  protected void configure() {
-    bind(ServerInformationImpl.class);
-    bind(ServerInformation.class).to(ServerInformationImpl.class);
-
-    bind(PluginGuiceEnvironment.class);
-    bind(PluginLoader.class);
-    bind(CopyConfigModule.class);
-    listener().to(PluginLoader.class);
+  public State getState() {
+    return state;
   }
 }

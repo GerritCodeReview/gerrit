@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///Wc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-11T21:25:52Z",
+      "side": 1,
+      "message": "Using zeroId for something magical is usually a bad idea. I\u0027m not sure I like this particular method of describing what sort of thing you want.\n\nI would prefer a different method of communicating around inside of the server that you want a diff against the common ancestor.\n\nMaybe we need to wrap the old side into a wrapper type that lets us say what the old side is. Perhaps an abstract base class, and then a concrete subclass that stores an ObjectId for the current cases, and a different concrete subclass that means common ancestor?",
+      "revId": "019c2e3be4c973e8d15cb26cb7579705fd9ce749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

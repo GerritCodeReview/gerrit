@@ -90,6 +90,10 @@ class ReviewNoteHeaderFormatter {
     sb.append("Branch: ").append(branch.get()).append("\n");
   }
 
+  void appendBranch(String branch) {
+    sb.append("Branch: ").append(branch).append("\n");
+  }
+
   void appendSubmittedBy(Account user) {
     sb.append("Submitted-by: ");
     appendUserData(user);
@@ -103,6 +107,17 @@ class ReviewNoteHeaderFormatter {
 
   void appendReviewedOn(String canonicalWebUrl, Change.Id changeId) {
     sb.append("Reviewed-on: ").append(canonicalWebUrl).append(changeId.get())
+        .append("\n");
+  }
+
+  void appendPushedBy(Account user) {
+    sb.append("Pushed-by: ");
+    appendUserData(user);
+    sb.append("\n");
+  }
+
+  void appendPushedAt(Date date) {
+    sb.append("Pushed-at: ").append(rfc2822DateFormatter.format(date))
         .append("\n");
   }
 

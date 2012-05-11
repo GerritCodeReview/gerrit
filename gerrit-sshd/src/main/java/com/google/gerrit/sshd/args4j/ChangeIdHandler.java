@@ -14,10 +14,8 @@
 
 package com.google.gerrit.sshd.args4j;
 
-import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.changedetail.ChangeIdFromTriplet;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -31,43 +29,31 @@ import org.kohsuke.args4j.spi.Setter;
 
 public class ChangeIdHandler extends OptionHandler<Change.Id> {
 
-  @Inject
-  private ReviewDb db;
+  private ChangeIdFromTriplet.Factory factory;
 
   @Inject
   public ChangeIdHandler(
-      final ReviewDb db,
+      final ChangeIdFromTriplet.Factory factory,
       @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
       @Assisted final Setter<Change.Id> setter) {
     super(parser, option, setter);
-    this.db = db;
+    this.factory = factory;
   }
 
   @Override
   public final int parseArguments(final Parameters params)
       throws CmdLineException {
     final String token = params.getParameter(0);
-    final String[] tokens = token.split(",");
-    if (tokens.length != 3) {
-      throw new CmdLineException(owner, "change should be specified as "
-                                 + "<project>,<branch>,<change-id>");
-    }
-
     try {
-      final Change.Key key = Change.Key.parse(tokens[2]);
-      final Project.NameKey project = new Project.NameKey(tokens[0]);
-      final Branch.NameKey branch = new Branch.NameKey(project, tokens[1]);
-      for (final Change change : db.changes().byBranchKey(branch, key)) {
-        setter.addValue(change.getId());
-        return 1;
+      final Change.Id changeId = factory.create(token).call();
+      if (changeId == null) {
+        throw new CmdLineException(owner, "No such change " + token);
       }
-    } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, "Change-Id is not valid");
+      setter.addValue(factory.create(token).get());
     } catch (OrmException e) {
       throw new CmdLineException(owner, "Database error: " + e.getMessage());
     }
-
-    throw new CmdLineException(owner, "\"" + token + "\": change not found");
+    return 1;
   }
 
   @Override

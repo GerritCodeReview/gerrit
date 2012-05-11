@@ -15,7 +15,6 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -62,7 +61,7 @@ public class PluginLoader implements LifecycleListener {
   private final File dataDir;
   private final File tmpDir;
   private final PluginGuiceEnvironment env;
-  private final Map<String, Plugin> running;
+  private final ConcurrentMap<String, Plugin> running;
   private final Map<String, FileSnapshot> broken;
   private final ReferenceQueue<ClassLoader> cleanupQueue;
   private final ConcurrentMap<CleanupHandle, Boolean> cleanupHandles;
@@ -76,7 +75,7 @@ public class PluginLoader implements LifecycleListener {
     dataDir = sitePaths.data_dir;
     tmpDir = sitePaths.tmp_dir;
     env = pe;
-    running = Maps.newHashMap();
+    running = Maps.newConcurrentMap();
     broken = Maps.newHashMap();
     cleanupQueue = new ReferenceQueue<ClassLoader>();
     cleanupHandles = Maps.newConcurrentMap();
@@ -91,8 +90,8 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  public synchronized List<Plugin> getPlugins() {
-    return Lists.newArrayList(running.values());
+  public Iterable<Plugin> getPlugins() {
+    return running.values();
   }
 
   public void installPluginFromStream(String name, InputStream in)

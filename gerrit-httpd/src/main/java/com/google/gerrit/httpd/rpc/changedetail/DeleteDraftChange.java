@@ -19,8 +19,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -38,7 +38,7 @@ class DeleteDraftChange extends Handler<VoidResult> {
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
-  private final ReplicationQueue replication;
+  private final GitReferenceUpdated replication;
 
   private final PatchSet.Id patchSetId;
 
@@ -46,7 +46,7 @@ class DeleteDraftChange extends Handler<VoidResult> {
   DeleteDraftChange(final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
       final GitRepositoryManager gitManager,
-      final ReplicationQueue replication,
+      final GitReferenceUpdated replication,
       @Assisted final PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;

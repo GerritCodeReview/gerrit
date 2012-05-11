@@ -341,6 +341,32 @@ public class ChangeControl {
       return logRuleError("Cannot read patch set " + patchSet.getId(), err);
     }
 
+    return evaluatePrologRules(db, patchSet, cd, fastEvalLabels,
+        "submit_rule", "locate_submit_rule", "can_submit",
+        "locate_submit_filter", "filter_submit_results");
+  }
+
+  /**
+   * Evaluates a Prolog rule found in the rules.pl file of the current
+   * project and filters the results through rules found in the parent
+   * projects, all the way up to All-Projects.
+   *
+   * @param userRuleName The name of the user-supplied rule.
+   * @param userRuleLocatorName The name of the rule used to locate the
+   *        user-supplied rule.
+   * @param userRuleWrapperName The name of the wrapper rule used to
+   *        evaluate the user-supplied rule.
+   * @param filterRuleLocatorName The name of the rule used to locate the
+   *        filter rule.
+   * @param filterRuleWrapperName The name of the rule used to evaluate
+   *        the filter rule.
+   * @return
+   */
+  private List<SubmitRecord> evaluatePrologRules(ReviewDb db,
+      PatchSet patchSet, @Nullable ChangeData cd, boolean fastEvalLabels,
+      String userRuleName, String userRuleLocatorName,
+      String userRuleWrapperName, String filterRuleLocatorName,
+      String filterRuleWrapperName) {
     List<Term> results = new ArrayList<Term>();
     Term submitRule;
     ProjectState projectState = getProjectControl().getProjectState();
@@ -361,10 +387,10 @@ public class ChangeControl {
       env.set(StoredValues.CHANGE_CONTROL, this);
 
       submitRule = env.once(
-        "gerrit", "locate_submit_rule",
+        "gerrit", userRuleLocatorName,
         new VariableTerm());
       if (submitRule == null) {
-        return logRuleError("No user:submit_rule found for "
+        return logRuleError("No user:" + userRuleName + " found for "
             + getProject().getName());
       }
 
@@ -374,7 +400,7 @@ public class ChangeControl {
 
       try {
         for (Term[] template : env.all(
-            "gerrit", "can_submit",
+            "gerrit", userRuleWrapperName,
             submitRule,
             new VariableTerm())) {
           results.add(template[1]);
@@ -407,7 +433,7 @@ public class ChangeControl {
 
         parentEnv.copyStoredValues(childEnv);
         Term filterRule =
-            parentEnv.once("gerrit", "locate_submit_filter", new VariableTerm());
+            parentEnv.once("gerrit", filterRuleLocatorName, new VariableTerm());
         if (filterRule != null) {
           try {
             if (fastEvalLabels) {
@@ -417,7 +443,7 @@ public class ChangeControl {
             Term resultsTerm = toListTerm(results);
             results.clear();
             Term[] template = parentEnv.once(
-                "gerrit", "filter_submit_results",
+                "gerrit", filterRuleWrapperName,
                 filterRule,
                 resultsTerm,
                 new VariableTerm());

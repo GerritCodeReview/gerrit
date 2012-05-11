@@ -264,11 +264,22 @@ public class PluginLoader implements LifecycleListener {
         running.remove(name);
       }
       newPlugin.start(env);
-      if (reload) {
-        env.onReloadPlugin(oldPlugin, newPlugin);
-        oldPlugin.stop();
-      } else {
-        env.onStartPlugin(newPlugin);
+
+      try {
+        if (reload) {
+          env.onReloadPlugin(oldPlugin, newPlugin);
+          oldPlugin.stop();
+        } else {
+          env.onStartPlugin(newPlugin);
+        }
+      } catch (InvalidPluginException exc) {
+        newPlugin.stop();
+
+        if (reload) {
+          oldPlugin.start(env);
+        }
+
+        throw exc;
       }
       running.put(name, newPlugin);
       broken.remove(name);

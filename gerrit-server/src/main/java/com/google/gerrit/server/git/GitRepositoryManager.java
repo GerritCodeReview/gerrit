@@ -34,6 +34,9 @@ public interface GitRepositoryManager {
   /** Notes branch successful reviews are written to after being merged. */
   public static final String REFS_NOTES_REVIEW = "refs/notes/review";
 
+  /** Notes branch to record commits which bypassed review */
+  public static final String REFS_NOTES_NO_REVIEW = "refs/notes/no-review";
+
   /** Note tree listing commits we refuse {@code refs/meta/reject-commits} */
   public static final String REF_REJECT_COMMITS = "refs/meta/reject-commits";
 

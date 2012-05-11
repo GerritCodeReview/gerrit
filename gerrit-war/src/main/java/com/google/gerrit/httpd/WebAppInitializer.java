@@ -34,7 +34,6 @@ import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
-import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
@@ -206,7 +205,6 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new InMemoryCacheModule());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
-    modules.add(new PushReplication.Module());
     modules.add(new PluginModule());
     modules.add(new CanonicalWebUrlModule() {
       @Override

@@ -24,7 +24,7 @@ import com.google.inject.Scope;
 import java.util.HashMap;
 import java.util.Map;
 
-class PerThreadRequestScope {
+public class PerThreadRequestScope {
   static class Propagator
       extends ThreadLocalRequestScopePropagator<PerThreadRequestScope> {
     Propagator() {
@@ -49,13 +49,13 @@ class PerThreadRequestScope {
     return ctx;
   }
 
-  static PerThreadRequestScope set(PerThreadRequestScope ctx) {
+  public static PerThreadRequestScope set(PerThreadRequestScope ctx) {
     PerThreadRequestScope old = current.get();
     current.set(ctx);
     return old;
   }
 
-  static final Scope REQUEST = new Scope() {
+  public static final Scope REQUEST = new Scope() {
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
       return new Provider<T>() {
         public T get() {
@@ -81,7 +81,7 @@ class PerThreadRequestScope {
   final RequestCleanup cleanup;
   private final Map<Key<?>, Object> map;
 
-  PerThreadRequestScope() {
+  public PerThreadRequestScope() {
     cleanup = new RequestCleanup();
     map = new HashMap<Key<?>, Object>();
     map.put(RC_KEY, cleanup);

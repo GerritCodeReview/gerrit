@@ -24,8 +24,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -54,7 +54,7 @@ class RevertChange extends Handler<ChangeDetail> {
   private final IdentifiedUser currentUser;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeDetailFactory.Factory changeDetailFactory;
-  private final ReplicationQueue replication;
+  private final GitReferenceUpdated replication;
 
   private final PatchSet.Id patchSetId;
   @Nullable
@@ -76,7 +76,7 @@ class RevertChange extends Handler<ChangeDetail> {
       @Assisted @Nullable final String message, final ChangeHooks hooks,
       final GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final ReplicationQueue replication,
+      final GitReferenceUpdated replication,
       @GerritPersonIdent final PersonIdent myIdent) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;

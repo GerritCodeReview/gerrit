@@ -97,7 +97,6 @@ public class ExportReviewNotes extends SiteProgram {
             Scopes.SINGLETON);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)
             .toProvider(CanonicalWebUrlProvider.class).in(Scopes.SINGLETON);
-        bind(CachePool.class);
 
         install(AccountCacheImpl.module());
         install(GroupCacheImpl.module());

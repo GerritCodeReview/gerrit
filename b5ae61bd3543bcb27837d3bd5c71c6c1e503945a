@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///YI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-11T19:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///cc\u003d",
+      "revId": "b5ae61bd3543bcb27837d3bd5c71c6c1e503945a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFYH///cU\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-11T17:56:07Z",
       "side": 1,
       "message": "What\u0027s this for?",
+      "revId": "b5ae61bd3543bcb27837d3bd5c71c6c1e503945a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///ZI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-11T19:38:04Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "AAAFYH///cU\u003d",
       "revId": "b5ae61bd3543bcb27837d3bd5c71c6c1e503945a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///YQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-11T19:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///ak\u003d",
+      "revId": "b5ae61bd3543bcb27837d3bd5c71c6c1e503945a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFYH///ag\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2012-05-11T18:08:16Z",
       "side": 1,
       "message": "I guess this TODO should be done!?",
+      "revId": "b5ae61bd3543bcb27837d3bd5c71c6c1e503945a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///YM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-11T19:38:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFYH///ag\u003d",
       "revId": "b5ae61bd3543bcb27837d3bd5c71c6c1e503945a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

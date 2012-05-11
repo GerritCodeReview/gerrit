@@ -16,6 +16,24 @@
       "revId": "cb0ca18ab117e1f98b8d351df398204bab79a950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///ao\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/ExportReviewNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-11T19:38:04Z",
+      "side": 0,
+      "message": "Not directly. The ExportReviewNotes was broken because both this line and the install(new EhcachePoolImpl.Module()) few lines down register a binding for the CachePool.class. Guice rejects the second registration and this command fails.\n\nThis fix could be another change",
+      "parentUuid": "AAAFYH///cY\u003d",
+      "revId": "cb0ca18ab117e1f98b8d351df398204bab79a950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

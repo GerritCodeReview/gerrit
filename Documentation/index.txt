@@ -35,7 +35,6 @@ Configuration
 
 * link:config-gerrit.html[System Settings]
 * link:config-contact.html[User Contact Information]
-* link:config-replication.html[Git Replication/Mirroring]
 * link:config-gitweb.html[Gitweb Integration]
 * link:config-headerfooter.html[Site Header/Footer]
 * link:config-sso.html[Single Sign-On Systems]

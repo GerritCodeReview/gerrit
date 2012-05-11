@@ -22,8 +22,8 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
@@ -59,7 +59,7 @@ class AddBranch extends Handler<ListBranchesResult> {
   private final ListBranches.Factory listBranchesFactory;
   private final IdentifiedUser identifiedUser;
   private final GitRepositoryManager repoManager;
-  private final ReplicationQueue replication;
+  private final GitReferenceUpdated referenceUpdated;
   private final ChangeHooks hooks;
 
   private final Project.NameKey projectName;
@@ -71,7 +71,7 @@ class AddBranch extends Handler<ListBranchesResult> {
       final ListBranches.Factory listBranchesFactory,
       final IdentifiedUser identifiedUser,
       final GitRepositoryManager repoManager,
-      final ReplicationQueue replication,
+      GitReferenceUpdated referenceUpdated,
       final ChangeHooks hooks,
 
       @Assisted Project.NameKey projectName,
@@ -81,7 +81,7 @@ class AddBranch extends Handler<ListBranchesResult> {
     this.listBranchesFactory = listBranchesFactory;
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
-    this.replication = replication;
+    this.referenceUpdated = referenceUpdated;
     this.hooks = hooks;
 
     this.projectName = projectName;
@@ -144,7 +144,7 @@ class AddBranch extends Handler<ListBranchesResult> {
           case FAST_FORWARD:
           case NEW:
           case NO_CHANGE:
-            replication.scheduleUpdate(name.getParentKey(), refname);
+            referenceUpdated.fire(name.getParentKey(), refname);
             hooks.doRefUpdatedHook(name, u, identifiedUser.getAccount());
             break;
           default: {

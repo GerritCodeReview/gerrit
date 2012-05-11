@@ -1069,11 +1069,6 @@ By default unset, as the HTTP daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
 
-[[gerrit.replicateOnStartup]]gerrit.replicateOnStartup::
-+
-If true, replicates to all remotes on startup to ensure they are
-in-sync with this server.  By default, true.
-
 [[gitweb]]Section gitweb
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -2318,15 +2313,6 @@ Sample `etc/secure.config`:
   password = s3kr3t
 ----
 
-File `etc/replication.config`
------------------------------
-
-The optional file `'$site_path'/etc/replication.config` controls how
-Gerrit automatically replicates changes it makes to any of the Git
-repositories under its control.
-
-* link:config-replication.html[Git Replication/Mirroring]
-
 File `etc/peer_keys`
 --------------------
 
@@ -2362,7 +2348,6 @@ Files in this directory provide additional configuration.
 Other files support site customization.
 +
 * link:config-headerfooter.html[Site Header/Footer]
-* link:config-replication.html[Git Replication/Mirroring]
 
 GERRIT
 ------

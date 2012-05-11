@@ -29,9 +29,9 @@ import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RebasedPatchSetSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -240,7 +240,7 @@ public class ChangeUtil {
       RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
       final ChangeHookRunner hooks, GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final ReplicationQueue replication, PersonIdent myIdent,
+      final GitReferenceUpdated replication, PersonIdent myIdent,
       final ChangeControl.Factory changeControlFactory,
       final ApprovalsUtil approvalsUtil) throws NoSuchChangeException,
       EmailException, OrmException, MissingObjectException,
@@ -381,7 +381,7 @@ public class ChangeUtil {
               + ": " + ru.getResult());
         }
 
-        replication.scheduleUpdate(change.getProject(), ru.getName());
+        replication.fire(change.getProject(), ru.getName());
 
         List<PatchSetApproval> patchSetApprovals = approvalsUtil.copyVetosToLatestPatchSet(change);
 
@@ -424,7 +424,7 @@ public class ChangeUtil {
       final RevertedSender.Factory revertedSenderFactory,
       final ChangeHooks hooks, GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final ReplicationQueue replication, PersonIdent myIdent)
+      final GitReferenceUpdated replication, PersonIdent myIdent)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       PatchSetInfoNotAvailableException {
@@ -495,7 +495,7 @@ public class ChangeUtil {
         throw new IOException("Failed to create ref " + ps.getRefName()
             + " in " + git.getDirectory() + ": " + ru.getResult());
       }
-      replication.scheduleUpdate(db.changes().get(changeId).getProject(),
+      replication.fire(db.changes().get(changeId).getProject(),
           ru.getName());
 
       final ChangeMessage cmsg =
@@ -525,7 +525,7 @@ public class ChangeUtil {
 
   public static void deleteDraftChange(final PatchSet.Id patchSetId,
       GitRepositoryManager gitManager,
-      final ReplicationQueue replication, final ReviewDb db)
+      final GitReferenceUpdated replication, final ReviewDb db)
       throws NoSuchChangeException, OrmException, IOException {
     final Change.Id changeId = patchSetId.getParentKey();
     final Change change = db.changes().get(changeId);
@@ -546,7 +546,7 @@ public class ChangeUtil {
 
   public static void deleteOnlyDraftPatchSet(final PatchSet patch,
       final Change change, GitRepositoryManager gitManager,
-      final ReplicationQueue replication, final ReviewDb db)
+      final GitReferenceUpdated replication, final ReviewDb db)
       throws NoSuchChangeException, OrmException, IOException {
     final PatchSet.Id patchSetId = patch.getId();
     if (patch == null || !patch.isDraft()) {
@@ -569,7 +569,7 @@ public class ChangeUtil {
           throw new IOException("Failed to delete ref " + patch.getRefName() +
               " in " + repo.getDirectory() + ": " + update.getResult());
       }
-      replication.scheduleUpdate(change.getProject(), update.getName());
+      replication.fire(change.getProject(), update.getName());
     } finally {
       repo.close();
     }

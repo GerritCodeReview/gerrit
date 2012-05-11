@@ -163,7 +163,8 @@ the single quotes to delimit the value.
 
 REPLICATION
 -----------
-The remote repository creation is performed by a Bourne shell script:
+If the replication plugin is installed, the plugin will attempt to
+perform remote repository creation by a Bourne shell script:
 
 ====
   mkdir -p '/base/project.git' && cd '/base/project.git' && git init --bare && git update-ref HEAD refs/heads/master
@@ -174,10 +175,13 @@ arbitrary shell scripts, and must have `git` in the user's PATH
 environment variable.  Administrators could also run this command line
 by hand to establish a new empty repository.
 
+A custom extension or plugin may also be developed to implement the
+NewProjectCreatedListener extension point and handle custom logic
+for remote repository creation.
+
 SEE ALSO
 --------
 
-* link:config-replication.html[Git Replication/Mirroring]
 * link:project-setup.html[Project Setup]
 
 GERRIT

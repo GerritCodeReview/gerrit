@@ -1382,7 +1382,7 @@ public class ReceiveCommits {
       result.patchSet = ps;
       result.info = info;
 
-      List<PatchSetApproval> patchSetApprovals = approvalsUtil.copyVetosToLatestPatchSet(change);
+      List<PatchSetApproval> patchSetApprovals = approvalsUtil.applyToNewPatchSet(change);
 
       final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
       oldReviewers.clear();

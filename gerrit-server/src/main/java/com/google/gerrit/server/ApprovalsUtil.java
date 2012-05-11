@@ -97,6 +97,32 @@ public class ApprovalsUtil {
    * @param change Change to update
    * @throws OrmException
    * @throws IOException
+   */
+  public List<PatchSetApproval> applyForRebase(Change change)
+      throws OrmException, IOException {
+    return applyApprovalsFromPreviousPatchSet(change, this.new CopyOnlyVetos());
+  }
+
+  /**
+   * Moves the PatchSetApprovals to the last PatchSet on the change while
+   * keeping the vetos.
+   *
+   * @param change Change to update
+   * @throws OrmException
+   * @throws IOException
+   */
+  public List<PatchSetApproval> applyToNewPatchSet(Change change)
+      throws OrmException, IOException {
+    return applyApprovalsFromPreviousPatchSet(change, this.new CopyOnlyVetos());
+  }
+
+  /**
+   * Moves the PatchSetApprovals to the last PatchSet on the change while
+   * keeping the vetos.
+   *
+   * @param change Change to update
+   * @throws OrmException
+   * @throws IOException
    * @return List<PatchSetApproval> The previous approvals
    */
   public List<PatchSetApproval> applyApprovalsFromPreviousPatchSet(Change change,

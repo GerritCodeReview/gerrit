@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -221,6 +223,40 @@ public class PluginLoader implements LifecycleListener {
 
   public void rescan(boolean forceCleanup) {
     if (rescanImp() || forceCleanup) {
+      System.gc();
+      processPendingCleanups();
+    }
+  }
+
+  public void reload(List<String> names)
+      throws InvalidPluginException, PluginInstallException {
+    synchronized (this) {
+      List<Plugin> reload = Lists.newArrayListWithCapacity(names.size());
+      List<String> bad = Lists.newArrayListWithExpectedSize(4);
+      for (String name : names) {
+        Plugin active = running.get(name);
+        if (active != null) {
+          reload.add(active);
+        } else {
+          bad.add(name);
+        }
+      }
+      if (!bad.isEmpty()) {
+        throw new InvalidPluginException(String.format(
+            "Plugin(s) \"%s\" not running",
+            Joiner.on("\", \"").join(bad)));
+      }
+
+      for (Plugin active : reload) {
+        String name = active.getName();
+        try {
+          log.info(String.format("Reloading plugin %s", name));
+          runPlugin(name, active.getSrcJar(), active);
+        } catch (PluginInstallException e) {
+          log.warn(String.format("Cannot reload plugin %s", name), e.getCause());
+          throw e;
+        }
+      }
       System.gc();
       processPendingCleanups();
     }

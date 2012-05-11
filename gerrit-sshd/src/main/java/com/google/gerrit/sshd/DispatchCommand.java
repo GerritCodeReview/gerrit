@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -136,9 +137,9 @@ final class DispatchCommand extends BaseCommand {
     }
     usage.append(" are:\n");
     usage.append("\n");
-    for (Map.Entry<String, Provider<Command>> e : commands.entrySet()) {
+    for (String name : Sets.newTreeSet(commands.keySet())) {
       usage.append("   ");
-      usage.append(e.getKey());
+      usage.append(name);
       usage.append("\n");
     }
     usage.append("\n");

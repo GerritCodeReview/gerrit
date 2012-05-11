@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
@@ -42,7 +43,7 @@ class SshPluginStarterCallback
   }
 
   @Override
-  public void onStartPlugin(Plugin plugin) {
+  public void onStartPlugin(Plugin plugin) throws InvalidPluginException {
     Provider<Command> cmd = load(plugin);
     if (cmd != null) {
       plugin.add(root.register(Commands.named(plugin.getName()), cmd));
@@ -50,22 +51,23 @@ class SshPluginStarterCallback
   }
 
   @Override
-  public void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
+  public void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin)
+      throws InvalidPluginException {
     Provider<Command> cmd = load(newPlugin);
     if (cmd != null) {
       newPlugin.add(root.replace(Commands.named(newPlugin.getName()), cmd));
     }
   }
 
-  private Provider<Command> load(Plugin plugin) {
+  private Provider<Command> load(Plugin plugin) throws InvalidPluginException {
     if (plugin.getSshInjector() != null) {
       Key<Command> key = Commands.key(plugin.getName());
       try {
         return plugin.getSshInjector().getProvider(key);
       } catch (RuntimeException err) {
-        log.warn(String.format(
-            "Plugin %s did not define its top-level command",
-            plugin.getName()), err);
+        throw new InvalidPluginException(
+            String.format("Plugin %s did not define its top-level command",
+                plugin.getName()), err);
       }
     }
     return null;

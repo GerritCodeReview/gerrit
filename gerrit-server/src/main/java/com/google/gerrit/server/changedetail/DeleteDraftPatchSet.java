@@ -20,8 +20,8 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -44,7 +44,7 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
-  private final ReplicationQueue replication;
+  private final GitReferenceUpdated replication;
   private final PatchSetInfoFactory patchSetInfoFactory;
 
   private final PatchSet.Id patchSetId;
@@ -52,7 +52,7 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
   @Inject
   DeleteDraftPatchSet(ChangeControl.Factory changeControlFactory,
       ReviewDb db, GitRepositoryManager gitManager,
-      ReplicationQueue replication, PatchSetInfoFactory patchSetInfoFactory,
+      GitReferenceUpdated replication, PatchSetInfoFactory patchSetInfoFactory,
       @Assisted final PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;

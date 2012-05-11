@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.server.git.GitRepositoryManager.REFS_NOTES_NO_REVIEW;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 
 import com.google.common.collect.LinkedListMultimap;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -63,6 +65,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -89,6 +92,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -217,6 +221,8 @@ public class ReceiveCommits {
   private final TagCache tagCache;
   private final WorkQueue workQueue;
   private final RequestScopePropagator requestScopePropagator;
+  private final NotesBranchUtil.Factory notesBranchUtilFactory;
+  private final String anonymousCowardName;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -248,6 +254,8 @@ public class ReceiveCommits {
   private Task commandProgress;
   private MessageSender messageSender;
 
+  private NoteMap bypassReviewNotes = NoteMap.newEmptyMap();
+
   @Inject
   ReceiveCommits(final ReviewDb db,
       final AccountResolver accountResolver,
@@ -266,6 +274,8 @@ public class ReceiveCommits {
       final TrackingFooters trackingFooters,
       final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator,
+      final NotesBranchUtil.Factory notesBranchUtilFactory,
+      final @AnonymousCowardName String anonymousCowardName,
 
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
@@ -288,6 +298,8 @@ public class ReceiveCommits {
     this.tagCache = tagCache;
     this.workQueue = workQueue;
     this.requestScopePropagator = requestScopePropagator;
+    this.notesBranchUtilFactory = notesBranchUtilFactory;
+    this.anonymousCowardName = anonymousCowardName;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -519,6 +531,15 @@ public class ReceiveCommits {
     closeProgress.end();
     commandProgress.end();
     progress.end();
+
+
+    try {
+      NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(repo);
+      notesBranchUtil.commitAllNotes(bypassReviewNotes, REFS_NOTES_NO_REVIEW,
+          gerritIdent, "Bypassing code review");
+    } catch (IOException e) {
+      log.error("Couldn't update the " + REFS_NOTES_NO_REVIEW + " branch", e);
+    }
 
     if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
       final String url = canonicalWebUrl;
@@ -1581,6 +1602,7 @@ public class ReceiveCommits {
     final RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
+    ObjectInserter inserter = null;
     try {
       walk.markStart(walk.parseCommit(cmd.getNewId()));
       for (ObjectId id : existingObjects()) {
@@ -1596,11 +1618,34 @@ public class ReceiveCommits {
         if (!validCommit(ctl, cmd, c)) {
           break;
         }
+        if (!MagicBranch.isMagicBranch(cmd.getRefName())
+            && !NEW_PATCHSET.matcher(cmd.getRefName()).matches()) {
+          if (inserter == null) {
+            inserter = repo.newObjectInserter();
+          }
+          bypassReviewNotes.set(c, noReviewNoteContent(c, ctl.getRefName()),
+              inserter);
+        }
       }
     } catch (IOException err) {
       cmd.setResult(Result.REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", err);
+    } finally {
+      if (inserter != null) {
+        inserter.release();
+      }
     }
+  }
+
+  private String noReviewNoteContent(RevCommit c, String branchName) {
+    ReviewNoteHeaderFormatter fmt =
+        new ReviewNoteHeaderFormatter(c.getAuthorIdent().getTimeZone(),
+            anonymousCowardName);
+    fmt.appendPushedBy(currentUser.getAccount());
+    fmt.appendPushedAt(new Date());
+    fmt.appendProject(project.getName());
+    fmt.appendBranch(branchName);
+    return fmt.toString();
   }
 
   private Collection<ObjectId> existingObjects() {

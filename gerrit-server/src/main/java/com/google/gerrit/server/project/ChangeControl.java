@@ -23,8 +23,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.rules.PrologEnvironment;
-import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -33,23 +31,16 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
-import com.googlecode.prolog_cafe.lang.ListTerm;
-import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.Term;
-import com.googlecode.prolog_cafe.lang.VariableTerm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -335,103 +326,18 @@ public class ChangeControl {
       return logRuleError("Cannot read patch set " + patchSet.getId(), err);
     }
 
-    List<Term> results = new ArrayList<Term>();
-    Term submitRule;
-    ProjectState projectState = getProjectControl().getProjectState();
-    PrologEnvironment env;
-
+    List<Term> results;
+    SubmitRuleEvaluator evaluator;
     try {
-      env = projectState.newPrologEnvironment();
-    } catch (CompileException err) {
-      return logRuleError("Cannot consult rules.pl for "
-          + getProject().getName(), err);
-    }
-
-    try {
-      env.set(StoredValues.REVIEW_DB, db);
-      env.set(StoredValues.CHANGE, change);
-      env.set(StoredValues.CHANGE_DATA, cd);
-      env.set(StoredValues.PATCH_SET, patchSet);
-      env.set(StoredValues.CHANGE_CONTROL, this);
-
-      submitRule = env.once(
-        "gerrit", "locate_submit_rule",
-        new VariableTerm());
-      if (submitRule == null) {
-        return logRuleError("No user:submit_rule found for "
-            + getProject().getName());
-      }
-
-      if (fastEvalLabels) {
-        env.once("gerrit", "assume_range_from_label");
-      }
-
-      try {
-        for (Term[] template : env.all(
-            "gerrit", "can_submit",
-            submitRule,
-            new VariableTerm())) {
-          results.add(template[1]);
-        }
-      } catch (PrologException err) {
-        return logRuleError("Exception calling " + submitRule + " on change "
-            + change.getId() + " of " + getProject().getName(), err);
-      } catch (RuntimeException err) {
-        return logRuleError("Exception calling " + submitRule + " on change "
-            + change.getId() + " of " + getProject().getName(), err);
-      }
-
-      ProjectState parentState = projectState.getParentState();
-      PrologEnvironment childEnv = env;
-      Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
-      projectsSeen.add(getProject().getNameKey());
-
-      while (parentState != null) {
-        if (!projectsSeen.add(parentState.getProject().getNameKey())) {
-          //parent has been seen before, stop walk up inheritance tree
-          break;
-        }
-        PrologEnvironment parentEnv;
-        try {
-          parentEnv = parentState.newPrologEnvironment();
-        } catch (CompileException err) {
-          return logRuleError("Cannot consult rules.pl for "
-              + parentState.getProject().getName(), err);
-        }
-
-        parentEnv.copyStoredValues(childEnv);
-        Term filterRule =
-            parentEnv.once("gerrit", "locate_submit_filter", new VariableTerm());
-        if (filterRule != null) {
-          try {
-            if (fastEvalLabels) {
-              env.once("gerrit", "assume_range_from_label");
-            }
-
-            Term resultsTerm = toListTerm(results);
-            results.clear();
-            Term[] template = parentEnv.once(
-                "gerrit", "filter_submit_results",
-                filterRule,
-                resultsTerm,
-                new VariableTerm());
-            @SuppressWarnings("unchecked")
-            final List<? extends Term> termList = ((ListTerm) template[2]).toJava();
-            results.addAll(termList);
-          } catch (PrologException err) {
-            return logRuleError("Exception calling " + filterRule + " on change "
-                + change.getId() + " of " + parentState.getProject().getName(), err);
-          } catch (RuntimeException err) {
-            return logRuleError("Exception calling " + filterRule + " on change "
-                + change.getId() + " of " + parentState.getProject().getName(), err);
-          }
-        }
-
-        parentState = parentState.getParentState();
-        childEnv = parentEnv;
-      }
-    } finally {
-      env.close();
+      evaluator = new SubmitRuleEvaluator(db, patchSet,
+          getProjectControl(),
+          this, change, cd,
+          fastEvalLabels,
+          "locate_submit_rule", "can_submit",
+          "locate_submit_filter", "filter_submit_results");
+      results = evaluator.evaluate();
+    } catch (RuleEvalException e) {
+      return logRuleError(e.getMessage(), e);
     }
 
     if (results.isEmpty()) {
@@ -439,8 +345,9 @@ public class ChangeControl {
       // at least one result informing the caller of the labels that are
       // required for this change to be submittable. Each label will indicate
       // whether or not that is actually possible given the permissions.
-      log.error("Submit rule " + submitRule + " for change " + change.getId()
-          + " of " + getProject().getName() + " has no solution.");
+      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
+          + change.getId() + " of " + getProject().getName()
+          + " has no solution.");
       return ruleError("Project submit rule has no solution");
     }
 
@@ -457,7 +364,7 @@ public class ChangeControl {
       out.add(rec);
 
       if (!submitRecord.isStructure() || 1 != submitRecord.arity()) {
-        return logInvalidResult(submitRule, submitRecord);
+        return logInvalidResult(evaluator.getSubmitRule(), submitRecord);
       }
 
       if ("ok".equals(submitRecord.name())) {
@@ -467,7 +374,7 @@ public class ChangeControl {
         rec.status = SubmitRecord.Status.NOT_READY;
 
       } else {
-        return logInvalidResult(submitRule, submitRecord);
+        return logInvalidResult(evaluator.getSubmitRule(), submitRecord);
       }
 
       // Unpack the one argument. This should also be a structure with one
@@ -476,14 +383,14 @@ public class ChangeControl {
       submitRecord = submitRecord.arg(0);
 
       if (!submitRecord.isStructure()) {
-        return logInvalidResult(submitRule, submitRecord);
+        return logInvalidResult(evaluator.getSubmitRule(), submitRecord);
       }
 
       rec.labels = new ArrayList<SubmitRecord.Label> (submitRecord.arity());
 
       for (Term state : ((StructureTerm) submitRecord).args()) {
         if (!state.isStructure() || 2 != state.arity() || !"label".equals(state.name())) {
-          return logInvalidResult(submitRule, submitRecord);
+          return logInvalidResult(evaluator.getSubmitRule(), submitRecord);
         }
 
         SubmitRecord.Label lbl = new SubmitRecord.Label();
@@ -510,7 +417,7 @@ public class ChangeControl {
           lbl.status = SubmitRecord.Label.Status.IMPOSSIBLE;
 
         } else {
-          return logInvalidResult(submitRule, submitRecord);
+          return logInvalidResult(evaluator.getSubmitRule(), submitRecord);
         }
       }
 
@@ -569,13 +476,5 @@ public class ChangeControl {
         && who.arity() == 1
         && who.name().equals("user")
         && who.arg(0).isInteger();
-  }
-
-  private static Term toListTerm(List<Term> terms) {
-    Term list = Prolog.Nil;
-    for (int i = terms.size() - 1; i >= 0; i--) {
-      list = new ListTerm(terms.get(i), list);
-    }
-    return list;
   }
 }

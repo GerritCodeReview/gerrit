@@ -113,8 +113,8 @@ public class PushReplication implements ReplicationQueue {
     database = db;
     replicationUserFactory = ruf;
     gitRepositoryManager = grm;
-    configs = allConfigs(site);
     groupCache = gc;
+    configs = allConfigs(site);
   }
 
   @Override

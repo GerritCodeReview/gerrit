@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
@@ -173,8 +174,15 @@ class HttpPluginServlet extends HttpServlet
     if (file.startsWith("Documentation/") || file.startsWith("static/")) {
       JarFile jar = holder.plugin.getJarFile();
       JarEntry entry = jar.getJarEntry(file);
-      if (entry != null && entry.getSize() > 0) {
-        sendResource(jar, entry, res);
+      if (file.startsWith("Documentation/") && !isValidEntry(entry)) {
+        entry = getRealFileEntry(jar, file);
+        if (isValidEntry(entry)) {
+          sendResource(jar, entry, res, holder.plugin.getName(), true);
+          return;
+        }
+      }
+      if (isValidEntry(entry)) {
+        sendResource(jar, entry, res, holder.plugin.getName());
         return;
       }
     }
@@ -183,8 +191,24 @@ class HttpPluginServlet extends HttpServlet
     res.sendError(HttpServletResponse.SC_NOT_FOUND);
   }
 
-  private void sendResource(JarFile jar, JarEntry entry, HttpServletResponse res)
+  private JarEntry getRealFileEntry(JarFile jar, String file) {
+    // TODO: Replace with a loop iterating over possible formatters
+    return jar.getJarEntry(file.replaceAll("\\.html$", ".md"));
+  }
+
+  private boolean isValidEntry(JarEntry entry) {
+    return entry != null && entry.getSize() > 0;
+  }
+
+  private void sendResource(JarFile jar, JarEntry entry,
+      HttpServletResponse res, String pluginName) throws IOException {
+    sendResource(jar, entry, res, pluginName, false);
+  }
+
+  private void sendResource(JarFile jar, JarEntry entry,
+      HttpServletResponse res, String pluginName, boolean format)
       throws IOException {
+    String entryName = entry.getName();
     byte[] data = null;
     if (entry.getSize() <= 128 * 1024) {
       data = new byte[(int) entry.getSize()];
@@ -194,16 +218,34 @@ class HttpPluginServlet extends HttpServlet
       } finally {
         in.close();
       }
+    } else if (format == true) {
+      log.warn(String.format("Plugin '%s' file '%s' too large to format",
+          pluginName, entryName));
     }
 
     String contentType = null;
+    String charEnc = null;
     Attributes atts = entry.getAttributes();
     if (atts != null) {
       contentType = Strings.emptyToNull(atts.getValue("Content-Type"));
+      charEnc = Strings.emptyToNull(atts.getValue("Character-Encoding"));
     }
+
     if (contentType == null) {
-      MimeType type = mimeUtil.getMimeType(entry.getName(), data);
+      MimeType type = mimeUtil.getMimeType(entryName, data);
       contentType = type.toString();
+    }
+
+    if (format && data != null) {
+      if (charEnc == null) {
+        charEnc = "UTF-8";
+      }
+      MarkdownFormatter fmter = new MarkdownFormatter();
+      data = fmter.getHtmlFromMarkdown(data, charEnc);
+      res.setHeader("Content-Length", Long.toString(data.length));
+      contentType = "text/html";
+    } else {
+      res.setHeader("Content-Length", Long.toString(entry.getSize()));
     }
 
     long time = entry.getTime();
@@ -211,7 +253,9 @@ class HttpPluginServlet extends HttpServlet
       res.setDateHeader("Last-Modified", time);
     }
     res.setContentType(contentType);
-    res.setHeader("Content-Length", Long.toString(entry.getSize()));
+    if (charEnc != null) {
+      res.setCharacterEncoding(charEnc);
+    }
     if (data != null) {
       res.getOutputStream().write(data);
     } else {

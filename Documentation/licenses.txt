@@ -52,6 +52,7 @@ Included Components
 |JSR 305                    | <<jsr305,New-Style BSD>>
 |dk.brics.automaton         | <<automaton,New-Style BSD>>
 |Java Concurrency in Practice Annotations | <<jcip,Create Commons Attribution License>>
+|pegdown                    | <<apache2,Apache License 2.0>>
 |======================================================================
 
 Cryptography Notice

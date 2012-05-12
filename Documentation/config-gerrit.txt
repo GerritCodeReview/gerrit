@@ -598,6 +598,13 @@ configuration.
 +
 Default is true, enabled.
 
+cache.plugin_resources.memoryLimit::
++
+Number of bytes of memory to use to cache formatted plugin resources,
+such as plugin documentation that has been converted from Markdown to
+HTML. Default is 2 MiB. Common unit suffixes of 'k', 'm', or 'g' are
+supported.
+
 cache.projects.checkFrequency::
 +
 How often project configuration should be checked for update from Git.

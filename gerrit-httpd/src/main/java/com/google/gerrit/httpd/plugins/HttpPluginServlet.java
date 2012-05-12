@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.jar.Attributes;
@@ -240,8 +241,7 @@ class HttpPluginServlet extends HttpServlet
       if (charEnc == null) {
         charEnc = "UTF-8";
       }
-      MarkdownFormatter fmter = new MarkdownFormatter();
-      data = fmter.getHtmlFromMarkdown(data, charEnc);
+      data = new MarkdownFormatter().markdownToDocHtml(data, charEnc);
       res.setHeader("Content-Length", Long.toString(data.length));
       contentType = "text/html";
     } else {

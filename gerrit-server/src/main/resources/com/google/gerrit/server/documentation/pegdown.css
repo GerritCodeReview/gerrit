@@ -1,0 +1,16 @@
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  font-family: sans-serif;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+
+pre {
+  border: 2px solid silver;
+  background: #ebebeb;
+  margin-left: 2em;
+  width: 100em;
+  color: darkgreen;
+}

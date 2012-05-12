@@ -26,8 +26,5 @@ public enum AccessPath {
   SSH_COMMAND,
 
   /** Access from a Git client using any Git protocol. */
-  GIT,
-
-  /** Access through replication */
-  REPLICATION;
+  GIT;
 }

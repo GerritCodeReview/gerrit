@@ -20,8 +20,8 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
@@ -50,7 +50,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
 
   private final ProjectControl.Factory projectControlFactory;
   private final GitRepositoryManager repoManager;
-  private final ReplicationQueue replication;
+  private final GitReferenceUpdated replication;
   private final IdentifiedUser identifiedUser;
   private final ChangeHooks hooks;
   private final ReviewDb db;
@@ -61,7 +61,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   @Inject
   DeleteBranches(final ProjectControl.Factory projectControlFactory,
       final GitRepositoryManager repoManager,
-      final ReplicationQueue replication,
+      final GitReferenceUpdated replication,
       final IdentifiedUser identifiedUser,
       final ChangeHooks hooks,
       final ReviewDb db,
@@ -121,7 +121,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
           case FAST_FORWARD:
           case FORCED:
             deleted.add(branchKey);
-            replication.scheduleUpdate(projectName, refname);
+            replication.fire(projectName, refname);
             hooks.doRefUpdatedHook(branchKey, u, identifiedUser.getAccount());
             break;
 

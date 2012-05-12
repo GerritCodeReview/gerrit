@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.PluginLoader;
@@ -33,7 +34,7 @@ final class PluginLsCommand extends SshCommand {
 
   @Override
   protected void run() {
-    List<Plugin> running = loader.getPlugins();
+    List<Plugin> running = Lists.newArrayList(loader.getPlugins());
     Collections.sort(running, new Comparator<Plugin>() {
       @Override
       public int compare(Plugin a, Plugin b) {

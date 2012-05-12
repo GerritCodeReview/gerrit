@@ -12,22 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.plugins;
+package com.google.gerrit.extensions.events;
 
-import com.google.gerrit.extensions.systemstatus.ServerInformation;
-import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-public class PluginModule extends LifecycleModule {
-  @Override
-  protected void configure() {
-    bind(ServerInformationImpl.class);
-    bind(ServerInformation.class).to(ServerInformationImpl.class);
+import java.util.List;
 
-    bind(PluginCleanerTask.class);
-    bind(PluginGuiceEnvironment.class);
-    bind(PluginLoader.class);
-
-    bind(CopyConfigModule.class);
-    listener().to(PluginLoader.class);
+/** Notified when one or more references are modified. */
+@ExtensionPoint
+public interface GitReferenceUpdatedListener {
+  public interface Update {
+    String getRefName();
   }
+
+  public interface Event {
+    String getProjectName();
+    List<Update> getUpdates();
+  }
+
+  void onGitReferenceUpdated(Event event);
 }

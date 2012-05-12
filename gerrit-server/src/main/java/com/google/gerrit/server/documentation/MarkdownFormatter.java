@@ -15,6 +15,7 @@
 package com.google.gerrit.server.documentation;
 
 import static org.pegdown.Extensions.ALL;
+import static org.pegdown.Extensions.HARDWRAPS;
 
 import org.eclipse.jgit.util.RawParseUtils;
 import org.pegdown.PegDownProcessor;
@@ -23,13 +24,13 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 public class MarkdownFormatter {
-
   public byte[] getHtmlFromMarkdown(byte[] data, String charEnc)
       throws UnsupportedEncodingException {
-    String decodedData = RawParseUtils.decode(Charset.forName(charEnc), data);
-    String formatted = new PegDownProcessor(ALL).markdownToHtml(decodedData);
-    data = formatted.getBytes(charEnc);
-    return data;
+    return new PegDownProcessor(ALL & ~(HARDWRAPS))
+        .markdownToHtml(RawParseUtils.decode(
+            Charset.forName(charEnc),
+            data))
+        .getBytes(charEnc);
   }
   // TODO: Add a cache
 }

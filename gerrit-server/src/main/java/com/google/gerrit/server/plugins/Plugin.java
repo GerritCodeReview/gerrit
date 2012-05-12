@@ -45,6 +45,21 @@ public class Plugin {
     EXTENSION, PLUGIN;
   }
 
+  /** Unique key that changes whenever a plugin reloads. */
+  public static final class CacheKey {
+    private final String name;
+
+    CacheKey(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String toString() {
+      int id = System.identityHashCode(this);
+      return String.format("Plugin[%s@%x]", name, id);
+    }
+  }
+
   static {
     // Guice logs warnings about multiple injectors being created.
     // Silence this in case HTTP plugins are used.
@@ -65,6 +80,7 @@ public class Plugin {
     }
   }
 
+  private final CacheKey cacheKey;
   private final String name;
   private final File srcJar;
   private final FileSnapshot snapshot;
@@ -94,6 +110,7 @@ public class Plugin {
       @Nullable Class<? extends Module> sysModule,
       @Nullable Class<? extends Module> sshModule,
       @Nullable Class<? extends Module> httpModule) {
+    this.cacheKey = new CacheKey(name);
     this.name = name;
     this.srcJar = srcJar;
     this.snapshot = snapshot;
@@ -109,6 +126,10 @@ public class Plugin {
 
   File getSrcJar() {
     return srcJar;
+  }
+
+  public CacheKey getCacheKey() {
+    return cacheKey;
   }
 
   public String getName() {

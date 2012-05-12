@@ -255,6 +255,46 @@ link:http://daringfireball.net/projects/markdown/[Markdown] style
 if the file name ends with `.md`. Gerrit will automatically convert
 Markdown to HTML if accessed with extension `.html`.
 
+Automatic Index
+~~~~~~~~~~~~~~~
+
+If a plugin does not handle its `/` URL itself, Gerrit will
+redirect clients to the plugin's `/Documentation/index.html`.
+Requests for `/Documentation/` (bare directory) will also redirect
+to `/Documentation/index.html`.
+
+If neither resource `Documentation/index.html` or
+`Documentation/index.md` exists in the plugin JAR, Gerrit will
+automatically generate an index page for the plugin's documentation
+tree by scanning every `*.md` and `*.html` file in the Documentation/
+directory.
+
+For any discovered Markdown (`*.md`) file, Gerrit will parse the
+header of the file and extract the first level one title. This
+title text will be used as display text for a link to the HTML
+version of the page.
+
+For any discovered HTML (`*.html`) file, Gerrit will use the name
+of the file, minus the `*.html` extension, as the link text. Any
+hyphens in the file name will be replaced with spaces.
+
+If a discovered file name beings with `cmd-` it will be clustered
+into a 'Commands' section of the generated index page. All other
+files are clustered under a 'Documentation' section.
+
+Some optional information from the manifest is extracted and
+displayed as part of the index page, if present in the manifest:
+
+[width="40%",options="header"]
+|===================================================
+|Field       | Source Attribute
+|Name        | Implementation-Title
+|Vendor      | Implementation-Vendor
+|Version     | Implementation-Version
+|URL         | Implementation-URL
+|API Version | Gerrit-ApiVersion
+|===================================================
+
 Deployment
 ----------
 

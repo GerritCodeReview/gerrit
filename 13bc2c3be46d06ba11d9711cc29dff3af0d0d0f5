@@ -16,6 +16,40 @@
       "revId": "13bc2c3be46d06ba11d9711cc29dff3af0d0d0f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///08\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-12T03:15:03Z",
+      "side": 1,
+      "message": "Are we sure we want to ignore invalid plug-type ?\nIt would be difficult to troubleshoot them for plug-in developers :-(\n\nI would just throw the exception OR at least put a warning/error in the log.",
+      "revId": "13bc2c3be46d06ba11d9711cc29dff3af0d0d0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaH///04\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-12T03:15:03Z",
+      "side": 1,
+      "message": "Would prefer the start() to fail with an exception when plug-in type is invalid (see my previous comment above).",
+      "revId": "13bc2c3be46d06ba11d9711cc29dff3af0d0d0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

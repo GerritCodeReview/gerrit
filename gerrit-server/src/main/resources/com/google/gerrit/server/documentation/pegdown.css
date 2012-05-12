@@ -1,0 +1,39 @@
+body {
+  margin: 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  font-family: sans-serif;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+
+pre {
+  border: 2px solid silver;
+  background: #ebebeb;
+  margin-left: 2em;
+  width: 100em;
+  color: darkgreen;
+  padding: 2px;
+}
+
+dl dt {
+  margin-top: 1em;
+}
+
+table.plugin_info {
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+  margin-left: 2em;
+}
+table.plugin_info th {
+  padding-right: 0.5em;
+  border-right: 2px solid silver;
+}
+table.plugin_info td {
+  padding-left: 0.5em;
+}

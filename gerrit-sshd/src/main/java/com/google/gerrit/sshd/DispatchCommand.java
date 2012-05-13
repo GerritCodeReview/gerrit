@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -37,11 +38,10 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 final class DispatchCommand extends BaseCommand {
   interface Factory {
-    DispatchCommand create(String prefix, Map<String, Provider<Command>> map);
+    DispatchCommand create(Map<String, Provider<Command>> map);
   }
 
   private final Provider<CurrentUser> currentUser;
-  private final String prefix;
   private final Map<String, Provider<Command>> commands;
   private final AtomicReference<Command> atomicCmd;
 
@@ -52,12 +52,15 @@ final class DispatchCommand extends BaseCommand {
   private List<String> args = new ArrayList<String>();
 
   @Inject
-  DispatchCommand(final Provider<CurrentUser> cu, @Assisted final String pfx,
+  DispatchCommand(final Provider<CurrentUser> cu,
       @Assisted final Map<String, Provider<Command>> all) {
     currentUser = cu;
-    prefix = pfx;
     commands = all;
     atomicCmd = Atomics.newReference();
+  }
+
+  Map<String, Provider<Command>> getMap() {
+    return commands;
   }
 
   @Override
@@ -68,7 +71,7 @@ final class DispatchCommand extends BaseCommand {
       final Provider<Command> p = commands.get(commandName);
       if (p == null) {
         String msg =
-            (prefix.isEmpty() ? "Gerrit Code Review" : prefix) + ": "
+            (getName().isEmpty() ? "Gerrit Code Review" : getName()) + ": "
                 + commandName + ": not found";
         throw new UnloggedFailure(1, msg);
       }
@@ -77,10 +80,10 @@ final class DispatchCommand extends BaseCommand {
       checkRequiresCapability(cmd);
       if (cmd instanceof BaseCommand) {
         final BaseCommand bc = (BaseCommand) cmd;
-        if (prefix.isEmpty())
+        if (getName().isEmpty())
           bc.setName(commandName);
         else
-          bc.setName(prefix + " " + commandName);
+          bc.setName(getName() + " " + commandName);
         bc.setArguments(args.toArray(new String[args.size()]));
 
       } else if (!args.isEmpty()) {
@@ -128,22 +131,22 @@ final class DispatchCommand extends BaseCommand {
   protected String usage() {
     final StringBuilder usage = new StringBuilder();
     usage.append("Available commands");
-    if (!prefix.isEmpty()) {
+    if (!getName().isEmpty()) {
       usage.append(" of ");
-      usage.append(prefix);
+      usage.append(getName());
     }
     usage.append(" are:\n");
     usage.append("\n");
-    for (Map.Entry<String, Provider<Command>> e : commands.entrySet()) {
+    for (String name : Sets.newTreeSet(commands.keySet())) {
       usage.append("   ");
-      usage.append(e.getKey());
+      usage.append(name);
       usage.append("\n");
     }
     usage.append("\n");
 
     usage.append("See '");
-    if (prefix.indexOf(' ') < 0) {
-      usage.append(prefix);
+    if (getName().indexOf(' ') < 0) {
+      usage.append(getName());
       usage.append(' ');
     }
     usage.append("COMMAND --help' for more information.\n");

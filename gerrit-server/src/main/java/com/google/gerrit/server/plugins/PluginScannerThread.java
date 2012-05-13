@@ -38,7 +38,7 @@ class PluginScannerThread extends Thread {
         }
       } catch (InterruptedException e) {
       }
-      loader.rescan(false);
+      loader.rescan();
     }
   }
 

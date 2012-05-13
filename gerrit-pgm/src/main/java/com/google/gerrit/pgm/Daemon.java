@@ -42,7 +42,6 @@ import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
-import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
@@ -212,7 +211,6 @@ public class Daemon extends SiteProgram {
     modules.add(new EhcachePoolImpl.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
-    modules.add(new PushReplication.Module());
     modules.add(new PluginModule());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
@@ -245,7 +243,7 @@ public class Daemon extends SiteProgram {
   private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<Module>();
     if (sshd) {
-      modules.add(new SshModule());
+      modules.add(sysInjector.getInstance(SshModule.class));
       if (slave) {
         modules.add(new SlaveCommandModule());
       } else {

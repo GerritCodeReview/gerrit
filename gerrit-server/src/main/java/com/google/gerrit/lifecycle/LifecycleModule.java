@@ -1,5 +1,6 @@
 package com.google.gerrit.lifecycle;
 
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.binder.LinkedBindingBuilder;

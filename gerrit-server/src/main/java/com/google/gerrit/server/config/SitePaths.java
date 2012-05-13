@@ -31,6 +31,7 @@ public final class SitePaths {
   public final File tmp_dir;
   public final File logs_dir;
   public final File plugins_dir;
+  public final File data_dir;
   public final File mail_dir;
   public final File hooks_dir;
   public final File static_dir;
@@ -40,7 +41,6 @@ public final class SitePaths {
 
   public final File gerrit_config;
   public final File secure_config;
-  public final File replication_config;
   public final File contact_information_pub;
 
   public final File ssl_keystore;
@@ -66,6 +66,7 @@ public final class SitePaths {
     lib_dir = new File(site_path, "lib");
     tmp_dir = new File(site_path, "tmp");
     plugins_dir = new File(site_path, "plugins");
+    data_dir = new File(site_path, "data");
     logs_dir = new File(site_path, "logs");
     mail_dir = new File(etc_dir, "mail");
     hooks_dir = new File(site_path, "hooks");
@@ -76,7 +77,6 @@ public final class SitePaths {
 
     gerrit_config = new File(etc_dir, "gerrit.config");
     secure_config = new File(etc_dir, "secure.config");
-    replication_config = new File(etc_dir, "replication.config");
     contact_information_pub = new File(etc_dir, "contact_information.pub");
 
     ssl_keystore = new File(etc_dir, "keystore");

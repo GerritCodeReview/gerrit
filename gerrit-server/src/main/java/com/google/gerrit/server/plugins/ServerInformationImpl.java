@@ -1,4 +1,4 @@
-// Copyright (C) 2011 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,26 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.plugins;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.inject.Singleton;
 
-/** A disabled {@link ReplicationQueue}. */
-public final class NoReplication implements ReplicationQueue {
-  @Override
-  public boolean isEnabled() {
-    return false;
-  }
+@Singleton
+class ServerInformationImpl implements ServerInformation {
+  volatile State state = State.STARTUP;
 
   @Override
-  public void scheduleUpdate(Project.NameKey project, String ref) {
-  }
-
-  @Override
-  public void scheduleFullSync(Project.NameKey project, String urlMatch) {
-  }
-
-  @Override
-  public void replicateNewProject(Project.NameKey project, String head) {
+  public State getState() {
+    return state;
   }
 }

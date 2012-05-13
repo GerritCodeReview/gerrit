@@ -16,7 +16,7 @@ package com.google.gerrit.pgm.util;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
-import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;

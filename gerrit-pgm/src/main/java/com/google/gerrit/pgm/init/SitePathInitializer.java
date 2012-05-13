@@ -72,6 +72,7 @@ public class SitePathInitializer {
     mkdir(site.mail_dir);
     mkdir(site.static_dir);
     mkdir(site.plugins_dir);
+    mkdir(site.data_dir);
 
     for (InitStep step : steps) {
       step.run();
@@ -79,10 +80,6 @@ public class SitePathInitializer {
 
     savePublic(flags.cfg);
     saveSecure(flags.sec);
-
-    if (!site.replication_config.exists()) {
-      site.replication_config.createNewFile();
-    }
 
     extract(site.gerrit_sh, Init.class, "gerrit.sh");
     chmod(0755, site.gerrit_sh);

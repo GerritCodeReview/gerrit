@@ -70,6 +70,24 @@
       "revId": "f17bb99888684009866046b6dadca458ad59e107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///9s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-05-13T15:12:18Z",
+      "side": 1,
+      "message": "Hi Edwin\n\nabout“This is the only usage of the ProjectListPopup” .\n\nlet\u0027s review history: \nbefore [1] , MyWatchedProjectsScreen  has resize function.\n\nand [2]   also use resize function .\n\nso  in [1] I let \u0027ProjectListPopup.java\u0027 keep this function. \n\nlater according to Brad\u0027s comments this feature [3]comes .\n\nthus now we still have [2] left using resize function. \n\nso  the question now is at  [2], it is  to let [2] using resizing function or not.   \n\nBrad hope  [2] not  use resizing function.\nno problem for me, but it is hard for me to say yes or not,  \n\nbecause  I do not who spark the idea of [2], at least it is not me. \n\nhowever now I think waiting the idea creator comes out and show his opinion is not important ,as I got 2 cores \u0027 focus now :).\n\n\nany way the result will be one of below  2 options  \n\n1\u003e       let [2] using resizing function.\n  that means we need not adding new patch set.\n\n2\u003e not  let [2] using resizing function as Brad idea\n  that will mean \u0027ProjectListPopup\u0027 need not to keep the resize function .  if so my plan is:\n\n  --create a new patch set for [1] to remove resizing function from [1]  and merge with the logic of [3], as that would be easy to handle.\n  --then abandon [3]\n  --create a new patch set for [2],  based on [1] to let [2] not has resizing function.\n\nwill you please help me again to review [2] and my plan  ?\n\n/Bruce\n\n\n\n[1] Refactoring on MyWatchedProjectsScreen\nhttps://gerrit-review.googlesource.com/#/c/34560/3\n\n[2] On project creation allow chosing parent from popup\nhttps://gerrit-review.googlesource.com/#/c/30811/\n\n[3] Fix: Popup jumps back to original position when resizing screen.\nhttps://gerrit-review.googlesource.com/#/c/35135",
+      "parentUuid": "AAAFZX////c\u003d",
+      "revId": "f17bb99888684009866046b6dadca458ad59e107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,7 +17,7 @@ package com.google.gerrit.ehcache;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.DiskCachePool;

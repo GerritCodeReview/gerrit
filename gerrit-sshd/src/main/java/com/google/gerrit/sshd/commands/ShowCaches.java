@@ -19,7 +19,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.GuavaBackedCache;
 import com.google.gerrit.server.config.SitePath;

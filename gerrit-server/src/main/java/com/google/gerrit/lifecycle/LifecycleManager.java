@@ -14,6 +14,7 @@
 
 package com.google.gerrit.lifecycle;
 
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Binding;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;

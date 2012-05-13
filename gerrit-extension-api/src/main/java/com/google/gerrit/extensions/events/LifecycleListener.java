@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.lifecycle;
+package com.google.gerrit.extensions.events;
+
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
 import java.util.EventListener;
 
 /** Listener interested in server startup and shutdown events. */
+@ExtensionPoint
 public interface LifecycleListener extends EventListener {
   /** Invoke when the server is starting. */
   public void start();

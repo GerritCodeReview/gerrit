@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///Qs\u003d",
+        "filename": "gerrit-commit-validation-plugin/src/main/java/com/googlesource/gerrit/plugins/validators/HelloWorldValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-13T18:01:34Z",
+      "side": 1,
+      "message": "Nit: extra spaces.",
+      "revId": "937b8047e73fb73ed7ff175ba29563a97a8dc4b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Qw\u003d",
+        "filename": "gerrit-commit-validation-plugin/src/main/java/com/googlesource/gerrit/plugins/validators/SampleCommitValidatorModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-13T18:01:34Z",
+      "side": 1,
+      "message": "Won\u0027t the loader print a message to the logs now on load?  Where would this stdout go?",
+      "revId": "937b8047e73fb73ed7ff175ba29563a97a8dc4b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

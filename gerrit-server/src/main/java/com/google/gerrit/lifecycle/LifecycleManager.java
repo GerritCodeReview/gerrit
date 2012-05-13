@@ -16,6 +16,7 @@ package com.google.gerrit.lifecycle;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.inject.Binding;
 import com.google.inject.Injector;

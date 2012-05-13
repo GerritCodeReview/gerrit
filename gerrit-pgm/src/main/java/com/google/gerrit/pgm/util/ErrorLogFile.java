@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.util;
 
-import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
 
 import org.apache.log4j.Appender;

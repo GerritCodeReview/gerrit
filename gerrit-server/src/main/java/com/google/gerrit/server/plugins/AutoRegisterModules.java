@@ -16,7 +16,8 @@ package com.google.gerrit.server.plugins;
 
 import static com.google.gerrit.server.plugins.PluginGuiceEnvironment.is;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
@@ -58,7 +59,7 @@ class AutoRegisterModules {
   private final ModuleGenerator httpGen;
 
   private Set<Class<?>> sysSingletons;
-  private Map<TypeLiteral<?>, Class<?>> sysListen;
+  private Multimap<TypeLiteral<?>, Class<?>> sysListen;
 
   Module sysModule;
   Module sshModule;
@@ -78,7 +79,7 @@ class AutoRegisterModules {
 
   AutoRegisterModules discover() throws InvalidPluginException {
     sysSingletons = Sets.newHashSet();
-    sysListen = Maps.newHashMap();
+    sysListen = LinkedListMultimap.create();
 
     if (sshGen != null) {
       sshGen.setPluginName(pluginName);
@@ -108,7 +109,7 @@ class AutoRegisterModules {
         for (Class<?> clazz : sysSingletons) {
           bind(clazz).in(Scopes.SINGLETON);
         }
-        for (Map.Entry<TypeLiteral<?>, Class<?>> e : sysListen.entrySet()) {
+        for (Map.Entry<TypeLiteral<?>, Class<?>> e : sysListen.entries()) {
           @SuppressWarnings("unchecked")
           TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
 

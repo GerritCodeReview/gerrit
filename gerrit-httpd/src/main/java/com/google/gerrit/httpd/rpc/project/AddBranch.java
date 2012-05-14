@@ -144,8 +144,8 @@ class AddBranch extends Handler<ListBranchesResult> {
           case FAST_FORWARD:
           case NEW:
           case NO_CHANGE:
-            referenceUpdated.fire(name.getParentKey(), refname);
-            hooks.doRefUpdatedHook(name, u, identifiedUser.getAccount());
+            referenceUpdated.fire(name.getParentKey(), u,
+                identifiedUser.getAccount());
             break;
           default: {
             throw new IOException(result.name());

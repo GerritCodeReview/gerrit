@@ -88,6 +88,24 @@
       "revId": "f17bb99888684009866046b6dadca458ad59e107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX///+M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-14T09:16:48Z",
+      "side": 1,
+      "message": "Bruce, thanks for clarifying this. I now see, what you mean.\n\nWith [3] there is no usage of the resize function parameter anymore, but the pending change [2] adds a new usage.\n\nI agree that there are the two options that you pointed out:\n1\u003e let [2] using resizing function.\nDon\u0027t we have the same problem here that is fixed by [3] for the popup on the watched projects screen? If I move the popup that allows me to choose a parent project and then I resize the window the popup jumps back to the original position. If we fix this problem for the watched project screen, we should also fix it in this case. This is why I would favour option 2 below.\n\n2\u003e not  let [2] using resizing function as Brad idea\n\nThe proposed steps from you for [2] look good to me, but I would avoid to do the refactoring [1] and the fix for the jumping popup [3] in one change. I think it\u0027s better to keep the refactoring and the fix seperated in own changes. Best do the fix for the jumping popup first [3], then based on this do the refactoring [1] and at last add the popup for the project creation that allows choosing the parent project [2].\n\n[1] Refactoring on MyWatchedProjectsScreen\nhttps://gerrit-review.googlesource.com/#/c/34560/3\n\n[2] On project creation allow chosing parent from popup\nhttps://gerrit-review.googlesource.com/#/c/30811/\n\n[3] Fix: Popup jumps back to original position when resizing screen.\nhttps://gerrit-review.googlesource.com/#/c/35135",
+      "parentUuid": "AAAFbH///9s\u003d",
+      "revId": "f17bb99888684009866046b6dadca458ad59e107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

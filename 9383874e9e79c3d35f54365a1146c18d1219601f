@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAFX3///Pg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:11:14Z",
+      "side": 1,
+      "message": "I apparently didn\u0027t review the SubmoduleOp.Factory addition. Our style with @Assisted is to put the injected parameters, then a blank line, then the @Assisted parameters, and then the end of the constructor.\n\nThat means the projectControl and repo parameters should be last in the constructor declaration, and this and the subOpFactory should be inserted between lines 273 and 274.",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbX///20\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:11:14Z",
+      "side": 1,
+      "message": "This should be set higher up around line 296 or 304.",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbX///2w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1714,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:11:14Z",
+      "side": 1,
+      "message": "This should be implemented using the extension point. A lot of this method should actually, but lets at least do this simple one.",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///RI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1750,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:11:14Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we get all of the errors up front, rather than aborting on the first one found?",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///Qg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
         "patchSetId": 9
@@ -19,6 +87,75 @@
     },
     {
       "key": {
+        "uuid": "AAAFYH///RM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:11:14Z",
+      "side": 1,
+      "message": "I don\u0027t think there is. Its probably valid to define a new one for this extension point.",
+      "parentUuid": "AAAFX3///Qg\u003d",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbX///24\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:11:14Z",
+      "side": 1,
+      "message": "We shouldn\u0027t define an empty failure with no message as a default option for plugins. That will cause plugins to reject with no error. We should encourage them to give feedback to the user, at least with a message like \"prohibited by server, contact admin\" if they don\u0027t want to really disclose the real reason.",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Po\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:11:14Z",
+      "side": 1,
+      "message": "I know it seems like a field is OK here, but lets not define fields when we talk to an interface that a plugin or extension might use. Lets at least try to stick with methods so a plugin or extension could subclass this result type, override the method, and have the core do the right thing with that.",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Pk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:11:14Z",
+      "side": 1,
+      "message": "consider making this protected so plugins could subclass if they want to.",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///Qk\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidatorListener.java",
         "patchSetId": 9
@@ -30,6 +167,40 @@
       "writtenOn": "2012-05-14T15:34:51Z",
       "side": 1,
       "message": "Nit: extra lines here and after method.",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbX///28\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidatorListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:11:14Z",
+      "side": 1,
+      "message": "Create an Event type and pass all of this through as members of the Event type. We can later add more data to the interface by expanding what is exported in that Event object/interface without changing the signature of the method and breaking existing validators.",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Ps\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidatorListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:11:14Z",
+      "side": 1,
+      "message": "style-nit: its ugly to declare final in an interface or abstract method parameter name. It has no impact on anything.",
       "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common;
 
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
@@ -93,27 +92,4 @@ public interface ChangeHooks {
    */
   public void doChangeRestoreHook(Change change, Account account,
       String reason, ReviewDb db) throws OrmException;
-
-  /**
-   * Fire the Ref Updated Hook
-   *
-   * @param refName The updated project and branch.
-   * @param refUpdate An actual RefUpdate object
-   * @param account The gerrit user who moved the ref
-   */
-  public void doRefUpdatedHook(Branch.NameKey refName, RefUpdate refUpdate,
-      Account account);
-
-  /**
-   * Fire the Ref Updated Hook
-   *
-   * @param refName The Branch.NameKey of the ref that was updated
-   * @param oldId The ref's old id
-   * @param newId The ref's new id
-   * @param account The gerrit user who moved the ref
-   */
-  public void doRefUpdatedHook(Branch.NameKey refName, ObjectId oldId,
-      ObjectId newId, Account account);
-
-  public void doClaSignupHook(Account account, ContributorAgreement cla);
 }

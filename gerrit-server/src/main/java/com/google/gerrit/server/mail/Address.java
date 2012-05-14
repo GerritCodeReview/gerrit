@@ -55,6 +55,19 @@ public class Address {
   }
 
   @Override
+  public int hashCode() {
+    return email.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof Address) {
+      return email.equals(((Address) other).email);
+    }
+    return false;
+  }
+
+  @Override
   public String toString() {
     try {
       return toHeaderString();

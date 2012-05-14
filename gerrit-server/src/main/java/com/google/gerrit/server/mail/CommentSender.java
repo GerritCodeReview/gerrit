@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
@@ -68,7 +69,7 @@ public class CommentSender extends ReplyToChangeSender {
 
     ccAllApprovals();
     bccStarredBy();
-    bccWatchesNotifyAllComments();
+    bccWatches(NotifyType.ALL_COMMENTS);
   }
 
   @Override

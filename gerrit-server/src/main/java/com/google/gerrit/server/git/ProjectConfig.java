@@ -16,6 +16,8 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.common.data.Permission.isPermission;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -23,17 +25,21 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.mail.Address;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,6 +47,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -67,6 +74,11 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_AUTO_VERIFY = "autoVerify";
   private static final String KEY_AGREEMENT_URL = "agreementUrl";
 
+  private static final String NOTIFY = "notify";
+  private static final String KEY_EMAIL = "email";
+  private static final String KEY_FILTER = "filter";
+  private static final String KEY_TYPE = "type";
+
   private static final String CAPABILITY = "capability";
 
   private static final String RECEIVE = "receive";
@@ -91,6 +103,7 @@ public class ProjectConfig extends VersionedMetaData {
   private Map<AccountGroup.UUID, GroupReference> groupsByUUID;
   private Map<String, AccessSection> accessSections;
   private Map<String, ContributorAgreement> contributorAgreements;
+  private Map<String, NotifyConfig> notifySections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
 
@@ -185,6 +198,10 @@ public class ProjectConfig extends VersionedMetaData {
     contributorAgreements.put(section.getName(), section);
   }
 
+  public Collection<NotifyConfig> getNotifyConfigs() {
+    return notifySections.values();
+  }
+
   public GroupReference resolve(AccountGroup group) {
     return resolve(GroupReference.forGroup(group));
   }
@@ -275,6 +292,7 @@ public class ProjectConfig extends VersionedMetaData {
     loadAccountsSection(rc, groupsByName);
     loadContributorAgreements(rc, groupsByName);
     loadAccessSections(rc, groupsByName);
+    loadNotifySections(rc, groupsByName);
   }
 
   private void loadAccountsSection(
@@ -315,6 +333,67 @@ public class ProjectConfig extends VersionedMetaData {
       } else {
         ca.setAutoVerify(rules.get(0).getGroup());
       }
+    }
+  }
+
+  /**
+   * Parses the [notify] sections out of the configuration file.
+   *
+   * <pre>
+   *   [notify "reviewers"]
+   *     email = group Reviewers
+   *     type = new_changes
+   *
+   *   [notify "dev-team"]
+   *     email = dev-team@example.com
+   *     filter = branch:master
+   *
+   *   [notify "qa"]
+   *     email = qa@example.com
+   *     filter = branch:\"^(maint|stable)-.*\"
+   *     type = submitted_changes
+   * </pre>
+   */
+  private void loadNotifySections(
+      Config rc, Map<String, GroupReference> groupsByName) {
+    notifySections = Maps.newHashMap();
+    for (String sectionName : rc.getSubsections(NOTIFY)) {
+      NotifyConfig n = new NotifyConfig();
+      n.setName(sectionName);
+      n.setFilter(rc.getString(NOTIFY, sectionName, KEY_FILTER));
+
+      EnumSet<NotifyType> types = EnumSet.noneOf(NotifyType.class);
+      types.addAll(ConfigUtil.getEnumList(rc,
+          NOTIFY, sectionName, KEY_TYPE,
+          NotifyType.ALL));
+      n.setTypes(types);
+
+      for (String dst : rc.getStringList(NOTIFY, sectionName, KEY_EMAIL)) {
+        if (dst.startsWith("group ")) {
+          String groupName = dst.substring(6).trim();
+          GroupReference ref = groupsByName.get(groupName);
+          if (ref == null) {
+            ref = new GroupReference(null, groupName);
+            groupsByName.put(ref.getName(), ref);
+          }
+          if (ref.getUUID() != null) {
+            n.addEmail(ref);
+          } else {
+            error(new ValidationError(PROJECT_CONFIG,
+                "group \"" + ref.getName() + "\" not in " + GROUP_LIST));
+          }
+        } else if (dst.startsWith("user ")) {
+          error(new ValidationError(PROJECT_CONFIG, dst + " not supported"));
+        } else {
+          try {
+            n.addEmail(Address.parse(dst));
+          } catch (IllegalArgumentException err) {
+            error(new ValidationError(PROJECT_CONFIG,
+                "notify section \"" + sectionName + "\" has invalid email \"" + dst + "\""));
+          }
+        }
+      }
+      notifySections.put(sectionName, n);
     }
   }
 
@@ -458,6 +537,7 @@ public class ProjectConfig extends VersionedMetaData {
     saveAccountsSection(rc, keepGroups);
     saveContributorAgreements(rc, keepGroups);
     saveAccessSections(rc, keepGroups);
+    saveNotifySections(rc, keepGroups);
     groupsByUUID.keySet().retainAll(keepGroups);
 
     saveConfig(PROJECT_CONFIG, rc);
@@ -490,6 +570,47 @@ public class ProjectConfig extends VersionedMetaData {
 
       rc.setStringList(CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_ACCEPTED,
           ruleToStringList(ca.getAccepted(), keepGroups));
+    }
+  }
+
+  private void saveNotifySections(
+      Config rc, Set<AccountGroup.UUID> keepGroups) {
+    for (NotifyConfig nc : sort(notifySections.values())) {
+      List<String> email = Lists.newArrayList();
+      for (GroupReference gr : nc.getGroups()) {
+        if (gr.getUUID() != null) {
+          keepGroups.add(gr.getUUID());
+        }
+        email.add(new PermissionRule(gr).asString(false));
+      }
+      Collections.sort(email);
+
+      List<String> addrs = Lists.newArrayList();
+      for (Address addr : nc.getAddresses()) {
+        addrs.add(addr.toString());
+      }
+      Collections.sort(addrs);
+      email.addAll(addrs);
+
+      if (email.isEmpty()) {
+        rc.unset(NOTIFY, nc.getName(), KEY_EMAIL);
+      } else {
+        rc.setStringList(NOTIFY, nc.getName(), KEY_EMAIL, email);
+      }
+
+      if (nc.getNotify().equals(EnumSet.of(NotifyType.ALL))) {
+        rc.unset(NOTIFY, nc.getName(), KEY_TYPE);
+      } else {
+        List<String> types = Lists.newArrayListWithCapacity(4);
+        for (NotifyType t : NotifyType.values()) {
+          if (nc.isNotify(t)) {
+            types.add(StringUtils.toLowerCase(t.name()));
+          }
+        }
+        rc.setStringList(NOTIFY, nc.getName(), KEY_TYPE, types);
+      }
+
+      set(rc, NOTIFY, nc.getName(), KEY_FILTER, nc.getFilter());
     }
   }
 

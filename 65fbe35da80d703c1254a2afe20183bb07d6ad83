@@ -33,6 +33,24 @@
       "revId": "65fbe35da80d703c1254a2afe20183bb07d6ad83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///Q0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:17:54Z",
+      "side": 1,
+      "message": "Deniz\u0027s code is pretty good, but you can still do slightly better by avoiding the implicit StringBuilder in the return:\n\n    StringBuilder sb \u003d new StringBuilder();\n    sb.append(status).append(\u0027[\u0027);\n    if(labels !\u003d null) {\n      String delimiter \u003d \"\";\n      for (Label label : labels) {\n        sb.append(delimiter).append(label.toString());\n        delimiter \u003d \", \";\n      }\n    }\n    sb.append(\u0027]\u0027);\n    return sb.toString();",
+      "parentUuid": "AAAFX3///TA\u003d",
+      "revId": "65fbe35da80d703c1254a2afe20183bb07d6ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

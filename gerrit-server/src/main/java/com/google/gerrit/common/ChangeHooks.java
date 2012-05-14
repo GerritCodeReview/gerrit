@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common;
 
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
@@ -114,6 +113,4 @@ public interface ChangeHooks {
    */
   public void doRefUpdatedHook(Branch.NameKey refName, ObjectId oldId,
       ObjectId newId, Account account);
-
-  public void doClaSignupHook(Account account, ContributorAgreement cla);
 }

@@ -16,21 +16,14 @@ package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-import java.util.List;
-
-/** Notified when one or more references are modified. */
 @ExtensionPoint
-public interface GitReferenceUpdatedListener {
-  public interface Update {
-    String getRefName();
-    String getOldObjectId();
-    String getNewObjectId();
-  }
-
+public interface PostContributorAgreementAcceptedListener {
   public interface Event {
-    String getProjectName();
-    List<Update> getUpdates();
+    String getAgreementName();
+    String getAccountFullName();
+    String getAccountEmail();
+    int getAccountId();
   }
 
-  void onGitReferenceUpdated(Event event);
+  void onPostContributorAgreementAccepted(Event event);
 }

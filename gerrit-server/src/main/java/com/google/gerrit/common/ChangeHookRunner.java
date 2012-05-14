@@ -16,7 +16,6 @@ package com.google.gerrit.common;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
@@ -111,12 +110,6 @@ public class ChangeHookRunner implements ChangeHooks {
     /** Filename of the change abandoned hook. */
     private final File changeRestoredHook;
 
-    /** Filename of the ref updated hook. */
-    private final File refUpdatedHook;
-
-    /** Filename of the cla signed hook. */
-    private final File claSignedHook;
-
     private final String anonymousCowardName;
 
     /** Repository Manager. */
@@ -168,8 +161,6 @@ public class ChangeHookRunner implements ChangeHooks {
         changeMergedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeMergedHook", "change-merged")).getPath());
         changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
         changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
-        refUpdatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdatedHook", "ref-updated")).getPath());
-        claSignedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "claSignedHook", "cla-signed")).getPath());
     }
 
     public void addChangeListener(ChangeListener listener, IdentifiedUser user) {
@@ -345,28 +336,6 @@ public class ChangeHookRunner implements ChangeHooks {
       }
       event.refUpdate = eventFactory.asRefUpdateAttribute(oldId, newId, refName);
       fireEvent(refName, event);
-
-      final List<String> args = new ArrayList<String>();
-      addArg(args, "--oldrev", event.refUpdate.oldRev);
-      addArg(args, "--newrev", event.refUpdate.newRev);
-      addArg(args, "--refname", event.refUpdate.refName);
-      addArg(args, "--project", event.refUpdate.project);
-      if (account != null) {
-        addArg(args, "--submitter", getDisplayName(account));
-      }
-
-      runHook(refName.getParentKey(), refUpdatedHook, args);
-    }
-
-    public void doClaSignupHook(Account account, ContributorAgreement cla) {
-      if (account != null) {
-        final List<String> args = new ArrayList<String>();
-        addArg(args, "--submitter", getDisplayName(account));
-        addArg(args, "--user-id", account.getId().toString());
-        addArg(args, "--cla-name", cla.getName());
-
-        runHook(claSignedHook, args);
-      }
     }
 
     private void fireEvent(final Change change, final ChangeEvent event, final ReviewDb db) throws OrmException {
@@ -449,12 +418,6 @@ public class ChangeHookRunner implements ChangeHooks {
       List<String> args) {
     if (project != null && hook.exists()) {
       hookQueue.execute(new HookTask(project, hook, args));
-    }
-  }
-
-  private synchronized void runHook(File hook, List<String> args) {
-    if (hook.exists()) {
-      hookQueue.execute(new HookTask(null, hook, args));
     }
   }
 

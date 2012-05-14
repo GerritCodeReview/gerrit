@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.events.PostContributorAgreementAcceptedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.rules.PrologModule;
@@ -154,5 +155,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(GitReferenceUpdated.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
+    DynamicSet.setOf(binder(), PostContributorAgreementAcceptedListener.class);
   }
 }

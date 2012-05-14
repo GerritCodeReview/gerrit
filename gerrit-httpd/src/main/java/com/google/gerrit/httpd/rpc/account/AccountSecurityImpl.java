@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
-import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupDetail;
@@ -23,6 +22,8 @@ import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.events.PostContributorAgreementAcceptedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
@@ -89,7 +90,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
   private final MyGroupsFactory.Factory myGroupsFactory;
 
-  private final ChangeHooks hooks;
+  private final DynamicSet<PostContributorAgreementAcceptedListener> claAccepted;
   private final GroupCache groupCache;
 
   @Inject
@@ -106,7 +107,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
       final MyGroupsFactory.Factory myGroupsFactory,
-      final ChangeHooks hooks, final GroupCache groupCache) {
+      final DynamicSet<PostContributorAgreementAcceptedListener> claAccepted,
+      final GroupCache groupCache) {
     super(schema, currentUser);
     contactStore = cs;
     authConfig = ac;
@@ -128,7 +130,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.myGroupsFactory = myGroupsFactory;
-    this.hooks = hooks;
+    this.claAccepted = claAccepted;
     this.groupCache = groupCache;
   }
 
@@ -290,8 +292,31 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           throw new Failure(new NoSuchEntityException());
         }
 
-        Account account = user.get().getAccount();
-        hooks.doClaSignupHook(account, ca);
+        final Account account = user.get().getAccount();
+        for (PostContributorAgreementAcceptedListener l: claAccepted) {
+          l.onPostContributorAgreementAccepted(
+              new PostContributorAgreementAcceptedListener.Event() {
+                @Override
+                public String getAgreementName() {
+                  return agreementName;
+                }
+
+                @Override
+                public String getAccountFullName() {
+                  return account.getFullName();
+                }
+
+                @Override
+                public String getAccountEmail() {
+                  return account.getPreferredEmail();
+                }
+
+                @Override
+                public int getAccountId() {
+                  return account.getId().get();
+                }
+              });
+        }
 
         final AccountGroupMember.Key key =
             new AccountGroupMember.Key(account.getId(), group.getId());

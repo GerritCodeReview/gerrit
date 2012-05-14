@@ -66,6 +66,18 @@ public class GitReferenceUpdated {
             public String getRefName() {
               return ref;
             }
+
+            @Override
+            public String getNewObjectId() {
+              // TODO Auto-generated method stub
+              return null;
+            }
+
+            @Override
+            public String getOldObjectId() {
+              // TODO Auto-generated method stub
+              return null;
+            }
           };
       return ImmutableList.of(update);
     }

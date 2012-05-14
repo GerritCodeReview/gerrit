@@ -33,7 +33,6 @@ import com.google.inject.Injector;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -109,7 +108,7 @@ public class ScanTrackingIds extends SiteProgram {
     final Repository git;
     try {
       git = gitManager.openRepository(project);
-    } catch (RepositoryNotFoundException e) {
+    } catch (IOException e) {
       return;
     }
     try {

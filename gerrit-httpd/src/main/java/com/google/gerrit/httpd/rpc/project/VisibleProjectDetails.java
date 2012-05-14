@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Project;
@@ -22,6 +21,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -50,6 +50,7 @@ class VisibleProjectDetails extends Handler<List<ProjectDetail>> {
       try {
         result.add(projectDetailFactory.create(projectName).call());
       } catch (NoSuchProjectException e) {
+      } catch (IOException e) {
       }
     }
     Collections.sort(result, new Comparator<ProjectDetail>() {

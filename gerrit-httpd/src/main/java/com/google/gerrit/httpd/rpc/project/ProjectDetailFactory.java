@@ -51,7 +51,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
   }
 
   @Override
-  public ProjectDetail call() throws NoSuchProjectException {
+  public ProjectDetail call() throws NoSuchProjectException, IOException {
     final ProjectControl pc =
         projectControlFactory.validateFor(projectName, ProjectControl.OWNER
             | ProjectControl.VISIBLE);

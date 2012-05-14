@@ -141,6 +141,9 @@ class PatchScriptFactory extends Handler<PatchScript> {
     } catch (RepositoryNotFoundException e) {
       log.error("Repository " + projectKey + " not found", e);
       throw new NoSuchChangeException(changeId, e);
+    } catch (IOException e) {
+      log.error("Cannot open repository " + projectKey, e);
+      throw new NoSuchChangeException(changeId, e);
     }
     try {
       final PatchList list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));

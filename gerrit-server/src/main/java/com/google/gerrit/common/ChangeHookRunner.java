@@ -50,7 +50,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -200,7 +199,7 @@ public class ChangeHookRunner implements ChangeHooks {
     private Repository openRepository(final Project.NameKey name) {
         try {
             return repoManager.openRepository(name);
-        } catch (RepositoryNotFoundException err) {
+        } catch (IOException err) {
             log.warn("Cannot open repository " + name.get(), err);
             return null;
         }

@@ -62,7 +62,7 @@ class ListBranches extends Handler<ListBranchesResult> {
   }
 
   @Override
-  public ListBranchesResult call() throws NoSuchProjectException {
+  public ListBranchesResult call() throws NoSuchProjectException, IOException {
     final ProjectControl pctl = projectControlFactory.validateFor( //
         projectName, //
         ProjectControl.OWNER | ProjectControl.VISIBLE);

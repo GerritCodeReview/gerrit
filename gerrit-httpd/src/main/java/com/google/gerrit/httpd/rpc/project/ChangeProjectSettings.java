@@ -65,7 +65,8 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
   }
 
   @Override
-  public ProjectDetail call() throws NoSuchProjectException, OrmException {
+  public ProjectDetail call() throws NoSuchProjectException, OrmException,
+      IOException {
     final Project.NameKey projectName = update.getNameKey();
     projectControlFactory.ownerFor(projectName);
 
@@ -74,6 +75,8 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
       md = metaDataUpdateFactory.create(projectName);
     } catch (RepositoryNotFoundException notFound) {
       throw new NoSuchProjectException(projectName);
+    } catch (IOException e) {
+      throw new OrmException(e);
     }
     try {
       // TODO We really should take advantage of the Git commit DAG and

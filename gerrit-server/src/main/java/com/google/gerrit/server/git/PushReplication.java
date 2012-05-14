@@ -488,6 +488,10 @@ public class PushReplication implements ReplicationQueue {
             log.error("Internal error: project " + project
                 + " not found during replication", err);
             return;
+          } catch (IOException err) {
+            log.error("Internal error: unable to open project " + project
+                + " during replication", err);
+            return;
           }
           try {
             Ref head = git.getRef(Constants.HEAD);

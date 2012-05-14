@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///P0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:02:57Z",
+      "side": 1,
+      "message": "Rebased onto current master to use the ProjectMap.all() method rather than the deprecated visibleProjects call.",
+      "revId": "4b16ca1b50d0d587d7b336bc56c159e20e63bee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

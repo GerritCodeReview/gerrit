@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -22,6 +22,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import com.jcraft.jsch.Session;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -34,6 +36,9 @@ import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.LockFile;
 import org.eclipse.jgit.storage.file.WindowCache;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
+import org.eclipse.jgit.transport.JschConfigSessionFactory;
+import org.eclipse.jgit.transport.OpenSshConfig;
+import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -82,6 +87,15 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
     @Override
     public void start() {
+      // Install our own factory which always runs in batch mode, as we
+      // have no UI available for interactive prompting.
+      SshSessionFactory.setInstance(new JschConfigSessionFactory() {
+        @Override
+        protected void configure(OpenSshConfig.Host hc, Session session) {
+          // Default configuration is batch mode.
+        }
+      });
+
       final WindowCacheConfig c = new WindowCacheConfig();
       c.fromConfig(cfg);
       WindowCache.reconfigure(c);

@@ -24,8 +24,8 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RebasedPatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -54,7 +54,7 @@ class RebaseChange extends Handler<ChangeDetail> {
   private final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory;
 
   private final ChangeDetailFactory.Factory changeDetailFactory;
-  private final ReplicationQueue replication;
+  private final GitReferenceUpdated replication;
 
   private final PatchSet.Id patchSetId;
 
@@ -75,7 +75,7 @@ class RebaseChange extends Handler<ChangeDetail> {
       @Assisted final PatchSet.Id patchSetId, final ChangeHookRunner hooks,
       final GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final ReplicationQueue replication,
+      final GitReferenceUpdated replication,
       @GerritPersonIdent final PersonIdent myIdent,
       final ApprovalsUtil approvalsUtil) {
     this.changeControlFactory = changeControlFactory;

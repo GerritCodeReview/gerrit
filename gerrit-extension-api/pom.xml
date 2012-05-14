@@ -56,6 +56,8 @@ limitations under the License.
         <artifactId>maven-shade-plugin</artifactId>
         <configuration>
           <createSourcesJar>true</createSourcesJar>
+          <shadedArtifactAttached>true</shadedArtifactAttached>
+          <shadedClassifierName>all</shadedClassifierName>
         </configuration>
         <executions>
           <execution>

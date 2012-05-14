@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.extensions.events;
 
-/** How the {@link CurrentUser} is accessing Gerrit. */
-public enum AccessPath {
-  /** An unknown access path, probably should not be special. */
-  UNKNOWN,
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-  /** Access through the web UI. */
-  WEB_UI,
+import java.util.EventListener;
 
-  /** Access through an SSH command that is not invoked by Git. */
-  SSH_COMMAND,
+/** Listener interested in server startup and shutdown events. */
+@ExtensionPoint
+public interface LifecycleListener extends EventListener {
+  /** Invoke when the server is starting. */
+  public void start();
 
-  /** Access from a Git client using any Git protocol. */
-  GIT;
+  /** Invoked when the server is stopping. */
+  public void stop();
 }

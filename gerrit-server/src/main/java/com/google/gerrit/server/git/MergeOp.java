@@ -1059,14 +1059,13 @@ public class MergeOp {
                   ps.getProject().getDescription());
             }
 
-            replication.fire(destBranch.getParentKey(), branchUpdate.getName());
-
             Account account = null;
             final PatchSetApproval submitter = getSubmitter(db, mergeTip.patchsetId);
             if (submitter != null) {
               account = accountCache.get(submitter.getAccountId()).getAccount();
             }
-            hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
+
+            replication.fire(destBranch.getParentKey(), branchUpdate, account);
             break;
 
           default:

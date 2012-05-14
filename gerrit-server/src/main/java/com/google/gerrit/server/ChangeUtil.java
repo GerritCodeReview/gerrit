@@ -386,7 +386,7 @@ public class ChangeUtil {
               + ": " + ru.getResult());
         }
 
-        replication.fire(change.getProject(), ru.getName());
+        replication.fire(change.getProject(), ru, user.getAccount());
 
         List<PatchSetApproval> patchSetApprovals = approvalsUtil.copyVetosToLatestPatchSet(change);
 
@@ -500,8 +500,8 @@ public class ChangeUtil {
         throw new IOException("Failed to create ref " + ps.getRefName()
             + " in " + git.getDirectory() + ": " + ru.getResult());
       }
-      replication.fire(db.changes().get(changeId).getProject(),
-          ru.getName());
+      replication.fire(db.changes().get(changeId).getProject(), ru,
+          user.getAccount());
 
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(changeId,

@@ -39,7 +39,6 @@ Configuration
 * link:config-headerfooter.html[Site Header/Footer]
 * link:config-sso.html[Single Sign-On Systems]
 * link:config-reverseproxy.html[Reverse Proxy]
-* link:config-hooks.html[Hooks]
 * link:config-mail.html[Mail Templates]
 
 Developer Documentation

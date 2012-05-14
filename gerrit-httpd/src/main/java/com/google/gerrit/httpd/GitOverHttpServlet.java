@@ -167,7 +167,12 @@ public class GitOverHttpServlet extends GitServlet {
       }
       req.setAttribute(ATT_CONTROL, pc);
 
-      return manager.openRepository(pc.getProject().getNameKey());
+      try {
+        return manager.openRepository(pc.getProject().getNameKey());
+      } catch (IOException e) {
+        throw new RepositoryNotFoundException(
+            pc.getProject().getNameKey().get(), e);
+      }
     }
   }
 

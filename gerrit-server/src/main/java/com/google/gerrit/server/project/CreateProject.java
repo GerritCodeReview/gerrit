@@ -130,10 +130,10 @@ public class CreateProject {
         } finally {
           repo.close();
         }
-      } catch (RepositoryNotFoundException doesNotExist) {
+      } catch (IOException ioErr) {
         final String msg = "Cannot create " + nameKey;
         log.error(msg, err);
-        throw new ProjectCreationFailedException(msg, err);
+        throw new ProjectCreationFailedException(msg, ioErr);
       }
     } catch (Exception e) {
       final String msg = "Cannot create " + nameKey;

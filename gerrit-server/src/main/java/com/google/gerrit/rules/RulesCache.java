@@ -189,6 +189,8 @@ public class RulesCache {
       git = gitMgr.openRepository(project);
     } catch (RepositoryNotFoundException e) {
       throw new CompileException("Cannot open repository " + project, e);
+    } catch (IOException e) {
+      throw new CompileException("Cannot open repository " + project, e);
     }
     try {
       ObjectLoader ldr = git.open(rulesId, Constants.OBJ_BLOB);

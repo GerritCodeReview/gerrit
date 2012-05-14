@@ -43,8 +43,8 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -87,7 +87,7 @@ public class Schema_65 extends SchemaVersion {
     Repository git;
     try {
       git = mgr.openRepository(allProjects);
-    } catch (RepositoryNotFoundException e) {
+    } catch (IOException e) {
       throw new OrmException(e);
     }
     try {

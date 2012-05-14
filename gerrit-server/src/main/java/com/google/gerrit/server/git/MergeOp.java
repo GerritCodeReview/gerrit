@@ -319,6 +319,9 @@ public class MergeOp {
     } catch (RepositoryNotFoundException notGit) {
       final String m = "Repository \"" + name.get() + "\" unknown.";
       throw new MergeException(m, notGit);
+    } catch (IOException err) {
+      final String m = "Error opening repository \"" + name.get() + '"';
+      throw new MergeException(m, err);
     }
 
     rw = new RevWalk(repo) {

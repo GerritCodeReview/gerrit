@@ -80,7 +80,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
 
   @Override
   public Set<Branch.NameKey> call() throws NoSuchProjectException,
-      RepositoryNotFoundException, OrmException {
+      RepositoryNotFoundException, OrmException, IOException {
     final ProjectControl projectControl =
         projectControlFactory.controlFor(projectName);
 

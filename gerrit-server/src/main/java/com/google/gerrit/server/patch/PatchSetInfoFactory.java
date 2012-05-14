@@ -28,7 +28,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -83,7 +82,7 @@ public class PatchSetInfoFactory {
     Repository repo;
     try {
       repo = repoManager.openRepository(change.getProject());
-    } catch (RepositoryNotFoundException e) {
+    } catch (IOException e) {
       throw new PatchSetInfoNotAvailableException(e);
     }
     try {

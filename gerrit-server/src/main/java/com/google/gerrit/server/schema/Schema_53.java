@@ -158,9 +158,11 @@ class Schema_53 extends SchemaVersion {
         // inheritable permissions. For example 'All-Projects'.
         try {
           git = mgr.createRepository(nameKey);
-        } catch (RepositoryNotFoundException err) {
+        } catch (IOException err) {
           throw new OrmException("Cannot create repository " + name, err);
         }
+      } catch (IOException e) {
+        throw new OrmException(e);
       }
       try {
         MetaDataUpdate md =

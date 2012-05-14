@@ -59,10 +59,11 @@ public interface GitRepositoryManager {
    * @return the cached Repository instance. Caller must call {@code close()}
    *         when done to decrement the resource handle.
    * @throws RepositoryNotFoundException the name does not denote an existing
-   *         repository, or the name cannot be read as a repository.
+   *         repository.
+   * @throws IOException the name cannot be read as a repository.
    */
   public abstract Repository openRepository(Project.NameKey name)
-      throws RepositoryNotFoundException;
+      throws RepositoryNotFoundException, IOException;
 
   /**
    * Create (and open) a repository by name.
@@ -73,9 +74,11 @@ public interface GitRepositoryManager {
    * @throws RepositoryCaseMismatchException the name collides with an existing
    *         repository name, but only in case of a character within the name.
    * @throws RepositoryNotFoundException the name is invalid.
+   * @throws IOException the repository cannot be created.
    */
   public abstract Repository createRepository(Project.NameKey name)
-      throws RepositoryCaseMismatchException, RepositoryNotFoundException;
+      throws RepositoryCaseMismatchException, RepositoryNotFoundException,
+      IOException;
 
   /** @return set of all known projects, sorted by natural NameKey order. */
   public abstract SortedSet<Project.NameKey> list();

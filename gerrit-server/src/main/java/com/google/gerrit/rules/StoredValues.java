@@ -42,6 +42,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
+import java.io.IOException;
 import java.util.Map;
 
 public final class StoredValues {
@@ -99,6 +100,8 @@ public final class StoredValues {
       try {
         repo = gitMgr.openRepository(projectKey);
       } catch (RepositoryNotFoundException e) {
+        throw new SystemException(e.getMessage());
+      } catch (IOException e) {
         throw new SystemException(e.getMessage());
       }
       env.addToCleanup(new Runnable() {

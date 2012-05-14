@@ -25,6 +25,8 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
+import java.io.IOException;
+
 /** Helps with the updating of a {@link VersionedMetaData}. */
 public class MetaDataUpdate {
   public static class User {
@@ -49,7 +51,7 @@ public class MetaDataUpdate {
     }
 
     public MetaDataUpdate create(Project.NameKey name)
-        throws RepositoryNotFoundException {
+        throws RepositoryNotFoundException, IOException {
       MetaDataUpdate md = factory.create(name, mgr.openRepository(name));
       md.getCommitBuilder().setAuthor(userIdent);
       md.getCommitBuilder().setCommitter(serverIdent);
@@ -71,7 +73,7 @@ public class MetaDataUpdate {
     }
 
     public MetaDataUpdate create(Project.NameKey name)
-        throws RepositoryNotFoundException {
+        throws RepositoryNotFoundException, IOException {
       MetaDataUpdate md = factory.create(name, mgr.openRepository(name));
       md.getCommitBuilder().setAuthor(serverIdent);
       md.getCommitBuilder().setCommitter(serverIdent);

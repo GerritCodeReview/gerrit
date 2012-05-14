@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAFYH///Q8\u003d",
+        "filename": "gerrit-commit-validation-plugin/src/main/java/com/googlesource/gerrit/plugins/validators/HelloWorldValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:13:46Z",
+      "side": 1,
+      "message": "You should use the sfl4j logger factory.",
+      "revId": "937b8047e73fb73ed7ff175ba29563a97a8dc4b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///Qs\u003d",
         "filename": "gerrit-commit-validation-plugin/src/main/java/com/googlesource/gerrit/plugins/validators/HelloWorldValidator.java",
         "patchSetId": 2
@@ -30,6 +47,41 @@
       "writtenOn": "2012-05-13T18:01:34Z",
       "side": 1,
       "message": "Won\u0027t the loader print a message to the logs now on load?  Where would this stdout go?",
+      "revId": "937b8047e73fb73ed7ff175ba29563a97a8dc4b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///RA\u003d",
+        "filename": "gerrit-commit-validation-plugin/src/main/java/com/googlesource/gerrit/plugins/validators/SampleCommitValidatorModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:13:46Z",
+      "side": 1,
+      "message": "/dev/null in a normal daemon mode run by gerrit.sh. It only shows up in the IDE or if you started the daemon on the terminal.\n\nWe shouldn\u0027t use System.out.println() in a plugin.\n\nThis plugin shouldn\u0027t need a module either. Its a perfect candidate for auto-registration. It only needs the one HelloWorldValidator class with the @Listen annotation.",
+      "parentUuid": "AAAFX3///Qw\u003d",
+      "revId": "937b8047e73fb73ed7ff175ba29563a97a8dc4b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Pc\u003d",
+        "filename": "gerrit-commit-validation-plugin/src/main/java/com/googlesource/gerrit/plugins/validators/SampleCommitValidatorModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-14T16:13:46Z",
+      "side": 1,
+      "message": "This bind isn\u0027t actually necessary.",
       "revId": "937b8047e73fb73ed7ff175ba29563a97a8dc4b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

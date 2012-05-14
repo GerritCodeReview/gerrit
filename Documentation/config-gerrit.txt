@@ -1166,35 +1166,6 @@ using the property 'gitweb.pathSeparator'.
 +
 Valid values are the characters '*', '(' and ')'.
 
-[[hooks]]Section hooks
-~~~~~~~~~~~~~~~~~~~~~~
-
-See also link:config-hooks.html[Hooks].
-
-[[hooks.path]]hooks.path::
-+
-Optional path to hooks, if not specified then `'$site_path'/hooks` will be used.
-
-[[hooks.patchsetCreatedHook]]hooks.patchsetCreatedHook::
-+
-Optional filename for the patchset created hook, if not specified then
-`patchset-created` will be used.
-
-[[hooks.commentAddedHook]]hooks.commentAddedHook::
-+
-Optional filename for the comment added hook, if not specified then
-`comment-added` will be used.
-
-[[hooks.changeMergedHook]]hooks.changeMergedHook::
-+
-Optional filename for the change merged hook, if not specified then
-`change-merged` will be used.
-
-[[hooks.changeAbandonedHook]]hooks.changeAbandonedHook::
-+
-Optional filename for the change abandoned hook, if not specified then
-`change-abandoned` will be used.
-
 [[http]]Section http
 ~~~~~~~~~~~~~~~~~~~~
 

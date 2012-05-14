@@ -14,13 +14,12 @@
 
 package com.google.gerrit.common;
 
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
+import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Branch.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 
@@ -48,10 +47,6 @@ public final class DisabledChangeHooks implements ChangeHooks {
   @Override
   public void doChangeRestoreHook(Change change, Account account,
       String reason, ReviewDb db) {
-  }
-
-  @Override
-  public void doClaSignupHook(Account account, ContributorAgreement cla) {
   }
 
   @Override

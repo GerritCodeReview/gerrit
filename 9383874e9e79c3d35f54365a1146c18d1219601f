@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///Qg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-14T15:34:51Z",
+      "side": 1,
+      "message": "I believe there is already a more generic Result class that would probably provide the same thing that you could use.",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Qk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidatorListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-14T15:34:51Z",
+      "side": 1,
+      "message": "Nit: extra lines here and after method.",
+      "revId": "9383874e9e79c3d35f54365a1146c18d1219601f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

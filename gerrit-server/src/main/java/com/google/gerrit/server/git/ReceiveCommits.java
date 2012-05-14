@@ -513,9 +513,7 @@ public class ReceiveCommits {
           // We only schedule direct refs updates for replication.
           // Change refs are scheduled when they are created.
           //
-          replication.fire(project.getNameKey(), c.getRefName());
-          Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
-          hooks.doRefUpdatedHook(destBranch, c.getOldId(), c.getNewId(), currentUser.getAccount());
+          replication.fire(project.getNameKey(), c.getRefName(), c.getOldId(), c.getNewId(), currentUser.getAccount());
           commandProgress.update(1);
         }
       }
@@ -1167,7 +1165,7 @@ public class ReceiveCommits {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
     }
-    replication.fire(project.getNameKey(), ru.getName());
+    replication.fire(project.getNameKey(), ru, currentUser.getAccount());
 
     allNewChanges.add(change);
 
@@ -1469,7 +1467,7 @@ public class ReceiveCommits {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
     }
-    replication.fire(project.getNameKey(), ru.getName());
+    replication.fire(project.getNameKey(), ru, currentUser.getAccount());
     hooks.doPatchsetCreatedHook(result.change, ps, db);
     request.cmd.setResult(OK);
 

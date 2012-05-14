@@ -17,8 +17,14 @@ package com.google.gerrit.server.extensions.events;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.inject.Inject;
+
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,30 +34,72 @@ public class GitReferenceUpdated {
       Collections.<GitReferenceUpdatedListener> emptyList());
 
   private final Iterable<GitReferenceUpdatedListener> listeners;
+  private final String anonymousCowardName;
 
   @Inject
-  GitReferenceUpdated(DynamicSet<GitReferenceUpdatedListener> listeners) {
+  GitReferenceUpdated(DynamicSet<GitReferenceUpdatedListener> listeners,
+      @AnonymousCowardName String anonymousCowardName) {
     this.listeners = listeners;
+    this.anonymousCowardName = anonymousCowardName;
   }
 
   GitReferenceUpdated(Iterable<GitReferenceUpdatedListener> listeners) {
     this.listeners = listeners;
+    this.anonymousCowardName = "";
   }
 
-  public void fire(Project.NameKey project, String ref) {
-    Event event = new Event(project, ref);
+  public void fire(Project.NameKey project, RefUpdate update, Account account) {
+    fire(project, update.getName(), update.getOldObjectId(),
+        update.getNewObjectId(), account);
+  }
+
+  public void fire(Project.NameKey project, String ref, ObjectId oldId,
+      ObjectId newId, Account account) {
+    Event event =
+        new Event(project, ref, objectName(oldId), objectName(newId),
+            accountName(account));
     for (GitReferenceUpdatedListener l : listeners) {
       l.onGitReferenceUpdated(event);
     }
   }
 
+  private String objectName(ObjectId objId) {
+    return objId == null ? null : objId.getName();
+  }
+
+  private String accountName(Account account) {
+    if (account == null) {
+      return anonymousCowardName;
+    }
+
+    String result =
+        (account.getFullName() == null) ? anonymousCowardName : account
+            .getFullName();
+    if (account.getPreferredEmail() != null) {
+      result += " (" + account.getPreferredEmail() + ")";
+    }
+    return result;
+  }
+
+
+  public void fire(NameKey parentKey, String refsNotesReview) {
+    fire(parentKey, refsNotesReview, null, null, null);
+  }
+
   private static class Event implements GitReferenceUpdatedListener.Event {
     private final String projectName;
     private final String ref;
+    private final String oldId;
+    private final String newId;
+    private final String submitter;
 
-    Event(Project.NameKey project, String ref) {
+    Event(Project.NameKey project, String ref, String oldId, String newId,
+        String account) {
       this.projectName = project.get();
       this.ref = ref;
+      this.oldId = oldId;
+      this.newId = newId;
+      this.submitter = account;
     }
 
     @Override
@@ -66,8 +114,24 @@ public class GitReferenceUpdated {
             public String getRefName() {
               return ref;
             }
+
+            @Override
+            public String getNewObjectId() {
+              return newId;
+            }
+
+            @Override
+            public String getOldObjectId() {
+              return oldId;
+            }
+
+            @Override
+            public String getSubmitter() {
+              return submitter;
+            }
           };
       return ImmutableList.of(update);
     }
   }
+
 }

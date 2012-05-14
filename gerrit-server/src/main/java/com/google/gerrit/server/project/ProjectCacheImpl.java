@@ -115,6 +115,20 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Override
+  public void remove(final Project p) {
+    listLock.lock();
+    try {
+      SortedSet<Project.NameKey> n = list.get(ListKey.ALL);
+      n = new TreeSet<Project.NameKey>(n);
+      n.remove(p.getNameKey());
+      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+    } finally {
+      listLock.unlock();
+    }
+    evict(p);
+  }
+
+  @Override
   public void onCreateProject(Project.NameKey newProjectName) {
     listLock.lock();
     try {

@@ -278,6 +278,10 @@ public class RefControlTest extends TestCase {
       }
 
       @Override
+      public void remove(Project p) {
+      }
+
+      @Override
       public Iterable<Project.NameKey> all() {
         return Collections.emptySet();
       }

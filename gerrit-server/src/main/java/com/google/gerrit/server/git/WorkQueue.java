@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.util.IdGenerator;
@@ -170,6 +170,10 @@ public class WorkQueue {
           0.75f, // load factor
           corePoolSize + 4 // concurrency level
           );
+    }
+
+    public void unregisterWorkQueue() {
+      queues.remove(this);
     }
 
     @Override

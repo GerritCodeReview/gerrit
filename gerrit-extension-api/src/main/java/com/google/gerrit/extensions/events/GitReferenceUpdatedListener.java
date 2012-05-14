@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.lifecycle;
+package com.google.gerrit.extensions.events;
 
-import java.util.EventListener;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
-/** Listener interested in server startup and shutdown events. */
-public interface LifecycleListener extends EventListener {
-  /** Invoke when the server is starting. */
-  public void start();
+import java.util.List;
 
-  /** Invoked when the server is stopping. */
-  public void stop();
+/** Notified when one or more references are modified. */
+@ExtensionPoint
+public interface GitReferenceUpdatedListener {
+  public interface Update {
+    String getRefName();
+  }
+
+  public interface Event {
+    String getProjectName();
+    List<Update> getUpdates();
+  }
+
+  void onGitReferenceUpdated(Event event);
 }

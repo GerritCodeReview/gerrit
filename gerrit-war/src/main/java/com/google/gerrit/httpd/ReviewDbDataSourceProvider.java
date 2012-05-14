@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;

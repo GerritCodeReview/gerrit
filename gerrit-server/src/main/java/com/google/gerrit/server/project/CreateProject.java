@@ -19,6 +19,8 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
+import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -26,10 +28,10 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.ProjectOwnerGroups;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -64,7 +66,8 @@ public class CreateProject {
   private final Set<AccountGroup.UUID> projectOwnerGroups;
   private final IdentifiedUser currentUser;
   private final GitRepositoryManager repoManager;
-  private final ReplicationQueue replication;
+  private final GitReferenceUpdated referenceUpdated;
+  private final DynamicSet<NewProjectCreatedListener> createdListener;
   private final PersonIdent serverIdent;
   private CreateProjectArgs createProjectArgs;
   private ProjectCache projectCache;
@@ -74,14 +77,17 @@ public class CreateProject {
   @Inject
   CreateProject(@ProjectOwnerGroups Set<AccountGroup.UUID> pOwnerGroups,
       IdentifiedUser identifiedUser, GitRepositoryManager gitRepoManager,
-      ReplicationQueue replicateq, ReviewDb db,
+      GitReferenceUpdated referenceUpdated,
+      DynamicSet<NewProjectCreatedListener> createdListener,
+      ReviewDb db,
       @GerritPersonIdent PersonIdent personIdent, final GroupCache groupCache,
       final MetaDataUpdate.User metaDataUpdateFactory,
       @Assisted CreateProjectArgs createPArgs, ProjectCache pCache) {
     this.projectOwnerGroups = pOwnerGroups;
     this.currentUser = identifiedUser;
     this.repoManager = gitRepoManager;
-    this.replication = replicateq;
+    this.referenceUpdated = referenceUpdated;
+    this.createdListener = createdListener;
     this.serverIdent = personIdent;
     this.createProjectArgs = createPArgs;
     this.projectCache = pCache;
@@ -98,7 +104,20 @@ public class CreateProject {
               : createProjectArgs.branch;
       final Repository repo = repoManager.createRepository(nameKey);
       try {
-        replication.replicateNewProject(nameKey, head);
+        NewProjectCreatedListener.Event event = new NewProjectCreatedListener.Event() {
+          @Override
+          public String getProjectName() {
+            return nameKey.get();
+          }
+
+          @Override
+          public String getHeadName() {
+            return head;
+          }
+        };
+        for (NewProjectCreatedListener l : createdListener) {
+          l.onNewProjectCreated(event);
+        }
 
         final RefUpdate u = repo.updateRef(Constants.HEAD);
         u.disableRefLog();
@@ -186,7 +205,7 @@ public class CreateProject {
     projectCache.onCreateProject(createProjectArgs.getProject());
     repoManager.setProjectDescription(createProjectArgs.getProject(),
         createProjectArgs.projectDescription);
-    replication.scheduleUpdate(createProjectArgs.getProject(),
+    referenceUpdated.fire(createProjectArgs.getProject(),
         GitRepositoryManager.REF_CONFIG);
   }
 
@@ -246,7 +265,7 @@ public class CreateProject {
       final Result result = ru.update();
       switch (result) {
         case NEW:
-          replication.scheduleUpdate(project, ref);
+          referenceUpdated.fire(project, ref);
           break;
         default: {
           throw new IOException(result.name());

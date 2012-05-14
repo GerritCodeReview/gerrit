@@ -117,8 +117,16 @@ public abstract class BaseCommand implements Command {
     this.exit = callback;
   }
 
+  String getName() {
+    return commandName;
+  }
+
   void setName(final String prefix) {
     this.commandName = prefix;
+  }
+
+  String[] getArguments() {
+    return argv;
   }
 
   public void setArguments(final String[] argv) {
@@ -280,7 +288,9 @@ public abstract class BaseCommand implements Command {
    */
   protected void onExit(final int rc) {
     exit.onExit(rc);
-    cleanup.run();
+    if (cleanup != null) {
+      cleanup.run();
+    }
   }
 
   /** Wrap the supplied output stream in a UTF-8 encoded PrintWriter. */

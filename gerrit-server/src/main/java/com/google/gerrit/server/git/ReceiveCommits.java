@@ -41,6 +41,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergedSender;
@@ -205,7 +206,7 @@ public class ReceiveCommits {
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final MergedSender.Factory mergedSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
-  private final ReplicationQueue replication;
+  private final GitReferenceUpdated replication;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
@@ -254,7 +255,7 @@ public class ReceiveCommits {
       final CreateChangeSender.Factory createChangeSenderFactory,
       final MergedSender.Factory mergedSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
-      final ReplicationQueue replication,
+      final GitReferenceUpdated replication,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHooks hooks,
       final ApprovalsUtil approvalsUtil,
@@ -509,7 +510,7 @@ public class ReceiveCommits {
           // We only schedule direct refs updates for replication.
           // Change refs are scheduled when they are created.
           //
-          replication.scheduleUpdate(project.getNameKey(), c.getRefName());
+          replication.fire(project.getNameKey(), c.getRefName());
           Branch.NameKey destBranch = new Branch.NameKey(project.getNameKey(), c.getRefName());
           hooks.doRefUpdatedHook(destBranch, c.getOldId(), c.getNewId(), currentUser.getAccount());
           commandProgress.update(1);
@@ -1155,7 +1156,7 @@ public class ReceiveCommits {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
     }
-    replication.scheduleUpdate(project.getNameKey(), ru.getName());
+    replication.fire(project.getNameKey(), ru.getName());
 
     allNewChanges.add(change);
 
@@ -1457,7 +1458,7 @@ public class ReceiveCommits {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
     }
-    replication.scheduleUpdate(project.getNameKey(), ru.getName());
+    replication.fire(project.getNameKey(), ru.getName());
     hooks.doPatchsetCreatedHook(result.change, ps, db);
     request.cmd.setResult(ReceiveCommand.Result.OK);
 

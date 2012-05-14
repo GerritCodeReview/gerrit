@@ -38,24 +38,16 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   @Inject
   private DispatchCommand.Factory factory;
 
-  private final String dispatcherName;
   private final CommandName parent;
-
   private volatile ConcurrentMap<String, Provider<Command>> map;
 
   public DispatchCommandProvider(final CommandName cn) {
-    this(Commands.nameOf(cn), cn);
-  }
-
-  public DispatchCommandProvider(final String dispatcherName,
-      final CommandName cn) {
-    this.dispatcherName = dispatcherName;
     this.parent = cn;
   }
 
   @Override
   public DispatchCommand get() {
-    return factory.create(dispatcherName, getMap());
+    return factory.create(getMap());
   }
 
   public RegistrationHandle register(final CommandName name,
@@ -84,7 +76,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     };
   }
 
-  private ConcurrentMap<String, Provider<Command>> getMap() {
+  ConcurrentMap<String, Provider<Command>> getMap() {
     if (map == null) {
       synchronized (this) {
         if (map == null) {

@@ -32,9 +32,9 @@ import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.NoReplication;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -219,7 +219,8 @@ public class SchemaCreator {
       }
     }
     try {
-      MetaDataUpdate md = new MetaDataUpdate(new NoReplication(), allProjectsName, git);
+      MetaDataUpdate md =
+          new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git);
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
 

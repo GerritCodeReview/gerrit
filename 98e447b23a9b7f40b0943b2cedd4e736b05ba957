@@ -16,6 +16,24 @@
       "revId": "98e447b23a9b7f40b0943b2cedd4e736b05ba957",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbX///xc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T14:49:38Z",
+      "side": 1,
+      "message": "Given that there is no documentation yet for the SSH plugin command and its subcommands, I\u0027m going to ignore this. :-)",
+      "parentUuid": "AAAFX3///EA\u003d",
+      "revId": "98e447b23a9b7f40b0943b2cedd4e736b05ba957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,10 +15,14 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.util.cli.CmdLineParser;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.gwtjsonrpc.common.JsonConstants;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.slf4j.Logger;
@@ -62,16 +66,42 @@ public abstract class RestApiServlet extends HttpServlet {
     }
   }
 
+  private final Provider<CurrentUser> currentUser;
+
+  @Inject
+  protected RestApiServlet(final Provider<CurrentUser> currentUser) {
+    this.currentUser = currentUser;
+  }
+
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
     noCache(res);
     try {
+      checkRequiresCapability();
       super.service(req, res);
+    } catch (RequireCapabilityException err) {
+      res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      noCache(res);
+      sendText(req, res, err.getMessage());
     } catch (Error err) {
       handleError(err, req, res);
     } catch (RuntimeException err) {
       handleError(err, req, res);
+    }
+  }
+
+  private void checkRequiresCapability() throws RequireCapabilityException {
+    RequiresCapability rc = getClass().getAnnotation(RequiresCapability.class);
+    if (rc != null) {
+      CurrentUser user = currentUser.get();
+      CapabilityControl ctl = user.getCapabilities();
+      if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
+        String msg = String.format(
+            "fatal: %s does not have \"%s\" capability.",
+            user.getUserName(), rc.value());
+        throw new RequireCapabilityException(msg);
+      }
     }
   }
 
@@ -174,5 +204,13 @@ public abstract class RestApiServlet extends HttpServlet {
 
       return true;
     }
+  }
+
+  @SuppressWarnings("serial") // Never serialized or thrown out of this class.
+  private static class RequireCapabilityException extends Exception {
+    public RequireCapabilityException(String msg) {
+      super(msg);
+    }
+
   }
 }

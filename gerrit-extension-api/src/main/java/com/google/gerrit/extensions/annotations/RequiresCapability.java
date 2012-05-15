@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd;
+package com.google.gerrit.extensions.annotations;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -21,7 +21,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation on {@link SshCommand} declaring a capability must be granted.
+ * Annotation on {@link SshCommand} or {@link RestApiServlet} declaring a
+ * capability must be granted.
  */
 @Target({ElementType.TYPE})
 @Retention(RUNTIME)

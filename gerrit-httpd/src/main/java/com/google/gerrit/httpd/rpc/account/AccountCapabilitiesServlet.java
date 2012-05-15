@@ -58,8 +58,9 @@ public class AccountCapabilitiesServlet extends RestApiServlet {
   private final Provider<Impl> factory;
 
   @Inject
-  AccountCapabilitiesServlet(
+  AccountCapabilitiesServlet(final Provider<CurrentUser> currentUser,
       ParameterParser paramParser, Provider<Impl> factory) {
+    super(currentUser);
     this.paramParser = paramParser;
     this.factory = factory;
   }

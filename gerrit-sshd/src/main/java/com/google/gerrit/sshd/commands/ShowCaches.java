@@ -16,11 +16,11 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.gerrit.sshd.RequiresCapability;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.inject.Inject;
 

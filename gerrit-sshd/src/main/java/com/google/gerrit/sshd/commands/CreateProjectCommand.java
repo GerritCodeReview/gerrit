@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.ProjectCreationFailedException;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
@@ -23,7 +24,6 @@ import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.SuggestParentCandidates;
-import com.google.gerrit.sshd.RequiresCapability;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 

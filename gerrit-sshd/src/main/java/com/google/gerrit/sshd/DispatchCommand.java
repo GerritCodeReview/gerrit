@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.common.util.concurrent.Atomics;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.sshd.args4j.SubcommandHandler;

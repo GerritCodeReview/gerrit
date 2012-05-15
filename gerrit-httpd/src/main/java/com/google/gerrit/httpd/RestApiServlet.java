@@ -15,10 +15,14 @@
 package com.google.gerrit.httpd;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.util.cli.CmdLineParser;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.gwtjsonrpc.common.JsonConstants;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.slf4j.Logger;
@@ -39,6 +43,8 @@ public abstract class RestApiServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final Logger log =
       LoggerFactory.getLogger(RestApiServlet.class);
+
+  private final Provider<CurrentUser> currentUser;
 
   /** MIME type used for a JSON response body. */
   protected static final String JSON_TYPE = JsonConstants.JSON_TYPE;
@@ -62,16 +68,36 @@ public abstract class RestApiServlet extends HttpServlet {
     }
   }
 
+  @Inject
+  protected RestApiServlet(final Provider<CurrentUser> currentUser) {
+    this.currentUser = currentUser;
+  }
+
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
     noCache(res);
     try {
+      checkRequiresCapability();
       super.service(req, res);
     } catch (Error err) {
       handleError(err, req, res);
     } catch (RuntimeException err) {
       handleError(err, req, res);
+    }
+  }
+
+  private void checkRequiresCapability() throws RuntimeException {
+    RequiresCapability rc = getClass().getAnnotation(RequiresCapability.class);
+    if (rc != null) {
+      CurrentUser user = currentUser.get();
+      CapabilityControl ctl = user.getCapabilities();
+      if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
+        String msg = String.format(
+            "fatal: %s does not have \"%s\" capability.",
+            user.getUserName(), rc.value());
+        throw new RuntimeException(msg);
+      }
     }
   }
 

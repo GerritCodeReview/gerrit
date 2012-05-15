@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.change;
 
 import com.google.gerrit.httpd.RestApiServlet;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ListChanges;
@@ -43,7 +44,9 @@ public class ListChangesServlet extends RestApiServlet {
   private final Provider<ListChanges> factory;
 
   @Inject
-  ListChangesServlet(ParameterParser paramParser, Provider<ListChanges> ls) {
+  ListChangesServlet(final Provider<CurrentUser> currentUser,
+      ParameterParser paramParser, Provider<ListChanges> ls) {
+    super(currentUser);
     this.paramParser = paramParser;
     this.factory = ls;
   }

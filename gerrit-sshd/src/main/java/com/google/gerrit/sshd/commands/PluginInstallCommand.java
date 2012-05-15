@@ -16,9 +16,9 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.PluginInstallException;
 import com.google.gerrit.server.plugins.PluginLoader;
-import com.google.gerrit.sshd.RequiresCapability;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 

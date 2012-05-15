@@ -51,6 +51,24 @@
       "revId": "65fbe35da80d703c1254a2afe20183bb07d6ad83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///D0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-05-15T03:56:39Z",
+      "side": 1,
+      "message": "Any reason why two unconditional appends inside the loop is better than one conditional append that typically is triggered 50% of the time? Will the compiler optimize the chained appends or recognize that an empty delimiter is a no-op? Or is the advantage simply that the code becomes cleaner?",
+      "parentUuid": "AAAFYH///Q0\u003d",
+      "revId": "65fbe35da80d703c1254a2afe20183bb07d6ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

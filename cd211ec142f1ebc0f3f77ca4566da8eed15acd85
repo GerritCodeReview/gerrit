@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///EU\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-15T03:38:07Z",
+      "side": 1,
+      "message": "s/isp/is/",
+      "revId": "cd211ec142f1ebc0f3f77ca4566da8eed15acd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///EI\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-15T03:38:07Z",
+      "side": 1,
+      "message": "Is there a missing quote around reload?",
+      "revId": "cd211ec142f1ebc0f3f77ca4566da8eed15acd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///EQ\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-15T03:38:07Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem complete.",
+      "revId": "cd211ec142f1ebc0f3f77ca4566da8eed15acd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///EM\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-15T03:38:07Z",
+      "side": 1,
+      "message": "Is there a missing \u003e at the end of this?",
+      "revId": "cd211ec142f1ebc0f3f77ca4566da8eed15acd85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

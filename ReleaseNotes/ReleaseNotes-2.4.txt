@@ -217,6 +217,8 @@ that milliseconds are the default unit of time used here.
 * Use servlet context path during logout
 
 * issue 1353 Fix case check for project name so that symlinks work again
+* Fix merging of access sections
+* Fix inconsistent behaviour when replicating refs/meta/config
 
 Documentation
 -------------

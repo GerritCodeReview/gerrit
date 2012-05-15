@@ -14,9 +14,12 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.cache.CacheStats;
+import com.google.common.collect.Lists;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.server.cache.LocalCacheHandle;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
@@ -42,7 +45,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /** Show the current cache states. */
 @RequiresCapability(GlobalCapability.VIEW_CACHES)
@@ -114,7 +121,20 @@ final class ShowCaches extends CacheCommand {
     ));
     stdout.print("------------------"
         + "-------+--------------------+----------+--------------+\n");
-    for (final Ehcache cache : getAllCaches()) {
+    for (LocalCacheHandle cache : sortedLocal()) {
+      CacheStats stat = cache.stats();
+      stdout.print(String.format(
+          "  %-18s %-4s|%6s %6s %6s| %7s  |%4s %4s %4s|\n"
+          , cache.getName()
+          , interval(cache.getMaxAge(TimeUnit.SECONDS))
+          , "", ""
+          , count(cache.size())
+          , duration(stat.averageLoadPenalty() / 1000000.0)
+          , "", ""
+          , percent(stat.hitCount(), stat.requestCount())
+          ));
+    }
+    for (Ehcache cache : sortedEhcache()) {
       final CacheConfiguration cfg = cache.getCacheConfiguration();
       final boolean useDisk = cfg.isDiskPersistent() || cfg.isOverflowToDisk();
       final Statistics stat = cache.getStatistics();
@@ -163,6 +183,28 @@ final class ShowCaches extends CacheCommand {
     }
 
     stdout.flush();
+  }
+
+  private List<LocalCacheHandle> sortedLocal() {
+    List<LocalCacheHandle> r = Lists.newArrayList(localCaches.getCaches());
+    Collections.sort(r, new Comparator<LocalCacheHandle>() {
+      @Override
+      public int compare(LocalCacheHandle a, LocalCacheHandle b) {
+        return a.getName().compareTo(b.getName());
+      }
+    });
+    return r;
+  }
+
+  private List<Ehcache> sortedEhcache() {
+    List<Ehcache> r = Lists.newArrayList(getAllEhcache());
+    Collections.sort(r, new Comparator<Ehcache>() {
+      @Override
+      public int compare(Ehcache a, Ehcache b) {
+        return a.getName().compareTo(b.getName());
+      }
+    });
+    return r;
   }
 
   private void memSummary() {

@@ -18,7 +18,6 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.cache.CacheProvider;
@@ -29,7 +28,6 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
@@ -47,19 +45,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /** Pool of all declared caches created by {@link CacheModule}s. */
-@Singleton
 public class EhcachePoolImpl implements CachePool {
   private static final Logger log =
       LoggerFactory.getLogger(EhcachePoolImpl.class);
-
-  public static class Module extends LifecycleModule {
-    @Override
-    protected void configure() {
-      bind(CachePool.class).to(EhcachePoolImpl.class);
-      bind(EhcachePoolImpl.class);
-      listener().to(EhcachePoolImpl.Lifecycle.class);
-    }
-  }
 
   public static class Lifecycle implements LifecycleListener {
     private final EhcachePoolImpl cachePool;
@@ -137,6 +125,7 @@ public class EhcachePoolImpl implements CachePool {
     }
   }
 
+  @Override
   public <K, V> ProxyCache<K, V> register(final CacheProvider<K, V> provider) {
     synchronized (lock) {
       if (manager != null) {

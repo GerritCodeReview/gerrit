@@ -14,7 +14,11 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.ehcache.EhcachePoolImpl;
+import com.google.gerrit.server.cache.LocalCacheHandle;
+import com.google.gerrit.server.cache.LocalCachePool;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
@@ -22,28 +26,41 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.SortedSet;
-import java.util.TreeSet;
+
+import javax.annotation.Nullable;
 
 abstract class CacheCommand extends SshCommand {
   @Inject
-  protected EhcachePoolImpl cachePool;
+  protected LocalCachePool localCaches;
+
+  @Inject
+  @Nullable
+  protected EhcachePoolImpl ehcaches;
 
   protected SortedSet<String> cacheNames() {
-    final SortedSet<String> names = new TreeSet<String>();
-    for (final Ehcache c : getAllCaches()) {
-      names.add(c.getName());
+    SortedSet<String> names = Sets.newTreeSet();
+    for (LocalCacheHandle handle : localCaches.getCaches()) {
+      names.add(handle.getName());
+    }
+    if (ehcaches != null) {
+      String[] n = ehcaches.getCacheManager().getCacheNames();
+      names.addAll(Arrays.asList(n));
     }
     return names;
   }
 
-  protected Ehcache[] getAllCaches() {
-    final CacheManager cacheMgr = cachePool.getCacheManager();
-    final String[] cacheNames = cacheMgr.getCacheNames();
-    Arrays.sort(cacheNames);
-    final Ehcache[] r = new Ehcache[cacheNames.length];
-    for (int i = 0; i < cacheNames.length; i++) {
-      r[i] = cacheMgr.getEhcache(cacheNames[i]);
+  protected List<Ehcache> getAllEhcache() {
+    if (ehcaches == null) {
+      return Collections.emptyList();
+    }
+
+    CacheManager cm = ehcaches.getCacheManager();
+    List<Ehcache> r = Lists.newArrayList();
+    for (String name : cm.getCacheNames()) {
+      r.add(cm.getEhcache(name));
     }
     return r;
   }

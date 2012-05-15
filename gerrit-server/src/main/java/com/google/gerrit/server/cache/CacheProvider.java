@@ -33,7 +33,7 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
   private long maxAge;
   private EvictionPolicy evictionPolicy;
   private String cacheName;
-  private ProxyCache<K, V> cache;
+  private Cache<K, V> cache;
   private Provider<EntryCreator<K, V>> entryCreator;
 
   CacheProvider(final boolean disk, CacheModule module) {
@@ -55,10 +55,13 @@ public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
   }
 
   public void bind(Cache<K, V> impl) {
-    if (cache == null) {
+    if (cache instanceof ProxyCache) {
+      ((ProxyCache<K, V>) cache).bind(impl);
+    } else if (cache == null) {
       throw new ProvisionException("Cache was never registered");
+    } else {
+      throw new ProvisionException("Cache is not a proxy, cannot rebind");
     }
-    cache.bind(impl);
   }
 
   public EntryCreator<K, V> getEntryCreator() {

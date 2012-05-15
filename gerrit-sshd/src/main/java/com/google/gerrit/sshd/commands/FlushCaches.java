@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.cache.LocalCacheHandle;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.RequiresCapability;
 import com.google.inject.Inject;
@@ -95,7 +96,16 @@ final class FlushCaches extends CacheCommand {
 
   private void doBulkFlush() {
     try {
-      for (final Ehcache c : getAllCaches()) {
+      for (LocalCacheHandle c : localCaches.getCaches()) {
+        if (flush(c.getName())) {
+          try {
+            c.invalidateAll();
+          } catch (Throwable e) {
+            stderr.println("error: cannot flush cache \"" + c.getName() + "\": " + e);
+          }
+        }
+      }
+      for (final Ehcache c : getAllEhcache()) {
         final String name = c.getName();
         if (flush(name)) {
           try {

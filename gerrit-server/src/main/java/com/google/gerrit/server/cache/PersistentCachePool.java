@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,16 @@
 
 package com.google.gerrit.server.cache;
 
-public interface CachePool {
-  public <K, V> Cache<K, V> register(CacheProvider<K, V> provider);
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import com.google.inject.BindingAnnotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+@Target({ElementType.TYPE, ElementType.PARAMETER})
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface PersistentCachePool {
 }

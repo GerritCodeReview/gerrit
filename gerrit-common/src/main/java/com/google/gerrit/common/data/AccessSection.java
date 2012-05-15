@@ -97,7 +97,7 @@ public class AccessSection extends RefConfigSection implements
       if (dst != null) {
         dst.mergeFrom(src);
       } else {
-        permissions.add(dst);
+        permissions.add(src);
       }
     }
   }

@@ -1,0 +1,361 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///HI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "Actually, its one of these. You don\u0027t have to do both. The @Listen annotation is used to drive auto-registration (1). But that is disabled if you write a Guice module (2) and bind things yourself.",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///HM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "@Listen",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///HE\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/audit/Audit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "This should go in the gerrit-server package, not common. Unless its something extensions need to know about, in which case it should go in gerrit-extension-api. But again, not common.",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///HA\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/audit/Audit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "Doc for where this can appear would be appreciated.",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///G8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/audit/Audit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "What is this? Its obtuse enough that a bit of doc might be helpful. I know we don\u0027t document... :-)",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///G4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "USER not USR",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///G0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "What is a SID? SESSION_ID?",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Gw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "sessionId",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Gs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "can be static",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Go\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "alternative:  Strings.isNullOrEmpty(who) ? defval : who;",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Gk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "These two if conditionals can be just:\n\n  Preconditions.checkNotNull(result);\n  Preconditions.checkState(this.result \u003d\u003d null, \"result is already set\");",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Gg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "space around -",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Gc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "Uhm, ouch. That is really, really expensive. We should just declare these things aren\u0027t equality driven and its up to the caller to figure that out on their own. And then not override hashCode() or equals().  :-)",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///GQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "The resulting string cannot be parsed easily. Once you get to the params section of the | delimited input you have to parse that as a JSON object and stop before the JSON parser chokes on the next | delimiter. And there is no assurance the | isn\u0027t in the JSON text.\n\nSo I\u0027m sort of wondering if its a good idea to define a format in the core server. Just because you don\u0027t care about being able to parse the arguments by machine doesn\u0027t mean someone else won\u0027t need to do that.\n\nMaybe the toString should just write the entire thing a JSON and thus be human readable and machine parseable. If that isn\u0027t the format a specific plugin listener wants, they have access to the raw data using the accessor methods.",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///GY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "Elsewhere we use FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES. I wonder if that isn\u0027t more consistent.",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///GU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "Do we need to bind Map and Set in this context? Are any parameters really going to use those?",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///GM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "I have been using onFoo as the event names. So maybe onAuditableAction(AuditEvent action).\n\nE.g. compare with the GWT UI using onClick to handle a click event. :-)",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///GI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "final",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///GA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "Since AuditEvent is a concrete class another option might be to declare this in AuditEvent and not have this AuditService wrapper. The wrapper is probably better, but I\u0027ll just throw that out there:\n\n  public void dispatch(Iterable\u003cAuditListener\u003e listeners) {\n    for (AudtiListener l : listeners) {\n      l.onAuditEvent(this);\n    }\n  }\n\nActually this might be worth doing as a general pattern. If we defined an abstract Event interface than DynamicSet can do this fire loop itself calling the Event\u0027s dispatch method, which can then turn around and invoke the correct listener method. Yay for double dispatch pattern. :-)",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///GE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "unnecessary blank lines here.",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///F8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:49:13Z",
+      "side": 1,
+      "message": "I wouldn\u0027t attempt to parse the command line here. Not like this. Its more complex than just splitting on spaces. What about shell style quoting, which Gerrit supports?",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFX3///H8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:24:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///S4\u003d",
+      "revId": "13bc2c3be46d06ba11d9711cc29dff3af0d0d0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFaH///08\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFX3///IU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:24:42Z",
+      "side": 1,
+      "message": "This would have actually never happened as PluginLoader checked the ApiType and refused to build the ClassLoader if it wasn\u0027t recognized, thus causing the plugin to never load.\n\nI\u0027ve fixed the issue you raise however by adding a field of type ApiType and passing in the value from PluginLoader that was determined when the manifest was read. This way it isn\u0027t possible for this method to return null, or return an invalid ApiType.\n\nRight now the Plugin class is a *running* plugin that we have safely loaded. We dont\u0027 really have a concept for a plugin description that maybe isn\u0027t started yet, or is disabled but known. I may wind up renaming Plugin to RunningPlugin and then using the name Plugin to mean the description only. In such a case the description might need to allow reporting of an invalid ApiType to help admin tools show what a plugin claims vs. what the server actually understands. But that isn\u0027t this.",
+      "parentUuid": "AAAFaH///08\u003d",
+      "revId": "13bc2c3be46d06ba11d9711cc29dff3af0d0d0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFaH///04\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-12T03:15:03Z",
       "side": 1,
       "message": "Would prefer the start() to fail with an exception when plug-in type is invalid (see my previous comment above).",
+      "revId": "13bc2c3be46d06ba11d9711cc29dff3af0d0d0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///IQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T00:24:42Z",
+      "side": 1,
+      "message": "See above, this can\u0027t fail now.",
+      "parentUuid": "AAAFaH///04\u003d",
       "revId": "13bc2c3be46d06ba11d9711cc29dff3af0d0d0f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

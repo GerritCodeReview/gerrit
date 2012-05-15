@@ -14,39 +14,29 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.server.plugins.Plugin;
-import com.google.gerrit.server.plugins.PluginLoader;
+import com.google.gerrit.server.plugins.ListPlugins;
+import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.RequiresCapability;
-import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import org.apache.sshd.server.Environment;
+
+import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-final class PluginLsCommand extends SshCommand {
+final class PluginLsCommand extends BaseCommand {
   @Inject
-  private PluginLoader loader;
+  private ListPlugins impl;
 
   @Override
-  protected void run() {
-    List<Plugin> running = Lists.newArrayList(loader.getPlugins());
-    Collections.sort(running, new Comparator<Plugin>() {
+  public void start(Environment env) throws IOException {
+    startThread(new CommandRunnable() {
       @Override
-      public int compare(Plugin a, Plugin b) {
-        return a.getName().compareTo(b.getName());
+      public void run() throws Exception {
+        parseCommandLine(impl);
+        impl.display(out);
       }
     });
-
-    stdout.format("%-30s %-10s\n", "Name", "Version");
-    stdout.print("----------------------------------------------------------------------\n");
-    for (Plugin p : running) {
-      stdout.format("%-30s %-10s\n", p.getName(),
-          Strings.nullToEmpty(p.getVersion()));
-    }
   }
 }

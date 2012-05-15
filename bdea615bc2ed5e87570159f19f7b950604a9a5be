@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFX3///Ac\u003d",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2012-05-15T17:05:29Z",
+      "side": 1,
+      "message": "Yep, [[--branch \u003cREF\u003e | -b \u003cREF\u003e ] ... ] makes more sense.\n\nActually I thought that [--branch \u003cREF\u003e ... | -b \u003cREF\u003e ...] is the right form as other options (e.g. --owner above) use it.\n\nIf we want to use [[--branch \u003cREF\u003e | -b \u003cREF\u003e ] ... ] form then all other options should be checked as well.",
+      "parentUuid": "AAAFSH///9o\u003d",
+      "revId": "bdea615bc2ed5e87570159f19f7b950604a9a5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFSX///90\u003d",
         "filename": "Documentation/cmd-create-project.txt",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2012-05-04T11:11:59Z",
       "side": 1,
       "message": "does a single -b take several branches, or does each branch require an individual -b?",
+      "revId": "bdea615bc2ed5e87570159f19f7b950604a9a5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///AY\u003d",
+        "filename": "Documentation/cmd-create-project.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2012-05-15T17:05:29Z",
+      "side": 1,
+      "message": "Each branch requires \u0027-b\u0027 - this is a standard convention in gerrit command line I believe.",
+      "parentUuid": "AAAFSX///90\u003d",
       "revId": "bdea615bc2ed5e87570159f19f7b950604a9a5be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +118,24 @@
       "side": 1,
       "message": "The first specified branch becomes HEAD (in your case it will be branch1). I should add it to the documentation.",
       "parentUuid": "AAAFR3////8\u003d",
+      "revId": "bdea615bc2ed5e87570159f19f7b950604a9a5be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH///Jc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2012-05-15T17:05:29Z",
+      "side": 1,
+      "message": "I specified it in docs. PTAL.",
+      "parentUuid": "AAAFRn///9U\u003d",
       "revId": "bdea615bc2ed5e87570159f19f7b950604a9a5be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

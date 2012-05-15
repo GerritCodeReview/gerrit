@@ -97,6 +97,13 @@ public class Commands {
     return false;
   }
 
+  static CommandName parentOf(CommandName name) {
+    if (name instanceof NestedCommandNameImpl) {
+      return ((NestedCommandNameImpl) name).parent;
+    }
+    return null;
+  }
+
   private static final class NestedCommandNameImpl implements CommandName {
     private final CommandName parent;
     private final String name;

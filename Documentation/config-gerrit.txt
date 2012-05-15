@@ -1920,6 +1920,17 @@ If true the deprecated `/query` URL is available to return JSON
 and text results for changes. If false, the URL is disabled and
 returns 404 to clients. Default is true, enabling `/query`.
 
+[[ssh-alias]] Section ssh-alias
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Variables in section ssh-alias permit the site administrator to alias
+another command from Gerrit or a plugin into the `gerrit` command
+namespace. To alias `replication start` to `gerrit replicate`:
+
+----
+[ssh-alias]
+  replicate = replication start
+----
 
 [[sshd]] Section sshd
 ~~~~~~~~~~~~~~~~~~~~~

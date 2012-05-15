@@ -24,27 +24,6 @@ Sample `etc/gerrit.config`:
   diskbuffer = 10 m
 ----
 
-[[accounts]]Section accounts
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-[[accounts.visibility]]accounts.visibility::
-+
-Controls visibility of other users' dashboard pages and
-completion suggestions to web users.
-+
-If `ALL`, all users are visible to all other users, even
-anonymous users.
-+
-If `SAME_GROUP`, only users who are also members of a group the
-current user is a member of are visible.
-+
-If `VISIBLE_GROUP`, only users who are members of at least one group
-that is visible to the current user are visible.
-+
-If `NONE`, no users other than the current user are visible.
-+
-Default is `ALL`.
-
 [[addreviewer]]Section addreviewer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1107,7 +1086,7 @@ is no gitweb hyperlinking support.
 +
 Valid values are `gitweb`, `cgit`, `disabled` or `custom`.
 
-[[gitweb.revision]]gitweb.revision::
+[[gitweb.type]]gitweb.revision::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
 at a specific commit when `custom` is used above.
@@ -1115,30 +1094,20 @@ at a specific commit when `custom` is used above.
 Valid replacements are `${project}` for the project name in Gerrit
 and `${commit}` for the SHA1 hash for the commit.
 
-[[gitweb.project]]gitweb.project::
+[[gitweb.type]]gitweb.project::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
 at a specific project when `custom` is used above.
 +
 Valid replacements are `${project}` for the project name in Gerrit.
 
-[[gitweb.branch]]gitweb.branch::
+[[gitweb.type]]gitweb.branch::
 +
 Optional pattern to use for constructing the gitweb URL when pointing
 at a specific branch when `custom` is used above.
 +
 Valid replacements are `${project}` for the project name in Gerrit
 and `${branch}` for the name of the branch.
-
-[[gitweb.filehistory]]gitweb.filehistory::
-+
-Optional pattern to use for constructing the gitweb URL when pointing
-at the history of a file in a specific branch when `custom` is used
-above.
-+
-Valid replacements are `${project}` for the project name in Gerrit,
-`${file}` for the file name and `${branch}` for the name of the
-branch.
 
 [[gitweb.linkname]]gitweb.linkname::
 +
@@ -1685,8 +1654,7 @@ By default, 1.
 This section is used to set who can execute the 'receive-pack' and
 to limit the maximum Git object size that 'receive-pack' will accept.
 'receive-pack' is what runs on the server during a user's push or
-repo upload command. It also contains some advanced options for tuning the
-behavior of Gerrit's 'receive-pack' mechanism.
+repo upload command.
 
 ----
 [receive]
@@ -1716,24 +1684,6 @@ from pushing objects which are too large to Gerrit.
 Default is zero.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
-
-[[receive.threadPoolSize]]receive.threadPoolSize::
-+
-Maximum size of the thread pool in which the change data in received packs is
-processed.
-+
-Defaults to the number of available CPUs according to the Java runtime.
-
-[[receive.timeout]]receive.timeout::
-+
-Overall timeout on the time taken to process the change data in
-received packs. Only includes the time processing Gerrit changes
-and updating references, not the time to index the pack. Values can
-be specified using standard time unit abbreviations ('ms', 'sec',
-'min', etc.).
-+
-Default is 2 minutes. If no unit is specified, millisconds
-is assumed.
 
 
 [[repository]]Section repository
@@ -2063,20 +2013,19 @@ By default, all supported MACs are available.
 
 [[suggest.accounts]]suggest.accounts::
 +
-If `true`, visible user accounts (according to the value of
-`accounts.visibility`) will be offered as completion suggestions
-when adding a reviewer to a change, or a user to a group.
+If `ALL`, all matching user accounts will be offered as
+completion suggestions when adding a reviewer to a change,
+or a user to a group.
 +
-If `false`, account suggestion is disabled.
+If `SAME_GROUP`, only users who are also members of a group the
+current user is a member of will be offered.
 +
-Older configurations may also have one of the `accounts.visibility`
-values for this field, including `OFF` as a synonym for `NONE`. If
-`accounts.visibility` is also set, that value overrides this one;
-otherwise, this value applies to both `suggest.accounts` and
-`accounts.visibility`.
+If `VISIBLE_GROUP`, only users who are members of at least one group
+that is visible to the current user will be offered.
 +
-New configurations should prefer the boolean value for this field
-and an enum value for `accounts.visibility`.
+If `OFF`, no account suggestions are given.
++
+Default is `ALL`.
 
 [[theme]] Section theme
 ~~~~~~~~~~~~~~~~~~~~~~~

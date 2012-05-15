@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///CU\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PluginDefinition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T14:29:26Z",
+      "side": 1,
+      "message": "AOSP copyright notice",
+      "revId": "779f7eb793a2bd4c5b299d3f353523d2c894c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///CQ\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PluginDefinition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T14:29:26Z",
+      "side": 1,
+      "message": "If you want to serialize this in JSON-RPC, you currently must declare fields protected, non-final, and declare a protected no argument constructor to support deserialization on the client.\n\nBut I\u0027m moving away from that. What we should have in the UI is a lightweight wrapper object. See ProjectMap in gwtui for an example of how we do this for projects.\n\nOn the sever side we will return JSON from the /plugins/ URL.",
+      "revId": "779f7eb793a2bd4c5b299d3f353523d2c894c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///CM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T14:29:26Z",
+      "side": 1,
+      "message": "This is long, it might just be getName().",
+      "revId": "779f7eb793a2bd4c5b299d3f353523d2c894c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///CI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T14:29:26Z",
+      "side": 1,
+      "message": "just getName()",
+      "revId": "779f7eb793a2bd4c5b299d3f353523d2c894c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///CE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T14:29:26Z",
+      "side": 1,
+      "message": "just getName()",
+      "revId": "779f7eb793a2bd4c5b299d3f353523d2c894c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///CA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T14:29:26Z",
+      "side": 1,
+      "message": "just getName()",
+      "revId": "779f7eb793a2bd4c5b299d3f353523d2c894c3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

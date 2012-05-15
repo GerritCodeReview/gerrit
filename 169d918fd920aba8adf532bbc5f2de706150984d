@@ -16,6 +16,24 @@
       "revId": "169d918fd920aba8adf532bbc5f2de706150984d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFX3///Bw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T14:48:30Z",
+      "side": 1,
+      "message": "Is this your only objection to this change, stuff that should go into documentation?\n\nI really don\u0027t have any more time to put into plugin work now, so I\u0027m going to get the rest of my series merged, and then go on to other things. Someone else will have to finish up this change.",
+      "parentUuid": "AAAFX3///Es\u003d",
+      "revId": "169d918fd920aba8adf532bbc5f2de706150984d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

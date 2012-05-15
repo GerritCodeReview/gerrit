@@ -15,9 +15,9 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.sshd.BaseCommand;
-import com.google.gerrit.sshd.RequiresCapability;
 import com.google.inject.Inject;
 
 import net.sf.ehcache.Ehcache;

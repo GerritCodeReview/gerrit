@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAFYH///GQ\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T19:07:53Z",
+      "side": 1,
+      "message": "missing @Override declaration.",
+      "revId": "65fbe35da80d703c1254a2afe20183bb07d6ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbX///vY\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T19:07:53Z",
+      "side": 1,
+      "message": "missing @Override declaration.",
+      "revId": "65fbe35da80d703c1254a2afe20183bb07d6ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///TE\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitRecord.java",
         "patchSetId": 1
@@ -66,6 +100,24 @@
       "side": 1,
       "message": "Any reason why two unconditional appends inside the loop is better than one conditional append that typically is triggered 50% of the time? Will the compiler optimize the chained appends or recognize that an empty delimiter is a no-op? Or is the advantage simply that the code becomes cleaner?",
       "parentUuid": "AAAFYH///Q0\u003d",
+      "revId": "65fbe35da80d703c1254a2afe20183bb07d6ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbX///vc\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitRecord.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-15T19:07:53Z",
+      "side": 1,
+      "message": "The optimizer doesn\u0027t do anything special here with the chained appends... the code is just shorter and easier to read.\n\nThe append() method when fed an empty string is reasonably fast about returning after doing nothing to the StringBuilder. So its cheap enough to not worry about.\n\nIt might actually be faster to always call append, as append does the \"is it empty\" check itself before doing the append, and you are doing the check too in the call site, so that\u0027s two checks in your version vs. one in Deniz\u0027 version.\n\nBut really, that is premature micro-optimizing. This toString isn\u0027t called often enough to matter.",
+      "parentUuid": "AAAFX3///D0\u003d",
       "revId": "65fbe35da80d703c1254a2afe20183bb07d6ad83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

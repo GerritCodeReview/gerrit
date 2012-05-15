@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///EA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-15T03:40:25Z",
+      "side": 1,
+      "message": "This plugin argument should probably be described in the plugin ssh command doc.",
+      "revId": "98e447b23a9b7f40b0943b2cedd4e736b05ba957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

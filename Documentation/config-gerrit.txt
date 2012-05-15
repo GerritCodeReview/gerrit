@@ -2063,6 +2063,10 @@ By default, all supported MACs are available.
 
 [[suggest.accounts]]suggest.accounts::
 +
+If `ALL`, all matching user accounts will be offered as
+completion suggestions when adding a reviewer to a change,
+or a user to a group.
++
 If `true`, visible user accounts (according to the value of
 `accounts.visibility`) will be offered as completion suggestions
 when adding a reviewer to a change, or a user to a group.

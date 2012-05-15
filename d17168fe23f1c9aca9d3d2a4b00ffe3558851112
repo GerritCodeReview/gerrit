@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFX3///DI\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetProjectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-15T04:54:43Z",
+      "side": 1,
+      "message": "Why not do mote in here, throw the exception?  You can take in the mutually exclusive parameter names.  Eventually this might then be something that someone can tie directly into the option parsing/annotations.",
+      "revId": "d17168fe23f1c9aca9d3d2a4b00ffe3558851112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

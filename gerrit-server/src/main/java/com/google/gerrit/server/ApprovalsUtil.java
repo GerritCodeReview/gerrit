@@ -124,14 +124,14 @@ public class ApprovalsUtil {
     Account.Id authorId = info.getAuthor() != null
         ? info.getAuthor().getAccount()
         : null;
-    if (authorId != null) {
+    if (authorId != null && !ps.isDraft()) {
       need.add(authorId);
     }
 
     Account.Id committerId = info.getCommitter() != null
         ? info.getCommitter().getAccount()
         : null;
-    if (committerId != null) {
+    if (committerId != null && !ps.isDraft()) {
       need.add(committerId);
     }
     need.remove(change.getOwner());

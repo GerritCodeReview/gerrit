@@ -53,6 +53,9 @@ import java.io.IOException;
  * later be written back to the repository.
  */
 public abstract class VersionedMetaData {
+  private static final int MAX_RETRY_COUNT = 10;
+  private static final long MAX_RETRY_INTERVAL_MSEC = 500L;
+
   private RevCommit revision;
   private ObjectReader reader;
   private ObjectInserter inserter;
@@ -119,7 +122,8 @@ public abstract class VersionedMetaData {
     if (id != null) {
       reader = db.newObjectReader();
       try {
-        revision = new RevWalk(reader).parseCommit(id);
+        RevWalk revWalk = new RevWalk(reader);
+        revision = parseCommitWithRetry(id, revWalk);
         onLoad();
       } finally {
         reader.release();
@@ -129,6 +133,35 @@ public abstract class VersionedMetaData {
       // The branch does not yet exist.
       revision = null;
       onLoad();
+    }
+  }
+
+  private RevCommit parseCommitWithRetry(ObjectId id, RevWalk revWalk)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+    RevCommit commit = null;
+    int retryCount = 0;
+    while (commit == null) {
+      try {
+        commit = revWalk.parseCommit(id);
+        return commit;
+      } catch (MissingObjectException e) {
+        String message = e.getMessage();
+        if (message.toLowerCase().indexOf("missing unknown") >= 0
+            && retryCount < MAX_RETRY_COUNT) {
+          randomSleep();
+          retryCount++;
+        } else
+          throw e;
+      }
+    }
+    return commit;
+  }
+
+  private void randomSleep() {
+    try {
+      long randomSleep = (long) (Math.random() * MAX_RETRY_INTERVAL_MSEC);
+      Thread.sleep(randomSleep);
+    } catch (InterruptedException e) {
     }
   }
 

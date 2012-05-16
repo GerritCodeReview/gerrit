@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFZn///7M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginCleanerTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-05-16T02:59:47Z",
+      "side": 1,
+      "message": "I think you need not use volatile as you get it in synchronized block , line 51 and 81.",
+      "revId": "b15212aa8f4dec5bee5e69298f46c0dd62a199b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

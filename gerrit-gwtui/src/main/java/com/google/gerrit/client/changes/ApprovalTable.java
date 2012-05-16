@@ -29,6 +29,7 @@ import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.PatchSetPublishDetail;
 import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -133,12 +134,22 @@ public class ApprovalTable extends Composite {
     return AccountLink.link(accountCache, id);
   }
 
+  void display(PatchSetPublishDetail detail) {
+    doDisplay(detail.getChange(), detail.getApprovals(),
+        detail.getSubmitRecords());
+  }
+
   void display(ChangeDetail detail) {
-    changeId = detail.getChange().getId();
+    doDisplay(detail.getChange(), detail.getApprovals(),
+        detail.getSubmitRecords());
+  }
+
+  private void doDisplay(Change change, List<ApprovalDetail> approvals,
+      List<SubmitRecord> submitRecords) {
+    changeId = change.getId();
     reviewerSuggestOracle.setChange(changeId);
 
     List<String> columns = new ArrayList<String>();
-    List<ApprovalDetail> rows = detail.getApprovals();
 
     final Element missingList = missing.getElement();
     while (DOM.getChildCount(missingList) > 0) {
@@ -146,16 +157,16 @@ public class ApprovalTable extends Composite {
     }
     missing.setVisible(false);
 
-    if (detail.getSubmitRecords() != null) {
+    if (submitRecords != null) {
       HashSet<String> reportedMissing = new HashSet<String>();
 
       HashMap<Account.Id, ApprovalDetail> byUser =
           new HashMap<Account.Id, ApprovalDetail>();
-      for (ApprovalDetail ad : detail.getApprovals()) {
+      for (ApprovalDetail ad : approvals) {
         byUser.put(ad.getAccount(), ad);
       }
 
-      for (SubmitRecord rec : detail.getSubmitRecords()) {
+      for (SubmitRecord rec : submitRecords) {
         if (rec.labels == null) {
           continue;
         }
@@ -197,7 +208,7 @@ public class ApprovalTable extends Composite {
       missing.setVisible(!reportedMissing.isEmpty());
 
     } else {
-      for (ApprovalDetail ad : rows) {
+      for (ApprovalDetail ad : approvals) {
         for (PatchSetApproval psa : ad.getPatchSetApprovals()) {
           ApprovalType legacyType = types.byId(psa.getCategoryId());
           if (legacyType == null) {
@@ -231,13 +242,13 @@ public class ApprovalTable extends Composite {
       }
     }
 
-    if (rows.isEmpty()) {
+    if (approvals.isEmpty()) {
       table.setVisible(false);
     } else {
       displayHeader(columns);
-      table.resizeRows(1 + rows.size());
-      for (int i = 0; i < rows.size(); i++) {
-        displayRow(i + 1, rows.get(i), detail.getChange(), columns);
+      table.resizeRows(1 + approvals.size());
+      for (int i = 0; i < approvals.size(); i++) {
+        displayRow(i + 1, approvals.get(i), change, columns);
       }
       table.setVisible(true);
     }
@@ -245,7 +256,7 @@ public class ApprovalTable extends Composite {
     addReviewer.setVisible(Gerrit.isSignedIn());
 
     if (Gerrit.getConfig().testChangeMerge()
-        && !detail.getChange().isMergeable()) {
+        && !change.isMergeable()) {
       Element li = DOM.createElement("li");
       li.setClassName(Gerrit.RESOURCES.css().missingApproval());
       DOM.setInnerText(li, Util.C.messageNeedsRebaseOrHasDependency());

@@ -14,22 +14,24 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheStats;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.server.cache.H2CacheImpl;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.sshd.RequiresCapability;
 import com.google.gerrit.sshd.SshDaemon;
 import com.google.inject.Inject;
-
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Statistics;
-import net.sf.ehcache.config.CacheConfiguration;
+import com.google.inject.Provider;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
+import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.storage.file.WindowCacheStatAccessor;
 import org.kohsuke.args4j.Option;
 
@@ -43,6 +45,8 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
+import java.util.SortedMap;
 
 /** Show the current cache states. */
 @RequiresCapability(GlobalCapability.VIEW_CACHES)
@@ -76,8 +80,26 @@ final class ShowCaches extends CacheCommand {
   @SitePath
   private File sitePath;
 
+  @Option(name = "--width", aliases = {"-w"}, metaVar = "COLS", usage = "width of output table")
+  private int columns = 80;
+  private int nw;
+
+  @Override
+  public void start(Environment env) throws IOException {
+    String s = env.getEnv().get(Environment.ENV_COLUMNS);
+    if (s != null && !s.isEmpty()) {
+      try {
+        columns = Integer.parseInt(s);
+      } catch (NumberFormatException err) {
+        columns = 80;
+      }
+    }
+    super.start(env);
+  }
+
   @Override
   protected void run() {
+    nw = columns - 50;
     Date now = new Date();
     stdout.format(
         "%-25s %-20s      now  %16s\n",
@@ -91,60 +113,46 @@ final class ShowCaches extends CacheCommand {
     stdout.print('\n');
 
     stdout.print(String.format(//
-        "%1s %-18s %-4s|%-20s|  %-5s  |%-14s|\n" //
+        "%1s %-"+nw+"s|%-21s|  %-5s |%-9s|\n" //
         , "" //
         , "Name" //
-        , "Max" //
-        , "Object Count" //
+        , "Entries" //
         , "AvgGet" //
         , "Hit Ratio" //
     ));
     stdout.print(String.format(//
-        "%1s %-18s %-4s|%6s %6s %6s|  %-5s   |%-4s %-4s %-4s|\n" //
+        "%1s %-"+nw+"s|%6s %6s %7s|  %-5s  |%-4s %-4s|\n" //
         , "" //
         , "" //
-        , "Age" //
-        , "Disk" //
         , "Mem" //
-        , "Cnt" //
-        , "" //
         , "Disk" //
+        , "Space" //
+        , "" //
         , "Mem" //
-        , "Agg" //
+        , "Disk" //
     ));
-    stdout.print("------------------"
-        + "-------+--------------------+----------+--------------+\n");
-    for (final Ehcache cache : getAllCaches()) {
-      final CacheConfiguration cfg = cache.getCacheConfiguration();
-      final boolean useDisk = cfg.isDiskPersistent() || cfg.isOverflowToDisk();
-      final Statistics stat = cache.getStatistics();
-      final long total = stat.getCacheHits() + stat.getCacheMisses();
+    stdout.print("--");
+    for (int i = 0; i < nw; i++) {
+      stdout.print('-');
+    }
+    stdout.print("+---------------------+---------+---------+\n");
 
-      if (useDisk) {
-        stdout.print(String.format(//
-            "D %-18s %-4s|%6s %6s %6s| %7s  |%4s %4s %4s|\n" //
-            , cache.getName() //
-            , interval(cfg.getTimeToLiveSeconds()) //
-            , count(stat.getDiskStoreObjectCount()) //
-            , count(stat.getMemoryStoreObjectCount()) //
-            , count(stat.getObjectCount()) //
-            , duration(stat.getAverageGetTime()) //
-            , percent(stat.getOnDiskHits(), total) //
-            , percent(stat.getInMemoryHits(), total) //
-            , percent(stat.getCacheHits(), total) //
-            ));
-      } else {
-        stdout.print(String.format(//
-            "  %-18s %-4s|%6s %6s %6s| %7s  |%4s %4s %4s|\n" //
-            , cache.getName() //
-            , interval(cfg.getTimeToLiveSeconds()) //
-            , "", "" //
-            , count(stat.getObjectCount()) //
-            , duration(stat.getAverageGetTime()) //
-            , "", "" //
-            , percent(stat.getCacheHits(), total) //
-            ));
-      }
+    Map<String, H2CacheImpl<?, ?>> disks = Maps.newTreeMap();
+    printMemoryCaches(disks, sortedCoreCaches());
+    printMemoryCaches(disks, sortedPluginCaches());
+    for (Map.Entry<String, H2CacheImpl<?, ?>> entry : disks.entrySet()) {
+      H2CacheImpl<?, ?> cache = entry.getValue();
+      CacheStats stat = cache.stats();
+      H2CacheImpl.DiskStats disk = cache.diskStats();
+      stdout.print(String.format(
+          "D %-"+nw+"s|%6s %6s %7s| %7s |%4s %4s|\n",
+          entry.getKey(),
+          count(cache.size()),
+          count(disk.size()),
+          bytes(disk.space()),
+          duration(stat.averageLoadPenalty()),
+          percent(stat.hitCount(), stat.requestCount()),
+          percent(disk.hitCount(), disk.requestCount())));
     }
     stdout.print('\n');
 
@@ -163,6 +171,51 @@ final class ShowCaches extends CacheCommand {
     }
 
     stdout.flush();
+  }
+
+  private void printMemoryCaches(
+      Map<String, H2CacheImpl<?, ?>> disks,
+      Map<String, Cache<?,?>> caches) {
+    for (Map.Entry<String, Cache<?,?>> entry : caches.entrySet()) {
+      Cache<?,?> cache = entry.getValue();
+      if (cache instanceof H2CacheImpl) {
+        disks.put(entry.getKey(), (H2CacheImpl<?,?>)cache);
+        continue;
+      }
+      CacheStats stat = cache.stats();
+      stdout.print(String.format(
+          "  %-"+nw+"s|%6s %6s %7s| %7s |%4s %4s|\n",
+          entry.getKey(),
+          count(cache.size()),
+          "",
+          "",
+          duration(stat.averageLoadPenalty()),
+          percent(stat.hitCount(), stat.requestCount()),
+          ""));
+    }
+  }
+
+  private Map<String, Cache<?, ?>> sortedCoreCaches() {
+    SortedMap<String, Cache<?, ?>> m = Maps.newTreeMap();
+    for (Map.Entry<String, Provider<Cache<?, ?>>> entry :
+        cacheMap.byPlugin("gerrit").entrySet()) {
+      m.put(cacheNameOf("gerrit", entry.getKey()), entry.getValue().get());
+    }
+    return m;
+  }
+
+  private Map<String, Cache<?, ?>> sortedPluginCaches() {
+    SortedMap<String, Cache<?, ?>> m = Maps.newTreeMap();
+    for (String plugin : cacheMap.plugins()) {
+      if ("gerrit".equals(plugin)) {
+        continue;
+      }
+      for (Map.Entry<String, Provider<Cache<?, ?>>> entry :
+          cacheMap.byPlugin(plugin).entrySet()) {
+        m.put(cacheNameOf(plugin, entry.getKey()), entry.getValue().get());
+      }
+    }
+    return m;
   }
 
   private void memSummary() {
@@ -300,45 +353,24 @@ final class ShowCaches extends CacheCommand {
     return String.format("%6d", cnt);
   }
 
-  private String duration(double ms) {
-    if (Math.abs(ms) <= 0.05) {
+  private String duration(double ns) {
+    if (Math.abs(ns) < 0.01) {
       return "";
     }
-    String suffix = "ms";
-    if (ms >= 1000) {
-      ms /= 1000;
+    String suffix = "ns";
+    if (ns >= 1000.0) {
+      ns /= 1000.0;
+      suffix = "us";
+    }
+    if (ns >= 1000.0) {
+      ns /= 1000.0;
+      suffix = "ms";
+    }
+    if (ns >= 1000.0) {
+      ns /= 1000.0;
       suffix = "s ";
     }
-    return String.format("%4.1f%s", ms, suffix);
-  }
-
-  private String interval(double ttl) {
-    if (ttl == 0) {
-      return "inf";
-    }
-
-    String suffix = "s";
-    if (ttl >= 60) {
-      ttl /= 60;
-      suffix = "m";
-
-      if (ttl >= 60) {
-        ttl /= 60;
-        suffix = "h";
-      }
-
-      if (ttl >= 24) {
-        ttl /= 24;
-        suffix = "d";
-
-        if (ttl >= 365) {
-          ttl /= 365;
-          suffix = "y";
-        }
-      }
-    }
-
-    return Integer.toString((int) ttl) + suffix;
+    return String.format("%4.1f%s", ns, suffix);
   }
 
   private String percent(final long value, final long total) {

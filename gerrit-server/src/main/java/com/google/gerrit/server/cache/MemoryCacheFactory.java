@@ -12,12 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.cache;
 
-public class IncompleteUserInfoException extends Exception {
-  private static final long serialVersionUID = 1L;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 
-  public IncompleteUserInfoException(final String userName, final String missingInfo) {
-    super("For the user \"" + userName + "\" " + missingInfo + " is not set.");
-  }
+public interface MemoryCacheFactory {
+  <K, V> Cache<K, V> build(CacheBinding<K, V> def);
+
+  <K, V> LoadingCache<K, V> build(
+      CacheBinding<K, V> def,
+      CacheLoader<K, V> loader);
 }

@@ -390,12 +390,10 @@ Default is 1024 for most caches, except:
 
 [[cache.name.diskLimit]]cache.<name>.diskLimit::
 +
-Maximum number of cache items to retain on disk, if this cache
-supports storing its items to disk.  Like memoryLimit, this is
-total number of items, not bytes of disk used.  If 0, disk storage
-for this cache is disabled.
+Size in bytes of the keys and values stored on disk.
+If 0, disk storage for this cache is disabled.
 +
-Default is 16384.
+Default is 128 MiB per cache.
 
 [[cache.name.diskBuffer]]cache.<name>.diskBuffer::
 +

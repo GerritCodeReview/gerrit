@@ -16,6 +16,24 @@
       "revId": "b15212aa8f4dec5bee5e69298f46c0dd62a199b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFZn///7E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginCleanerTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-05-16T03:15:21Z",
+      "side": 1,
+      "message": "think again and find its explicitly doing the communication. \nso we need volatile .",
+      "parentUuid": "AAAFZn///7M\u003d",
+      "revId": "b15212aa8f4dec5bee5e69298f46c0dd62a199b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

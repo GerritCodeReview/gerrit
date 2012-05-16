@@ -28,11 +28,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -49,8 +46,7 @@ import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
 import java.util.List;
 
-public class MyWatchedProjectsScreen extends SettingsScreen implements
-    ResizeHandler {
+public class MyWatchedProjectsScreen extends SettingsScreen {
   private Button addNew;
   private HintTextBox nameBox;
   private SuggestBox nameTxt;
@@ -61,16 +57,10 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
   private Button close;
   private ProjectsTable projectsTab;
   private Button delSel;
-
   private PopupPanel.PositionCallback popupPosition;
-  private HandlerRegistration regWindowResize;
-
-  private int preferredPopupWidth = -1;
-
   private boolean submitOnSelection;
   private boolean firstPopupLoad = true;
   private boolean popingUp;
-
   private ScrollPanel sp;
 
   @Override
@@ -78,9 +68,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
     super.onInitUI();
     createWidgets();
 
-
     /* top table */
-
     final Grid grid = new Grid(2, 2);
     grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     grid.setText(0, 0, Util.C.watchedProjectName());
@@ -105,33 +93,29 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
 
 
     /* bottom table */
-
     add(watchesTab);
     add(delSel);
 
 
     /* popup */
-
     final FlowPanel pfp = new FlowPanel();
     sp = new ScrollPanel(projectsTab);
+    sp.setSize("100%", "100%");
     pfp.add(sp);
     pfp.add(close);
     popup.setWidget(pfp);
-
+    // For some reason keeping track of preferredWidth keeps the width better,
+    // but using 100% for height works better.
+    popup.setHeight("100%");
     popupPosition = new PopupPanel.PositionCallback() {
+
       public void setPosition(int offsetWidth, int offsetHeight) {
-        if (preferredPopupWidth == -1) {
-          preferredPopupWidth = offsetWidth;
-        }
-
         int top = grid.getAbsoluteTop() - 50; // under page header
-
         // Try to place it to the right of everything else, but not
         // right justified
-        int left = 5 + Math.max(
-                         grid.getAbsoluteLeft() + grid.getOffsetWidth(),
-                   watchesTab.getAbsoluteLeft() + watchesTab.getOffsetWidth() );
-
+        int left =
+            5 + Math.max(grid.getAbsoluteLeft() + grid.getOffsetWidth(),
+                watchesTab.getAbsoluteLeft() + watchesTab.getOffsetWidth());
         if (top + offsetHeight > Window.getClientHeight()) {
           top = Window.getClientHeight() - offsetHeight;
         }
@@ -151,16 +135,6 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
         popup.setPopupPosition(left, top);
       }
     };
-  }
-
-  @Override
-  public void onResize(final ResizeEvent event) {
-    sp.setSize("100%","100%");
-
-    // For some reason keeping track of preferredWidth keeps the width better,
-    // but using 100% for height works better.
-    popup.setHeight("100%");
-    popupPosition.setPosition(preferredPopupWidth, popup.getOffsetHeight());
   }
 
   protected void createWidgets() {
@@ -293,23 +267,13 @@ public class MyWatchedProjectsScreen extends SettingsScreen implements
       GlobalKey.addApplication(popup, new HidePopupPanelCommand(0,
           KeyCodes.KEY_ESCAPE, popup));
       projectsTab.setRegisterKeys(true);
-
       projectsTab.finishDisplay();
-
-      if (regWindowResize == null) {
-        regWindowResize = Window.addResizeHandler(this);
-      }
-
       popingUp = false;
     }
   }
 
   protected void closePopup() {
     popup.hide();
-    if (regWindowResize != null) {
-      regWindowResize.removeHandler();
-      regWindowResize = null;
-    }
   }
 
   protected void doAddNew() {

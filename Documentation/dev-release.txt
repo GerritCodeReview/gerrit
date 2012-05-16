@@ -154,7 +154,11 @@ User and password from here:
 
     https://code.google.com/hosting/settings
 
-(requires overriding svn username on command line)
+If subversion assumes a different username than your google one and asks for a
+password right away simply hit enter. Subversion will fail and then ask for
+another username and password. This time enter the username and password from
+the page linked above. After that subversion should save the username/password
+somewhere under `~/.subversion/auth` folder.
 ========================================================================
 
 

@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
-import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -233,28 +232,14 @@ public class Plugin {
     return httpInjector;
   }
 
-  public void add(final RegistrationHandle handle) {
+  public void add(RegistrationHandle handle) {
     if (handle instanceof ReloadableRegistrationHandle) {
       if (reloadableHandles == null) {
         reloadableHandles = Lists.newArrayList();
       }
       reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
     }
-
-    add(new LifecycleListener() {
-      @Override
-      public void start() {
-      }
-
-      @Override
-      public void stop() {
-        handle.remove();
-      }
-    });
-  }
-
-  public void add(LifecycleListener listener) {
-    manager.add(listener);
+    manager.add(handle);
   }
 
   List<ReloadableRegistrationHandle<?>> getReloadableHandles() {

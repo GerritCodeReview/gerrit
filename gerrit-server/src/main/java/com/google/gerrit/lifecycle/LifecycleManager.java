@@ -14,75 +14,89 @@
 
 package com.google.gerrit.lifecycle;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.inject.Binding;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
+import com.google.inject.util.Providers;
 
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 /** Tracks and executes registered {@link LifecycleListener}s. */
 public class LifecycleManager {
-  private final LinkedHashMap<LifecycleListener, Boolean> listeners =
-      new LinkedHashMap<LifecycleListener, Boolean>();
+  private final List<Provider<LifecycleListener>> listeners = newList();
+  private final List<RegistrationHandle> handles = newList();
 
-  private boolean started;
+  /** Index of the last listener to start successfully; -1 when not started. */
+  private int startedIndex = -1;
+
+  /** Add a handle that must be cleared during stop. */
+  public void add(RegistrationHandle handle) {
+    handles.add(handle);
+  }
 
   /** Add a single listener. */
-  public void add(final LifecycleListener listener) {
-    listeners.put(listener, true);
+  public void add(LifecycleListener listener) {
+    listeners.add(Providers.of(listener));
+  }
+
+  /** Add a single listener. */
+  public void add(Provider<LifecycleListener> listener) {
+    listeners.add(listener);
   }
 
   /** Add all {@link LifecycleListener}s registered in the Injector. */
-  public void add(final Injector injector) {
-    if (started) {
-      throw new IllegalStateException("Already started");
-    }
-    for (final Binding<LifecycleListener> binding : get(injector)) {
-      add(binding.getProvider().get());
+  public void add(Injector injector) {
+    Preconditions.checkState(startedIndex < 0, "Already started");
+    for (Binding<LifecycleListener> binding : get(injector)) {
+      add(binding.getProvider());
     }
   }
 
   /** Add all {@link LifecycleListener}s registered in the Injectors. */
-  public void add(final Injector... injectors) {
-    for (final Injector i : injectors) {
+  public void add(Injector... injectors) {
+    for (Injector i : injectors) {
       add(i);
     }
   }
 
   /** Start all listeners, in the order they were registered. */
   public void start() {
-    if (!started) {
-      started = true;
-      for (LifecycleListener obj : listeners.keySet()) {
-        obj.start();
-      }
+    for (int i = startedIndex + 1; i < listeners.size(); i++) {
+      LifecycleListener listener = listeners.get(i).get();
+      startedIndex = i;
+      listener.start();
     }
   }
 
   /** Stop all listeners, in the reverse order they were registered. */
   public void stop() {
-    if (started) {
-      final List<LifecycleListener> t =
-          new ArrayList<LifecycleListener>(listeners.keySet());
+    for (int i = handles.size() - 1; 0 <= i; i--) {
+      handles.get(i).remove();
+    }
+    handles.clear();
 
-      for (int i = t.size() - 1; 0 <= i; i--) {
-        final LifecycleListener obj = t.get(i);
-        try {
-          obj.stop();
-        } catch (Throwable err) {
-          LoggerFactory.getLogger(obj.getClass()).warn("Failed to stop", err);
-        }
+    for (int i = startedIndex; 0 <= i; i--) {
+      LifecycleListener obj = listeners.get(i).get();
+      try {
+        obj.stop();
+      } catch (Throwable err) {
+        LoggerFactory.getLogger(obj.getClass()).warn("Failed to stop", err);
       }
-
-      started = false;
+      startedIndex = i - 1;
     }
   }
 
   private static List<Binding<LifecycleListener>> get(Injector i) {
     return i.findBindingsByType(new TypeLiteral<LifecycleListener>() {});
+  }
+
+  private static <T> List<T> newList() {
+    return Lists.newArrayListWithCapacity(4);
   }
 }

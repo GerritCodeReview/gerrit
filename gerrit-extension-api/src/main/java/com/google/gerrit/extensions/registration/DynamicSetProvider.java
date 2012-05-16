@@ -19,6 +19,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
+import com.google.inject.internal.UniqueAnnotations;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +27,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
+  private static final Class<?> UNIQUE_ANNOTATION =
+      UniqueAnnotations.create().getClass();
   private final TypeLiteral<T> type;
 
   @Inject
@@ -49,7 +52,9 @@ class DynamicSetProvider<T> implements Provider<DynamicSet<T>> {
     }
     List<AtomicReference<Provider<T>>> r = newList(cnt);
     for (Binding<T> b : bindings) {
-      r.add(new AtomicReference<Provider<T>>(b.getProvider()));
+      if (b.getKey().getAnnotation() != null) {
+        r.add(new AtomicReference<Provider<T>>(b.getProvider()));
+      }
     }
     return r;
   }

@@ -572,6 +572,7 @@ public class Gerrit implements EntryPoint {
       m = new LinkMenuBar();
       addLink(m, C.menuGroups(), PageLinks.ADMIN_GROUPS);
       addLink(m, C.menuProjects(), PageLinks.ADMIN_PROJECTS);
+      addLink(m, C.menuPlugins(), PageLinks.ADMIN_PLUGINS);
       menuLeft.add(m, C.menuAdmin());
     }
 

@@ -15,9 +15,10 @@
 package com.google.gerrit.extensions.registration;
 
 import com.google.inject.Key;
+import com.google.inject.Provider;
 
 public interface ReloadableRegistrationHandle<T> extends RegistrationHandle {
   public Key<T> getKey();
 
-  public RegistrationHandle replace(Key<T> key, T item);
+  public RegistrationHandle replace(Key<T> key, Provider<T> item);
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.registration;
 
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.inject.Key;
+import com.google.inject.Provider;
 
 /** <b>DO NOT USE</b> */
 public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
@@ -32,7 +33,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    */
   public RegistrationHandle put(
       String pluginName, String exportName,
-      final T item) {
+      final Provider<T> item) {
     final NamePair key = new NamePair(pluginName, exportName);
     items.put(key, item);
     return new RegistrationHandle() {
@@ -57,7 +58,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    */
   public ReloadableRegistrationHandle<T> put(
       String pluginName, Key<T> key,
-      T item) {
+      Provider<T> item) {
     String exportName = ((Export) key.getAnnotation()).value();
     NamePair np = new NamePair(pluginName, exportName);
     items.put(np, item);
@@ -67,9 +68,9 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
   private class ReloadableHandle implements ReloadableRegistrationHandle<T> {
     private final NamePair np;
     private final Key<T> key;
-    private final T item;
+    private final Provider<T> item;
 
-    ReloadableHandle(NamePair np, Key<T> key, T item) {
+    ReloadableHandle(NamePair np, Key<T> key, Provider<T> item) {
       this.np = np;
       this.key = key;
       this.item = item;
@@ -86,7 +87,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
     }
 
     @Override
-    public ReloadableHandle replace(Key<T> newKey, T newItem) {
+    public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
       if (items.replace(np, item, newItem)) {
         return new ReloadableHandle(np, newKey, newItem);
       }

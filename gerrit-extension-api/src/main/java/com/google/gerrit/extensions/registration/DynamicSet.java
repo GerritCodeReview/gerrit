@@ -16,11 +16,13 @@ package com.google.gerrit.extensions.registration;
 
 import com.google.inject.Binder;
 import com.google.inject.Key;
+import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Named;
+import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
 
 import java.util.Collection;
@@ -32,9 +34,9 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A set of members that can be modified as plugins reload.
  * <p>
- * DynamicSets are always mapped as singletons in Guice, and only may contain
- * singletons, as providers are resolved to an instance before the member is
- * added to the set.
+ * DynamicSets are always mapped as singletons in Guice. Sets store Providers
+ * internally, and resolve the provider to an instance on demand. This enables
+ * registrations to decide between singleton and non-singleton members.
  */
 public class DynamicSet<T> implements Iterable<T> {
   /**
@@ -125,22 +127,29 @@ public class DynamicSet<T> implements Iterable<T> {
     return binder.bind(type).annotatedWith(name);
   }
 
-  private final CopyOnWriteArrayList<AtomicReference<T>> items;
+  private final CopyOnWriteArrayList<AtomicReference<Provider<T>>> items;
 
-  DynamicSet(Collection<AtomicReference<T>> base) {
-    items = new CopyOnWriteArrayList<AtomicReference<T>>(base);
+  DynamicSet(Collection<AtomicReference<Provider<T>>> base) {
+    items = new CopyOnWriteArrayList<AtomicReference<Provider<T>>>(base);
   }
 
   @Override
   public Iterator<T> iterator() {
-    final Iterator<AtomicReference<T>> itr = items.iterator();
+    final Iterator<AtomicReference<Provider<T>>> itr = items.iterator();
     return new Iterator<T>() {
       private T next;
 
       @Override
       public boolean hasNext() {
         while (next == null && itr.hasNext()) {
-          next = itr.next().get();
+          Provider<T> p = itr.next().get();
+          if (p != null) {
+            try {
+              next = p.get();
+            } catch (RuntimeException e) {
+              // TODO Log failed member of DynamicSet.
+            }
+          }
         }
         return next != null;
       }
@@ -169,7 +178,18 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return handle to remove the item at a later point in time.
    */
   public RegistrationHandle add(final T item) {
-    final AtomicReference<T> ref = new AtomicReference<T>(item);
+    return add(Providers.of(item));
+  }
+
+  /**
+   * Add one new element to the set.
+   *
+   * @param item the item to add to the collection. Must not be null.
+   * @return handle to remove the item at a later point in time.
+   */
+  public RegistrationHandle add(final Provider<T> item) {
+    final AtomicReference<Provider<T>> ref =
+        new AtomicReference<Provider<T>>(item);
     items.add(ref);
     return new RegistrationHandle() {
       @Override
@@ -191,18 +211,20 @@ public class DynamicSet<T> implements Iterable<T> {
    * @return a handle that can remove this item later, or hot-swap the item
    *         without it ever leaving the collection.
    */
-  public ReloadableRegistrationHandle<T> add(Key<T> key, T item) {
-    AtomicReference<T> ref = new AtomicReference<T>(item);
+  public ReloadableRegistrationHandle<T> add(Key<T> key, Provider<T> item) {
+    AtomicReference<Provider<T>> ref = new AtomicReference<Provider<T>>(item);
     items.add(ref);
     return new ReloadableHandle(ref, key, item);
   }
 
   private class ReloadableHandle implements ReloadableRegistrationHandle<T> {
-    private final AtomicReference<T> ref;
+    private final AtomicReference<Provider<T>> ref;
     private final Key<T> key;
-    private final T item;
+    private final Provider<T> item;
 
-    ReloadableHandle(AtomicReference<T> ref, Key<T> key, T item) {
+    ReloadableHandle(AtomicReference<Provider<T>> ref,
+        Key<T> key,
+        Provider<T> item) {
       this.ref = ref;
       this.key = key;
       this.item = item;
@@ -221,7 +243,7 @@ public class DynamicSet<T> implements Iterable<T> {
     }
 
     @Override
-    public ReloadableHandle replace(Key<T> newKey, T newItem) {
+    public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
       if (ref.compareAndSet(item, newItem)) {
         return new ReloadableHandle(ref, newKey, newItem);
       }

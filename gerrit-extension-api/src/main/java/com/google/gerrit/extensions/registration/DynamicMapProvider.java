@@ -38,7 +38,7 @@ class DynamicMapProvider<T> implements Provider<DynamicMap<T>> {
     List<Binding<T>> bindings = injector.findBindingsByType(type);
     if (bindings != null) {
       for (Binding<T> b : bindings) {
-        m.put("gerrit", b.getKey(), b.getProvider().get());
+        m.put("gerrit", b.getKey(), b.getProvider());
       }
     }
     return m;

@@ -197,7 +197,7 @@ public class PluginGuiceEnvironment {
         DynamicSet<Object> set = (DynamicSet<Object>) e.getValue();
 
         for (Binding<Object> b : bindings(src, type)) {
-          plugin.add(set.add(b.getKey(), b.getProvider().get()));
+          plugin.add(set.add(b.getKey(), b.getProvider()));
         }
       }
     }
@@ -219,7 +219,7 @@ public class PluginGuiceEnvironment {
           plugin.add(set.put(
               plugin.getName(),
               b.getKey(),
-              b.getProvider().get()));
+              b.getProvider()));
         }
       }
     }
@@ -288,7 +288,7 @@ public class PluginGuiceEnvironment {
           newPlugin.add(map.put(
               newPlugin.getName(),
               b.getKey(),
-              b.getProvider().get()));
+              b.getProvider()));
         }
       }
     }
@@ -355,7 +355,7 @@ public class PluginGuiceEnvironment {
           oi.remove();
           replace(newPlugin, h2, b);
         } else {
-          newPlugin.add(set.add(b.getKey(), b.getProvider().get()));
+          newPlugin.add(set.add(b.getKey(), b.getProvider()));
         }
       }
     }
@@ -363,7 +363,7 @@ public class PluginGuiceEnvironment {
 
   private static <T> void replace(Plugin newPlugin,
       ReloadableRegistrationHandle<T> h, Binding<T> b) {
-    RegistrationHandle n = h.replace(b.getKey(), b.getProvider().get());
+    RegistrationHandle n = h.replace(b.getKey(), b.getProvider());
     if (n != null){
       newPlugin.add(n);
     }

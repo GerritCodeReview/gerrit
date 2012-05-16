@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.registration;
 
 import com.google.inject.Binder;
 import com.google.inject.Key;
+import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
@@ -34,9 +35,9 @@ import java.util.concurrent.ConcurrentMap;
  * <p>
  * Maps index their members by plugin name and export name.
  * <p>
- * DynamicMaps are always mapped as singletons in Guice, and only may contain
- * singletons, as providers are resolved to an instance before the member is
- * added to the map.
+ * DynamicMaps are always mapped as singletons in Guice. Maps store Providers
+ * internally, and resolve the provider to an instance on demand. This enables
+ * registrations to decide between singleton and non-singleton members.
  */
 public abstract class DynamicMap<T> {
   /**
@@ -82,10 +83,13 @@ public abstract class DynamicMap<T> {
         .in(Scopes.SINGLETON);
   }
 
-  final ConcurrentMap<NamePair, T> items;
+  final ConcurrentMap<NamePair, Provider<T>> items;
 
   DynamicMap() {
-    items = new ConcurrentHashMap<NamePair, T>(16, 0.75f, 1);
+    items = new ConcurrentHashMap<NamePair, Provider<T>>(
+        16 /* initial size */,
+        0.75f /* load factor */,
+        1 /* concurrency level of 1, load/unload is single threaded */);
   }
 
   /**
@@ -95,9 +99,12 @@ public abstract class DynamicMap<T> {
    * @param exportName name the plugin exports the item as.
    * @return the implementation. Null if the plugin is not running, or if the
    *         plugin does not export this name.
+   * @throws ProvisionException if the registered provider is unable to obtain
+   *         an instance of the requested implementation.
    */
   public T get(String pluginName, String exportName) {
-    return items.get(new NamePair(pluginName, exportName));
+    Provider<T> p = items.get(new NamePair(pluginName, exportName));
+    return p != null ? p.get() : null;
   }
 
   /**
@@ -119,9 +126,9 @@ public abstract class DynamicMap<T> {
    * @param pluginName name of the plugin.
    * @return items exported by a plugin, keyed by the export name.
    */
-  public SortedMap<String, T> byPlugin(String pluginName) {
-    SortedMap<String, T> r = new TreeMap<String, T>();
-    for (Map.Entry<NamePair, T> e : items.entrySet()) {
+  public SortedMap<String, Provider<T>> byPlugin(String pluginName) {
+    SortedMap<String, Provider<T>> r = new TreeMap<String, Provider<T>>();
+    for (Map.Entry<NamePair, Provider<T>> e : items.entrySet()) {
       if (e.getKey().pluginName.equals(pluginName)) {
         r.put(e.getKey().exportName, e.getValue());
       }
@@ -147,7 +154,8 @@ public abstract class DynamicMap<T> {
     public boolean equals(Object other) {
       if (other instanceof NamePair) {
         NamePair np = (NamePair) other;
-        return pluginName.equals(np.pluginName) && exportName.equals(np.exportName);
+        return pluginName.equals(np.pluginName)
+            && exportName.equals(np.exportName);
       }
       return false;
     }

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import static com.google.inject.Scopes.SINGLETON;
+import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
@@ -23,6 +24,7 @@ import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
@@ -147,5 +149,12 @@ public class WebModule extends FactoryModule {
 
     bind(CurrentUser.class).toProvider(HttpCurrentUserProvider.class);
     bind(IdentifiedUser.class).toProvider(HttpIdentifiedUserProvider.class);
+
+    install(new LifecycleModule() {
+      @Override
+      protected void configure() {
+        listener().toInstance(registerInParentInjectors());
+      }
+    });
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import static com.google.inject.Scopes.SINGLETON;
+import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -121,6 +122,7 @@ public class SshModule extends FactoryModule {
           .annotatedWith(UniqueAnnotations.create())
           .to(SshPluginStarterCallback.class);
 
+        listener().toInstance(registerInParentInjectors());
         listener().to(SshLog.class);
         listener().to(SshDaemon.class);
       }

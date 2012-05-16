@@ -13,6 +13,8 @@
 // limitations under the License.
 
 package com.google.gerrit.server.plugins;
+import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicMapsOf;
+import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicSetsOf;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -23,6 +25,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
+import com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -188,40 +191,18 @@ public class PluginGuiceEnvironment {
   private void attachSet(Map<TypeLiteral<?>, DynamicSet<?>> sets,
       @Nullable Injector src,
       Plugin plugin) {
-    if (src != null && sets != null && !sets.isEmpty()) {
-      for (Map.Entry<TypeLiteral<?>, DynamicSet<?>> e : sets.entrySet()) {
-        @SuppressWarnings("unchecked")
-        TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
-
-        @SuppressWarnings("unchecked")
-        DynamicSet<Object> set = (DynamicSet<Object>) e.getValue();
-
-        for (Binding<Object> b : bindings(src, type)) {
-          plugin.add(set.add(b.getKey(), b.getProvider()));
-        }
-      }
+    for (RegistrationHandle h : PrivateInternals_DynamicTypes
+        .attachSets(src, sets)) {
+      plugin.add(h);
     }
   }
 
   private void attachMap(Map<TypeLiteral<?>, DynamicMap<?>> maps,
       @Nullable Injector src,
       Plugin plugin) {
-    if (src != null && maps != null && !maps.isEmpty()) {
-      for (Map.Entry<TypeLiteral<?>, DynamicMap<?>> e : maps.entrySet()) {
-        @SuppressWarnings("unchecked")
-        TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
-
-        @SuppressWarnings("unchecked")
-        PrivateInternals_DynamicMapImpl<Object> set =
-            (PrivateInternals_DynamicMapImpl<Object>) e.getValue();
-
-        for (Binding<Object> b : bindings(src, type)) {
-          plugin.add(set.put(
-              plugin.getName(),
-              b.getKey(),
-              b.getProvider()));
-        }
-      }
+    for (RegistrationHandle h : PrivateInternals_DynamicTypes
+        .attachMaps(src, plugin.getName(), maps)) {
+      plugin.add(h);
     }
   }
 
@@ -383,32 +364,6 @@ public class PluginGuiceEnvironment {
 
   private static <T> List<Binding<T>> bindings(Injector src, TypeLiteral<T> type) {
     return src.findBindingsByType(type);
-  }
-
-  private static Map<TypeLiteral<?>, DynamicSet<?>> dynamicSetsOf(Injector src) {
-    Map<TypeLiteral<?>, DynamicSet<?>> m = Maps.newHashMap();
-    for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
-      TypeLiteral<?> type = e.getKey().getTypeLiteral();
-      if (type.getRawType() == DynamicSet.class) {
-        ParameterizedType p = (ParameterizedType) type.getType();
-        m.put(TypeLiteral.get(p.getActualTypeArguments()[0]),
-            (DynamicSet<?>) e.getValue().getProvider().get());
-      }
-    }
-    return m;
-  }
-
-  private static Map<TypeLiteral<?>, DynamicMap<?>> dynamicMapsOf(Injector src) {
-    Map<TypeLiteral<?>, DynamicMap<?>> m = Maps.newHashMap();
-    for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
-      TypeLiteral<?> type = e.getKey().getTypeLiteral();
-      if (type.getRawType() == DynamicMap.class) {
-        ParameterizedType p = (ParameterizedType) type.getType();
-        m.put(TypeLiteral.get(p.getActualTypeArguments()[0]),
-            (DynamicMap<?>) e.getValue().getProvider().get());
-      }
-    }
-    return m;
   }
 
   private static Module copy(Injector src) {

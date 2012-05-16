@@ -27,7 +27,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupCacheImpl;
-import com.google.gerrit.server.cache.CachePool;
+import com.google.gerrit.server.cache.InMemoryCacheModule;
 import com.google.gerrit.server.config.ApprovalTypesProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
@@ -101,6 +101,7 @@ public class ExportReviewNotes extends SiteProgram {
         install(AccountCacheImpl.module());
         install(GroupCacheImpl.module());
         install(new EhcachePoolImpl.Module());
+        install(new InMemoryCacheModule());
         install(new FactoryModule() {
           @Override
           protected void configure() {

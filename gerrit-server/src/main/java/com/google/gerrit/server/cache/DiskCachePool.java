@@ -14,6 +14,6 @@
 
 package com.google.gerrit.server.cache;
 
-public interface CachePool {
-  public <K, V> ProxyCache<K, V> register(CacheProvider<K, V> provider);
+public interface DiskCachePool {
+  public <K, V> Cache<K, V> register(DiskCacheProvider<K, V> provider);
 }

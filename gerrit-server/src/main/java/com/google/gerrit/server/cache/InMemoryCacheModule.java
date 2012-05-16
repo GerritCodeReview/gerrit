@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,9 +14,13 @@
 
 package com.google.gerrit.server.cache;
 
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 
-/** Configure a cache declared within a {@link CacheModule} instance. */
-public interface UnnamedCacheBinding<K, V> {
-  /** Set the name of the cache. */
-  public NamedCacheBinding<K, V> name(String cacheName);
+public class InMemoryCacheModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
+  }
 }

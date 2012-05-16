@@ -20,10 +20,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.CachePool;
-import com.google.gerrit.server.cache.CacheProvider;
+import com.google.gerrit.server.cache.DiskCachePool;
+import com.google.gerrit.server.cache.DiskCacheProvider;
 import com.google.gerrit.server.cache.EntryCreator;
-import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.cache.ProxyCache;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -48,14 +47,14 @@ import java.util.Map;
 
 /** Pool of all declared caches created by {@link CacheModule}s. */
 @Singleton
-public class EhcachePoolImpl implements CachePool {
+public class EhcachePoolImpl implements DiskCachePool {
   private static final Logger log =
       LoggerFactory.getLogger(EhcachePoolImpl.class);
 
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
-      bind(CachePool.class).to(EhcachePoolImpl.class);
+      bind(DiskCachePool.class).to(EhcachePoolImpl.class);
       bind(EhcachePoolImpl.class);
       listener().to(EhcachePoolImpl.Lifecycle.class);
     }
@@ -84,14 +83,14 @@ public class EhcachePoolImpl implements CachePool {
   private final SitePaths site;
 
   private final Object lock = new Object();
-  private final Map<String, CacheProvider<?, ?>> caches;
+  private final Map<String, DiskCacheProvider<?, ?>> caches;
   private CacheManager manager;
 
   @Inject
   EhcachePoolImpl(@GerritServerConfig final Config cfg, final SitePaths site) {
     this.config = cfg;
     this.site = site;
-    this.caches = new HashMap<String, CacheProvider<?, ?>>();
+    this.caches = new HashMap<String, DiskCacheProvider<?, ?>>();
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
@@ -110,7 +109,7 @@ public class EhcachePoolImpl implements CachePool {
       }
 
       manager = new CacheManager(new Factory().toConfiguration());
-      for (CacheProvider<?, ?> p : caches.values()) {
+      for (DiskCacheProvider<?, ?> p : caches.values()) {
         Ehcache eh = manager.getEhcache(p.getName());
         EntryCreator<?, ?> c = p.getEntryCreator();
         if (c != null) {
@@ -137,7 +136,8 @@ public class EhcachePoolImpl implements CachePool {
     }
   }
 
-  public <K, V> ProxyCache<K, V> register(final CacheProvider<K, V> provider) {
+  @Override
+  public <K, V> ProxyCache<K, V> register(final DiskCacheProvider<K, V> provider) {
     synchronized (lock) {
       if (manager != null) {
         throw new IllegalStateException("Cache pool has already been started");
@@ -160,10 +160,9 @@ public class EhcachePoolImpl implements CachePool {
       configureDiskStore();
       configureDefaultCache();
 
-      for (CacheProvider<?, ?> p : caches.values()) {
+      for (DiskCacheProvider<?, ?> p : caches.values()) {
         final String name = p.getName();
         final CacheConfiguration c = newCache(name);
-        c.setMemoryStoreEvictionPolicyFromObject(toPolicy(p.evictionPolicy()));
 
         c.setMaxElementsInMemory(getInt(name, "memorylimit", p.memoryLimit()));
 
@@ -171,7 +170,7 @@ public class EhcachePoolImpl implements CachePool {
         c.setTimeToLiveSeconds(getSeconds(name, "maxage", p.maxAge()));
         c.setEternal(c.getTimeToLiveSeconds() == 0);
 
-        if (p.disk() && mgr.getDiskStoreConfiguration() != null) {
+        if (mgr.getDiskStoreConfiguration() != null) {
           c.setMaxElementsOnDisk(getInt(name, "disklimit", p.diskLimit()));
 
           int v = c.getDiskSpoolBufferSizeMB() * MB;
@@ -187,19 +186,6 @@ public class EhcachePoolImpl implements CachePool {
       return mgr;
     }
 
-    private MemoryStoreEvictionPolicy toPolicy(final EvictionPolicy policy) {
-      switch (policy) {
-        case LFU:
-          return MemoryStoreEvictionPolicy.LFU;
-
-        case LRU:
-          return MemoryStoreEvictionPolicy.LRU;
-
-        default:
-          throw new IllegalArgumentException("Unsupported " + policy);
-      }
-    }
-
     private int getInt(String n, String s, int d) {
       return config.getInt("cache", n, s, d);
     }
@@ -211,14 +197,7 @@ public class EhcachePoolImpl implements CachePool {
     }
 
     private void configureDiskStore() {
-      boolean needDisk = false;
-      for (CacheProvider<?, ?> p : caches.values()) {
-        if (p.disk()) {
-          needDisk = true;
-          break;
-        }
-      }
-      if (!needDisk) {
+      if (caches.isEmpty()) {
         return;
       }
 

@@ -16,13 +16,12 @@
 package com.google.gerrit.server.patch;
 
 
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -47,7 +46,6 @@ public class PatchListCacheImpl implements PatchListCache {
             new TypeLiteral<Cache<PatchListKey, PatchList>>() {};
         disk(fileType, FILE_NAME) //
             .memoryLimit(128) // very large items, cache only a few
-            .evictionPolicy(EvictionPolicy.LRU) // prefer most recent
             .populateWith(PatchListLoader.class) //
         ;
 
@@ -55,7 +53,6 @@ public class PatchListCacheImpl implements PatchListCache {
             new TypeLiteral<Cache<IntraLineDiffKey, IntraLineDiff>>() {};
         disk(intraType, INTRA_NAME) //
             .memoryLimit(128) // very large items, cache only a few
-            .evictionPolicy(EvictionPolicy.LRU) // prefer most recent
             .populateWith(IntraLineLoader.class) //
         ;
 

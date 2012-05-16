@@ -28,7 +28,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -55,7 +54,6 @@ public final class CacheBasedWebSession implements WebSession {
         disk(type, cacheName) //
             .memoryLimit(1024) // reasonable default for many sites
             .maxAge(MAX_AGE_MINUTES, MINUTES) // expire sessions if they are inactive
-            .evictionPolicy(EvictionPolicy.LRU) // keep most recently used
         ;
         bind(WebSessionManager.class);
         bind(WebSession.class)

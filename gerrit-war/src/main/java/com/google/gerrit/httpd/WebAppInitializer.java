@@ -24,6 +24,7 @@ import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.server.cache.InMemoryCacheModule;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
@@ -202,6 +203,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new EhcachePoolImpl.Module());
+    modules.add(new InMemoryCacheModule());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PushReplication.Module());

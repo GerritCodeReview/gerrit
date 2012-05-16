@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.cache;
 
+import static java.util.concurrent.TimeUnit.DAYS;
+
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -29,21 +32,6 @@ import java.io.Serializable;
  */
 public abstract class CacheModule extends AbstractModule {
   /**
-   * Declare an unnamed in-memory cache.
-   *
-   * @param <K> type of key used to lookup entries.
-   * @param <V> type of value stored by the cache.
-   * @param type type literal for the cache, this literal will be used to match
-   *        injection sites.
-   * @return binding to describe the cache. Caller must set at least the name on
-   *         the returned binding.
-   */
-  protected <K, V> UnnamedCacheBinding<K, V> core(
-      final TypeLiteral<Cache<K, V>> type) {
-    return core(Key.get(type));
-  }
-
-  /**
    * Declare a named in-memory cache.
    *
    * @param <K> type of key used to lookup entries.
@@ -53,32 +41,18 @@ public abstract class CacheModule extends AbstractModule {
    *        and with {@code @Named} annotations.
    * @return binding to describe the cache.
    */
-  protected <K, V> NamedCacheBinding<K, V> core(
-      final TypeLiteral<Cache<K, V>> type, final String name) {
-    return core(Key.get(type, Names.named(name))).name(name);
-  }
-
-  private <K, V> UnnamedCacheBinding<K, V> core(final Key<Cache<K, V>> key) {
-    final boolean disk = false;
-    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this);
-    bind(key).toProvider(b).in(Scopes.SINGLETON);
-    return b;
-  }
-
-  /**
-   * Declare an unnamed in-memory/on-disk cache.
-   *
-   * @param <K> type of key used to find entries, must be {@link Serializable}.
-   * @param <V> type of value stored by the cache, must be {@link Serializable}.
-   * @param type type literal for the cache, this literal will be used to match
-   *        injection sites. Injection sites are matched by this type literal
-   *        and with {@code @Named} annotations.
-   * @return binding to describe the cache. Caller must set at least the name on
-   *         the returned binding.
-   */
-  protected <K extends Serializable, V extends Serializable> UnnamedCacheBinding<K, V> disk(
-      final TypeLiteral<Cache<K, V>> type) {
-    return disk(Key.get(type));
+  protected <K, V> InMemoryCacheBinding<K, V> core(
+      TypeLiteral<Cache<K, V>> type,
+      String name) {
+    Key<Cache<K, V>> key = Key.get(type, Names.named(name));
+    InMemoryCacheProvider<K, V> m = new InMemoryCacheProvider<K, V>(name, this);
+    bind(key)
+      .toProvider(m)
+      .in(Scopes.SINGLETON);
+    bind(new TypeLiteral<Cache<?, ?>>() {})
+      .annotatedWith(Exports.named(name))
+      .to(key);
+    return m.memoryLimit(1024).maxAge(90, DAYS);
   }
 
   /**
@@ -91,19 +65,27 @@ public abstract class CacheModule extends AbstractModule {
    *        and with {@code @Named} annotations.
    * @return binding to describe the cache.
    */
-  protected <K extends Serializable, V extends Serializable> NamedCacheBinding<K, V> disk(
-      final TypeLiteral<Cache<K, V>> type, final String name) {
-    return disk(Key.get(type, Names.named(name))).name(name);
+  protected <K extends Serializable, V extends Serializable> DiskCacheBinding<K, V> disk(
+      TypeLiteral<Cache<K, V>> type,
+      String name) {
+    DiskCacheProvider<K, V> d = new DiskCacheProvider<K, V>(name, this);
+    bind(type)
+        .annotatedWith(Names.named(name))
+        .toProvider(d)
+        .in(Scopes.SINGLETON);
+    return d.memoryLimit(1024).maxAge(90, DAYS).diskLimit(16384);
   }
 
-  private <K, V> UnnamedCacheBinding<K, V> disk(final Key<Cache<K, V>> key) {
-    final boolean disk = true;
-    final CacheProvider<K, V> b = new CacheProvider<K, V>(disk, this);
-    bind(key).toProvider(b).in(Scopes.SINGLETON);
-    return b;
+  <K, V> Provider<EntryCreator<K, V>> getEntryCreator(
+      DiskCacheProvider<K, V> cp,
+      Class<? extends EntryCreator<K, V>> type) {
+    Key<EntryCreator<K, V>> key = newKey();
+    bind(key).to(type).in(Scopes.SINGLETON);
+    return getProvider(key);
   }
 
-  <K, V> Provider<EntryCreator<K, V>> getEntryCreator(CacheProvider<K, V> cp,
+  <K, V> Provider<EntryCreator<K, V>> getEntryCreator(
+      InMemoryCacheProvider<K, V> cp,
       Class<? extends EntryCreator<K, V>> type) {
     Key<EntryCreator<K, V>> key = newKey();
     bind(key).to(type).in(Scopes.SINGLETON);

@@ -16,22 +16,22 @@
 package com.google.gerrit.server.patch;
 
 
+import com.google.common.cache.LoadingCache;
+import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+
+import java.util.concurrent.ExecutionException;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
@@ -43,21 +43,13 @@ public class PatchListCacheImpl implements PatchListCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<PatchListKey, PatchList>> fileType =
-            new TypeLiteral<Cache<PatchListKey, PatchList>>() {};
-        disk(fileType, FILE_NAME) //
+        persist(FILE_NAME, PatchListKey.class, PatchList.class)
             .memoryLimit(128) // very large items, cache only a few
-            .evictionPolicy(EvictionPolicy.LRU) // prefer most recent
-            .populateWith(PatchListLoader.class) //
-        ;
+            .populateWith(PatchListLoader.class);
 
-        final TypeLiteral<Cache<IntraLineDiffKey, IntraLineDiff>> intraType =
-            new TypeLiteral<Cache<IntraLineDiffKey, IntraLineDiff>>() {};
-        disk(intraType, INTRA_NAME) //
+        persist(INTRA_NAME, IntraLineDiffKey.class, IntraLineDiff.class)
             .memoryLimit(128) // very large items, cache only a few
-            .evictionPolicy(EvictionPolicy.LRU) // prefer most recent
-            .populateWith(IntraLineLoader.class) //
-        ;
+            .populateWith(IntraLineLoader.class);
 
         bind(PatchListCacheImpl.class);
         bind(PatchListCache.class).to(PatchListCacheImpl.class);
@@ -65,14 +57,14 @@ public class PatchListCacheImpl implements PatchListCache {
     };
   }
 
-  private final Cache<PatchListKey, PatchList> fileCache;
-  private final Cache<IntraLineDiffKey, IntraLineDiff> intraCache;
+  private final LoadingCache<PatchListKey, PatchList> fileCache;
+  private final LoadingCache<IntraLineDiffKey, IntraLineDiff> intraCache;
   private final boolean computeIntraline;
 
   @Inject
   PatchListCacheImpl(
-      @Named(FILE_NAME) final Cache<PatchListKey, PatchList> fileCache,
-      @Named(INTRA_NAME) final Cache<IntraLineDiffKey, IntraLineDiff> intraCache,
+      @Named(FILE_NAME) LoadingCache<PatchListKey, PatchList> fileCache,
+      @Named(INTRA_NAME) LoadingCache<IntraLineDiffKey, IntraLineDiff> intraCache,
       @GerritServerConfig Config cfg) {
     this.fileCache = fileCache;
     this.intraCache = intraCache;
@@ -82,8 +74,13 @@ public class PatchListCacheImpl implements PatchListCache {
             cfg.getBoolean("cache", "diff", "intraline", true));
   }
 
-  public PatchList get(final PatchListKey key) {
-    return fileCache.get(key);
+  public PatchList get(PatchListKey key) {
+    try {
+      return fileCache.get(key);
+    } catch (ExecutionException e) {
+      PatchListLoader.log.warn("Error computing " + key, e);
+      return null; // TODO Handle PatchList errors in callers.
+    }
   }
 
   public PatchList get(final Change change, final PatchSet patchSet) {
@@ -97,11 +94,12 @@ public class PatchListCacheImpl implements PatchListCache {
   @Override
   public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key) {
     if (computeIntraline) {
-      IntraLineDiff d = intraCache.get(key);
-      if (d == null) {
-        d = new IntraLineDiff(IntraLineDiff.Status.ERROR);
+      try {
+        return intraCache.get(key);
+      } catch (ExecutionException e) {
+        IntraLineLoader.log.warn("Error computing " + key, e);
+        return new IntraLineDiff(IntraLineDiff.Status.ERROR);
       }
-      return d;
     } else {
       return new IntraLineDiff(IntraLineDiff.Status.DISABLED);
     }

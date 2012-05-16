@@ -14,12 +14,16 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.base.Optional;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.EntryCreator;
+import com.google.gwtorm.server.OrmDuplicateKeyException;
+import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -27,48 +31,48 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import java.util.ArrayList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.ExecutionException;
 
 /** Tracks group objects in memory for efficient access. */
 @Singleton
 public class GroupCacheImpl implements GroupCache {
+  private static final Logger log = LoggerFactory
+      .getLogger(GroupCacheImpl.class);
+
   private static final String BYID_NAME = "groups";
   private static final String BYNAME_NAME = "groups_byname";
   private static final String BYUUID_NAME = "groups_byuuid";
   private static final String BYEXT_NAME = "groups_byext";
-  private static final String BYNAME_LIST = "groups_byname_list";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<AccountGroup.Id, AccountGroup>> byId =
-            new TypeLiteral<Cache<AccountGroup.Id, AccountGroup>>() {};
-        core(byId, BYID_NAME).populateWith(ByIdLoader.class);
+        cache(BYID_NAME,
+            AccountGroup.Id.class,
+            new TypeLiteral<Optional<AccountGroup>>() {})
+          .populateWith(ByIdLoader.class);
 
-        final TypeLiteral<Cache<AccountGroup.NameKey, AccountGroup>> byName =
-            new TypeLiteral<Cache<AccountGroup.NameKey, AccountGroup>>() {};
-        core(byName, BYNAME_NAME).populateWith(ByNameLoader.class);
+        cache(BYNAME_NAME,
+            String.class,
+            new TypeLiteral<Optional<AccountGroup>>() {})
+          .populateWith(ByNameLoader.class);
 
-        final TypeLiteral<Cache<AccountGroup.UUID, AccountGroup>> byUUID =
-            new TypeLiteral<Cache<AccountGroup.UUID, AccountGroup>>() {};
-        core(byUUID, BYUUID_NAME).populateWith(ByUUIDLoader.class);
+        cache(BYUUID_NAME,
+            String.class,
+            new TypeLiteral<Optional<AccountGroup>>() {})
+          .populateWith(ByUUIDLoader.class);
 
-        final TypeLiteral<Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>>> byExternalName =
-            new TypeLiteral<Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>>>() {};
-        core(byExternalName, BYEXT_NAME) //
-            .populateWith(ByExternalNameLoader.class);
-
-        final TypeLiteral<Cache<ListKey, SortedSet<AccountGroup.NameKey>>> listType =
-          new TypeLiteral<Cache<ListKey, SortedSet<AccountGroup.NameKey>>>() {};
-        core(listType, BYNAME_LIST).populateWith(Lister.class);
+        cache(BYEXT_NAME,
+            String.class,
+            new TypeLiteral<Collection<AccountGroup>>() {})
+          .populateWith(ByExternalNameLoader.class);
 
         bind(GroupCacheImpl.class);
         bind(GroupCache.class).to(GroupCacheImpl.class);
@@ -76,94 +80,126 @@ public class GroupCacheImpl implements GroupCache {
     };
   }
 
-  private final Cache<AccountGroup.Id, AccountGroup> byId;
-  private final Cache<AccountGroup.NameKey, AccountGroup> byName;
-  private final Cache<AccountGroup.UUID, AccountGroup> byUUID;
-  private final Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName;
-  private final Cache<ListKey,SortedSet<AccountGroup.NameKey>> list;
-  private final Lock listLock;
+  private final LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId;
+  private final LoadingCache<String, Optional<AccountGroup>> byName;
+  private final LoadingCache<String, Optional<AccountGroup>> byUUID;
+  private final LoadingCache<String, Collection<AccountGroup>> byExternalName;
+  private final SchemaFactory<ReviewDb> schema;
 
   @Inject
   GroupCacheImpl(
-      @Named(BYID_NAME) Cache<AccountGroup.Id, AccountGroup> byId,
-      @Named(BYNAME_NAME) Cache<AccountGroup.NameKey, AccountGroup> byName,
-      @Named(BYUUID_NAME) Cache<AccountGroup.UUID, AccountGroup> byUUID,
-      @Named(BYEXT_NAME) Cache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName,
-      @Named(BYNAME_LIST) final Cache<ListKey, SortedSet<AccountGroup.NameKey>> list) {
+      @Named(BYID_NAME) LoadingCache<AccountGroup.Id, Optional<AccountGroup>> byId,
+      @Named(BYNAME_NAME) LoadingCache<String, Optional<AccountGroup>> byName,
+      @Named(BYUUID_NAME) LoadingCache<String, Optional<AccountGroup>> byUUID,
+      @Named(BYEXT_NAME) LoadingCache<String, Collection<AccountGroup>> byExternalName,
+      SchemaFactory<ReviewDb> schema) {
     this.byId = byId;
     this.byName = byName;
     this.byUUID = byUUID;
     this.byExternalName = byExternalName;
-    this.list = list;
-    this.listLock = new ReentrantLock(true /* fair */);
+    this.schema = schema;
   }
 
   public AccountGroup get(final AccountGroup.Id groupId) {
-    return byId.get(groupId);
+    try {
+      Optional<AccountGroup> g = byId.get(groupId);
+      return g.isPresent() ? g.get() : missing(groupId);
+    } catch (ExecutionException e) {
+      log.warn("Cannot load group "+groupId, e);
+      return missing(groupId);
+    }
   }
 
   public void evict(final AccountGroup group) {
-    byId.remove(group.getId());
-    byName.remove(group.getNameKey());
-    byUUID.remove(group.getGroupUUID());
-    byExternalName.remove(group.getExternalNameKey());
+    if (group.getId() != null) {
+      byId.invalidate(group.getId());
+    }
+    if (group.getNameKey() != null) {
+      byName.invalidate(group.getNameKey().get());
+    }
+    if (group.getGroupUUID() != null) {
+      byUUID.invalidate(group.getGroupUUID().get());
+    }
+    if (group.getExternalNameKey() != null) {
+      byExternalName.invalidate(group.getExternalNameKey().get());
+    }
   }
 
   public void evictAfterRename(final AccountGroup.NameKey oldName,
       final AccountGroup.NameKey newName) {
-    byName.remove(oldName);
-    updateGroupList(oldName, newName);
+    if (oldName != null) {
+      byName.invalidate(oldName.get());
+    }
+    if (newName != null) {
+      byName.invalidate(newName.get());
+    }
   }
 
-  public AccountGroup get(final AccountGroup.NameKey name) {
-    return byName.get(name);
+  public AccountGroup get(AccountGroup.NameKey name) {
+    if (name == null) {
+      return null;
+    }
+    try {
+      return byName.get(name.get()).orNull();
+    } catch (ExecutionException e) {
+      log.warn(String.format("Cannot lookup group %s by name", name.get()), e);
+      return null;
+    }
   }
 
-  public AccountGroup get(final AccountGroup.UUID uuid) {
-    return byUUID.get(uuid);
+  public AccountGroup get(AccountGroup.UUID uuid) {
+    if (uuid == null) {
+      return null;
+    }
+    try {
+      return byUUID.get(uuid.get()).orNull();
+    } catch (ExecutionException e) {
+      log.warn(String.format("Cannot lookup group %s by name", uuid.get()), e);
+      return null;
+    }
   }
 
-  public Collection<AccountGroup> get(
-      final AccountGroup.ExternalNameKey externalName) {
-    return byExternalName.get(externalName);
+  public Collection<AccountGroup> get(AccountGroup.ExternalNameKey name) {
+    if (name == null) {
+      return Collections.emptyList();
+    }
+    try {
+      return byExternalName.get(name.get());
+    } catch (ExecutionException e) {
+      log.warn("Cannot lookup external group " + name, e);
+      return Collections.emptyList();
+    }
   }
 
   @Override
   public Iterable<AccountGroup> all() {
-    final List<AccountGroup> groups = new ArrayList<AccountGroup>();
-    for (final AccountGroup.NameKey groupName : list.get(ListKey.ALL)) {
-      final AccountGroup group = get(groupName);
-      if (group != null) {
-        groups.add(group);
+    try {
+      ReviewDb db = schema.open();
+      try {
+        return Collections.unmodifiableList(db.accountGroups().all().toList());
+      } finally {
+        db.close();
       }
+    } catch (OrmException e) {
+      log.warn("Cannot list internal groups", e);
+      return Collections.emptyList();
     }
-    return Collections.unmodifiableList(groups);
   }
 
   @Override
-  public void onCreateGroup(final AccountGroup.NameKey newGroupName) {
-    updateGroupList(null, newGroupName);
+  public void onCreateGroup(AccountGroup.NameKey newGroupName) {
+    byName.invalidate(newGroupName.get());
   }
 
-  private void updateGroupList(final AccountGroup.NameKey nameToRemove,
-      final AccountGroup.NameKey nameToAdd) {
-    listLock.lock();
-    try {
-      SortedSet<AccountGroup.NameKey> n = list.get(ListKey.ALL);
-      n = new TreeSet<AccountGroup.NameKey>(n);
-      if (nameToRemove != null) {
-        n.remove(nameToRemove);
-      }
-      if (nameToAdd != null) {
-        n.add(nameToAdd);
-      }
-      list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
-    } finally {
-      listLock.unlock();
-    }
+  private static AccountGroup missing(AccountGroup.Id key) {
+    AccountGroup.NameKey name = new AccountGroup.NameKey("Deleted Group" + key);
+    AccountGroup g = new AccountGroup(name, key, null);
+    g.setType(AccountGroup.Type.SYSTEM);
+    return g;
   }
 
-  static class ByIdLoader extends EntryCreator<AccountGroup.Id, AccountGroup> {
+  static class ByIdLoader extends
+      CacheLoader<AccountGroup.Id, Optional<AccountGroup>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -172,32 +208,18 @@ public class GroupCacheImpl implements GroupCache {
     }
 
     @Override
-    public AccountGroup createEntry(final AccountGroup.Id key) throws Exception {
+    public Optional<AccountGroup> load(final AccountGroup.Id key)
+        throws Exception {
       final ReviewDb db = schema.open();
       try {
-        final AccountGroup group = db.accountGroups().get(key);
-        if (group != null) {
-          return group;
-        } else {
-          return missing(key);
-        }
+        return Optional.fromNullable(db.accountGroups().get(key));
       } finally {
         db.close();
       }
     }
-
-    @Override
-    public AccountGroup missing(final AccountGroup.Id key) {
-      final AccountGroup.NameKey name =
-          new AccountGroup.NameKey("Deleted Group" + key.toString());
-      final AccountGroup g = new AccountGroup(name, key, null);
-      g.setType(AccountGroup.Type.SYSTEM);
-      return g;
-    }
   }
 
-  static class ByNameLoader extends
-      EntryCreator<AccountGroup.NameKey, AccountGroup> {
+  static class ByNameLoader extends CacheLoader<String, Optional<AccountGroup>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -206,25 +228,23 @@ public class GroupCacheImpl implements GroupCache {
     }
 
     @Override
-    public AccountGroup createEntry(final AccountGroup.NameKey key)
+    public Optional<AccountGroup> load(String name)
         throws Exception {
-      final AccountGroupName r;
       final ReviewDb db = schema.open();
       try {
-        r = db.accountGroupNames().get(key);
+        AccountGroup.NameKey key = new AccountGroup.NameKey(name);
+        AccountGroupName r = db.accountGroupNames().get(key);
         if (r != null) {
-          return db.accountGroups().get(r.getId());
-        } else {
-          return null;
+          return Optional.fromNullable(db.accountGroups().get(r.getId()));
         }
+        return Optional.absent();
       } finally {
         db.close();
       }
     }
   }
 
-  static class ByUUIDLoader extends
-      EntryCreator<AccountGroup.UUID, AccountGroup> {
+  static class ByUUIDLoader extends CacheLoader<String, Optional<AccountGroup>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -233,15 +253,19 @@ public class GroupCacheImpl implements GroupCache {
     }
 
     @Override
-    public AccountGroup createEntry(final AccountGroup.UUID uuid)
+    public Optional<AccountGroup> load(String uuid)
         throws Exception {
       final ReviewDb db = schema.open();
       try {
-        List<AccountGroup> r = db.accountGroups().byUUID(uuid).toList();
+        List<AccountGroup> r;
+
+        r = db.accountGroups().byUUID(new AccountGroup.UUID(uuid)).toList();
         if (r.size() == 1) {
-          return r.get(0);
+          return Optional.of(r.get(0));
+        } else if (r.size() == 0) {
+          return Optional.absent();
         } else {
-          return null;
+          throw new OrmDuplicateKeyException("Duplicate group UUID " + uuid);
         }
       } finally {
         db.close();
@@ -250,7 +274,7 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   static class ByExternalNameLoader extends
-      EntryCreator<AccountGroup.ExternalNameKey, Collection<AccountGroup>> {
+      CacheLoader<String, Collection<AccountGroup>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -259,45 +283,13 @@ public class GroupCacheImpl implements GroupCache {
     }
 
     @Override
-    public Collection<AccountGroup> createEntry(
-        final AccountGroup.ExternalNameKey key) throws Exception {
-      final ReviewDb db = schema.open();
-      try {
-        return db.accountGroups().byExternalName(key).toList();
-      } finally {
-        db.close();
-      }
-    }
-  }
-
-  static class ListKey {
-    static final ListKey ALL = new ListKey();
-
-    private ListKey() {
-    }
-  }
-
-  static class Lister extends EntryCreator<ListKey, SortedSet<AccountGroup.NameKey>> {
-    private final SchemaFactory<ReviewDb> schema;
-
-    @Inject
-    Lister(final SchemaFactory<ReviewDb> sf) {
-      schema = sf;
-    }
-
-    @Override
-    public SortedSet<AccountGroup.NameKey> createEntry(ListKey key)
+    public Collection<AccountGroup> load(String name)
         throws Exception {
       final ReviewDb db = schema.open();
       try {
-        final List<AccountGroupName> groupNames =
-            db.accountGroupNames().all().toList();
-        final SortedSet<AccountGroup.NameKey> groups =
-            new TreeSet<AccountGroup.NameKey>();
-        for (final AccountGroupName groupName : groupNames) {
-          groups.add(groupName.getNameKey());
-        }
-        return Collections.unmodifiableSortedSet(groups);
+        return ImmutableList.copyOf(db.accountGroups()
+          .byExternalName(new AccountGroup.ExternalNameKey(name))
+          .toList());
       } finally {
         db.close();
       }

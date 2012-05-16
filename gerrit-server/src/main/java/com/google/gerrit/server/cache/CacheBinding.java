@@ -14,22 +14,18 @@
 
 package com.google.gerrit.server.cache;
 
+import com.google.common.cache.CacheLoader;
+
 import java.util.concurrent.TimeUnit;
 
 /** Configure a cache declared within a {@link CacheModule} instance. */
-public interface NamedCacheBinding<K, V> {
+public interface CacheBinding<K, V> {
   /** Set the number of objects to cache in memory. */
-  public NamedCacheBinding<K, V> memoryLimit(int objects);
-
-  /** Set the number of objects to cache in memory. */
-  public NamedCacheBinding<K, V> diskLimit(int objects);
+  public CacheBinding<K, V> memoryLimit(int objects);
 
   /** Set the time an element lives before being expired. */
-  public NamedCacheBinding<K, V> maxAge(long duration, TimeUnit durationUnits);
+  public CacheBinding<K, V> maxAge(long duration, TimeUnit durationUnits);
 
-  /** Set the eviction policy for elements when the cache is full. */
-  public NamedCacheBinding<K, V> evictionPolicy(EvictionPolicy policy);
-
-  /** Populate the cache with items from the EntryCreator. */
-  public NamedCacheBinding<K, V> populateWith(Class<? extends EntryCreator<K, V>> creator);
+  /** Populate the cache with items from the CacheLoader. */
+  public CacheBinding<K, V> populateWith(Class<? extends CacheLoader<K, V>> clazz);
 }

@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -27,20 +28,24 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /** Cache of project information, including access rights. */
 @Singleton
 public class ProjectCacheImpl implements ProjectCache {
+  private static final Logger log = LoggerFactory
+      .getLogger(ProjectCacheImpl.class);
+
   private static final String CACHE_NAME = "projects";
   private static final String CACHE_LIST = "project_list";
 
@@ -48,13 +53,14 @@ public class ProjectCacheImpl implements ProjectCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<Project.NameKey, ProjectState>> nameType =
-            new TypeLiteral<Cache<Project.NameKey, ProjectState>>() {};
-        core(nameType, CACHE_NAME).populateWith(Loader.class);
+        cache(CACHE_NAME, String.class, ProjectState.class)
+          .populateWith(Loader.class);
 
-        final TypeLiteral<Cache<ListKey, SortedSet<Project.NameKey>>> listType =
-            new TypeLiteral<Cache<ListKey, SortedSet<Project.NameKey>>>() {};
-        core(listType, CACHE_LIST).populateWith(Lister.class);
+        cache(CACHE_LIST,
+            ListKey.class,
+            new TypeLiteral<SortedSet<Project.NameKey>>() {})
+          .memoryLimit(1)
+          .populateWith(Lister.class);
 
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
@@ -63,16 +69,16 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   private final AllProjectsName allProjectsName;
-  private final Cache<Project.NameKey, ProjectState> byName;
-  private final Cache<ListKey,SortedSet<Project.NameKey>> list;
+  private final LoadingCache<String, ProjectState> byName;
+  private final LoadingCache<ListKey, SortedSet<Project.NameKey>> list;
   private final Lock listLock;
   private final ProjectCacheClock clock;
 
   @Inject
   ProjectCacheImpl(
       final AllProjectsName allProjectsName,
-      @Named(CACHE_NAME) final Cache<Project.NameKey, ProjectState> byName,
-      @Named(CACHE_LIST) final Cache<ListKey, SortedSet<Project.NameKey>> list,
+      @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
+      @Named(CACHE_LIST) LoadingCache<ListKey, SortedSet<Project.NameKey>> list,
       ProjectCacheClock clock) {
     this.allProjectsName = allProjectsName;
     this.byName = byName;
@@ -99,18 +105,26 @@ public class ProjectCacheImpl implements ProjectCache {
    * @return the cached data; null if no such project exists.
    */
   public ProjectState get(final Project.NameKey projectName) {
-    ProjectState state = byName.get(projectName);
-    if (state != null && state.needsRefresh(clock.read())) {
-      byName.remove(projectName);
-      state = byName.get(projectName);
+    if (projectName == null) {
+      return null;
     }
-    return state;
+    try {
+      ProjectState state = byName.get(projectName.get());
+      if (state != null && state.needsRefresh(clock.read())) {
+        byName.invalidate(projectName.get());
+        state = byName.get(projectName.get());
+      }
+      return state;
+    } catch (ExecutionException e) {
+      log.warn(String.format("Cannot read project %s", projectName.get()), e);
+      return null;
+    }
   }
 
   /** Invalidate the cached information about the given project. */
   public void evict(final Project p) {
     if (p != null) {
-      byName.remove(p.getNameKey());
+      byName.invalidate(p.getNameKey().get());
     }
   }
 
@@ -118,10 +132,11 @@ public class ProjectCacheImpl implements ProjectCache {
   public void remove(final Project p) {
     listLock.lock();
     try {
-      SortedSet<Project.NameKey> n = list.get(ListKey.ALL);
-      n = new TreeSet<Project.NameKey>(n);
+      SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
       n.remove(p.getNameKey());
       list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+    } catch (ExecutionException e) {
+      log.warn("Cannot list avaliable projects", e);
     } finally {
       listLock.unlock();
     }
@@ -132,10 +147,11 @@ public class ProjectCacheImpl implements ProjectCache {
   public void onCreateProject(Project.NameKey newProjectName) {
     listLock.lock();
     try {
-      SortedSet<Project.NameKey> n = list.get(ListKey.ALL);
-      n = new TreeSet<Project.NameKey>(n);
+      SortedSet<Project.NameKey> n = Sets.newTreeSet(list.get(ListKey.ALL));
       n.add(newProjectName);
       list.put(ListKey.ALL, Collections.unmodifiableSortedSet(n));
+    } catch (ExecutionException e) {
+      log.warn("Cannot list avaliable projects", e);
     } finally {
       listLock.unlock();
     }
@@ -143,18 +159,28 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public Iterable<Project.NameKey> all() {
-    return list.get(ListKey.ALL);
+    try {
+      return list.get(ListKey.ALL);
+    } catch (ExecutionException e) {
+      log.warn("Cannot list available projects", e);
+      return Collections.emptyList();
+    }
   }
 
   @Override
   public Iterable<Project.NameKey> byName(final String pfx) {
+    final Iterable<Project.NameKey> src;
+    try {
+      src = list.get(ListKey.ALL).tailSet(new Project.NameKey(pfx));
+    } catch (ExecutionException e) {
+      return Collections.emptyList();
+    }
     return new Iterable<Project.NameKey>() {
       @Override
       public Iterator<Project.NameKey> iterator() {
         return new Iterator<Project.NameKey>() {
+          private Iterator<Project.NameKey> itr = src.iterator();
           private Project.NameKey next;
-          private Iterator<Project.NameKey> itr =
-              list.get(ListKey.ALL).tailSet(new Project.NameKey(pfx)).iterator();
 
           @Override
           public boolean hasNext() {
@@ -196,7 +222,7 @@ public class ProjectCacheImpl implements ProjectCache {
     };
   }
 
-  static class Loader extends EntryCreator<Project.NameKey, ProjectState> {
+  static class Loader extends CacheLoader<String, ProjectState> {
     private final ProjectState.Factory projectStateFactory;
     private final GitRepositoryManager mgr;
 
@@ -207,19 +233,15 @@ public class ProjectCacheImpl implements ProjectCache {
     }
 
     @Override
-    public ProjectState createEntry(Project.NameKey key) throws Exception {
+    public ProjectState load(String projectName) throws Exception {
+      Project.NameKey key = new Project.NameKey(projectName);
+      Repository git = mgr.openRepository(key);
       try {
-        Repository git = mgr.openRepository(key);
-        try {
-          final ProjectConfig cfg = new ProjectConfig(key);
-          cfg.load(git);
-          return projectStateFactory.create(cfg);
-        } finally {
-          git.close();
-        }
-
-      } catch (RepositoryNotFoundException notFound) {
-        return null;
+        ProjectConfig cfg = new ProjectConfig(key);
+        cfg.load(git);
+        return projectStateFactory.create(cfg);
+      } finally {
+        git.close();
       }
     }
   }
@@ -231,7 +253,7 @@ public class ProjectCacheImpl implements ProjectCache {
     }
   }
 
-  static class Lister extends EntryCreator<ListKey, SortedSet<Project.NameKey>> {
+  static class Lister extends CacheLoader<ListKey, SortedSet<Project.NameKey>> {
     private final GitRepositoryManager mgr;
 
     @Inject
@@ -240,7 +262,7 @@ public class ProjectCacheImpl implements ProjectCache {
     }
 
     @Override
-    public SortedSet<Project.NameKey> createEntry(ListKey key) throws Exception {
+    public SortedSet<Project.NameKey> load(ListKey key) throws Exception {
       return mgr.list();
     }
   }

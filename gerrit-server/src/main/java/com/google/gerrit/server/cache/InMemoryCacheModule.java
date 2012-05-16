@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,14 @@
 
 package com.google.gerrit.server.cache;
 
-public interface CachePool {
-  public <K, V> ProxyCache<K, V> register(CacheProvider<K, V> provider);
+import com.google.common.cache.Cache;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
+
+public class InMemoryCacheModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
+  }
 }

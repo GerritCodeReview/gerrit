@@ -26,9 +26,9 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
+import com.google.common.cache.Cache;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -54,11 +54,11 @@ class WebSessionManager {
 
   private final long sessionMaxAgeMillis;
   private final SecureRandom prng;
-  private final Cache<Key, Val> self;
+  private final Cache<String, Val> self;
 
   @Inject
   WebSessionManager(@GerritServerConfig Config cfg,
-      @Named(CACHE_NAME) final Cache<Key, Val> cache) {
+      @Named(CACHE_NAME) final Cache<String, Val> cache) {
     prng = new SecureRandom();
     self = cache;
 
@@ -75,7 +75,7 @@ class WebSessionManager {
       prng.nextBytes(rnd);
 
       buf = new ByteArrayOutputStream(3 + nonceLen);
-      writeVarInt32(buf, (int) Key.serialVersionUID);
+      writeVarInt32(buf, (int) Val.serialVersionUID);
       writeVarInt32(buf, who.get());
       writeBytes(buf, rnd);
 
@@ -137,16 +137,14 @@ class WebSessionManager {
   }
 
   Val get(final Key key) {
-    return self.get(key);
+    return self.getIfPresent(key.token);
   }
 
   void destroy(final Key key) {
-    self.remove(key);
+    self.invalidate(key.token);
   }
 
-  static final class Key implements Serializable {
-    static final long serialVersionUID = 2L;
-
+  static final class Key  {
     private transient String token;
 
     Key(final String t) {
@@ -166,18 +164,10 @@ class WebSessionManager {
     public boolean equals(Object obj) {
       return obj instanceof Key && token.equals(((Key) obj).token);
     }
-
-    private void writeObject(final ObjectOutputStream out) throws IOException {
-      writeString(out, token);
-    }
-
-    private void readObject(final ObjectInputStream in) throws IOException {
-      token = readString(in);
-    }
   }
 
   static final class Val implements Serializable {
-    static final long serialVersionUID = Key.serialVersionUID;
+    static final long serialVersionUID = 2L;
 
     private transient Account.Id accountId;
     private transient long refreshCookieAt;

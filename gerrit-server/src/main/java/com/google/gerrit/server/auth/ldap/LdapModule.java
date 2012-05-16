@@ -16,10 +16,10 @@ package com.google.gerrit.server.auth.ldap;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
+import com.google.common.base.Optional;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
@@ -32,15 +32,16 @@ public class LdapModule extends CacheModule {
 
   @Override
   protected void configure() {
-    final TypeLiteral<Cache<String, Set<AccountGroup.UUID>>> groups =
-        new TypeLiteral<Cache<String, Set<AccountGroup.UUID>>>() {};
-    core(groups, GROUP_CACHE).maxAge(1, HOURS) //
-        .populateWith(LdapRealm.MemberLoader.class);
+    cache(GROUP_CACHE,
+        String.class,
+        new TypeLiteral<Set<AccountGroup.UUID>>() {})
+      .maxAge(1, HOURS)
+      .populateWith(LdapRealm.MemberLoader.class);
 
-    final TypeLiteral<Cache<String, Account.Id>> usernames =
-        new TypeLiteral<Cache<String, Account.Id>>() {};
-    core(usernames, USERNAME_CACHE) //
-        .populateWith(LdapRealm.UserLoader.class);
+    cache(USERNAME_CACHE,
+        String.class,
+        new TypeLiteral<Optional<Account.Id>>() {})
+      .populateWith(LdapRealm.UserLoader.class);
 
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
     bind(Helper.class);

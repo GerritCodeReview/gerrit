@@ -17,7 +17,6 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.ehcache.EhcachePoolImpl;
 import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
@@ -35,6 +34,8 @@ import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.server.cache.H2BackedPersistentCacheFactory;
+import com.google.gerrit.server.cache.InMemoryCacheModule;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
@@ -209,7 +210,8 @@ public class Daemon extends SiteProgram {
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
-    modules.add(new EhcachePoolImpl.Module());
+    modules.add(new InMemoryCacheModule());
+    modules.add(new H2BackedPersistentCacheFactory.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PushReplication.Module());

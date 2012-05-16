@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupInclude;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -27,24 +29,30 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 /** Tracks group inclusions in memory for efficient access. */
 @Singleton
 public class GroupIncludeCacheImpl implements GroupIncludeCache {
+  private static final Logger log = LoggerFactory
+      .getLogger(GroupIncludeCacheImpl.class);
   private static final String BYINCLUDE_NAME = "groups_byinclude";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<AccountGroup.UUID, Collection<AccountGroup.UUID>>> byInclude =
-            new TypeLiteral<Cache<AccountGroup.UUID, Collection<AccountGroup.UUID>>>() {};
-        core(byInclude, BYINCLUDE_NAME).populateWith(ByIncludeLoader.class);
+        cache(BYINCLUDE_NAME,
+            AccountGroup.UUID.class,
+            new TypeLiteral<Set<AccountGroup.UUID>>() {})
+          .populateWith(ByIncludeLoader.class);
 
         bind(GroupIncludeCacheImpl.class);
         bind(GroupIncludeCache.class).to(GroupIncludeCacheImpl.class);
@@ -52,24 +60,31 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     };
   }
 
-  private final Cache<AccountGroup.UUID, Collection<AccountGroup.UUID>> byInclude;
+  private final LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> byInclude;
 
   @Inject
   GroupIncludeCacheImpl(
-      @Named(BYINCLUDE_NAME) Cache<AccountGroup.UUID, Collection<AccountGroup.UUID>> byInclude) {
+      @Named(BYINCLUDE_NAME) LoadingCache<AccountGroup.UUID, Set<AccountGroup.UUID>> byInclude) {
     this.byInclude = byInclude;
   }
 
   public Collection<AccountGroup.UUID> getByInclude(AccountGroup.UUID groupId) {
-    return byInclude.get(groupId);
+    try {
+      return byInclude.get(groupId);
+    } catch (ExecutionException e) {
+      log.warn("Cannot load included groups", e);
+      return Collections.emptySet();
+    }
   }
 
   public void evictInclude(AccountGroup.UUID groupId) {
-    byInclude.remove(groupId);
+    if (groupId != null) {
+      byInclude.invalidate(groupId);
+    }
   }
 
   static class ByIncludeLoader extends
-      EntryCreator<AccountGroup.UUID, Collection<AccountGroup.UUID>> {
+      CacheLoader<AccountGroup.UUID, Set<AccountGroup.UUID>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -78,32 +93,28 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     }
 
     @Override
-    public Collection<AccountGroup.UUID> createEntry(final AccountGroup.UUID key) throws Exception {
+    public Set<AccountGroup.UUID> load(AccountGroup.UUID key) throws Exception {
       final ReviewDb db = schema.open();
       try {
         List<AccountGroup> group = db.accountGroups().byUUID(key).toList();
         if (group.size() != 1) {
-          return Collections.emptyList();
+          return Collections.emptySet();
         }
 
-        Set<AccountGroup.Id> ids = new HashSet<AccountGroup.Id>();
-        for (AccountGroupInclude agi : db.accountGroupIncludes().byInclude(group.get(0).getId())) {
+        Set<AccountGroup.Id> ids = Sets.newHashSet();
+        for (AccountGroupInclude agi : db.accountGroupIncludes()
+            .byInclude(group.get(0).getId())) {
           ids.add(agi.getGroupId());
         }
 
-        Set<AccountGroup.UUID> groupArray = new HashSet<AccountGroup.UUID> ();
+        Set<AccountGroup.UUID> groupArray = Sets.newHashSet();
         for (AccountGroup g : db.accountGroups().get(ids)) {
           groupArray.add(g.getGroupUUID());
         }
-        return Collections.unmodifiableCollection(groupArray);
+        return ImmutableSet.copyOf(groupArray);
       } finally {
         db.close();
       }
-    }
-
-    @Override
-    public Collection<AccountGroup.UUID> missing(final AccountGroup.UUID key) {
-      return Collections.emptyList();
     }
   }
 }

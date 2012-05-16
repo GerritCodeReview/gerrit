@@ -14,13 +14,13 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -99,9 +99,9 @@ public class GitOverHttpServlet extends GitServlet {
       install(new CacheModule() {
         @Override
         protected void configure() {
-          TypeLiteral<Cache<AdvertisedObjectsCacheKey, Set<ObjectId>>> cache =
-              new TypeLiteral<Cache<AdvertisedObjectsCacheKey, Set<ObjectId>>>() {};
-          core(cache, ID_CACHE)
+          cache(ID_CACHE,
+              AdvertisedObjectsCacheKey.class,
+              new TypeLiteral<Set<ObjectId>>() {})
             .memoryLimit(4096)
             .maxAge(10, TimeUnit.MINUTES);
         }
@@ -320,12 +320,12 @@ public class GitOverHttpServlet extends GitServlet {
 
       if (isGet) {
         rc.advertiseHistory();
-        cache.remove(cacheKey);
+        cache.invalidate(cacheKey);
       } else {
-        Set<ObjectId> ids = cache.get(cacheKey);
+        Set<ObjectId> ids = cache.getIfPresent(cacheKey);
         if (ids != null) {
           rp.getAdvertisedObjects().addAll(ids);
-          cache.remove(cacheKey);
+          cache.invalidate(cacheKey);
         }
       }
 

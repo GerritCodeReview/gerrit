@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,130 +14,93 @@
 
 package com.google.gerrit.server.cache;
 
-import static com.google.gerrit.server.cache.EvictionPolicy.LFU;
-import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
+import com.google.inject.TypeLiteral;
 
 import java.util.concurrent.TimeUnit;
 
-public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
-    NamedCacheBinding<K, V>, UnnamedCacheBinding<K, V> {
+import javax.annotation.Nullable;
+
+class CacheProvider<K, V>
+    implements Provider<Cache<K, V>>,
+    CacheBinding<K, V> {
+  final String name;
+  final TypeLiteral<K> keyType;
+  final TypeLiteral<V> valType;
   private final CacheModule module;
-  private final boolean disk;
-  private int memoryLimit;
-  private int diskLimit;
+  private long maxSize;
   private long maxAge;
-  private EvictionPolicy evictionPolicy;
-  private String cacheName;
-  private ProxyCache<K, V> cache;
-  private Provider<EntryCreator<K, V>> entryCreator;
+  private boolean persist;
+  private Provider<CacheLoader<K, V>> loader;
+  private PersistentCacheFactory store;
 
-  CacheProvider(final boolean disk, CacheModule module) {
-    this.disk = disk;
+  CacheProvider(String name,
+      TypeLiteral<K> keyType,
+      TypeLiteral<V> valType,
+      CacheModule module) {
+    this.name = name;
+    this.keyType = keyType;
+    this.valType = valType;
     this.module = module;
-
-    memoryLimit(1024);
-    maxAge(90, DAYS);
-    evictionPolicy(LFU);
-
-    if (disk) {
-      diskLimit(16384);
-    }
   }
 
   @Inject
-  void setCachePool(final CachePool pool) {
-    this.cache = pool.register(this);
+  void setPersistentCacheFactory(@Nullable PersistentCacheFactory factory) {
+    this.store = factory;
   }
 
-  public void bind(Cache<K, V> impl) {
-    if (cache == null) {
-      throw new ProvisionException("Cache was never registered");
-    }
-    cache.bind(impl);
-  }
-
-  public EntryCreator<K, V> getEntryCreator() {
-    return entryCreator != null ? entryCreator.get() : null;
-  }
-
-  public String getName() {
-    if (cacheName == null) {
-      throw new ProvisionException("Cache has no name");
-    }
-    return cacheName;
-  }
-
-  public boolean disk() {
-    return disk;
-  }
-
-  public int memoryLimit() {
-    return memoryLimit;
-  }
-
-  public int diskLimit() {
-    return diskLimit;
-  }
-
-  public long maxAge() {
-    return maxAge;
-  }
-
-  public EvictionPolicy evictionPolicy() {
-    return evictionPolicy;
-  }
-
-  public NamedCacheBinding<K, V> name(final String name) {
-    if (cacheName != null) {
-      throw new IllegalStateException("Cache name already set");
-    }
-    cacheName = name;
+  CacheBinding<K, V> persist(boolean p) {
+    persist = p;
     return this;
   }
 
-  public NamedCacheBinding<K, V> memoryLimit(final int objects) {
-    memoryLimit = objects;
+  @Override
+  public CacheBinding<K, V> memoryLimit(int objects) {
+    maxSize = objects;
     return this;
   }
 
-  public NamedCacheBinding<K, V> diskLimit(final int objects) {
-    if (!disk) {
-      // TODO This should really be a compile time type error, but I'm
-      // too lazy to create the mess of permutations required to setup
-      // type safe returns for bindings in our little DSL.
-      //
-      throw new IllegalStateException("Cache is not disk based");
-    }
-    diskLimit = objects;
-    return this;
-  }
-
-  public NamedCacheBinding<K, V> maxAge(final long duration, final TimeUnit unit) {
+  @Override
+  public CacheBinding<K, V> maxAge(long duration, TimeUnit unit) {
     maxAge = SECONDS.convert(duration, unit);
     return this;
   }
 
   @Override
-  public NamedCacheBinding<K, V> evictionPolicy(final EvictionPolicy policy) {
-    evictionPolicy = policy;
+  public CacheBinding<K, V> populateWith(Class<? extends CacheLoader<K, V>> impl) {
+    loader = module.bindCacheLoader(this, impl);
     return this;
   }
 
-  public NamedCacheBinding<K, V> populateWith(
-      Class<? extends EntryCreator<K, V>> creator) {
-    entryCreator = module.getEntryCreator(this, creator);
-    return this;
-  }
-
+  @Override
   public Cache<K, V> get() {
-    if (cache == null) {
-      throw new ProvisionException("Cache \"" + cacheName + "\" not available");
+    CacheBuilder<K, V> builder = newCacheBuilder();
+    builder.maximumSize(maxSize);
+    if (0 < maxAge) {
+      builder.expireAfterWrite(maxAge, TimeUnit.SECONDS);
     }
-    return cache;
+    if (loader != null) {
+      CacheLoader<K, V> ldr = loader.get();
+      if (persist && store != null) {
+        return store.build(name, keyType, valType, builder, ldr);
+      }
+      return builder.build(ldr);
+    } else if (persist && store != null) {
+      return store.build(name, keyType, valType, builder);
+    } else {
+      return builder.build();
+    }
+  }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private static <K, V> CacheBuilder<K, V> newCacheBuilder() {
+    CacheBuilder builder = CacheBuilder.newBuilder();
+    return builder;
   }
 }

@@ -25,6 +25,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -98,20 +99,25 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   @UiField
   DivElement deleted;
 
+  private final Project.NameKey projectName;
   private final boolean readOnly;
   private final AccessSection section;
   private Permission value;
   private PermissionRange.WithDefaults validRange;
   private boolean isDeleted;
 
-  public PermissionEditor(boolean readOnly, AccessSection section) {
+  public PermissionEditor(Project.NameKey projectName,
+      boolean readOnly,
+      AccessSection section) {
     this.readOnly = readOnly;
     this.section = section;
+    this.projectName = projectName;
 
     normalName = new ValueLabel<String>(PermissionNameRenderer.INSTANCE);
     deletedName = new ValueLabel<String>(PermissionNameRenderer.INSTANCE);
 
     initWidget(uiBinder.createAndBindUi(this));
+    groupToAdd.setProject(projectName);
     rules = ListEditor.of(new RuleEditorSource());
 
     exclusiveGroup.setEnabled(!readOnly);
@@ -223,7 +229,8 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
       // If the oracle didn't get to complete a UUID, resolve it now.
       //
       addRule.setEnabled(false);
-      SuggestUtil.SVC.suggestAccountGroup(ref.getName(), 1,
+      SuggestUtil.SVC.suggestAccountGroupForProject(
+          projectName, ref.getName(), 1,
           new GerritCallback<List<GroupReference>>() {
             @Override
             public void onSuccess(List<GroupReference> result) {

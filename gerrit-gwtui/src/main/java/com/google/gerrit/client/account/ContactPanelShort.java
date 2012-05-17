@@ -102,7 +102,8 @@ class ContactPanelShort extends Composite {
     }
 
     int row = 0;
-    if (!Gerrit.getConfig().canEdit(FieldName.USER_NAME)) {
+    if (!Gerrit.getConfig().canEdit(FieldName.USER_NAME)
+        && Gerrit.getConfig().siteHasUsernames()) {
       infoPlainText.resizeRows(infoPlainText.getRowCount() + 1);
       row(infoPlainText, row++, Util.C.userName(), new UsernameField());
     }

@@ -16,9 +16,10 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwtexpui.safehtml.client.RegexFindReplace;
 
 import java.util.List;
@@ -198,5 +199,14 @@ public class GerritConfig implements Cloneable {
 
   public void setAnonymousCowardName(final String anonymousCowardName) {
     this.anonymousCowardName = anonymousCowardName;
+  }
+
+  public boolean siteHasUsernames() {
+    if (getAuthType() == AuthType.CUSTOM_EXTENSION
+        && getHttpPasswordUrl() != null
+        && !canEdit(FieldName.USER_NAME)) {
+      return false;
+    }
+    return true;
   }
 }

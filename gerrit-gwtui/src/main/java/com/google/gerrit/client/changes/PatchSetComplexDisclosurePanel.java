@@ -30,6 +30,7 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -232,9 +233,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           .anonymousDownload("HTTP"), r.toString()));
     }
 
-    if (Gerrit.getConfig().getSshdAddress() != null && Gerrit.isSignedIn()
-        && Gerrit.getUserAccount().getUserName() != null
-        && Gerrit.getUserAccount().getUserName().length() > 0
+    if (Gerrit.getConfig().getSshdAddress() != null
+        && hasUserName()
         && (allowedSchemes.contains(DownloadScheme.SSH) ||
             allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
       String sshAddr = Gerrit.getConfig().getSshdAddress();
@@ -256,13 +256,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       urls.add(new DownloadUrlLink(DownloadScheme.SSH, "SSH", r.toString()));
     }
 
-    if (Gerrit.isSignedIn() && Gerrit.getUserAccount().getUserName() != null
-        && Gerrit.getUserAccount().getUserName().length() > 0
-        && (allowedSchemes.contains(DownloadScheme.HTTP) ||
-            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
+    if ((hasUserName() || siteReliesOnHttp())
+        && (allowedSchemes.contains(DownloadScheme.HTTP)
+            || allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
       final StringBuilder r = new StringBuilder();
       if (Gerrit.getConfig().getGitHttpUrl() != null
-          && changeDetail.isAllowsAnonymous()) {
+          && (changeDetail.isAllowsAnonymous() || siteReliesOnHttp())) {
         r.append(Gerrit.getConfig().getGitHttpUrl());
       } else {
         String base = hostPageUrl;
@@ -370,6 +369,18 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       fp.add(copyLabel);
     }
     infoTable.setWidget(R_DOWNLOAD, 1, fp);
+  }
+
+  private static boolean siteReliesOnHttp() {
+    return Gerrit.getConfig().getGitHttpUrl() != null
+        && Gerrit.getConfig().getAuthType() == AuthType.CUSTOM_EXTENSION
+        && !Gerrit.getConfig().siteHasUsernames();
+  }
+
+  private static boolean hasUserName() {
+    return Gerrit.isSignedIn()
+        && Gerrit.getUserAccount().getUserName() != null
+        && Gerrit.getUserAccount().getUserName().length() > 0;
   }
 
   private void displayUserIdentity(final int row, final UserIdentity who) {

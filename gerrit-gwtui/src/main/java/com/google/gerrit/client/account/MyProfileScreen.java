@@ -38,21 +38,24 @@ public class MyProfileScreen extends SettingsScreen {
       fieldIdx = 1;
     }
 
-    info = new Grid(5, 2);
+    info = new Grid((Gerrit.getConfig().siteHasUsernames() ? 1 : 0) + 4, 2);
     info.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     info.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
     add(info);
 
-    infoRow(0, Util.C.userName());
-    infoRow(1, Util.C.fullName());
-    infoRow(2, Util.C.preferredEmail());
-    infoRow(3, Util.C.registeredOn());
-    infoRow(4, Util.C.accountId());
+    int row = 0;
+    if (Gerrit.getConfig().siteHasUsernames()) {
+      infoRow(row++, Util.C.userName());
+    }
+    infoRow(row++, Util.C.fullName());
+    infoRow(row++, Util.C.preferredEmail());
+    infoRow(row++, Util.C.registeredOn());
+    infoRow(row++, Util.C.accountId());
 
     final CellFormatter fmt = info.getCellFormatter();
     fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
     fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
-    fmt.addStyleName(4, 0, Gerrit.RESOURCES.css().bottomheader());
+    fmt.addStyleName(row - 1, 0, Gerrit.RESOURCES.css().bottomheader());
   }
 
   @Override
@@ -69,10 +72,13 @@ public class MyProfileScreen extends SettingsScreen {
   }
 
   void display(final Account account) {
-    info.setWidget(0, fieldIdx, new UsernameField());
-    info.setText(1, fieldIdx, account.getFullName());
-    info.setText(2, fieldIdx, account.getPreferredEmail());
-    info.setText(3, fieldIdx, mediumFormat(account.getRegisteredOn()));
-    info.setText(4, fieldIdx, account.getId().toString());
+    int row = 0;
+    if (Gerrit.getConfig().siteHasUsernames()) {
+      info.setWidget(row++, fieldIdx, new UsernameField());
+    }
+    info.setText(row++, fieldIdx, account.getFullName());
+    info.setText(row++, fieldIdx, account.getPreferredEmail());
+    info.setText(row++, fieldIdx, mediumFormat(account.getRegisteredOn()));
+    info.setText(row++, fieldIdx, account.getId().toString());
   }
 }

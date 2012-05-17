@@ -57,6 +57,8 @@ public interface AccountConstants extends Constants {
   String buttonClearPassword();
   String buttonGeneratePassword();
   String linkObtainPassword();
+  String linkEditFullName();
+  String linkReloadContact();
   String invalidUserName();
   String invalidUserEmail();
 

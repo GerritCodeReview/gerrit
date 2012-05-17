@@ -1111,6 +1111,9 @@ a:hover.downloadLink {
 .accountInfoBlock {
   margin-bottom: 10px;
 }
+.accountInfoBlock .gwt-Button {
+  margin-left: 10px;
+}
 .accountContactPrivacyDetails {
   margin-left: 10px;
   margin-top: 5px;

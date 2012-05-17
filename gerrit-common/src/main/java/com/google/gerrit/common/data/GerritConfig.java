@@ -39,6 +39,7 @@ public class GerritConfig implements Cloneable {
   protected String gitDaemonUrl;
   protected String gitHttpUrl;
   protected String sshdAddress;
+  protected String editFullNameUrl;
   protected Project.NameKey wildProject;
   protected ApprovalTypes approvalTypes;
   protected Set<Account.FieldName> editableAccountFields;
@@ -53,6 +54,14 @@ public class GerritConfig implements Cloneable {
 
   public void setRegisterUrl(final String u) {
     registerUrl = u;
+  }
+
+  public String getEditFullNameUrl() {
+    return editFullNameUrl;
+  }
+
+  public void setEditFullNameUrl(String u) {
+    editFullNameUrl = u;
   }
 
   public String getHttpPasswordUrl() {

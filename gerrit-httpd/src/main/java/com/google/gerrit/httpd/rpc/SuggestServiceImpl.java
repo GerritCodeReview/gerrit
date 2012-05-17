@@ -31,6 +31,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -52,6 +54,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
   private static final String MAX_SUFFIX = "\u9fa5";
@@ -63,6 +67,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final AccountControl.Factory accountControlFactory;
   private final ChangeControl.Factory changeControlFactory;
+  private final ProjectControl.Factory projectControlFactory;
   private final Config cfg;
   private final GroupBackend groupBackend;
   private final boolean suggestAccounts;
@@ -76,6 +81,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final AccountControl.Factory accountControlFactory,
       final ChangeControl.Factory changeControlFactory,
+      final ProjectControl.Factory projectControlFactory,
       @GerritServerConfig final Config cfg, final GroupBackend groupBackend) {
     super(schema, currentUser);
     this.reviewDbProvider = schema;
@@ -85,6 +91,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     this.identifiedUserFactory = identifiedUserFactory;
     this.accountControlFactory = accountControlFactory;
     this.changeControlFactory = changeControlFactory;
+    this.projectControlFactory = projectControlFactory;
     this.cfg = cfg;
     this.groupBackend = groupBackend;
 
@@ -175,19 +182,37 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   public void suggestAccountGroup(final String query, final int limit,
       final AsyncCallback<List<GroupReference>> callback) {
+    suggestAccountGroupForProject(null, query, limit, callback);
+  }
+
+  public void suggestAccountGroupForProject(final Project.NameKey project,
+      final String query, final int limit,
+      final AsyncCallback<List<GroupReference>> callback) {
     run(callback, new Action<List<GroupReference>>() {
       public List<GroupReference> run(final ReviewDb db) {
-        return suggestAccountGroup(query, limit);
+        ProjectControl projectControl = null;
+        if (project != null) {
+          try {
+            projectControl = projectControlFactory.controlFor(project);
+          } catch (NoSuchProjectException e) {
+            return Collections.emptyList();
+          }
+        }
+        return suggestAccountGroup(projectControl, query, limit);
       }
     });
   }
 
-  private List<GroupReference> suggestAccountGroup(final String query, final int limit) {
+  private List<GroupReference> suggestAccountGroup(
+      @Nullable final ProjectControl projectControl, final String query, final int limit) {
     final int n = limit <= 0 ? 10 : Math.min(limit, 10);
     List<GroupReference> out = Lists.newArrayListWithCapacity(n);
     for (GroupReference g : groupBackend.suggest(query)) {
       try {
-        if (groupControlFactory.controlFor(g.getUUID()).isVisible()) {
+        if (groupControlFactory.controlFor(g.getUUID()).isVisible()
+            || (GroupBackends.isExactSuggestion(g, query)
+                && (projectControl != null)
+                && projectControl.isOwnerAnyRef())) {
           out.add(g);
           if (out.size() == n) {
             break;
@@ -236,7 +261,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
           reviewer.add(new ReviewerInfo(a));
         }
         final List<GroupReference> suggestedAccountGroups =
-            suggestAccountGroup(query, limit);
+            suggestAccountGroup(changeControl.getProjectControl(), query, limit);
         for (final GroupReference g : suggestedAccountGroups) {
           if (suggestGroupAsReviewer(changeControl.getProject().getNameKey(), g)) {
             reviewer.add(new ReviewerInfo(g));

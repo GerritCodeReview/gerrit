@@ -79,7 +79,9 @@ public class PrivateInternals_DynamicTypes {
         DynamicSet<Object> set = (DynamicSet<Object>) e.getValue();
 
         for (Binding<Object> b : bindings(src, type)) {
-          handles.add(set.add(b.getKey(), b.getProvider()));
+          if (b.getKey().getAnnotation() != null) {
+            handles.add(set.add(b.getKey(), b.getProvider()));
+          }
         }
       }
     } catch (RuntimeException e) {
@@ -111,7 +113,9 @@ public class PrivateInternals_DynamicTypes {
             (PrivateInternals_DynamicMapImpl<Object>) e.getValue();
 
         for (Binding<Object> b : bindings(src, type)) {
-          handles.add(set.put(groupName, b.getKey(), b.getProvider()));
+          if (b.getKey().getAnnotation() != null) {
+            handles.add(set.put(groupName, b.getKey(), b.getProvider()));
+          }
         }
       }
     } catch (RuntimeException e) {

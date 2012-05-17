@@ -258,6 +258,9 @@ public class PluginGuiceEnvironment {
         @SuppressWarnings("unchecked")
         Binding<Object> b = (Binding<Object>) binding;
         Key<Object> key = b.getKey();
+        if (key.getAnnotation() == null) {
+          continue;
+        }
 
         @SuppressWarnings("unchecked")
         ReloadableRegistrationHandle<Object> h =
@@ -323,6 +326,9 @@ public class PluginGuiceEnvironment {
         @SuppressWarnings("unchecked")
         Binding<Object> b = (Binding<Object>) binding;
         Key<Object> key = b.getKey();
+        if (key.getAnnotation() == null) {
+          continue;
+        }
 
         @SuppressWarnings("unchecked")
         ReloadableRegistrationHandle<Object> h1 =

@@ -18,17 +18,18 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.ContactInformation;
-import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -41,6 +42,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -108,7 +110,31 @@ class ContactPanelShort extends Composite {
       row(infoPlainText, row++, Util.C.userName(), new UsernameField());
     }
 
-    row(infoPlainText, row++, Util.C.contactFieldFullName(), nameTxt);
+    if (!canEditFullName()) {
+      FlowPanel nameLine = new FlowPanel();
+      nameLine.add(nameTxt);
+      if (Gerrit.getConfig().getEditFullNameUrl() != null) {
+        Button edit = new Button(Util.C.linkEditFullName());
+        edit.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent event) {
+            Window.open(Gerrit.getConfig().getEditFullNameUrl(), "_blank", null);
+          }
+        });
+        nameLine.add(edit);
+      }
+      Button reload = new Button(Util.C.linkReloadContact());
+      reload.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          Window.Location.replace(Gerrit.loginRedirect(PageLinks.SETTINGS_CONTACT));
+        }
+      });
+      nameLine.add(reload);
+      row(infoPlainText, row++, Util.C.contactFieldFullName(), nameLine);
+    } else {
+      row(infoPlainText, row++, Util.C.contactFieldFullName(), nameTxt);
+    }
     row(infoPlainText, row++, Util.C.contactFieldEmail(), emailLine);
 
     infoPlainText.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());

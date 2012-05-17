@@ -266,7 +266,7 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static String loginRedirect(String token) {
+  public static String loginRedirect(String token) {
     if (token == null) {
       token = "";
     } else if (token.startsWith("/")) {

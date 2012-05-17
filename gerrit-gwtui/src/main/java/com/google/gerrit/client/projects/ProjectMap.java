@@ -37,6 +37,14 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .send(NativeMap.copyKeysIntoChildren(callback));
   }
 
+  public static void suggestParentCandidates(AsyncCallback<ProjectMap> callback) {
+    new RestApi("/projects/")
+        .addParameterRaw("type", "SUGGEST_PARENT_CANDIDATES")
+        .addParameterTrue("all")
+        .addParameterTrue("d") // description
+        .send(NativeMap.copyKeysIntoChildren(callback));
+  }
+
   public static void suggest(String prefix, int limit, AsyncCallback<ProjectMap> cb) {
     new RestApi("/projects/" + URL.encode(prefix).replaceAll("[?]", "%3F"))
         .addParameterRaw("type", "ALL")

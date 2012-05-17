@@ -176,16 +176,16 @@ public class CreateProjectScreen extends Screen {
     };
     suggestedParentsTab.setVisible(false);
 
-    ProjectMap.permissions(new GerritCallback<ProjectMap>() {
-          @Override
-          public void onSuccess(ProjectMap list) {
-            if (!list.isEmpty()) {
-              suggestedParentsTab.setVisible(true);
-              suggestedParentsTab.display(list);
-              suggestedParentsTab.finishDisplay();
-            }
-          }
-        });
+    ProjectMap.suggestParentCandidates(new GerritCallback<ProjectMap>() {
+      @Override
+      public void onSuccess(ProjectMap list) {
+        if (!list.isEmpty()) {
+          suggestedParentsTab.setVisible(true);
+          suggestedParentsTab.display(list);
+          suggestedParentsTab.finishDisplay();
+        }
+      }
+    });
   }
 
   private void addGrid(final VerticalPanel fp) {

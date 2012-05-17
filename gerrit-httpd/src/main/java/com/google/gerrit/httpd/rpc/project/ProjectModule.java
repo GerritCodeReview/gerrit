@@ -38,7 +38,6 @@ public class ProjectModule extends RpcServletModule {
         factory(VisibleProjectDetails.Factory.class);
         factory(ProjectAccessFactory.Factory.class);
         factory(ProjectDetailFactory.Factory.class);
-        factory(SuggestParentCandidatesHandler.Factory.class);
       }
     });
     rpc(ProjectAdminServiceImpl.class);

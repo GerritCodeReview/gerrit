@@ -56,6 +56,12 @@ public class ListProjects {
         return !PERMISSIONS.matches(git);
       }
     },
+    SUGGEST_PARENT_CANDIDATES {
+      @Override
+      boolean matches(Repository git) {
+        return true;
+      }
+    },
     PERMISSIONS {
       @Override
       boolean matches(Repository git) throws IOException {
@@ -181,12 +187,20 @@ public class ListProjects {
         }
 
         ProjectInfo info = new ProjectInfo();
-        info.name = projectName.get();
-        if (showTree && format.isJson()) {
+        if (showTree && format.isJson()
+            || (type == FilterType.SUGGEST_PARENT_CANDIDATES)) {
           ProjectState parent = e.getParentState();
           if (parent != null) {
             ProjectControl parentCtrl = parent.controlFor(currentUser);
             if (parentCtrl.isVisible() || parentCtrl.isOwner()) {
+              if (type == FilterType.SUGGEST_PARENT_CANDIDATES) {
+                info.name = parent.getProject().getName();
+                info.description = parent.getProject().getDescription();
+                if (format.isJson()) {
+                  output.put(info.name, info);
+                }
+                continue;
+              }
               info.parent = parent.getProject().getName();
             } else {
               info.parent = hiddenNames.get(parent.getProject().getName());
@@ -195,8 +209,13 @@ public class ListProjects {
                 hiddenNames.put(parent.getProject().getName(), info.parent);
               }
             }
+          } else {
+            if (type == FilterType.SUGGEST_PARENT_CANDIDATES) {
+              continue;
+            }
           }
         }
+        info.name = projectName.get();
         if (showDescription && !e.getProject().getDescription().isEmpty()) {
           info.description = e.getProject().getDescription();
         }

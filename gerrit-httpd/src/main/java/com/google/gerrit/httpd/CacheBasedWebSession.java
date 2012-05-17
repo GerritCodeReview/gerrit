@@ -163,7 +163,7 @@ public final class CacheBasedWebSession implements WebSession {
   /** Set the user account for this current request only. */
   public void setUserAccountId(Account.Id id) {
     key = new Key("id:" + id);
-    val = new Val(id, 0, false, null, "");
+    val = new Val(id, 0, false, null, "", 0);
   }
 
   public void logout() {

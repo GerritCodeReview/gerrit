@@ -138,7 +138,7 @@ public class LdapGroupBackend implements GroupBackend {
 
       @Override
       public boolean isVisibleToAll() {
-        return true;
+        return false;
       }
     };
   }

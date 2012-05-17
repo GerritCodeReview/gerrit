@@ -276,7 +276,8 @@ public class AccessSectionEditor extends Composite implements
   private class PermissionEditorSource extends EditorSource<PermissionEditor> {
     @Override
     public PermissionEditor create(int index) {
-      PermissionEditor subEditor = new PermissionEditor(readOnly, value);
+      PermissionEditor subEditor =
+          new PermissionEditor(projectAccess.getProjectName(), readOnly, value);
       permissionContainer.insert(subEditor, index);
       return subEditor;
     }

@@ -18,6 +18,7 @@ import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
@@ -31,11 +32,14 @@ public class AccountGroupSuggestOracle extends HighlightSuggestOracle {
   private Map<String, AccountGroup.UUID> priorResults =
       new HashMap<String, AccountGroup.UUID>();
 
+  private Project.NameKey projectName;
+
   @Override
   public void onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
       public void run() {
-        SuggestUtil.SVC.suggestAccountGroup(req.getQuery(), req.getLimit(),
+        SuggestUtil.SVC.suggestAccountGroupForProject(
+            projectName, req.getQuery(), req.getLimit(),
             new GerritCallback<List<GroupReference>>() {
               public void onSuccess(final List<GroupReference> result) {
                 priorResults.clear();
@@ -50,6 +54,10 @@ public class AccountGroupSuggestOracle extends HighlightSuggestOracle {
             });
       }
     });
+  }
+
+  public void setProject(Project.NameKey projectName) {
+    this.projectName = projectName;
   }
 
   private static class AccountGroupSuggestion implements

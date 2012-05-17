@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFYH//+2I\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-17T00:40:12Z",
+      "side": 1,
+      "message": "Suggestion:  s/different username and asks for password/different username than your google one and asks for a password right away/",
+      "revId": "391c29451ab6dfc3a27b6844cd957e461012426a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFYH//+2M\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-17T00:40:12Z",
+      "side": 1,
+      "message": "I would just start this sentence with \"Subversion\" (delete \"The\").",
+      "revId": "391c29451ab6dfc3a27b6844cd957e461012426a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

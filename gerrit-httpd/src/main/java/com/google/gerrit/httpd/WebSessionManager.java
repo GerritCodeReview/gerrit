@@ -43,6 +43,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.SecureRandom;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 class WebSessionManager {
@@ -104,7 +105,9 @@ class WebSessionManager {
     final long halfAgeRefresh = sessionMaxAgeMillis >>> 1;
     final long minRefresh = MILLISECONDS.convert(1, HOURS);
     final long refresh = Math.min(halfAgeRefresh, minRefresh);
-    final long refreshCookieAt = now() + refresh;
+    final long now = now();
+    final long refreshCookieAt = now + refresh;
+    final long expiresAt = now + sessionMaxAgeMillis;
 
     if (xsrfToken == null) {
       // If we don't yet have a token for this session, establish one.
@@ -115,7 +118,8 @@ class WebSessionManager {
       xsrfToken = CookieBase64.encode(rnd);
     }
 
-    Val val = new Val(who, refreshCookieAt, remember, lastLogin, xsrfToken);
+    Val val = new Val(who, refreshCookieAt, remember,
+        lastLogin, xsrfToken, expiresAt);
     self.put(key, val);
     return val;
   }
@@ -137,7 +141,12 @@ class WebSessionManager {
   }
 
   Val get(final Key key) {
-    return self.get(key);
+    Val val = self.get(key);
+    if (val != null && val.expiresAt <= now()) {
+      self.remove(key);
+      return null;
+    }
+    return val;
   }
 
   void destroy(final Key key) {
@@ -184,15 +193,18 @@ class WebSessionManager {
     private transient boolean persistentCookie;
     private transient AccountExternalId.Key externalId;
     private transient String xsrfToken;
+    private transient long expiresAt;
 
     Val(final Account.Id accountId, final long refreshCookieAt,
         final boolean persistentCookie, final AccountExternalId.Key externalId,
-        final String xsrfToken) {
+        final String xsrfToken,
+        final long expiresAt) {
       this.accountId = accountId;
       this.refreshCookieAt = refreshCookieAt;
       this.persistentCookie = persistentCookie;
       this.externalId = externalId;
       this.xsrfToken = xsrfToken;
+      this.expiresAt = expiresAt;
     }
 
     Account.Id getAccountId() {
@@ -233,6 +245,9 @@ class WebSessionManager {
       writeVarInt32(out, 5);
       writeString(out, xsrfToken);
 
+      writeVarInt32(out, 6);
+      writeFixInt64(out, expiresAt);
+
       writeVarInt32(out, 0);
     }
 
@@ -257,9 +272,15 @@ class WebSessionManager {
           case 5:
             xsrfToken = readString(in);
             continue;
+          case 6:
+            expiresAt = readFixInt64(in);
+            continue;
           default:
             throw new IOException("Unknown tag found in object: " + tag);
         }
+      }
+      if (expiresAt == 0) {
+        expiresAt = refreshCookieAt + TimeUnit.HOURS.toMillis(2);
       }
     }
   }

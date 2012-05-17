@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.RPCSuggestOracle;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -139,5 +140,9 @@ public class GroupReferenceBox extends Composite implements
   @Override
   public void setAccessKey(char key) {
     suggestBox.setAccessKey(key);
+  }
+
+  public void setProject(Project.NameKey projectName) {
+    oracle.setProject(projectName);
   }
 }

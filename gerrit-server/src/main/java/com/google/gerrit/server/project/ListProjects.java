@@ -57,6 +57,12 @@ public class ListProjects {
         return !PERMISSIONS.matches(git);
       }
     },
+    PARENT_CANDIDATES {
+      @Override
+      boolean matches(Repository git) {
+        return true;
+      }
+    },
     PERMISSIONS {
       @Override
       boolean matches(Repository git) throws IOException {
@@ -182,6 +188,22 @@ public class ListProjects {
         }
 
         ProjectInfo info = new ProjectInfo();
+
+        if ((type == FilterType.PARENT_CANDIDATES)) {
+          ProjectState parent = e.getParentState();
+          if (parent != null) {
+            ProjectControl parentCtrl = parent.controlFor(currentUser);
+            if (parentCtrl.isVisible() || parentCtrl.isOwner()) {
+              if (format.isJson()) {
+                info.name = parent.getProject().getName();
+                info.description = parent.getProject().getDescription();
+                output.put(info.name, info);
+              }
+            }
+          }
+          continue;
+        }
+
         info.name = projectName.get();
         if (showTree && format.isJson()) {
           ProjectState parent = e.getParentState();

@@ -14,13 +14,11 @@
 
 package com.google.gerrit.common;
 
-import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.ChangeInfo;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {
@@ -60,15 +58,8 @@ public class PageLinks {
   }
 
   public static String toAccountQuery(final String fullname) {
-    return "/q/owner:\"" + KeyUtil.encode(fullname) + "\"," + TOP;
-  }
-
-  public static String toAccountDashboard(final AccountInfo acct) {
-    return toAccountDashboard(acct.getId());
-  }
-
-  public static String toAccountDashboard(final Account.Id acct) {
-    return "/dashboard/" + acct.toString();
+    String query = op("owner", fullname) + " status:open";
+    return toChangeQuery(query, TOP);
   }
 
   public static String toChangeQuery(final String query) {
@@ -95,11 +86,18 @@ public class PageLinks {
     }
   }
 
-  public static String op(String name, String value) {
-    if (value.indexOf(' ') >= 0) {
-      return name + ":\"" + value + "\"";
+  public static String op(String op, String value) {
+    if (isSingleWord(value)) {
+      return op + ":" + value;
     }
-    return name + ":" + value;
+    return op + ":\"" + value + "\"";
+  }
+
+  private static boolean isSingleWord(String value) {
+    if (value.startsWith("-")) {
+      return false;
+    }
+    return value.matches("[^\u0000-\u0020!\"#$%&'():;?\\[\\]{}~]+");
   }
 
   protected PageLinks() {

@@ -19,7 +19,6 @@ import com.google.gerrit.client.NotFoundScreen;
 import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Account;
 
 import java.util.Collections;
@@ -56,7 +55,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     table.addSection(incoming);
     table.addSection(closed);
     add(table);
-    table.setSavePointerId(PageLinks.toAccountDashboard(ownerId));
+    table.setSavePointerId("owner:" + ownerId);
   }
 
   @Override

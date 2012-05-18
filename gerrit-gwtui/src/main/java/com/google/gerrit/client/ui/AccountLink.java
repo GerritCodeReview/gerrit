@@ -16,7 +16,6 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
@@ -31,24 +30,26 @@ public class AccountLink extends InlineHyperlink {
     return ai != null ? new AccountLink(ai) : null;
   }
 
-  private final String query;
-
   public AccountLink(final AccountInfo ai) {
-    this(FormatUtil.name(ai), ai);
+    this(owner(ai), ai);
   }
 
   public AccountLink(final String text, final AccountInfo ai) {
-    super(text, PageLinks.toAccountQuery(FormatUtil.name(ai)));
+    super(text, PageLinks.toAccountQuery(owner(ai)));
     setTitle(FormatUtil.nameEmail(ai));
-    this.query = "owner:\"" + FormatUtil.name(ai) + "\"";
   }
 
-  private Screen createScreen() {
-    return QueryScreen.forQuery(query);
+  private static String owner(AccountInfo ai) {
+    if (ai.getPreferredEmail() != null) {
+      return ai.getPreferredEmail();
+    } else if (ai.getFullName() != null) {
+      return ai.getFullName();
+    }
+    return "" + ai.getId().get();
   }
 
   @Override
   public void go() {
-    Gerrit.display(getTargetHistoryToken(), createScreen());
+    Gerrit.display(getTargetHistoryToken());
   }
 }

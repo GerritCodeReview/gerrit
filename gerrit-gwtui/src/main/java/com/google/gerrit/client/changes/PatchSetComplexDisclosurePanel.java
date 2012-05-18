@@ -381,10 +381,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     final FlowPanel fp = new FlowPanel();
     fp.setStyleName(Gerrit.RESOURCES.css().patchSetUserIdentity());
     if (who.getName() != null) {
-      final Account.Id aId = who.getAccount();
-      if (aId != null) {
-        fp.add(new InlineHyperlink(who.getName(), PageLinks.toAccountQuery(who
-            .getName())));
+      if (who.getAccount() != null) {
+        fp.add(new InlineHyperlink(who.getName(),
+            PageLinks.toAccountQuery(who.getName())));
       } else {
         final InlineLabel lbl = new InlineLabel(who.getName());
         lbl.setStyleName(Gerrit.RESOURCES.css().accountName());

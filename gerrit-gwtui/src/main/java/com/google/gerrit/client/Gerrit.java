@@ -323,6 +323,7 @@ public class Gerrit implements EntryPoint {
     Cookies.removeCookie("GerritAccount");
   }
 
+  @Override
   public void onModuleLoad() {
     UserAgent.assertNotInIFrame();
 
@@ -332,6 +333,7 @@ public class Gerrit implements EntryPoint {
         e = URL.encodeQueryString(e);
         e = fixPathImpl(e);
         e = fixColonImpl(e);
+        e = fixDoubleQuote(e);
         return e;
       }
 
@@ -345,6 +347,9 @@ public class Gerrit implements EntryPoint {
 
       private native String fixColonImpl(String path)
       /*-{ return path.replace(/%3A/g, ":"); }-*/;
+
+      private native String fixDoubleQuote(String path)
+      /*-{ return path.replace(/%22/g, '"'); }-*/;
     });
 
     initHostname();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFhn///8o\u003d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicSetProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-18T18:50:39Z",
+      "side": 1,
+      "message": "Nak, you can name these with @Name or @Export. Instead just test that its non-null:\n\n  if (b.getKey().getAnnotation() !\u003d null)\n\nSo add this to DynamicMapProvider. It has the same misfeature. We should be consistent between the two types as much as possible, just to reduce surprises for developers.",
+      "revId": "52d357692672e279e8d0a2f3c3664eb766aa8bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

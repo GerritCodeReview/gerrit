@@ -16,6 +16,24 @@
       "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFeX///5k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-18T18:48:39Z",
+      "side": 1,
+      "message": "Yes. Throwing here should actually cause the HTTP server to fail to start correctly, resulting in all sorts of problems.\n\nI guess the question is, does a failed plugin on server startup bring down the entire server? Or just that one plugin?",
+      "parentUuid": "AAAFX3///Cw\u003d",
+      "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

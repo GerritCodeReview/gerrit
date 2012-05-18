@@ -16,6 +16,24 @@
       "revId": "52d357692672e279e8d0a2f3c3664eb766aa8bb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFen///6k\u003d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicSetProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-18T19:56:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFhn///8o\u003d",
+      "revId": "52d357692672e279e8d0a2f3c3664eb766aa8bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

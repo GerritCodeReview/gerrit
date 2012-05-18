@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
-import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.inject.AbstractModule;
@@ -174,13 +173,6 @@ public class Plugin {
   private Injector newRootInjector(PluginGuiceEnvironment env) {
     List<Module> modules = Lists.newArrayListWithCapacity(4);
     modules.add(env.getSysModule());
-    final ServerInformation srvInfo = env.getServerInformation();
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(ServerInformation.class).toInstance(srvInfo);
-      }
-    });
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {

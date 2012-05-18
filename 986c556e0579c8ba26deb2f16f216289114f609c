@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFen///6Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/ThreadLocalRequestContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-18T19:56:15Z",
+      "side": 1,
+      "message": "this won\u0027t run then, since there will be multiple bindings of CurrentUser.",
+      "parentUuid": "AAAFeX///5E\u003d",
+      "revId": "986c556e0579c8ba26deb2f16f216289114f609c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFen///7I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/ThreadLocalRequestContext.java",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFen///6g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/ThreadLocalRequestContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-18T19:56:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFen///7I\u003d",
+      "revId": "986c556e0579c8ba26deb2f16f216289114f609c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFhn///8c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/ThreadLocalRequestContext.java",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-18T18:58:43Z",
       "side": 1,
       "message": "blank line after } at end of a method",
+      "revId": "986c556e0579c8ba26deb2f16f216289114f609c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFen///6c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/ThreadLocalRequestContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-18T19:56:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFhn///8c\u003d",
       "revId": "986c556e0579c8ba26deb2f16f216289114f609c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 SRC=$(ls gerrit-plugin-api/target/gerrit-plugin-api-*-sources.jar)
 VER=${SRC#gerrit-plugin-api/target/gerrit-plugin-api-}
 VER=${VER%-sources.jar}
@@ -22,7 +24,7 @@ mvn deploy:deploy-file \
   -DartifactId=gerrit-extension-api \
   -Dversion=$VER \
   -Dpackaging=jar \
-  -Dfile=$module/target/gerrit-extension-api-$VER-all.jar \
+  -Dfile=gerrit-extension-api/target/gerrit-extension-api-$VER-all.jar \
   -DrepositoryId=gerrit-api-repository \
   -Durl=$URL
 
@@ -31,7 +33,7 @@ mvn deploy:deploy-file \
   -DartifactId=gerrit-extension-api \
   -Dversion=$VER \
   -Dpackaging=java-source \
-  -Dfile=$module/target/gerrit-extension-api-$VER-all-sources.jar \
+  -Dfile=gerrit-extension-api/target/gerrit-extension-api-$VER-all-sources.jar \
   -Djava-source=false \
   -DrepositoryId=gerrit-api-repository \
   -Durl=$URL
@@ -43,7 +45,7 @@ mvn deploy:deploy-file \
   -DartifactId=gerrit-plugin-api \
   -Dversion=$VER \
   -Dpackaging=jar \
-  -Dfile=$module/target/gerrit-plugin-api-$VER.jar \
+  -Dfile=gerrit-plugin-api/target/gerrit-plugin-api-$VER.jar \
   -DrepositoryId=gerrit-api-repository \
   -Durl=$URL
 
@@ -52,7 +54,7 @@ mvn deploy:deploy-file \
   -DartifactId=gerrit-plugin-api \
   -Dversion=$VER \
   -Dpackaging=java-source \
-  -Dfile=$module/target/gerrit-plugin-api-$VER-sources.jar \
+  -Dfile=gerrit-plugin-api/target/gerrit-plugin-api-$VER-sources.jar \
   -Djava-source=false \
   -DrepositoryId=gerrit-api-repository \
   -Durl=$URL

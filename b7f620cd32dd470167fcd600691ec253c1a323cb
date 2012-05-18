@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFen///6Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshScope.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-18T19:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFeX///48\u003d",
+      "revId": "b7f620cd32dd470167fcd600691ec253c1a323cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFen///7E\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshScope.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-18T19:15:23Z",
       "side": 1,
       "message": "IdentifiedUser.RequestFactory",
+      "revId": "b7f620cd32dd470167fcd600691ec253c1a323cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFen///6U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshScope.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-18T19:56:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFen///7E\u003d",
       "revId": "b7f620cd32dd470167fcd600691ec253c1a323cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFhn///80\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-18T18:44:03Z",
+      "side": 1,
+      "message": "Simplify this to:\n\n  AccountGroup.UUID ownerUUID \u003d group.getOwnerGroupUUID()\n\nThis may let you drop GroupCache from here.",
+      "revId": "2d86862af6a366fd6e6d2fd8fcbec53e4a1711fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

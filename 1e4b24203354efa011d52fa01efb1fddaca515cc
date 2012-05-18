@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFen///2U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-18T22:55:19Z",
+      "side": 1,
+      "message": "OK, but where is the new LDAP group code? Shouldn\u0027t we merge that first?",
+      "revId": "1e4b24203354efa011d52fa01efb1fddaca515cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

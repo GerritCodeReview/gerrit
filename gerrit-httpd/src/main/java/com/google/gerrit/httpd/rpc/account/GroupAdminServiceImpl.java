@@ -145,13 +145,13 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         final AccountGroup group = db.accountGroups().get(groupId);
         assertAmGroupOwner(db, group);
 
-        final AccountGroup owner =
+        AccountGroup owner =
             groupCache.get(new AccountGroup.NameKey(newOwnerName));
         if (owner == null) {
           throw new Failure(new NoSuchEntityException());
         }
 
-        group.setOwnerGroupId(owner.getId());
+        group.setOwnerGroupUUID(owner.getGroupUUID());
         db.accountGroups().update(Collections.singleton(group));
         groupCache.evict(group);
         return VoidResult.INSTANCE;

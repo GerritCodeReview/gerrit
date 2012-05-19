@@ -31,11 +31,7 @@ public class AccountLink extends InlineHyperlink {
   }
 
   public AccountLink(final AccountInfo ai) {
-    this(owner(ai), ai);
-  }
-
-  public AccountLink(final String text, final AccountInfo ai) {
-    super(text, PageLinks.toAccountQuery(owner(ai)));
+    super(FormatUtil.name(ai), PageLinks.toAccountQuery(owner(ai)));
     setTitle(FormatUtil.nameEmail(ai));
   }
 

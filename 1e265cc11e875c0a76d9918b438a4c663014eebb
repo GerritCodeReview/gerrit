@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFi3////Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-19T17:30:24Z",
+      "side": 1,
+      "message": "This feels like a major change to the way that the caches work.  Will all the old config parameters still work?  Will there be any special upgrade instructions such as deleting the old cache dir?  If so, perhaps this change should come with a skeleton ReleaseNotes which describes this so that it isn\u0027t lost.",
+      "revId": "1e265cc11e875c0a76d9918b438a4c663014eebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFi3////Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-19T17:30:24Z",
+      "side": 1,
+      "message": "I have been giving multi master some thought, how are these websessions shared across masters?  Would there be any sense to make disk caches shareable at all?  If so, could H2 be easily replaced with a server db here? If so would that defeat the purpose of the caches?  I suspect that it would still help when it comes to heavily computed data where the git repos are the primary source?",
+      "revId": "1e265cc11e875c0a76d9918b438a4c663014eebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFi3////U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-19T17:30:24Z",
+      "side": 1,
+      "message": "Hmm, could this possibly favor less frequently used data?  Wouldn\u0027t the more frequently used data stay in memory and never need to be fetched from H2, making the last accessed time potentially much further back in time?",
+      "revId": "1e265cc11e875c0a76d9918b438a4c663014eebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

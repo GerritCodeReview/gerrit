@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFjH///+k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-19T18:08:23Z",
+      "side": 1,
+      "message": "I have a newer draft of this change in my workspace. That draft redefines what memoryLimit means for certain caches. For most caches the memoryLimit works the same way as now, its the number of *things* that are stored. Most caches the size of any item in memory is approximately the same as any other item in the same cache. So number of things is a reasonable approximation to the cost associated with the memory.\n\nIf the diff, diff_intraline, and git_tags caches, the memoryLimit will be an estimation of the memory consumed by the cache. That means it will take into account the complexity of any given entity it stores. This gives server admins a bit more control over how the server uses memory, but does mean a configuration change.\n\nThe diskLimit parameter will be come the amount of disk space used, rather than the number of things stored.\n\nmaxAge will work the way it is expected given its name and documentation, rather than the way it does now. Currently with Ehcache maxAge is how long the item can exist in the cache without being accessed by a request. With Guava it will be the amount of time it can exist in the cache after creation. This is a better rule for most of our items. If you want something to expire, its because it risks being stale and needs to be refreshed from the source data. maxAge bounds how stale the item can be under Guava correctly. Under Ehcache, its wrong. It only can get refreshed when the item wasn\u0027t accessed within the maxAge window. Hot items will never expire under Ehcache and always keep serving stale data.",
+      "parentUuid": "AAAFi3////Y\u003d",
+      "revId": "1e265cc11e875c0a76d9918b438a4c663014eebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFi3////Q\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFjH///+g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-19T18:08:23Z",
+      "side": 1,
+      "message": "web_sessions needs to die as a cache. We will rewrite the way web sessions are handled to not store them in a cache. Instead they will be based off signed tokens where all of the servers in a group share the same key. Either the share the same private secret and use an HMAC to sign the cookie information, or they share public keys and each server has a private key to sign the cookie data. Either approach will work, and mean we don\u0027t need to synchronize the web session data between frontends.\n\nThis is what we do on gerrit-review. It works well.\n\nIf we still need to force sign-out by destroying cookies such that a user cannot login again, we can do this by adding a cookie_version field to the Account record in the database. When the user forces a sign-out on Gerrit we increment that column on their account. Cookies store the cookie_version field in them. Any cookie that doesn\u0027t match the current version in the Account will be rejected. Thus a sign-out would sign the user out everywhere. Simple and effective. We don\u0027t actually do exactly this for gerrit-review, but I think we do something like it.",
+      "parentUuid": "AAAFi3////Q\u003d",
+      "revId": "1e265cc11e875c0a76d9918b438a4c663014eebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFi3////U\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-19T17:30:24Z",
       "side": 1,
       "message": "Hmm, could this possibly favor less frequently used data?  Wouldn\u0027t the more frequently used data stay in memory and never need to be fetched from H2, making the last accessed time potentially much further back in time?",
+      "revId": "1e265cc11e875c0a76d9918b438a4c663014eebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFjH///+c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-19T18:08:23Z",
+      "side": 1,
+      "message": "Yes, you are correct about this prune. In the latest version I have items that are seen in H2 and being considered for prune are not pruned if they are in memory. I still have a bug here where we should advance the accessed time on these objects to prevent them from pruning during the next server restart before they can be paged back into memory.",
+      "parentUuid": "AAAFi3////U\u003d",
       "revId": "1e265cc11e875c0a76d9918b438a4c663014eebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

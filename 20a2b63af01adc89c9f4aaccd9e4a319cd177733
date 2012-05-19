@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFi3////I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-19T18:21:24Z",
+      "side": 1,
+      "message": "Is this the top level Gerrit directory?  I think we are referring to this as review_site in most of the docs now.",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFi3////E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-19T18:21:24Z",
+      "side": 1,
+      "message": "Recursive 775?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

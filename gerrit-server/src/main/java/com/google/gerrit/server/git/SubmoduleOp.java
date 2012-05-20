@@ -202,6 +202,9 @@ public class SubmoduleOp {
       if (!subscribers.isEmpty()) {
         String msgbuf = msg;
         if (msgbuf == null) {
+          // Initialize the message buffer
+          msgbuf = "";
+
           // The first updatedBranch on a cascade event of automatic
           // updates of repos is added to updatedSubscribers set so
           // if we face a situation having

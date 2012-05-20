@@ -70,6 +70,24 @@
       "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFi3///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-20T06:14:54Z",
+      "side": 1,
+      "message": "Hmm, ok, but should a required.plugin even be able to be reloaded then?  And if it can, and it it fails to reload, should it take the server down on a reload?  I would say no, a required plugin should not be reloadable or restartable.",
+      "parentUuid": "AAAFjH///9k\u003d",
+      "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

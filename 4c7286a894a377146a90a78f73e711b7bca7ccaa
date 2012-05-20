@@ -52,6 +52,24 @@
       "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFjH///9k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-20T03:52:20Z",
+      "side": 1,
+      "message": "Correct. If a bad plugin is installed after the server has already begun serving, the error is reported and the plugin is unloaded and discarded, and the server carries on as though the plugin was never there at all.\n\nI happen to agree with you, a plugin failing on server startup should just be logged, unloaded and skipped. We should continue startup, and the admin risks running without the plugin.\n\nHowever in Luca\u0027s case for example an audit plugin might be really critical. If it doesn\u0027t start, he may want the server to go down hard to ensure monitoring alarms fire, and more importantly, that the user can\u0027t do something that the plugin misses. To support these cases I think the admin should name the required plugins in gerrit.config or something, e.g.:\n\n  [plugins]\n    required \u003d audit\n    required \u003d replication\n\nIf a required plugin fails on startup, the server crashes. Required plugins should also not be able to be uninstalled, and a required plugin that crashes during a hot reload or a restart should either re-install the old version, or crash the server with a hard shutdown as quickly as possible.\n\nNon-required plugins shouldn\u0027t take the server down. And I think the default should be \"non-required\", but there are cases where its really important the plugin is there and we should ensure that.\n\nLuca, do you agree with me about this required plugin concept? Do you want to work on it since the required nature of your audit plugins applies to the audit plugins?\n\nAnother way to handle this might be a \"Gerrit-PluginRequired: true\" in the manifest. But I don\u0027t like this as much, because some admins might determine the replication plugin to be required, and others it might be more optional. But I can still see a sane argument for it being in the manifest and would entertain a change adding this required-ness as either in the config file, or in the manifest.",
+      "parentUuid": "AAAFhn///7A\u003d",
+      "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

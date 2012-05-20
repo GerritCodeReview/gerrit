@@ -58,6 +58,15 @@ class TagSet {
     return tags.get(id);
   }
 
+  int weigh() {
+    int refCnt = refs.size();
+    int bits = refCnt / 8;
+    int size = 16 + 3*8 + 16 + 16;
+    size += (16 + 16 + 8+ 4 + 36 + 120) * refCnt;
+    size += (16 + 36 + 16 + bits) * tags.size();
+    return size;
+  }
+
   void updateFastForward(String refName, ObjectId oldValue,
       ObjectId newValue) {
     CachedRef ref = refs.get(refName);

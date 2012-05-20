@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,130 +14,156 @@
 
 package com.google.gerrit.server.cache;
 
-import static com.google.gerrit.server.cache.EvictionPolicy.LFU;
-import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.Weigher;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
+import com.google.inject.TypeLiteral;
 
 import java.util.concurrent.TimeUnit;
 
-public final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
-    NamedCacheBinding<K, V>, UnnamedCacheBinding<K, V> {
+import javax.annotation.Nullable;
+
+class CacheProvider<K, V>
+    implements Provider<Cache<K, V>>,
+    CacheBinding<K, V> {
   private final CacheModule module;
-  private final boolean disk;
-  private int memoryLimit;
-  private int diskLimit;
-  private long maxAge;
-  private EvictionPolicy evictionPolicy;
-  private String cacheName;
-  private ProxyCache<K, V> cache;
-  private Provider<EntryCreator<K, V>> entryCreator;
+  final String name;
+  private final TypeLiteral<K> keyType;
+  private final TypeLiteral<V> valType;
+  private boolean persist;
+  private long maximumWeight;
+  private Long expireAfterWrite;
+  private Provider<CacheLoader<K, V>> loader;
+  private Provider<Weigher<K, V>> weigher;
 
-  CacheProvider(final boolean disk, CacheModule module) {
-    this.disk = disk;
+  private String plugin;
+  private MemoryCacheFactory memoryCacheFactory;
+  private PersistentCacheFactory persistentCacheFactory;
+  private boolean frozen;
+
+  CacheProvider(CacheModule module,
+      String name,
+      TypeLiteral<K> keyType,
+      TypeLiteral<V> valType) {
     this.module = module;
+    this.name = name;
+    this.keyType = keyType;
+    this.valType = valType;
+  }
 
-    memoryLimit(1024);
-    maxAge(90, DAYS);
-    evictionPolicy(LFU);
-
-    if (disk) {
-      diskLimit(16384);
-    }
+  @Inject(optional = true)
+  void setPluginName(@PluginName String pluginName) {
+    this.plugin = pluginName;
   }
 
   @Inject
-  void setCachePool(final CachePool pool) {
-    this.cache = pool.register(this);
+  void setMemoryCacheFactory(MemoryCacheFactory factory) {
+    this.memoryCacheFactory = factory;
   }
 
-  public void bind(Cache<K, V> impl) {
-    if (cache == null) {
-      throw new ProvisionException("Cache was never registered");
-    }
-    cache.bind(impl);
+  @Inject(optional = true)
+  void setPersistentCacheFactory(@Nullable PersistentCacheFactory factory) {
+    this.persistentCacheFactory = factory;
   }
 
-  public EntryCreator<K, V> getEntryCreator() {
-    return entryCreator != null ? entryCreator.get() : null;
-  }
-
-  public String getName() {
-    if (cacheName == null) {
-      throw new ProvisionException("Cache has no name");
-    }
-    return cacheName;
-  }
-
-  public boolean disk() {
-    return disk;
-  }
-
-  public int memoryLimit() {
-    return memoryLimit;
-  }
-
-  public int diskLimit() {
-    return diskLimit;
-  }
-
-  public long maxAge() {
-    return maxAge;
-  }
-
-  public EvictionPolicy evictionPolicy() {
-    return evictionPolicy;
-  }
-
-  public NamedCacheBinding<K, V> name(final String name) {
-    if (cacheName != null) {
-      throw new IllegalStateException("Cache name already set");
-    }
-    cacheName = name;
-    return this;
-  }
-
-  public NamedCacheBinding<K, V> memoryLimit(final int objects) {
-    memoryLimit = objects;
-    return this;
-  }
-
-  public NamedCacheBinding<K, V> diskLimit(final int objects) {
-    if (!disk) {
-      // TODO This should really be a compile time type error, but I'm
-      // too lazy to create the mess of permutations required to setup
-      // type safe returns for bindings in our little DSL.
-      //
-      throw new IllegalStateException("Cache is not disk based");
-    }
-    diskLimit = objects;
-    return this;
-  }
-
-  public NamedCacheBinding<K, V> maxAge(final long duration, final TimeUnit unit) {
-    maxAge = SECONDS.convert(duration, unit);
+  CacheBinding<K, V> persist(boolean p) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    persist = p;
     return this;
   }
 
   @Override
-  public NamedCacheBinding<K, V> evictionPolicy(final EvictionPolicy policy) {
-    evictionPolicy = policy;
+  public CacheBinding<K, V> maximumWeight(long weight) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    maximumWeight = weight;
     return this;
   }
 
-  public NamedCacheBinding<K, V> populateWith(
-      Class<? extends EntryCreator<K, V>> creator) {
-    entryCreator = module.getEntryCreator(this, creator);
+  @Override
+  public CacheBinding<K, V> expireAfterWrite(long duration, TimeUnit unit) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    expireAfterWrite = SECONDS.convert(duration, unit);
     return this;
   }
 
-  public Cache<K, V> get() {
-    if (cache == null) {
-      throw new ProvisionException("Cache \"" + cacheName + "\" not available");
+  @Override
+  public CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> impl) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    loader = module.bindCacheLoader(this, impl);
+    return this;
+  }
+
+  @Override
+  public CacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> impl) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    weigher = module.bindWeigher(this, impl);
+    return this;
+  }
+
+  @Override
+  public String name() {
+    if (!Strings.isNullOrEmpty(plugin)) {
+      return plugin + "." + name;
     }
-    return cache;
+    return name;
+  }
+
+  @Override
+  public TypeLiteral<K> keyType() {
+    return keyType;
+  }
+
+  @Override
+  public TypeLiteral<V> valueType() {
+    return valType;
+  }
+
+  @Override
+  public long maximumWeight() {
+    return maximumWeight;
+  }
+
+  @Override
+  @Nullable
+  public Long expireAfterWrite(TimeUnit unit) {
+   return expireAfterWrite != null
+       ? unit.convert(expireAfterWrite, SECONDS)
+       : null;
+  }
+
+  @Override
+  @Nullable
+  public Weigher<K, V> weigher() {
+    return weigher != null ? weigher.get() : null;
+  }
+
+  @Override
+  @Nullable
+  public CacheLoader<K, V> loader() {
+    return loader != null ? loader.get() : null;
+  }
+
+  @Override
+  public Cache<K, V> get() {
+    frozen = true;
+
+    if (loader != null) {
+      CacheLoader<K, V> ldr = loader.get();
+      if (persist && persistentCacheFactory != null) {
+        return persistentCacheFactory.build(this, ldr);
+      }
+      return memoryCacheFactory.build(this, ldr);
+    } else if (persist && persistentCacheFactory != null) {
+      return persistentCacheFactory.build(this);
+    } else {
+      return memoryCacheFactory.build(this);
+    }
   }
 }

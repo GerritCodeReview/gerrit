@@ -354,8 +354,8 @@ Default is unset, no disk cache.
 
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
-Maximum age to keep an entry in the cache.  If an entry has not
-been accessed in this period of time, it is removed from the cache.
+Maximum age to keep an entry in the cache. Entries are removed from
+the cache and refreshed from source data every maxAge interval.
 Values should use common unit suffixes to express their setting:
 +
 * s, sec, second, seconds
@@ -371,7 +371,7 @@ If a unit suffix is not specified, `minutes` is assumed.  If 0 is
 supplied, the maximum age is infinite and items are never purged
 except when the cache is full.
 +
-Default is `90 days` for most caches, except:
+Default is `0`, meaning store forever with no expire, except:
 +
 * `"adv_bases"`: default is `10 minutes`
 * `"ldap_groups"`: default is `1 hour`
@@ -379,33 +379,42 @@ Default is `90 days` for most caches, except:
 
 [[cache.name.memoryLimit]]cache.<name>.memoryLimit::
 +
-Maximum number of cache items to retain in memory.  Keep in mind
-this is total number of items, not bytes of heap used.
+The total cost of entries to retain in memory. The cost computation
+varies by the cache. For most caches where the in-memory size of each
+entry is relatively the same, memoryLimit is currently defined to be
+the number of entries held by the cache (each entry costs 1).
++
+For caches where the size of an entry can vary significantly between
+individual entries (notably `"diff"`, `"diff_intraline"`), memoryLimit
+is an approximation of the total number of bytes stored by the cache.
+Larger entries that represent bigger patch sets or longer source files
+will consume a bigger portion of the memoryLimit. For these caches the
+memoryLimit should be set to roughly the amount of RAM (in bytes) the
+administrator can dedicate to the cache.
 +
 Default is 1024 for most caches, except:
 +
 * `"adv_bases"`: default is `4096`
-* `"diff"`: default is `128`
-* `"diff_intraline"`: default is `128`
+* `"diff"`: default is `10m` (10 MiB of memory)
+* `"diff_intraline"`: default is `10m` (10 MiB of memory)
+* `"plugin_resources"`: default is 2m (2 MiB of memory)
+
++
+If set to 0 the cache is disabled. Entries are removed immediately
+after being stored by the cache. This is primarily useful for testing.
 
 [[cache.name.diskLimit]]cache.<name>.diskLimit::
 +
-Maximum number of cache items to retain on disk, if this cache
-supports storing its items to disk.  Like memoryLimit, this is
-total number of items, not bytes of disk used.  If 0, disk storage
-for this cache is disabled.
+Total size in bytes of the keys and values stored on disk. Caches that
+have grown bigger than this size are scanned daily at 1 AM local
+server time to trim the cache. Entries are removed in least recently
+accessed order until the cache fits within this limit.  Caches may
+grow larger than this during the day, as the size check is only
+performed once every 24 hours.
 +
-Default is 16384.
-
-[[cache.name.diskBuffer]]cache.<name>.diskBuffer::
+Default is 128 MiB per cache.
 +
-Number of bytes to buffer in memory before writing less frequently
-accessed cache items to disk, if this cache supports storing its
-items to disk.
-+
-Default is 5 MiB.
-+
-Common unit suffixes of 'k', 'm', or 'g' are supported.
+If 0, disk storage for the cache is disabled.
 
 [[cache_names]]Standard Caches
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -447,14 +456,10 @@ Each item caches the differences between two commits, at both the
 directory and file levels.  Gerrit uses this cache to accelerate
 the display of affected file names, as well as file contents.
 +
-Entries in this cache are relatively large, so the memory limit
-should not be set incredibly high.  Administrators should try to
-target cache.diff.memoryLimit to be roughly the number of changes
-which their users will process in a 1 or 2 day span.
-+
-Keeping entries for 90 days gives sufficient time for most changes
-to be submitted or abandoned before their relevant difference items
-expire out.
+Entries in this cache are relatively large, so memoryLimit is an
+estimate in bytes of memory used. Administrators should try to target
+cache.diff.memoryLimit to fit all changes users will view in a 1 or 2
+day span.
 
 cache `"diff_intraline"`::
 +
@@ -462,14 +467,10 @@ Each item caches the intraline difference of one file, when compared
 between two commits. Gerrit uses this cache to accelerate display of
 intraline differences when viewing a file.
 +
-Entries in this cache are relatively large, so the memory limit
-should not be set incredibly high.  Administrators should try to
-target cache.diff.memoryLimit to be roughly the number of changes
-which their users will process in a 1 or 2 day span.
-+
-Keeping entries for 90 days gives sufficient time for most changes
-to be submitted or abandoned before their relevant difference items
-expire out.
+Entries in this cache are relatively large, so memoryLimit is an
+estimate in bytes of memory used. Administrators should try to target
+cache.diff.memoryLimit to fit all files users will view in a 1 or 2
+day span.
 
 cache `"git_tags"`::
 +
@@ -517,6 +518,12 @@ reference.  Sorting the sections can be expensive when regular
 expressions are used, so this cache remembers the ordering for
 each branch.
 
+cache `"plugin_resources"`::
++
+Caches formatted plugin resources, such as plugin documentation that
+has been converted from Markdown to HTML. The memoryLimit refers to
+the bytes of memory dedicated to storing the documentation.
+
 cache `"projects"`::
 +
 Caches the project description records, from the `projects` table
@@ -550,8 +557,8 @@ and need to sign-in again after the restart, as the cache was
 unable to persist the session information.  Enabling a disk cache
 is strongly recommended.
 +
-Session storage is relatively inexpensive, the average entry in
-this cache is approximately 248 bytes, depending on the JVM.
+Session storage is relatively inexpensive. The average entry in
+this cache is approximately 346 bytes.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 
@@ -597,13 +604,6 @@ this setting will fallback to `cache.diff.intraline` if not set in the
 configuration.
 +
 Default is true, enabled.
-
-cache.plugin_resources.memoryLimit::
-+
-Number of bytes of memory to use to cache formatted plugin resources,
-such as plugin documentation that has been converted from Markdown to
-HTML. Default is 2 MiB. Common unit suffixes of 'k', 'm', or 'g' are
-supported.
 
 cache.projects.checkFrequency::
 +

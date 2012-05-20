@@ -15,7 +15,7 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.server.cache.EntryCreator;
+import com.google.common.cache.CacheLoader;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -35,9 +35,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
-class IntraLineLoader extends EntryCreator<IntraLineDiffKey, IntraLineDiff> {
-  private static final Logger log = LoggerFactory
-      .getLogger(IntraLineLoader.class);
+class IntraLineLoader extends CacheLoader<IntraLineDiffKey, IntraLineDiff> {
+  static final Logger log = LoggerFactory.getLogger(IntraLineLoader.class);
 
   private static final Pattern BLANK_LINE_RE = Pattern
       .compile("^[ \\t]*(|[{}]|/\\*\\*?|\\*)[ \\t]*$");
@@ -62,7 +61,7 @@ class IntraLineLoader extends EntryCreator<IntraLineDiffKey, IntraLineDiff> {
   }
 
   @Override
-  public IntraLineDiff createEntry(IntraLineDiffKey key) throws Exception {
+  public IntraLineDiff load(IntraLineDiffKey key) throws Exception {
     Worker w = workerPool.poll();
     if (w == null) {
       w = new Worker();
@@ -119,7 +118,7 @@ class IntraLineLoader extends EntryCreator<IntraLineDiffKey, IntraLineDiff> {
         throws Exception {
       if (!input.offer(new Input(key))) {
         log.error("Cannot enqueue task to thread " + thread.getName());
-        return null;
+        return Result.TIMEOUT;
       }
 
       Result r = result.poll(timeoutMillis, TimeUnit.MILLISECONDS);

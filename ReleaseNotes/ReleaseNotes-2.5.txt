@@ -1,0 +1,16 @@
+Release notes for Gerrit 2.5
+============================
+
+Gerrit 2.5 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.war]
+
+Upgrade Warnings
+----------------
+
+Replication
+~~~~~~~~~~~
+
+Gerrit 2.5 no longer includes replication support out of the box.
+Servers that reply upon `replication.config` to copy Git repository
+data to other locations must also install the replication plugin.

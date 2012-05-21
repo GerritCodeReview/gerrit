@@ -16,6 +16,9 @@ package com.google.gerrit.server.auth.ldap;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 
+import com.google.common.base.Optional;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
@@ -32,12 +35,9 @@ import com.google.gerrit.server.account.MaterializedGroupMembership;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
-import com.google.gerrit.server.cache.Cache;
-import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -56,6 +56,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
@@ -70,11 +71,11 @@ class LdapRealm implements Realm {
   private final Helper helper;
   private final AuthConfig authConfig;
   private final EmailExpander emailExpander;
-  private final Cache<String, Account.Id> usernameCache;
+  private final LoadingCache<String, Optional<Account.Id>> usernameCache;
   private final Set<Account.FieldName> readOnlyAccountFields;
   private final Config config;
 
-  private final Cache<String, Set<AccountGroup.UUID>> membershipCache;
+  private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
   private final MaterializedGroupMembership.Factory groupMembershipFactory;
 
   @Inject
@@ -82,8 +83,8 @@ class LdapRealm implements Realm {
       final Helper helper,
       final AuthConfig authConfig,
       final EmailExpander emailExpander,
-      @Named(LdapModule.GROUP_CACHE) final Cache<String, Set<AccountGroup.UUID>> membershipCache,
-      @Named(LdapModule.USERNAME_CACHE) final Cache<String, Account.Id> usernameCache,
+      @Named(LdapModule.GROUP_CACHE) final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
+      @Named(LdapModule.USERNAME_CACHE) final LoadingCache<String, Optional<Account.Id>> usernameCache,
       @GerritServerConfig final Config config,
       final MaterializedGroupMembership.Factory groupMembershipFactory) {
     this.helper = helper;
@@ -261,13 +262,21 @@ class LdapRealm implements Realm {
 
   @Override
   public void onCreateAccount(final AuthRequest who, final Account account) {
-    usernameCache.put(who.getLocalUser(), account.getId());
+    usernameCache.put(who.getLocalUser(), Optional.of(account.getId()));
   }
 
   @Override
   public GroupMembership groups(final AccountState who) {
+    String id = findId(who.getExternalIds());
+    Set<AccountGroup.UUID> groups;
+    try {
+      groups = membershipCache.get(id);
+    } catch (ExecutionException e) {
+      log.warn(String.format("Cannot lookup groups for %s in LDAP", id), e);
+      groups = Collections.emptySet();
+    }
     return groupMembershipFactory.create(Iterables.concat(
-        membershipCache.get(findId(who.getExternalIds())),
+        groups,
         who.getInternalGroups()));
   }
 
@@ -281,8 +290,14 @@ class LdapRealm implements Realm {
   }
 
   @Override
-  public Account.Id lookup(final String accountName) {
-    return usernameCache.get(accountName);
+  public Account.Id lookup(String accountName) {
+    try {
+      Optional<Account.Id> id = usernameCache.get(accountName);
+      return id != null ? id.orNull() : null;
+    } catch (ExecutionException e) {
+      log.warn(String.format("Cannot lookup account %s in LDAP", accountName), e);
+      return null;
+    }
   }
 
   @Override
@@ -319,7 +334,7 @@ class LdapRealm implements Realm {
     return out;
   }
 
-  static class UserLoader extends EntryCreator<String, Account.Id> {
+  static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -328,25 +343,23 @@ class LdapRealm implements Realm {
     }
 
     @Override
-    public Account.Id createEntry(final String username) throws Exception {
+    public Optional<Account.Id> load(String username) throws Exception {
+      final ReviewDb db = schema.open();
       try {
-        final ReviewDb db = schema.open();
-        try {
-          final AccountExternalId extId =
-              db.accountExternalIds().get(
-                  new AccountExternalId.Key(SCHEME_GERRIT, username));
-          return extId != null ? extId.getAccountId() : null;
-        } finally {
-          db.close();
+        final AccountExternalId extId =
+            db.accountExternalIds().get(
+                new AccountExternalId.Key(SCHEME_GERRIT, username));
+        if (extId != null) {
+          return Optional.of(extId.getAccountId());
         }
-      } catch (OrmException e) {
-        log.warn("Cannot query for username in database", e);
-        return null;
+        return Optional.absent();
+      } finally {
+        db.close();
       }
     }
   }
 
-  static class MemberLoader extends EntryCreator<String, Set<AccountGroup.UUID>> {
+  static class MemberLoader extends CacheLoader<String, Set<AccountGroup.UUID>> {
     private final Helper helper;
 
     @Inject
@@ -355,8 +368,7 @@ class LdapRealm implements Realm {
     }
 
     @Override
-    public Set<AccountGroup.UUID> createEntry(final String username)
-        throws Exception {
+    public Set<AccountGroup.UUID> load(String username) throws Exception {
       final DirContext ctx = helper.open();
       try {
         return helper.queryForGroups(ctx, username, null);
@@ -367,11 +379,6 @@ class LdapRealm implements Realm {
           log.warn("Cannot close LDAP query handle", e);
         }
       }
-    }
-
-    @Override
-    public Set<AccountGroup.UUID> missing(final String key) {
-      return Collections.emptySet();
     }
   }
 }

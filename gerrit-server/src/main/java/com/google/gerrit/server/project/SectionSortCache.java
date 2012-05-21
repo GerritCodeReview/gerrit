@@ -14,14 +14,13 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.util.MostSpecificComparator;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import java.util.Arrays;
@@ -38,9 +37,7 @@ public class SectionSortCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<EntryKey, EntryVal>> type =
-            new TypeLiteral<Cache<EntryKey, EntryVal>>() {};
-        core(type, CACHE_NAME);
+        cache(CACHE_NAME, EntryKey.class, EntryVal.class);
         bind(SectionSortCache.class);
       }
     };
@@ -60,7 +57,7 @@ public class SectionSortCache {
     }
 
     EntryKey key = new EntryKey(ref, sections);
-    EntryVal val = cache.get(key);
+    EntryVal val = cache.getIfPresent(key);
     if (val != null) {
       int[] srcIdx = val.order;
       if (srcIdx != null) {

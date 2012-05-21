@@ -1,6 +1,6 @@
 /target
 /.classpath
 /.project
-/.settings/org.eclipse.m2e.core.prefs
 /.settings/org.maven.ide.eclipse.prefs
-/gerrit-ehcache.iml
+/.settings/org.eclipse.m2e.core.prefs
+/gerrit-cache-h2.iml

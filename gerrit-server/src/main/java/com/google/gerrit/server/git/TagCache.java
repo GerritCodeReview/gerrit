@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.cache.Cache;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -38,19 +37,17 @@ public class TagCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<EntryKey, EntryVal>> type =
-            new TypeLiteral<Cache<EntryKey, EntryVal>>() {};
-        disk(type, CACHE_NAME);
+        persist(CACHE_NAME, String.class, EntryVal.class);
         bind(TagCache.class);
       }
     };
   }
 
-  private final Cache<EntryKey, EntryVal> cache;
+  private final Cache<String, EntryVal> cache;
   private final Object createLock = new Object();
 
   @Inject
-  TagCache(@Named(CACHE_NAME) Cache<EntryKey, EntryVal> cache) {
+  TagCache(@Named(CACHE_NAME) Cache<String, EntryVal> cache) {
     this.cache = cache;
   }
 
@@ -74,7 +71,7 @@ public class TagCache {
     // never fail with an exception. Some of these references can be null
     // (e.g. not all projects are cached, or the cache is not current).
     //
-    EntryVal val = cache.get(new EntryKey(name));
+    EntryVal val = cache.getIfPresent(name.get());
     if (val != null) {
       TagSetHolder holder = val.holder;
       if (holder != null) {
@@ -87,54 +84,22 @@ public class TagCache {
   }
 
   TagSetHolder get(Project.NameKey name) {
-    EntryKey key = new EntryKey(name);
-    EntryVal val = cache.get(key);
+    EntryVal val = cache.getIfPresent(name.get());
     if (val == null) {
       synchronized (createLock) {
-        val = cache.get(key);
+        val = cache.getIfPresent(name.get());
         if (val == null) {
           val = new EntryVal();
           val.holder = new TagSetHolder(name);
-          cache.put(key, val);
+          cache.put(name.get(), val);
         }
       }
     }
     return val.holder;
   }
 
-  static class EntryKey implements Serializable {
-    static final long serialVersionUID = 1L;
-
-    private transient String name;
-
-    EntryKey(Project.NameKey name) {
-      this.name = name.get();
-    }
-
-    @Override
-    public int hashCode() {
-      return name.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (o instanceof EntryKey) {
-        return name.equals(((EntryKey) o).name);
-      }
-      return false;
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException {
-      name = in.readUTF();
-    }
-
-    private void writeObject(ObjectOutputStream out) throws IOException {
-      out.writeUTF(name);
-    }
-  }
-
   static class EntryVal implements Serializable {
-    static final long serialVersionUID = EntryKey.serialVersionUID;
+    static final long serialVersionUID = 1L;
 
     transient TagSetHolder holder;
 

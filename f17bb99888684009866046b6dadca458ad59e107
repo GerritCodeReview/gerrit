@@ -106,6 +106,24 @@
       "revId": "f17bb99888684009866046b6dadca458ad59e107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFkX////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-05-21T16:04:00Z",
+      "side": 1,
+      "message": "Hi Edwin\nyour proposed steps is good for me.\nDone\n/Bruce",
+      "parentUuid": "AAAFaX///+M\u003d",
+      "revId": "f17bb99888684009866046b6dadca458ad59e107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

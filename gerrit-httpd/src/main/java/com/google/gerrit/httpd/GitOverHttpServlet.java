@@ -23,6 +23,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.TagCache;
@@ -198,11 +199,13 @@ public class GitOverHttpServlet extends GitServlet {
   static class UploadFilter implements Filter {
     private final Provider<ReviewDb> db;
     private final TagCache tagCache;
+    private final ChangeCache changeCache;
 
     @Inject
-    UploadFilter(Provider<ReviewDb> db, TagCache tagCache) {
+    UploadFilter(Provider<ReviewDb> db, TagCache tagCache, ChangeCache changeCache) {
       this.db = db;
       this.tagCache = tagCache;
+      this.changeCache = changeCache;
     }
 
     @Override
@@ -221,7 +224,7 @@ public class GitOverHttpServlet extends GitServlet {
       }
 
       if (!pc.allRefsAreVisible()) {
-        up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, repo, pc, db.get(), true));
+        up.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo, pc, db.get(), true));
       }
 
       next.doFilter(request, response);

@@ -18,9 +18,14 @@ Most of this documentation refers to either type as a plugin.
 Requirements
 ------------
 
-To start development, download the sample maven project, which
-downloads the dependencies file that matches the war file to develop
-against. Dependencies are offered in two different formats:
+To start development, clone the sample maven project:
+
+----
+$ git clone https://gerrit.googlesource.com/plugins/helloworld
+----
+
+This project includes the dependencies file that matches the war file to
+develop against. Dependencies are offered in two different formats:
 
 gerrit-extension-api.jar::
   A stable but thin interface. Suitable for extensions that need

@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
-
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -44,16 +43,19 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       LoggerFactory.getLogger(VisibleRefFilter.class);
 
   private final TagCache tagCache;
+  private final ChangeCache changeCache;
   private final Repository db;
   private final Project.NameKey projectName;
   private final ProjectControl projectCtl;
   private final ReviewDb reviewDb;
   private final boolean showChanges;
 
-  public VisibleRefFilter(final TagCache tagCache, final Repository db,
+  public VisibleRefFilter(final TagCache tagCache, final ChangeCache changeCache,
+      final Repository db,
       final ProjectControl projectControl, final ReviewDb reviewDb,
       final boolean showChanges) {
     this.tagCache = tagCache;
+    this.changeCache = changeCache;
     this.db = db;
     this.projectName = projectControl.getProject().getNameKey();
     this.projectCtl = projectControl;
@@ -133,7 +135,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     final Project project = projectCtl.getProject();
     try {
       final Set<Change.Id> visibleChanges = new HashSet<Change.Id>();
-      for (Change change : reviewDb.changes().byProject(project.getNameKey())) {
+      for (Change change : changeCache.get(project.getNameKey())) {
         if (projectCtl.controlFor(change).isVisible(reviewDb)) {
           visibleChanges.add(change.getId());
         }

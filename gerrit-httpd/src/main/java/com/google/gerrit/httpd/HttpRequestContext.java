@@ -17,7 +17,6 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 class HttpRequestContext implements RequestContext {
   private final WebSession session;

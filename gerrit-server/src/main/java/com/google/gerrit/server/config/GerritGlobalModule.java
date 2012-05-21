@@ -68,8 +68,6 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
-import com.google.inject.servlet.RequestScoped;
-
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.eclipse.jgit.lib.Config;
 

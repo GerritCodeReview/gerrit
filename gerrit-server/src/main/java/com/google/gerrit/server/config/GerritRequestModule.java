@@ -17,7 +17,6 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;

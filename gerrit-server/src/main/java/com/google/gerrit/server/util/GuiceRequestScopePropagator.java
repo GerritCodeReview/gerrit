@@ -15,7 +15,6 @@
 package com.google.gerrit.server.util;
 
 import com.google.common.collect.Maps;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;

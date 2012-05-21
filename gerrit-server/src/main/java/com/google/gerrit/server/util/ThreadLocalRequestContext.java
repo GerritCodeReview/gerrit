@@ -21,7 +21,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.name.Named;

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFln///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-21T22:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFjH///6Y\u003d",
+      "revId": "070c482e44563f6d3eaf90836dec4cabb96666e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFjH///6U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFln///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-21T22:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFjH///6U\u003d",
+      "revId": "070c482e44563f6d3eaf90836dec4cabb96666e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFjH///6Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-21T14:14:45Z",
       "side": 1,
       "message": "unnecessary line, drop this",
+      "revId": "070c482e44563f6d3eaf90836dec4cabb96666e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFln///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-21T22:16:31Z",
+      "side": 1,
+      "message": "Done\n\nJust FYI - This is modeled on the ListProjects class, which has a similar line.",
+      "parentUuid": "AAAFjH///6Q\u003d",
       "revId": "070c482e44563f6d3eaf90836dec4cabb96666e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

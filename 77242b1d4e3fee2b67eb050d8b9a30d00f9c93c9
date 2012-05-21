@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFkn////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-05-21T07:05:26Z",
+      "side": 1,
+      "message": "If the rest of the patch looks sane, I will do this optimization as the last step.\n\nDid you have the chance to give this one a try?",
+      "parentUuid": "AAAFbX///5E\u003d",
+      "revId": "77242b1d4e3fee2b67eb050d8b9a30d00f9c93c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFbX///5U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 5

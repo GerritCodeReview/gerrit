@@ -23,8 +23,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;

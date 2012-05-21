@@ -20,6 +20,8 @@ import static com.google.gerrit.common.data.Permission.PUSH;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.common.data.Permission.SUBMIT;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.GroupReference;
@@ -36,7 +38,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
-import com.google.gerrit.server.cache.ConcurrentHashMapCache;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -321,10 +322,9 @@ public class RefControlTest extends TestCase {
     local.createInMemory();
     local.getProject().setParentName(parent.getProject().getName());
 
-    sectionSorter =
-        new PermissionCollection.Factory(
-            new SectionSortCache(
-                new ConcurrentHashMapCache<SectionSortCache.EntryKey, SectionSortCache.EntryVal>()));
+    Cache<SectionSortCache.EntryKey, SectionSortCache.EntryVal> c =
+        CacheBuilder.newBuilder().build();
+    sectionSorter = new PermissionCollection.Factory(new SectionSortCache(c));
   }
 
   private static void assertOwner(String ref, ProjectControl u) {

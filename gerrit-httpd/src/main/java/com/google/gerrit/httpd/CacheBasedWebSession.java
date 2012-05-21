@@ -26,14 +26,11 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
-import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.RequestScoped;
 
 import javax.servlet.http.Cookie;
@@ -49,13 +46,9 @@ public final class CacheBasedWebSession implements WebSession {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final String cacheName = WebSessionManager.CACHE_NAME;
-        final TypeLiteral<Cache<Key, Val>> type =
-            new TypeLiteral<Cache<Key, Val>>() {};
-        disk(type, cacheName) //
-            .memoryLimit(1024) // reasonable default for many sites
-            .maxAge(MAX_AGE_MINUTES, MINUTES) // expire sessions if they are inactive
-            .evictionPolicy(EvictionPolicy.LRU) // keep most recently used
+        persist(WebSessionManager.CACHE_NAME, String.class, Val.class)
+            .maximumWeight(1024) // reasonable default for many sites
+            .expireAfterWrite(MAX_AGE_MINUTES, MINUTES) // expire sessions if they are inactive
         ;
         bind(WebSessionManager.class);
         bind(WebSession.class)

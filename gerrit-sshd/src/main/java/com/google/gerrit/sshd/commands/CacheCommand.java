@@ -14,37 +14,33 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.ehcache.EhcachePoolImpl;
+import com.google.common.cache.Cache;
+import com.google.common.collect.Sets;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Ehcache;
-
-import java.util.Arrays;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 abstract class CacheCommand extends SshCommand {
   @Inject
-  protected EhcachePoolImpl cachePool;
+  protected DynamicMap<Cache<?, ?>> cacheMap;
 
   protected SortedSet<String> cacheNames() {
-    final SortedSet<String> names = new TreeSet<String>();
-    for (final Ehcache c : getAllCaches()) {
-      names.add(c.getName());
+    SortedSet<String> names = Sets.newTreeSet();
+    for (String plugin : cacheMap.plugins()) {
+      for (String name : cacheMap.byPlugin(plugin).keySet()) {
+        names.add(cacheNameOf(plugin, name));
+      }
     }
     return names;
   }
 
-  protected Ehcache[] getAllCaches() {
-    final CacheManager cacheMgr = cachePool.getCacheManager();
-    final String[] cacheNames = cacheMgr.getCacheNames();
-    Arrays.sort(cacheNames);
-    final Ehcache[] r = new Ehcache[cacheNames.length];
-    for (int i = 0; i < cacheNames.length; i++) {
-      r[i] = cacheMgr.getEhcache(cacheNames[i]);
+  protected String cacheNameOf(String plugin, String name) {
+    if ("gerrit".equals(plugin)) {
+      return name;
+    } else {
+      return plugin + "." + name;
     }
-    return r;
   }
 }

@@ -14,18 +14,19 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.RequiresCapability;
 import com.google.inject.Inject;
-
-import net.sf.ehcache.Ehcache;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.SortedSet;
 
 /** Causes the caches to purge all entries and reload. */
@@ -95,13 +96,16 @@ final class FlushCaches extends CacheCommand {
 
   private void doBulkFlush() {
     try {
-      for (final Ehcache c : getAllCaches()) {
-        final String name = c.getName();
-        if (flush(name)) {
-          try {
-            c.removeAll();
-          } catch (Throwable e) {
-            stderr.println("error: cannot flush cache \"" + name + "\": " + e);
+      for (String plugin : cacheMap.plugins()) {
+        for (Map.Entry<String, Provider<Cache<?, ?>>> entry :
+            cacheMap.byPlugin(plugin).entrySet()) {
+          String n = cacheNameOf(plugin, entry.getKey());
+          if (flush(n)) {
+            try {
+              entry.getValue().get().invalidateAll();
+            } catch (Throwable err) {
+              stderr.println("error: cannot flush cache \"" + n + "\": " + err);
+            }
           }
         }
       }

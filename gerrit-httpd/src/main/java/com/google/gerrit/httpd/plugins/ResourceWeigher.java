@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.httpd.plugins;
 
-public class IncompleteUserInfoException extends Exception {
-  private static final long serialVersionUID = 1L;
+import com.google.common.cache.Weigher;
 
-  public IncompleteUserInfoException(final String userName, final String missingInfo) {
-    super("For the user \"" + userName + "\" " + missingInfo + " is not set.");
+class ResourceWeigher implements Weigher<ResourceKey, Resource> {
+  @Override
+  public int weigh(ResourceKey key, Resource value) {
+    return key.weigh() + value.weigh();
   }
 }

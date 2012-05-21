@@ -27,7 +27,6 @@ import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -129,6 +128,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
    * followed by the action buttons.
    */
   public void ensureLoaded(final PatchSetDetail detail) {
+    loadedInfoTable(detail);
+    loadedActionPanel(detail);
+    loadedPatchTable(detail);
+  }
+
+  public void loadedInfoTable(final PatchSetDetail detail) {
     infoTable = new Grid(R_CNT, 2);
     infoTable.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     infoTable.addStyleName(Gerrit.RESOURCES.css().patchSetInfoBlock());
@@ -154,15 +159,13 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     displayDownload();
 
     body.add(infoTable);
+  }
 
+  public void loadedActionPanel(final PatchSetDetail detail) {
     if (!patchSet.getId().equals(diffBaseId)) {
-      patchTable = new PatchTable();
-      patchTable.setSavePointerId("PatchTable " + patchSet.getId());
-      patchTable.display(diffBaseId, detail);
-
       actionsPanel = new FlowPanel();
       actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
-      body.add(actionsPanel);
+      actionsPanel.setVisible(true);
       if (Gerrit.isSignedIn()) {
         if (changeDetail.canEdit()) {
           populateReviewAction();
@@ -174,18 +177,28 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           if (changeDetail.canPublish()) {
             populatePublishAction();
           }
-          if (changeDetail.canDeleteDraft() &&
-              changeDetail.getPatchSets().size() > 1) {
+          if (changeDetail.canDeleteDraft()
+              && changeDetail.getPatchSets().size() > 1) {
             populateDeleteDraftPatchSetAction();
           }
         }
       }
       populateDiffAllActions(detail);
-      body.add(patchTable);
+      body.add(actionsPanel);
+    }
+  }
 
-      for(ClickHandler clickHandler : registeredClickHandler) {
+  public void loadedPatchTable(final PatchSetDetail detail) {
+    if (!patchSet.getId().equals(diffBaseId)) {
+      patchTable = new PatchTable();
+      patchTable.setSavePointerId("PatchTable " + patchSet.getId());
+      patchTable.display(diffBaseId, detail);
+      for (ClickHandler clickHandler : registeredClickHandler) {
         patchTable.addClickHandler(clickHandler);
       }
+      patchTable.setRegisterKeys(true);
+      setActive(true);
+      body.add(patchTable);
     }
   }
 
@@ -644,34 +657,45 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   }
 
   public void refresh() {
-    AccountDiffPreference diffPrefs;
-    if (patchTable == null) {
-      diffPrefs = new ListenableAccountDiffPreference().get();
+    if (patchSet.getId().equals(diffBaseId)) {
+      if (patchTable != null) {
+        patchTable.setVisible(false);
+      }
+      if (actionsPanel != null) {
+        actionsPanel.setVisible(false);
+      }
     } else {
-      diffPrefs = patchTable.getPreferences().get();
-    }
+      if (patchTable != null) {
+        if (patchTable.getBase() == null && diffBaseId == null
+            || patchTable.getBase() != null
+            && patchTable.getBase().equals(diffBaseId)) {
+          actionsPanel.setVisible(true);
+          patchTable.setVisible(true);
+          return;
+        }
+      }
 
-    Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs,
-        new GerritCallback<PatchSetDetail>() {
-          @Override
-          public void onSuccess(PatchSetDetail result) {
-            if (patchSet.getId().equals(diffBaseId)) {
-              patchTable.setVisible(false);
-              actionsPanel.setVisible(false);
-            } else {
-              if (patchTable != null) {
-                patchTable.removeFromParent();
-              }
-              patchTable = new PatchTable();
-              patchTable.display(diffBaseId, result);
-              body.add(patchTable);
+      AccountDiffPreference diffPrefs;
+      if (patchTable == null) {
+        diffPrefs = new ListenableAccountDiffPreference().get();
+      } else {
+        diffPrefs = patchTable.getPreferences().get();
+        patchTable.setVisible(false);
+      }
 
-              for (ClickHandler clickHandler : registeredClickHandler) {
-                patchTable.addClickHandler(clickHandler);
+      Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs,
+          new GerritCallback<PatchSetDetail>() {
+            @Override
+            public void onSuccess(PatchSetDetail result) {
+              if (actionsPanel != null) {
+                actionsPanel.setVisible(true);
+              } else {
+                loadedActionPanel(result);
               }
+              loadedPatchTable(result);
             }
-          }
-        });
+          });
+    }
   }
 
   @Override
@@ -687,8 +711,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs,
           new GerritCallback<PatchSetDetail>() {
             public void onSuccess(final PatchSetDetail result) {
-              ensureLoaded(result);
-              patchTable.setRegisterKeys(true);
+              loadedInfoTable(result);
+              loadedActionPanel(result);
             }
           });
     }

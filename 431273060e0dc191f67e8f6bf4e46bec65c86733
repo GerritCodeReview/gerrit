@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFaX///94\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-21T15:10:43Z",
+      "side": 1,
+      "message": "I figured Set is usually the best choice when you have collections consisting of unique items. But of course there\u0027s a penalty. I\u0027ll switch to List, so we can save a bit on memory (and remove some now unnecessary code).",
+      "parentUuid": "AAAFX3///aI\u003d",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///aM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-11T15:50:20Z",
       "side": 1,
       "message": "use int, not Integer",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFaX///90\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-21T15:10:43Z",
+      "side": 1,
+      "message": "Removed it all together. Now using  GitReferenceUpdatedListener to detect changes.",
+      "parentUuid": "AAAFX3///aM\u003d",
       "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFaX///9w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-21T15:10:43Z",
+      "side": 1,
+      "message": "Removed it all together. Now using  GitReferenceUpdatedListener to detect changes.",
+      "parentUuid": "AAAFX3///aA\u003d",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///Z8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2012-05-11T15:50:20Z",
       "side": 1,
       "message": "You can\u0027t trust the number of refs to tell you if the cache entry is stale or not.\n\nIt would be better to hold the number of refs under refs/changes/*, or have the caller identify the cache entry is stale because it has a refs/changes/ ref and no information about it in the cache data, which means the cache is stale so the caller would invalidate the cache entry.",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFbH///9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-21T15:10:43Z",
+      "side": 1,
+      "message": "Now using  GitReferenceUpdatedListener to detect changes.",
+      "parentUuid": "AAAFX3///Z8\u003d",
       "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFk3////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-21T15:10:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///Z4\u003d",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///aE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2012-05-11T15:50:20Z",
       "side": 1,
       "message": "The cache itself is thread safe, so you don\u0027t need to lock something to remove from the cache.",
+      "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFkn////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-05-21T15:10:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///aE\u003d",
       "revId": "431273060e0dc191f67e8f6bf4e46bec65c86733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

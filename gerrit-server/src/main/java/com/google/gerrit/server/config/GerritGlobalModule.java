@@ -50,6 +50,7 @@ import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
@@ -123,6 +124,8 @@ public class GerritGlobalModule extends FactoryModule {
     install(ProjectCacheImpl.module());
     install(SectionSortCache.module());
     install(TagCache.module());
+    install(ChangeCache.module());
+
     install(new AccessControlModule());
     install(new GitModule());
     install(new PrologModule());
@@ -171,6 +174,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
+    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
 
     bind(AnonymousUser.class);
   }

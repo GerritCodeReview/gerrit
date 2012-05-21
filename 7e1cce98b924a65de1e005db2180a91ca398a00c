@@ -67,6 +67,24 @@
       "revId": "7e1cce98b924a65de1e005db2180a91ca398a00c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFjH///50\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-21T14:22:56Z",
+      "side": 1,
+      "message": "But this servlet isn\u0027t even defined yet. Bad rebase?",
+      "parentUuid": "AAAFjH///6I\u003d",
+      "revId": "7e1cce98b924a65de1e005db2180a91ca398a00c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

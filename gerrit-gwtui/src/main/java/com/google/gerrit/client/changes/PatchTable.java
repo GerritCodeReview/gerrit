@@ -119,6 +119,10 @@ public class PatchTable extends Composite {
     }
   }
 
+  public PatchSet.Id getBase() {
+    return base;
+  }
+
   public void setSavePointerId(final String id) {
     savePointerId = id;
   }

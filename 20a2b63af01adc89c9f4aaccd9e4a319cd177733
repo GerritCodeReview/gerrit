@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFrX///8c\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-22T20:09:34Z",
+      "side": 1,
+      "message": "I\u0027ll check and see what\u0027s being used and normalize it.",
+      "parentUuid": "AAAFi3////I\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFi3////E\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-19T18:21:24Z",
       "side": 1,
       "message": "Recursive 775?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFrX///8M\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-22T20:09:34Z",
+      "side": 1,
+      "message": "/usr/local/gerrit should be 770 or 750 for the tomcat user only. /var/data/gerrit should probably be 770. I\u0027ll update.",
+      "parentUuid": "AAAFi3////E\u003d",
       "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

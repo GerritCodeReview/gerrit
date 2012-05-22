@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.CodeReviewNoteCreationException;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -91,7 +92,9 @@ public class ExportReviewNotes extends SiteProgram {
     gitInjector = dbInjector.createChildInjector(new AbstractModule() {
       @Override
       protected void configure() {
+        install(new SchemaVersion.Module());
         install(SchemaVersionCheck.module());
+        install(new LocalDiskRepositoryManager.Module());
         bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
             Scopes.SINGLETON);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)

@@ -43,12 +43,14 @@ import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.sshd.SshModule;
@@ -204,6 +206,8 @@ public class Daemon extends SiteProgram {
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<Module>();
+    modules.add(new LocalDiskRepositoryManager.Module());
+    modules.add(new SchemaVersion.Module());
     modules.add(SchemaVersionCheck.module());
     modules.add(new LogFileCompressor.Module());
     modules.add(new WorkQueue.Module());

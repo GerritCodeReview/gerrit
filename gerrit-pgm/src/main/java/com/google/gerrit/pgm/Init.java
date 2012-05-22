@@ -40,6 +40,7 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -286,6 +287,7 @@ public class Init extends SiteProgram {
 
   private Injector createSysInjector(final SiteInit init) {
     final List<Module> modules = new ArrayList<Module>();
+    modules.add(new LocalDiskRepositoryManager.Module());
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {

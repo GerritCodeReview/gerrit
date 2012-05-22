@@ -12,26 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.schema;
+package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
-import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllProjectsNameProvider;
-import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-import com.google.gerrit.server.config.FactoryModule;
+import com.google.inject.AbstractModule;
 
 import org.eclipse.jgit.lib.PersonIdent;
 
-/** Validate the schema and connect to Git. */
-public class SchemaModule extends FactoryModule {
+/** Set up basic information about the site. */
+public class SiteInfoModule extends AbstractModule {
   @Override
   protected void configure() {
-    install(new SchemaVersion.Module());
-
     bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class)
       .toProvider(GerritPersonIdentProvider.class);
 

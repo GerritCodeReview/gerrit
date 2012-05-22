@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
-import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
 
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   }
 
   @Override
-  public void advertiseRefs(ReceivePack rp) {
+  public void advertiseRefs(BaseReceivePack rp) {
     Map<String, Ref> oldRefs = rp.getAdvertisedRefs();
     if (oldRefs == null) {
       oldRefs = rp.getRepository().getAllRefs();

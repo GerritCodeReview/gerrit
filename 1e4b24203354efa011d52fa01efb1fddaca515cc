@@ -16,6 +16,24 @@
       "revId": "1e4b24203354efa011d52fa01efb1fddaca515cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoH///9s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-22T16:47:49Z",
+      "side": 1,
+      "message": "Next change. it was easier to remove the old code first so i didn\u0027t have to migrate it. \n\nhere is the next change:\nhttps://gerrit-review.googlesource.com/#/c/34953/",
+      "parentUuid": "AAAFen///2U\u003d",
+      "revId": "1e4b24203354efa011d52fa01efb1fddaca515cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

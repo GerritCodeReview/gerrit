@@ -157,6 +157,7 @@ public class Daemon extends SiteProgram {
 
       manager.start();
       RuntimeShutdown.add(new Runnable() {
+        @Override
         public void run() {
           log.info("caught shutdown, cleaning up");
           if (runId != null) {

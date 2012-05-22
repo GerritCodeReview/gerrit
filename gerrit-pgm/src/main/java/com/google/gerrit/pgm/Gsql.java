@@ -47,6 +47,7 @@ public class Gsql extends SiteProgram {
     manager.add(dbInjector);
     manager.start();
     RuntimeShutdown.add(new Runnable() {
+      @Override
       public void run() {
         try {
           System.in.close();

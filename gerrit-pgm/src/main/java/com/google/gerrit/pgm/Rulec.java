@@ -43,7 +43,7 @@ public class Rulec extends SiteProgram {
   @Option(name = "--all", usage = "recompile all rules")
   private boolean all;
 
-  @Option(name = "--quiet", usage = "supress some messsages")
+  @Option(name = "--quiet", usage = "suppress some messages")
   private boolean quiet;
 
   @Argument(index = 0, multiValued = true, metaVar = "PROJECT", usage = "project to compile rules for")

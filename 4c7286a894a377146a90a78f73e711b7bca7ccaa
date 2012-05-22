@@ -88,6 +88,42 @@
       "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFrX///9k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-22T17:31:51Z",
+      "side": 1,
+      "message": "Not necessarily: Shawn has already implement a very good logic on the reload of plugins.\n\nI would say:\n- reload: yes, why not ?\n- disable: no (a mandatory plug-in should never be disabled)\n\n@Martin: what do you think ?",
+      "parentUuid": "AAAFi3///+0\u003d",
+      "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFrX///9o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-22T17:31:51Z",
+      "side": 1,
+      "message": "Yes, agreed. Required should be defined by the Gerrit admin based on the company policies.\n\nOne valid example is the audit (if you start the server but without respecting the Enterprise Security Policies, you may have big problems and risks in terms of traceability of what happened).\n\nAnother valid example is commit validations: once again a company may define them as plug-in and they would then need to be loaded during start-up. If plug-in fails to load, then you may have a Gerrit instance that doesn\u0027t validate and enforce commits Enterprise policies.\n\nWhat about the configuration ? The one suggested by Shawn looks good to me: simple and clear.\n\n@Martin ?",
+      "parentUuid": "AAAFjH///9k\u003d",
+      "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

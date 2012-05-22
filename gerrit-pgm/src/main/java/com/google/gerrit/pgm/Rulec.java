@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.rules.PrologCompiler;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
@@ -67,6 +68,7 @@ public class Rulec extends SiteProgram {
     dbInjector.createChildInjector(new FactoryModule() {
       @Override
       protected void configure() {
+        install(new LocalDiskRepositoryManager.Module());
         factory(PrologCompiler.Factory.class);
       }
     }).injectMembers(this);

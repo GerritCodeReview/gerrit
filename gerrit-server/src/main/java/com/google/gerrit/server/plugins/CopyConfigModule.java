@@ -19,7 +19,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -82,14 +81,6 @@ class CopyConfigModule extends AbstractModule {
   @Provides
   SchemaFactory<ReviewDb> getSchemaFactory() {
     return schemaFactory;
-  }
-
-  @Inject
-  private GitRepositoryManager gitRepositoryManager;
-
-  @Provides
-  GitRepositoryManager getGitRepositoryManager() {
-    return gitRepositoryManager;
   }
 
   @Inject

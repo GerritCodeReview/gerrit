@@ -119,50 +119,23 @@ public class ChangeQueryRewriter extends QueryRewriter<ChangeData> {
     return a.getValue().compareTo(b.getValue()) >= 0 ? a : b;
   }
 
-  @Rewrite("status:open P=(project:*) B=(branch:*) S=(sortkey_after:*) L=(limit:*)")
-  public Predicate<ChangeData> r05_byBranchOpenPrev(
+  @Rewrite("status:open P=(project:*) B=(branch:*)")
+  public Predicate<ChangeData> r05_byBranchOpen(
       @Named("P") final ProjectPredicate p,
-      @Named("B") final BranchPredicate b,
-      @Named("S") final SortKeyPredicate.After s,
-      @Named("L") final IntPredicate<ChangeData> l) {
-    return new PaginatedSource(500, s.getValue(), l.intValue()) {
+      @Named("B") final BranchPredicate b) {
+    return new ChangeSource(500) {
       @Override
-      ResultSet<Change> scan(ChangeAccess a, String key, int limit)
+      ResultSet<Change> scan(ChangeAccess a)
           throws OrmException {
-        return a.byBranchOpenAll(new Branch.NameKey(p.getValueKey(), b
-            .getValue()));
+        return a.byBranchOpenAll(
+            new Branch.NameKey(p.getValueKey(), b.getValue()));
       }
 
       @Override
       public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen() //
-            && p.match(cd) //
-            && b.match(cd) //
-            && s.match(cd);
-      }
-    };
-  }
-
-  @Rewrite("status:open P=(project:*) B=(branch:*) S=(sortkey_before:*) L=(limit:*)")
-  public Predicate<ChangeData> r05_byBranchOpenNext(
-      @Named("P") final ProjectPredicate p,
-      @Named("B") final BranchPredicate b,
-      @Named("S") final SortKeyPredicate.Before s,
-      @Named("L") final IntPredicate<ChangeData> l) {
-    return new PaginatedSource(500, s.getValue(), l.intValue()) {
-      @Override
-      ResultSet<Change> scan(ChangeAccess a, String key, int limit)
-          throws OrmException {
-        return a.byBranchOpenAll(new Branch.NameKey(p.getValueKey(), b
-            .getValue()));
-      }
-
-      @Override
-      public boolean match(ChangeData cd) throws OrmException {
-        return cd.change(dbProvider).getStatus().isOpen() //
-            && p.match(cd) //
-            && b.match(cd) //
-            && s.match(cd);
+        return cd.change(dbProvider).getStatus().isOpen()
+            && p.match(cd)
+            && b.match(cd);
       }
     };
   }

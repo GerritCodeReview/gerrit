@@ -67,7 +67,7 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     final AccountGroup group = control.getAccountGroup();
     final GroupDetail detail = new GroupDetail();
     detail.setGroup(group);
-    AccountGroup ownerGroup = groupCache.get(group.getGroupUUID());
+    AccountGroup ownerGroup = groupCache.get(group.getOwnerGroupUUID());
     if (ownerGroup != null) {
       detail.setOwnerGroup(GroupReference.forGroup(ownerGroup));
     }

@@ -34,17 +34,22 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 public abstract class PatchScreen extends Screen implements
@@ -59,8 +64,8 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    protected SideBySideTable createContentTable() {
-      return new SideBySideTable();
+    protected SideBySideTable createContentTable(VerticalOverviewBar overviewBar) {
+      return new SideBySideTable(overviewBar);
     }
 
     @Override
@@ -77,8 +82,8 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    protected UnifiedDiffTable createContentTable() {
-      return new UnifiedDiffTable();
+    protected UnifiedDiffTable createContentTable(VerticalOverviewBar overviewBar) {
+      return new UnifiedDiffTable(overviewBar);
     }
 
     @Override
@@ -108,9 +113,10 @@ public abstract class PatchScreen extends Screen implements
   private FlowPanel contentPanel;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
+  private VerticalOverviewBar overviewBar;
   private CommitMessageBlock commitMessageBlock;
   private NavLinks topNav;
-  private NavLinks bottomNav;
+  //private NavLinks bottomNav;
 
   private int rpcSequence;
   private PatchScript lastScript;
@@ -254,11 +260,13 @@ public abstract class PatchScreen extends Screen implements
     noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
     noDifference.setVisible(false);
 
-    contentTable = createContentTable();
+    ScrollPanel scrollPanel = new ScrollPanel();
+    overviewBar = new VerticalOverviewBar(scrollPanel);
+    contentTable = createContentTable(overviewBar);
     contentTable.fileList = fileList;
 
     topNav = new NavLinks(keysNavigation, patchKey.getParentKey());
-    bottomNav = new NavLinks(null, patchKey.getParentKey());
+    //bottomNav = new NavLinks(null, patchKey.getParentKey());
 
     add(topNav);
     contentPanel = new FlowPanel();
@@ -266,13 +274,21 @@ public abstract class PatchScreen extends Screen implements
         .sideBySideScreenSideBySideTable());
     contentPanel.add(noDifference);
     contentPanel.add(contentTable);
-    add(contentPanel);
-    add(bottomNav);
+    //add(contentPanel);
+    //add(bottomNav);
 
     if (fileList != null) {
       topNav.display(patchIndex, getPatchScreenType(), fileList);
-      bottomNav.display(patchIndex, getPatchScreenType(), fileList);
+      //bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
+
+    RootLayoutPanel rp = RootLayoutPanel.get();
+    DockLayoutPanel p = new DockLayoutPanel(Unit.PX);
+    scrollPanel.setWidget(contentPanel);
+    p.addNorth(new HTML(), 120);
+    p.addEast(overviewBar, 16);
+    p.add(scrollPanel);
+    rp.add(p);
   }
 
   void setReviewedByCurrentUser(boolean reviewed) {
@@ -336,7 +352,7 @@ public abstract class PatchScreen extends Screen implements
     regNavigation = GlobalKey.add(this, keysNavigation);
   }
 
-  protected abstract AbstractPatchContentTable createContentTable();
+  protected abstract AbstractPatchContentTable createContentTable(VerticalOverviewBar overviewBar);
 
   public abstract PatchScreen.Type getPatchScreenType();
 
@@ -429,7 +445,7 @@ public abstract class PatchScreen extends Screen implements
       // the unified view instead.
       //
       contentTable.removeFromParent();
-      contentTable = new UnifiedDiffTable();
+      contentTable = new UnifiedDiffTable(overviewBar);
       contentTable.fileList = fileList;
       contentPanel.add(contentTable);
       setToken(Dispatcher.toPatchUnified(idSideA, patchKey));
@@ -448,7 +464,7 @@ public abstract class PatchScreen extends Screen implements
 
     if (fileList != null) {
       topNav.display(patchIndex, getPatchScreenType(), fileList);
-      bottomNav.display(patchIndex, getPatchScreenType(), fileList);
+      //bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
 
     if (Gerrit.isSignedIn()) {

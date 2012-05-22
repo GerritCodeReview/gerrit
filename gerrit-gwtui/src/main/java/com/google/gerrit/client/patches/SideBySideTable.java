@@ -20,6 +20,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.patches.VerticalOverviewBar.Side;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.FileMode;
@@ -53,6 +54,10 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   private SparseHtmlFile a;
   private SparseHtmlFile b;
+
+  public SideBySideTable(VerticalOverviewBar overviewBar) {
+    super(overviewBar);
+  }
 
   @Override
   protected void onCellDoubleClick(final int row, int column) {
@@ -108,6 +113,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
       if (!hunk.isStartOfFile()) {
         appendSkipLine(nc, hunk.getCurB() - lastB);
         lines.add(new SkippedLine(lastA, lastB, hunk.getCurB() - lastB));
+        overviewBar.addLine(lines.size(), Side.LEFT, PatchLine.Type.CONTEXT);
+        overviewBar.addLine(lines.size(), Side.RIGHT, PatchLine.Type.CONTEXT);
       }
 
       while (hunk.next()) {
@@ -125,6 +132,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
           closeLine(nc);
           hunk.incBoth();
           lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
+          overviewBar.addLine(lines.size(), Side.LEFT, PatchLine.Type.CONTEXT);
+          overviewBar.addLine(lines.size(), Side.RIGHT, PatchLine.Type.CONTEXT);
 
         } else if (hunk.isModifiedLine()) {
           final boolean del = hunk.isDeletedA();
@@ -161,10 +170,16 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
           if (del && ins) {
             lines.add(new PatchLine(REPLACE, hunk.getCurA(), hunk.getCurB()));
+            overviewBar.addLine(lines.size(), Side.LEFT, PatchLine.Type.DELETE);
+            overviewBar.addLine(lines.size(), Side.RIGHT, PatchLine.Type.INSERT);
           } else if (del) {
             lines.add(new PatchLine(DELETE, hunk.getCurA(), 0));
+            overviewBar.addLine(lines.size(), Side.LEFT, PatchLine.Type.DELETE);
+            overviewBar.addLine(lines.size(), Side.RIGHT, PatchLine.Type.CONTEXT);
           } else if (ins) {
             lines.add(new PatchLine(INSERT, 0, hunk.getCurB()));
+            overviewBar.addLine(lines.size(), Side.LEFT, PatchLine.Type.CONTEXT);
+            overviewBar.addLine(lines.size(), Side.RIGHT, PatchLine.Type.INSERT);
           }
         }
       }
@@ -174,6 +189,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
     if (lastB != b.size()) {
       appendSkipLine(nc, b.size() - lastB);
       lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
+      overviewBar.addLine(lines.size(), Side.LEFT, PatchLine.Type.CONTEXT);
+      overviewBar.addLine(lines.size(), Side.RIGHT, PatchLine.Type.CONTEXT);
     }
     resetHtml(nc);
     initScript(script);
@@ -380,6 +397,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
     if (numRows < 0) {
       offset = 1;
     }
+
+    overviewBar.insertLines(loopTo, row);
 
     CellFormatter fmt = table.getCellFormatter();
     for (int i = 0 + offset; i < loopTo + offset; i++) {

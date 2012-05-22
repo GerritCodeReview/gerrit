@@ -73,7 +73,10 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private final KeyCommandSet keysOpenByEnter;
   private HandlerRegistration regOpenByEnter;
 
-  protected AbstractPatchContentTable() {
+  protected final VerticalOverviewBar overviewBar;
+
+  protected AbstractPatchContentTable(VerticalOverviewBar overviewBar) {
+    this.overviewBar = overviewBar;
     keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new PrevChunkKeyCmd(0, 'p', PatchUtil.C.chunkPrev()));
@@ -142,6 +145,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
             table.getCellFormatter().addStyleName(row - 1, cell,
                 Gerrit.RESOURCES.css().commentPanelLast());
           }
+          overviewBar.removeCommentMarker(row);
           return;
         }
       }
@@ -173,6 +177,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     idSideB = b;
 
     render(s);
+
+    overviewBar.setTotalLines(table.getRowCount());
   }
 
   protected SparseHtmlFile getSparseHtmlFileA(PatchScript s) {
@@ -210,6 +216,12 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected abstract void onInsertComment(PatchLine pl);
 
   public abstract void display(CommentDetail comments, boolean expandComments);
+
+  @Override
+  public void finishDisplay() {
+    super.finishDisplay();
+    overviewBar.setTotalLines(table.getRowCount());
+  }
 
   @Override
   protected MyFlexTable createFlexTable() {
@@ -471,6 +483,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     if (needInsert || !isCommentRow) {
       insertRow(row);
       styleCommentRow(row);
+      overviewBar.addCommentMarker(row);
     }
     table.setWidget(row, column, ed);
     styleLastCommentCell(row, column);
@@ -593,6 +606,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       l.panels.add(panel);
     }
 
+    overviewBar.addCommentMarker(row);
     styleCommentRow(row);
   }
 

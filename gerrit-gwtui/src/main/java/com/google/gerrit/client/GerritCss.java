@@ -211,4 +211,11 @@ public interface GerritCss extends CssResource {
   String watchedProjectFilter();
   String selectPatchSetOldVersion();
   String patchCellReverseDiff();
+  String verticalOverviewBar();
+  String verticalOverviewBarMarker();
+  String verticalOverviewBarCodeBlockMarkerLeft();
+  String verticalOverviewBarCodeBlockMarkerRight();
+  String verticalOverviewBarCodeBlockMarkerInsert();
+  String verticalOverviewBarCodeBlockMarkerDelete();
+  String verticalOverviewBarCommentMarker();
 }

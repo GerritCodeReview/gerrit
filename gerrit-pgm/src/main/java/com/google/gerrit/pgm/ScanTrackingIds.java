@@ -25,11 +25,13 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -71,9 +73,10 @@ public class ScanTrackingIds extends SiteProgram {
     }
 
     dbInjector = createDbInjector(MULTI_USER);
-    manager.add(
-        dbInjector,
-        dbInjector.createChildInjector(SchemaVersionCheck.module()));
+    List<Module> modules = new ArrayList<Module>();
+    modules.add(new SchemaVersion.Module());
+    modules.add(SchemaVersionCheck.module());
+    manager.add(dbInjector, dbInjector.createChildInjector(modules));
     manager.start();
     dbInjector.injectMembers(this);
 

@@ -20,11 +20,13 @@ import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.kohsuke.args4j.Option;
@@ -55,8 +57,10 @@ public class LocalUsernamesToLowerCase extends SiteProgram {
     }
 
     dbInjector = createDbInjector(MULTI_USER);
-    manager.add(dbInjector,
-        dbInjector.createChildInjector(SchemaVersionCheck.module()));
+    List<Module> modules = new ArrayList<Module>();
+    modules.add(new SchemaVersion.Module());
+    modules.add(SchemaVersionCheck.module());
+    manager.add(dbInjector, dbInjector.createChildInjector(modules));
     manager.start();
     dbInjector.injectMembers(this);
 

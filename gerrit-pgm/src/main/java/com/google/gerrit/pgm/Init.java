@@ -33,6 +33,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.schema.SchemaUpdater;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.gwtorm.jdbc.JdbcExecutor;
@@ -40,6 +41,7 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -291,6 +293,8 @@ public class Init extends SiteProgram {
 
   private Injector createSysInjector(final SiteInit init) {
     final List<Module> modules = new ArrayList<Module>();
+    modules.add(new SchemaVersion.Module());
+    modules.add(new LocalDiskRepositoryManager.Module());
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {

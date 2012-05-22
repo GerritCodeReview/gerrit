@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
+import com.google.gerrit.server.config.SiteInfoModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
@@ -41,11 +42,10 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
-import com.google.gerrit.server.schema.SchemaModule;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
-import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -155,8 +155,6 @@ public class WebAppInitializer extends GuiceServletContextListener {
           listener().to(DataSourceProvider.class);
         }
       });
-      modules.add(new GerritServerConfigModule());
-
     } else {
       modules.add(new LifecycleModule() {
         @Override
@@ -164,38 +162,33 @@ public class WebAppInitializer extends GuiceServletContextListener {
           bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
               ReviewDbDataSourceProvider.class).in(SINGLETON);
           listener().to(ReviewDbDataSourceProvider.class);
+          // If we didn't get the site path from the system property
+          // we need to get it from the database, as that's our old
+          // method of locating the site path on disk.
+          //
+          bind(File.class).annotatedWith(SitePath.class).toProvider(
+              SitePathFromSystemConfigProvider.class).in(SINGLETON);
         }
       });
     }
+
+    modules.add(new GerritServerConfigModule());
     modules.add(new DatabaseModule());
+    modules.add(new SiteInfoModule());
     return Guice.createInjector(PRODUCTION, modules);
   }
 
   private Injector createCfgInjector() {
     final List<Module> modules = new ArrayList<Module>();
-    if (sitePath == null) {
-      // If we didn't get the site path from the system property
-      // we need to get it from the database, as that's our old
-      // method of locating the site path on disk.
-      //
-      modules.add(new AbstractModule() {
-        @Override
-        protected void configure() {
-          bind(File.class).annotatedWith(SitePath.class).toProvider(
-              SitePathFromSystemConfigProvider.class).in(SINGLETON);
-        }
-      });
-      modules.add(new GerritServerConfigModule());
-    }
-    modules.add(new SchemaModule());
-    modules.add(new LocalDiskRepositoryManager.Module());
-    modules.add(SchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);
   }
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<Module>();
+    modules.add(new LocalDiskRepositoryManager.Module());
+    modules.add(new SchemaVersion.Module());
+    modules.add(SchemaVersionCheck.module());
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());

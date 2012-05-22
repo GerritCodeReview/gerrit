@@ -19,13 +19,11 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfigModule;
+import com.google.gerrit.server.config.SiteInfoModule;
 import com.google.gerrit.server.config.SitePath;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
-import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gwtorm.server.OrmException;
-import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -147,15 +145,10 @@ public abstract class SiteProgram extends AbstractProgram {
 
     final File sitePath = getSitePath();
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
-      }
-    });
     modules.add(new LifecycleModule() {
       @Override
       protected void configure() {
+        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
         bind(DataSourceProvider.Context.class).toInstance(context);
         bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
             DataSourceProvider.class).in(SINGLETON);
@@ -164,8 +157,7 @@ public abstract class SiteProgram extends AbstractProgram {
     });
     modules.add(new GerritServerConfigModule());
     modules.add(new DatabaseModule());
-    modules.add(new SchemaModule());
-    modules.add(new LocalDiskRepositoryManager.Module());
+    modules.add(new SiteInfoModule());
 
     try {
       return Guice.createInjector(PRODUCTION, modules);

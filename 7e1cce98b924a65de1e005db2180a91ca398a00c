@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFrX///+8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-22T15:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFjH///6E\u003d",
+      "revId": "7e1cce98b924a65de1e005db2180a91ca398a00c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFjH///58\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFrX////E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-22T15:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFjH///58\u003d",
+      "revId": "7e1cce98b924a65de1e005db2180a91ca398a00c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFjH///6A\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-05-21T14:22:18Z",
       "side": 1,
       "message": "This isn\u0027t the right way to return the result to the client over HTTP.\n\n  throw new RequireCapabilityException(msg);\n\n  private static class RequireCapabilityException extends Exception {\n  }",
+      "revId": "7e1cce98b924a65de1e005db2180a91ca398a00c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFrX////A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-22T15:14:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFjH///6A\u003d",
       "revId": "7e1cce98b924a65de1e005db2180a91ca398a00c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -82,6 +136,24 @@
       "side": 1,
       "message": "But this servlet isn\u0027t even defined yet. Bad rebase?",
       "parentUuid": "AAAFjH///6I\u003d",
+      "revId": "7e1cce98b924a65de1e005db2180a91ca398a00c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFln///+c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-22T15:14:12Z",
+      "side": 1,
+      "message": "Yes, sorry.",
+      "parentUuid": "AAAFjH///50\u003d",
       "revId": "7e1cce98b924a65de1e005db2180a91ca398a00c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAFoX///yU\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "I would suggest starting smaller, perhaps by simply making a small set of instructions on: \"what needs to be done differently if attempting to install tomcat\" should be a first place to focus, that seems like a change of its own and would be easier to review.",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoX///yk\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "I suggest that you make this guide a complement to the main install guide or there will be too much duplication which will make it very hard to maintain in the future.  I know that the newbie install guide repeats some stuff other places, but I feel that particular guide merits an exception to allow duplication.  I think that anyone setting up an enterprise installation should be expected to first read the main install doc (which is not the case for a newbie).  I also think that the main install should be (if it is not already), aimed at the enterprise.  If it is not, we are probably doing something wrong and it should be fixed.\n\nFor that reason, I would only add requirements which are not covered in the main guide.",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFi3////I\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -37,6 +71,40 @@
     },
     {
       "key": {
+        "uuid": "AAAFoH///0o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "I would only add here what you think should be extra enterprise or tomcat specific from what is already in the main install",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoH///0k\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "Hmm, why are you creating the gerrit group and then not putting the gerrit user in that group?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFi3////E\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -66,6 +134,228 @@
       "side": 1,
       "message": "/usr/local/gerrit should be 770 or 750 for the tomcat user only. /var/data/gerrit should probably be 770. I\u0027ll update.",
       "parentUuid": "AAAFi3////E\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoH///2I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "I don\u0027t think that ordinary files should get execute permissions.",
+      "parentUuid": "AAAFrX///8M\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoH///2E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "I don\u0027t think that an enterprise setup or a tomcat setup guide should talk about: -how to setup git- unless it is to talk about how to setup gc.",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFpH///8Y\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "It is not clear to me what the intent of this sandbox is, perhaps because you are not indicating where it is being setup?  This feels more like something that belongs perhaps in the newbie guide instead of the enterprise guide?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoH///1w\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "I don\u0027t think this does what you suggest it does?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoX///yc\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "If most of this can be added to the main gitweb setup page it would probably be better.",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoX///y0\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "I think that this section should either be moved to the normal gitweb install instructions, or to the new windows installation instructions which I suggest creating below.",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFpH///7c\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "If this section is not complete enough, please propose an enhancement to it, I don\u0027t think we want this info duplicated:\n\n  https://gerrit-review.googlesource.com/Documentation/install.html#createdb_postgres",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoX///zY\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "If this section is not complete enough, please propose an enhancement to it, I don\u0027t think we want this info duplicated:\n\n  https://gerrit-review.googlesource.com/Documentation/install.html#createdb_mysql",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoH///00\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "Should windows installation be documented in the main install?  If not, I think that we could use a windows specific install doc, not enterprise related.   And to be honest, it probably isn\u0027t documented because it not quite advised, which begs the question if windows stuff should be advised for enterprise setups?  This is not a dig on windows, but just that it is different enough than un*x and I don\u0027t know if any core devs run it on windows in the enterprise?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoH///1E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "If this section is not complete enough, please propose an enhancement to it, I don\u0027t think we want this info duplicated:\n\n  https://gerrit-review.googlesource.com/Documentation/config-gitweb.html",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoH///08\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "I am not sure where LDAP is currently documented in Gerrit, is it?  If not, this should probably just go in the main install guide?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFpH///8M\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "Could you submit a change to add this script to the contrib dir instead of including it here?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFpH///8U\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-23T01:49:51Z",
+      "side": 1,
+      "message": "I think that if you feel that this section is not enough about Gerrit Login, then perhaps it should be enhanced:\n\n https://gerrit-review.googlesource.com/Documentation/install-quick.html#_registering_your_key_in_gerrit\n\nbut I think that you need to assume that a person setting an enterprise Gerrit already knows most of this section.  If we have this duplicated it is harder to maintain and to point people to the \"better\" version.",
       "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

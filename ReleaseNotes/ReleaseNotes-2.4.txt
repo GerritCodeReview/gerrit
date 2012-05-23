@@ -70,6 +70,11 @@ the tip of the destination branch or the latest patchset
 of the change we depend upon. A new patch set containing
 the rebased commit will be produced and added to the
 change.
++
+Rebasing of a change in web UI is restricted to change owner, submitter or
+those with the (new) 'rebase' permission.
+
+* Add a new permission 'rebase' to permit rebasing changes in the web UI
 
 * Make a user's dashboard visible if any of the changes are visible to the
 current user.

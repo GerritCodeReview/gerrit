@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFsX///9A\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure how much I can break apart, however, I\u0027ll definitely give it a shot. I think I understand what you\u0027re referring to after studying the doc some more. I\u0027ll try to include and contribute to as much existing doc as possible. Other areas, that can be shared, I\u0027ll extract out with include macro.",
+      "parentUuid": "AAAFoX///yk\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFi3////I\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -88,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFsX///94\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "spearce requested this doc be a separate tutorial.",
+      "parentUuid": "AAAFoH///0o\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFoH///0k\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -99,6 +135,24 @@
       "writtenOn": "2012-05-23T01:49:51Z",
       "side": 1,
       "message": "Hmm, why are you creating the gerrit group and then not putting the gerrit user in that group?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFsX///90\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "copynpaste mistake from previous instructions i used in my local environment. We run tomcat under tomcat user.",
+      "parentUuid": "AAAFoH///0k\u003d",
       "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -158,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFsX///9s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "I updated to reflect exec permission for bin files only. Rest are rw for gerrit.gerrit user/group.",
+      "parentUuid": "AAAFoH///2I\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFoH///2E\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -169,6 +241,24 @@
       "writtenOn": "2012-05-23T01:49:51Z",
       "side": 1,
       "message": "I don\u0027t think that an enterprise setup or a tomcat setup guide should talk about: -how to setup git- unless it is to talk about how to setup gc.",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFsX///88\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "This is only for setting up account info for authentication with gerrit. If emails don\u0027t match, gerrit will reject your connection.",
+      "parentUuid": "AAAFoH///2E\u003d",
       "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -209,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFsX///9U\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "This isn\u0027t right at all. These references git/gitweb and the latter httpd? Updating for gitweb and testing on my linux box.",
+      "parentUuid": "AAAFoH///1w\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFoX///yc\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -220,6 +328,24 @@
       "writtenOn": "2012-05-23T01:49:51Z",
       "side": 1,
       "message": "If most of this can be added to the main gitweb setup page it would probably be better.",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFsX///9Q\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "Where\u0027s the main gitweb setup page? Are you referring to the configuration parameters page?",
+      "parentUuid": "AAAFoX///yc\u003d",
       "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -243,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFsX///84\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "I\u0027ll try to consolidate here.",
+      "parentUuid": "AAAFoX///y0\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFpH///7c\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -254,6 +398,24 @@
       "writtenOn": "2012-05-23T01:49:51Z",
       "side": 1,
       "message": "If this section is not complete enough, please propose an enhancement to it, I don\u0027t think we want this info duplicated:\n\n  https://gerrit-review.googlesource.com/Documentation/install.html#createdb_postgres",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFsX///9I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "Separating out and consolidating both areas with include macro and database text.",
+      "parentUuid": "AAAFpH///7c\u003d",
       "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -277,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFsX///9E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFoX///zY\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFoH///00\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -288,6 +468,24 @@
       "writtenOn": "2012-05-23T01:49:51Z",
       "side": 1,
       "message": "Should windows installation be documented in the main install?  If not, I think that we could use a windows specific install doc, not enterprise related.   And to be honest, it probably isn\u0027t documented because it not quite advised, which begs the question if windows stuff should be advised for enterprise setups?  This is not a dig on windows, but just that it is different enough than un*x and I don\u0027t know if any core devs run it on windows in the enterprise?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFsX///80\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "?hould windows installation be documented in the main install? \n\nI mentioned earlier spearce requested the doc be separate and not integrated with the embedded install.\n\n\u003ebegs the question if windows stuff should be advised for \n\u003eenterprise setups? This is not a dig on windows, but just \n\u003ethat it is different enough than un*x and I don\u0027t know if\n\u003e any core devs run it on windows in the enterprise?\n\nGood questions. I\u0027m not sure I\u0027m the right person to answer that. I can tell you we have Gerrit running in our infrastructure under a windows server. Seems to work fine.",
+      "parentUuid": "AAAFoH///00\u003d",
       "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -311,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFsX///8w\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "Will consolidate.",
+      "parentUuid": "AAAFoH///1E\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFoH///08\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -322,6 +538,24 @@
       "writtenOn": "2012-05-23T01:49:51Z",
       "side": 1,
       "message": "I am not sure where LDAP is currently documented in Gerrit, is it?  If not, this should probably just go in the main install guide?",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFsX///8s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "WIll see if there\u0027s existing ldap setup info and consolidate.",
+      "parentUuid": "AAAFoH///08\u003d",
       "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -345,6 +579,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFsX///8o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "AAAFpH///8M\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFpH///8U\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -356,6 +608,24 @@
       "writtenOn": "2012-05-23T01:49:51Z",
       "side": 1,
       "message": "I think that if you feel that this section is not enough about Gerrit Login, then perhaps it should be enhanced:\n\n https://gerrit-review.googlesource.com/Documentation/install-quick.html#_registering_your_key_in_gerrit\n\nbut I think that you need to assume that a person setting an enterprise Gerrit already knows most of this section.  If we have this duplicated it is harder to maintain and to point people to the \"better\" version.",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFsX///8k\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-05-23T20:03:12Z",
+      "side": 1,
+      "message": "Understandable. Will try to consolidate.",
+      "parentUuid": "AAAFpH///8U\u003d",
       "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

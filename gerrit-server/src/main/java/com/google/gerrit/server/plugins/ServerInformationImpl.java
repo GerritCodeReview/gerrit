@@ -15,10 +15,19 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 @Singleton
-class ServerInformationImpl implements ServerInformation {
+public class ServerInformationImpl implements ServerInformation {
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(ServerInformationImpl.class);
+      bind(ServerInformation.class).to(ServerInformationImpl.class);
+    }
+  }
+
   volatile State state = State.STARTUP;
 
   @Override

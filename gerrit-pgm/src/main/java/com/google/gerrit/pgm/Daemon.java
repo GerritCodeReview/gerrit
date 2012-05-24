@@ -50,6 +50,7 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
+import com.google.gerrit.server.plugins.RequiredPluginLoader;
 import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -201,7 +202,8 @@ public class Daemon extends SiteProgram {
   private Injector createCfgInjector() {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new AuthConfigModule());
-    return dbInjector.createChildInjector(modules);
+    return RequiredPluginLoader.loadAndInjectPluginModules(
+        dbInjector.createChildInjector(modules));
   }
 
   private Injector createSysInjector() {
@@ -218,6 +220,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
+
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override

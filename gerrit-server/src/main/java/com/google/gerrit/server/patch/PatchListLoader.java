@@ -15,9 +15,9 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.reviewdb.client.Patch;
+import com.google.common.cache.CacheLoader;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
-import com.google.gerrit.server.cache.EntryCreator;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 
@@ -54,6 +54,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,7 +64,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
+class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
+  static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
+
   private final GitRepositoryManager repoManager;
 
   @Inject
@@ -71,7 +75,7 @@ class PatchListLoader extends EntryCreator<PatchListKey, PatchList> {
   }
 
   @Override
-  public PatchList createEntry(final PatchListKey key) throws Exception {
+  public PatchList load(final PatchListKey key) throws Exception {
     final Repository repo = repoManager.openRepository(key.projectKey);
     try {
       return readPatchList(key, repo);

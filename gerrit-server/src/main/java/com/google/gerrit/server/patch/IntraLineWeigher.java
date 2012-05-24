@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,15 +14,15 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.common.cache.Weigher;
 
-/** Provides a cached list of {@link PatchListEntry}. */
-public interface PatchListCache {
-  public PatchList get(PatchListKey key) throws PatchListNotAvailableException;
-
-  public PatchList get(Change change, PatchSet patchSet)
-      throws PatchListNotAvailableException;
-
-  public IntraLineDiff getIntraLineDiff(IntraLineDiffKey key);
+/** Approximates memory usage for IntralineDiff in bytes of memory used. */
+public class IntraLineWeigher implements
+    Weigher<IntraLineDiffKey, IntraLineDiff> {
+  @Override
+  public int weigh(IntraLineDiffKey key, IntraLineDiff value) {
+    return 16 + 8*8 + 2*36     // Size of IntraLineDiffKey, 64 bit JVM
+        + 16 + 2*8 + 16+8+4+20 // Size of IntraLineDiff, 64 bit JVM
+        + (8 + 16 + 4*4) * value.getEdits().size();
+  }
 }

@@ -17,7 +17,6 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.BanCommitResult;
-import com.google.gerrit.server.git.IncompleteUserInfoException;
 import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.SshCommand;
@@ -76,8 +75,6 @@ public class BanCommitCommand extends SshCommand {
     } catch (PermissionDeniedException e) {
       throw die(e);
     } catch (IOException e) {
-      throw die(e);
-    } catch (IncompleteUserInfoException e) {
       throw die(e);
     } catch (MergeException e) {
       throw die(e);

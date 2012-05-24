@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.EntryCreator;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -27,45 +29,58 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 /** Translates an email address to a set of matching accounts. */
 @Singleton
 public class AccountByEmailCacheImpl implements AccountByEmailCache {
+  private static final Logger log = LoggerFactory
+      .getLogger(AccountByEmailCacheImpl.class);
   private static final String CACHE_NAME = "accounts_byemail";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<String, Set<Account.Id>>> type =
-            new TypeLiteral<Cache<String, Set<Account.Id>>>() {};
-        core(type, CACHE_NAME).populateWith(Loader.class);
+        cache(CACHE_NAME,
+            String.class,
+            new TypeLiteral<Set<Account.Id>>() {})
+          .loader(Loader.class);
         bind(AccountByEmailCacheImpl.class);
         bind(AccountByEmailCache.class).to(AccountByEmailCacheImpl.class);
       }
     };
   }
 
-  private final Cache<String, Set<Account.Id>> cache;
+  private final LoadingCache<String, Set<Account.Id>> cache;
 
   @Inject
   AccountByEmailCacheImpl(
-      @Named(CACHE_NAME) final Cache<String, Set<Account.Id>> cache) {
+      @Named(CACHE_NAME) LoadingCache<String, Set<Account.Id>> cache) {
     this.cache = cache;
   }
 
   public Set<Account.Id> get(final String email) {
-    return cache.get(email);
+    try {
+      return cache.get(email);
+    } catch (ExecutionException e) {
+      log.warn("Cannot resolve accounts by email", e);
+      return Collections.emptySet();
+    }
   }
 
   public void evict(final String email) {
-    cache.remove(email);
+    if (email != null) {
+      cache.invalidate(email);
+    }
   }
 
-  static class Loader extends EntryCreator<String, Set<Account.Id>> {
+  static class Loader extends CacheLoader<String, Set<Account.Id>> {
     private final SchemaFactory<ReviewDb> schema;
 
     @Inject
@@ -74,10 +89,10 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     }
 
     @Override
-    public Set<Account.Id> createEntry(final String email) throws Exception {
+    public Set<Account.Id> load(String email) throws Exception {
       final ReviewDb db = schema.open();
       try {
-        final HashSet<Account.Id> r = new HashSet<Account.Id>();
+        Set<Account.Id> r = Sets.newHashSet();
         for (Account a : db.accounts().byPreferredEmail(email)) {
           r.add(a.getId());
         }
@@ -85,30 +100,10 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
             .byEmailAddress(email)) {
           r.add(a.getAccountId());
         }
-        return pack(r);
+        return ImmutableSet.copyOf(r);
       } finally {
         db.close();
       }
-    }
-
-    @Override
-    public Set<Account.Id> missing(final String key) {
-      return Collections.emptySet();
-    }
-
-    private static Set<Account.Id> pack(final Set<Account.Id> c) {
-      switch (c.size()) {
-        case 0:
-          return Collections.emptySet();
-        case 1:
-          return one(c);
-        default:
-          return Collections.unmodifiableSet(new HashSet<Account.Id>(c));
-      }
-    }
-
-    private static <T> Set<T> one(final Set<T> c) {
-      return Collections.singleton(c.iterator().next());
     }
   }
 }

@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -232,16 +233,19 @@ public class EventFactory {
 
   public void addPatchSetFileNames(PatchSetAttribute patchSetAttribute,
       Change change, PatchSet patchSet) {
-    PatchList patchList = patchListCache.get(change, patchSet);
-    for (PatchListEntry patch : patchList.getPatches()) {
-      if (patchSetAttribute.files == null) {
-        patchSetAttribute.files = new ArrayList<PatchAttribute>();
-      }
+    try {
+      PatchList patchList = patchListCache.get(change, patchSet);
+      for (PatchListEntry patch : patchList.getPatches()) {
+        if (patchSetAttribute.files == null) {
+          patchSetAttribute.files = new ArrayList<PatchAttribute>();
+        }
 
-      PatchAttribute p = new PatchAttribute();
-      p.file = patch.getNewName();
-      p.type = patch.getChangeType();
-      patchSetAttribute.files.add(p);
+        PatchAttribute p = new PatchAttribute();
+        p.file = patch.getNewName();
+        p.type = patch.getChangeType();
+        patchSetAttribute.files.add(p);
+      }
+    } catch (PatchListNotAvailableException e) {
     }
   }
 

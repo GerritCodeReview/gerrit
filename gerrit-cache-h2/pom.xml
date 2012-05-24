@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright (C) 2010 The Android Open Source Project
+Copyright (C) 2012 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,23 +25,28 @@ limitations under the License.
     <version>2.5-SNAPSHOT</version>
   </parent>
 
-  <artifactId>gerrit-ehcache</artifactId>
-  <name>Gerrit Code Review - Ehcache Bindings</name>
+  <artifactId>gerrit-cache-h2</artifactId>
+  <name>Gerrit Code Review - Guava + H2 caching</name>
 
   <description>
-    Bindings to Ehcache
+    Implementation of caching backed by Guava and H2
   </description>
 
   <dependencies>
     <dependency>
-      <groupId>net.sf.ehcache</groupId>
-      <artifactId>ehcache-core</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-server</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
     </dependency>
   </dependencies>
 </project>

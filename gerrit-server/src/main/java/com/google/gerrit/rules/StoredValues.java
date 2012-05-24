@@ -30,6 +30,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -80,8 +81,10 @@ public final class StoredValues {
       ObjectId b = ObjectId.fromString(psInfo.getRevId());
       Whitespace ws = Whitespace.IGNORE_NONE;
       PatchListKey plKey = new PatchListKey(projectKey, a, b, ws);
-      PatchList patchList = plCache.get(plKey);
-      if (patchList == null) {
+      PatchList patchList;
+      try {
+        patchList = plCache.get(plKey);
+      } catch (PatchListNotAvailableException e) {
         throw new SystemException("Cannot create " + plKey);
       }
       return patchList;

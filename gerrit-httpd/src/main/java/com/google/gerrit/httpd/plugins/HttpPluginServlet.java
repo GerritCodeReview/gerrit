@@ -16,8 +16,6 @@ package com.google.gerrit.httpd.plugins;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.Weigher;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -32,6 +30,7 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.google.inject.servlet.GuiceFilter;
 
 import org.eclipse.jgit.lib.Config;
@@ -57,7 +56,6 @@ import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.Nullable;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -90,22 +88,12 @@ class HttpPluginServlet extends HttpServlet
   @Inject
   HttpPluginServlet(MimeUtilFileTypeRegistry mimeUtil,
       @CanonicalWebUrl Provider<String> webUrl,
+      @Named(HttpPluginModule.PLUGIN_RESOURCES) Cache<ResourceKey, Resource> cache,
       @GerritServerConfig Config cfg,
       SshInfo sshInfo) {
     this.mimeUtil = mimeUtil;
     this.webUrl = webUrl;
-
-    this.resourceCache = CacheBuilder.newBuilder()
-      .maximumWeight(cfg.getInt(
-          "cache", "plugin_resources", "memoryLimit",
-          2 * 1024 * 1024))
-      .weigher(new Weigher<ResourceKey, Resource>() {
-        @Override
-        public int weigh(ResourceKey key, Resource value) {
-          return key.weight() + value.weight();
-        }
-      })
-     .build();
+    this.resourceCache = cache;
 
     String sshHost = "review.example.com";
     int sshPort = 29418;
@@ -247,8 +235,8 @@ class HttpPluginServlet extends HttpServlet
       if (exists(entry)) {
         sendResource(jar, entry, key, res);
       } else {
-        resourceCache.put(key, NOT_FOUND);
-        NOT_FOUND.send(req, res);
+        resourceCache.put(key, Resource.NOT_FOUND);
+        Resource.NOT_FOUND.send(req, res);
       }
     } else if (file.equals("Documentation")) {
       res.sendRedirect(uri + "/index.html");
@@ -268,12 +256,12 @@ class HttpPluginServlet extends HttpServlet
       } else if (exists(entry)) {
         sendResource(jar, entry, key, res);
       } else {
-        resourceCache.put(key, NOT_FOUND);
-        NOT_FOUND.send(req, res);
+        resourceCache.put(key, Resource.NOT_FOUND);
+        Resource.NOT_FOUND.send(req, res);
       }
     } else {
-      resourceCache.put(key, NOT_FOUND);
-      NOT_FOUND.send(req, res);
+      resourceCache.put(key, Resource.NOT_FOUND);
+      Resource.NOT_FOUND.send(req, res);
     }
   }
 
@@ -559,7 +547,7 @@ class HttpPluginServlet extends HttpServlet
     return 0 <= s ? path.substring(1, s) : path.substring(1);
   }
 
-  private static void noCache(HttpServletResponse res) {
+  static void noCache(HttpServletResponse res) {
     res.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Cache-Control", "no-cache, must-revalidate");
@@ -575,99 +563,6 @@ class HttpPluginServlet extends HttpServlet
       this.filter = filter;
     }
   }
-
-  private static final class ResourceKey {
-    private final Plugin.CacheKey plugin;
-    private final String resource;
-
-    ResourceKey(Plugin p, String r) {
-      this.plugin = p.getCacheKey();
-      this.resource = r;
-    }
-
-    int weight() {
-      return 28 + resource.length();
-    }
-
-    @Override
-    public int hashCode() {
-      return plugin.hashCode() * 31 + resource.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      if (other instanceof ResourceKey) {
-        ResourceKey rk = (ResourceKey) other;
-        return plugin == rk.plugin && resource.equals(rk.resource);
-      }
-      return false;
-    }
-  }
-
-  private static abstract class Resource {
-    abstract int weight();
-    abstract void send(HttpServletRequest req, HttpServletResponse res)
-        throws IOException;
-  }
-
-  private static final class SmallResource extends Resource {
-    private final byte[] data;
-    private String contentType;
-    private String characterEncoding;
-    private long lastModified;
-
-    SmallResource(byte[] data) {
-      this.data = data;
-    }
-
-    SmallResource setLastModified(long when) {
-      this.lastModified = when;
-      return this;
-    }
-
-    SmallResource setContentType(String contentType) {
-      this.contentType = contentType;
-      return this;
-    }
-
-    SmallResource setCharacterEncoding(@Nullable String enc) {
-      this.characterEncoding = enc;
-      return this;
-    }
-
-    @Override
-    int weight() {
-      return data.length;
-    }
-
-    @Override
-    void send(HttpServletRequest req, HttpServletResponse res)
-        throws IOException {
-      if (0 < lastModified) {
-        res.setDateHeader("Last-Modified", lastModified);
-      }
-      res.setContentType(contentType);
-      if (characterEncoding != null) {
-       res.setCharacterEncoding(characterEncoding);
-      }
-      res.setContentLength(data.length);
-      res.getOutputStream().write(data);
-    }
-  }
-
-  private static final Resource NOT_FOUND = new Resource() {
-    @Override
-    int weight() {
-      return 4;
-    }
-
-    @Override
-    void send(HttpServletRequest req, HttpServletResponse res)
-        throws IOException {
-      noCache(res);
-      res.sendError(HttpServletResponse.SC_NOT_FOUND);
-    }
-  };
 
   private static class WrappedRequest extends HttpServletRequestWrapper {
     private final String contextPath;

@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,27 +14,14 @@
 
 package com.google.gerrit.server.cache;
 
-/** Proxy around a cache which has not yet been created. */
-public final class ProxyCache<K, V> implements Cache<K, V> {
-  private volatile Cache<K, V> self;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 
-  public void bind(Cache<K, V> self) {
-    this.self = self;
-  }
+public interface PersistentCacheFactory {
+  <K, V> Cache<K, V> build(CacheBinding<K, V> def);
 
-  public V get(K key) {
-    return self.get(key);
-  }
-
-  public void put(K key, V value) {
-    self.put(key, value);
-  }
-
-  public void remove(K key) {
-    self.remove(key);
-  }
-
-  public void removeAll() {
-    self.removeAll();
-  }
+  <K, V> LoadingCache<K, V> build(
+      CacheBinding<K, V> def,
+      CacheLoader<K, V> loader);
 }

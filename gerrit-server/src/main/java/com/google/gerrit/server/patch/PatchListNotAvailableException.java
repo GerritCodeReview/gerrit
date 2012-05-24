@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,8 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.server.patch;
 
-public interface CachePool {
-  public <K, V> ProxyCache<K, V> register(CacheProvider<K, V> provider);
+public class PatchListNotAvailableException extends Exception {
+  private static final long serialVersionUID = 1L;
+
+  public PatchListNotAvailableException(String message) {
+    super(message);
+  }
+
+  public PatchListNotAvailableException(Throwable cause) {
+    super(cause);
+  }
 }

@@ -35,6 +35,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.Predicate;
@@ -270,13 +271,12 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
   }
 
-
   /** Get the patch list corresponding to this patch set. */
-  protected PatchList getPatchList() {
+  protected PatchList getPatchList() throws PatchListNotAvailableException {
     if (patchSet != null) {
       return args.patchListCache.get(change, patchSet);
     }
-    return null;
+    throw new PatchListNotAvailableException("no patchSet specified");
   }
 
   /** Get the project entity the change is in; null if its been deleted. */

@@ -31,6 +31,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
@@ -142,7 +143,14 @@ public class ChangeData {
         return null;
       }
 
-      PatchList p = cache.get(c, ps);
+      PatchList p;
+      try {
+        p = cache.get(c, ps);
+      } catch (PatchListNotAvailableException e) {
+        currentFiles = new String[0];
+        return currentFiles;
+      }
+
       List<String> r = new ArrayList<String>(p.getPatches().size());
       for (PatchListEntry e : p.getPatches()) {
         if (Patch.COMMIT_MSG.equals(e.getNewName())) {

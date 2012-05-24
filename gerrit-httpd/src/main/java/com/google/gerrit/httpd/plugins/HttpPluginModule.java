@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
@@ -21,6 +22,8 @@ import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 
 public class HttpPluginModule extends ServletModule {
+  static final String PLUGIN_RESOURCES = "plugin_resources";
+
   @Override
   protected void configureServlets() {
     bind(HttpPluginServlet.class);
@@ -36,5 +39,14 @@ public class HttpPluginModule extends ServletModule {
 
     bind(ModuleGenerator.class)
       .to(HttpAutoRegisterModuleGenerator.class);
+
+    install(new CacheModule() {
+      @Override
+      protected void configure() {
+        cache(PLUGIN_RESOURCES, ResourceKey.class, Resource.class)
+          .maximumWeight(2 << 20)
+          .weigher(ResourceWeigher.class);
+      }
+    });
   }
 }

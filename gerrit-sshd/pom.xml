@@ -67,7 +67,7 @@ limitations under the License.
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-ehcache</artifactId>
+      <artifactId>gerrit-cache-h2</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

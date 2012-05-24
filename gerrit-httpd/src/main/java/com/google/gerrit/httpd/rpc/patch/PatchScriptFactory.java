@@ -35,6 +35,7 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -154,12 +155,12 @@ class PatchScriptFactory extends Handler<PatchScript> {
           content.getOldName(), //
           content.getNewName());
 
-      try {
         return b.toPatchScript(content, comments, history);
-      } catch (IOException e) {
-        log.error("File content unavailable", e);
-        throw new NoSuchChangeException(changeId, e);
-      }
+    } catch (PatchListNotAvailableException e) {
+      throw new NoSuchChangeException(changeId, e);
+    } catch (IOException e) {
+      log.error("File content unavailable", e);
+      throw new NoSuchChangeException(changeId, e);
     } finally {
       git.close();
     }
@@ -169,7 +170,8 @@ class PatchScriptFactory extends Handler<PatchScript> {
     return new PatchListKey(projectKey, aId, bId, whitespace);
   }
 
-  private PatchList listFor(final PatchListKey key) {
+  private PatchList listFor(final PatchListKey key)
+      throws PatchListNotAvailableException {
     return patchListCache.get(key);
   }
 

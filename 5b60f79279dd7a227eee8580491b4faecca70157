@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFvn////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectAccessScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-24T12:00:17Z",
+      "side": 1,
+      "message": "This is wrong, as compareTo returns 0 if the ref/ref pattern is the same, but the permissions in the AccessSection can still be different.\n\nIt should rather be:\n  if (!wantedSection.equals(newSection) {\n\nHowever for this AccessSection.equals(...) needs to be implemented.",
+      "revId": "5b60f79279dd7a227eee8580491b4faecca70157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

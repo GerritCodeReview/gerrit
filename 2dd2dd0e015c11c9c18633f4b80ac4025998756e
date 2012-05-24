@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFy3////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-24T19:17:14Z",
+      "side": 1,
+      "message": "TODO: remove",
+      "revId": "2dd2dd0e015c11c9c18633f4b80ac4025998756e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFy3////o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-24T19:17:14Z",
+      "side": 1,
+      "message": "TODO: remove?  I don\u0027t think this is needed - uploaded by accident.",
+      "revId": "2dd2dd0e015c11c9c18633f4b80ac4025998756e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFy3////k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-24T19:17:14Z",
+      "side": 1,
+      "message": "This block shows the dock panel on top of all UI, so you can\u0027t click on the gerrit header, etc.  It also doesn\u0027t get removed when you leave the page.  If you hit \u0027back\u0027, the widgets stay there.\n\nI\u0027m not sure of the best solution right off.  The dock panel is the easiest way to have a widget expand to fill all available vertical space.  I\u0027m not aware of any other widgets that offer this.  Modifying Gerrit to use a dock panel would be a very big change.",
+      "revId": "2dd2dd0e015c11c9c18633f4b80ac4025998756e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFy3////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-24T19:17:14Z",
+      "side": 1,
+      "message": "This is a total hack to keep the header info visible.",
+      "revId": "2dd2dd0e015c11c9c18633f4b80ac4025998756e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFy3////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-24T19:17:14Z",
+      "side": 1,
+      "message": "TODO: do the same sort of thing for unified diff.",
+      "revId": "2dd2dd0e015c11c9c18633f4b80ac4025998756e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFy3////Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/NavigationTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-24T19:17:14Z",
+      "side": 1,
+      "message": "Calling scrollpanel.ensureVisible() really messes up the behavior of the diff view when it is inside a scrollpanel.  Clicking on a row makes the view jump, even though that row was already visible.  Always using tr.scrollIntoView() is much better.\n\nI\u0027m not sure which other pages might use this codepath.",
+      "revId": "2dd2dd0e015c11c9c18633f4b80ac4025998756e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFy3////U\u003d",
+        "filename": "gerrit-httpd/src/main/resources/com/google/gerrit/httpd/raw/HostPage.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-24T19:17:14Z",
+      "side": 1,
+      "message": "TODO: remove - sorry didn\u0027t mean to upload this.",
+      "revId": "2dd2dd0e015c11c9c18633f4b80ac4025998756e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

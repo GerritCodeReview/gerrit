@@ -31,6 +31,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -108,18 +109,19 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
     final PatchList list;
 
-    if (psIdBase != null) {
-      oldId = toObjectId(psIdBase);
-      newId = toObjectId(psIdNew);
+    try {
+      if (psIdBase != null) {
+        oldId = toObjectId(psIdBase);
+        newId = toObjectId(psIdNew);
 
-      projectKey = control.getProject().getNameKey();
+        projectKey = control.getProject().getNameKey();
 
-      list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
-    } else { // OK, means use base to compare
-      list = patchListCache.get(control.getChange(), patchSet);
-      if (list == null) {
-        throw new NoSuchEntityException();
+        list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
+      } else { // OK, means use base to compare
+        list = patchListCache.get(control.getChange(), patchSet);
       }
+    } catch (PatchListNotAvailableException e) {
+      throw new NoSuchEntityException();
     }
 
     final List<Patch> patches = list.toPatchList(patchSet.getId());
@@ -185,7 +187,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     return new PatchListKey(projectKey, oldId, newId, whitespace);
   }
 
-  private PatchList listFor(final PatchListKey key) {
+  private PatchList listFor(PatchListKey key)
+      throws PatchListNotAvailableException {
     return patchListCache.get(key);
   }
 }

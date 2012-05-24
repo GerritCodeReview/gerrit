@@ -14,3 +14,42 @@ Replication
 Gerrit 2.5 no longer includes replication support out of the box.
 Servers that reply upon `replication.config` to copy Git repository
 data to other locations must also install the replication plugin.
+
+Cache Configuration
+~~~~~~~~~~~~~~~~~~~
+
+Disk caches are now backed by individual H2 databases, rather than
+Ehcache's own private format. Administrators are encouraged to clear
+the `'$site_path'/cache` directory before starting the new server.
+
+The `cache.NAME.diskLimit` configuration variable is now expressed in
+bytes of disk used. This is a change from previous versions of Gerrit,
+which expressed the limit as the number of entries rather than bytes.
+Bytes of disk is a more accurate way to size what is held. Admins that
+set this variable must update their configurations, as the old values
+are too small. For example a setting of `diskLimit = 65535` will only
+store 64 KiB worth of data on disk and can no longer hold 65,000 patch
+sets. It is recommended to delete the diskLimit variable (if set) and
+rely on the built-in default of `128m`.
+
+The `cache.diff.memoryLimit` and `cache.diff_intraline.memoryLimit`
+configuration variables are now expressed in bytes of memory used,
+rather than number of entries in the cache. This is a change from
+previous versions of Gerrit and gives administrators more control over
+how memory is partioned within a server. Admins that set this variable
+must update their configurations, as the old values are too small.
+For example a setting of `memoryLimit = 1024` now means only 1 KiB of
+data (which may not even hold 1 patch set), not 1024 patch sets.  It
+is recommended to set these to `10m` for 10 MiB of memory, and
+increase as necessary.
+
+The `cache.NAME.maxAge` variable now means the maximum amount of time
+that can elapse between reads of the source data into the cache, no
+matter how often it is being accessed. In prior versions it meant how
+long an item could be held without being requested by a client before
+it was discarded. The new meaning of elapsed time before consulting
+the source data is more useful, as it enables a strict bound on how
+stale the cached data can be. This is especially useful for slave
+servers account and permission data, or the `ldap_groups` cache, where
+updates are often made to the source without telling Gerrit to reload
+the cache.

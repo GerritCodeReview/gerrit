@@ -18,6 +18,7 @@ Included Components
 |Google Gson                | <<apache2,Apache License 2.0>>
 |Google Web Toolkit         | <<apache2,Apache License 2.0>>
 |Guice                      | <<apache2,Apache License 2.0>>
+|Guava Libraries            | <<apache2,Apache License 2.0>>
 |Apache Commons Codec       | <<apache2,Apache License 2.0>>
 |Apache Commons DBCP        | <<apache2,Apache License 2.0>>
 |Apache Commons Http Client | <<apache2,Apache License 2.0>>
@@ -33,7 +34,6 @@ Included Components
 |Apache Xerces              | <<apache2,Apache License 2.0>>
 |OpenID4Java                | <<apache2,Apache License 2.0>>
 |Neko HTML                  | <<apache2,Apache License 2.0>>
-|Ehcache                    | <<apache2,Apache License 2.0>>
 |mime-util                  | <<apache2,Apache License 2.0>>
 |Jetty                      | <<apache2,Apache License 2.0>>, or link:http://www.eclipse.org/legal/epl-v10.html[EPL]
 |Prolog Cafe                | <<prolog_cafe,EPL or GPL>>

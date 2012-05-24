@@ -74,7 +74,7 @@ limitations under the License.
 
     <module>gerrit-antlr</module>
     <module>gerrit-common</module>
-    <module>gerrit-ehcache</module>
+    <module>gerrit-cache-h2</module>
     <module>gerrit-httpd</module>
     <module>gerrit-launcher</module>
     <module>gerrit-main</module>
@@ -461,6 +461,12 @@ limitations under the License.
       </dependency>
 
       <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>12.0</version>
+      </dependency>
+
+      <dependency>
         <groupId>gwtorm</groupId>
         <artifactId>gwtorm</artifactId>
         <version>${gwtormVersion}</version>
@@ -550,12 +556,6 @@ limitations under the License.
         <groupId>org.apache.velocity</groupId>
         <artifactId>velocity</artifactId>
         <version>1.6.4</version>
-      </dependency>
-
-      <dependency>
-        <groupId>net.sf.ehcache</groupId>
-        <artifactId>ehcache-core</artifactId>
-        <version>1.7.2</version>
       </dependency>
 
       <dependency>

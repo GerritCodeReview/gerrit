@@ -21,6 +21,8 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SiteInfoModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.plugins.RequiredPluginLoader;
+import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gwtorm.server.OrmException;
@@ -158,9 +160,11 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new GerritServerConfigModule());
     modules.add(new DatabaseModule());
     modules.add(new SiteInfoModule());
+    modules.add(new ServerInformationImpl.Module());
 
     try {
-      return Guice.createInjector(PRODUCTION, modules);
+      return RequiredPluginLoader.loadAndInjectPluginModules(
+          Guice.createInjector(PRODUCTION, modules));
     } catch (CreationException ce) {
       final Message first = ce.getErrorMessages().iterator().next();
       Throwable why = first.getCause();

@@ -218,6 +218,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
+
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override

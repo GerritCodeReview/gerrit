@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,19 @@
 
 package com.google.gerrit.server.plugins;
 
-public class PluginInstallException extends Exception {
-  private static final long serialVersionUID = 1L;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-  public PluginInstallException(String message) {
-    super(message);
-  }
+import com.google.inject.BindingAnnotation;
 
-  public PluginInstallException(Throwable why) {
-    super(why.getMessage(), why);
-  }
+import java.lang.annotation.Retention;
+
+/**
+ * Binding on a {@code Collection&lt;PluginBuilder&rt;} for required plugins
+ * that are partially loaded by {@link RequiredPluginLoader}.
+ *
+ * @author dborowitz@google.com (Dave Borowitz)
+ */
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface RequiredPlugins {
 }

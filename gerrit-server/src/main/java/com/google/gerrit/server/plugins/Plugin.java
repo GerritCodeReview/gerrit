@@ -45,6 +45,34 @@ public class Plugin {
     EXTENSION, PLUGIN;
   }
 
+  public static enum ModuleName {
+    // TODO: may need to separate Module, from "Core" module or "Startup"
+    // module. we're constructing module from the cfgInjector rather than the
+    // sysInjector now
+    CORE("Gerrit-Module"),
+    SSH("Gerrit-SshModule"),
+    HTTP("Gerrit-HttpModule");
+
+    private final String name;
+
+    private ModuleName(String name) {
+      this.name = name;
+    }
+
+    public String from(Manifest manifest) {
+      return manifest.getMainAttributes().getValue(name);
+    }
+
+    public String get() {
+      return name;
+    }
+
+    @Override
+    public String toString() {
+      return get();
+    }
+  }
+
   /** Unique key that changes whenever a plugin reloads. */
   public static final class CacheKey {
     private final String name;
@@ -144,6 +172,10 @@ public class Plugin {
 
   public ApiType getApiType() {
     return apiType;
+  }
+
+  FileSnapshot getSnapshot() {
+    return snapshot;
   }
 
   boolean canReload() {

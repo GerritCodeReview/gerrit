@@ -14,15 +14,11 @@
 
 package com.google.gerrit.server.plugins;
 
-import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleModule;
 
 public class PluginModule extends LifecycleModule {
   @Override
   protected void configure() {
-    bind(ServerInformationImpl.class);
-    bind(ServerInformation.class).to(ServerInformationImpl.class);
-
     bind(PluginCleanerTask.class);
     bind(PluginGuiceEnvironment.class);
     bind(PluginLoader.class);

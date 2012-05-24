@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "AAAFyn///58\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-24T21:11:57Z",
+      "side": 1,
+      "message": "Putting the invalidations in the background seems kind of risky.  With the amount of crashes we see with the jetty bug...  But, I guess either way an invalidate could be missed.  Maybe there should be an age based refresh on startup?",
+      "revId": "3c41dcdcaa2b7b16b27ebd049028f503778ef2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFyn///6A\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-24T21:11:57Z",
+      "side": 1,
+      "message": "Where these tabs deliberate?",
+      "revId": "3c41dcdcaa2b7b16b27ebd049028f503778ef2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFoX///xs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 8

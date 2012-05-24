@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAFoX////A\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-24T20:59:32Z",
+      "side": 1,
+      "message": "s/old/hold/",
+      "revId": "3c41dcdcaa2b7b16b27ebd049028f503778ef2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFoX///xs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-24T20:59:32Z",
+      "side": 1,
+      "message": "Did you still want to put this off?",
+      "revId": "3c41dcdcaa2b7b16b27ebd049028f503778ef2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

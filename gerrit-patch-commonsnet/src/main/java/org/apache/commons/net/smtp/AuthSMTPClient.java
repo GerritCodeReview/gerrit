@@ -18,7 +18,11 @@ import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 
 import org.apache.commons.codec.binary.Base64;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketException;
 import java.security.InvalidKeyException;
@@ -50,7 +54,22 @@ public class AuthSMTPClient extends SMTPClient {
     }
 
     _socket_ = sslFactory(verify).createSocket(_socket_, hostname, port, true);
-    _connectAction_();
+
+    // XXX: Can't call _connectAction_() because SMTP server doesn't
+    // give banner information again after STARTTLS, thus SMTP._connectAction_()
+    // will wait on __getReply() forever, see source code of commons-net-2.2.
+    //
+    // The lines below are copied from SocketClient._connectAction_() and
+    // SMTP._connectAction_() in commons-net-2.2.
+    _socket_.setSoTimeout(_timeout_);
+    _input_ = _socket_.getInputStream();
+    _output_ = _socket_.getOutputStream();
+    _reader =
+        new BufferedReader(new InputStreamReader(_input_,
+                      UTF_8));
+    _writer =
+        new BufferedWriter(new OutputStreamWriter(_output_,
+                      UTF_8));
     return true;
   }
 

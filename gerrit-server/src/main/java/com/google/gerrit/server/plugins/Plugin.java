@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.plugins;
 
+import static com.google.gerrit.server.plugins.PluginLoader.asTemp;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.annotations.PluginData;
@@ -22,6 +24,7 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -32,17 +35,48 @@ import com.google.inject.ProvisionException;
 import org.eclipse.jgit.storage.file.FileSnapshot;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-
 import javax.annotation.Nullable;
 
 public class Plugin {
   public static enum ApiType {
     EXTENSION, PLUGIN;
+  }
+
+  public static enum ModuleType {
+    STARTUP("Gerrit-StartupModule"),
+    SYS("Gerrit-Module"),
+    SSH("Gerrit-SshModule"),
+    HTTP("Gerrit-HttpModule");
+
+    private final String name;
+
+    private ModuleType(String name) {
+      this.name = name;
+    }
+
+    public String from(Manifest manifest) {
+      return manifest.getMainAttributes().getValue(name);
+    }
+
+    public String get() {
+      return name;
+    }
+
+    @Override
+    public String toString() {
+      return get();
+    }
   }
 
   /** Unique key that changes whenever a plugin reloads. */
@@ -81,14 +115,18 @@ public class Plugin {
   }
 
   private final CacheKey cacheKey;
+  private final SitePaths sitePaths;
   private final String name;
   private final File srcJar;
   private final FileSnapshot snapshot;
-  private final JarFile jarFile;
-  private final Manifest manifest;
-  private final File dataDir;
-  private final ApiType apiType;
-  private final ClassLoader classLoader;
+  private final boolean required;
+
+  private File tmp;
+  private JarFile jarFile;
+  private Manifest manifest;
+  private ApiType apiType;
+  private ClassLoader classLoader;
+  private Class<? extends Module> startupModule;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
   private Class<? extends Module> httpModule;
@@ -99,29 +137,99 @@ public class Plugin {
   private LifecycleManager manager;
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
-  public Plugin(String name,
-      File srcJar,
-      FileSnapshot snapshot,
-      JarFile jarFile,
-      Manifest manifest,
-      File dataDir,
-      ApiType apiType,
-      ClassLoader classLoader,
-      @Nullable Class<? extends Module> sysModule,
-      @Nullable Class<? extends Module> sshModule,
-      @Nullable Class<? extends Module> httpModule) {
+  Plugin(SitePaths sitePaths, String name, File srcJar, boolean required) {
     this.cacheKey = new CacheKey(name);
+    this.sitePaths = sitePaths;
     this.name = name;
     this.srcJar = srcJar;
-    this.snapshot = snapshot;
-    this.jarFile = jarFile;
-    this.manifest = manifest;
-    this.dataDir = dataDir;
-    this.apiType = apiType;
-    this.classLoader = classLoader;
-    this.sysModule = sysModule;
-    this.sshModule = sshModule;
-    this.httpModule = httpModule;
+    this.snapshot = FileSnapshot.save(srcJar);
+    this.required = required;
+  }
+
+  void loadStartup() throws PluginInstallException {
+    if (jarFile != null) {
+      return;
+    }
+    boolean keep = false;
+    JarFile jar = null;
+    try {
+      FileInputStream in = new FileInputStream(srcJar);
+      try {
+        tmp = asTemp(in, tempNameFor(name), ".jar", sitePaths.tmp_dir);
+      } finally {
+        in.close();
+      }
+
+      jar = new JarFile(tmp);
+      manifest = jar.getManifest();
+
+      if (required) {
+        if (Plugin.getApiType(manifest) != Plugin.ApiType.PLUGIN) {
+          throw new InvalidPluginException(String.format(
+              "Required plugin %s must have Gerrit-ApiType: %s",
+              name, Plugin.ApiType.PLUGIN));
+        }
+      } else if (ModuleType.STARTUP.from(manifest) != null) {
+        throw new InvalidPluginException(String.format(
+            "Non-required plugin %s cannot have %s",
+            name, ModuleType.STARTUP));
+      }
+
+      Plugin.ApiType type = Plugin.getApiType(manifest);
+      URL[] urls = {tmp.toURI().toURL()};
+      classLoader = new URLClassLoader(urls, parentFor(type));
+      startupModule = load(ModuleType.STARTUP);
+      jarFile = jar;
+      keep = true;
+    } catch (Throwable t) {
+      throw new PluginInstallException(t);
+    } finally {
+      if (!keep) {
+        try {
+          jar.close();
+        } catch (IOException e) {
+          throw new PluginInstallException(e);
+        }
+      }
+    }
+  }
+
+  void load(PluginLoader loader)
+      throws IOException, ClassNotFoundException, InvalidPluginException,
+      PluginInstallException {
+    loadStartup();
+    boolean keep = false;
+    try {
+      String sshName = ModuleType.SSH.from(manifest);
+      String httpName = ModuleType.HTTP.from(manifest);
+
+      Plugin.ApiType type = Plugin.getApiType(manifest);
+      if (!Strings.isNullOrEmpty(sshName) && type != Plugin.ApiType.PLUGIN) {
+        throw new InvalidPluginException(String.format(
+            "Plugin %s with %s requires Gerrit-ApiType: %s",
+            name, ModuleType.SSH, Plugin.ApiType.PLUGIN));
+      }
+
+      if (loader != null) {
+        loader.addCleanupHandle(tmp, jarFile, classLoader);
+      }
+      sysModule = load(ModuleType.SYS);
+      sshModule = load(ModuleType.SSH);
+      httpModule = load(ModuleType.HTTP);
+      keep = true;
+    } finally {
+      if (!keep) {
+        jarFile.close();
+      }
+    }
+  }
+
+  Class<? extends Module> getStartupModuleClass() {
+    return startupModule;
+  }
+
+  boolean isRequired() {
+    return required;
   }
 
   File getSrcJar() {
@@ -146,18 +254,30 @@ public class Plugin {
     return apiType;
   }
 
+  FileSnapshot getSnapshot() {
+    return snapshot;
+  }
+
   boolean canReload() {
-    Attributes main = manifest.getMainAttributes();
-    String v = main.getValue("Gerrit-ReloadMode");
-    if (Strings.isNullOrEmpty(v) || "reload".equalsIgnoreCase(v)) {
-      return true;
-    } else if ("restart".equalsIgnoreCase(v)) {
+    String v = manifest.getMainAttributes().getValue("Gerrit-ReloadMode");
+    if (required) {
+      if (!Strings.isNullOrEmpty(v)) {
+        PluginLoader.log.warn(String.format(
+            "Ignoring Gerrit-ReloadMode: %s for required plugin %s",
+            v, name));
+      }
       return false;
     } else {
-      PluginLoader.log.warn(String.format(
-          "Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart",
-          name, v));
-      return false;
+      if (Strings.isNullOrEmpty(v) || "reload".equalsIgnoreCase(v)) {
+        return true;
+      } else if ("restart".equalsIgnoreCase(v)) {
+        return false;
+      } else {
+        PluginLoader.log.warn(String.format(
+            "Plugin %s has invalid Gerrit-ReloadMode: %s; assuming restart",
+            name, v));
+        return false;
+      }
     }
   }
 
@@ -247,6 +367,7 @@ public class Plugin {
 
             @Override
             public File get() {
+              File dataDir = sitePaths.data_dir;
               if (!ready) {
                 synchronized (dataDir) {
                   if (!dataDir.exists() && !dataDir.mkdirs()) {
@@ -313,5 +434,40 @@ public class Plugin {
   @Override
   public String toString() {
     return "Plugin [" + name + "]";
+  }
+
+  private Class<? extends Module> load(ModuleType type)
+      throws ClassNotFoundException {
+    String name = type.from(manifest);
+    if (Strings.isNullOrEmpty(name)) {
+      return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    Class<? extends Module> clazz =
+        (Class<? extends Module>) Class.forName(name, false, classLoader);
+    if (!Module.class.isAssignableFrom(clazz)) {
+      throw new ClassCastException(String.format(
+          "Class %s does not implement %s",
+          name, Module.class.getName()));
+    }
+    return clazz;
+  }
+
+  private static String tempNameFor(String name) {
+    SimpleDateFormat fmt = new SimpleDateFormat("yyMMdd_HHmm");
+    return "plugin_" + name + "_" + fmt.format(new Date()) + "_";
+  }
+
+  private static ClassLoader parentFor(Plugin.ApiType type)
+      throws InvalidPluginException {
+    switch (type) {
+      case EXTENSION:
+        return PluginName.class.getClassLoader();
+      case PLUGIN:
+        return PluginLoader.class.getClassLoader();
+      default:
+        throw new InvalidPluginException("Unsupported ApiType " + type);
+    }
   }
 }

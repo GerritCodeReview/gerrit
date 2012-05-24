@@ -14,14 +14,19 @@
 
 package com.google.gerrit.server.plugins;
 
-public class PluginInstallException extends Exception {
-  private static final long serialVersionUID = 1L;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-  public PluginInstallException(String message) {
-    super(message);
-  }
+import com.google.inject.BindingAnnotation;
 
-  public PluginInstallException(Throwable why) {
-    super(why.getMessage(), why);
-  }
+import java.lang.annotation.Retention;
+
+/**
+ * Binding on an {@code ImmutableCollection&lt;Plugin&rt;} for required plugins
+ * that are partially loaded by {@link RequiredPluginLoader}.
+ *
+ * @author dborowitz@google.com (Dave Borowitz)
+ */
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface RequiredPlugins {
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFzX///90\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-24T21:29:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFoX////A\u003d",
+      "revId": "3c41dcdcaa2b7b16b27ebd049028f503778ef2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFyn///58\u003d",
         "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-24T21:11:57Z",
       "side": 1,
       "message": "Putting the invalidations in the background seems kind of risky.  With the amount of crashes we see with the jetty bug...  But, I guess either way an invalidate could be missed.  Maybe there should be an age based refresh on startup?",
+      "revId": "3c41dcdcaa2b7b16b27ebd049028f503778ef2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFyn///50\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-24T21:29:45Z",
+      "side": 1,
+      "message": "Currently invalidations of disk cache entries doesn\u0027t happen. The disk caches are all based off immutable cache keys, e.g. commit SHA-1s. So losing an invalidation because of the Jetty bug and a hard kill of the server process isn\u0027t really an issue. \n\nAnd you already lose them with Ehcache. Ehcache batches updates together and seems to write them to disk every few days of server uptime, or on graceful shutdown. Its pretty bad about trying to keep updates on disk near the running server. This implementation writes to disk quickly after the in-memory data changes, or after an invalidate, so you are typically under half a second behind on disk relative to what is in RAM.",
+      "parentUuid": "AAAFyn///58\u003d",
       "revId": "3c41dcdcaa2b7b16b27ebd049028f503778ef2a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFyn///5w\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-24T21:29:45Z",
+      "side": 1,
+      "message": "No. Fixed.",
+      "parentUuid": "AAAFyn///6A\u003d",
+      "revId": "3c41dcdcaa2b7b16b27ebd049028f503778ef2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFoX///xs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2012-05-24T20:59:32Z",
       "side": 1,
       "message": "Did you still want to put this off?",
+      "revId": "3c41dcdcaa2b7b16b27ebd049028f503778ef2a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFyn///5o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-24T21:29:45Z",
+      "side": 1,
+      "message": "No. I went back and looked at the callers. Many didn\u0027t handle this well. So I added a new checked exception type and caught it in the callers, and tried to fix those callers to do something \"reasonable\" when the PatchList isn\u0027t created.",
+      "parentUuid": "AAAFoX///xs\u003d",
       "revId": "3c41dcdcaa2b7b16b27ebd049028f503778ef2a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

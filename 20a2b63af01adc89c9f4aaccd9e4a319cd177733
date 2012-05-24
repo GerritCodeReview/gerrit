@@ -580,6 +580,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFqH///+g\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1010932
+      },
+      "writtenOn": "2012-05-24T08:40:50Z",
+      "side": 1,
+      "message": "LDAP configuration settings are documented at http://gerrit-documentation.googlecode.com/svn/Documentation/2.3/config-gerrit.html#_a_id_ldap_a_section_ldap\n\nBut questions on how to configure Gerrit to work with specific LDAP servers, like Active Directory as here, is FAQ in the discussion group.",
+      "parentUuid": "AAAFoH///08\u003d",
+      "revId": "20a2b63af01adc89c9f4aaccd9e4a319cd177733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFpH///8M\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6

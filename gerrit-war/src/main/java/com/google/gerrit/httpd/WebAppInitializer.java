@@ -40,6 +40,8 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
+import com.google.gerrit.server.plugins.RequiredPluginLoader;
+import com.google.gerrit.server.plugins.ServerInformationImpl;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaVersion;
@@ -175,12 +177,14 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new GerritServerConfigModule());
     modules.add(new DatabaseModule());
     modules.add(new SiteInfoModule());
-    return Guice.createInjector(PRODUCTION, modules);
+    return RequiredPluginLoader.loadAndInjectPluginModules(
+        Guice.createInjector(PRODUCTION, modules));
   }
 
   private Injector createCfgInjector() {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new AuthConfigModule());
+    modules.add(new ServerInformationImpl.Module());
     return dbInjector.createChildInjector(modules);
   }
 

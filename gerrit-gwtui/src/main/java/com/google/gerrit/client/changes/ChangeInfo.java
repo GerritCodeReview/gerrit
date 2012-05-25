@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwtjsonrpc.client.impl.ser.JavaSqlTimestamp_JsonSerializer;
 
 import java.sql.Timestamp;
@@ -61,6 +62,8 @@ public class ChangeInfo extends JavaScriptObject {
   public final native String _sortkey() /*-{ return this._sortkey; }-*/;
   private final native JavaScriptObject labels0() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;
+  public final native JsArrayInteger messageAuthorIds()
+  /*-{ return this.messageauthors ? this.messageauthors : []; }-*/;
   final native int _number() /*-{ return this._number; }-*/;
   final native boolean _more_changes()
   /*-{ return this._more_changes ? true : false; }-*/;

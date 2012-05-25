@@ -68,6 +68,7 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
       CacheBinding<K, V> def,
       boolean unwrapValueHolder) {
     CacheBuilder<K,V> builder = newCacheBuilder();
+    builder.recordStats();
     builder.maximumWeight(cfg.getLong(
         "cache", def.name(), "memoryLimit",
         def.maximumWeight()));

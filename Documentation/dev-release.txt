@@ -64,6 +64,9 @@ Stable-fix releases should likely only contain bug fixes and doc updates.
 Create the Actual Release
 ---------------------------
 
+In the example commands below we assume that the last release was '2.4' and that
+we are preparing '2.5' release.
+
 Prepare the Subprojects
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -75,20 +78,21 @@ Prepare the Subprojects
 Prepare Gerrit
 ~~~~~~~~~~~~~~
 
-* Update the top level pom in Gerrit to ensure that none of the Subprojects
-  point to snapshot releases
+* In the 'stable-2.5' branch: Update the top level pom in Gerrit to ensure that
+none of the Subprojects point to snapshot releases
 
-* Update the poms for the Gerrit version, push for review, get merged
+* In the 'master' branch: Update the poms for the Gerrit version, push for
+review, get merged
 
 ====
- tools/version.sh --snapshot=2.3
+ tools/version.sh --snapshot=2.5
 ====
 
 * Tag
 
 ====
- git tag -a -m "gerrit 2.2.2-rc0" v2.2.2-rc0
- git tag -a -m "gerrit 2.2.2.1" v2.2.2.1
+ git tag -a -m "gerrit 2.5-rc0" v2.5-rc0
+ git tag -a -m "gerrit 2.5" v2.5
 ====
 
 * Build
@@ -126,7 +130,8 @@ Tag
 * Push the New Tag
 
 ====
- git push google refs/tags/v2.2.2.1:refs/tags/v2.2.2.1
+ git push google refs/tags/v2.5-rc0:refs/tags/v2.5-rc0
+ git push google refs/tags/v2.5:refs/tags/v2.5
 ====
 
 
@@ -134,7 +139,7 @@ Docs
 ~~~~
 
 ====
- make -C Documentation PRIOR=2.2.2 update
+ make -C Documentation PRIOR=2.4 update
  make -C ReleaseNotes update
 ====
 

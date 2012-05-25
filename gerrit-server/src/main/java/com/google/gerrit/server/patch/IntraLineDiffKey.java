@@ -114,6 +114,9 @@ public class IntraLineDiffKey implements Serializable {
   public String toString() {
     StringBuilder n = new StringBuilder();
     n.append("IntraLineDiffKey[");
+    if (projectKey != null) {
+      n.append(projectKey.get()).append(" ");
+    }
     n.append(aId.name());
     n.append("..");
     n.append(bId.name());

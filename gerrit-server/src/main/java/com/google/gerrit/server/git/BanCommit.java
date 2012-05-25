@@ -17,10 +17,8 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.server.git.GitRepositoryManager.REF_REJECT_COMMITS;
 
 import com.google.gerrit.common.errors.PermissionDeniedException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -44,7 +42,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class BanCommit {
 
@@ -55,25 +55,23 @@ public class BanCommit {
     BanCommit create();
   }
 
-  private final Provider<CurrentUser> currentUser;
+  private final Provider<IdentifiedUser> currentUser;
   private final GitRepositoryManager repoManager;
-  private final AccountCache accountCache;
   private final PersonIdent gerritIdent;
 
   @Inject
-  BanCommit(final Provider<CurrentUser> currentUser,
-      final GitRepositoryManager repoManager, final AccountCache accountCache,
+  BanCommit(final Provider<IdentifiedUser> currentUser,
+      final GitRepositoryManager repoManager,
       @GerritPersonIdent final PersonIdent gerritIdent) {
     this.currentUser = currentUser;
     this.repoManager = repoManager;
-    this.accountCache = accountCache;
     this.gerritIdent = gerritIdent;
   }
 
   public BanCommitResult ban(final ProjectControl projectControl,
       final List<ObjectId> commitsToBan, final String reason)
       throws PermissionDeniedException, IOException,
-      IncompleteUserInfoException, InterruptedException, MergeException {
+      InterruptedException, MergeException {
     if (!projectControl.isOwner()) {
       throw new PermissionDeniedException(
           "No project owner: not permitted to ban commits");
@@ -148,16 +146,10 @@ public class BanCommit {
     return result;
   }
 
-  private PersonIdent createPersonIdent() throws IncompleteUserInfoException {
-    final String userName = currentUser.get().getUserName();
-    final Account account = accountCache.getByUsername(userName).getAccount();
-    if (account.getFullName() == null) {
-      throw new IncompleteUserInfoException(userName, "full name");
-    }
-    if (account.getPreferredEmail() == null) {
-      throw new IncompleteUserInfoException(userName, "preferred email");
-    }
-    return new PersonIdent(account.getFullName(), account.getPreferredEmail());
+  private PersonIdent createPersonIdent() {
+    Date now = new Date();
+    TimeZone tz = gerritIdent.getTimeZone();
+    return currentUser.get().newCommitterIdent(now, tz);
   }
 
   private static ObjectId commit(final NoteMap noteMap,

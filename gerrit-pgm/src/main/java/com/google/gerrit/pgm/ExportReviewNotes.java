@@ -17,7 +17,6 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.ehcache.EhcachePoolImpl;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -27,6 +26,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupCacheImpl;
+import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.ApprovalTypesProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
@@ -99,7 +99,7 @@ public class ExportReviewNotes extends SiteProgram {
 
         install(AccountCacheImpl.module());
         install(GroupCacheImpl.module());
-        install(new EhcachePoolImpl.Module());
+        install(new DefaultCacheFactory.Module());
         install(new FactoryModule() {
           @Override
           protected void configure() {

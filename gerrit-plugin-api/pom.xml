@@ -62,7 +62,6 @@ limitations under the License.
             <excludes>
               <exclude>gwtexpui:gwtexpui</exclude>
               <exclude>gwtjsonrpc:gwtjsonrpc</exclude>
-              <exclude>com.google.gerrit:gerrit-ehcache</exclude>
               <exclude>com.google.gerrit:gerrit-prettify</exclude>
               <exclude>com.google.gerrit:gerrit-patch-commonsnet</exclude>
               <exclude>com.google.gerrit:gerrit-patch-jgit</exclude>
@@ -82,7 +81,6 @@ limitations under the License.
 
               <exclude>asm:asm</exclude>
               <exclude>eu.medsea.mimeutil:mime-util</exclude>
-              <exclude>net.sf.ehcache:ehcache-core</exclude>
               <exclude>org.antlr:antlr</exclude>
               <exclude>org.antlr:antlr-runtime</exclude>
               <exclude>org.apache.mina:mina-core</exclude>

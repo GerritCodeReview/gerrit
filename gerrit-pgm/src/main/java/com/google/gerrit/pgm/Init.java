@@ -191,6 +191,11 @@ public class Init extends SiteProgram {
         }
 
         @Override
+        public boolean isBatch() {
+          return ui.isBatch();
+        }
+
+        @Override
         public void pruneSchema(StatementExecutor e, List<String> prune) {
           for (String p : prune) {
             if (!pruneList.contains(p)) {

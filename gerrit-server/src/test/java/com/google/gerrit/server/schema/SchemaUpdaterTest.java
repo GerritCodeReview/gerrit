@@ -108,6 +108,11 @@ public class SchemaUpdaterTest extends TestCase {
       }
 
       @Override
+      public boolean isBatch() {
+        return true;
+      }
+
+      @Override
       public void pruneSchema(StatementExecutor e, List<String> pruneList)
           throws OrmException {
         for (String sql : pruneList) {

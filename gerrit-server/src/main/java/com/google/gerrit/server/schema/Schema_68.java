@@ -35,6 +35,24 @@ public class Schema_68 extends SchemaVersion {
     try {
       stmt.execute("CREATE INDEX submodule_subscription_access_bySubscription"
           + " ON submodule_subscriptions (submodule_project_name, submodule_branch_name)");
+    } catch (SQLException e) {
+      // the index creation might have failed because the index exists already,
+      // in this case the exception can be safely ignored,
+      // but there are also other possible reasons for an exception here that
+      // should not be ignored,
+      // -> ask the user whether to ignore this exception or not
+      ui.message("warning: Cannot create index for submodule subscriptions");
+      ui.message(e.getMessage());
+
+      if (ui.isBatch()) {
+        ui.message("you may ignore this warning when running in interactive mode");
+        throw e;
+      } else {
+        final boolean answer = ui.yesno(false, "Ignore warning and proceed with schema upgrade");
+        if (!answer) {
+          throw e;
+        }
+      }
     } finally {
       stmt.close();
     }

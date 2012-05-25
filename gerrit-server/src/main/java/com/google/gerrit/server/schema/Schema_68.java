@@ -35,6 +35,8 @@ public class Schema_68 extends SchemaVersion {
     try {
       stmt.execute("CREATE INDEX submodule_subscription_access_bySubscription"
           + " ON submodule_subscriptions (submodule_project_name, submodule_branch_name)");
+    } catch (SQLException e) {
+      // ignore, assume that the index exists already
     } finally {
       stmt.close();
     }

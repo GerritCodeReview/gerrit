@@ -49,6 +49,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
 
     outgoing.setTitleText(Util.C.outgoingReviews());
     incoming.setTitleText(Util.C.incomingReviews());
+    incoming.setHighlightUnreviewed(true);
     closed.setTitleText(Util.C.recentlyClosed());
 
     table.addSection(outgoing);

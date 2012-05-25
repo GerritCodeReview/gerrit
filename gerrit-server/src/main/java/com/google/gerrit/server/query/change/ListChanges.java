@@ -22,10 +22,12 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.events.AccountAttribute;
 import com.google.gerrit.server.project.ChangeControl;
@@ -200,6 +202,7 @@ public class ListChanges {
     out._number = in.getId().get();
     out._sortkey = in.getSortKey();
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
+    out.reviewed = isChangeReviewed(cd) ? true : null;
     out.labels = labelsFor(cd);
     return out;
   }
@@ -291,6 +294,27 @@ public class ListChanges {
     return labels;
   }
 
+  // If the user has published any message or patch comment for the
+  // current patchset, even with a review score '0', the change will
+  // be counted as reviewed.
+  private boolean isChangeReviewed(ChangeData cd) throws OrmException {
+    if (cd.messages(db).isEmpty()) {
+      return false;
+    }
+
+    if (user instanceof IdentifiedUser) {
+      Account.Id accountId = ((IdentifiedUser) user).getAccountId();
+      PatchSet.Id patchSetId = cd.currentPatchSet(db).getId();
+      for (ChangeMessage cm : cd.messages(db)) {
+        if (cm.getAuthor() != null && accountId.equals(cm.getAuthor()) &&
+            cm.getPatchSetId() != null && patchSetId.equals(cm.getPatchSetId())) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   static class ChangeInfo {
     String project;
     String branch;
@@ -301,6 +325,7 @@ public class ListChanges {
     Timestamp created;
     Timestamp updated;
     Boolean starred;
+    Boolean reviewed;
 
     String _sortkey;
     int _number;

@@ -21,6 +21,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Singleton;
 
 import com.jcraft.jsch.Session;
@@ -64,8 +66,20 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       "Unnamed repository; edit this file to name it for gitweb.";
 
   public static class Module extends AbstractModule {
+    private final Injector injector;
+
+    @Inject
+    Module(Injector injector) {
+      this.injector = injector;
+    }
+
     @Override
     protected void configure() {
+      if (injector.getExistingBinding(Key.get(GitRepositoryManager.class)) != null) {
+        // Allow required plugins to provide their own binding for
+        // GitRepositoryManager, and fall back to LocalDiskRepositoryManager.
+        return;
+      }
       bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
 
       install(new LifecycleModule() {

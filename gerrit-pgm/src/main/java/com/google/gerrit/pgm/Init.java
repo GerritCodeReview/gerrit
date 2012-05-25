@@ -286,8 +286,10 @@ public class Init extends SiteProgram {
   }
 
   private Injector createSysInjector(final SiteInit init) {
+    Injector dbInjector = createDbInjector(SINGLE_USER);
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new LocalDiskRepositoryManager.Module());
+    modules.add(
+        dbInjector.getInstance(LocalDiskRepositoryManager.Module.class));
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
@@ -295,7 +297,7 @@ public class Init extends SiteProgram {
         bind(InitFlags.class).toInstance(init.flags);
       }
     });
-    return createDbInjector(SINGLE_USER).createChildInjector(modules);
+    return dbInjector.createChildInjector(modules);
   }
 
   private static void recursiveDelete(File path) {

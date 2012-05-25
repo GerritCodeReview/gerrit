@@ -71,6 +71,7 @@ public class ChangeInfo extends JavaScriptObject {
   private final native String createdRaw() /*-{ return this.created; }-*/;
   private final native String updatedRaw() /*-{ return this.updated; }-*/;
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
+  public final native boolean reviewed() /*-{ return this.reviewed ? true : false; }-*/;
   public final native String _sortkey() /*-{ return this._sortkey; }-*/;
   private final native JavaScriptObject labels0() /*-{ return this.labels; }-*/;
   public final native LabelInfo label(String n) /*-{ return this.labels[n]; }-*/;

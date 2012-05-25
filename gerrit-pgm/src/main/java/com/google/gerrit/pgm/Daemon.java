@@ -206,7 +206,8 @@ public class Daemon extends SiteProgram {
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new LocalDiskRepositoryManager.Module());
+    modules.add(
+        cfgInjector.getInstance(LocalDiskRepositoryManager.Module.class));
     modules.add(new SchemaVersion.Module());
     modules.add(SchemaVersionCheck.module());
     modules.add(new LogFileCompressor.Module());

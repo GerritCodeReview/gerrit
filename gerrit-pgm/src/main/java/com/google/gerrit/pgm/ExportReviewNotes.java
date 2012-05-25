@@ -92,7 +92,8 @@ public class ExportReviewNotes extends SiteProgram {
       @Override
       protected void configure() {
         install(SchemaVersionCheck.module());
-        install(new LocalDiskRepositoryManager.Module());
+        install(
+            dbInjector.getInstance(LocalDiskRepositoryManager.Module.class));
         bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
             Scopes.SINGLETON);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)

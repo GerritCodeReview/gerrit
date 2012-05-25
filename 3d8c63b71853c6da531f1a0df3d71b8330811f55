@@ -16,6 +16,24 @@
       "revId": "3d8c63b71853c6da531f1a0df3d71b8330811f55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF23////M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-25T13:00:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAF23////U\u003d",
+      "revId": "3d8c63b71853c6da531f1a0df3d71b8330811f55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAF1X///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_68.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-25T16:26:28Z",
+      "side": 1,
+      "message": "We should log this to the console using the ui handle we are given. That way the admin can choose to ignore the error \"oh hey create index fails index already exists that might be OK\" vs \"create index fails disk full that sounds bad\".",
+      "revId": "a412d4be111daf12bbb2ca80f9d6c037e4c555df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

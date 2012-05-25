@@ -94,7 +94,7 @@ public class ExportReviewNotes extends SiteProgram {
       protected void configure() {
         install(new SchemaVersion.Module());
         install(SchemaVersionCheck.module());
-        install(new LocalDiskRepositoryManager.Module());
+        install(new LocalDiskRepositoryManager.Module(dbInjector));
         bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
             Scopes.SINGLETON);
         bind(String.class).annotatedWith(CanonicalWebUrl.class)

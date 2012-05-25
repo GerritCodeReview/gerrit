@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAF4X////8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-25T21:16:48Z",
+      "side": 1,
+      "message": "nit: extra newline",
+      "revId": "98f9217d6f219df8c802d54aa4a64f85a2d347d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

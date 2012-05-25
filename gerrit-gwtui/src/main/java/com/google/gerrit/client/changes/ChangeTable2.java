@@ -25,17 +25,21 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.UIObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -188,7 +192,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
   }
 
-  private void populateChangeRow(final int row, final ChangeInfo c) {
+  private void populateChangeRow(final int row, final ChangeInfo c,
+      boolean highlightUnreviewed, Account.Id accountId) {
     if (Gerrit.isSignedIn()) {
       table.setWidget(row, C_STAR, StarredChanges.createIcon(
           c.legacy_id(),
@@ -284,10 +289,22 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       }
     }
 
-    // TODO(sop): Highlight changes I haven't reviewed on my dashboard.
-    // final Element tr = DOM.getParent(fmt.getElement(row, 0));
-    // UIObject.setStyleName(tr, Gerrit.RESOURCES.css().needsReview(),
-    // !haveReview && highlightUnreviewed);
+    boolean needHighlight = false;
+    if (highlightUnreviewed && accountId != null) {
+      needHighlight = true;
+      // If the user has published any message or patch comment for the
+      // current patchset, even with a review score '0', the change will
+      // be count as reviewed, we will not highlight it.
+      for (int i = 0; i < c.messageAuthorIds().length(); i++) {
+        if (accountId.get() == c.messageAuthorIds().get(i)) {
+          needHighlight = false;
+          break;
+        }
+      }
+    }
+    final Element tr = DOM.getParent(fmt.getElement(row, 0));
+    UIObject.setStyleName(tr, Gerrit.RESOURCES.css().needsReview(),
+        needHighlight);
 
     setRowItem(row, c);
   }
@@ -368,6 +385,14 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     int titleRow = -1;
     int dataBegin;
     int rows;
+    private boolean highlightUnreviewed;
+    private Account.Id ownerId;
+
+    public void initHighlightUnreviewed(boolean highlightUnreviewed,
+        Account.Id ownerId) {
+      this.highlightUnreviewed = highlightUnreviewed;
+      this.ownerId = ownerId;
+    }
 
     public void setTitleText(final String text) {
       titleText = text;
@@ -399,7 +424,8 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
         rows++;
       }
       for (int i = 0; i < sz; i++) {
-        parent.populateChangeRow(dataBegin + i, changeList.get(i));
+        parent.populateChangeRow(dataBegin + i, changeList.get(i),
+            highlightUnreviewed, ownerId);
       }
     }
   }

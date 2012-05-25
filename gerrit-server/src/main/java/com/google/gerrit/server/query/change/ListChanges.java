@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -43,8 +44,10 @@ import java.io.Writer;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ListChanges {
   private final QueryProcessor imp;
@@ -201,6 +204,7 @@ public class ListChanges {
     out._sortkey = in.getSortKey();
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
     out.labels = labelsFor(cd);
+    out.messageauthors = recentMessageAuthorIds(cd);
     return out;
   }
 
@@ -287,6 +291,23 @@ public class ListChanges {
     return labels;
   }
 
+  private Set<Integer> recentMessageAuthorIds(ChangeData cd) throws OrmException {
+    if (cd.messages(db).isEmpty()) {
+      return null;
+    }
+
+    Set<Integer> ids = new HashSet<Integer>();
+    PatchSet.Id patchSetId = cd.currentPatchSet(db).getId();
+
+    for (ChangeMessage cm : cd.messages(db)) {
+      if (cm.getAuthor() != null && cm.getPatchSetId() != null &&
+          patchSetId.equals(cm.getPatchSetId())) {
+        ids.add(cm.getAuthor().get());
+      }
+    }
+    return ids;
+  }
+
   static class ChangeInfo {
     String project;
     String branch;
@@ -303,6 +324,7 @@ public class ListChanges {
 
     AccountAttribute owner;
     Map<String, LabelInfo> labels;
+    Set<Integer> messageauthors;
     Boolean _moreChanges;
   }
 

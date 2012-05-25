@@ -281,6 +281,7 @@ public class PluginLoader implements LifecycleListener {
     for (PluginBuilder plugin : requiredPlugins) {
       try {
         runPlugin(plugin.build(this), null);
+        log.info(String.format("Loaded required plugin %s", plugin.getName()));
       } catch (Throwable err) {
         log.error("Cannot load required plugin " + plugin.getName(), err);
         Throwables.propagateIfInstanceOf(err, PluginInstallException.class);

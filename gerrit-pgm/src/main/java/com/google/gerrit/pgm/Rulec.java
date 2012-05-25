@@ -68,7 +68,7 @@ public class Rulec extends SiteProgram {
     dbInjector.createChildInjector(new FactoryModule() {
       @Override
       protected void configure() {
-        install(new LocalDiskRepositoryManager.Module());
+        install(new LocalDiskRepositoryManager.Module(dbInjector));
         factory(PrologCompiler.Factory.class);
       }
     }).injectMembers(this);

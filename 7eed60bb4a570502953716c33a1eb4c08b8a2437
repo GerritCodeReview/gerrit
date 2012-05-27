@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFrX///7o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/audit/Audit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "@Audit is really just an annotation that tag what will have to be audited. Audit can be placed in different places, not only on the Server.\n\nExample:\ncom.google.gerrit.common.auth.userpass.UserPassAuthService\nauthenticate(username, password) is a very important method to be audited.\n\ni.e. Companies may have policies and alarms on audit-trail when code is pushed / changed outside office hours. Audit point is definitely needed on authenticate.",
+      "parentUuid": "AAAFX3///HE\u003d",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///HA\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/audit/Audit.java",
         "patchSetId": 6
@@ -64,6 +82,24 @@
       "writtenOn": "2012-05-15T00:49:13Z",
       "side": 1,
       "message": "Doc for where this can appear would be appreciated.",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFrX///7k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/audit/Audit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///HA\u003d",
       "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFrX///7g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/audit/Audit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///G8\u003d",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///G4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
         "patchSetId": 6
@@ -98,6 +152,24 @@
       "writtenOn": "2012-05-15T00:49:13Z",
       "side": 1,
       "message": "USER not USR",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFrX///7c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///G4\u003d",
       "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +193,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFrX///7Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///G0\u003d",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///Gw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
         "patchSetId": 6
@@ -138,6 +228,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFrX///7U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///Gw\u003d",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///Gs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
         "patchSetId": 6
@@ -149,6 +257,24 @@
       "writtenOn": "2012-05-15T00:49:13Z",
       "side": 1,
       "message": "can be static",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFrX///7Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Method removed.",
+      "parentUuid": "AAAFX3///Gs\u003d",
       "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +315,24 @@
     },
     {
       "key": {
+        "uuid": "AAAFrX///7M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///Gk\u003d",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///Gg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
         "patchSetId": 6
@@ -200,6 +344,24 @@
       "writtenOn": "2012-05-15T00:49:13Z",
       "side": 1,
       "message": "space around -",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAFrX///7I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditEvent.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///Gg\u003d",
       "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -291,6 +453,24 @@
     },
     {
       "key": {
+        "uuid": "AAAF7H////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///GM\u003d",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///GI\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
         "patchSetId": 6
@@ -302,6 +482,24 @@
       "writtenOn": "2012-05-15T00:49:13Z",
       "side": 1,
       "message": "final",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF7H////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///GI\u003d",
       "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -325,6 +523,24 @@
     },
     {
       "key": {
+        "uuid": "AAAF7H////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "The problem is twofold:\n\na) Granularity: AuditService is a singleton whilst Event is a per-event object\nb) Injection: AuditService is injected by Guice whilst Event is created directly with the explicit parameters passed during the event\n\nI would prefer to keep them separate.",
+      "parentUuid": "AAAFX3///GA\u003d",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///GE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
         "patchSetId": 6
@@ -342,6 +558,24 @@
     },
     {
       "key": {
+        "uuid": "AAAF7H////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/audit/AuditService.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAFX3///GE\u003d",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAFX3///F8\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 6
@@ -353,6 +587,24 @@
       "writtenOn": "2012-05-15T00:49:13Z",
       "side": 1,
       "message": "I wouldn\u0027t attempt to parse the command line here. Not like this. Its more complex than just splitting on spaces. What about shell style quoting, which Gerrit supports?",
+      "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF7H////s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-05-27T11:05:47Z",
+      "side": 1,
+      "message": "Yes, agreed.\n\nReplaced with CommandFactoryProvider.split() to keep consistency with the normal command-line splitting.\n\nDo you think make sense to just track in the SshContext the argv[] ? (so we can reuse the already command split instead of splitting it again.",
+      "parentUuid": "AAAFX3///F8\u003d",
       "revId": "7eed60bb4a570502953716c33a1eb4c08b8a2437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

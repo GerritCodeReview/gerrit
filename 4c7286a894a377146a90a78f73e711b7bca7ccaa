@@ -124,6 +124,24 @@
       "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF53///68\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-27T00:18:27Z",
+      "side": 1,
+      "message": "Yeah I agree, if I had read Shawn\u0027s reply properly the first time I wouldn\u0027t have commented about the reload.  Luca, feel free to skip the \"required\" stuff here and put it in another change if you want.",
+      "parentUuid": "AAAFrX///9o\u003d",
+      "revId": "4c7286a894a377146a90a78f73e711b7bca7ccaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

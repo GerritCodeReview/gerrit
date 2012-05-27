@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAF53///7I\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-27T00:04:42Z",
+      "side": 1,
+      "message": "...description +(under resources)+\n\nLinks +-\u003e External Links.+",
+      "revId": "07812e8cf0eeba004cdb6f1a808b78b6ee954a91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

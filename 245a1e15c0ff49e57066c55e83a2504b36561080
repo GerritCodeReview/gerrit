@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAF53///60\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-27T00:27:41Z",
+      "side": 1,
+      "message": "May I suggest checkExclusive(), checkExclusivity(), or ensureExclusive() because as named it almost feels like you expect both to be set.",
+      "revId": "245a1e15c0ff49e57066c55e83a2504b36561080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

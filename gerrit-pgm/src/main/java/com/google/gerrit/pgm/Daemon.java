@@ -43,6 +43,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.SshdListenAddressModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.MasterNodeStartup;
@@ -302,6 +303,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new PluginModule());
+    modules.add(new SshdListenAddressModule());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override

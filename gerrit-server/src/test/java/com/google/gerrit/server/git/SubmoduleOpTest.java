@@ -76,6 +76,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   private SubmoduleSubscriptionAccess subscriptions;
   private ReviewDb schema;
   private Provider<String> urlProvider;
+  private Provider<String> sshProvider;
   private GitRepositoryManager repoManager;
   private GitReferenceUpdated gitRefUpdated;
 
@@ -89,18 +90,19 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     schema = createStrictMock(ReviewDb.class);
     subscriptions = createStrictMock(SubmoduleSubscriptionAccess.class);
     urlProvider = createStrictMock(Provider.class);
+    sshProvider = createStrictMock(Provider.class);
     repoManager = createStrictMock(GitRepositoryManager.class);
     gitRefUpdated = createStrictMock(GitReferenceUpdated.class);
   }
 
   private void doReplay() {
-    replay(schemaFactory, schema, subscriptions, urlProvider, repoManager,
-        gitRefUpdated);
+    replay(schemaFactory, schema, subscriptions, urlProvider, sshProvider,
+        repoManager, gitRefUpdated);
   }
 
   private void doVerify() {
-    verify(schemaFactory, schema, subscriptions, urlProvider, repoManager,
-        gitRefUpdated);
+    verify(schemaFactory, schema, subscriptions, urlProvider, sshProvider,
+        repoManager, gitRefUpdated);
   }
 
   /**
@@ -122,7 +124,8 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     final Branch.NameKey branchNameKey =
         new Branch.NameKey(new Project.NameKey("test-project"), "test-branch");
 
-    expect(urlProvider.get()).andReturn("http://localhost:8080");
+    expect(urlProvider.get()).andReturn("http://localhost:8080").atLeastOnce();
+    expect(sshProvider.get()).andReturn("*:29418").atLeastOnce();
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> emptySubscriptions =
@@ -135,9 +138,9 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     doReplay();
 
     final SubmoduleOp submoduleOp =
-        new SubmoduleOp(branchNameKey, mergeTip, new RevWalk(realDb), urlProvider,
-            schemaFactory, realDb, null, new ArrayList<Change>(), null, null,
-            null, null);
+        new SubmoduleOp(branchNameKey, mergeTip, new RevWalk(realDb),
+            urlProvider, sshProvider, schemaFactory, realDb, null,
+            new ArrayList<Change>(), null, null, null, null);
 
     submoduleOp.update();
 
@@ -631,7 +634,8 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         new Branch.NameKey(new Project.NameKey("target-project"),
             sourceBranchNameKey.get());
 
-    expect(urlProvider.get()).andReturn("http://localhost:8080");
+    expect(urlProvider.get()).andReturn("http://localhost:8080").atLeastOnce();
+    expect(sshProvider.get()).andReturn("*:29418").atLeastOnce();
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> subscribers =
@@ -663,9 +667,9 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     final SubmoduleOp submoduleOp =
         new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
-            sourceRepository), urlProvider, schemaFactory, sourceRepository,
-            new Project(sourceBranchNameKey.getParentKey()), submitted,
-            mergedCommits, myIdent, repoManager, gitRefUpdated);
+            sourceRepository), urlProvider, sshProvider, schemaFactory,
+            sourceRepository, new Project(sourceBranchNameKey.getParentKey()),
+            submitted, mergedCommits, myIdent, repoManager, gitRefUpdated);
 
     submoduleOp.update();
 
@@ -735,7 +739,8 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         new Branch.NameKey(new Project.NameKey("target-project"),
             sourceBranchNameKey.get());
 
-    expect(urlProvider.get()).andReturn("http://localhost:8080");
+    expect(urlProvider.get()).andReturn("http://localhost:8080").atLeastOnce();
+    expect(sshProvider.get()).andReturn("*:29418").atLeastOnce();
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> subscribers =
@@ -769,9 +774,9 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     final SubmoduleOp submoduleOp =
         new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
-            sourceRepository), urlProvider, schemaFactory, sourceRepository,
-            new Project(sourceBranchNameKey.getParentKey()), submitted,
-            mergedCommits, myIdent, repoManager, gitRefUpdated);
+            sourceRepository), urlProvider, sshProvider, schemaFactory,
+            sourceRepository, new Project(sourceBranchNameKey.getParentKey()),
+            submitted, mergedCommits, myIdent, repoManager, gitRefUpdated);
 
     submoduleOp.update();
 
@@ -875,7 +880,8 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     final RevCommit mergeTip = git.commit().setMessage("test").call();
 
-    expect(urlProvider.get()).andReturn("http://localhost:8080").times(2);
+    expect(urlProvider.get()).andReturn("http://localhost:8080").atLeastOnce();
+    expect(sshProvider.get()).andReturn("*:29418").atLeastOnce();
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     expect(subscriptions.bySuperProject(mergedBranch)).andReturn(
@@ -926,9 +932,9 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     final SubmoduleOp submoduleOp =
         new SubmoduleOp(mergedBranch, mergeTip, new RevWalk(realDb),
-            urlProvider, schemaFactory, realDb, new Project(mergedBranch
-                .getParentKey()), new ArrayList<Change>(), null, null,
-            repoManager, null);
+            urlProvider, sshProvider, schemaFactory, realDb, new Project(
+                mergedBranch.getParentKey()), new ArrayList<Change>(), null,
+            null, repoManager, null);
 
     submoduleOp.update();
   }

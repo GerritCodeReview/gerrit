@@ -27,6 +27,7 @@ import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
+import com.google.gerrit.server.config.SshdListenAddressModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -238,6 +239,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
         return HttpCanonicalWebUrlProvider.class;
       }
     });
+    modules.add(new SshdListenAddressModule());
     modules.add(new MasterNodeStartup());
     return cfgInjector.createChildInjector(modules);
   }

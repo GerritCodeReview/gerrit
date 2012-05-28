@@ -45,6 +45,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.SshdListenAddressModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
@@ -268,6 +269,7 @@ public class Daemon extends SiteProgram {
         changeIndexModule = new NoIndexModule();
     }
     modules.add(changeIndexModule);
+    modules.add(new SshdListenAddressModule());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {
         @Override

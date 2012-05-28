@@ -18,7 +18,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.httpd.GerritUiOptions;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -28,7 +27,6 @@ import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
-import com.google.gerrit.server.config.SshdListenAddressModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -48,7 +46,6 @@ import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
-import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.inject.AbstractModule;
@@ -241,15 +238,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
         return HttpCanonicalWebUrlProvider.class;
       }
     });
-    modules.add(SshKeyCacheImpl.module());
-    modules.add(new SshdListenAddressModule());
     modules.add(new MasterNodeStartup());
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(GerritUiOptions.class).toInstance(new GerritUiOptions(false));
-      }
-    });
     return cfgInjector.createChildInjector(modules);
   }
 

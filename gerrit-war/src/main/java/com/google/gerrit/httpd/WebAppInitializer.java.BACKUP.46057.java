@@ -241,8 +241,11 @@ public class WebAppInitializer extends GuiceServletContextListener {
         return HttpCanonicalWebUrlProvider.class;
       }
     });
+<<<<<<< HEAD
     modules.add(SshKeyCacheImpl.module());
+=======
     modules.add(new SshdListenAddressModule());
+>>>>>>> Expand submodule subscription support
     modules.add(new MasterNodeStartup());
     modules.add(new AbstractModule() {
       @Override

@@ -128,14 +128,9 @@ superproject. Gerrit determines this by checking the hostname of the
 submodule specified in the .gitmodules file and comparing it to the
 hostname from the canonical web URL.
 
-It is currently not possible to use the submodule subscription feature
-with a canonical web URL hostname that differs from the hostname of
-the submodule. Instead relative submodules should be used.
-
-The Gerrit instance administrator group should always certify to
-provide the canonical web URL value in its configuration file. Users
-should certify to use the correct hostname of the running Gerrit
-instance to add/subscribe submodules.
+The canonical web URL hostname will be used If the canonical web URL
+hostname differs from the SSHD hostname, if SSHD is not enabled, or if
+SSHD listens on all addresses.  Otherwise the SSHD hostname will be used.
 
 Relative submodules
 ~~~~~~~~~~~~~~~~~~~

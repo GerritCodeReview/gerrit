@@ -63,6 +63,18 @@ public class PatchTable extends Composite {
   private boolean active;
   private boolean registerKeys;
 
+  public final PatchSetDetail.PatchValidator PREFERENCE_VALIDATOR =
+      new PatchSetDetail.PatchValidator() {
+        @Override
+        public boolean isValid(Patch patch) {
+          return !((listenablePrefs.get().isSkipDeleted()
+              && patch.getChangeType().equals(ChangeType.DELETED))
+              || (listenablePrefs.get().isSkipUncommented()
+              && patch.getCommentCount() == 0));
+        }
+
+      };
+
   public PatchTable(ListenableAccountDiffPreference prefs) {
     listenablePrefs = prefs;
     myBody = new FlowPanel();
@@ -176,29 +188,34 @@ public class PatchTable extends Composite {
   /**
    * @return a link to the previous file in this patch set, or null.
    */
-  public InlineHyperlink getPreviousPatchLink(int index, PatchScreen.Type patchType) {
-    for(index--; index > -1; index--) {
-      InlineHyperlink link = createLink(index, patchType, SafeHtml.asis(Util.C
-          .prevPatchLinkIcon()), null);
-      if (link != null) {
-        return link;
-      }
+  public InlineHyperlink getPreviousPatchLink(int index,
+      PatchScreen.Type patchType) {
+    int previousPatchIndex =
+        detail.getPreviousPatch(index, PREFERENCE_VALIDATOR);
+    if (previousPatchIndex < 0) {
+      return null;
     }
-    return null;
+    InlineHyperlink link =
+        createLink(previousPatchIndex, patchType,
+            SafeHtml.asis(Util.C.prevPatchLinkIcon()), null);
+
+    return link;
   }
 
   /**
    * @return a link to the next file in this patch set, or null.
    */
   public InlineHyperlink getNextPatchLink(int index, PatchScreen.Type patchType) {
-    for(index++; index < patchList.size(); index++) {
-      InlineHyperlink link = createLink(index, patchType, null, SafeHtml.asis(Util.C
-          .nextPatchLinkIcon()));
-      if (link != null) {
-        return link;
-      }
+    int nextPatchIndex =
+        detail.getNextPatch(index, false, PREFERENCE_VALIDATOR);
+    if (nextPatchIndex < 0) {
+      return null;
     }
-    return null;
+    InlineHyperlink link =
+        createLink(nextPatchIndex, patchType, null,
+            SafeHtml.asis(Util.C.nextPatchLinkIcon()));
+
+    return link;
   }
 
   /**
@@ -208,16 +225,9 @@ public class PatchTable extends Composite {
    * @param before A string to display at the beginning of the href text
    * @param after A string to display at the end of the href text
    */
-  private PatchLink createLink(int index, PatchScreen.Type patchType,
+  public PatchLink createLink(int index, PatchScreen.Type patchType,
       SafeHtml before, SafeHtml after) {
     Patch patch = patchList.get(index);
-    if (( listenablePrefs.get().isSkipDeleted() &&
-          patch.getChangeType().equals(ChangeType.DELETED) )
-        ||
-        ( listenablePrefs.get().isSkipUncommented() &&
-          patch.getCommentCount() == 0 ) ) {
-      return null;
-    }
 
     Key thisKey = patch.getKey();
     PatchLink link;

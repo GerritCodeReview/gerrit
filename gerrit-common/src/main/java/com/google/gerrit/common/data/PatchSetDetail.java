@@ -21,6 +21,16 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import java.util.List;
 
 public class PatchSetDetail {
+  public interface PatchValidator {
+    /**
+     * Returns true if patch is valid
+     *
+     * @param patch
+     * @return
+     */
+    boolean isValid(Patch patch);
+  }
+
   protected PatchSet patchSet;
   protected PatchSetInfo info;
   protected List<Patch> patches;
@@ -50,5 +60,73 @@ public class PatchSetDetail {
 
   public void setPatches(final List<Patch> p) {
     patches = p;
+  }
+
+  /**
+   * Gets the next patch
+   *
+   * @param currentIndex
+   * @param validator
+   * @param loopAround loops back around to the front and traverses if this is
+   *        true
+   * @return
+   */
+  public int getNextPatch(int currentIndex, boolean loopAround,
+      PatchValidator... validators) {
+    return getNextPatchHelper(currentIndex, loopAround, patches.size(),
+        validators);
+  }
+
+  /**
+   * Helper function for getNextPatch
+   *
+   * @param currentIndex
+   * @param validator
+   * @param loopAround
+   * @param maxIndex will only traverse up to this index
+   * @return
+   */
+  private int getNextPatchHelper(int currentIndex, boolean loopAround,
+      int maxIndex, PatchValidator... validators) {
+    for (int i = currentIndex + 1; i < maxIndex; i++) {
+      Patch patch = patches.get(i);
+      if (patch != null && patchIsValid(patch, validators)) {
+        return i;
+      }
+    }
+
+    if (loopAround) {
+      return getNextPatchHelper(-1, false, currentIndex, validators);
+    }
+
+    return -1;
+  }
+
+  /**
+   * @return the index to the next patch
+   */
+  public int getPreviousPatch(int currentIndex, PatchValidator... validators) {
+    for (int i = currentIndex - 1; i >= 0; i--) {
+      Patch patch = patches.get(i);
+      if (patch != null && patchIsValid(patch, validators)) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  /**
+   * Helper function that returns whether a patch is valid or not
+   *
+   * @param patch
+   * @param validators
+   * @return whether the patch is valid based on the validators
+   */
+  private boolean patchIsValid(Patch patch, PatchValidator... validators) {
+    for (PatchValidator v : validators) {
+      if (!v.isValid(patch)) return false;
+    }
+    return true;
   }
 }

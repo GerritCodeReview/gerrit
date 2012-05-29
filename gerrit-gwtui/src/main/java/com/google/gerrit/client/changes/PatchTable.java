@@ -233,7 +233,7 @@ public class PatchTable extends Composite {
    * @param before A string to display at the beginning of the href text
    * @param after A string to display at the end of the href text
    */
-  private PatchLink createLink(int index, PatchScreen.Type patchType,
+  public PatchLink createLink(int index, PatchScreen.Type patchType,
       SafeHtml before, SafeHtml after) {
     Patch patch = patchList.get(index);
 

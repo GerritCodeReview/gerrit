@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor name="com.sap.ldi.qi.itests">
+  <requiredProperties>
+    <requiredProperty key="pluginName"/>
+
+    <requiredProperty key="Gerrit-Module"/>
+    <requiredProperty key="Gerrit-SshModule"/>
+    <property key="Gerrit-HttpModule"/>
+
+    <requiredProperty key="Implementation-Vendor"/>
+    <requiredProperty key="Implementation-Url"/>
+
+    <requiredProperty key="gerritApiType">
+      <defaultValue>plugin</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="gerritApiVersion">
+      <defaultValue>2.5-SNAPSHOT</defaultValue>
+    </requiredProperty>
+  </requiredProperties>
+
+  <fileSets>
+    <fileSet filtered="true" packaged="true">
+      <directory>src/main/java</directory>
+      <includes>
+        <include>**/*.java</include>
+      </includes>
+    </fileSet>
+
+    <fileSet filtered="true">
+      <directory>src/main/resources/Documentation</directory>
+      <includes>
+        <include>**/*.md</include>
+      </includes>
+    </fileSet>
+
+    <fileSet>
+      <directory></directory>
+      <includes>
+        <include>.gitignore</include>
+        <include>LICENSE</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+</archetype-descriptor>

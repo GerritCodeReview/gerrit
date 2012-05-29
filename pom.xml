@@ -91,6 +91,8 @@ limitations under the License.
     <module>gerrit-plugin-api</module>
 
     <module>gerrit-gwtui</module>
+
+    <module>gerrit-plugin-archetype</module>
   </modules>
 
   <licenses>

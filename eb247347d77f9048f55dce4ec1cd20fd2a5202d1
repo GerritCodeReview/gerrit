@@ -16,6 +16,24 @@
       "revId": "eb247347d77f9048f55dce4ec1cd20fd2a5202d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF9X////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-29T08:58:39Z",
+      "side": 1,
+      "message": "Good idea, but I think this should be an own change. Already now (without this change) we show access rights for refs that are not owned by the user if the access rights are assigned to groups that are visible to the user (see \u0027else if (rc.isVisible()\u0027 below). The UI is already prepared for this case. For refs that are not owned it would simply not allow to edit this ref (e.g. not show the \u0027Add Group\u0027 link etc.). But still it would be nice to display those refs in a different fashion, like italic.",
+      "parentUuid": "AAAF53///7g\u003d",
+      "revId": "eb247347d77f9048f55dce4ec1cd20fd2a5202d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAF53///tY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-29T19:28:13Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "AAAF53///wE\u003d",
+      "revId": "1e83373cac75912027266673682d16bca6f8e8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF4X////s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
         "patchSetId": 2

@@ -33,6 +33,24 @@
       "revId": "b51ea9665a628f1ee1cc922412545521c41ff793",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAABfX///8E\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParameterizedString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-29T14:19:19Z",
+      "side": 1,
+      "message": "I think that an empty parameter \"${}\"would trigger this since it would be passed in here as an empty string \"\".",
+      "parentUuid": "AAABjX////8\u003d",
+      "revId": "b51ea9665a628f1ee1cc922412545521c41ff793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

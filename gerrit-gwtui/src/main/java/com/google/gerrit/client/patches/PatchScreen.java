@@ -23,10 +23,13 @@ import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
+import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
+import com.google.gerrit.common.data.PatchSetDetail.PatchValidator;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.PrettyFactory;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
@@ -34,11 +37,14 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -102,7 +108,8 @@ public abstract class PatchScreen extends Screen implements
   protected PatchScriptSettingsPanel settingsPanel;
   protected TopView topView;
 
-  private CheckBox reviewed;
+  private CheckBox reviewedCheckBox;
+  private FlowPanel reviewedPanel;
   private HistoryTable historyTable;
   private FlowPanel topPanel;
   private FlowPanel contentPanel;
@@ -143,14 +150,7 @@ public abstract class PatchScreen extends Screen implements
     idSideB = id.getParentKey();
     this.patchIndex = patchIndex;
 
-    reviewed = new CheckBox(Util.C.reviewed());
-    reviewed.addValueChangeHandler(
-        new ValueChangeHandler<Boolean>() {
-          @Override
-          public void onValueChange(ValueChangeEvent<Boolean> event) {
-            setReviewedByCurrentUser(event.getValue());
-          }
-        });
+    createReviewedPanel();
 
     prefs = fileList != null ? fileList.getPreferences() :
                                new ListenableAccountDiffPreference();
@@ -168,6 +168,61 @@ public abstract class PatchScreen extends Screen implements
     settingsPanel = new PatchScriptSettingsPanel(prefs);
   }
 
+  private void createReviewedPanel(){
+    reviewedPanel = new FlowPanel();
+
+    reviewedCheckBox = new CheckBox(PatchUtil.C.reviewed() + " ");
+    reviewedCheckBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+      @Override
+      public void onValueChange(ValueChangeEvent<Boolean> event) {
+        setReviewedByCurrentUser(event.getValue());
+      }
+    });
+
+    Anchor reviewedAnchor = new Anchor(PatchUtil.C.andContinue());
+    reviewedAnchor.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        setReviewedByCurrentUser(true);
+      }
+    });
+
+    final PatchValidator unreviewedValidator = new PatchValidator() {
+      public boolean isValid(Patch patch) {
+        return !patch.isReviewedByCurrentUser();
+      }
+    };
+
+    int nextUnreviewedPatchIndex =
+        patchSetDetail.getNextPatch(patchIndex, true, unreviewedValidator,
+            fileList.PREFERENCE_VALIDATOR);
+
+    if (nextUnreviewedPatchIndex > -1) {
+      // Create invisible patch link to change page
+      final PatchLink reviewedLink =
+          fileList.createLink(nextUnreviewedPatchIndex, getPatchScreenType(),
+              null, null);
+      reviewedLink.setText("");
+      reviewedAnchor.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          reviewedLink.go();
+        }
+      });
+    } else {
+      final ChangeLink upLink = new ChangeLink("", patchKey.getParentKey());
+      reviewedAnchor.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          upLink.go();
+        }
+      });
+    }
+
+    reviewedPanel.add(reviewedCheckBox);
+    reviewedPanel.add(reviewedAnchor);
+  }
+
   @Override
   public void notifyDraftDelta(int delta) {
     lastScript = null;
@@ -180,9 +235,9 @@ public abstract class PatchScreen extends Screen implements
 
   private void update(AccountDiffPreference dp) {
     // Did the user just turn on auto-review?
-    if (!reviewed.getValue() && prefs.getOld().isManualReview()
+    if (!reviewedCheckBox.getValue() && prefs.getOld().isManualReview()
         && !dp.isManualReview()) {
-      reviewed.setValue(true);
+      reviewedCheckBox.setValue(true);
       setReviewedByCurrentUser(true);
     }
 
@@ -236,7 +291,7 @@ public abstract class PatchScreen extends Screen implements
     super.onInitUI();
 
     if (Gerrit.isSignedIn()) {
-      setTitleFarEast(reviewed);
+      setTitleFarEast(reviewedPanel);
     }
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
@@ -464,7 +519,7 @@ public abstract class PatchScreen extends Screen implements
           }
         }
       }
-      reviewed.setValue(isReviewed);
+      reviewedCheckBox.setValue(isReviewed);
     }
 
     intralineFailure = isFirst && script.hasIntralineFailure();

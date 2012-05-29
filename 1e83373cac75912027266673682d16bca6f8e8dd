@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAF53///wE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-29T18:16:06Z",
+      "side": 1,
+      "message": "imo - yes.  I plan to add UI to install plugins via http upload, and down the road possibly download \u0026 install plugins grom a list of binaries provided by Shawn.",
+      "parentUuid": "AAAF4H////c\u003d",
+      "revId": "1e83373cac75912027266673682d16bca6f8e8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF4X////s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-25T21:28:45Z",
       "side": 1,
       "message": "?",
+      "revId": "1e83373cac75912027266673682d16bca6f8e8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF53///v8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-29T18:16:06Z",
+      "side": 1,
+      "message": "I can remove this if you like - it will be addressed in a future patch.  I don\u0027t want to make this series too deep.",
+      "parentUuid": "AAAF4X////s\u003d",
       "revId": "1e83373cac75912027266673682d16bca6f8e8dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -81,6 +117,24 @@
       "writtenOn": "2012-05-25T21:28:45Z",
       "side": 1,
       "message": "What does the checkbox do?",
+      "revId": "1e83373cac75912027266673682d16bca6f8e8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF53///v4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-05-29T18:16:06Z",
+      "side": 1,
+      "message": "Nothing now, it will be used in the next patch in the series to disable plugins.  I can remove it if you like.",
+      "parentUuid": "AAAF4X////w\u003d",
       "revId": "1e83373cac75912027266673682d16bca6f8e8dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

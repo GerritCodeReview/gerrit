@@ -51,6 +51,24 @@
       "revId": "b51ea9665a628f1ee1cc922412545521c41ff793",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF7H///9g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ParameterizedString.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-05-29T14:27:10Z",
+      "side": 1,
+      "message": "It is possible, at least it is not bad to let it there. +1.\n\nIt is a long time , I can not recall why I added above comments.",
+      "parentUuid": "AAABfX///8E\u003d",
+      "revId": "b51ea9665a628f1ee1cc922412545521c41ff793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

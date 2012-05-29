@@ -60,7 +60,8 @@ public interface PatchConstants extends Constants {
   String previousFileHelp();
   String nextFileHelp();
 
-  String reviewed();
+  String reviewedAnd();
+  String next();
   String download();
 
   String buttonReplyDone();

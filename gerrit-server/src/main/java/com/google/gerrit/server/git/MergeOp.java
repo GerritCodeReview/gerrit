@@ -900,6 +900,7 @@ public class MergeOp {
 
     final ObjectId id = commit(m, mergeCommit);
     final CodeReviewCommit newCommit = (CodeReviewCommit) rw.parseCommit(id);
+    final Change oldChange = n.change;
 
     n.change =
         db.changes().atomicUpdate(n.change.getId(),
@@ -928,6 +929,9 @@ public class MergeOp {
                 return change;
               }
             });
+
+    this.submitted.remove(oldChange);
+    this.submitted.add(n.change);
 
     if (approvalList != null) {
       for (PatchSetApproval a : approvalList) {

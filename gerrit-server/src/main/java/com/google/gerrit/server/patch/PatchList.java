@@ -142,8 +142,12 @@ public class PatchList implements Serializable {
   }
 
   private int search(final String fileName) {
+    if (Patch.COMMIT_MSG.equals(fileName)) {
+      return 0;
+    }
+
     int high = patches.length;
-    int low = 0;
+    int low = 1;
     while (low < high) {
       final int mid = (low + high) >>> 1;
       final int cmp = patches[mid].getNewName().compareTo(fileName);

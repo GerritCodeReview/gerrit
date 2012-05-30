@@ -28,12 +28,14 @@ import com.google.inject.Singleton;
 class InitSendEmail implements InitStep {
   private final ConsoleUI ui;
   private final Section sendemail;
+  private final SitePaths site;
 
   @Inject
   InitSendEmail(final ConsoleUI ui, final SitePaths site,
       final Section.Factory sections) {
     this.ui = ui;
     this.sendemail = sections.get("sendemail");
+    this.site = site;
   }
 
   public void run() {
@@ -49,7 +51,9 @@ class InitSendEmail implements InitStep {
             true);
 
     String username = null;
-    if ((enc != null && enc != Encryption.NONE) || !isLocal(hostname)) {
+    if (site.gerrit_config.exists()) {
+      username = sendemail.get("smtpUser");
+    } else if ((enc != null && enc != Encryption.NONE) || !isLocal(hostname)) {
       username = username();
     }
     sendemail.string("SMTP username", "smtpUser", username);

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGCn///+s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-30T17:59:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAF8H////Y\u003d",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF8H////U\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-30T00:33:25Z",
       "side": 1,
       "message": "typo: s/and/an/",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGCn///+o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-30T17:59:58Z",
+      "side": 1,
+      "message": "I wanted to say \"copying and modifying\"\nSo there was really a typo but on another word :-)",
+      "parentUuid": "AAAF8H////U\u003d",
       "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGCn///+k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-30T17:59:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAF8H////Q\u003d",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF/X///+s\u003d",
         "filename": "gerrit-plugin-archetype/pom.xml",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-05-30T01:50:28Z",
       "side": 1,
       "message": "I think we put copyright headers in our pom.xml files.",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGCn////E\u003d",
+        "filename": "gerrit-plugin-archetype/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-30T17:59:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAF/X///+s\u003d",
       "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGCn////A\u003d",
+        "filename": "gerrit-plugin-archetype/src/main/resources/META-INF/maven/archetype-metadata.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-30T17:59:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAF/X///+o\u003d",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF/X///+k\u003d",
         "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/LICENSE",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-05-30T01:50:28Z",
       "side": 1,
       "message": "I don\u0027t know if we should be giving them a the Apache License by default. Maybe that makes sense, to encourage them to use the same license we use for Gerrit itself?",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGCn///+8\u003d",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/LICENSE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-30T17:59:58Z",
+      "side": 1,
+      "message": "Actually, I blindly copied the LICENSE from the plugins/replication :-)\n\nLooking at the Documentation/licenses.txt is says:\n\n Gerrit itself is licensed under the Apache License 2.0\n\nI am not sure which license text you would like as the default for new plugins?",
+      "parentUuid": "AAAF/X///+k\u003d",
       "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGCn///+4\u003d",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-30T17:59:58Z",
+      "side": 1,
+      "message": "Thanks for noticing this!\nIt would be really error prone to remember this for every release. I will try to automate this with velocity, something like:\n\n #if ($gerritApiVersion.endsWith(\"SNAPSHOT\")\n   \u003curl\u003ehttps://gerrit-api.commondatastorage.googleapis.com/snapshot/\u003c/url\u003e\n #else\n   \u003curl\u003ehttps://gerrit-api.commondatastorage.googleapis.com/release/\u003c/url\u003e\n #end",
+      "parentUuid": "AAAF/X///+g\u003d",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF8H////M\u003d",
         "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/pom.xml",
         "patchSetId": 1
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGCn///+0\u003d",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-30T17:59:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAF8H////M\u003d",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF/X///+c\u003d",
         "filename": "pom.xml",
         "patchSetId": 1
@@ -149,6 +293,24 @@
       "writtenOn": "2012-05-30T01:50:28Z",
       "side": 1,
       "message": "nit: i would put this after the gerrit-plugin-api above",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGCn///+w\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-05-30T17:59:58Z",
+      "side": 1,
+      "message": "Right, I should have seen that.",
+      "parentUuid": "AAAF/X///+c\u003d",
       "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

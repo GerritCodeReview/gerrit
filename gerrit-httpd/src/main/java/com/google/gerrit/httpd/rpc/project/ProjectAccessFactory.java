@@ -110,6 +110,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       md.close();
     }
 
+    final RefControl metaConfigControl = pc.controlForRef(GitRepositoryManager.REF_CONFIG);
     List<AccessSection> local = new ArrayList<AccessSection>();
     Set<String> ownerOf = new HashSet<String>();
     Map<AccountGroup.UUID, Boolean> visibleGroups =
@@ -125,7 +126,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
       } else if (RefConfigSection.isValid(name)) {
         RefControl rc = pc.controlForRef(name);
-        if (rc.isOwner()) {
+        if (rc.isOwner() || metaConfigControl.isVisible()) {
           local.add(section);
           ownerOf.add(name);
 
@@ -195,8 +196,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
     detail.setLocal(local);
     detail.setOwnerOf(ownerOf);
-    detail.setConfigVisible(pc.isOwner()
-        || pc.controlForRef(GitRepositoryManager.REF_CONFIG).isVisible());
+    detail.setConfigVisible(pc.isOwner() || metaConfigControl.isVisible());
     return detail;
   }
 

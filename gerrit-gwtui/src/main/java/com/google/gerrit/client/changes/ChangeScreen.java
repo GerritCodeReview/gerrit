@@ -305,6 +305,9 @@ public class ChangeScreen extends Screen
           depsOpen = true;
         }
       }
+      if (detail.getNeededBy() != null) {
+        depsOpen = true;
+      }
     }
 
     dependenciesPanel.setOpen(depsOpen);

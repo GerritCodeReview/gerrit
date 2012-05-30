@@ -291,18 +291,28 @@ public class ChangeScreen extends Screen
     addComments(detail);
 
     // If any dependency change is still open, or is outdated,
+    // or the change is needed by a change that is new or submitted,
     // show our dependency list.
     //
     boolean depsOpen = false;
     int outdated = 0;
-    if (!detail.getChange().getStatus().isClosed()
-        && detail.getDependsOn() != null) {
-      for (final ChangeInfo ci : detail.getDependsOn()) {
-        if (! ci.isLatest()) {
-          depsOpen = true;
-          outdated++;
-        } else if (ci.getStatus() != Change.Status.MERGED) {
-          depsOpen = true;
+    if (!detail.getChange().getStatus().isClosed()) {
+      if (detail.getDependsOn() != null) {
+        for (final ChangeInfo ci : detail.getDependsOn()) {
+          if (!ci.isLatest()) {
+            depsOpen = true;
+            outdated++;
+          } else if (ci.getStatus() != Change.Status.MERGED) {
+            depsOpen = true;
+          }
+        }
+      }
+      if (detail.getNeededBy() != null) {
+        for (final ChangeInfo ci : detail.getNeededBy()) {
+          if ((ci.getStatus() == Change.Status.NEW) ||
+              (ci.getStatus() == Change.Status.SUBMITTED)) {
+            depsOpen = true;
+          }
         }
       }
     }

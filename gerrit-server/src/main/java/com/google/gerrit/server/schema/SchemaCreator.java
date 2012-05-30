@@ -252,8 +252,9 @@ public class SchemaCreator {
       all.getPermission(Permission.FORGE_AUTHOR, true) //
           .add(rule(config, registered));
 
-      meta.getPermission(Permission.READ, true) //
-          .add(rule(config, owners));
+      Permission metaReadPermission = meta.getPermission(Permission.READ, true);
+      metaReadPermission.setExclusiveGroup(true);
+      metaReadPermission.add(rule(config, owners));
 
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
       if (!config.commit(md)) {

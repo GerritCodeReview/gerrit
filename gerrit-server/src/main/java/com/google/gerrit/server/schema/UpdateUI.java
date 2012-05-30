@@ -24,6 +24,8 @@ public interface UpdateUI {
 
   boolean yesno(boolean def, String msg);
 
+  boolean isBatch();
+
   void pruneSchema(StatementExecutor e, List<String> pruneList)
       throws OrmException;
 }

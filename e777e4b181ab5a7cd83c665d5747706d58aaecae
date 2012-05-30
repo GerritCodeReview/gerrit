@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGBn////8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-30T10:08:12Z",
+      "side": 1,
+      "message": "Thanks, this indeed looks much simpler :-)\n\nDone.",
+      "parentUuid": "AAAF/X///9Q\u003d",
+      "revId": "e777e4b181ab5a7cd83c665d5747706d58aaecae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF/X///9M\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccessSection.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-05-30T02:19:56Z",
       "side": 1,
       "message": "Its bad form to hash mutable state into the hashCode. Use the reference name aka section name only.",
+      "revId": "e777e4b181ab5a7cd83c665d5747706d58aaecae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGBn////k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-30T10:08:12Z",
+      "side": 1,
+      "message": "Ok, I\u0027ve now removed the hashCode method here, since super.hashCode is already returning the hash code for the reference name.\n\nDo you think it would make sense to have\n  @Override\n  public int hashCode() {\n    return super.hashCode();\n  }\nexplicitly here? Having a class that implements equals without hashCode always looks wrong to me :-/\n\nDone.",
+      "parentUuid": "AAAF/X///9M\u003d",
       "revId": "e777e4b181ab5a7cd83c665d5747706d58aaecae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGBn////g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-30T10:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAF/X///9I\u003d",
+      "revId": "e777e4b181ab5a7cd83c665d5747706d58aaecae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF/X///88\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2012-05-30T02:19:56Z",
       "side": 1,
       "message": "name should be enough here for the hash code of the permission. Within a container of Permission objects we tend to only make one object per Permission. The rules nested within don\u0027t really contribute to the hash code.\n\nalso its bad form to make mutable state part of the hashcode. the name isn\u0027t likely to change. The rules are.",
+      "revId": "e777e4b181ab5a7cd83c665d5747706d58aaecae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGBn////0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-30T10:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAF/X///88\u003d",
       "revId": "e777e4b181ab5a7cd83c665d5747706d58aaecae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGBn////w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PermissionRule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-30T10:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAF/X///9A\u003d",
+      "revId": "e777e4b181ab5a7cd83c665d5747706d58aaecae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF/X///84\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RefConfigSection.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2012-05-30T02:19:56Z",
       "side": 1,
       "message": "nit: spaces here around the casting would be nice\n\n  name.equals(((RefConfigSection) obj).name);",
+      "revId": "e777e4b181ab5a7cd83c665d5747706d58aaecae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGBn////s\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RefConfigSection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-05-30T10:08:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAF/X///84\u003d",
       "revId": "e777e4b181ab5a7cd83c665d5747706d58aaecae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

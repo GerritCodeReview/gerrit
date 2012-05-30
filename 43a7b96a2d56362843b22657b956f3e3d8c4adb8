@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAF8H////Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-05-30T00:33:25Z",
+      "side": 1,
+      "message": "typo: s/stargin/starting/",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF8H////U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-05-30T00:33:25Z",
+      "side": 1,
+      "message": "typo: s/and/an/",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF8H////Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-05-30T00:33:25Z",
+      "side": 1,
+      "message": "typo: s/properteis/properties/",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF8H////M\u003d",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-05-30T00:33:25Z",
+      "side": 1,
+      "message": "style nit: trailing whitespace",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

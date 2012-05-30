@@ -53,6 +53,74 @@
     },
     {
       "key": {
+        "uuid": "AAAF/X///+s\u003d",
+        "filename": "gerrit-plugin-archetype/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-30T01:50:28Z",
+      "side": 1,
+      "message": "I think we put copyright headers in our pom.xml files.",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF/X///+o\u003d",
+        "filename": "gerrit-plugin-archetype/src/main/resources/META-INF/maven/archetype-metadata.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-30T01:50:28Z",
+      "side": 1,
+      "message": "copyright header?",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF/X///+k\u003d",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/LICENSE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-30T01:50:28Z",
+      "side": 1,
+      "message": "I don\u0027t know if we should be giving them a the Apache License by default. Maybe that makes sense, to encourage them to use the same license we use for Gerrit itself?",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF/X///+g\u003d",
+        "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-30T01:50:28Z",
+      "side": 1,
+      "message": "FYI, when we ship 2.5 this should change to /release/.",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAF8H////M\u003d",
         "filename": "gerrit-plugin-archetype/src/main/resources/archetype-resources/pom.xml",
         "patchSetId": 1
@@ -64,6 +132,23 @@
       "writtenOn": "2012-05-30T00:33:25Z",
       "side": 1,
       "message": "style nit: trailing whitespace",
+      "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAF/X///+c\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-30T01:50:28Z",
+      "side": 1,
+      "message": "nit: i would put this after the gerrit-plugin-api above",
       "revId": "43a7b96a2d56362843b22657b956f3e3d8c4adb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

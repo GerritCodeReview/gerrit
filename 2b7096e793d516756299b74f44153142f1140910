@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGHX///zs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-31T17:14:30Z",
+      "side": 1,
+      "message": "I think the better way to get this compare is to take the difference of the parent of the old and parent of the new patchset, and substract that from the difference of the old and new patch set.\n\nSo roughly if $OLD and $NEW are the old and new patch set commits:\n\n  (git diff $OLD $NEW) - (git diff $OLD^ $NEW^)\n\nThe key here is to look at the difference as actual diff hunks, not as simple file names. A file can only be subtracted if all of its diff hunks are also subtracted.\n\nSubtracting a diff hunk requires also computing:\n\n  git diff $OLD^ $OLD\n  git diff $NEW^ $NEW\n\nbecause you need these to compute the line number offsets. Given a hunk from `diff $OLD^ $NEW^`, the line numbers are in terms of the \"A\" side of the `diff $OLD^ $OLD` and also the `diff $NEW^ $NEW` compares. So you convert the line numbers into terms of the `diff $OLD $NEW` by translating with the `diff $OLD^ $OLD` information, and then subtract (or shrink) these hunks from the `diff $OLD $NEW` compare.\n\nIdeally when doing this you actually leave the hunks in $NEW but tag them with a new type so the UI can color them differently, allowing the reviewer to see that the segment in $NEW that doesn\u0027t match $OLD is caused by a rebase and is coming from the parent, not this change, and is therefore not really a crucial part of this review.\n\nYea its harder to implement, but I think its a more accurate representation of how to review are rebased commit.",
+      "revId": "2b7096e793d516756299b74f44153142f1140910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGG3///6k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-31T17:14:30Z",
+      "side": 1,
+      "message": "Wrong method name. You return a Set\u003cString\u003e but the method implies that it will return a List given its name.",
+      "revId": "2b7096e793d516756299b74f44153142f1140910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGHH///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-31T17:14:30Z",
+      "side": 1,
+      "message": "Because you handle serialization for this in writeObject/readObject below, this field should be declared transient.\n\nAs a style nit, we don\u0027t name fields \"isFoo\", we name them \"foo\" with the getter method called \"isFoo\".",
+      "revId": "2b7096e793d516756299b74f44153142f1140910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGG3///6g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-31T17:14:30Z",
+      "side": 1,
+      "message": "boolean, not Boolean. We don\u0027t want to pass null in because it will NullPointerException immediately in the constructor.",
+      "revId": "2b7096e793d516756299b74f44153142f1140910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGHX///1E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-31T17:14:30Z",
+      "side": 1,
+      "message": "please fill fields in a constructor, not an method named init. You can call a constructor from another constructor with the \"this(...)\" syntax.",
+      "revId": "2b7096e793d516756299b74f44153142f1140910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGG3///7E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-31T17:14:30Z",
+      "side": 1,
+      "message": "This isn\u0027t really true. An edit within a file that was impacted by both the new parent and this change, but that isn\u0027t necessarily a conflict, still shows as a difference. So its not really transparent. What you have here is a cheap approximate hack that works some of the time.",
+      "revId": "2b7096e793d516756299b74f44153142f1140910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGG3///6o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-31T17:14:30Z",
+      "side": 1,
+      "message": "This is redoing the work that get below does. Why can\u0027t you integrate this logic into get such that we only have to build the ObjectReader and the RevWalk only once? This will save time over needing to re-parse the commit again.",
+      "revId": "2b7096e793d516756299b74f44153142f1140910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGHX///08\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-31T17:14:30Z",
+      "side": 1,
+      "message": "call this computePatchList maybe?",
+      "revId": "2b7096e793d516756299b74f44153142f1140910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

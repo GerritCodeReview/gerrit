@@ -147,7 +147,9 @@ Docs
 
 * Update Google Code project links
 ** Go to http://code.google.com/p/gerrit/admin
-** Point the main page to the new docs
+** Point the main page to the new docs. The link to the documentation has to be
+updated at two places: in the project description and also in the Links
+section.
 ** Point the main page to the new release notes
 
 [NOTE]

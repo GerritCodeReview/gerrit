@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGG3///2M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/SuggestServiceImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-31T23:19:42Z",
+      "side": 1,
+      "message": "We might also want to consider doing something like:\n\n  || (projectControl !\u003d null\n    \u0026\u0026 projectControl.isOwnerAnyRef()\n    \u0026\u0026 group name appears in an existing rule in the project)\n\nThis way you can complete a name that you can see in the UI, but maybe couldn\u0027t see otherwise normally. As in... \"group somereally-longname-i-dontwanttotype\" has read permission and i want to also give them push permission on the same branch.\n\nBut I guess you can copy and paste in the web UI at that point so its not a reason to reject this change. Just something to consider to make it even nicer for the user to use.",
+      "revId": "49a32944c4b57e2d95cc413171cc20dacfd8fef7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

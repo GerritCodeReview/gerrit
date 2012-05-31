@@ -33,6 +33,24 @@
       "revId": "7d5ab4bad7e08b13197ef431fdd694886f1da57b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGHH///2w\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 24
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-05-31T23:23:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGG3///28\u003d",
+      "revId": "7d5ab4bad7e08b13197ef431fdd694886f1da57b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

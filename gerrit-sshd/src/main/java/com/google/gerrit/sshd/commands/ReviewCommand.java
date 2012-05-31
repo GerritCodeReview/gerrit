@@ -38,6 +38,7 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
@@ -113,7 +114,7 @@ public class ReviewCommand extends SshCommand {
   private DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
 
   @Inject
-  private AbandonChange.Factory abandonChangeFactory;
+  private Provider<AbandonChange> abandonChangeProvider;
 
   @Inject
   private PublishComments.Factory publishCommentsFactory;
@@ -201,8 +202,10 @@ public class ReviewCommand extends SshCommand {
       publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage).call();
 
       if (abandonChange) {
-        final ReviewResult result = abandonChangeFactory.create(
-            patchSetId.getParentKey(), changeComment).call();
+        final AbandonChange abandonChange = abandonChangeProvider.get();
+        abandonChange.setChangeId(patchSetId.getParentKey());
+        abandonChange.setMessage(changeComment);
+        final ReviewResult result = abandonChange.call();
         handleReviewResultErrors(result);
       } else if (restoreChange) {
         final ReviewResult result = restoreChangeFactory.create(

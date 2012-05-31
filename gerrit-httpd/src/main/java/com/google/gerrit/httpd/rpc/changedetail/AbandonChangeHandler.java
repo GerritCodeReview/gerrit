@@ -26,6 +26,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -40,7 +41,7 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
     AbandonChangeHandler create(PatchSet.Id patchSetId, String message);
   }
 
-  private final AbandonChange.Factory abandonChangeFactory;
+  private final Provider<AbandonChange> abandonChangeFactory;
   private final ChangeDetailFactory.Factory changeDetailFactory;
 
   private final PatchSet.Id patchSetId;
@@ -48,7 +49,7 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
   private final String message;
 
   @Inject
-  AbandonChangeHandler(final AbandonChange.Factory abandonChangeFactory,
+  AbandonChangeHandler(final Provider<AbandonChange> abandonChangeFactory,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message) {
@@ -64,8 +65,10 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
       EmailException, NoSuchEntityException, InvalidChangeOperationException,
       PatchSetInfoNotAvailableException, RepositoryNotFoundException,
       IOException {
-    final ReviewResult result =
-        abandonChangeFactory.create(patchSetId.getParentKey(), message).call();
+    final AbandonChange abandonChange = abandonChangeFactory.get();
+    abandonChange.setChangeId(patchSetId.getParentKey());
+    abandonChange.setMessage(message);
+    final ReviewResult result = abandonChange.call();
     if (result.getErrors().size() > 0) {
       throw new NoSuchChangeException(result.getChangeId());
     }

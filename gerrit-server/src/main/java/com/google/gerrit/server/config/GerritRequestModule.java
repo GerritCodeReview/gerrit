@@ -89,7 +89,6 @@ public class GerritRequestModule extends FactoryModule {
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.
     //
-    factory(AbandonChange.Factory.class);
     factory(AddReviewer.Factory.class);
     factory(AddReviewerSender.Factory.class);
     factory(CreateChangeSender.Factory.class);

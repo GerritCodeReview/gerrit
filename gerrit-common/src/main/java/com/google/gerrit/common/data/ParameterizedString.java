@@ -169,8 +169,7 @@ public class ParameterizedString {
     Parameter(final String parameter) {
       // "parameter[.functions...]" -> (parameter, functions...)
       final List<String> names = Arrays.asList(parameter.split("\\."));
-
-      final List<Function> functs = new ArrayList(names.size());
+      final List<Function> functs = new ArrayList<Function>(names.size());
 
       if (names.isEmpty()) {
         name = "";
@@ -206,12 +205,6 @@ public class ParameterizedString {
   }
 
   private static final Map<String, Function> FUNCTIONS = initFunctions();
-  private static final Function NOOP = new Function() {
-    @Override
-    String apply(String a) {
-      return a;
-    }
-  };
 
   private static Map<String, Function> initFunctions() {
     final HashMap<String, Function> m = new HashMap<String, Function>();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGHH////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-31T01:50:35Z",
+      "side": 1,
+      "message": "What does this do?",
+      "revId": "a54b03dd1c5fa1ab16f3cde8730f715a06ef3c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

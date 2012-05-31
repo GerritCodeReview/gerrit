@@ -18,7 +18,7 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
-import com.google.gerrit.sshd.args4j.SubcommandHandler;
+import com.google.gerrit.server.args4j.SubcommandHandler;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;

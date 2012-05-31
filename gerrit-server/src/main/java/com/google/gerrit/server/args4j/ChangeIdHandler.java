@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.args4j;
+package com.google.gerrit.server.args4j;
 
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -56,7 +56,8 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
     try {
       final Change.Key key = Change.Key.parse(tokens[2]);
       final Project.NameKey project = new Project.NameKey(tokens[0]);
-      final Branch.NameKey branch = new Branch.NameKey(project, tokens[1]);
+      final Branch.NameKey branch =
+          new Branch.NameKey(project, "refs/heads/" + tokens[1]);
       for (final Change change : db.changes().byBranchKey(branch, key)) {
         setter.addValue(change.getId());
         return 1;

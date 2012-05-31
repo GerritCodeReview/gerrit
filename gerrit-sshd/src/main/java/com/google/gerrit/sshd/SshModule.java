@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;
@@ -38,18 +39,8 @@ import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.gerrit.sshd.args4j.AccountGroupIdHandler;
-import com.google.gerrit.sshd.args4j.AccountGroupUUIDHandler;
-import com.google.gerrit.sshd.args4j.AccountIdHandler;
-import com.google.gerrit.sshd.args4j.ChangeIdHandler;
-import com.google.gerrit.sshd.args4j.ObjectIdHandler;
-import com.google.gerrit.sshd.args4j.PatchSetIdHandler;
-import com.google.gerrit.sshd.args4j.ProjectControlHandler;
-import com.google.gerrit.sshd.args4j.SocketAddressHandler;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.QueryShell;
-import com.google.gerrit.util.cli.CmdLineParser;
-import com.google.gerrit.util.cli.OptionHandlerUtil;
 import com.google.inject.Inject;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
@@ -59,7 +50,6 @@ import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
-import org.kohsuke.args4j.spi.OptionHandler;
 
 import java.net.SocketAddress;
 import java.util.Map;
@@ -83,7 +73,7 @@ public class SshModule extends FactoryModule {
     bind(SshScope.class).in(SINGLETON);
 
     configureRequestScope();
-    configureCmdLineParser();
+    install(new CmdLineParserModule());
     configureAliases();
 
     install(SshKeyCacheImpl.module());
@@ -154,23 +144,5 @@ public class SshModule extends FactoryModule {
         .toProvider(CommandExecutorProvider.class).in(SshScope.REQUEST);
 
     install(new GerritRequestModule());
-  }
-
-  private void configureCmdLineParser() {
-    factory(CmdLineParser.Factory.class);
-
-    registerOptionHandler(Account.Id.class, AccountIdHandler.class);
-    registerOptionHandler(AccountGroup.Id.class, AccountGroupIdHandler.class);
-    registerOptionHandler(AccountGroup.UUID.class, AccountGroupUUIDHandler.class);
-    registerOptionHandler(Change.Id.class, ChangeIdHandler.class);
-    registerOptionHandler(ObjectId.class, ObjectIdHandler.class);
-    registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
-    registerOptionHandler(ProjectControl.class, ProjectControlHandler.class);
-    registerOptionHandler(SocketAddress.class, SocketAddressHandler.class);
-  }
-
-  private <T> void registerOptionHandler(Class<T> type,
-      Class<? extends OptionHandler<T>> impl) {
-    install(OptionHandlerUtil.moduleFor(type, impl));
   }
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.args4j;
+package com.google.gerrit.server.args4j;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.ObjectId;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -26,31 +25,23 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
-public class AccountGroupUUIDHandler extends OptionHandler<AccountGroup.UUID> {
-  private final GroupCache groupCache;
+public class ObjectIdHandler extends OptionHandler<ObjectId> {
 
   @Inject
-  public AccountGroupUUIDHandler(final GroupCache groupCache,
-      @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
-      @Assisted final Setter<AccountGroup.UUID> setter) {
+  public ObjectIdHandler(@Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option, @Assisted final Setter<ObjectId> setter) {
     super(parser, option, setter);
-    this.groupCache = groupCache;
   }
 
   @Override
-  public final int parseArguments(final Parameters params)
-      throws CmdLineException {
+  public int parseArguments(Parameters params) throws CmdLineException {
     final String n = params.getParameter(0);
-    final AccountGroup group = groupCache.get(new AccountGroup.NameKey(n));
-    if (group == null) {
-      throw new CmdLineException(owner, "Group \"" + n + "\" does not exist");
-    }
-    setter.addValue(group.getGroupUUID());
+    setter.addValue(ObjectId.fromString(n));
     return 1;
   }
 
   @Override
-  public final String getDefaultMetaVariable() {
-    return "GROUP";
+  public String getDefaultMetaVariable() {
+    return "COMMIT";
   }
 }

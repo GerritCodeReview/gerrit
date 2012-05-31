@@ -25,6 +25,7 @@ import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
@@ -38,7 +39,6 @@ import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;
-import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -134,7 +134,7 @@ public class WebModule extends FactoryModule {
     bind(ChangeUserName.CurrentUser.class);
     factory(ChangeUserName.Factory.class);
     factory(ClearPassword.Factory.class);
-    factory(CmdLineParser.Factory.class);
+    install(new CmdLineParserModule());
     factory(GeneratePassword.Factory.class);
 
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(

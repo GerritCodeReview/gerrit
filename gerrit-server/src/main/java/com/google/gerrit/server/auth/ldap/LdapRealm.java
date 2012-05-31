@@ -17,6 +17,7 @@ package com.google.gerrit.server.auth.ldap;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Iterables;
@@ -269,10 +270,14 @@ class LdapRealm implements Realm {
   public GroupMembership groups(final AccountState who) {
     String id = findId(who.getExternalIds());
     Set<AccountGroup.UUID> groups;
-    try {
-      groups = membershipCache.get(id);
-    } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup groups for %s in LDAP", id), e);
+    if (id != null) {
+      try {
+        groups = membershipCache.get(id);
+      } catch (ExecutionException e) {
+        log.warn(String.format("Cannot lookup groups for %s in LDAP", id), e);
+        groups = Collections.emptySet();
+      }
+    } else {
       groups = Collections.emptySet();
     }
     return groupMembershipFactory.create(Iterables.concat(
@@ -291,6 +296,9 @@ class LdapRealm implements Realm {
 
   @Override
   public Account.Id lookup(String accountName) {
+    if (Strings.isNullOrEmpty(accountName)) {
+      return null;
+    }
     try {
       Optional<Account.Id> id = usernameCache.get(accountName);
       return id != null ? id.orNull() : null;

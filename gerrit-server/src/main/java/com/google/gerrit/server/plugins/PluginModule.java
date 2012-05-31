@@ -20,10 +20,8 @@ public class PluginModule extends LifecycleModule {
   @Override
   protected void configure() {
     bind(PluginCleanerTask.class);
-    bind(PluginGuiceEnvironment.class);
     bind(PluginLoader.class);
 
-    bind(CopyConfigModule.class);
     listener().to(PluginLoader.class);
   }
 }

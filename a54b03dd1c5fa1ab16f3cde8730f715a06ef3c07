@@ -106,6 +106,24 @@
       "revId": "a54b03dd1c5fa1ab16f3cde8730f715a06ef3c07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGHH///8Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-05-31T17:14:18Z",
+      "side": 1,
+      "message": "Doh right, I see that now, sorry. :(",
+      "parentUuid": "AAAGHH///9A\u003d",
+      "revId": "a54b03dd1c5fa1ab16f3cde8730f715a06ef3c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

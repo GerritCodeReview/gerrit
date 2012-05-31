@@ -30,7 +30,7 @@ public class CreateProjectArgs {
   public boolean contributorAgreements;
   public boolean signedOffBy;
   public boolean permissionsOnly;
-  public String branch;
+  public List<String> branch;
   public boolean contentMerge;
   public boolean changeIdRequired;
   public boolean createEmptyCommit;

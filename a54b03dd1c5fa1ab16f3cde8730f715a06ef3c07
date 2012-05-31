@@ -16,6 +16,24 @@
       "revId": "a54b03dd1c5fa1ab16f3cde8730f715a06ef3c07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGHH///9w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/CreateProject.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1004136
+      },
+      "writtenOn": "2012-05-31T16:41:28Z",
+      "side": 1,
+      "message": "The loop? It does the same this as the previous code (see the left panel), but for all specified branches.\n\nThe code at the left panel:\n1) normalizes the ref name\n2) checks that the ref name is valid\n\nMy code additionally removes duplicated ref names, so specifying \"-b foo -b foo\" will not crash request.",
+      "parentUuid": "AAAGHH////s\u003d",
+      "revId": "a54b03dd1c5fa1ab16f3cde8730f715a06ef3c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,9 +22,11 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -39,7 +41,7 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
     AbandonChangeHandler create(PatchSet.Id patchSetId, String message);
   }
 
-  private final AbandonChange.Factory abandonChangeFactory;
+  private final Provider<AbandonChange> abandonChangeProvider;
   private final ChangeDetailFactory.Factory changeDetailFactory;
 
   private final PatchSet.Id patchSetId;
@@ -47,11 +49,11 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
   private final String message;
 
   @Inject
-  AbandonChangeHandler(final AbandonChange.Factory abandonChangeFactory,
+  AbandonChangeHandler(final Provider<AbandonChange> abandonChangeProvider,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message) {
-    this.abandonChangeFactory = abandonChangeFactory;
+    this.abandonChangeProvider = abandonChangeProvider;
     this.changeDetailFactory = changeDetailFactory;
 
     this.patchSetId = patchSetId;
@@ -60,10 +62,13 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
 
   @Override
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
-      EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException,
-      RepositoryNotFoundException, IOException {
-    final ReviewResult result =
-        abandonChangeFactory.create(patchSetId.getParentKey(), message).call();
+      EmailException, NoSuchEntityException, InvalidChangeOperationException,
+      PatchSetInfoNotAvailableException, RepositoryNotFoundException,
+      IOException {
+    final AbandonChange abandonChange = abandonChangeProvider.get();
+    abandonChange.setChangeId(patchSetId.getParentKey());
+    abandonChange.setMessage(message);
+    final ReviewResult result = abandonChange.call();
     if (result.getErrors().size() > 0) {
       throw new NoSuchChangeException(result.getChangeId());
     }

@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.args4j;
+package com.google.gerrit.server.args4j;
 
-import com.google.gerrit.server.util.SocketUtil;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -25,13 +25,11 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
-import java.net.SocketAddress;
-
-public class SocketAddressHandler extends OptionHandler<SocketAddress> {
+public class PatchSetIdHandler extends OptionHandler<PatchSet.Id> {
 
   @Inject
-  public SocketAddressHandler(@Assisted final CmdLineParser parser,
-      @Assisted final OptionDef option, @Assisted final Setter<SocketAddress> setter) {
+  public PatchSetIdHandler(@Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option, @Assisted final Setter<PatchSet.Id> setter) {
     super(parser, option, setter);
   }
 
@@ -39,16 +37,20 @@ public class SocketAddressHandler extends OptionHandler<SocketAddress> {
   public final int parseArguments(final Parameters params)
       throws CmdLineException {
     final String token = params.getParameter(0);
+    final PatchSet.Id id;
     try {
-      setter.addValue(SocketUtil.parse(token, 0));
+      id = PatchSet.Id.parse(token);
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, e.getMessage());
+      throw new CmdLineException(owner, "\"" + token
+          + "\" is not a valid patch set");
     }
+
+    setter.addValue(id);
     return 1;
   }
 
   @Override
   public final String getDefaultMetaVariable() {
-    return "HOST:PORT";
+    return "CHANGE,PATCHSET";
   }
 }

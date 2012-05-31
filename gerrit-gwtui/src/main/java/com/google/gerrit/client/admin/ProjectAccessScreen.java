@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ProjectAccess;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
@@ -32,6 +33,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+
+import java.util.Collections;
 
 public class ProjectAccessScreen extends ProjectScreen {
   interface Binder extends UiBinder<HTMLPanel, ProjectAccessScreen> {
@@ -110,11 +113,25 @@ public class ProjectAccessScreen extends ProjectScreen {
 
   @UiHandler("edit")
   void onEdit(ClickEvent event) {
+    resetEditors();
+
     edit.setEnabled(false);
     cancel1.setVisible(true);
     UIObject.setVisible(commitTools, true);
     accessEditor.setEditing(true);
     driver.edit(access);
+  }
+
+  private void resetEditors() {
+    // Push an empty instance through the driver before pushing the real
+    // data. This will force GWT to delete and recreate the editors, which
+    // is required to build initialize them as editable vs. read-only.
+    ProjectAccess mock = new ProjectAccess();
+    mock.setProjectName(access.getProjectName());
+    mock.setRevision(access.getRevision());
+    mock.setLocal(Collections.<AccessSection> emptyList());
+    mock.setOwnerOf(Collections.<String> emptySet());
+    driver.edit(mock);
   }
 
   @UiHandler(value={"cancel1", "cancel2"})

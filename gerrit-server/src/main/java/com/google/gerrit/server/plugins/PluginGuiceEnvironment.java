@@ -13,6 +13,8 @@
 // limitations under the License.
 
 package com.google.gerrit.server.plugins;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicMapsOf;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicSetsOf;
 
@@ -59,9 +61,7 @@ import javax.inject.Inject;
  */
 @Singleton
 public class PluginGuiceEnvironment {
-  private final Injector sysInjector;
   private final ServerInformation srvInfo;
-  private final CopyConfigModule copyConfigModule;
   private final List<StartPluginListener> onStart;
   private final List<ReloadPluginListener> onReload;
 
@@ -81,22 +81,10 @@ public class PluginGuiceEnvironment {
   private Map<TypeLiteral<?>, DynamicMap<?>> httpMaps;
 
   @Inject
-  PluginGuiceEnvironment(
-      Injector sysInjector,
-      ServerInformation srvInfo,
-      CopyConfigModule ccm) {
-    this.sysInjector = sysInjector;
+  PluginGuiceEnvironment(ServerInformation srvInfo) {
     this.srvInfo = srvInfo;
-    this.copyConfigModule = ccm;
-
     onStart = new CopyOnWriteArrayList<StartPluginListener>();
-    onStart.addAll(listeners(sysInjector, StartPluginListener.class));
-
     onReload = new CopyOnWriteArrayList<ReloadPluginListener>();
-    onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
-
-    sysSets = dynamicSetsOf(sysInjector);
-    sysMaps = dynamicMapsOf(sysInjector);
   }
 
   ServerInformation getServerInformation() {
@@ -119,17 +107,25 @@ public class PluginGuiceEnvironment {
     return sysModule;
   }
 
-  public void setCfgInjector(Injector cfgInjector) {
-    final Module cm = copy(cfgInjector);
-    final Module sm = copy(sysInjector);
+  public void setSysInjector(Injector sysInjector) {
+    checkNotNull(sysInjector.getParent(), "sysInjector has no parents");
+    final List<Module> modules = Lists.newArrayListWithExpectedSize(3);
+    for (Injector i = sysInjector; i != null; i = i.getParent()) {
+      modules.add(copy(i));
+    }
     sysModule = new AbstractModule() {
       @Override
       protected void configure() {
-        install(copyConfigModule);
-        install(cm);
-        install(sm);
+        for (Module m : modules) {
+          install(m);
+        }
       }
     };
+
+    sysSets = dynamicSetsOf(sysInjector);
+    sysMaps = dynamicMapsOf(sysInjector);
+    onStart.addAll(listeners(sysInjector, StartPluginListener.class));
+    onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
   }
 
   public void setSshInjector(Injector injector) {

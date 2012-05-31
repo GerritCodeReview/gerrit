@@ -145,8 +145,8 @@ public class Daemon extends SiteProgram {
       dbInjector = createDbInjector(MULTI_USER);
       cfgInjector = createCfgInjector();
       sysInjector = createSysInjector();
-      sysInjector.getInstance(PluginGuiceEnvironment.class)
-        .setCfgInjector(cfgInjector);
+      dbInjector.getInstance(PluginGuiceEnvironment.class)
+          .setSysInjector(sysInjector);
       manager.add(dbInjector, cfgInjector, sysInjector);
 
       if (sshd) {

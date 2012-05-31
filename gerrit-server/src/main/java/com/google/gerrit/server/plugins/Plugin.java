@@ -342,7 +342,6 @@ public class Plugin {
 
   private Injector newRootInjector(final PluginGuiceEnvironment env) {
     List<Module> modules = Lists.newArrayListWithCapacity(4);
-    modules.add(env.getSysModule());
     if (apiType == ApiType.PLUGIN) {
       modules.add(env.getSysModule());
     } else {

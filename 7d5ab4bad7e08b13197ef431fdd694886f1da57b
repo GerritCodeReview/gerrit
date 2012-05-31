@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAGG3///20\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-05-31T23:04:58Z",
+      "side": 1,
+      "message": "We don\u0027t use Guice multibindings. Its a DynamicSet.",
+      "revId": "7d5ab4bad7e08b13197ef431fdd694886f1da57b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGG3///28\u003d",
         "filename": "pom.xml",
         "patchSetId": 24

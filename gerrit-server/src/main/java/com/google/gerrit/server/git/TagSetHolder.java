@@ -42,51 +42,52 @@ class TagSetHolder {
     this.tags = tags;
   }
 
-  TagMatcher matcher(Repository db, Collection<Ref> include) {
+  TagMatcher matcher(TagCache cache, Repository db, Collection<Ref> include) {
     TagSet tags = this.tags;
     if (tags == null) {
-      tags = build(db);
+      tags = build(cache, db);
     }
 
-    TagMatcher m = new TagMatcher(this, db, include, tags, false);
+    TagMatcher m = new TagMatcher(this, cache, db, include, tags, false);
     tags.prepare(m);
     if (!m.newRefs.isEmpty() || !m.lostRefs.isEmpty()) {
-      tags = rebuild(db, tags, m);
+      tags = rebuild(cache, db, tags, m);
 
-      m = new TagMatcher(this, db, include, tags, true);
+      m = new TagMatcher(this, cache, db, include, tags, true);
       tags.prepare(m);
     }
     return m;
   }
 
-  void rebuildForNewTags(TagMatcher m) {
-    m.tags = rebuild(m.db, m.tags, null);
-
+  void rebuildForNewTags(TagCache cache, TagMatcher m) {
+    m.tags = rebuild(cache, m.db, m.tags, null);
     m.mask.clear();
     m.newRefs.clear();
     m.lostRefs.clear();
     m.tags.prepare(m);
   }
 
-  private TagSet build(Repository db) {
+  private TagSet build(TagCache cache, Repository db) {
     synchronized (buildLock) {
       TagSet tags = this.tags;
       if (tags == null) {
         tags = new TagSet(projectName);
         tags.build(db, null, null);
         this.tags = tags;
+        cache.put(projectName, this);
       }
       return tags;
     }
   }
 
-  private TagSet rebuild(Repository db, TagSet old, TagMatcher m) {
+  private TagSet rebuild(TagCache cache, Repository db, TagSet old, TagMatcher m) {
     synchronized (buildLock) {
       TagSet cur = this.tags;
       if (cur == old) {
         cur = new TagSet(projectName);
         cur.build(db, old, m);
         this.tags = cur;
+        cache.put(projectName, this);
       }
       return cur;
     }

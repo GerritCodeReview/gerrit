@@ -58,7 +58,7 @@ class TagSet {
     return tags.get(id);
   }
 
-  void updateFastForward(String refName, ObjectId oldValue,
+  boolean updateFastForward(String refName, ObjectId oldValue,
       ObjectId newValue) {
     CachedRef ref = refs.get(refName);
     if (ref != null) {
@@ -68,9 +68,10 @@ class TagSet {
       //
       ObjectId cur = ref.get();
       if (cur.equals(oldValue)) {
-        ref.compareAndSet(cur, newValue);
+        return ref.compareAndSet(cur, newValue);
       }
     }
+    return false;
   }
 
   void prepare(TagMatcher m) {

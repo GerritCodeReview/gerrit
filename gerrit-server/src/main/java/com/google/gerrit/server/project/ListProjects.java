@@ -28,6 +28,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -104,6 +105,7 @@ public class ListProjects {
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of projects to list")
   private int limit;
 
+  @Argument(index = 0, usage = "project prefix to match")
   private String matchPrefix;
 
   @Inject
@@ -134,11 +136,6 @@ public class ListProjects {
 
   public ListProjects setFormat(OutputFormat fmt) {
     this.format = fmt;
-    return this;
-  }
-
-  public ListProjects setMatchPrefix(String prefix) {
-    this.matchPrefix = prefix;
     return this;
   }
 

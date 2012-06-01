@@ -153,12 +153,20 @@ public abstract class RestApiServlet extends HttpServlet {
         @SuppressWarnings("unchecked")
         Map<String, String[]> parameterMap = req.getParameterMap();
         clp.parseOptionMap(parameterMap);
+        if (req.getPathInfo() != null) {
+          clp.parseArgument(req.getPathInfo());
+        }
       } catch (CmdLineException e) {
         if (!clp.wasHelpRequestedByOption()) {
           res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           sendText(req, res, e.getMessage());
           return false;
         }
+      } catch(StringIndexOutOfBoundsException e) {
+        // If this happens, the URL matched a regex which contained an
+        // optional group with no match.  This seems like undesirable
+        // behavior and we should be able to remove this check if a patch
+        // is accepted.
       }
 
       if (clp.wasHelpRequestedByOption()) {

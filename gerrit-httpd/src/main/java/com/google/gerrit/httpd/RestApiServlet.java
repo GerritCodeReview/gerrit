@@ -182,13 +182,29 @@ public abstract class RestApiServlet extends HttpServlet {
       try {
         @SuppressWarnings("unchecked")
         Map<String, String[]> parameterMap = req.getParameterMap();
-        clp.parseOptionMap(parameterMap);
+        String[] args = new String[0];
+        if (req.getPathInfo() != null) {
+          args = new String[1];
+          // getPathInfo returns text beyond the regex group as well, so we
+          // need to remove the first slash and everything after
+          final int slash = req.getPathInfo().indexOf('/');
+          if (slash >= 0) {
+            args[0] = req.getPathInfo().substring(0, slash);
+          } else {
+            args[0] = req.getPathInfo();
+          }
+        }
+        clp.parseOptionMap(parameterMap, args);
       } catch (CmdLineException e) {
         if (!clp.wasHelpRequestedByOption()) {
           res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           sendText(req, res, e.getMessage());
           return false;
         }
+      } catch(StringIndexOutOfBoundsException e) {
+        // If this happens, the URL matched a regex which contained an
+        // optional group with no match.  This seems undesirable and we
+        // should be able to remove this check if this behavior changes.
       }
 
       if (clp.wasHelpRequestedByOption()) {

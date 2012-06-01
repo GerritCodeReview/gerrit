@@ -40,6 +40,7 @@ import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCacheImpl;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.IncludingGroupMembership;
@@ -138,6 +139,7 @@ public class GerritGlobalModule extends FactoryModule {
         .toProvider(AccountVisibilityProvider.class)
         .in(SINGLETON);
 
+    bind(GroupControl.Factory.class).in(SINGLETON);
     factory(IncludingGroupMembership.Factory.class);
     bind(InternalGroupBackend.class).in(SINGLETON);
     bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);

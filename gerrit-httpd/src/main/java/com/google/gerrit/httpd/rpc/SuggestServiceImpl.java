@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.GroupReference;
@@ -31,8 +32,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.GroupBackends;
-import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.AddReviewer;
@@ -62,7 +61,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   private final Provider<ReviewDb> reviewDbProvider;
   private final AccountCache accountCache;
-  private final GroupControl.Factory groupControlFactory;
   private final GroupMembers.Factory groupMembersFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final AccountControl.Factory accountControlFactory;
@@ -75,7 +73,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   @Inject
   SuggestServiceImpl(final Provider<ReviewDb> schema,
       final AccountCache accountCache,
-      final GroupControl.Factory groupControlFactory,
       final GroupMembers.Factory groupMembersFactory,
       final Provider<CurrentUser> currentUser,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
@@ -86,7 +83,6 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     super(schema, currentUser);
     this.reviewDbProvider = schema;
     this.accountCache = accountCache;
-    this.groupControlFactory = groupControlFactory;
     this.groupMembersFactory = groupMembersFactory;
     this.identifiedUserFactory = identifiedUserFactory;
     this.accountControlFactory = accountControlFactory;
@@ -206,23 +202,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private List<GroupReference> suggestAccountGroup(
       @Nullable final ProjectControl projectControl, final String query, final int limit) {
     final int n = limit <= 0 ? 10 : Math.min(limit, 10);
-    List<GroupReference> out = Lists.newArrayListWithCapacity(n);
-    for (GroupReference g : groupBackend.suggest(query)) {
-      try {
-        if (groupControlFactory.controlFor(g.getUUID()).isVisible()
-            || (GroupBackends.isExactSuggestion(g, query)
-                && projectControl != null
-                && projectControl.isOwnerAnyRef())) {
-          out.add(g);
-          if (out.size() == n) {
-            break;
-          }
-        }
-      } catch (NoSuchGroupException e) {
-        continue;
-      }
-    }
-    return out;
+    return Lists.newArrayList(Iterables.limit(groupBackend.suggest(query), n));
   }
 
   @Override

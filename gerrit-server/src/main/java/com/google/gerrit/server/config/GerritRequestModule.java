@@ -22,7 +22,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupDetailFactory;
 import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.PerformCreateGroup;
@@ -78,7 +77,6 @@ public class GerritRequestModule extends FactoryModule {
 
     bind(PerRequestProjectControlCache.class).in(RequestScoped.class);
     bind(ChangeControl.Factory.class).in(SINGLETON);
-    bind(GroupControl.Factory.class).in(SINGLETON);
     bind(ProjectControl.Factory.class).in(SINGLETON);
     bind(AccountControl.Factory.class).in(SINGLETON);
 

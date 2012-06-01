@@ -70,11 +70,11 @@ public class IntraLineDiffKey implements Serializable {
     return edits;
   }
 
-  ObjectId getBlobA() {
+  public ObjectId getBlobA() {
     return aId;
   }
 
-  ObjectId getBlobB() {
+  public ObjectId getBlobB() {
     return bId;
   }
 

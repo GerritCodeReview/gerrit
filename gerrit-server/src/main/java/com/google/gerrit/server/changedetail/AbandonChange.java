@@ -48,7 +48,7 @@ public class AbandonChange implements Callable<ReviewResult> {
   private final IdentifiedUser currentUser;
   private final ChangeHooks hooks;
 
-  @Argument(index = 0, required = true, multiValued = false, usage = "change to abandon")
+  @Argument(index = 0, required = true, multiValued = false, usage = "change to abandon", metaVar = "CHANGE")
   private Change.Id changeId;
 
   public void setChangeId(final Change.Id changeId) {

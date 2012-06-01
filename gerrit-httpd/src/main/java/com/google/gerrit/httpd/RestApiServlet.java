@@ -16,9 +16,14 @@ package com.google.gerrit.httpd;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.util.cli.CmdLineParser;
+import com.google.gson.stream.JsonWriter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.common.JsonConstants;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
@@ -28,8 +33,10 @@ import org.kohsuke.args4j.CmdLineException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
@@ -43,6 +50,8 @@ public abstract class RestApiServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final Logger log =
       LoggerFactory.getLogger(RestApiServlet.class);
+  private static final Gson gson = new GsonBuilder()
+      .create();
 
   /** MIME type used for a JSON response body. */
   protected static final String JSON_TYPE = JsonConstants.JSON_TYPE;
@@ -146,6 +155,19 @@ public abstract class RestApiServlet extends HttpServlet {
     return false;
   }
 
+  protected static void sendJson(HttpServletRequest req,
+      HttpServletResponse res, Object data) throws IOException {
+    ByteArrayOutputStream buf = new ByteArrayOutputStream();
+    buf.write(JSON_MAGIC);
+    JsonWriter out = new JsonWriter(new OutputStreamWriter(buf, "UTF-8"));
+    gson.toJson(data, data.getClass(), out);
+    out.flush();
+
+    res.setContentType(JSON_TYPE);
+    res.setCharacterEncoding("UTF-8");
+    send(req, res, buf.toByteArray());
+  }
+
   protected static void sendText(HttpServletRequest req,
       HttpServletResponse res, String data) throws IOException {
     res.setContentType("text/plain");
@@ -189,6 +211,10 @@ public abstract class RestApiServlet extends HttpServlet {
           sendText(req, res, e.getMessage());
           return false;
         }
+      } catch(StringIndexOutOfBoundsException e) {
+        // If this happens, the URL matched a regex which contained an
+        // optional group with no match.  This seems undesirable and we
+        // should be able to remove this check if this behavior changes.
       }
 
       if (clp.wasHelpRequestedByOption()) {

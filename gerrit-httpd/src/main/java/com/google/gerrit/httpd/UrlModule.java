@@ -24,6 +24,7 @@ import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.httpd.rpc.account.AccountCapabilitiesServlet;
+import com.google.gerrit.httpd.rpc.change.AbandonChangeServlet;
 import com.google.gerrit.httpd.rpc.change.DeprecatedChangeQueryServlet;
 import com.google.gerrit.httpd.rpc.change.ListChangesServlet;
 import com.google.gerrit.httpd.rpc.plugin.ListPluginsServlet;
@@ -94,6 +95,9 @@ class UrlModule extends ServletModule {
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
 
     filter("/a/*").through(RequireIdentifiedUserFilter.class);
+    // Do not enable until the appropriate xsrf protections are in place and
+    // a gson serializer exists for Change.Id
+    //serveRegex("^/a/changes/([^/]*)/abandon$").with(AbandonChangeServlet.class);
     serveRegex("^/(?:a/)?accounts/self/capabilities$").with(AccountCapabilitiesServlet.class);
     serveRegex("^/(?:a/)?changes/$").with(ListChangesServlet.class);
     serveRegex("^/(?:a/)?plugins/$").with(ListPluginsServlet.class);

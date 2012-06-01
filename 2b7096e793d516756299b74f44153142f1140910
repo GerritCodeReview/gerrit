@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGNX///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-01T12:14:35Z",
+      "side": 1,
+      "message": "Hi Shawn  \nI cannot got your meaning here :) \n please open\n\nhttps://gerrit-review.googlesource.com/#/c/33091/4..5/gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java\n\nwhere you can see your comments on patchset 4 \"This can\u0027t be transient, its part of the hashcode and equals methods.\"\n\nnow you add new comments \"...this field should be declared transient.\" \n\nmy understanding is \"let writeObject() and readObject() also process isRebaseTransparent,\nand not let both method call defaultWriteObject( ) and defaultReadObject();\nthus I think it is not different to let isRebaseTransparent to be transient or not.\" which you can see in patchset 4\n\nexpect to your feedback \n/Bruce",
+      "parentUuid": "AAAGHH///+E\u003d",
+      "revId": "2b7096e793d516756299b74f44153142f1140910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGG3///6g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
         "patchSetId": 5

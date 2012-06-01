@@ -21,7 +21,7 @@ limitations under the License.
   <groupId>${groupId}</groupId>
   <artifactId>${artifactId}</artifactId>
   <packaging>jar</packaging>
-  <version>${version}</version>
+  <version>2.4.1-426-gb557a76</version>
   <name>${pluginName}</name>
 
   <properties>

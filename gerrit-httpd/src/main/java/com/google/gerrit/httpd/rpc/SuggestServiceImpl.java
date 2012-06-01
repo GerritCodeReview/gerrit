@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.GroupReference;
@@ -206,23 +207,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private List<GroupReference> suggestAccountGroup(
       @Nullable final ProjectControl projectControl, final String query, final int limit) {
     final int n = limit <= 0 ? 10 : Math.min(limit, 10);
-    List<GroupReference> out = Lists.newArrayListWithCapacity(n);
-    for (GroupReference g : groupBackend.suggest(query)) {
-      try {
-        if (groupControlFactory.controlFor(g.getUUID()).isVisible()
-            || (GroupBackends.isExactSuggestion(g, query)
-                && projectControl != null
-                && projectControl.isOwnerAnyRef())) {
-          out.add(g);
-          if (out.size() == n) {
-            break;
-          }
-        }
-      } catch (NoSuchGroupException e) {
-        continue;
-      }
-    }
-    return out;
+    return Lists.newArrayList(Iterables.limit(groupBackend.suggest(query), n));
   }
 
   @Override

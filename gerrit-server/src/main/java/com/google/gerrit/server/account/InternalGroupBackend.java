@@ -41,12 +41,16 @@ public class InternalGroupBackend implements GroupBackend {
         }
       };
 
+  private final GroupControl.Factory groupControlFactory;
   private final GroupCache groupCache;
   private final IncludingGroupMembership.Factory groupMembershipFactory;
 
+
   @Inject
-  InternalGroupBackend(GroupCache groupCache,
+  InternalGroupBackend(GroupControl.Factory groupControlFactory,
+      GroupCache groupCache,
       IncludingGroupMembership.Factory groupMembershipFactory) {
+    this.groupControlFactory = groupControlFactory;
     this.groupCache = groupCache;
     this.groupMembershipFactory = groupMembershipFactory;
   }
@@ -76,8 +80,9 @@ public class InternalGroupBackend implements GroupBackend {
         new Predicate<AccountGroup>() {
           @Override
           public boolean apply(AccountGroup group) {
-            // startsWithIgnoreCase
-            return group.getName().regionMatches(true, 0, name, 0, name.length());
+            // startsWithIgnoreCase && isVisible
+            return group.getName().regionMatches(true, 0, name, 0, name.length())
+                && groupControlFactory.controlFor(group).isVisible();
           }
         });
     return Lists.newArrayList(Iterables.transform(filtered, ACT_GROUP_TO_GROUP_REF));

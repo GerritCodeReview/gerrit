@@ -59,7 +59,7 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     this.showChanges = showChanges;
   }
 
-  public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeperately) {
+  public Map<String, Ref> filter(Map<String, Ref> refs) {
     final Set<Change.Id> visibleChanges = visibleChanges();
     final Map<String, Ref> result = new HashMap<String, Ref>();
     final List<Ref> deferredTags = new ArrayList<Ref>();
@@ -91,9 +91,8 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
     // If we have tags that were deferred, we need to do a revision walk
     // to identify what tags we can actually reach, and what we cannot.
     //
-    if (!deferredTags.isEmpty() && (!result.isEmpty() || filterTagsSeperately)) {
-      TagMatcher tags = tagCache.get(projectName).
-          matcher(db, filterTagsSeperately ? filter(db.getAllRefs()).values() : result.values());
+    if (!deferredTags.isEmpty() && !result.isEmpty()) {
+      TagMatcher tags = tagCache.get(projectName).matcher(db, result.values());
       for (Ref tag : deferredTags) {
         if (tags.isReachable(tag)) {
           result.put(tag.getName(), tag);
@@ -108,10 +107,6 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   protected Map<String, Ref> getAdvertisedRefs(
       Repository repository, RevWalk revWalk) {
     return filter(repository.getAllRefs());
-  }
-
-  private Map<String, Ref> filter(Map<String, Ref> refs) {
-    return filter(refs, false);
   }
 
   private Set<Change.Id> visibleChanges() {

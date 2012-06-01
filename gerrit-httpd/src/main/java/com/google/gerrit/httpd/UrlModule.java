@@ -97,7 +97,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/(?:a/)?accounts/self/capabilities$").with(AccountCapabilitiesServlet.class);
     serveRegex("^/(?:a/)?changes/$").with(ListChangesServlet.class);
     serveRegex("^/(?:a/)?plugins/$").with(ListPluginsServlet.class);
-    serveRegex("^/(?:a/)?projects/(.*)?$").with(ListProjectsServlet.class);
+    serveRegex("^/(?:a/)?projects/([^/]+)?$").with(ListProjectsServlet.class);
 
     if (cfg.deprecatedQuery) {
       serve("/query").with(DeprecatedChangeQueryServlet.class);

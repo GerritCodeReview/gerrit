@@ -207,7 +207,8 @@ public class CmdLineParser {
     parser.parseArgument(tmp.toArray(new String[tmp.size()]));
   }
 
-  public void parseOptionMap(Map<String, String[]> parameters)
+  public void parseOptionMap(Map<String, String[]> parameters,
+                             final String... args)
       throws CmdLineException {
     ArrayList<String> tmp = new ArrayList<String>();
     for (Map.Entry<String, String[]> ent : parameters.entrySet()) {
@@ -235,7 +236,10 @@ public class CmdLineParser {
         }
       }
     }
-    parser.parseArgument(tmp.toArray(new String[tmp.size()]));
+    for (int i = 0; i < args.length; i++) {
+      tmp.add(args[i]);
+    }
+    parseArgument(tmp.toArray(new String[tmp.size()]));
   }
 
   @SuppressWarnings("rawtypes")

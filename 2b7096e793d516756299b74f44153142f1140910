@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGNX///+M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-01T15:31:24Z",
+      "side": 1,
+      "message": "Hi Shawn \n\nThe rule \u0027(git diff $OLD $NEW) - (git diff $OLD^ $NEW^)\u0027 is very exciting for me. I am thinking how to \u0027substract \u0027 to\n\n make sure the diff hunks\u0027  color and line number are right,  unluckly it is hard to understand \" the line numbers are in \n\nterms of the \"A\" side of the `diff $OLD^ $OLD`... .\"  \n\nfurthermore,  is there the case where there is more than one parent ,  it is parents ? e.g.  2 parents \n\nof $OLD and   2 parents of $NEW, then what  \n\nthe  rule \u0027(git diff $OLD $NEW) - (git diff $OLD^ $NEW^)\u0027  should adjust to? \n\n \n\nexpect to your further hint or help :)\n\n \nabout \n\nthanks !\n/Bruce",
+      "parentUuid": "AAAGHX///zs\u003d",
+      "revId": "2b7096e793d516756299b74f44153142f1140910",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGG3///6k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchList.java",
         "patchSetId": 5

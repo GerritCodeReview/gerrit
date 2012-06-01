@@ -77,7 +77,9 @@ public class TagCache {
       if (holder != null) {
         TagSet tags = holder.getTagSet();
         if (tags != null) {
-          tags.updateFastForward(refName, oldValue, newValue);
+          if (tags.updateFastForward(refName, oldValue, newValue)) {
+            cache.put(name.get(), val);
+          }
         }
       }
     }
@@ -96,6 +98,12 @@ public class TagCache {
       }
     }
     return val.holder;
+  }
+
+  void put(Project.NameKey name, TagSetHolder tags) {
+    EntryVal val = new EntryVal();
+    val.holder = tags;
+    cache.put(name.get(), val);
   }
 
   static class EntryVal implements Serializable {

@@ -30,15 +30,22 @@ class TagMatcher {
   final List<Ref> newRefs = new ArrayList<Ref>();
   final List<LostRef> lostRefs = new ArrayList<LostRef>();
   final TagSetHolder holder;
+  final TagCache cache;
   final Repository db;
   final Collection<Ref> include;
   TagSet tags;
-  boolean updated;
+  final boolean updated;
   private boolean rebuiltForNewTags;
 
-  TagMatcher(TagSetHolder holder, Repository db, Collection<Ref> include,
-      TagSet tags, boolean updated) {
+  TagMatcher(
+      TagSetHolder holder,
+      TagCache cache,
+      Repository db,
+      Collection<Ref> include,
+      TagSet tags,
+      boolean updated) {
     this.holder = holder;
+    this.cache = cache;
     this.db = db;
     this.include = include;
     this.tags = tags;
@@ -63,7 +70,7 @@ class TagMatcher {
       }
 
       rebuiltForNewTags = true;
-      holder.rebuildForNewTags(this);
+      holder.rebuildForNewTags(cache, this);
       return isReachable(tagRef);
     }
 

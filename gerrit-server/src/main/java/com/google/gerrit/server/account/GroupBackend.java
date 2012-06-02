@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 
@@ -27,6 +28,7 @@ import javax.annotation.Nullable;
  * Implementations of GroupBackend provide lookup and membership accessors
  * to a group system.
  */
+@ExtensionPoint
 public interface GroupBackend {
   /** @return {@code true} if the backend can operate on the UUID. */
   boolean handles(AccountGroup.UUID uuid);

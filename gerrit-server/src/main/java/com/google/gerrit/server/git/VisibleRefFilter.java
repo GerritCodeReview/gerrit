@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -60,6 +62,13 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
   }
 
   public Map<String, Ref> filter(Map<String, Ref> refs, boolean filterTagsSeperately) {
+    if (projectCtl.allRefsAreVisibleExcept(
+        ImmutableSet.of(GitRepositoryManager.REF_CONFIG))) {
+      Map<String, Ref> r = Maps.newHashMap(refs);
+      r.remove(GitRepositoryManager.REF_CONFIG);
+      return r;
+    }
+
     final Set<Change.Id> visibleChanges = visibleChanges();
     final Map<String, Ref> result = new HashMap<String, Ref>();
     final List<Ref> deferredTags = new ArrayList<Ref>();

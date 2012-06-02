@@ -38,6 +38,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -196,8 +197,12 @@ public class ProjectControl {
 
   /** Can this user see all the refs in this projects? */
   public boolean allRefsAreVisible() {
+    return allRefsAreVisibleExcept(Collections.<String> emptySet());
+  }
+
+  public boolean allRefsAreVisibleExcept(Set<String> except) {
     return user instanceof InternalUser
-        || canPerformOnAllRefs(Permission.READ);
+        || canPerformOnAllRefs(Permission.READ, except);
   }
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
@@ -347,7 +352,7 @@ public class ProjectControl {
     return false;
   }
 
-  private boolean canPerformOnAllRefs(String permission) {
+  private boolean canPerformOnAllRefs(String permission, Set<String> except) {
     boolean canPerform = false;
     Set<String> patterns = allRefPatterns(permission);
     if (patterns.contains(AccessSection.ALL)) {
@@ -358,6 +363,8 @@ public class ProjectControl {
       for (final String pattern : patterns) {
         if (controlForRef(pattern).canPerform(permission)) {
           canPerform = true;
+        } else if (except.contains(pattern)) {
+          continue;
         } else {
           return false;
         }

@@ -59,6 +59,7 @@ public interface GerritCss extends CssResource {
   String commentCell();
   String commentEditorPanel();
   String commentHolder();
+  String publishedFileCommentHolder();
   String commentPanel();
   String commentPanelBorder();
   String commentPanelAuthorCell();
@@ -68,6 +69,7 @@ public interface GerritCss extends CssResource {
   String commentPanelHeader();
   String commentPanelLast();
   String commentPanelMessage();
+  String publishedFileCommentMessage();
   String commentPanelMenuBar();
   String commentPanelSummary();
   String commentPanelSummaryCell();

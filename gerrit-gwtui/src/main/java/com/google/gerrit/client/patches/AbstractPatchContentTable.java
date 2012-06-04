@@ -42,6 +42,8 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.logical.shared.HighlightEvent;
+import com.google.gwt.event.logical.shared.HighlightHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -55,6 +57,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -379,7 +382,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected void createCommentEditor(final int suggestRow, final int column,
       final int line, final short file) {
     if (Gerrit.isSignedIn()) {
-      if (1 <= line) {
+      if (0 <= line) {
         final Patch.Key parentKey;
         final short side;
         switch (file) {
@@ -473,7 +476,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       styleCommentRow(row);
     }
     table.setWidget(row, column, ed);
-    styleLastCommentCell(row, column);
+    styleLastCommentCell(row, column, false);
 
     int span = 1;
     for (int r = row + 1; r < table.getRowCount(); r++) {
@@ -572,7 +575,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       plc.addFocusHandler(this);
       plc.addBlurHandler(this);
       table.setWidget(row, col, plc);
-      styleLastCommentCell(row, col);
+      styleLastCommentCell(row, col, false);
 
     } else {
       final AccountInfo author = accountCache.get(line.getAuthor());
@@ -582,7 +585,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       panel.addFocusHandler(this);
       panel.addBlurHandler(this);
       table.setWidget(row, col, panel);
-      styleLastCommentCell(row, col);
+      styleLastCommentCell(row, col, line.getLine() == 0 ? true : false);
 
       CommentList l = (CommentList) getRowItem(row);
       if (l == null) {
@@ -626,12 +629,17 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         .commentHolder(), true);
   }
 
-  private void styleLastCommentCell(final int row, final int col) {
+  private void styleLastCommentCell(final int row, final int col,
+      boolean highlight) {
     final CellFormatter fmt = table.getCellFormatter();
     fmt.removeStyleName(row - 1, col, //
         Gerrit.RESOURCES.css().commentPanelLast());
     fmt.setStyleName(row, col, Gerrit.RESOURCES.css().commentHolder());
     fmt.addStyleName(row, col, Gerrit.RESOURCES.css().commentPanelLast());
+    if (highlight) {
+      fmt.addStyleName(row, col, Gerrit.RESOURCES.css()
+          .publishedFileCommentHolder());
+    }
   }
 
   protected static class CommentList {
@@ -666,6 +674,9 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
           // Find out which cell was actually clicked.
           Element td = getEventTargetCell(event);
           if (td == null) {
+            return;
+          }
+          if (rowOf(td) == 0) {
             return;
           }
           onCellDoubleClick(rowOf(td), columnOf(td));
@@ -769,7 +780,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   private class PublishedCommentPanel extends CommentPanel implements
-      ClickHandler {
+      ClickHandler, HighlightHandler<Boolean> {
     final PatchLineComment comment;
     final Button reply;
     final Button replyDone;
@@ -785,6 +796,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       replyDone = new Button(PatchUtil.C.buttonReplyDone());
       replyDone.addClickHandler(this);
       addButton(replyDone);
+      addHighlightHandler(this);
     }
 
     @Override
@@ -849,6 +861,51 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
               .getUserAccount().getId(), comment.getKey().get());
       newComment.setSide(comment.getSide());
       return newComment;
+    }
+
+    @Override
+    public void onHighlight(HighlightEvent<Boolean> event) {
+      if (comment.getLine() == 0
+          && comment.getStatus() != PatchLineComment.Status.DRAFT) {
+        final int nRows = table.getRowCount();
+        for (int row = 0; row < nRows; row++) {
+          final int nCells = table.getCellCount(row);
+          for (int cell = 0; cell < nCells; cell++) {
+            if (table.getWidget(row, cell) == this) {
+              if (event.getHighlighted()) {
+
+                Element newp = DOM.createElement("P");
+                Element span = DOM.createSpan();
+
+                DOM.setInnerHTML(span,
+                    new SafeHtmlBuilder().append(messageText.getText())
+                        .asString());
+                UIObject.setStyleName(span, Gerrit.RESOURCES.css()
+                    .publishedFileCommentMessage());
+
+                DOM.removeChild(messageText.getElement(),
+                    DOM.getFirstChild(messageText.getElement()));
+                DOM.insertChild(newp, span, 0);
+                DOM.insertChild(messageText.getElement(), newp, 0);
+
+                table.getCellFormatter().removeStyleName(row, cell,
+                    Gerrit.RESOURCES.css().publishedFileCommentHolder());
+              } else {
+                Element newp = DOM.createElement("P");
+                DOM.setInnerHTML(newp, messageText.getText());
+
+                DOM.removeChild(messageText.getElement(),
+                    DOM.getFirstChild(messageText.getElement()));
+                DOM.insertChild(messageText.getElement(), newp, 0);
+
+                table.getCellFormatter().addStyleName(row, cell,
+                    Gerrit.RESOURCES.css().publishedFileCommentHolder());
+              }
+              return;
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -44,7 +44,6 @@ import org.eclipse.jgit.diff.Edit;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class SideBySideTable extends AbstractPatchContentTable {
   private static final int A = 2;
@@ -56,7 +55,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void onCellDoubleClick(final int row, int column) {
-    if (column > 0 && getRowItem(row) instanceof PatchLine) {
+    if (row == 0) {
+      if (column == 1 || column == A) {
+        createCommentEditor(row + 1, A, 0, (short) 0);
+      } else if (column == B || column == 4) {
+        createCommentEditor(row + 1, B, 0, (short) 1);
+      }
+    } else if ((column > 0 && getRowItem(row) instanceof PatchLine)) {
       final PatchLine line = (PatchLine) getRowItem(row);
       if (column == 1 || column == A) {
         createCommentEditor(row + 1, A, line.getLineA(), (short) 0);
@@ -176,6 +181,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
       lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
     }
     resetHtml(nc);
+    commentsOnFileLink();
     initScript(script);
 
     for (int row = 0; row < lines.size(); row++) {
@@ -183,6 +189,34 @@ public class SideBySideTable extends AbstractPatchContentTable {
       if (lines.get(row) instanceof SkippedLine) {
         createSkipLine(row, (SkippedLine) lines.get(row));
       }
+    }
+  }
+
+  private void commentsOnFileLink() {
+    if (table.getHTML(0, A).contains(PatchUtil.C.download())) {
+      final Anchor commentA = new Anchor();
+      commentA.setText(PatchUtil.C.commentOnThisFile());
+      commentA.setHref("javascript:;");
+      commentA.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          onCellDoubleClick(0, A);
+        }
+      });
+      table.setWidget(0, A - 1, commentA);
+    }
+
+    if (table.getHTML(0, B).contains(PatchUtil.C.download())) {
+      final Anchor commentB = new Anchor();
+      commentB.setText(PatchUtil.C.commentOnThisFile());
+      commentB.setHref("javascript:;");
+      commentB.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          onCellDoubleClick(0, B);
+        }
+      });
+      table.setWidget(0, B + 1, commentB);
     }
   }
 
@@ -217,28 +251,33 @@ public class SideBySideTable extends AbstractPatchContentTable {
     setAccountInfoCache(cd.getAccounts());
 
     for (int row = 0; row < table.getRowCount();) {
-      if (getRowItem(row) instanceof PatchLine) {
+      final Iterator<PatchLineComment> ai;
+      final Iterator<PatchLineComment> bi;
+
+      if (row == 0) {
+        ai = cd.getForA(0).iterator();
+        bi = cd.getForB(0).iterator();
+      } else if (getRowItem(row) instanceof PatchLine) {
         final PatchLine pLine = (PatchLine) getRowItem(row);
-        final List<PatchLineComment> fora = cd.getForA(pLine.getLineA());
-        final List<PatchLineComment> forb = cd.getForB(pLine.getLineB());
-        row++;
-
-        final Iterator<PatchLineComment> ai = fora.iterator();
-        final Iterator<PatchLineComment> bi = forb.iterator();
-        while (ai.hasNext() && bi.hasNext()) {
-          final PatchLineComment ac = ai.next();
-          final PatchLineComment bc = bi.next();
-          insertRow(row);
-          bindComment(row, A, ac, !ai.hasNext(), expandComments);
-          bindComment(row, B, bc, !bi.hasNext(), expandComments);
-          row++;
-        }
-
-        row = finish(ai, row, A, expandComments);
-        row = finish(bi, row, B, expandComments);
+        ai = cd.getForA(pLine.getLineA()).iterator();
+        bi = cd.getForB(pLine.getLineB()).iterator();
       } else {
         row++;
+        continue;
       }
+
+      row++;
+      while (ai.hasNext() && bi.hasNext()) {
+        final PatchLineComment ac = ai.next();
+        final PatchLineComment bc = bi.next();
+        insertRow(row);
+        bindComment(row, A, ac, !ai.hasNext(), expandComments);
+        bindComment(row, B, bc, !bi.hasNext(), expandComments);
+        row++;
+      }
+
+      row = finish(ai, row, A, expandComments);
+      row = finish(bi, row, B, expandComments);
     }
   }
 

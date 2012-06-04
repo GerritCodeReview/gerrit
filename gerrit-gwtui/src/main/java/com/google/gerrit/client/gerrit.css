@@ -653,6 +653,9 @@
   border-left: 1px solid black;
   border-right: 1px solid black;
 }
+.patchContentTable td.commentHolder.publishedFileCommentHolder {
+  background: rgb(255,150,255);
+}
 .patchContentTable td.commentHolder.commentPanelLast {
   border-bottom: 1px solid black;
 }
@@ -666,6 +669,9 @@
   padding-left: 1px;
   padding-right: 1px;
   white-space: normal;
+}
+.patchContentTable .commentPanelMessage span.publishedFileCommentMessage {
+  background: rgb(255,150,255);
 }
 .patchContentTable .commentPanelButtons,
 .patchContentTable .commentPanel textarea {

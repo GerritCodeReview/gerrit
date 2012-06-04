@@ -158,8 +158,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   @Override
   protected void render(final PatchScript script, final PatchSetDetail detail) {
-    final SparseHtmlFile a = getSparseHtmlFileA(script);
-    final SparseHtmlFile b = getSparseHtmlFileB(script);
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
 
     // Append UnifiedDiffTable Header
@@ -176,83 +174,86 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     for (final String line : script.getPatchHeader()) {
       appendFileHeader(nc, line);
     }
-
-    if (script.getDisplayMethodA() == DisplayMethod.IMG
-        || script.getDisplayMethodB() == DisplayMethod.IMG) {
-      final String rawBase = GWT.getHostPageBaseURL() + "cat/";
-
-      nc.openTr();
-      nc.setAttribute("valign", "center");
-      nc.setAttribute("align", "center");
-
-      nc.openTd();
-      nc.nbsp();
-      nc.closeTd();
-
-      nc.openTd();
-      nc.nbsp();
-      nc.closeTd();
-
-      nc.openTd();
-      nc.nbsp();
-      nc.closeTd();
-
-      nc.openTd();
-      if (script.getDisplayMethodA() == DisplayMethod.IMG) {
-        if (idSideA == null) {
-          appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");
-        } else {
-          Patch.Key k = new Patch.Key(idSideA, patchKey.get());
-          appendImgTag(nc, rawBase + KeyUtil.encode(k.toString()) + "^0");
-        }
-      }
-      if (script.getDisplayMethodB() == DisplayMethod.IMG) {
-        appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^0");
-      }
-      nc.closeTd();
-
-      nc.closeTr();
-    }
-
-    final boolean syntaxHighlighting =
-        script.getDiffPrefs().isSyntaxHighlighting();
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
-    for (final EditList.Hunk hunk : script.getHunks()) {
-      appendHunkHeader(nc, hunk);
-      while (hunk.next()) {
-        if (hunk.isContextLine()) {
-          openLine(nc);
-          appendLineNumberForSideA(nc, hunk.getCurA());
-          appendLineNumberForSideB(nc, hunk.getCurB());
-          appendLineText(nc, false, CONTEXT, a, hunk.getCurA());
-          closeLine(nc);
-          hunk.incBoth();
-          lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
+    if (!isDisplayBinary) {
+      final SparseHtmlFile a = getSparseHtmlFileA(script);
+      final SparseHtmlFile b = getSparseHtmlFileB(script);
+      if (script.getDisplayMethodA() == DisplayMethod.IMG
+          || script.getDisplayMethodB() == DisplayMethod.IMG) {
+        final String rawBase = GWT.getHostPageBaseURL() + "cat/";
 
-        } else if (hunk.isDeletedA()) {
-          openLine(nc);
-          appendLineNumberForSideA(nc, hunk.getCurA());
-          padLineNumberForSideB(nc);
-          appendLineText(nc, syntaxHighlighting, DELETE, a, hunk.getCurA());
-          closeLine(nc);
-          hunk.incA();
-          lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
-          if (a.size() == hunk.getCurA()
-              && script.getA().isMissingNewlineAtEnd()) {
-            appendNoLF(nc);
+        nc.openTr();
+        nc.setAttribute("valign", "center");
+        nc.setAttribute("align", "center");
+
+        nc.openTd();
+        nc.nbsp();
+        nc.closeTd();
+
+        nc.openTd();
+        nc.nbsp();
+        nc.closeTd();
+
+        nc.openTd();
+        nc.nbsp();
+        nc.closeTd();
+
+        nc.openTd();
+        if (script.getDisplayMethodA() == DisplayMethod.IMG) {
+          if (idSideA == null) {
+            appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");
+          } else {
+            Patch.Key k = new Patch.Key(idSideA, patchKey.get());
+            appendImgTag(nc, rawBase + KeyUtil.encode(k.toString()) + "^0");
           }
+        }
+        if (script.getDisplayMethodB() == DisplayMethod.IMG) {
+          appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^0");
+        }
+        nc.closeTd();
 
-        } else if (hunk.isInsertedB()) {
-          openLine(nc);
-          padLineNumberForSideA(nc);
-          appendLineNumberForSideB(nc, hunk.getCurB());
-          appendLineText(nc, syntaxHighlighting, INSERT, b, hunk.getCurB());
-          closeLine(nc);
-          hunk.incB();
-          lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
-          if (b.size() == hunk.getCurB()
-              && script.getB().isMissingNewlineAtEnd()) {
-            appendNoLF(nc);
+        nc.closeTr();
+      }
+
+      final boolean syntaxHighlighting =
+          script.getDiffPrefs().isSyntaxHighlighting();
+      for (final EditList.Hunk hunk : script.getHunks()) {
+        appendHunkHeader(nc, hunk);
+        while (hunk.next()) {
+          if (hunk.isContextLine()) {
+            openLine(nc);
+            appendLineNumberForSideA(nc, hunk.getCurA());
+            appendLineNumberForSideB(nc, hunk.getCurB());
+            appendLineText(nc, false, CONTEXT, a, hunk.getCurA());
+            closeLine(nc);
+            hunk.incBoth();
+            lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
+
+          } else if (hunk.isDeletedA()) {
+            openLine(nc);
+            appendLineNumberForSideA(nc, hunk.getCurA());
+            padLineNumberForSideB(nc);
+            appendLineText(nc, syntaxHighlighting, DELETE, a, hunk.getCurA());
+            closeLine(nc);
+            hunk.incA();
+            lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
+            if (a.size() == hunk.getCurA()
+                && script.getA().isMissingNewlineAtEnd()) {
+              appendNoLF(nc);
+            }
+
+          } else if (hunk.isInsertedB()) {
+            openLine(nc);
+            padLineNumberForSideA(nc);
+            appendLineNumberForSideB(nc, hunk.getCurB());
+            appendLineText(nc, syntaxHighlighting, INSERT, b, hunk.getCurB());
+            closeLine(nc);
+            hunk.incB();
+            lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
+            if (b.size() == hunk.getCurB()
+                && script.getB().isMissingNewlineAtEnd()) {
+              appendNoLF(nc);
+            }
           }
         }
       }
@@ -260,30 +261,31 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     resetHtml(nc);
     displayTableHead(script, detail);
     initScript(script);
-
-    int row = script.getPatchHeader().size();
-    final CellFormatter fmt = table.getCellFormatter();
-    final Iterator<PatchLine> iLine = lines.iterator();
-    while (iLine.hasNext()) {
-      final PatchLine l = iLine.next();
-      final String n;
-      switch (l.getType()) {
-        case CONTEXT:
-          n = Gerrit.RESOURCES.css().diffTextCONTEXT();
-          break;
-        case DELETE:
-          n = Gerrit.RESOURCES.css().diffTextDELETE();
-          break;
-        case INSERT:
-          n = Gerrit.RESOURCES.css().diffTextINSERT();
-          break;
-        default:
-          continue;
+    if (!isDisplayBinary) {
+      int row = script.getPatchHeader().size();
+      final CellFormatter fmt = table.getCellFormatter();
+      final Iterator<PatchLine> iLine = lines.iterator();
+      while (iLine.hasNext()) {
+        final PatchLine l = iLine.next();
+        final String n;
+        switch (l.getType()) {
+          case CONTEXT:
+            n = Gerrit.RESOURCES.css().diffTextCONTEXT();
+            break;
+          case DELETE:
+            n = Gerrit.RESOURCES.css().diffTextDELETE();
+            break;
+          case INSERT:
+            n = Gerrit.RESOURCES.css().diffTextINSERT();
+            break;
+          default:
+            continue;
+        }
+        while (!fmt.getStyleName(row, PC).contains(n)) {
+          row++;
+        }
+        setRowItem(row++, l);
       }
-      while (!fmt.getStyleName(row, PC).contains(n)) {
-        row++;
-      }
-      setRowItem(row++, l);
     }
   }
 

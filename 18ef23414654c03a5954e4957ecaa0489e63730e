@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGSX////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-04T12:21:44Z",
+      "side": 1,
+      "message": "This seems to cause the issue reported in [1]. If the validation of the new commit fails, the command shouldn\u0027t be executed, should it?\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d1420",
+      "revId": "18ef23414654c03a5954e4957ecaa0489e63730e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGSX////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-04T12:21:44Z",
+      "side": 1,
+      "message": "This seems to cause the issue reported in [1]. If the validation of the new commit fails, the command shouldn\u0027t be executed, should it?\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d1420",
+      "revId": "18ef23414654c03a5954e4957ecaa0489e63730e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

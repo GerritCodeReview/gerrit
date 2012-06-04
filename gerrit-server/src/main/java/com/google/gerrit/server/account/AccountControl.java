@@ -83,10 +83,21 @@ public class AccountControl {
    * effective groups.
    */
   public boolean canSee(final Account otherUser) {
+    return canSee(otherUser.getId());
+  }
+
+  /**
+   * Returns true if the otherUser is allowed to see the current user, based
+   * on the account visibility policy. Depending on the group membership
+   * realms supported, this may not be able to determine SAME_GROUP or
+   * VISIBLE_GROUP correctly (defaulting to not being visible). This is because
+   * {@link GroupMembership#getKnownGroups()} may only return a subset of the
+   * effective groups.
+   */
+  public boolean canSee(final Account.Id otherUser) {
     // Special case: I can always see myself.
     if (currentUser instanceof IdentifiedUser
-        && ((IdentifiedUser) currentUser).getAccountId()
-            .equals(otherUser.getId())) {
+        && ((IdentifiedUser) currentUser).getAccountId().equals(otherUser)) {
       return true;
     }
 
@@ -131,7 +142,7 @@ public class AccountControl {
     return false;
   }
 
-  private Set<AccountGroup.UUID> groupsOf(Account account) {
-    return userFactory.create(account.getId()).getEffectiveGroups().getKnownGroups();
+  private Set<AccountGroup.UUID> groupsOf(Account.Id account) {
+    return userFactory.create(account).getEffectiveGroups().getKnownGroups();
   }
 }

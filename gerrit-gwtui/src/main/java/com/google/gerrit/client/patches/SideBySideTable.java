@@ -31,6 +31,9 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -44,7 +47,6 @@ import org.eclipse.jgit.diff.Edit;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class SideBySideTable extends AbstractPatchContentTable {
   private static final int A = 2;
@@ -56,7 +58,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void onCellDoubleClick(final int row, int column) {
-    if (column > 0 && getRowItem(row) instanceof PatchLine) {
+    if (row == 0) {
+      if (column == 1 || column == A) {
+        createCommentEditor(row + 1, A, 0, (short) 0);
+      } else if (column == B || column == 4) {
+        createCommentEditor(row + 1, B, 0, (short) 1);
+      }
+    } else if ((column > 0 && getRowItem(row) instanceof PatchLine)) {
       final PatchLine line = (PatchLine) getRowItem(row);
       if (column == 1 || column == A) {
         createCommentEditor(row + 1, A, line.getLineA(), (short) 0);
@@ -217,29 +225,63 @@ public class SideBySideTable extends AbstractPatchContentTable {
     setAccountInfoCache(cd.getAccounts());
 
     for (int row = 0; row < table.getRowCount();) {
-      if (getRowItem(row) instanceof PatchLine) {
+      final Iterator<PatchLineComment> ai;
+      final Iterator<PatchLineComment> bi;
+
+      if (row == 0) {
+        ai = cd.getForA(0).iterator();
+        bi = cd.getForB(0).iterator();
+      } else if (getRowItem(row) instanceof PatchLine) {
         final PatchLine pLine = (PatchLine) getRowItem(row);
-        final List<PatchLineComment> fora = cd.getForA(pLine.getLineA());
-        final List<PatchLineComment> forb = cd.getForB(pLine.getLineB());
-        row++;
-
-        final Iterator<PatchLineComment> ai = fora.iterator();
-        final Iterator<PatchLineComment> bi = forb.iterator();
-        while (ai.hasNext() && bi.hasNext()) {
-          final PatchLineComment ac = ai.next();
-          final PatchLineComment bc = bi.next();
-          insertRow(row);
-          bindComment(row, A, ac, !ai.hasNext(), expandComments);
-          bindComment(row, B, bc, !bi.hasNext(), expandComments);
-          row++;
-        }
-
-        row = finish(ai, row, A, expandComments);
-        row = finish(bi, row, B, expandComments);
+        ai = cd.getForA(pLine.getLineA()).iterator();;
+        bi = cd.getForB(pLine.getLineB()).iterator();;
       } else {
         row++;
+        continue;
+      }
+
+      row++;
+      while (ai.hasNext() && bi.hasNext()) {
+        final PatchLineComment ac = ai.next();
+        final PatchLineComment bc = bi.next();
+        insertRow(row);
+        bindComment(row, A, ac, !ai.hasNext(), expandComments);
+        bindComment(row, B, bc, !bi.hasNext(), expandComments);
+        row++;
+      }
+
+      row = finish(ai, row, A, expandComments);
+      row = finish(bi, row, B, expandComments);
+    }
+
+    if (DOM.getElementById(PatchUtil.C.commentsOnfileLinkIDA()) != null) {
+      DOM.setEventListener(
+          DOM.getElementById(PatchUtil.C.commentsOnfileLinkIDA()), this);
+    }
+
+    if (DOM.getElementById(PatchUtil.C.commentsOnfileLinkIDB()) != null) {
+
+      DOM.setEventListener(
+          DOM.getElementById(PatchUtil.C.commentsOnfileLinkIDB()), this);
+    }
+  }
+
+  @Override
+  public void onBrowserEvent(Event event) {
+    if (DOM.eventGetType(event) == Event.ONCLICK) {
+      Element c = DOM.eventGetTarget(event);
+      if (c != null
+          && DOM.getElementProperty(c, "id").equals(
+              PatchUtil.C.commentsOnfileLinkIDA())) {
+        onCellDoubleClick(0, A);
+      }
+      if (c != null
+          && DOM.getElementProperty(c, "id").equals(
+              PatchUtil.C.commentsOnfileLinkIDB())) {
+        onCellDoubleClick(0, B);
       }
     }
+    getWidget().onBrowserEvent(event);
   }
 
   @Override
@@ -287,12 +329,12 @@ public class SideBySideTable extends AbstractPatchContentTable {
       m.append(PatchUtil.C.patchHeaderOld());
     }
     if (!isCommitMessage) {
-      m.br();
+    m.br();
       if (0 < script.getA().size()) {
         if (idSideA == null) {
-          downloadLink(m, patchKey, "1");
+          headLink(m, patchKey, "1", A);
         } else {
-          downloadLink(m, new Patch.Key(idSideA, patchKey.get()), "0");
+          headLink(m, new Patch.Key(idSideA, patchKey.get()), "0", A);
         }
       }
     }
@@ -305,7 +347,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     if (!isCommitMessage) {
       m.br();
       if (0 < script.getB().size()) {
-        downloadLink(m, new Patch.Key(idSideB, patchKey.get()), "0");
+        headLink(m, new Patch.Key(idSideB, patchKey.get()), "0", B);
       }
     }
     m.closeTd();
@@ -318,8 +360,18 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.closeTr();
   }
 
-  private void downloadLink(final SafeHtmlBuilder m, final Patch.Key key,
-      final String side) {
+  private void headLink(final SafeHtmlBuilder m, final Patch.Key key,
+      final String side, int AorB) {
+    if (AorB == A) {
+      m.append(SafeHtml.asis("<a id=" + PatchUtil.C.commentsOnfileLinkIDA()
+          + " href=\"javascript:;\">" + PatchUtil.C.commentOnThisFile()
+          + "</a>"));
+    } else {
+      m.append(SafeHtml.asis("<a id=" + PatchUtil.C.commentsOnfileLinkIDB()
+          + " href=\"javascript:;\">" + PatchUtil.C.commentOnThisFile()
+          + "</a>"));
+    }
+    m.nbsp();
     final String base = GWT.getHostPageBaseURL() + "cat/";
     m.openAnchor();
     m.setAttribute("href", base + KeyUtil.encode(key.toString()) + "^" + side);

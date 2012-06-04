@@ -70,8 +70,8 @@ OPTIONS
 
 --comments::
 	Include comments for all changes. If combined with the
-	--patch-sets flag then all in-line comments are included for
-	each patch set.
+	--patch-sets flag then all file comments and in-line comments
+	are included for each patch set.
 
 --commit-message::
 	Include the full commit message in the change description.

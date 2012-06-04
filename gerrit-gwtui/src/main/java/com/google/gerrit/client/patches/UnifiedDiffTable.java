@@ -222,31 +222,36 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
     final ArrayList<PatchLineComment> all = new ArrayList<PatchLineComment>();
     for (int row = 0; row < table.getRowCount();) {
-      if (getRowItem(row) instanceof PatchLine) {
+      final List<PatchLineComment> fora;
+      final List<PatchLineComment> forb;
+      if (row == 0) {
+        fora = cd.getForA(0);
+        forb = cd.getForB(0);
+      } else if (getRowItem(row) instanceof PatchLine) {
         final PatchLine pLine = (PatchLine) getRowItem(row);
-        final List<PatchLineComment> fora = cd.getForA(pLine.getLineA());
-        final List<PatchLineComment> forb = cd.getForB(pLine.getLineB());
-        row++;
+        fora = cd.getForA(pLine.getLineA());
+        forb = cd.getForB(pLine.getLineB());
 
-        if (!fora.isEmpty() && !forb.isEmpty()) {
-          all.clear();
-          all.addAll(fora);
-          all.addAll(forb);
-          Collections.sort(all, BY_DATE);
-          row = insert(all, row, expandComments);
-
-        } else if (!fora.isEmpty()) {
-          row = insert(fora, row, expandComments);
-
-        } else if (!forb.isEmpty()) {
-          row = insert(forb, row, expandComments);
-        }
       } else {
         row++;
+        continue;
+      }
+
+      row++;
+      if (!fora.isEmpty() && !forb.isEmpty()) {
+        all.clear();
+        all.addAll(fora);
+        all.addAll(forb);
+        Collections.sort(all, BY_DATE);
+        row = insert(all, row, expandComments);
+      } else if (!fora.isEmpty()) {
+        row = insert(fora, row, expandComments);
+
+      } else if (!forb.isEmpty()) {
+        row = insert(forb, row, expandComments);
       }
     }
   }
-
 
   @Override
   protected void insertRow(final int row) {

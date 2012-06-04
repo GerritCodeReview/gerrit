@@ -89,9 +89,6 @@ public class CommentDetail {
   }
 
   public List<PatchLineComment> getForA(final int lineNbr) {
-    if (lineNbr == 0) {
-      return Collections.emptyList();
-    }
     if (forA == null) {
       forA = index(a);
     }
@@ -99,9 +96,6 @@ public class CommentDetail {
   }
 
   public List<PatchLineComment> getForB(final int lineNbr) {
-    if (lineNbr == 0) {
-      return Collections.emptyList();
-    }
     if (forB == null) {
       forB = index(b);
     }

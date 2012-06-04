@@ -33,6 +33,18 @@ public class ChangeInfo extends JavaScriptObject {
     return new Change.Id(_number());
   }
 
+  public final Timestamp created() {
+    Timestamp ts = _get_cts();
+    if (ts == null) {
+      ts = JavaSqlTimestamp_JsonSerializer.parseTimestamp(createdRaw());
+      _set_cts(ts);
+    }
+    return ts;
+  }
+
+  private final native Timestamp _get_cts() /*-{ return this._cts; }-*/;
+  private final native void _set_cts(Timestamp ts) /*-{ this._cts = ts; }-*/;
+
   public final Timestamp updated() {
     return JavaSqlTimestamp_JsonSerializer.parseTimestamp(updatedRaw());
   }
@@ -56,6 +68,7 @@ public class ChangeInfo extends JavaScriptObject {
   private final native String statusRaw() /*-{ return this.status; }-*/;
   public final native String subject() /*-{ return this.subject; }-*/;
   public final native AccountInfo owner() /*-{ return this.owner; }-*/;
+  private final native String createdRaw() /*-{ return this.created; }-*/;
   private final native String updatedRaw() /*-{ return this.updated; }-*/;
   public final native boolean starred() /*-{ return this.starred ? true : false; }-*/;
   public final native String _sortkey() /*-{ return this._sortkey; }-*/;

@@ -111,8 +111,7 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
       }
     }
 
-    Collections.sort(out.asList(), compare());
-    Collections.sort(in.asList(), compare());
+    Collections.sort(out.asList(), outComparator());
 
     table.updateColumnsForLabels(out, in, done);
     outgoing.display(out);
@@ -121,18 +120,11 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     table.finishDisplay();
   }
 
-  private Comparator<ChangeInfo> compare() {
+  private Comparator<ChangeInfo> outComparator() {
     return new Comparator<ChangeInfo>() {
       @Override
       public int compare(ChangeInfo a, ChangeInfo b) {
-        int cmp = a.project().compareTo(b.project());
-        if (cmp != 0) return cmp;
-        cmp = a.branch().compareTo(b.branch());
-        if (cmp != 0) return cmp;
-
-        String at = a.topic() != null ? a.topic() : "";
-        String bt = b.topic() != null ? b.topic() : "";
-        cmp = at.compareTo(bt);
+        int cmp = a.created().compareTo(b.created());
         if (cmp != 0) return cmp;
         return a._number() - b._number();
       }

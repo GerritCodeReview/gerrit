@@ -500,6 +500,14 @@ public abstract class PatchScreen extends Screen implements
 
     historyTable.display(script.getHistory());
 
+    for (Patch p : patchSetDetail.getPatches()) {
+      if (p.getKey().equals(patchKey)) {
+        if (p.getPatchType().equals(Patch.PatchType.BINARY)) {
+          contentTable.isDisplayBinary = true;
+        }
+        break;
+      }
+    }
     // True if there are differences between the two patch sets
     boolean hasEdits = !script.getEdits().isEmpty();
     // True if this change is a mode change or a pure rename/copy
@@ -508,10 +516,11 @@ public abstract class PatchScreen extends Screen implements
     boolean hasDifferences = hasEdits || hasMeta;
     boolean pureMetaChange = !hasEdits && hasMeta;
 
-    if (contentTable instanceof SideBySideTable && pureMetaChange) {
+    if (contentTable instanceof SideBySideTable && pureMetaChange && !contentTable.isDisplayBinary) {
       // User asked for SideBySide (or a link guessed, wrong) and we can't
-      // show a binary or pure-rename change there accurately. Switch to
-      // the unified view instead.
+      // show a pure-rename change there accurately. Switch to
+      // the unified view instead. User can set file comments on binary file
+      // in SideBySide view.
       //
       contentTable.removeFromParent();
       contentTable = new UnifiedDiffTable(this);

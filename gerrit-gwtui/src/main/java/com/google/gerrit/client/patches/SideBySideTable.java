@@ -87,107 +87,114 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void render(final PatchScript script) {
-    a = getSparseHtmlFileA(script);
-    b = getSparseHtmlFileB(script);
     final ArrayList<Object> lines = new ArrayList<Object>();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
-    final boolean intraline =
-        script.getDiffPrefs().isIntralineDifference()
-            && script.hasIntralineDifference();
     appendHeader(script, nc);
     lines.add(null);
-
-    if (script.getFileModeA() != FileMode.FILE
-        || script.getFileModeB() != FileMode.FILE) {
-      openLine(nc);
-      appendModeLine(nc, script.getFileModeA());
-      appendModeLine(nc, script.getFileModeB());
-      closeLine(nc);
-      lines.add(null);
-    }
-
-    int lastA = 0;
-    int lastB = 0;
-    final boolean ignoreWS = script.isIgnoreWhitespace();
-    for (final EditList.Hunk hunk : script.getHunks()) {
-      if (!hunk.isStartOfFile()) {
-        appendSkipLine(nc, hunk.getCurB() - lastB);
-        lines.add(new SkippedLine(lastA, lastB, hunk.getCurB() - lastB));
+    if (!isDisplayBinary) {
+      if (script.getFileModeA() != FileMode.FILE
+          || script.getFileModeB() != FileMode.FILE) {
+        openLine(nc);
+        appendModeLine(nc, script.getFileModeA());
+        appendModeLine(nc, script.getFileModeB());
+        closeLine(nc);
+        lines.add(null);
       }
 
-      while (hunk.next()) {
-        if (hunk.isContextLine()) {
-          openLine(nc);
-          final SafeHtml ctx = a.getSafeHtmlLine(hunk.getCurA());
-          appendLineNumber(nc, hunk.getCurA(), false);
-          appendLineText(nc, CONTEXT, ctx, false, false);
-          if (ignoreWS && b.contains(hunk.getCurB())) {
-            appendLineText(nc, CONTEXT, b, hunk.getCurB(), false);
-          } else {
-            appendLineText(nc, CONTEXT, ctx, false, false);
-          }
-          appendLineNumber(nc, hunk.getCurB(), true);
-          closeLine(nc);
-          hunk.incBoth();
-          lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
+      int lastA = 0;
+      int lastB = 0;
+      final boolean ignoreWS = script.isIgnoreWhitespace();
+      a = getSparseHtmlFileA(script);
+      b = getSparseHtmlFileB(script);
+      final boolean intraline =
+          script.getDiffPrefs().isIntralineDifference()
+              && script.hasIntralineDifference();
+      for (final EditList.Hunk hunk : script.getHunks()) {
+        if (!hunk.isStartOfFile()) {
+          appendSkipLine(nc, hunk.getCurB() - lastB);
+          lines.add(new SkippedLine(lastA, lastB, hunk.getCurB() - lastB));
+        }
 
-        } else if (hunk.isModifiedLine()) {
-          final boolean del = hunk.isDeletedA();
-          final boolean ins = hunk.isInsertedB();
-          final boolean full =
-              intraline && hunk.getCurEdit().getType() != Edit.Type.REPLACE;
-          openLine(nc);
-
-          if (del) {
+        while (hunk.next()) {
+          if (hunk.isContextLine()) {
+            openLine(nc);
+            final SafeHtml ctx = a.getSafeHtmlLine(hunk.getCurA());
             appendLineNumber(nc, hunk.getCurA(), false);
-            appendLineText(nc, DELETE, a, hunk.getCurA(), full);
-            hunk.incA();
-          } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
-            appendLineNumber(nc, false);
-            appendLineNone(nc, DELETE);
-          } else {
-            appendLineNumber(nc, false);
-            appendLineNone(nc, CONTEXT);
-          }
-
-          if (ins) {
-            appendLineText(nc, INSERT, b, hunk.getCurB(), full);
+            appendLineText(nc, CONTEXT, ctx, false, false);
+            if (ignoreWS && b.contains(hunk.getCurB())) {
+              appendLineText(nc, CONTEXT, b, hunk.getCurB(), false);
+            } else {
+              appendLineText(nc, CONTEXT, ctx, false, false);
+            }
             appendLineNumber(nc, hunk.getCurB(), true);
-            hunk.incB();
-          } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
-            appendLineNone(nc, INSERT);
-            appendLineNumber(nc, true);
-          } else {
-            appendLineNone(nc, CONTEXT);
-            appendLineNumber(nc, true);
-          }
+            closeLine(nc);
+            hunk.incBoth();
+            lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
 
-          closeLine(nc);
+          } else if (hunk.isModifiedLine()) {
+            final boolean del = hunk.isDeletedA();
+            final boolean ins = hunk.isInsertedB();
+            final boolean full =
+                intraline && hunk.getCurEdit().getType() != Edit.Type.REPLACE;
+            openLine(nc);
 
-          if (del && ins) {
-            lines.add(new PatchLine(REPLACE, hunk.getCurA(), hunk.getCurB()));
-          } else if (del) {
-            lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
-          } else if (ins) {
-            lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
+            if (del) {
+              appendLineNumber(nc, hunk.getCurA(), false);
+              appendLineText(nc, DELETE, a, hunk.getCurA(), full);
+              hunk.incA();
+            } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
+              appendLineNumber(nc, false);
+              appendLineNone(nc, DELETE);
+            } else {
+              appendLineNumber(nc, false);
+              appendLineNone(nc, CONTEXT);
+            }
+
+            if (ins) {
+              appendLineText(nc, INSERT, b, hunk.getCurB(), full);
+              appendLineNumber(nc, hunk.getCurB(), true);
+              hunk.incB();
+            } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
+              appendLineNone(nc, INSERT);
+              appendLineNumber(nc, true);
+            } else {
+              appendLineNone(nc, CONTEXT);
+              appendLineNumber(nc, true);
+            }
+
+            closeLine(nc);
+
+            if (del && ins) {
+              lines.add(new PatchLine(REPLACE, hunk.getCurA(), hunk.getCurB()));
+            } else if (del) {
+              lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
+            } else if (ins) {
+              lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
+            }
           }
         }
+        lastA = hunk.getCurA();
+        lastB = hunk.getCurB();
       }
-      lastA = hunk.getCurA();
-      lastB = hunk.getCurB();
-    }
-    if (lastB != b.size()) {
-      appendSkipLine(nc, b.size() - lastB);
-      lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
+      if (lastB != b.size()) {
+        appendSkipLine(nc, b.size() - lastB);
+        lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
+      }
+    }else{
+      // Display the patch header for binary
+      for (final String line : script.getPatchHeader()) {
+        appendFileHeader(nc, line);
+      }
     }
     resetHtml(nc);
     displayTableHead(script);
     initScript(script);
-
-    for (int row = 0; row < lines.size(); row++) {
-      setRowItem(row, lines.get(row));
-      if (lines.get(row) instanceof SkippedLine) {
-        createSkipLine(row, (SkippedLine) lines.get(row));
+    if (!isDisplayBinary) {
+      for (int row = 0; row < lines.size(); row++) {
+        setRowItem(row, lines.get(row));
+        if (lines.get(row) instanceof SkippedLine) {
+          createSkipLine(row, (SkippedLine) lines.get(row));
+        }
       }
     }
   }
@@ -305,6 +312,9 @@ public class SideBySideTable extends AbstractPatchContentTable {
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, A - 1, Gerrit.RESOURCES.css().lineNumber());
     fmt.addStyleName(row, A, Gerrit.RESOURCES.css().diffText());
+    if (isDisplayBinary) {
+      fmt.addStyleName(row, A, Gerrit.RESOURCES.css().diffTextForBinaryInSidyBySide());
+    }
     fmt.addStyleName(row, B, Gerrit.RESOURCES.css().diffText());
     fmt.addStyleName(row, B + 1, Gerrit.RESOURCES.css().lineNumber());
   }
@@ -343,6 +353,31 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.addStyleName(Gerrit.RESOURCES.css().rightmost());
+    m.closeTd();
+
+    m.closeTr();
+  }
+
+  private void appendFileHeader(final SafeHtmlBuilder m, final String line) {
+    m.openTr();
+
+    m.openTd();
+    m.addStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.nbsp();
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().sideBySideTableBinaryHeader());
+    m.setAttribute("colspan", 2);
+    m.append(line);
+    m.closeTd();
+
+    m.openTd();
+    m.nbsp();
     m.closeTd();
 
     m.closeTr();

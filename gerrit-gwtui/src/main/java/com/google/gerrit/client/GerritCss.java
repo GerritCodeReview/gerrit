@@ -89,6 +89,7 @@ public interface GerritCss extends CssResource {
   String dataHeader();
   String diffLinkCell();
   String diffText();
+  String diffTextForBinaryInSideBySide();
   String diffTextCONTEXT();
   String diffTextDELETE();
   String diffTextFileHeader();
@@ -185,6 +186,7 @@ public interface GerritCss extends CssResource {
   String registerScreenSection();
   String rightmost();
   String rightBorder();
+  String sideBySideTableBinaryHeader();
   String rpcStatus();
   String rpcStatusLoading();
   String rpcStatusPanel();

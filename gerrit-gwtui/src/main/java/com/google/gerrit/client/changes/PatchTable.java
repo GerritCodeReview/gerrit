@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gerrit.reviewdb.client.Patch.PatchType;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,7 +43,6 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -394,13 +392,9 @@ public class PatchTable extends Composite {
       setRowItem(row, patch);
 
       Widget nameCol;
-      if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
-        nameCol = new PatchLink.SideBySide(getDisplayFileName(patch), base,
-            patch.getKey(), row - 1, detail, PatchTable.this);
-      } else {
-        nameCol = new PatchLink.Unified(getDisplayFileName(patch), base,
-            patch.getKey(), row - 1, detail, PatchTable.this);
-      }
+      nameCol = new PatchLink.SideBySide(getDisplayFileName(patch), base,
+          patch.getKey(), row - 1, detail, PatchTable.this);
+
       if (patch.getSourceFileName() != null) {
         final String text;
         if (patch.getChangeType() == Patch.ChangeType.RENAMED) {
@@ -420,13 +414,9 @@ public class PatchTable extends Composite {
       table.setWidget(row, C_PATH, nameCol);
 
       int C_UNIFIED = C_SIDEBYSIDE + 1;
-      if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
-        table.setWidget(row, C_SIDEBYSIDE, new PatchLink.SideBySide(
-            Util.C.patchTableDiffSideBySide(), base, patch.getKey(), row - 1,
-            detail, PatchTable.this));
-      } else if (patch.getPatchType() == Patch.PatchType.BINARY) {
-        C_UNIFIED = C_SIDEBYSIDE + 2;
-      }
+      table.setWidget(row, C_SIDEBYSIDE, new PatchLink.SideBySide(
+          Util.C.patchTableDiffSideBySide(), base, patch.getKey(), row - 1,
+          detail, PatchTable.this));
       table.setWidget(row, C_UNIFIED, new PatchLink.Unified(
           Util.C.patchTableDiffUnified(), base, patch.getKey(), row - 1,
           detail, PatchTable.this));
@@ -530,49 +520,9 @@ public class PatchTable extends Composite {
       appendSize(m, p);
       m.closeTd();
 
-      switch (p.getPatchType()) {
-        case UNIFIED:
-          openlink(m, 2);
-          m.closeTd();
-          break;
-
-        case BINARY: {
-          String base = GWT.getHostPageBaseURL();
-          base += "cat/" + KeyUtil.encode(p.getKey().toString());
-          switch (p.getChangeType()) {
-            case DELETED:
-            case MODIFIED:
-              openlink(m, 1);
-              m.openAnchor();
-              m.setAttribute("href", base + "^1");
-              m.append(Util.C.patchTableDownloadPreImage());
-              closelink(m);
-              break;
-            default:
-              emptycell(m, 1);
-              break;
-          }
-          switch (p.getChangeType()) {
-            case MODIFIED:
-            case ADDED:
-              openlink(m, 1);
-              m.openAnchor();
-              m.setAttribute("href", base + "^0");
-              m.append(Util.C.patchTableDownloadPostImage());
-              closelink(m);
-              break;
-            default:
-              emptycell(m, 1);
-              break;
-          }
-          break;
-        }
-
-        default:
-          emptycell(m, 2);
-          break;
-      }
-
+      // Diff
+      openlink(m, 2);
+      m.closeTd();
       openlink(m, 1);
       m.closeTd();
 
@@ -668,20 +618,6 @@ public class PatchTable extends Composite {
       m.addStyleName(Gerrit.RESOURCES.css().dataCell());
       m.addStyleName(Gerrit.RESOURCES.css().diffLinkCell());
       m.setAttribute("colspan", colspan);
-    }
-
-    private void closelink(final SafeHtmlBuilder m) {
-      m.closeAnchor();
-      m.closeTd();
-    }
-
-    private void emptycell(final SafeHtmlBuilder m, final int colspan) {
-      m.openTd();
-      m.addStyleName(Gerrit.RESOURCES.css().dataCell());
-      m.addStyleName(Gerrit.RESOURCES.css().diffLinkCell());
-      m.setAttribute("colspan", colspan);
-      m.nbsp();
-      m.closeTd();
     }
 
     @Override

@@ -77,7 +77,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private HandlerRegistration regComment;
   private final KeyCommandSet keysOpenByEnter;
   private HandlerRegistration regOpenByEnter;
-
+  boolean isDisplayBinary;
   protected AbstractPatchContentTable(final PatchScreen parent) {
     keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));

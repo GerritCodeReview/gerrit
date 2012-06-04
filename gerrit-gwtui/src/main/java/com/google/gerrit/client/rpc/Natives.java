@@ -36,7 +36,8 @@ public class Natives {
     if (parser == null) {
       parser = bestJsonParser();
     }
-    return parse0(parser, json);
+    // javac generics bug
+    return Natives.<T>parse0(parser, json);
   }
 
   private static native <T extends JavaScriptObject>

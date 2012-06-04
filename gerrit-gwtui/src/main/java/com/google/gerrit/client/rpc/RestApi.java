@@ -124,7 +124,8 @@ public class RestApi {
 
         T data;
         try {
-          data = Natives.parseJSON(json.substring(JSON_MAGIC.length()));
+          // javac generics bug
+          data = Natives.<T>parseJSON(json.substring(JSON_MAGIC.length()));
         } catch (RuntimeException e) {
           cb.onFailure(new RemoteJsonException("Invalid JSON"));
           return;

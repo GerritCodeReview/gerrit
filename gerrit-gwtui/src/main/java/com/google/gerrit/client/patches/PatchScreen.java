@@ -297,6 +297,9 @@ public abstract class PatchScreen extends Screen implements
   @Override
   protected void onLoad() {
     super.onLoad();
+
+    fileList.movePointerTo(patchKey);
+
     if (patchSetDetail == null) {
       Util.DETAIL_SVC.patchSetDetail(idSideB,
           new GerritCallback<PatchSetDetail>() {

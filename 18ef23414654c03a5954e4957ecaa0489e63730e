@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGP3///84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-06-04T14:50:21Z",
+      "side": 1,
+      "message": "Agreed; cf. ll. 581-584. Arguably we should have written ReceiveCommand.execute to be a no-op if the current result is not NOT_ATTEMPTED.",
+      "parentUuid": "AAAGSX////U\u003d",
+      "revId": "18ef23414654c03a5954e4957ecaa0489e63730e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGSX////Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 12

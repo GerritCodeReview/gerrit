@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAB83////k\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-04T18:05:50Z",
+      "side": 1,
+      "message": "Yeah I considered that.  Assignee sounded kinda ugly to me, but it might be better and clearer.",
+      "parentUuid": "AAAB7n////I\u003d",
+      "revId": "e434a76b044dc61570846371d76290581b70d7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAB7n////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_60.java",
         "patchSetId": 1

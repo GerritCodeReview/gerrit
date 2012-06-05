@@ -15,6 +15,11 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -80,7 +85,6 @@ import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -456,8 +460,7 @@ public class ReceiveCommits {
     commandProgress = progress.beginSubTask("refs", UNKNOWN);
 
     parseCommands(commands);
-    if (newChange != null
-        && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
+    if (newChange != null && newChange.getResult() == NOT_ATTEMPTED) {
       createNewChanges();
     }
     newProgress.end();
@@ -474,7 +477,7 @@ public class ReceiveCommits {
     }
 
     for (final ReceiveCommand c : commands) {
-      if (c.getResult() == Result.OK) {
+      if (c.getResult() == OK) {
         switch (c.getType()) {
           case CREATE:
             if (isHead(c)) {
@@ -573,7 +576,7 @@ public class ReceiveCommits {
 
   private void parseCommands(final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand cmd : commands) {
-      if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
+      if (cmd.getResult() != NOT_ATTEMPTED) {
         // Already rejected by the core receive process.
         //
         continue;
@@ -621,7 +624,7 @@ public class ReceiveCommits {
           continue;
       }
 
-      if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
+      if (cmd.getResult() != NOT_ATTEMPTED) {
         continue;
       }
 
@@ -687,7 +690,9 @@ public class ReceiveCommits {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canCreate(rp.getRevWalk(), obj)) {
       validateNewCommits(ctl, cmd);
-      cmd.execute(rp);
+      if (cmd.getResult() == NOT_ATTEMPTED) {
+        cmd.execute(rp);
+      }
     } else {
       errors.put(Error.CREATE, ctl.getRefName());
       reject(cmd, "can not create new references");
@@ -702,7 +707,9 @@ public class ReceiveCommits {
       }
 
       validateNewCommits(ctl, cmd);
-      cmd.execute(rp);
+      if (cmd.getResult() == NOT_ATTEMPTED) {
+        cmd.execute(rp);
+      }
     } else {
       if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
         errors.put(Error.CONFIG_UPDATE, GitRepositoryManager.REF_CONFIG);
@@ -735,7 +742,9 @@ public class ReceiveCommits {
   private void parseDelete(final ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canDelete()) {
-      cmd.execute(rp);
+      if (cmd.getResult() == NOT_ATTEMPTED) {
+        cmd.execute(rp);
+      }
     } else {
       if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
         reject(cmd, "cannot delete project configuration");
@@ -762,15 +771,17 @@ public class ReceiveCommits {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (newObject != null) {
       validateNewCommits(ctl, cmd);
-      if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
+      if (cmd.getResult() != NOT_ATTEMPTED) {
         return;
       }
     }
 
     if (ctl.canForceUpdate()) {
-      cmd.execute(rp);
+      if (cmd.getResult() == NOT_ATTEMPTED) {
+        cmd.execute(rp);
+      }
     } else {
-      cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD, " need '"
+      cmd.setResult(REJECTED_NONFASTFORWARD, " need '"
           + PermissionRule.FORCE_PUSH + "' privilege.");
     }
   }
@@ -877,7 +888,7 @@ public class ReceiveCommits {
         walk.setRevFilter(oldRevFilter);
       }
     } catch (IOException e) {
-      newChange.setResult(Result.REJECTED_MISSING_OBJECT);
+      newChange.setResult(REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
       return;
     }
@@ -1052,7 +1063,7 @@ public class ReceiveCommits {
       // Should never happen, the core receive process would have
       // identified the missing object earlier before we got control.
       //
-      newChange.setResult(Result.REJECTED_MISSING_OBJECT);
+      newChange.setResult(REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
       return;
     } catch (OrmException e) {
@@ -1080,7 +1091,7 @@ public class ReceiveCommits {
       }
       newProgress.update(1);
     }
-    newChange.setResult(ReceiveCommand.Result.OK);
+    newChange.setResult(OK);
   }
 
   private static boolean isValidChangeId(String idStr) {
@@ -1207,7 +1218,7 @@ public class ReceiveCommits {
             + request.ontoChange + ", commit " + request.newCommit.name(), err);
         reject(request.cmd, "database error");
       }
-      if (request.cmd.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
+      if (request.cmd.getResult() == NOT_ATTEMPTED) {
         log.error("Replacement patch for change " + request.ontoChange
             + ", commit " + request.newCommit.name() + " wasn't attempted."
             + "  This is a bug in the receive process implementation.");
@@ -1460,7 +1471,7 @@ public class ReceiveCommits {
     }
     replication.fire(project.getNameKey(), ru.getName());
     hooks.doPatchsetCreatedHook(result.change, ps, db);
-    request.cmd.setResult(ReceiveCommand.Result.OK);
+    request.cmd.setResult(OK);
 
     workQueue.getDefaultQueue()
         .submit(requestScopePropagator.wrap(new Runnable() {
@@ -1599,7 +1610,7 @@ public class ReceiveCommits {
         }
       }
     } catch (IOException err) {
-      cmd.setResult(Result.REJECTED_MISSING_OBJECT);
+      cmd.setResult(REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", err);
     }
   }
@@ -2043,7 +2054,7 @@ public class ReceiveCommits {
   }
 
   private void reject(final ReceiveCommand cmd, final String why) {
-    cmd.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON, why);
+    cmd.setResult(REJECTED_OTHER_REASON, why);
     commandProgress.update(1);
   }
 

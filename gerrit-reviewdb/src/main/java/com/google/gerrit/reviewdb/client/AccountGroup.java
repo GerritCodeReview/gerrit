@@ -79,6 +79,12 @@ public final class AccountGroup {
     }
   }
 
+  /** @return true if the UUID is for a group managed within Gerrit. */
+  public static boolean isInternalGroup(AccountGroup.UUID uuid) {
+    return uuid.get().startsWith("global:")
+        || uuid.get().matches("[0-9a-f]{40}");
+  }
+
   /** Synthetic key to link to within the database */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;

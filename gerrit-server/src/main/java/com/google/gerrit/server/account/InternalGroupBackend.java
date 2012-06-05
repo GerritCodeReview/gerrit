@@ -57,8 +57,7 @@ public class InternalGroupBackend implements GroupBackend {
 
   @Override
   public boolean handles(AccountGroup.UUID uuid) {
-    return uuid.get().startsWith("global:")
-        || uuid.get().matches("[0-9a-f]{40}");
+    return AccountGroup.isInternalGroup(uuid);
   }
 
   @Override

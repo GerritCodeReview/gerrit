@@ -385,8 +385,15 @@ public class PluginGuiceEnvironment {
 
     final Map<Key<?>, Binding<?>> bindings = Maps.newLinkedHashMap();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
-      if (!dynamicTypes.contains(e.getKey().getTypeLiteral())
-          && shouldCopy(e.getKey())) {
+      if (dynamicTypes.contains(e.getKey().getTypeLiteral())
+          && e.getKey().getAnnotation() != null) {
+        // A type used in DynamicSet or DynamicMap that has an annotation
+        // must be picked up by the set/map itself. A type used in either
+        // but without an annotation may be magic glue implementing F and
+        // using DynamicSet<F> or DynamicMap<F> internally. That should be
+        // exported to plugins.
+        continue;
+      } else if (shouldCopy(e.getKey())) {
         bindings.put(e.getKey(), e.getValue());
       }
     }

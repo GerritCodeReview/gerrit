@@ -25,6 +25,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
@@ -178,16 +179,21 @@ public class PermissionRuleEditor extends Composite implements
   @Override
   public void setValue(PermissionRule value) {
     GroupReference ref = value.getGroup();
-    if (ref.getUUID() != null) {
+
+    boolean link;
+    if (ref.getUUID() != null && AccountGroup.isInternalGroup(ref.getUUID())) {
+      groupNameLink.setText(ref.getName());
       groupNameLink.setTargetHistoryToken(Dispatcher.toGroup(ref.getUUID()));
+      link = true;
+    } else {
+      groupNameSpan.setInnerText(ref.getName());
+      groupNameSpan.setTitle(ref.getUUID() != null ? ref.getUUID().get() : null);
+      link = false;
     }
 
-    groupNameLink.setText(ref.getName());
-    groupNameSpan.setInnerText(ref.getName());
     deletedGroupName.setInnerText(ref.getName());
-
-    groupNameLink.setVisible(ref.getUUID() != null);
-    UIObject.setVisible(groupNameSpan, ref.getUUID() == null);
+    groupNameLink.setVisible(link);
+    UIObject.setVisible(groupNameSpan, !link);
   }
 
   @Override

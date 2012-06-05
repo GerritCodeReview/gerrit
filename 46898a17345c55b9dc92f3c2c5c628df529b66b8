@@ -16,6 +16,24 @@
       "revId": "46898a17345c55b9dc92f3c2c5c628df529b66b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGPn///uc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PermissionRuleEditor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-05T16:59:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGPn///uw\u003d",
+      "revId": "46898a17345c55b9dc92f3c2c5c628df529b66b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

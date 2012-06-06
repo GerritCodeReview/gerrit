@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGVX////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-06T08:46:09Z",
+      "side": 1,
+      "message": "[optional] maybe rename this to just \u0027PARENT_CANDIDATES\u0027?",
+      "revId": "cec989a152aedf77d8f0627e5978017401f724a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGVX////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-06T08:46:09Z",
+      "side": 1,
+      "message": "[optional] Instead of checking here 3 times for type \u003d\u003d FilterType.SUGGEST_PARENT_CANDIDATES I think it would be cleaner to have a seperated code block that cares about this. I think mixing the code that returns the project itself with the code that returns the parent project makes the code difficult to read.",
+      "revId": "cec989a152aedf77d8f0627e5978017401f724a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "e61dd14990d22bb12d6781457cde68648a92ad4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGUH///2M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-06T13:53:09Z",
+      "side": 1,
+      "message": "Edwin, that was my initial thought.  But I have to say that after seeing the title I think it makes the box feel a bit more refined.  While I am generally in favor of saving space, in this case I think it might be worth having this extra line, it helps give the message some context which may help with new users.  Also, it gives us a place to put the star eventually which would allow us to remove the title header, if we wanted, making this likely a net overall size win over the current layout.\n\nAnother thing I found (I really do wish we could attach screenshots) when Keunhong prototyped the initial version you describe, is that as an experienced user, my eye tended to ignore titles once familiar with the UI, so putting the summary on the first line made me ignore it as if it was some constant part of the UI!  I know that might sound a little odd, and I won\u0027t claim to be a UI expert, but it just felt better this way.  I think it might also explain a bit why I don\u0027t like the current big title header either, my eye ignores it always (of course, it also suffers from duplication).\n\nLastly, I also found that it felt like I trusted the UI more when the entire commit message was a single block of monospaced text all in the same table row (with actual line breaks though).  This seemed to convey to me that I was seeing exactly what the git commiter wrote and that Gerrit wasn\u0027t mucking with the content.  I felt that varying the text with bold or italics did not seem to betray that trust, but inserting a row border in the text did.  We may eventually also make the footers italics, but I figured this was a good start.\n\nI hope some of this makes sense, I may try to find a way yo show you some of the alternative designs so that you may see directy for yourself what I describe.",
+      "parentUuid": "AAAGVX////w\u003d",
+      "revId": "e61dd14990d22bb12d6781457cde68648a92ad4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -834,13 +834,13 @@ limitations under the License.
 
   <repositories>
     <repository>
-      <id>jgit-repository</id>
-      <url>http://download.eclipse.org/jgit/maven</url>
+      <id>gerrit-maven</id>
+      <url>https://gerrit-maven.commondatastorage.googleapis.com</url>
     </repository>
 
     <repository>
-      <id>gerrit-maven-repository</id>
-      <url>https://gerrit-maven-repository.googlecode.com/svn/</url>
+      <id>jgit-repository</id>
+      <url>http://download.eclipse.org/jgit/maven</url>
     </repository>
 
     <repository>

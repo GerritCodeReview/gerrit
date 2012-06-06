@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGUH///6U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-06T00:39:18Z",
+      "side": 1,
+      "message": "It doesn\u0027t seem like you are actually using the ColumnFormatter class there yet?",
+      "revId": "8df06ecfb012c50531967aff16c3d090076d3e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

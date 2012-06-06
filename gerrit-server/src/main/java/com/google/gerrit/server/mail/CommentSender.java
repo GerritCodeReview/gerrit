@@ -78,6 +78,10 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   public String getInlineComments() {
+    return getInlineComments(1);
+  }
+
+  public String getInlineComments(int lines) {
     StringBuilder  cmts = new StringBuilder();
 
     final Repository repo = getRepository();
@@ -121,19 +125,29 @@ public class CommentSender extends ReplyToChangeSender {
           }
         }
 
-        cmts.append("Line " + lineNbr);
         if (currentFileData != null) {
+          int maxLines;
           try {
-            final String lineStr = currentFileData.getLine(side, lineNbr);
-            cmts.append(": ");
-            cmts.append(lineStr);
-          } catch (Throwable cce) {
-            // Don't quote the line if we can't safely convert it.
+            maxLines = currentFileData.getLineCount(side);
+          } catch (Throwable e) {
+            maxLines = lineNbr;
+          }
+
+          final int startLine = Math.max(1, lineNbr - lines + 1);
+          final int stopLine = Math.min(maxLines, lineNbr + lines);
+
+          for (int line = startLine; line <= lineNbr; ++line) {
+            appendFileLine(cmts, currentFileData, side, line);
+          }
+
+          cmts.append(c.getMessage().trim());
+          cmts.append("\n");
+
+          for (int line = lineNbr + 1; line < stopLine; ++line) {
+            appendFileLine(cmts, currentFileData, side, line);
           }
         }
-        cmts.append("\n");
 
-        cmts.append(c.getMessage().trim());
         cmts.append("\n\n");
       }
     } finally {
@@ -142,6 +156,18 @@ public class CommentSender extends ReplyToChangeSender {
       }
     }
     return cmts.toString();
+  }
+
+  private void appendFileLine(StringBuilder cmts, PatchFile fileData, short side, int line) {
+    cmts.append("Line " + line);
+    try {
+      final String lineStr = fileData.getLine(side, line);
+      cmts.append(": ");
+      cmts.append(lineStr);
+    } catch (Throwable e) {
+      // Don't quote the line if we can't safely convert it.
+    }
+    cmts.append("\n");
   }
 
   private Repository getRepository() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGVX////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-06T07:29:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure that showing the string \u0027Commit Message\u0027 adds any value. Actually we are trying to remove all unneeded things from the ChangeScreen since it is already quite crowded.\n\nI really like the idea of displaying the commit message in a table. We actually discussed about this at the last Gerrit Hackathon. If I remember correctly the idea there was to have a table for the commit message, but to place the commit summary into the table header and the commit summary as first row. Does this make sense to you?",
+      "revId": "e61dd14990d22bb12d6781457cde68648a92ad4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

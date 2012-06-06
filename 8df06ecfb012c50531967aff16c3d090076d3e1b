@@ -52,6 +52,24 @@
       "revId": "8df06ecfb012c50531967aff16c3d090076d3e1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGVH///+0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-06-06T01:35:06Z",
+      "side": 1,
+      "message": "Yes. I have one in the works for adding a verbose option for ls-groups. That\u0027s how I started on this track in the first place (after realizing that there\u0027s no programmatic way to find the UUID of a group if you want to automate ACL updates).",
+      "parentUuid": "AAAGUH///40\u003d",
+      "revId": "8df06ecfb012c50531967aff16c3d090076d3e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

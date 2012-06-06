@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGT3///m8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-06-06T23:32:49Z",
+      "side": 1,
+      "message": "I don\u0027t feel like this logic should go here since this class justjust holds data, but that\u0027s just a personal preference.  The project maintainers can comment when they take a look.",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGT3///nA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-06-06T23:32:49Z",
+      "side": 1,
+      "message": "Why does this need to be public?",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

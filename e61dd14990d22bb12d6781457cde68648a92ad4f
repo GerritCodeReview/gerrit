@@ -34,6 +34,24 @@
       "revId": "e61dd14990d22bb12d6781457cde68648a92ad4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGWX////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-06T14:05:15Z",
+      "side": 1,
+      "message": "Actually it does make sense to me. I see your points and I\u0027m fine with leaving it as proposed :-)",
+      "parentUuid": "AAAGUH///2M\u003d",
+      "revId": "e61dd14990d22bb12d6781457cde68648a92ad4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

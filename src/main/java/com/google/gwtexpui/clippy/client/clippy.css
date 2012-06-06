@@ -18,4 +18,8 @@
 }
 .control {
   margin-left: 5px;
+  display: inline-block !important;
+  height: 14px;
+  width: 14px;
+  overflow: hidden;
 }

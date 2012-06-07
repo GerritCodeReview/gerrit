@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGXX///90\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-06-07T15:38:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGX3////0\u003d",
+      "revId": "f9100cbd10725f304bb342b15acc436e8729cb14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGXX////g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ChangeIdHandler.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-07T04:25:36Z",
       "side": 1,
       "message": "But what if the token already has refs/heads in it?  I think there is a function somewhere to help handle such a \"translation\" already.",
+      "revId": "f9100cbd10725f304bb342b15acc436e8729cb14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGXX///94\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ChangeIdHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-06-07T15:38:30Z",
+      "side": 1,
+      "message": "Hmm, in what cases would that happen.  The idea behind this triplet format is that there is a single way to specify a change that guarantees uniqueness.  If you notice, we only accept the exact Change-Id (not just a prefix).\n\nWould anyone ever want something other than refs/heads?  If so, we should always require the full expansion.  If not, we should only accept the shortname, IMHO.",
+      "parentUuid": "AAAGXX////g\u003d",
       "revId": "f9100cbd10725f304bb342b15acc436e8729cb14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

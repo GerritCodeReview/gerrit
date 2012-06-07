@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAGX3////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-07T10:48:15Z",
+      "side": 1,
+      "message": "quering -\u003e querying",
+      "revId": "f9100cbd10725f304bb342b15acc436e8729cb14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGXX////g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ChangeIdHandler.java",
         "patchSetId": 1

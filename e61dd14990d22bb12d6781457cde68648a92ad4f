@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGYH///+A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-06-07T19:37:50Z",
+      "side": 1,
+      "message": "You\u0027re right, it\u0027s unnecessary since SafeHtml will do it for us.",
+      "parentUuid": "AAAGZ3///+c\u003d",
+      "revId": "e61dd14990d22bb12d6781457cde68648a92ad4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGVX////w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.ui.xml",
         "patchSetId": 3

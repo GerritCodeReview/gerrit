@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGXX///3s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-07T20:20:16Z",
+      "side": 1,
+      "message": "This should got down by the ChangeId, see here https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_commit_message",
+      "revId": "2f22473790ed8ac742b148a1208b144b6cae4999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGXX///3o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-07T20:20:16Z",
+      "side": 1,
+      "message": "Perhaps say something here like: Add a new ACL for abandoning changes.",
+      "revId": "2f22473790ed8ac742b148a1208b144b6cae4999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGXX///3w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-07T20:20:16Z",
+      "side": 1,
+      "message": "OK.  Please put those types of comments in Gerrit, not here. :)",
+      "revId": "2f22473790ed8ac742b148a1208b144b6cae4999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

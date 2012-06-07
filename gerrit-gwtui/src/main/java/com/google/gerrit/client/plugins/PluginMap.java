@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd;
+package com.google.gerrit.client.plugins;
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.RestApi;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+/** Plugins available from {@code /plugins/}. */
+public class PluginMap extends NativeMap<PluginInfo> {
+  public static void all(AsyncCallback<PluginMap> callback) {
+    new RestApi("/plugins/")
+        .send(NativeMap.copyKeysIntoChildren(callback));
+  }
 
-/**
- * Annotation on {@link SshCommand} declaring a capability must be granted.
- */
-@Target({ElementType.TYPE})
-@Retention(RUNTIME)
-public @interface RequiresCapability {
-  String value();
+  protected PluginMap() {
+  }
 }

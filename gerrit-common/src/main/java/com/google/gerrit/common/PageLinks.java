@@ -40,6 +40,7 @@ public class PageLinks {
   public static final String ADMIN_GROUPS = "/admin/groups/";
   public static final String ADMIN_PROJECTS = "/admin/projects/";
   public static final String ADMIN_CREATE_PROJECT = "/admin/create-project/";
+  public static final String ADMIN_PLUGINS = "/admin/plugins/";
 
   public static String toChange(final ChangeInfo c) {
     return toChange(c.getId());

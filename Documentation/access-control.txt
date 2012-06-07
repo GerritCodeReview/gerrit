@@ -444,6 +444,14 @@ have false-negatives that shouldn't block the change.
 A restart is required after making database changes.
 See <<restart_changes,below>>.
 
+[[category_abandon]]
+Abandon
+~~~~
+
+This category controls whether users are allowed to abandon changes
+to projects in Gerrit. It can give permission to abandon a specific
+change to a given ref.
+
 [[category_create]]
 Create reference
 ~~~~~~~~~~~~~~~~

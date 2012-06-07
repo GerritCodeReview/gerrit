@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGXn///7Q\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-07T16:22:11Z",
+      "side": 1,
+      "message": "Perhaps these should just go on the PatchTable?  Would that work?",
+      "parentUuid": "AAAGT3///m8\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGT3///nA\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Odd.  Not sure why there\u0027s not a \"needed by\" listed on this change.",
       "parentUuid": "AAAGT3///lo\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGXX///9g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-07T16:22:11Z",
+      "side": 1,
+      "message": "There is (for me), but it just isn\u0027t expanded.  I think there is a change under review or recently submitted to do that.",
+      "parentUuid": "AAAGXX///+A\u003d",
       "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -105,6 +105,24 @@
       "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGXX///9Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-06-07T16:43:13Z",
+      "side": 1,
+      "message": "Ah, you are right.  Thanks.",
+      "parentUuid": "AAAGXX///9g\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

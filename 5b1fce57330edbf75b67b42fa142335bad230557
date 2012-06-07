@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGYH////A\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-06-07T17:39:07Z",
+      "side": 1,
+      "message": "It feels a bit odd to have publicly accessible methods in a widget class (maybe it\u0027s just me). What is typical of Java UI code?",
+      "parentUuid": "AAAGXn///7Q\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGT3///nA\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
         "patchSetId": 1

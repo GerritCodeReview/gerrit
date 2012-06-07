@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGan///+g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-06-07T20:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGXX///3s\u003d",
+      "revId": "2f22473790ed8ac742b148a1208b144b6cae4999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGXX///3o\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGan///+c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-06-07T20:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGXX///3o\u003d",
+      "revId": "2f22473790ed8ac742b148a1208b144b6cae4999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGXX///3w\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-06-07T20:20:16Z",
       "side": 1,
       "message": "OK.  Please put those types of comments in Gerrit, not here. :)",
+      "revId": "2f22473790ed8ac742b148a1208b144b6cae4999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGan///+Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-06-07T20:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGXX///3w\u003d",
       "revId": "2f22473790ed8ac742b148a1208b144b6cae4999",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -33,6 +33,24 @@
       "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGT3///lo\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-06-07T01:07:38Z",
+      "side": 1,
+      "message": "It\u0027s used in change I3d52fd2875e1910e76d1593ca57f4a9fdd732ee2 outside the class.",
+      "parentUuid": "AAAGT3///nA\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

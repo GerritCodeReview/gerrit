@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGXX///z4\u003d",
+        "filename": "ReleaseNotes/index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-07T22:05:46Z",
+      "side": 1,
+      "message": "I think the precedent has been to put this after the full release (see 19, 30, 41)",
+      "revId": "f130758932749462ad65681470c7c7d3d909e7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGXX///z8\u003d",
+        "filename": "ReleaseNotes/index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-07T22:05:46Z",
+      "side": 1,
+      "message": "Hmm, was this a typo or were there no 2.1.1.1 RNs?",
+      "revId": "f130758932749462ad65681470c7c7d3d909e7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

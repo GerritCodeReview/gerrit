@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGXX///vk\u003d",
+        "filename": "ReleaseNotes/index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-07T23:13:31Z",
+      "side": 1,
+      "message": "I missed those, I guess we see what we want to see. :)\n\nI like this better, but it does not matter much to me (consistency does):\n 2.4\n 2.4.1\n 2.4.2",
+      "parentUuid": "AAAGZn////U\u003d",
+      "revId": "f130758932749462ad65681470c7c7d3d909e7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGXX///z8\u003d",
         "filename": "ReleaseNotes/index.txt",
         "patchSetId": 2

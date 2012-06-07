@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGXn///7g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-06-07T16:20:46Z",
+      "side": 1,
+      "message": "It looks like the output will be:\n\n[] \u003ca href\u003d\"...\"\u003eReviewed\u003c/a\u003e\n\nI don\u0027t like that it reduces the click area to uncheck the box to only the box (instead of the box and the text). Also, it is not clear that the link would have the specified behavior.\n\nI would suggest something like:\n[] Reviewed | \u003ca href\u003d\"...\"\u003eReview and continue \u003d\u003e\u003c/a\u003e\n\nI am not sure about the precise text, but this makes more. Some other versions that could work:\n\nReview and continue \u003d\u003e\nReviewed \u003d\u003e\nMark as reviewed \u003d\u003e\nReview and next unreviewed \u003d\u003e\n\nOr you could just make part of the text link:\n[] Reviewed \u003ca href\u003d\"...\"\u003eand continue \u003d\u003e\u003c/a\u003e\n[] Reviewed \u003ca href\u003d\"...\"\u003eand next unreviewed \u003d\u003e\u003c/a\u003e\n\n\nI think this is my favorite:\n[] Reviewed \u003ca href\u003d\"...\"\u003eand continue \u003d\u003e\u003c/a\u003e",
+      "revId": "8dc0f63febfd0292e604e31b030aa270950ec450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

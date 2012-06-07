@@ -16,6 +16,24 @@
       "revId": "c347a0b534d9fef53c2056254ee88da8e4e88b86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGZn////k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-07T19:38:08Z",
+      "side": 1,
+      "message": "sorry, I have not se this comment before submitting",
+      "parentUuid": "AAAGVX////Q\u003d",
+      "revId": "c347a0b534d9fef53c2056254ee88da8e4e88b86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGZn////U\u003d",
+        "filename": "ReleaseNotes/index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-07T22:55:40Z",
+      "side": 1,
+      "message": "What about 2.1.7.2 (line 27) which comes before 2.1.7 (line 28)?\n\nAnd also look at the lines 34-38 where several 2.1.2.x releases are listed before the 2.1.2 in the line 39.\n\nI agree we should have a rule how to sort releases within a major release. What do you like more:\n\n 2.4.2\n 2.4.1\n 2.4\n\nor:\n\n 2.4\n 2.4.1\n 2.4.2\n\n?",
+      "parentUuid": "AAAGXX///z4\u003d",
+      "revId": "f130758932749462ad65681470c7c7d3d909e7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGXX///z8\u003d",
         "filename": "ReleaseNotes/index.txt",
         "patchSetId": 2

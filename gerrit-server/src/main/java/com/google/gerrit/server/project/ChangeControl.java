@@ -189,6 +189,7 @@ public class ChangeControl {
         || getRefControl().isOwner() // branch owner can abandon
         || getProjectControl().isOwner() // project owner can abandon
         || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
+        || getRefControl().canAbandon() // user can abandon a specific ref
     ;
   }
 

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAGZ3///+c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-07T17:54:20Z",
+      "side": 1,
+      "message": "Why are we escaping the body?  We weren\u0027t doing this before.  If we do this to the body, should we do it to the summary as well?\n\nIf there is a reason we need to escape the body, I\u0027d recommend adding a comment above this line describing the situation.",
+      "revId": "e61dd14990d22bb12d6781457cde68648a92ad4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGVX////w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.ui.xml",
         "patchSetId": 3

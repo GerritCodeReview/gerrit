@@ -46,8 +46,11 @@ OPTIONS
 	Allows listing of projects together with their respective
 	description.
 +
-Line-feeds are escaped to allow ls-project to keep the
-"one project per line"-style.
+For text format output, all non-printable characters (ASCII value 31 or
+less) are escaped according to the conventions used in languages like C,
+Python, and Perl, employing standard sequences like `\n` and `\t`, and
+`\xNN` for all others. In shell scripts, the `printf` command can be
+used to unescape the output.
 
 --tree::
 -t::

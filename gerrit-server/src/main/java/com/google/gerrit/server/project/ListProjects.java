@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.StringUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
@@ -269,7 +270,7 @@ public class ListProjects {
 
         if (info.description != null) {
           // We still want to list every project as one-liners, hence escaping \n.
-          stdout.print(" - " + info.description.replace("\n", "\\n"));
+          stdout.print(" - " + StringUtil.escapeString(info.description));
         }
         stdout.print('\n');
       }

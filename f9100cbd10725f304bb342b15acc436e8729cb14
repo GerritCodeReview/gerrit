@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGXX////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ChangeIdHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-07T04:25:36Z",
+      "side": 1,
+      "message": "But what if the token already has refs/heads in it?  I think there is a function somewhere to help handle such a \"translation\" already.",
+      "revId": "f9100cbd10725f304bb342b15acc436e8729cb14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

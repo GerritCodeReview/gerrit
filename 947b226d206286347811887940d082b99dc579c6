@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGYH////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-06-07T15:38:53Z",
+      "side": 1,
+      "message": "Maybe \u0027.\u0027 after ChangeTable2 and then \u0027If the ...\u0027. Those statements seem independent and read better as two sentences.",
+      "revId": "947b226d206286347811887940d082b99dc579c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAGX3////Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-08T01:11:43Z",
+      "side": 1,
+      "message": "rewritting -\u003e rewriting",
+      "revId": "4c2dd325a55e776246eb12695b9b6af20ab6ed2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGan////E\u003d",
         "filename": "contrib/git-exproll.sh",
         "patchSetId": 2
@@ -13,6 +30,91 @@
       "writtenOn": "2012-06-07T18:24:10Z",
       "side": 1,
       "message": "I\u0027d also suggest -h or --help for this as well.",
+      "revId": "4c2dd325a55e776246eb12695b9b6af20ab6ed2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGX3////c\u003d",
+        "filename": "contrib/git-exproll.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-08T01:11:43Z",
+      "side": 1,
+      "message": "Maybe mention the default here?",
+      "revId": "4c2dd325a55e776246eb12695b9b6af20ab6ed2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGX3////k\u003d",
+        "filename": "contrib/git-exproll.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-08T01:11:43Z",
+      "side": 1,
+      "message": "preceeded -\u003e preceded",
+      "revId": "4c2dd325a55e776246eb12695b9b6af20ab6ed2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGX3////g\u003d",
+        "filename": "contrib/git-exproll.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-08T01:11:43Z",
+      "side": 1,
+      "message": "pack files -\u003e packfiles",
+      "revId": "4c2dd325a55e776246eb12695b9b6af20ab6ed2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGX3////Y\u003d",
+        "filename": "contrib/git-exproll.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-08T01:11:43Z",
+      "side": 1,
+      "message": "discrepency -\u003e discrepancy",
+      "revId": "4c2dd325a55e776246eb12695b9b6af20ab6ed2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGX3////U\u003d",
+        "filename": "contrib/git-exproll.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-08T01:11:43Z",
+      "side": 1,
+      "message": "\"be tell\" -\u003e \"tell\"",
       "revId": "4c2dd325a55e776246eb12695b9b6af20ab6ed2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

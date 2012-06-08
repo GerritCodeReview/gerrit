@@ -1,0 +1,276 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGe3///+I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "final",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "this local is only scoped to the finally block. declare it within the finally block.",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "bad formatting here",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "do not use log4j. please use sfl4j.",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///90\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "a bunch of things have moved to subclasses of RestApiServlet, and are going to continue moving there. you don\u0027t handle that in this change. do you want to do generic auditing support there too? or just code to audit the specific subclasses?",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "nit: declare a logger first",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "these should be final",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "init in field declaration",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "delete?",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "log this?",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "Gson instances are thread safe and can be reused across threads",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "nit: indent one level when continuing a line",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "not all users have usernames, they might not have selected one for example. so calling them SYS is weird",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///94\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "uhm. isn\u0027t this shorter:\n\n  List\u003cObject\u003e args \u003d Lists.newArrayList(Arrays.asList(all.getParams());\n  for (int idx : note.obfuscate()) {\n    args.set(idx, \"****\");\n  }\n  return args;",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "this really should be final. if you keep the try/catch null check null in get result approach, use a local variable in the try/catch to store the field value before you set it into the class member.",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///+c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-08T21:23:08Z",
+      "side": 1,
+      "message": "future calls in getResult are going to unexpectedly NPE because of this. either handle this in getResult or fail harder in the static block with a thrown runtime exception or error to prevent the class from initializing, and thus the server from running.",
+      "revId": "159886d0c00949488d24634909602faf30f4c58b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

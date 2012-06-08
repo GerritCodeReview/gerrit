@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.base.Charsets;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -24,8 +25,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /** Creates a {@link FromAddressGenerator} from the {@link GerritServerConfig} */
 @Singleton
@@ -121,7 +126,7 @@ public class FromAddressGeneratorProvider implements
   }
 
   static final class PatternGen implements FromAddressGenerator {
-    private final String senderEmail;
+    private final ParameterizedString senderEmailPattern;
     private final Address serverAddress;
     private final AccountCache accountCache;
     private final String anonymousCowardName;
@@ -130,7 +135,7 @@ public class FromAddressGeneratorProvider implements
     PatternGen(final Address serverAddress, final AccountCache accountCache,
         final String anonymousCowardName,
         final ParameterizedString namePattern, final String senderEmail) {
-      this.senderEmail = senderEmail;
+      this.senderEmailPattern = new ParameterizedString(senderEmail);
       this.serverAddress = serverAddress;
       this.accountCache = accountCache;
       this.anonymousCowardName = anonymousCowardName;
@@ -158,7 +163,25 @@ public class FromAddressGeneratorProvider implements
         senderName = serverAddress.name;
       }
 
+      String senderEmail;
+      if (senderEmailPattern.getParameterNames().isEmpty()) {
+        senderEmail = senderEmailPattern.getRawPattern();
+      } else {
+        senderEmail = senderEmailPattern
+            .replace("userHash", hashOf(senderName))
+            .toString();
+      }
       return new Address(senderName, senderEmail);
+    }
+  }
+
+  private static String hashOf(String data) {
+    try {
+      MessageDigest hash = MessageDigest.getInstance("MD5");
+      byte[] bytes = hash.digest(data.getBytes(Charsets.UTF_8));
+      return Base64.encodeBase64URLSafeString(bytes);
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException("No MD5 available", e);
     }
   }
 }

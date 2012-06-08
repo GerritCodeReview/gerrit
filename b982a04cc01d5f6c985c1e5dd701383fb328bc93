@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGc3////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-06-08T07:02:29Z",
+      "side": 1,
+      "message": "PatchTable$MyTable.onClick(ClickEvent) line: 299 will also call  movePointerTo(cell.getRowIndex());\n\n sorry I try every corner and cannot find the difference after adding this line.",
+      "revId": "b982a04cc01d5f6c985c1e5dd701383fb328bc93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

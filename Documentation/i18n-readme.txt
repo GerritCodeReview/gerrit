@@ -1,7 +1,7 @@
 Gerrit Code Review - i18n
 =========================
 
-Aside from actually writing translations, there's some issues with
+Aside from actually writing translations, there are some issues with
 the way the code produces output.  Most of the UI should support
 right-to-left (RTL) languages.
 

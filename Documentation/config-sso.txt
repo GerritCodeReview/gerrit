@@ -146,7 +146,7 @@ To enable this form of authentication:
 The auth.type must always be HTTP, indicating the user identity
 will be obtained from the HTTP authorization data.
 
-The auth.httpHeader indicates which HTTP header field the Siteminder
+The auth.httpHeader indicates in which HTTP header field the Siteminder
 product has stored the username.  Usually this is "SM_USER", but
 may differ in your environment.  Please refer to your organization's
 single sign-on or security group to ensure the setting is correct.

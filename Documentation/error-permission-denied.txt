@@ -1,7 +1,7 @@
 Permission denied (publickey)
 =============================
 
-With this error message a SSH command to Gerrit is rejected if the
+With this error message an SSH command to Gerrit is rejected if the
 SSH authentication is not successful.
 
 The link:http://en.wikipedia.org/wiki/Secure_Shell[SSH] protocol uses link:http://en.wikipedia.org/wiki/Public-key_cryptography[Public-key Cryptography] for authentication.

@@ -199,7 +199,7 @@ Site Customization
 ------------------
 
 Gerrit Code Review supports some site-specific customization options.
-For more information, see the related topic in this manual:
+For more information, see the related topics in this manual:
 
 * link:config-reverseproxy.html[Reverse Proxy]
 * link:config-sso.html[Single Sign-On Systems]

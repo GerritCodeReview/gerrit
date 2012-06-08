@@ -20,7 +20,7 @@ In particular this error occurs:
 4. if you push a lightweight tag without the access right link:access-control.html#category_create['Create
    Reference'] for the reference name 'refs/tags/*'
 
-For new users it happens often that they accidentally try to bypass
+For new users it often happens that they accidentally try to bypass
 code review. The push then fails with the error message 'prohibited
 by Gerrit' because the project didn't allow to bypass code review.
 Bypassing the code review is done by pushing directly to refs/heads/*

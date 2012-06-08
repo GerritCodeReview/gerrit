@@ -192,7 +192,7 @@ because Status=Submitted is considered a closed issue.
 Mailing List
 ~~~~~~~~~~~~
 
-* Send an email to the mailing list to annouce the release
+* Send an email to the mailing list to announce the release
 * Consider including some or all of the following in the email:
 ** A link to the release and the release notes (if a final release)
 ** A link to the docs

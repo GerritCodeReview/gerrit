@@ -27,7 +27,7 @@ Linux distributions.
 Alternatively, if Gerrit is served behind reverse proxy, it can
 generate different URLs for gitweb's links (they need to be
 rewritten to `<gerrit>/gitweb?args` on the web server). This allows
-for serving gitweb under different URL than the Gerrit instance.
+for serving gitweb under a different URL than the Gerrit instance.
 To enable this feature, set both: `gitweb.cgi` and `gitweb.url`.
 
 ====

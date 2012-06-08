@@ -27,7 +27,7 @@ applied to the code base. However Gerrit goes a step further making it
 simple for all committers on a project to ensure that changes are
 checked over before they're actually applied. Because of this Gerrit
 is equally useful where all users are trusted committers such as may
-the case with closed-source commercial development. Either way it's
+be the case with closed-source commercial development. Either way it's
 still desirable to have code reviewed to improve the quality and
 maintainability of the code. After all, if only one person has seen
 the code it may be a little difficult to maintain when that person
@@ -337,7 +337,7 @@ HEAD is now at d5dacdb... Change to a proper, yeast based pizza dough.
 Easy as that, we now have the change in our working copy to play with.
 You might be interested in what the numbers of the refspec mean.
 
-* The first *68* is the id if the change +mod 100+.  The only reason
+* The first *68* is the id of the change +mod 100+.  The only reason
 for this initial number is to reduce the number of files in any given
 directory within the git repository.
 * The second *68* is the full id of the change. You'll notice this in
@@ -379,7 +379,7 @@ main screen. Just as Code Review and Verify are different operations
 that can be done by different users, Submission is a third operation
 that can be limited down to another group of users.
 
-Activating the _Publish and Submit_ or _Submit Patch Set X_ button
+Clicking the _Publish and Submit_ or _Submit Patch Set X_ button
 will merge the change into the main part of the repository so that it
 becomes an accepted part of the project. After this anyone fetching
 the git repository will receive this change as a part of the master

@@ -44,7 +44,7 @@ is configured and enabled within the DataSource.
 +
 If you enabled Bouncy Castle Crypto during 'init', copy the JAR
 from `'$site_path'/lib` into your servlet container's extensions
-directory so its available to Gerrit Code Review.
+directory so it's available to Gerrit Code Review.
 
 
 Jetty 7.x

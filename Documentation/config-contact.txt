@@ -48,7 +48,7 @@ person's name here, but instead some sort of organizational role.
 The actual values chosen don't matter later, and are only to help
 document the purpose of the key.
 
-Chose a fairly long expiration period, such as 20 years.  For most
+Choose a fairly long expiration period, such as 20 years.  For most
 Gerrit instances, contact data will be written once, and rarely,
 if ever, read back.
 

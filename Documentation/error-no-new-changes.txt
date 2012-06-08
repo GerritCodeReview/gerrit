@@ -3,7 +3,7 @@ no new changes
 
 With this error message Gerrit rejects to push a commit if the pushed
 commit was already successfully pushed to Gerrit. In this case there
-is no new change and consequently there is nothing to do for Gerrit.
+is no new change and consequently there is nothing for Gerrit to do.
 
 If your push is failing with this error message, you normally
 don't have to do anything since the commit was already successfully

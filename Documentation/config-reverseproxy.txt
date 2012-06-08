@@ -5,7 +5,7 @@ Description
 -----------
 
 Gerrit can be configured to run behind a third-party web server.
-This allows the other web server to bind to the privileged ports 80
+This allows the other web server to bind to the privileged port 80
 (or 443 for SSL), as well as offloads the SSL processing overhead
 from Java to optimized native C code.
 

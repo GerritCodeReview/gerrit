@@ -2,11 +2,11 @@ you are not allowed to upload merges
 ====================================
 
 With this error message Gerrit rejects to push a merge commit if the
-pushing user has no permissions to upload merge commits for the
+pushing user has no permission to upload merge commits for the
 project to which the push is done.
 
 If you need to upload merge commits, you can contact one of the
-project owners and request permissions to upload merge commits
+project owners and request permission to upload merge commits
 (access right link:access-control.html#category_push_merge['Push Merge Commit'])
 for this project.
 

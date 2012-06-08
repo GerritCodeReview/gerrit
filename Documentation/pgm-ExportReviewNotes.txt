@@ -14,7 +14,7 @@ DESCRIPTION
 -----------
 Scans every submitted change and creates an initial notes
 branch detailing the previous submission information for
-each merged changed.
+each merged change.
 
 This task can take quite some time, but can run in the background
 concurrently to the server if the database is MySQL or PostgreSQL.

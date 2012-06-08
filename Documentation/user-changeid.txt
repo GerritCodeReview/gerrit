@@ -4,7 +4,7 @@ Gerrit Code Review - Change-Ids
 Description
 -----------
 
-Gerrit Code Review sometimes relies upon Change-Id lines in the
+Gerrit Code Review sometimes relies upon a Change-Id line at the
 bottom of a commit message to uniquely identify a change across all
 drafts of it.  By including a unique Change-Id in the commit message,
 Gerrit can automatically associate a new version of a change back
@@ -37,7 +37,7 @@ is the unique identity assigned to this change.  It does not match
 the commit name, `29a6...`, as the change may have been amended or
 rebased to address reviewer comments since its initial inception.
 
-To avoid confusion with commit names, Change-Ids typically are with
+To avoid confusion with commit names, Change-Ids are typically prefixed with
 an uppercase `I`.
 
 Creation
@@ -125,7 +125,7 @@ When faced with multiple lines, try to preserve a line which was
 already uploaded to Gerrit Code Review, and thus has a corresponding
 change that reviewers have already examined and left comments on.
 If you aren't sure which lines Gerrit knows about, try copying and
-pasting the lines into the search box in the top-right.
+pasting the lines into the search box at the top-right of the web interface.
 
 If Gerrit already knows about more than one Change-Id, pick one
 to keep in the squashed commit message, and manually abandon the

@@ -19,7 +19,7 @@ Creates a new Gerrit server installation, interactively prompting
 for some basic setup prior to writing default configuration files
 into a newly created `$site_path`.
 
-If run an an existing `$site_path`, init will upgrade some resources
+If run in an existing `$site_path`, init will upgrade some resources
 as necessary.
 
 OPTIONS

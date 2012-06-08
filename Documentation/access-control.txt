@@ -23,7 +23,7 @@ This is the Gerrit "root" identity.
 
 Users in the 'Administrators' group can perform any action under
 the Admin menu, to any group or project, without further validation
-of any other access controls.  In most installations only those
+or any other access controls.  In most installations only those
 users who have direct filesystem and database access would be
 placed into this group.
 
@@ -459,7 +459,7 @@ Create reference
 The create reference category controls whether it is possible to
 create new references, branches or tags.  This implies that the
 reference must not already exist, it's not a destructive permission
-in that you can't overwrite or remove any previosuly existing
+in that you can't overwrite or remove any previously existing
 references (and also discard any commits in the process).
 
 It's probably most common to either permit the creation of a single
@@ -470,7 +470,7 @@ This permission is often given in conjunction with regular push
 branch permissions, allowing the holder of both to create new branches
 as well as bypass review for new commits on that branch.
 
-To push lightweight (non annotated) tags, grant
+To push lightweight (non-annotated) tags, grant
 `Create Reference` for reference name `refs/tags/*`, as lightweight
 tags are implemented just like branches in Git.
 
@@ -823,7 +823,7 @@ Examples of typical roles in a project
 
 Below follows a set of typical roles on a server and which access
 rights these roles typically should be granted. You may see them as
-general guide lines for a typical way to set up your project on a
+general guidelines for a typical way to set up your project on a
 brand new Gerrit instance.
 
 [[examples_contributor]]
@@ -906,8 +906,8 @@ submit of the change even if someone else sets `Verify` +1.  Depending on the
 project and how much the CI system can be trusted for accurate results, a
 blocking label might not be feasible.  A recommended alternative is to set the
 label `Code-review` to -1 instead, as it isn't a blocking label but still
-shows a red label in the Gerrit UI.  Optionally; to enable the possibility to
-deliver different results (build error vs unstable for instance) it's also
+shows a red label in the Gerrit UI.  Optionally, to enable the possibility to
+deliver different results (build error vs unstable for instance), it's also
 possible to set `Code-review` +1 as well.
 
 If pushing new changes is granted, it's possible to automate cherry-pick of

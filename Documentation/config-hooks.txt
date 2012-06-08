@@ -88,7 +88,7 @@ Called whenever a user signs a contributor license agreement
 Configuration Settings
 ----------------------
 
-It is possible to change where gerrit looks for hooks, and what
+It is possible to change where Gerrit looks for hooks, and what
 filenames it looks for by adding a [hooks] section to gerrit.config.
 
 Gerrit will use the value of hooks.path for the hooks directory, and

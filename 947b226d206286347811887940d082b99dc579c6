@@ -16,6 +16,24 @@
       "revId": "947b226d206286347811887940d082b99dc579c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGX3////I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-06-08T01:47:37Z",
+      "side": 1,
+      "message": "Split them into two paragraphs to make it more clear.\n\nDone.",
+      "parentUuid": "AAAGYH////0\u003d",
+      "revId": "947b226d206286347811887940d082b99dc579c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

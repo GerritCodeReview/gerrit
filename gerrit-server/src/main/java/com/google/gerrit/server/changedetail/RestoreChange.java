@@ -121,8 +121,7 @@ public class RestoreChange implements Callable<ReviewResult> {
         new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
-            if (change.getStatus() == Change.Status.ABANDONED
-                && change.currentPatchSetId().equals(patchSetId)) {
+            if (change.getStatus() == Change.Status.ABANDONED) {
               change.setStatus(Change.Status.NEW);
               ChangeUtil.updated(change);
               return change;
@@ -132,10 +131,14 @@ public class RestoreChange implements Callable<ReviewResult> {
           }
         });
 
-    ChangeUtil.updatedChange(
-        db, currentUser, updatedChange, cmsg, restoredSenderFactory,
-        "Change is not abandoned or patchset is not latest");
+    if (updatedChange == null) {
+      result.addError(new ReviewResult.Error(
+          ReviewResult.Error.Type.CHANGE_NOT_ABANDONED));
+      return result;
+    }
 
+    ChangeUtil.updatedChange(db, currentUser, updatedChange, cmsg,
+                             restoredSenderFactory);
     hooks.doChangeRestoreHook(updatedChange, currentUser.getAccount(),
                               changeComment, db);
 

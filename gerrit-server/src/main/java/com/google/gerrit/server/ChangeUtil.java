@@ -585,12 +585,8 @@ public class ChangeUtil {
 
   public static <T extends ReplyToChangeSender> void updatedChange(
       final ReviewDb db, final IdentifiedUser user, final Change change,
-      final ChangeMessage cmsg, ReplyToChangeSender.Factory<T> senderFactory,
-      final String err) throws NoSuchChangeException,
-      InvalidChangeOperationException, EmailException, OrmException {
-    if (change == null) {
-      throw new InvalidChangeOperationException(err);
-    }
+      final ChangeMessage cmsg, ReplyToChangeSender.Factory<T> senderFactory)
+      throws NoSuchChangeException, EmailException, OrmException {
     db.changeMessages().insert(Collections.singleton(cmsg));
 
     new ApprovalsUtil(db, null).syncChangeStatus(change);

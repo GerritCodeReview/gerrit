@@ -102,8 +102,7 @@ public class AbandonChange implements Callable<ReviewResult> {
           new AtomicUpdate<Change>() {
         @Override
         public Change update(Change change) {
-          if (change.getStatus().isOpen()
-              && change.currentPatchSetId().equals(patchSetId)) {
+          if (change.getStatus().isOpen()) {
             change.setStatus(Change.Status.ABANDONED);
             ChangeUtil.updated(change);
             return change;
@@ -112,9 +111,15 @@ public class AbandonChange implements Callable<ReviewResult> {
           }
         }
       });
-      ChangeUtil.updatedChange(
-          db, currentUser, updatedChange, cmsg, abandonedSenderFactory,
-          "Change is no longer open or patchset is not latest");
+
+      if (updatedChange == null) {
+        result.addError(new ReviewResult.Error(
+            ReviewResult.Error.Type.CHANGE_IS_CLOSED));
+        return result;
+      }
+
+      ChangeUtil.updatedChange(db, currentUser, updatedChange, cmsg,
+                               abandonedSenderFactory);
       hooks.doChangeAbandonedHook(updatedChange, currentUser.getAccount(),
                                   changeComment, db);
     }

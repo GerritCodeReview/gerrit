@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGcn///94\u003d",
+        "filename": "ReleaseNotes/index.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-08T14:37:17Z",
+      "side": 1,
+      "message": "I like the youngest first order more:\n\n 2.4.2\n 2.4.1\n 2.4\n\nThe major releases are also sorted in this order (the youngest on top).\nAnd if I look at the downloads page:\n\nhttp://code.google.com/p/gerrit/downloads/list?can\u003d1\u0026q\u003d\u0026colspec\u003dFilename+Summary+Uploaded+ReleaseDate+Size+DownloadCount\n\nthe 2.2.2.1 appears before 2.2.2. Actually it seems to be sorted chronologically bottom to top:\n\n 2.2.2.1\n 2.2.2\n 2.2.2-rc1\n 2.2.2-rc0\n\nAre you OK with this order or shall we ask Shawn and Edwin for their opinions?",
+      "parentUuid": "AAAGXX///vk\u003d",
+      "revId": "f130758932749462ad65681470c7c7d3d909e7e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGXX///z8\u003d",
         "filename": "ReleaseNotes/index.txt",
         "patchSetId": 2

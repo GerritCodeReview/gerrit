@@ -63,6 +63,9 @@ public class ReviewResult {
       /** Review operation invalid because change is closed. */
       CHANGE_IS_CLOSED,
 
+      /** Review operation invalid because change is not abandoned. */
+      CHANGE_NOT_ABANDONED,
+
       /** Not permitted to publish this draft patch set */
       PUBLISH_NOT_PERMITTED,
 

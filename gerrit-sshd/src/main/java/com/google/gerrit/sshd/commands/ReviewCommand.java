@@ -248,6 +248,9 @@ public class ReviewCommand extends SshCommand {
         case CHANGE_IS_CLOSED:
           errMsg += "change is closed";
           break;
+        case CHANGE_NOT_ABANDONED:
+          errMsg += "change is not abandoned";
+          break;
         case PUBLISH_NOT_PERMITTED:
           errMsg += "not permitted to publish change";
           break;

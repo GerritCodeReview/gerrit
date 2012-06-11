@@ -6,3 +6,6 @@
 /test_site
 /.idea
 /gerrit-parent.iml
+/gwtexpui
+/gwtjsonrpc
+/gwtorm

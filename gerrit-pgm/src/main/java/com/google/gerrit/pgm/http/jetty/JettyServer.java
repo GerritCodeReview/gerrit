@@ -116,7 +116,7 @@ public class JettyServer {
     Handler app = makeContext(env, cfg);
     if (cfg.getBoolean("httpd", "requestlog", !reverseProxy)) {
       RequestLogHandler handler = new RequestLogHandler();
-      handler.setRequestLog(new HttpLog(site));
+      handler.setRequestLog(new HttpLog(site, cfg));
       handler.setHandler(app);
       app = handler;
     }

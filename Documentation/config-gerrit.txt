@@ -847,6 +847,15 @@ unused mapped spaces fast enough.
 Default on JGit is false. Although potentially slower, it yields
 much more predictable behavior.
 
+[[core.asyncLoggingBufferSize]]core.asyncLoggingBufferSize::
++
+Size of the buffer to store logging events for asynchronous logging.
+Putting a larger value can protect threads from stalling when the
+AsyncAppender threads are not fast enough to consume the logging events
+from the buffer. It also protects from loosing log entries in this case.
++
+Default is 64 entries.
+
 [[database]]Section database
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

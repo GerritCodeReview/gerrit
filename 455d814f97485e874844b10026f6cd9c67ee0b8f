@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGhH////s\u003d",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010178
+      },
+      "writtenOn": "2012-06-11T06:40:04Z",
+      "side": 1,
+      "message": "Can\u0027t we add them to .gitignore by default for the gerrit.git repository?",
+      "revId": "455d814f97485e874844b10026f6cd9c67ee0b8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

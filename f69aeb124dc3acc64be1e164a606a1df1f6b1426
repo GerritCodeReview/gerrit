@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGfX///3Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-11T19:59:03Z",
+      "side": 1,
+      "message": "This part is a bit confusing, are you fixing that here? (it doesn\u0027t look like it).",
+      "revId": "f69aeb124dc3acc64be1e164a606a1df1f6b1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///xY\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-11T19:59:03Z",
+      "side": 1,
+      "message": "It feels strange to have the default set in 2 places (here and in the ssh class), is there anyway to improve that?",
+      "revId": "f69aeb124dc3acc64be1e164a606a1df1f6b1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGe3///h0\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-06-12T20:45:41Z",
+      "side": 1,
+      "message": "Nit: comma after \"If true\"",
+      "revId": "5b57cbd7920ace147a9e4413ff5d14d1d4cb40fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGfH///xI\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1885,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-06-12T20:45:41Z",
+      "side": 1,
+      "message": "ISTM you could change this fairly easily?",
+      "revId": "5b57cbd7920ace147a9e4413ff5d14d1d4cb40fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

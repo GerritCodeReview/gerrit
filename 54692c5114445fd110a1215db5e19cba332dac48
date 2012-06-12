@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGfH///wQ\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1886,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-06-12T21:56:32Z",
+      "side": 1,
+      "message": "Heh. This is not technically true; what limits the size of emails is the number of changes, which is not bounded by that variable. But I can see where that\u0027s so unlikely as to not bear mentioning.",
+      "revId": "54692c5114445fd110a1215db5e19cba332dac48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGe3///gU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-06-12T21:56:32Z",
+      "side": 1,
+      "message": "Did you want to inform the user, like \"An error occurred formatting the patch\"?",
+      "revId": "54692c5114445fd110a1215db5e19cba332dac48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

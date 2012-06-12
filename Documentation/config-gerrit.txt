@@ -1879,6 +1879,14 @@ email from Gerrit.
 +
 By default, unset, permitting delivery to any email address.
 
+[[sendemail.includeDiff]]sendemail.includeDiff::
++
+If true, new change emails from Gerrit will include the complete
+unified diff of the change. There is no upper limit on how large
+the email can get when this option is enabled.
++
+By default, false.
+
 [[sendemail.importance]]sendemail.importance::
 +
 If present, emails sent from Gerrit will have the given level

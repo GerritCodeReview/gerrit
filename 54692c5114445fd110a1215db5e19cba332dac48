@@ -33,6 +33,24 @@
       "revId": "54692c5114445fd110a1215db5e19cba332dac48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGfX///jA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/NewChangeSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-12T23:27:15Z",
+      "side": 1,
+      "message": "No, we just drop it...",
+      "parentUuid": "AAAGe3///gU\u003d",
+      "revId": "54692c5114445fd110a1215db5e19cba332dac48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

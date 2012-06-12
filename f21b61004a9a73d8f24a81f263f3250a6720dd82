@@ -16,6 +16,24 @@
       "revId": "f21b61004a9a73d8f24a81f263f3250a6720dd82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGfn///7o\u003d",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-06-12T14:03:48Z",
+      "side": 1,
+      "message": "Fair enough; even a beginner Gerrit developer would know how to deal with the situation.",
+      "parentUuid": "AAAGhH///+w\u003d",
+      "revId": "f21b61004a9a73d8f24a81f263f3250a6720dd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

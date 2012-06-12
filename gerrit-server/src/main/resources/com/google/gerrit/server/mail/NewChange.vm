@@ -52,6 +52,7 @@ $email.changeDetail
 #if($email.sshHost)
   git pull ssh://$email.sshHost/$projectName $patchSet.refName
 #end
+#if($email.includeDiff)
 
-## It is possible to include the patch as a unified diff in the email:
-#$email.UnifiedDiff
+$email.UnifiedDiff
+#end

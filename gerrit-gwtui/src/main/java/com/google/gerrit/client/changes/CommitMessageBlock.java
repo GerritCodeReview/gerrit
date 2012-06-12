@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Composite;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.PreElement;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -50,7 +51,7 @@ public class CommitMessageBlock extends Composite {
 
     // Hide commit body if there is no body
     if (commitBody.trim().isEmpty()) {
-      commitBodyPre.setAttribute("style", "display: none;");
+      commitBodyPre.getStyle().setDisplay(Display.NONE);
     }
 
     // Linkify commit summary

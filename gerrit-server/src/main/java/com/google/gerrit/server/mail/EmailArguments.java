@@ -55,6 +55,7 @@ class EmailArguments {
   final Provider<ChangeQueryRewriter> queryRewriter;
   final Provider<ReviewDb> db;
   final RuntimeInstance velocityRuntime;
+  final EmailSettings settings;
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
@@ -68,7 +69,8 @@ class EmailArguments {
       AllProjectsName allProjectsName,
       ChangeQueryBuilder.Factory queryBuilder,
       Provider<ChangeQueryRewriter> queryRewriter, Provider<ReviewDb> db,
-      RuntimeInstance velocityRuntime) {
+      RuntimeInstance velocityRuntime,
+      EmailSettings settings) {
     this.server = server;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
@@ -86,5 +88,6 @@ class EmailArguments {
     this.queryRewriter = queryRewriter;
     this.db = db;
     this.velocityRuntime = velocityRuntime;
+    this.settings = settings;
   }
 }

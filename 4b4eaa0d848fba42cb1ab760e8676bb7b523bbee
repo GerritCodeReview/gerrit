@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGe3///go\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-06-12T21:43:53Z",
+      "side": 1,
+      "message": "\"If true new,\" -\u003e \"If true, new\"",
+      "revId": "4b4eaa0d848fba42cb1ab760e8676bb7b523bbee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

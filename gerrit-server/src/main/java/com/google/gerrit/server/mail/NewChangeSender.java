@@ -22,16 +22,19 @@ import com.google.gerrit.server.ssh.SshInfo;
 
 import com.jcraft.jsch.HostKey;
 
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.RawParseUtils;
-
+import org.eclipse.jgit.util.TemporaryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -107,38 +110,77 @@ public abstract class NewChangeSender extends ChangeEmail {
 
   /** Show patch set as unified difference.  */
   public String getUnifiedDiff() {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    Repository repo = getRepository();
-    if (repo != null) {
-      DiffFormatter df = new DiffFormatter(out);
-      try {
-        PatchList patchList = getPatchList();
-        if (patchList.getOldId() != null) {
-          df.setRepository(repo);
-          df.setDetectRenames(true);
-          df.format(patchList.getOldId(), patchList.getNewId());
-        }
-      } catch (PatchListNotAvailableException e) {
-        log.error("Cannot format patch", e);
-      } catch (IOException e) {
-        log.error("Cannot format patch", e);
-      } finally {
-        df.release();
-        repo.close();
-      }
-    }
-    return RawParseUtils.decode(out.toByteArray());
-  }
-
-  private Repository getRepository() {
+    PatchList patchList;
     try {
-      return args.server.openRepository(change.getProject());
-    } catch (RepositoryNotFoundException e) {
-      log.error("Cannot open repository", e);
-      return null;
+      patchList = getPatchList();
+      if (patchList.getOldId() == null) {
+        // Octopus merges are not well supported for diff output by Gerrit.
+        // Currently these always have a null oldId in the PatchList.
+        return "";
+      }
+    } catch (PatchListNotAvailableException e) {
+      log.error("Cannot format patch", e);
+      return "";
+    }
+
+    TemporaryBuffer.Heap buf =
+        new TemporaryBuffer.Heap(args.settings.maximumDiffSize);
+    DiffFormatter fmt = new DiffFormatter(buf);
+    Repository git;
+    try {
+      git = args.server.openRepository(change.getProject());
     } catch (IOException e) {
-      log.error("Cannot open repository", e);
-      return null;
+      log.error("Cannot open repository to format patch", e);
+      return "";
+    }
+    try {
+      fmt.setRepository(git);
+      fmt.setDetectRenames(true);
+
+      List<DiffEntry> entries =
+          fmt.scan(patchList.getOldId(), patchList.getNewId());
+      try {
+        fmt.format(entries);
+        return RawParseUtils.decode(buf.toByteArray());
+      } catch (IOException err) {
+        if (!JGitText.get().inMemoryBufferLimitExceeded.equals(err.getMessage())) {
+          throw err;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (DiffEntry e : entries) {
+          switch (e.getChangeType()) {
+            case ADD:
+              sb.append("A    ").append(e.getNewPath());
+              break;
+            case MODIFY:
+              sb.append("M    ").append(e.getNewPath());
+              break;
+            case DELETE:
+              sb.append("D    ").append(e.getOldPath());
+              break;
+            case RENAME:
+              sb.append(String.format("R%03d %s\n     to %s",
+                  e.getScore(), e.getOldPath(), e.getNewPath()));
+              break;
+            case COPY:
+              sb.append(String.format("C%03d %s\n     from %s",
+                  e.getScore(), e.getNewPath(), e.getOldPath()));
+              break;
+          }
+          sb.append('\n');
+        }
+        sb.append(String.format(
+            " %d files changed, %d insertions(+), %d deletions(-)\n",
+            entries.size(), patchList.getInsertions(), patchList.getDeletions()));
+        return sb.toString();
+      }
+    } catch (IOException e) {
+      log.error("Cannot format patch", e);
+      return "";
+    } finally {
+      fmt.release();
+      git.close();
     }
   }
 }

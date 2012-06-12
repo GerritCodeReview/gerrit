@@ -66,6 +66,11 @@ public final class DisabledChangeHooks implements ChangeHooks {
   }
 
   @Override
+  public void doDraftPublishedHook(Change change, PatchSet patchSet,
+      ReviewDb db) {
+  }
+
+  @Override
   public void doRefUpdatedHook(NameKey refName, RefUpdate refUpdate,
       Account account) {
   }

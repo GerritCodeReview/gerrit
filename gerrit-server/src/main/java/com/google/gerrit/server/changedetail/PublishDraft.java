@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.changedetail;
 
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -37,14 +38,17 @@ public class PublishDraft implements Callable<ReviewResult> {
 
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
+  private final ChangeHooks hooks;
 
   private final PatchSet.Id patchSetId;
 
   @Inject
   PublishDraft(ChangeControl.Factory changeControlFactory,
-      ReviewDb db, @Assisted final PatchSet.Id patchSetId) {
+      ReviewDb db, @Assisted final PatchSet.Id patchSetId,
+      final ChangeHooks hooks) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
+    this.hooks = hooks;
 
     this.patchSetId = patchSetId;
   }
@@ -82,7 +86,7 @@ public class PublishDraft implements Callable<ReviewResult> {
 
       final Change change = db.changes().get(changeId);
       if (change.getStatus() == Change.Status.DRAFT) {
-        db.changes().atomicUpdate(changeId,
+        final Change updatedChange = db.changes().atomicUpdate(changeId,
             new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
@@ -95,6 +99,11 @@ public class PublishDraft implements Callable<ReviewResult> {
             }
           }
         });
+
+        if ((updatedChange != null) &&
+            (updatedChange.getStatus() == Change.Status.NEW)) {
+          hooks.doDraftPublishedHook(updatedChange, patch, db);
+        }
       }
     }
 

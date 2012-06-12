@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGfX///lo\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1884,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-12T20:47:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGe3///h0\u003d",
+      "revId": "5b57cbd7920ace147a9e4413ff5d14d1d4cb40fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGfH///xI\u003d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-12T20:45:41Z",
       "side": 1,
       "message": "ISTM you could change this fairly easily?",
+      "revId": "5b57cbd7920ace147a9e4413ff5d14d1d4cb40fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGfX///lk\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1885,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-12T20:47:49Z",
+      "side": 1,
+      "message": "I will put this into a new change.",
+      "parentUuid": "AAAGfH///xI\u003d",
       "revId": "5b57cbd7920ace147a9e4413ff5d14d1d4cb40fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "28a950b75fc5369c312980354cf09786e47c314a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGfX///ik\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-12T23:38:25Z",
+      "side": 1,
+      "message": "Its already being done by the changeDetail display. We show the commit message, and the file paths affected, and the damage (lines inserted/deleted).",
+      "parentUuid": "AAAGe3///fA\u003d",
+      "revId": "28a950b75fc5369c312980354cf09786e47c314a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

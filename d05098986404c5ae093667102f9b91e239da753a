@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGhH////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-12T07:02:53Z",
+      "side": 1,
+      "message": "Since InvalidChangeOperationException cannot occur anymore, I think it would be nice to remove it from the method signature here.\n\nIf we do this, we can also remove InvalidChangeOperationException from the AbandonChangeHandler.call() method.",
+      "revId": "d05098986404c5ae093667102f9b91e239da753a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGhH////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RestoreChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-12T07:02:53Z",
+      "side": 1,
+      "message": "Since InvalidChangeOperationException cannot occur anymore, I think it would be nice to remove it from the method signature here.\n\nIf we do this, we can also remove InvalidChangeOperationException from the RestoreChangeHandler.call() method.",
+      "revId": "d05098986404c5ae093667102f9b91e239da753a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

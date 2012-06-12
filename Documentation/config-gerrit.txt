@@ -1882,10 +1882,18 @@ By default, unset, permitting delivery to any email address.
 [[sendemail.includeDiff]]sendemail.includeDiff::
 +
 If true, new change emails from Gerrit will include the complete
-unified diff of the change. There is no upper limit on how large
-the email can get when this option is enabled.
+unified diff of the change. Variable maxmimumDiffSize places an upper
+limit on how large the email can get when this option is enabled.
 +
 By default, false.
+
+[[sendemail.maximumDiffSize]]sendemail.maximumDiffSize::
++
+Largest size of unified diff output to include in an email. When
+the diff exceeds this size the file paths will be listed instead.
+Standard byte unit suffixes are supported.
++
+By default, 256 KiB.
 
 [[sendemail.importance]]sendemail.importance::
 +

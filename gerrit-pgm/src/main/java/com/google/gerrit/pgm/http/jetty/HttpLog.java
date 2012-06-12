@@ -93,7 +93,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   private void doLog(Request req, Response rsp, CurrentUser user) {
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
-        null, // logger (optional)
+        log, // logger
         System.currentTimeMillis(), // when
         Level.INFO, // level
         "", // message text

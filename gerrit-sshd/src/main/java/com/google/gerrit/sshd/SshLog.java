@@ -99,7 +99,7 @@ class SshLog implements LifecycleListener {
   void onAuthFail(final SshSession sd) {
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
-        null, // logger (optional)
+        log, // logger
         System.currentTimeMillis(), // when
         Level.INFO, // level
         "AUTH FAILURE FROM " + sd.getRemoteAddressAsString(), // message text
@@ -168,7 +168,7 @@ class SshLog implements LifecycleListener {
 
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
-        null, // logger (optional)
+        log, // logger
         System.currentTimeMillis(), // when
         Level.INFO, // level
         msg, // message text

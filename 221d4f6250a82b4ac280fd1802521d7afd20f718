@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGhH///+8\u003d",
+        "filename": "Documentation/error-non-fast-forward.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-12T13:40:20Z",
+      "side": 1,
+      "message": "[optional] I think the non-fast forward error message is really coming from the Git repository and you can also get it if you\u0027re not having Gerrit but just working with pure Git. So \u0027Git\u0027 was intended here in this sentence. However I agree that this detail might not be relevant for a Gerrit user reading this documentation and having it as Gerrit here might be just fine.",
+      "revId": "221d4f6250a82b4ac280fd1802521d7afd20f718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

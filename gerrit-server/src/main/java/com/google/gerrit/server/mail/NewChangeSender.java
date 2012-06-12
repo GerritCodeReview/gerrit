@@ -101,6 +101,10 @@ public abstract class NewChangeSender extends ChangeEmail {
     return host;
   }
 
+  public boolean getIncludeDiff() {
+    return args.settings.includeDiff;
+  }
+
   /** Show patch set as unified difference.  */
   public String getUnifiedDiff() {
     ByteArrayOutputStream out = new ByteArrayOutputStream();

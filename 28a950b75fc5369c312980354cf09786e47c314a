@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGe3///fA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-06-12T23:34:05Z",
+      "side": 1,
+      "message": "This doesn\u0027t appear to be true anymore in the latest patch set.",
+      "revId": "28a950b75fc5369c312980354cf09786e47c314a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

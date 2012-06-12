@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGhH///+w\u003d",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010178
+      },
+      "writtenOn": "2012-06-12T13:54:26Z",
+      "side": 1,
+      "message": "I\u0027d skip the entire section on that, it\u0027s really up to the individual where to place his source code, it just makes the guide a bit too detailed.",
+      "revId": "f21b61004a9a73d8f24a81f263f3250a6720dd82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

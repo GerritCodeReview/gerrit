@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGfX///pI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-06-12T17:22:48Z",
+      "side": 1,
+      "message": "nit: I\u0027d probably include the arrow icon, as seen at the end of the next file name link to catch the eye better, but this makes sense to me too.",
+      "revId": "ed4c55ec7e03a3f34318031d14ae0b27048ce16e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

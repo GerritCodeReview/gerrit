@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.server.mail.Address;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;

@@ -27,7 +27,6 @@ import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
-import org.eclipse.jgit.lib.Constants;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 

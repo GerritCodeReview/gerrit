@@ -26,8 +26,6 @@ import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.lib.Constants;
-
 import java.util.Collections;
 
 public class CreateProjectHandler extends Handler<VoidResult> {

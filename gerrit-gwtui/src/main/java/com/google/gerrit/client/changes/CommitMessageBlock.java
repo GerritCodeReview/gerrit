@@ -14,56 +14,29 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gwt.user.client.ui.Composite;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.PreElement;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class CommitMessageBlock extends Composite {
-  interface Binder extends UiBinder<HTMLPanel, CommitMessageBlock> {
-  }
-
-  private static Binder uiBinder = GWT.create(Binder.class);
-
-  @UiField
-  PreElement commitSummaryPre;
-  @UiField
-  PreElement commitBodyPre;
+  private final HTML description;
 
   public CommitMessageBlock() {
-    initWidget(uiBinder.createAndBindUi(this));
+    description = new HTML();
+    description.setStyleName(Gerrit.RESOURCES.css().changeScreenDescription());
+    initWidget(description);
   }
 
   public void display(final String commitMessage) {
-    String commitSummary = "";
-    String commitBody = "";
-
-    String[] splitCommitMessage = commitMessage.split("\n", 2);
-    commitSummary = splitCommitMessage[0];
-    commitBody = splitCommitMessage[1];
-
-    // Hide commit body if there is no body
-    if (commitBody.trim().isEmpty()) {
-      commitBodyPre.setAttribute("style", "display: none;");
-    }
-
-    // Linkify commit summary
-    SafeHtml commitSummaryLinkified = new SafeHtmlBuilder().append(commitSummary);
-    commitSummaryLinkified = commitSummaryLinkified.linkify();
-    commitSummaryLinkified = CommentLinkProcessor.apply(commitSummaryLinkified);
-
-    // Linkify commit body
-    SafeHtml commitBodyLinkified = new SafeHtmlBuilder().append(commitBody);
-    commitBodyLinkified = commitBodyLinkified.linkify();
-    commitBodyLinkified = CommentLinkProcessor.apply(commitBodyLinkified);
-
-    commitSummaryPre.setInnerHTML(commitSummaryLinkified.asString());
-    commitBodyPre.setInnerHTML(commitBodyLinkified.asString());
+    SafeHtml msg = new SafeHtmlBuilder().append(commitMessage);
+    msg = msg.linkify();
+    msg = CommentLinkProcessor.apply(msg);
+    msg = new SafeHtmlBuilder().openElement("p").append(msg).closeElement("p");
+    msg = msg.replaceAll("\n\n", "</p><p>");
+    msg = msg.replaceAll("\n", "<br />");
+    SafeHtml.set(description, msg);
   }
 }

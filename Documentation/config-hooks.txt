@@ -24,10 +24,19 @@ patchset-created
 ~~~~~~~~~~~~~~~~
 
 This is called whenever a patchset is created (this includes new
-changes).
+changes and drafts).
 
 ====
   patchset-created --change <change id> --change-url <change url> --project <project name> --branch <branch> --uploader <uploader> --commit <sha1> --patchset <patchset id>
+====
+
+draft-published
+~~~~~~~~~~~~~~~
+
+This is called whenever a draft change is published.
+
+====
+  draft-published --change <change id> --change-url <change url> --project <project name> --branch <branch> --uploader <uploader> --commit <sha1> --patchset <patchset id>
 ====
 
 comment-added
@@ -94,8 +103,9 @@ filenames it looks for, by adding a [hooks] section in gerrit.config.
 Gerrit will use the value of hooks.path for the hooks directory.
 
 For the hook filenames, Gerrit will use the values of hooks.patchsetCreatedHook,
-hooks.commentAddedHook, hooks.changeMergedHook, hooks.changeAbandonedHook,
-hooks.changeRestoredHook, hooks.refUpdatedHook and hooks.claSignedHook.
+hooks.draftPublishedHook, hooks.commentAddedHook, hooks.changeMergedHook,
+hooks.changeAbandonedHook, hooks.changeRestoredHook, hooks.refUpdatedHook and
+hooks.claSignedHook.
 
 Missing Change URLs
 -------------------

@@ -37,6 +37,7 @@ import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.ChangeRestoreEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
+import com.google.gerrit.server.events.DraftPublishedEvent;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
@@ -97,6 +98,9 @@ public class ChangeHookRunner implements ChangeHooks {
 
     /** Filename of the new patchset hook. */
     private final File patchsetCreatedHook;
+
+    /** Filename of the draft published hook. */
+    private final File draftPublishedHook;
 
     /** Filename of the new comments hook. */
     private final File commentAddedHook;
@@ -163,6 +167,7 @@ public class ChangeHookRunner implements ChangeHooks {
         final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
 
         patchsetCreatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "patchsetCreatedHook", "patchset-created")).getPath());
+        draftPublishedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "draftPublishedHook", "draft-published")).getPath());
         commentAddedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "commentAddedHook", "comment-added")).getPath());
         changeMergedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeMergedHook", "change-merged")).getPath());
         changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
@@ -235,6 +240,28 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--patchset", event.patchSet.number);
 
         runHook(change.getProject(), patchsetCreatedHook, args);
+    }
+
+    public void doDraftPublishedHook(final Change change, final PatchSet patchSet,
+          final ReviewDb db) throws OrmException {
+        final DraftPublishedEvent event = new DraftPublishedEvent();
+        final AccountState uploader = accountCache.get(patchSet.getUploader());
+
+        event.change = eventFactory.asChangeAttribute(change);
+        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+        event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
+        fireEvent(change, event, db);
+
+        final List<String> args = new ArrayList<String>();
+        addArg(args, "--change", event.change.id);
+        addArg(args, "--change-url", event.change.url);
+        addArg(args, "--project", event.change.project);
+        addArg(args, "--branch", event.change.branch);
+        addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
+        addArg(args, "--commit", event.patchSet.revision);
+        addArg(args, "--patchset", event.patchSet.number);
+
+        runHook(change.getProject(), draftPublishedHook, args);
     }
 
     public void doCommentAddedHook(final Change change, final Account account,

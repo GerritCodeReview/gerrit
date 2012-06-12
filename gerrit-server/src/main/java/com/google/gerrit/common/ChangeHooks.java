@@ -47,6 +47,16 @@ public interface ChangeHooks {
       ReviewDb db) throws OrmException;
 
   /**
+   * Fire the Draft Published Hook.
+   *
+   * @param change The change itself.
+   * @param patchSet The Patchset that was created.
+   * @throws OrmException
+   */
+  public void doDraftPublishedHook(Change change, PatchSet patchSet,
+      ReviewDb db) throws OrmException;
+
+  /**
    * Fire the Comment Added Hook.
    *
    * @param change The change itself.

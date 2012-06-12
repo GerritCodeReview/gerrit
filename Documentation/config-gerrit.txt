@@ -1180,6 +1180,11 @@ Optional path to hooks, if not specified then `'$site_path'/hooks` will be used.
 Optional filename for the patchset created hook, if not specified then
 `patchset-created` will be used.
 
+[[hooks.draftPublishedHook]]hooks.draftPublishedHook::
++
+Optional filename for the draft published hook, if not specified then
+`draft-published` will be used.
+
 [[hooks.commentAddedHook]]hooks.commentAddedHook::
 +
 Optional filename for the comment added hook, if not specified then

@@ -29,7 +29,8 @@ public class ProjectUtil {
    *
    * @param repoManager Git repository manager to open the git repository
    * @param branch the branch for which it should be checked if it exists
-   * @return <code>true</code> if the specified branch exists, otherwise
+   * @return <code>true</code> if the specified branch exists or if
+   *         <code>HEAD</code> points to this branch, otherwise
    *         <code>false</code>
    * @throws RepositoryNotFoundException the repository of the branch's project
    *         does not exist.
@@ -40,7 +41,11 @@ public class ProjectUtil {
       IOException {
     final Repository repo = repoManager.openRepository(branch.getParentKey());
     try {
-      return repo.getRef(branch.get()) != null;
+      boolean exists = repo.getRef(branch.get()) != null;
+      if (!exists) {
+        exists = repo.getFullBranch().equals(branch.get());
+      }
+      return exists;
     } finally {
       repo.close();
     }

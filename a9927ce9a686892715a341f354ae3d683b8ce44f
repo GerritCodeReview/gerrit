@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGg3///9o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-13T09:30:27Z",
+      "side": 1,
+      "message": "the preferredPopupWidth member variable was now removed, I\u0027m not sure if this comment is still applicable now, I would propose to remove it",
+      "revId": "a9927ce9a686892715a341f354ae3d683b8ce44f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

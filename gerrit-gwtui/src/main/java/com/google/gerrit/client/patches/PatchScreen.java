@@ -298,7 +298,8 @@ public abstract class PatchScreen extends Screen implements
   protected void onLoad() {
     super.onLoad();
 
-    fileList.movePointerTo(patchKey);
+    if (fileList != null)
+      fileList.movePointerTo(patchKey);
 
     if (patchSetDetail == null) {
       Util.DETAIL_SVC.patchSetDetail(idSideB,

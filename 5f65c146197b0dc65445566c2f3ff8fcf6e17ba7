@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGg3///8w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-13T13:22:58Z",
+      "side": 1,
+      "message": "maybe better:\n\n  Do not automatically add author/committer as reviewer to drafts",
+      "revId": "5f65c146197b0dc65445566c2f3ff8fcf6e17ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGg3///8s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-13T13:22:58Z",
+      "side": 1,
+      "message": "s/author is/author and committer are",
+      "revId": "5f65c146197b0dc65445566c2f3ff8fcf6e17ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGg3///8o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-13T13:22:58Z",
+      "side": 1,
+      "message": "s/committer/change owner",
+      "revId": "5f65c146197b0dc65445566c2f3ff8fcf6e17ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGg3///8k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-13T13:22:58Z",
+      "side": 1,
+      "message": "s/add/adds",
+      "revId": "5f65c146197b0dc65445566c2f3ff8fcf6e17ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

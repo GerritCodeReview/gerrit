@@ -298,8 +298,6 @@ public abstract class PatchScreen extends Screen implements
   protected void onLoad() {
     super.onLoad();
 
-    fileList.movePointerTo(patchKey);
-
     if (patchSetDetail == null) {
       Util.DETAIL_SVC.patchSetDetail(idSideB,
           new GerritCallback<PatchSetDetail>() {
@@ -371,6 +369,9 @@ public abstract class PatchScreen extends Screen implements
     final int rpcseq = ++rpcSequence;
     lastScript = null;
     settingsPanel.setEnabled(false);
+    if (isFirst && fileList != null) {
+      fileList.movePointerTo(patchKey);
+    }
     PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB, //
         settingsPanel.getValue(), new ScreenLoadCallback<PatchScript>(this) {
           @Override

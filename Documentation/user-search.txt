@@ -268,7 +268,7 @@ Change has been merged into the branch.
 
 status:abandoned::
 +
-Change has been abandoned by the change owner, or an administrator.
+Change has been abandoned.
 
 
 Boolean Operators

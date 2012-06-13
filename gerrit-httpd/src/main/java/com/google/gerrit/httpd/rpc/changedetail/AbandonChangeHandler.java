@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -61,9 +60,8 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
 
   @Override
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
-      EmailException, NoSuchEntityException, InvalidChangeOperationException,
-      PatchSetInfoNotAvailableException, RepositoryNotFoundException,
-      IOException {
+      EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException,
+      RepositoryNotFoundException, IOException {
     final ReviewResult result =
         abandonChangeFactory.create(patchSetId.getParentKey(), message).call();
     if (result.getErrors().size() > 0) {

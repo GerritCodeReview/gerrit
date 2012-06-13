@@ -26,7 +26,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.project.ChangeControl;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -69,8 +68,8 @@ public class AbandonChange implements Callable<ReviewResult> {
   }
 
   @Override
-  public ReviewResult call() throws EmailException,
-      InvalidChangeOperationException, NoSuchChangeException, OrmException {
+  public ReviewResult call() throws EmailException, NoSuchChangeException,
+      OrmException {
     final ReviewResult result = new ReviewResult();
     result.setChangeId(changeId);
 
@@ -102,8 +101,7 @@ public class AbandonChange implements Callable<ReviewResult> {
           new AtomicUpdate<Change>() {
         @Override
         public Change update(Change change) {
-          if (change.getStatus().isOpen()
-              && change.currentPatchSetId().equals(patchSetId)) {
+          if (change.getStatus().isOpen()) {
             change.setStatus(Change.Status.ABANDONED);
             ChangeUtil.updated(change);
             return change;
@@ -112,9 +110,15 @@ public class AbandonChange implements Callable<ReviewResult> {
           }
         }
       });
-      ChangeUtil.updatedChange(
-          db, currentUser, updatedChange, cmsg, abandonedSenderFactory,
-          "Change is no longer open or patchset is not latest");
+
+      if (updatedChange == null) {
+        result.addError(new ReviewResult.Error(
+            ReviewResult.Error.Type.CHANGE_IS_CLOSED));
+        return result;
+      }
+
+      ChangeUtil.updatedChange(db, currentUser, updatedChange, cmsg,
+                               abandonedSenderFactory);
       hooks.doChangeAbandonedHook(updatedChange, currentUser.getAccount(),
                                   changeComment, db);
     }

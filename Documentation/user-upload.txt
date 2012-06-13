@@ -46,7 +46,7 @@ and paste it into Gerrit's web interface:
 
 [TIP]
 Users who frequently upload changes will also want to consider
-starting a `ssh-agent`, and adding their private key to the list
+starting an `ssh-agent`, and adding their private key to the list
 managed by the agent, to reduce the frequency of entering the
 key's passphrase.  Consult `man ssh-agent`, or your SSH client's
 documentation, for more details on configuration of the agent
@@ -57,7 +57,7 @@ Testing Connections
 ~~~~~~~~~~~~~~~~~~~
 
 To verify your SSH key is working correctly, try using an SSH client
-to connect to Gerrit's SSHD port.  By default Gerrit is running on
+to connect to Gerrit's SSHD port.  By default Gerrit runs on
 port 29418, using the same hostname as the web server:
 
 ====
@@ -104,7 +104,7 @@ git push
 Create Changes
 ~~~~~~~~~~~~~~
 
-To create new changes for review, simply push into the project's
+To create new changes for review, simply push to the project's
 magical `refs/for/'branch'` ref using any Git client tool:
 
 ====

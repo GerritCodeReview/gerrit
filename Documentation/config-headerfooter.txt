@@ -42,7 +42,7 @@ and may be referenced in `GerritSite{Header,Footer}.html`
 or `GerritSite.css` by the relative URL `static/$name`
 (e.g. `static/logo.png`).
 
-To simplify security management, only files are served from
+To simplify security management, files are only served from
 `'$site_path'/static`.  Subdirectories are explicitly forbidden from
 being served from this location by enforcing the rule that file names
 cannot contain `/` or `\`.  (Client requests for `static/foo/bar`

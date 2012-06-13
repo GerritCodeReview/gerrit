@@ -11,22 +11,22 @@ change
 ------
 The Gerrit change being reviewed, or that was already reviewed.
 
-project:: Project path in Gerrit
+project:: Project path in Gerrit.
 
-branch:: Branch name within project
+branch:: Branch name within project.
 
-topic:: Topic name specified by the uploader for this change series
+topic:: Topic name specified by the uploader for this change series.
 
 id:: Change identifier, as scraped out of the Change-Id field in
 the commit message, or as assigned by the server if it was missing.
 
-number:: Change number (deprecated)
+number:: Change number (deprecated).
 
-subject:: Description of change
+subject:: Description of change.
 
-owner:: Owner in <<account,account attribute>>
+owner:: Owner in <<account,account attribute>>.
 
-url:: Canonical URL to reach this change
+url:: Canonical URL to reach this change.
 
 commitMessage:: The full commit message for the change.
 
@@ -118,7 +118,7 @@ oldRev:: The old value of the ref, prior to the update.
 
 newRev:: The new value the ref was updated to.
 
-project:: Project path in Gerrit
+project:: Project path in Gerrit.
 
 refName:: Ref name within project.
 

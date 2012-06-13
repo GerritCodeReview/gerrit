@@ -9,7 +9,7 @@ the corresponding change in Gerrit, a dependency upon itself. Gerrit
 prevents such dependencies between patch sets within the same change
 to keep the review process simple. Otherwise reviewers would not only
 have to review the latest patch set but also all the patch sets the
-latest one is depending on.
+latest one depends on.
 
 This error is quite common, it appears when a user tries to address
 review comments and creates a new commit instead of amending the
@@ -93,8 +93,8 @@ the link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git doc
 ----
 
 If it was the intention to create a patch series with multiple
-changes to be reviewed each commit message should contain the
-Change-ID of the corresponding change in Gerrit, if a change in
+changes to be reviewed, each commit message should contain the
+Change-ID of the corresponding change in Gerrit.  If a change in
 Gerrit does not exist yet, the Change-ID should be generated (either
 by using a link:cmd-hook-commit-msg.html[commit hook] or by using EGit) or the Change-ID could be
 removed (not recommended since then amending this commit to create

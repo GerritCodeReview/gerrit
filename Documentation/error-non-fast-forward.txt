@@ -1,15 +1,15 @@
 non-fast forward
 ================
 
-With this error message Git rejects a push if the remote branch can't
+With this error message Gerrit rejects a push if the remote branch can't
 be fast forwarded onto the pushed commit. This is the case if the
 pushed commit is not based on the current tip of the remote branch.
 
 If a non-fast forward update would be done, all commits from the
 remote branch that succeed the base commit of the pushed commit would
 be removed. This would be especially confusing for other users that
-have based their work on such a commit. Because of this Git is by
-default not allowing non-fast forward updates.
+have based their work on such a commit. Because of this Git by
+default does not allow non-fast forward updates.
 
 When working with Gerrit, this error can only occur if
 link:user-upload.html#bypass_review[code review is bypassed].
@@ -46,7 +46,7 @@ should check the push specification and verify that you are pushing
 the commit to the correct project.
 
 
-Although it is considered as bad practice, it is possible to allow
+Although it is considered bad practice, it is possible to allow
 non-fast forward updates with Git. For this the remote Git repository
 has to be configured to not deny non-fast forward updates (set the
 link:http://www.kernel.org/pub/software/scm/git/docs/git-config.html[Git configuration] parameter 'receive.denyNonFastForwards' to

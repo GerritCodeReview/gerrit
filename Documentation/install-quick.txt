@@ -12,7 +12,7 @@ It is presumed you install it on a Unix based server such as any of the Linux
 flavors or BSD.
 
 It's also presumed that you have access to an OpenID enabled email address.
-Examples of OpenID enable email providers are gmail, yahoo and hotmail.
+Examples of OpenID enable email providers are Gmail, Yahoo! Mail and Hotmail.
 It's also possible to register a custom email address with OpenID, but that is
 outside the scope of this quick installation guide. For testing purposes one of
 the above providers should be fine. Please note that network access to the
@@ -42,7 +42,7 @@ If Java isn't installed, get it:
 Create a user to host the Gerrit service
 ----------------------------------------
 
-We will run the service as a non privileged user on your system.
+We will run the service as a non-privileged user on your system.
 First create the user and then become the user:
 
 ----
@@ -50,7 +50,7 @@ First create the user and then become the user:
   $ sudo su gerrit2
 ----
 
-If you don't have root privileges you could skip this step and run gerrit
+If you don't have root privileges you could skip this step and run Gerrit
 as your own user as well.
 
 
@@ -58,7 +58,7 @@ as your own user as well.
 Download Gerrit
 ---------------
 
-It's time to download the archive that contains the gerrit web and ssh service.
+It's time to download the archive that contains the Gerrit web and ssh service.
 
 You can choose from different versions to download from here:
 
@@ -87,8 +87,8 @@ It's time to run the initialization, and with the batch switch enabled, we don't
 When the init is complete, you can review your settings in the
 file `'$site_path/etc/gerrit.config'`.
 
-An important setting will be the canonicalWebUrl which will
-be needed later to access gerrit's web interface.
+An important setting is the canonicalWebUrl which will
+be needed later to access Gerrit's web interface.
 
 ----
   gerrit2@host:~$ cat ~/gerrit_testsite/etc/gerrit.config | grep canonical
@@ -216,7 +216,7 @@ Project creation
 Your base Gerrit server is now running and you have a user that's ready
 to interact with it.  You now have two options, either you create a new
 test project to work with or you already have a git with history that
-you would like to import into gerrit and try out code review on.
+you would like to import into Gerrit and try out code review on.
 
 New project from scratch
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -231,14 +231,14 @@ This is done via the SSH port:
   user@host:~$
 ----
 
-This will create a repository that you could clone to work with.
+This will create a repository that you can clone to work with.
 
 Already existing project
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 The other alternative is if you already have a git project that you
 want to try out Gerrit on.
-First you have to create the project, this is done via the SSH port:
+First you have to create the project.  This is done via the SSH port:
 
 ----
   user@host:~$ ssh -p 29418 user@localhost gerrit create-project --name demo-project
@@ -262,7 +262,7 @@ After that it's time to upload the previous history to the server:
   user@host:~/my-project$
 ----
 
-This will create a repository that you could clone to work with.
+This will create a repository that you can clone to work with.
 
 
 My first change
@@ -294,7 +294,7 @@ Then make a change to it and upload it as a reviewable change in Gerrit.
 
 Usually when you push to a remote git, you push to the reference
 `'/refs/heads/branch'`, but when working with Gerrit you have to push to a
-virtual branch representing "code review before submittal to branch".
+virtual branch representing "code review before submission to branch".
 This virtual name space is known as /refs/for/<branch>
 
 ----
@@ -319,11 +319,11 @@ Quick Installation Complete
 ---------------------------
 
 This covers the scope of getting Gerrit started and your first change uploaded.
-It doesn't give any clue as to how the review workflow works, please find
+It doesn't give any clue as to how the review workflow works, please read
 link:http://source.android.com/submit-patches/workflow[Default Workflow] to
 learn more about the workflow of Gerrit.
 
-To read more on the installation of Gerrit please read link:install.html[the detailed
+To read more on the installation of Gerrit please see link:install.html[the detailed
 installation page].
 
 

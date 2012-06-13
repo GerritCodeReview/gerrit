@@ -149,7 +149,7 @@ library] is used for evaluation of such patterns.
 [[tr,bug]]
 tr:'ID', bug:'ID'::
 +
-Search for changes whose commit message contains 'ID' and matched
+Search for changes whose commit message contains 'ID' and matches
 one or more of the
 link:config-gerrit.html#trackingid[trackingid sections]
 in the server's configuration file.  This is typically used to
@@ -166,7 +166,7 @@ of the argument.
 [[message]]
 message:'MESSAGE'::
 +
-Changes that matches 'MESSAGE' arbitrary string in body commit messages.
+Changes that match 'MESSAGE' arbitrary string in the commit message body.
 
 [[file]]
 file:^'REGEX'::
@@ -229,7 +229,7 @@ Same as `reviewer:self`.
 
 is:open::
 +
-True if the change is other open or submitted, merge pending.
+True if the change is either open or submitted, merge pending.
 
 is:draft::
 +
@@ -246,7 +246,7 @@ Same as <<status,status:'STATE'>>.
 [[status]]
 status:open::
 +
-True if the change state is other 'review in progress' or 'submitted,
+True if the change state is either 'review in progress' or 'submitted,
 merge pending'.
 
 status:reviewed::
@@ -268,7 +268,7 @@ Change has been merged into the branch.
 
 status:abandoned::
 +
-Change has been abandoned by the change owner, or administrator.
+Change has been abandoned by the change owner, or an administrator.
 
 
 Boolean Operators
@@ -304,7 +304,7 @@ that are returned, as more changes are considered.
 [[labels]]
 Labels
 ------
-Label operators can be used to match approval score given during
+Label operators can be used to match approval scores given during
 a code review.  The specific set of supported labels depends on
 the server configuration, however `CodeReview` and `Verified`
 are the default labels provided out of the box.
@@ -323,7 +323,7 @@ A label name is any of the following:
   of change list pages.  Example: `label:R` or `label:V`.
 
 A label name must be followed by a score, or an operator and a score.
-The easiest way to explain these are by example.
+The easiest way to explain this is by example.
 
 `label:CodeReview=2`::
 `label:CodeReview=+2`::
@@ -400,7 +400,7 @@ The special case `watchedby:self` applies to the caller.
 
 draftby:'USER'::
 +
-Matches changes that 'USER' has left unpublished drafts on.
+Matches changes that 'USER' has left unpublished draft comments on.
 Since the drafts are unpublished, it is not possible to see the
 draft text, or even how many drafts there are. The special case
 of `draftby:self` will find changes where the caller has created

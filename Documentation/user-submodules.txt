@@ -18,7 +18,7 @@ to identify if it registers git submodules (if the commit registers
 any gitlinks and .gitmodules file with required info) and if so,
 a new submodule subscription is registered.
 
-When a new commit of a registered submodule is merged, gerrit
+When a new commit of a registered submodule is merged, Gerrit
 automatically updates the subscribers to the submodule with a new
 commit having the updated gitlinks.
 
@@ -31,7 +31,7 @@ is to provide a brief overview, further details can be found
 in the official git submodule command documentation.
 
 Imagine a repository called 'super' and another one called 'a'.
-Also consider 'a' available in a running gerrit instance on "server".
+Also consider 'a' available in a running Gerrit instance on "server".
 With this feature, one could attach 'a' inside of 'super' repository
 at path 'a' by executing the following command when being inside
 'super':
@@ -86,12 +86,12 @@ has the same name as the destination branch of the commit having
 gitlinks/.gitmodules file.
 
 The branch field of a submodule section is a custom git submodule
-feature for gerrit use. One should always be sure to fill it in
+feature for Gerrit use. One should always be sure to fill it in
 editing .gitmodules file after adding submodules to a super project,
-if it is the intention to make use of the gerrit feature introduced here.
+if it is the intention to make use of the Gerrit feature introduced here.
 
 Any git submodules which are added and not have the branch field
-available in the .gitmodules file will not be subscribed by gerrit
+available in the .gitmodules file will not be subscribed by Gerrit
 to automatically update the superproject.
 
 Detecting and Subscribing Submodules
@@ -114,7 +114,7 @@ is updated.
 
 Imagine a superproject called 'super' having a branch called 'dev'
 having subscribed to a submodule 'a' on a branch 'dev-of-a'. When a commit
-is merged in branch 'dev-of-a' of 'a' project, gerrit automatically
+is merged in branch 'dev-of-a' of 'a' project, Gerrit automatically
 creates a new commit on branch 'dev' of 'super' updating the gitlink
 to point to the just merged commit.
 
@@ -123,11 +123,11 @@ Canonical Web Url
 
 Gerrit will automatically update only the superprojects that added
 the submodules of urls of the running server (the one described in
-the canonical web url value in gerrit configuration file).
+the canonical web url value in Gerrit configuration file).
 
 The Gerrit instance administrator group should always certify to
 provide the canonical web url value in its configuration file. Users
-should certify to use the url value of the running gerrit instance to
+should certify to use the url value of the running Gerrit instance to
 add/subscribe submodules.
 
 Removing Subscriptions

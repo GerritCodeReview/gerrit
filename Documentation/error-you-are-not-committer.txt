@@ -1,7 +1,7 @@
 you are not committer ...
 =========================
 
-Gerrit verifies for every pushed commit that the e-mail address of
+For every pushed commit Gerrit verifies that the e-mail address of
 the committer matches one of the registered e-mail addresses of the
 pushing user. If this is not the case pushing the commit fails with
 the error message "you are not committer ...". This policy can be
@@ -29,7 +29,7 @@ Configuration of e-mail address in Gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Check in Gerrit under 'Settings -> Identities' which e-mail addresses
-you've configured for your Gerrit account, if no e-mail address is
+you've configured for your Gerrit account.  If no e-mail address is
 registered go to 'Settings -> Contact Information' and register a new
 e-mail address there. Make sure you confirm your e-mail address by
 clicking on the link in the e-mail verification mail sent by Gerrit.

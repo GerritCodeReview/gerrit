@@ -54,7 +54,7 @@ change viewed on the web.
 OBTAINING
 ---------
 To obtain the 'commit-msg' script use scp, wget or curl to download it
-to your local system from your gerrit server.
+to your local system from your Gerrit server.
 
 You can use either of the below commands:
 

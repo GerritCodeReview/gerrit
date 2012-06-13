@@ -20,7 +20,7 @@ and modifying it will allow an administrator to customize the template.
 Supported Mail Templates:
 -------------------------
 
-Each mail that Gerrit sends out is controlled by at least one template, these
+Each mail that Gerrit sends out is controlled by at least one template.  These
 are listed below.  Change emails are influenced by two additional templates,
 one to set the subject line, and one to set the footer which gets appended to
 all the change emails (see `ChangeSubject.vm` and `ChangeFooter.vm` below.)
@@ -36,7 +36,7 @@ ChangeFooter.vm
 ~~~~~~~~~~~~~~~
 
 The `ChangeFooter.vm` template will determine the contents of the footer
-text that will be appended to emails related to changes (all `ChangeEmails)`.
+text that will be appended to emails related to changes (all `ChangeEmail`s).
 
 ChangeSubject.vm
 ~~~~~~~~~~~~~~~~
@@ -49,6 +49,7 @@ Comment.vm
 
 The `Comment.vm` template will determine the contents of the email related to
 a user submitting comments on changes.  It is a `ChangeEmail`: see
+`ChangeSubject.vm` and `ChangeFooter.vm`.
 
 Merged.vm
 ~~~~~~~~~
@@ -62,6 +63,7 @@ MergeFail.vm
 
 The `MergeFail.vm` template will determine the contents of the email related
 to a failure upon attempting to merge a change to the head.  It is a
+`ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
 
 NewChange.vm
 ~~~~~~~~~~~~
@@ -107,7 +109,7 @@ be necessary for anything more than a minor formatting change.
 Warning
 ~~~~~~~
 
-Be aware that modifying templates can cause them to fail to parse and therefor
+Be aware that modifying templates can cause them to fail to parse and therefore
 not send out the actual email, or worse, calling methods on the available
 objects could have internal side effects which would adversely affect the
 health of your Gerrit server and/or data.
@@ -125,7 +127,7 @@ or the current child class inherited from it.
 
 $messageClass::
 +
-A String containing the messageClass
+A String containing the messageClass.
 
 $StringUtils::
 +
@@ -139,35 +141,35 @@ All change related emails have the following additional variables available to t
 
 $change::
 +
-A reference to the current `Change` object
+A reference to the current `Change` object.
 
 $changeId::
 +
-Id of the current change (a `Change.Key`)
+Id of the current change (a `Change.Key`).
 
 $coverLetter::
 +
-The text of the `ChangeMessage`
+The text of the `ChangeMessage`.
 
 $branch::
 +
-A reference to the branch of this change (a `Branch.NameKey`)
+A reference to the branch of this change (a `Branch.NameKey`).
 
 $fromName::
 +
-The name of the from user
+The name of the from user.
 
 $projectName::
 +
-The name of this change's project
+The name of this change's project.
 
 $patchSet::
 +
-A reference to the current `PatchSet`
+A reference to the current `PatchSet`.
 
 $patchSetInfo::
 +
-A reference to the current `PatchSetInfo`
+A reference to the current `PatchSetInfo`.
 
 
 See Also

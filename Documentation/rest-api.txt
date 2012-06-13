@@ -32,7 +32,7 @@ by setting the `Accept` HTTP request header to include
 ----
 
 JSON responses are encoded using UTF-8 and use content type
-`application/json`. The JSON response body starts with magic prefix
+`application/json`. The JSON response body starts with a magic prefix
 line that must be stripped before feeding the rest of the response
 body to a JSON parser:
 

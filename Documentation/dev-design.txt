@@ -37,7 +37,7 @@ does not enforce peer-review prior to submission.
 
 Git is a distributed version control system, wherein each repository
 is assumed to be owned/maintained by a single user.  There are no
-inherit security controls built into Git, so the ability to read
+inherent security controls built into Git, so the ability to read
 from or write to a repository is controlled entirely by the host's
 filesystem access controls.  When multiple maintainers collaborate
 on a single shared repository a high degree of trust is required,

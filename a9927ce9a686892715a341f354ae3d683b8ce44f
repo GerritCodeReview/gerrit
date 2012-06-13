@@ -16,6 +16,24 @@
       "revId": "a9927ce9a686892715a341f354ae3d683b8ce44f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGhn///9o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-13T09:38:52Z",
+      "side": 1,
+      "message": "Particularly regret!  why did not I notice it :(\n\nnew patch coming. \n\nthanks !",
+      "parentUuid": "AAAGg3///9o\u003d",
+      "revId": "a9927ce9a686892715a341f354ae3d683b8ce44f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

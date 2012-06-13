@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGhn///9w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-13T10:48:50Z",
+      "side": 1,
+      "message": "Fixed in: https://gerrit-review.googlesource.com/36010",
+      "parentUuid": "AAAGfX///3Y\u003d",
+      "revId": "f69aeb124dc3acc64be1e164a606a1df1f6b1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGe3///xY\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
         "patchSetId": 4
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "It is at least not worse than it was ;-)\n\nI agree, we should have one place with that constant because we use the same default value both for SSH and for HTTP async logging buffer size.",
       "parentUuid": "AAAGe3///xY\u003d",
+      "revId": "f69aeb124dc3acc64be1e164a606a1df1f6b1426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGhn///9c\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-13T10:48:50Z",
+      "side": 1,
+      "message": "I wasn\u0027t finding a really good place to define this constant and would prefer to leave it like it is for now. We can refactor it later.",
+      "parentUuid": "AAAGg3///+c\u003d",
       "revId": "f69aeb124dc3acc64be1e164a606a1df1f6b1426",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

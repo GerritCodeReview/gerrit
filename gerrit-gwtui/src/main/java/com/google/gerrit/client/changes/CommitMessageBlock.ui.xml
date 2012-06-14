@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2012 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+
+  <ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
+  <ui:style>
+    @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
+    @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
+    @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
+
+    .commitMessageTable {
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-bottom: 10px;
+    }
+
+    .header {
+      background-color: trimColor;
+      white-space: nowrap;
+      color: textColor;
+      font-size: 10pt;
+      font-style: italic;
+      padding: 2px 6px 1px;
+    }
+
+    .contents {
+      border-bottom: 1px solid trimColor;
+      border-left: 1px solid trimColor;
+      border-right: 1px solid trimColor;
+      padding: 5px;
+    }
+
+    .contents span {
+      font-weight: bold;
+    }
+
+    .contents pre {
+      margin: 0;
+    }
+
+    .commitSummary {
+      font-weight: bold;
+    }
+
+    .commitBody {
+      margin-top: 10px;
+    }
+  </ui:style>
+
+  <g:HTMLPanel>
+    <table class='{style.commitMessageTable}'>
+      <tr><td class='{style.header}'>Commit Message</td></tr>
+      <tr><td class='{style.contents}'>
+        <pre class='{style.commitSummary} {res.css.changeScreenDescription}' ui:field='commitSummaryPre'/>
+        <pre class='{style.commitBody} {res.css.changeScreenDescription}' ui:field='commitBodyPre'/>
+      </td></tr>
+    </table>
+  </g:HTMLPanel>
+</ui:UiBinder>
+

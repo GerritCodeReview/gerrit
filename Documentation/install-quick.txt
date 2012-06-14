@@ -87,14 +87,28 @@ It's time to run the initialization, and with the batch switch enabled, we don't
 When the init is complete, you can review your settings in the
 file `'$site_path/etc/gerrit.config'`.
 
-An important setting is the canonicalWebUrl which will
-be needed later to access Gerrit's web interface.
+Note that initialization also starts the server.  If any settings changes are
+made, the server must be restarted before they will take effect.
 
 ----
-  gerrit2@host:~$ cat ~/gerrit_testsite/etc/gerrit.config | grep canonical
-  canonicalWebUrl = http://localhost:8080/
+  gerrit2@host:~$ ~/gerrit_testsite/bin/gerrit.sh restart
+  Stopping Gerrit Code Review: OK
+  Starting Gerrit Code Review: OK
   gerrit2@host:~$
 ----
+
+The server can be also stopped and started by passing the `stop` and `start`
+commands to gerrit.sh.
+
+----
+  gerrit2@host:~$ ~/gerrit_testsite/bin/gerrit.sh stop
+  Stopping Gerrit Code Review: OK
+  gerrit2@host:~$
+  gerrit2@host:~$ ~/gerrit_testsite/bin/gerrit.sh start
+  Starting Gerrit Code Review: OK
+  gerrit2@host:~$
+----
+
 [[usersetup]]
 The first user
 --------------
@@ -154,15 +168,32 @@ SSH key generation
 Registering your key in Gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Open a browser and enter the canonical url you got before when
-initializing Gerrit.
+Open a browser and enter the canonical url of your Gerrit server.  You can
+find the url in the settings file.
 
 ----
-  Canonical URL                [http://localhost:8080/]:
+  gerrit2@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config gerrit.canonicalWebUrl
+  http://localhost:8080/
+  gerrit2@host:~$
 ----
 
 Register a new account in Gerrit through the web interface with the
 email address of your choice.
+
+The default authentication type is OpenID.  If your Gerrit server is behind a
+proxy, and you are using an external OpenID provider, you will need to add the
+proxy settings in the configuration file.
+
+----
+  gerrit2@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxy http://proxy:8080
+  gerrit2@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxyUsername username
+  gerrit2@host:~$ git config -f ~/gerrit_testsite/etc/gerrit.config --add http.proxyPassword password
+----
+
+Refer to the Gerrit configuration guide for more detailed information about
+link:config-gerrit.html#auth[authentication] and
+link:config-gerrit.html#http.proxy[proxy] settings.
+
 The first user to sign-in and register an account will be
 automatically placed into the fully privileged Administrators group,
 permitting server management over the web and over SSH.  Subsequent

@@ -52,6 +52,24 @@
       "revId": "73197fc59c08777b9cf36cb184ba08e95a2d1516",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGk3////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-06-14T02:27:41Z",
+      "side": 1,
+      "message": "ok, I will flag this new or not for the signed-in user as a Boolean.",
+      "parentUuid": "AAAGkX///7s\u003d",
+      "revId": "73197fc59c08777b9cf36cb184ba08e95a2d1516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

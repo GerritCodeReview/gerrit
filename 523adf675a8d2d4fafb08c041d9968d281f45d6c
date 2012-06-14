@@ -69,6 +69,24 @@
       "revId": "523adf675a8d2d4fafb08c041d9968d281f45d6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGmH////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-14T09:28:52Z",
+      "side": 1,
+      "message": "I am wrong. I shift in new patchset",
+      "parentUuid": "AAAGmH////8\u003d",
+      "revId": "523adf675a8d2d4fafb08c041d9968d281f45d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

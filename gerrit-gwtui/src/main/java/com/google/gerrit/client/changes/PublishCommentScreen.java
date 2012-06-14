@@ -83,7 +83,7 @@ public class PublishCommentScreen extends AccountScreen implements
     addStyleName(Gerrit.RESOURCES.css().publishCommentsScreen());
 
     approvalButtons = new ArrayList<ValueRadioButton>();
-    descBlock = new ChangeDescriptionBlock();
+    descBlock = new ChangeDescriptionBlock(null);
     add(descBlock);
 
     final FormPanel form = new FormPanel();

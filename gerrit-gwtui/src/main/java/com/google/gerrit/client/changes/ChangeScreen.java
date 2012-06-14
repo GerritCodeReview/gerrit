@@ -160,16 +160,11 @@ public class ChangeScreen extends Screen
     keysNavigation.add(new ExpandCollapseDependencySectionKeyCommand(0, 'd', Util.C.expandCollapseDependencies()));
 
     if (Gerrit.isSignedIn()) {
-      StarredChanges.Icon star = StarredChanges.createIcon(changeId, false);
-      star.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());
-      setTitleWest(star);
-
-      keysAction.add(StarredChanges.newKeyCommand(star));
       keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
           .keyPublishComments()));
     }
 
-    descriptionBlock = new ChangeDescriptionBlock();
+    descriptionBlock = new ChangeDescriptionBlock(keysAction);
     add(descriptionBlock);
 
     approvals = new ApprovalTable();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGln///3Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-06-14T21:19:37Z",
+      "side": 1,
+      "message": "How expensive is this? Have you tested this on a change with a large number of comments (50 or more)?",
+      "revId": "dfdfc9ed6827d4580f6f0900f971d1bff5d7e7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

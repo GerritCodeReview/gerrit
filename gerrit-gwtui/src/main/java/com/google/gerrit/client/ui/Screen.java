@@ -83,8 +83,12 @@ public abstract class Screen extends View {
   }
 
   protected void setPageTitle(final String text) {
+    setPageTitle(text, true);
+  }
+
+  protected void setPageTitle(final String text, boolean showHeader) {
     final String old = headerText.getText();
-    if (text.isEmpty()) {
+    if (text.isEmpty() || !showHeader) {
       header.setVisible(false);
     } else {
       headerText.setText(text);

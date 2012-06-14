@@ -237,7 +237,7 @@ public class ChangeScreen extends Screen
         titleBuf.append(subject);
       }
     }
-    setPageTitle(titleBuf.toString());
+    setPageTitle(titleBuf.toString(), false);
   }
 
   @Override

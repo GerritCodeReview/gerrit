@@ -55,6 +55,7 @@
   padding-left: 5px;
   padding-right: 5px;
   background: topMenuColor;
+  margin-bottom: 5px;
 }
 .gerritTopMenu .gwt-TabBar .gwt-TabBarItem,
 .gerritTopMenu .gwt-TabBar .gwt-TabBarRest,

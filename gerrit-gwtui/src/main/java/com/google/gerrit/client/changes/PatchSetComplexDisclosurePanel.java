@@ -507,6 +507,55 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       actionsPanel.add(b);
     }
 
+    if (changeDetail.canSetWorkInProgress()) {
+      final Button b = new Button(Util.C.buttonWIPBegin());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          new ActionDialog(b, false, Util.C.setWIPTitle(),
+              Util.C.headingWIPMessage()) {
+            {
+              sendButton.setText(Util.C.buttonWIPSend());
+            }
+
+            @Override
+            public void onSend() {
+              Util.MANAGE_SVC.workInProgress(patchSet.getId(), getMessageText(),
+                  createCallback());
+            }
+          }.center();
+        }
+      });
+      actionsPanel.add(b);
+    }
+    // If the change is in a Work In Progress state, we can use the
+    // Ready For Review button to reset the state to "new" to indicate
+    // we are ready for reviewers to look at it again.
+    else if (changeDetail.getChange().getStatus() == Change.Status.WORKINPROGRESS
+        && changeDetail.canSetReadyForReview()) {
+      final Button b = new Button(Util.C.buttonReadyForReviewBegin());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          new ActionDialog(b, false, Util.C.setReadyForReviewTitle(),
+              Util.C.headingReadyForReviewMessage()) {
+            {
+              sendButton.setText(Util.C.buttonReadyForReviewSend());
+            }
+
+            @Override
+            public void onSend() {
+              Util.MANAGE_SVC.readyForReview(patchSet.getId(), getMessageText(),
+                  createCallback());
+            }
+          }.center();
+        }
+      });
+      actionsPanel.add(b);
+    }
+
     if (changeDetail.getChange().getStatus() == Change.Status.DRAFT
         && changeDetail.canDeleteDraft()) {
       final Button b = new Button(Util.C.buttonDeleteDraftChange());

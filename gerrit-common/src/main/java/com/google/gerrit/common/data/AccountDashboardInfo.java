@@ -15,7 +15,9 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Summary information needed to display an account dashboard. */
@@ -58,8 +60,17 @@ public class AccountDashboardInfo {
   }
 
   public void setForReview(List<ChangeInfo> c) {
-    forReview = c;
-  }
+    // Although a change that is "Work In Progress" is officially "open",
+    // we don't want to see those in our review list.
+    final ArrayList<ChangeInfo> r = new ArrayList<ChangeInfo>();
+    for (ChangeInfo ci: c) {
+      if (ci.getStatus() != Change.Status.WORKINPROGRESS) {
+        r.add(ci);
+      }
+    }
+
+    forReview = r;
+   }
 
   public List<ChangeInfo> getClosed() {
     return closed;

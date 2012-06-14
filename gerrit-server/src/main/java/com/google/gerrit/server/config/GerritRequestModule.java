@@ -30,8 +30,10 @@ import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
+import com.google.gerrit.server.changedetail.ReadyForReview;
 import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
+import com.google.gerrit.server.changedetail.WorkInProgress;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
@@ -44,10 +46,12 @@ import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
+import com.google.gerrit.server.mail.ReadyForReviewSender;
 import com.google.gerrit.server.mail.RebasedPatchSetSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.mail.RevertedSender;
+import com.google.gerrit.server.mail.WorkInProgressSender;
 import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.patch.RemoveReviewer;
@@ -90,6 +94,8 @@ public class GerritRequestModule extends FactoryModule {
     // easily park this stuff.
     //
     factory(AbandonChange.Factory.class);
+    factory(WorkInProgress.Factory.class);
+    factory(ReadyForReview.Factory.class);
     factory(AddReviewer.Factory.class);
     factory(AddReviewerSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
@@ -99,6 +105,8 @@ public class GerritRequestModule extends FactoryModule {
     factory(ReplacePatchSetSender.Factory.class);
     factory(RebasedPatchSetSender.Factory.class);
     factory(AbandonedSender.Factory.class);
+    factory(WorkInProgressSender.Factory.class);
+    factory(ReadyForReviewSender.Factory.class);
     factory(RemoveReviewer.Factory.class);
     factory(RestoreChange.Factory.class);
     factory(RestoredSender.Factory.class);

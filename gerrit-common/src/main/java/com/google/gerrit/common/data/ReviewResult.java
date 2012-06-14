@@ -82,7 +82,13 @@ public class ReviewResult {
       GIT_ERROR,
 
       /** The destination branch does not exist */
-      DEST_BRANCH_NOT_FOUND
+      DEST_BRANCH_NOT_FOUND,
+
+      /** Not permitted to set to Work In Progress. */
+      WORKINPROGRESS_NOT_PERMITTED,
+
+      /** Not permitted to set from Work In Progress to New. */
+      READYFORREVIEW_NOT_PERMITTED
     }
 
     protected Type type;

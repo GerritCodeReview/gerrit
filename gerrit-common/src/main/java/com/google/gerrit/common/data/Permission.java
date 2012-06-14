@@ -33,6 +33,7 @@ public class Permission implements Comparable<Permission> {
   public static final String READ = "read";
   public static final String REBASE = "rebase";
   public static final String SUBMIT = "submit";
+  public static final String WIP = "workInProgress";
 
   private static final List<String> NAMES_LC;
   private static final int labelIndex;
@@ -52,6 +53,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(LABEL.toLowerCase());
     NAMES_LC.add(REBASE.toLowerCase());
     NAMES_LC.add(SUBMIT.toLowerCase());
+    NAMES_LC.add(WIP.toLowerCase());
 
     labelIndex = NAMES_LC.indexOf(Permission.LABEL);
   }

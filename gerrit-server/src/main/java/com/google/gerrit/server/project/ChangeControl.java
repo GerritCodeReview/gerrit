@@ -193,6 +193,23 @@ public class ChangeControl {
     ;
   }
 
+  /** Can this user change the status to Work In Progress? */
+  public boolean canSetWorkInProgress() {
+    if (change.getStatus() == Change.Status.DRAFT) {
+      return false; // can't WIP a draft
+    }
+    return isOwner() // owner (aka creator) of the change can WIP
+        || getRefControl().isOwner() // branch owner can WIP
+        || getProjectControl().isOwner() // project owner can WIP
+        || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
+        || getRefControl().canSetWorkInProgress();
+  }
+
+  /** Can the user change the status from Work In Progress to New? */
+  public boolean canSetReadyForReview() {
+    return canSetWorkInProgress();
+  }
+
   /** Can this user publish this draft change or any draft patch set of this change? */
   public boolean canPublish(final ReviewDb db) throws OrmException {
     return isOwner() && isVisible(db);

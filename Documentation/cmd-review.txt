@@ -13,7 +13,7 @@ SYNOPSIS
   [--message <MESSAGE>]
   [--force-message]
   [--submit]
-  [--abandon | --restore]
+  [--abandon | --restore | --workinprogress | --readyforreview]
   [--publish]
   [--delete]
   [--verified <N>] [--code-review <N>]
@@ -70,24 +70,26 @@ successfully, even if the label could not be changed.
 
 --abandon::
 	Abandon the specified patch set(s).
-	(option is mutually exclusive with --submit and --restore)
+	(option is mutually exclusive with --submit, --restore, --readyforreview, and --workinprogress)
 
 --restore::
 	Restore the specified abandoned patch set(s).
-	(option is mutually exclusive with --abandon)
+	(option is mutually exclusive with --abandon, --readyforreview, and --workinprogress)
 
 --submit::
 -s::
 	Submit the specified patch set(s) for merging.
-	(option is mutually exclusive with --abandon)
+	(option is mutually exclusive with --abandon, --readyforreview, and --workinprogress)
 
 --publish::
 	Publish the specified draft patch set(s).
-	(option is mutually exclusive with --submit, --restore, --abandon, and --delete)
+	(option is mutually exclusive with --submit, --restore, --abandon, --delete,
+	 --readyforreview, and --workinprogress)
 
 --delete::
 	Delete the specified draft patch set(s).
-	(option is mutually exclusive with --submit, --restore, --abandon, and --publish)
+	(option is mutually exclusive with --submit, --restore, --abandon, --publish,
+	 --readyforreview, and --workinprogress)
 
 --code-review::
 --verified::
@@ -95,6 +97,17 @@ successfully, even if the label could not be changed.
 	option names supported and the range of values permitted
 	differs per site, check the output of --help, or contact
 	your site administrator for further details.
+
+--workinprogress::
+        Set the status of the specified patch set(s) to Work In Progress.
+        (option is mutually exclusive with --abandon, --submit, --restore, --publish,
+         --delete, and --readyforreview)
+
+--readyforreview::
+		Change the status of the specified patch set(s) from Work In Progress to New
+		to open it up for reviews again.
+		(option is mutually exclusive with --abandon, --submit, --restore, --publish,
+		 --delete, and --workinprogress)
 
 ACCESS
 ------

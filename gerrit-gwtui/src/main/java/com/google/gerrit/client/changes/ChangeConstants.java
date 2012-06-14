@@ -22,6 +22,7 @@ public interface ChangeConstants extends Constants {
   String statusLongMerged();
   String statusLongAbandoned();
   String statusLongDraft();
+  String statusLongWorkInProgress();
 
   String myDashboardTitle();
   String unknownDashboardTitle();
@@ -129,6 +130,16 @@ public interface ChangeConstants extends Constants {
   String oldVersionHistory();
   String baseDiffItem();
   String autoMerge();
+
+  String buttonWIPBegin();
+  String buttonWIPSend();
+  String headingWIPMessage();
+  String setWIPTitle();
+
+  String buttonReadyForReviewBegin();
+  String buttonReadyForReviewSend();
+  String headingReadyForReviewMessage();
+  String setReadyForReviewTitle();
 
   String buttonReview();
   String buttonPublishCommentsSend();

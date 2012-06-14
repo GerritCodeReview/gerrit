@@ -24,6 +24,8 @@ import com.google.inject.Inject;
 class ChangeManageServiceImpl implements ChangeManageService {
   private final SubmitAction.Factory submitAction;
   private final AbandonChangeHandler.Factory abandonChangeHandlerFactory;
+  private final WorkInProgressHandler.Factory wipHandlerFactory;
+  private final ReadyForReviewHandler.Factory readyForReviewHandlerFactory;
   private final RebaseChange.Factory rebaseChangeFactory;
   private final RestoreChangeHandler.Factory restoreChangeHandlerFactory;
   private final RevertChange.Factory revertChangeFactory;
@@ -33,6 +35,8 @@ class ChangeManageServiceImpl implements ChangeManageService {
   @Inject
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
       final AbandonChangeHandler.Factory abandonChangeHandlerFactory,
+      final WorkInProgressHandler.Factory wipHandlerFactory,
+      final ReadyForReviewHandler.Factory readyForReviewHandlerFactory,
       final RebaseChange.Factory rebaseChangeFactory,
       final RestoreChangeHandler.Factory restoreChangeHandlerFactory,
       final RevertChange.Factory revertChangeFactory,
@@ -40,6 +44,8 @@ class ChangeManageServiceImpl implements ChangeManageService {
       final DeleteDraftChange.Factory deleteDraftChangeFactory) {
     this.submitAction = patchSetAction;
     this.abandonChangeHandlerFactory = abandonChangeHandlerFactory;
+    this.wipHandlerFactory = wipHandlerFactory;
+    this.readyForReviewHandlerFactory = readyForReviewHandlerFactory;
     this.rebaseChangeFactory = rebaseChangeFactory;
     this.restoreChangeHandlerFactory = restoreChangeHandlerFactory;
     this.revertChangeFactory = revertChangeFactory;
@@ -55,6 +61,16 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void abandonChange(final PatchSet.Id patchSetId, final String message,
       final AsyncCallback<ChangeDetail> callback) {
     abandonChangeHandlerFactory.create(patchSetId, message).to(callback);
+  }
+
+  public void workInProgress(final PatchSet.Id patchSetId, final String message,
+      final AsyncCallback<ChangeDetail> callback) {
+    wipHandlerFactory.create(patchSetId, message).to(callback);
+  }
+
+  public void readyForReview(final PatchSet.Id patchSetId, final String message,
+      final AsyncCallback<ChangeDetail> callback) {
+    readyForReviewHandlerFactory.create(patchSetId, message).to(callback);
   }
 
   public void rebaseChange(final PatchSet.Id patchSetId,

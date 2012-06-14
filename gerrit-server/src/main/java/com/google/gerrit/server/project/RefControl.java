@@ -132,6 +132,11 @@ public class RefControl {
         && canWrite();
   }
 
+  /** @return true if this user can change state to/from Work In Progress */
+  public boolean canSetWorkInProgress() {
+    return canPerform(Permission.WIP);
+  }
+
   /** @return true if this user can submit patch sets to this ref */
   public boolean canSubmit() {
     if (GitRepositoryManager.REF_CONFIG.equals(refName)) {

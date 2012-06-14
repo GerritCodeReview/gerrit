@@ -28,6 +28,8 @@ public class ChangeDetail {
   protected AccountInfoCache accounts;
   protected boolean allowsAnonymous;
   protected boolean canAbandon;
+  protected boolean canSetWorkInProgress;
+  protected boolean canSetReadyForReview;
   protected boolean canPublish;
   protected boolean canRebase;
   protected boolean canRestore;
@@ -71,6 +73,22 @@ public class ChangeDetail {
 
   public void setCanAbandon(final boolean a) {
     canAbandon = a;
+  }
+
+  public boolean canSetWorkInProgress() {
+    return canSetWorkInProgress;
+  }
+
+  public void setCanSetWorkInProgress(final boolean a) {
+    canSetWorkInProgress = a;
+  }
+
+  public boolean canSetReadyForReview() {
+    return canSetReadyForReview;
+  }
+
+  public void setCanSetReadyForReview(final boolean a) {
+    canSetReadyForReview = a;
   }
 
   public boolean canPublish() {

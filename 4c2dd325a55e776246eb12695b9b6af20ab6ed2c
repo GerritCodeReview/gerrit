@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAGlX////U\u003d",
+        "filename": "contrib/git-exproll.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-14T05:47:23Z",
+      "side": 1,
+      "message": "This is our first BSD contribution in Gerrit. I would like some consensus from the maintainers that we are going to be OK with BSD content in the contrib directory before we submit this.\n\nI think its OK. Martin apparently does. But I would like to give Saša and Edwin an opportunity to review the idea too.\n\nI limit my OK to a contrib/ directory, and not the main Java code. We can\u0027t sanely have multiple licenses everywhere and still manage a project.\n\nActually, maybe this just goes in its own new Git repository? It doesn\u0027t really cost us that much more to make a new repository vs. a directory in an existing one. But we would lose the existing review.",
+      "revId": "4c2dd325a55e776246eb12695b9b6af20ab6ed2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGan////E\u003d",
         "filename": "contrib/git-exproll.sh",
         "patchSetId": 2

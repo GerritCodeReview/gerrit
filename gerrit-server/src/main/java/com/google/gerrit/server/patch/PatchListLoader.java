@@ -255,10 +255,24 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
 
     ObjectId treeId;
     ResolveMerger m = (ResolveMerger) MergeStrategy.RESOLVE.newMerger(repo, true);
-    ObjectInserter ins = m.getObjectInserter();
+    final ObjectInserter ins = repo.newObjectInserter();
     try {
       DirCache dc = DirCache.newInCore();
       m.setDirCache(dc);
+      m.setObjectInserter(new ObjectInserter.Filter() {
+        @Override
+        protected ObjectInserter delegate() {
+          return ins;
+        }
+
+        @Override
+        public void flush() {
+        }
+
+        @Override
+        public void release() {
+        }
+      });
 
       boolean couldMerge = false;
       try {

@@ -553,6 +553,7 @@ public class Gerrit implements EntryPoint {
     if (signedIn) {
       m = new LinkMenuBar();
       addLink(m, C.menuMyChanges(), PageLinks.MINE);
+      addLink(m, C.menuMyImportantChanges(), PageLinks.MINE_IMPORTANT);
       addLink(m, C.menuMyDrafts(), PageLinks.toChangeQuery("is:draft"));
       addLink(m, C.menuMyWatchedChanges(), PageLinks.toChangeQuery("is:watched status:open"));
       addLink(m, C.menuMyStarredChanges(), PageLinks.toChangeQuery("is:starred"));

@@ -19,6 +19,7 @@ import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
 import static com.google.gerrit.common.PageLinks.MINE;
+import static com.google.gerrit.common.PageLinks.MINE_IMPORTANT;
 import static com.google.gerrit.common.PageLinks.REGISTER;
 import static com.google.gerrit.common.PageLinks.SETTINGS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_AGREEMENTS;
@@ -59,6 +60,7 @@ import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
+import com.google.gerrit.client.changes.AccountDashboardReviewScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
 import com.google.gerrit.client.changes.PatchTable;
@@ -181,6 +183,9 @@ public class Dispatcher {
     } else if (matchExact(MINE, token)) {
       Gerrit.display(token, mine(token));
 
+    } else if (matchExact(MINE_IMPORTANT, token)) {
+      Gerrit.display(token, mine_important(token));
+
     } else if (matchPrefix("/dashboard/", token)) {
       dashboard(token);
 
@@ -230,6 +235,10 @@ public class Dispatcher {
   private static String legacyMine(final String token) {
     if (matchExact("mine", token)) {
       return MINE;
+    }
+
+    if (matchExact("mine,important", token)) {
+      return MINE_IMPORTANT;
     }
 
     if (matchExact("mine,starred", token)) {
@@ -362,6 +371,17 @@ public class Dispatcher {
 
     } else {
       Screen r = new AccountDashboardScreen(null);
+      r.setRequiresSignIn(true);
+      return r;
+    }
+  }
+
+  private static Screen mine_important(final String token) {
+    if (Gerrit.isSignedIn()) {
+      return new AccountDashboardReviewScreen(Gerrit.getUserAccount().getId());
+
+    } else {
+      Screen r = new AccountDashboardReviewScreen(null);
       r.setRequiresSignIn(true);
       return r;
     }

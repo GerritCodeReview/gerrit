@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGmH////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-14T05:15:22Z",
+      "side": 1,
+      "message": "yes. very good idea! \n \nI am creating new patch set accordingly  :)",
+      "parentUuid": "AAAGlH///+0\u003d",
+      "revId": "523adf675a8d2d4fafb08c041d9968d281f45d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGlH///+w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-14T04:47:14Z",
       "side": 1,
       "message": "I believe that you are circumventing the found++ and limit check on line 271.",
+      "revId": "523adf675a8d2d4fafb08c041d9968d281f45d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGmH////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-14T05:15:22Z",
+      "side": 1,
+      "message": "current feature is for fixing a bug  of  \u0027Parent Suggestion\u0027 function in  \n create-project UI where there is no parameter \u0027limit\u0027 like ssh \n command, so I have not taken it in account.\n  \n no sure if we should provide a default value for \u0027limit\u0027 when it is the UI \n case.",
+      "parentUuid": "AAAGlH///+w\u003d",
       "revId": "523adf675a8d2d4fafb08c041d9968d281f45d6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

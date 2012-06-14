@@ -18,7 +18,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -54,7 +53,6 @@ public class Schema_67 extends SchemaVersion {
           "SELECT group_id, owner_group_id FROM account_groups"
           + " WHERE owner_group_uuid is NULL or owner_group_uuid =''");
       try {
-        Map<Integer, ContributorAgreement> agreements = Maps.newHashMap();
         while (rs.next()) {
           AccountGroup.Id groupId = new AccountGroup.Id(rs.getInt(1));
           AccountGroup.Id ownerId = new AccountGroup.Id(rs.getInt(2));

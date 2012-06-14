@@ -16,6 +16,24 @@
       "revId": "6e8045e8099b15c70411f3781ae0b4cace8e3747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGlX////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-14T05:24:18Z",
+      "side": 1,
+      "message": "The \"right\" way to do this is RTL/LTR dependent. None of Gerrit correctly respects that anyway. We will already have a hell of a time translating to German, let alone a RTL language. So it probably doesn\u0027t matter.",
+      "parentUuid": "AAAGlH////Q\u003d",
+      "revId": "6e8045e8099b15c70411f3781ae0b4cace8e3747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

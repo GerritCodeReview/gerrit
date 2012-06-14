@@ -83,7 +83,7 @@ public class CapabilityControl {
       || canAdministrateServer();
   }
 
-  /** @return true if the user can create a group. */
+  /** @return true if the user can create a project. */
   public boolean canCreateProject() {
     return canPerform(GlobalCapability.CREATE_PROJECT)
       || canAdministrateServer();

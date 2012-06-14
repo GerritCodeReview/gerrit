@@ -37,6 +37,6 @@ public class ChangeDescriptionBlock extends Composite {
   public void display(final Change chg, final PatchSetInfo info,
       final AccountInfoCache acc) {
     infoBlock.display(chg, acc);
-    messageBlock.display(info.getMessage());
+    messageBlock.display(chg.getId(), info.getMessage());
   }
 }

@@ -183,6 +183,7 @@ public interface GerritCss extends CssResource {
   String rpcStatusPanel();
   String screen();
   String screenHeader();
+  String screenNoHeader();
   String searchPanel();
   String sectionHeader();
   String sideBySideScreenLinkTable();

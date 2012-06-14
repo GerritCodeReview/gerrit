@@ -401,6 +401,9 @@
   overflow: hidden;
 }
 
+.screenNoHeader {
+  margin-top: 5px;
+}
 
 /** ChangeTable **/
 .changeTable {

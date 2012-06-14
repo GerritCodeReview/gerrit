@@ -153,6 +153,7 @@ public class ChangeScreen extends Screen
     detailCache.addValueChangeHandler(this);
 
     addStyleName(Gerrit.RESOURCES.css().changeScreen());
+    addStyleName(Gerrit.RESOURCES.css().screenNoHeader());
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
@@ -238,6 +239,7 @@ public class ChangeScreen extends Screen
       }
     }
     setPageTitle(titleBuf.toString());
+    setHeaderVisible(false);
   }
 
   @Override

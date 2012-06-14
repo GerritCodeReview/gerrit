@@ -34,6 +34,24 @@
       "revId": "73197fc59c08777b9cf36cb184ba08e95a2d1516",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGkX///7s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-14T01:36:53Z",
+      "side": 1,
+      "message": "We are trying to deprecate the idea of being able to view another user\u0027s dashboard. But even if we wanted to keep doing this, you could pass in the target user as a query parameter and ask the server to consider the unread status from the point of view of that passed in user, rather than figuring this out in the client UI.",
+      "parentUuid": "AAAGkn////8\u003d",
+      "revId": "73197fc59c08777b9cf36cb184ba08e95a2d1516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

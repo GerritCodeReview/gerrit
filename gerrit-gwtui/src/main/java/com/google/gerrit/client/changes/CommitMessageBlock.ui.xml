@@ -62,11 +62,15 @@ limitations under the License.
     .commitBody {
       margin-top: 10px;
     }
+
+    .starPanel {
+      float: left;
+    }
   </ui:style>
 
   <g:HTMLPanel>
     <table class='{style.commitMessageTable}'>
-      <tr><td class='{style.header}'>Commit Message</td></tr>
+      <tr><td class='{style.header}'><g:SimplePanel styleName='{style.starPanel}' ui:field='starPanel'></g:SimplePanel>Commit Message</td></tr>
       <tr><td class='{style.contents}'>
         <pre class='{style.commitSummary} {res.css.changeScreenDescription}' ui:field='commitSummaryPre'/>
         <pre class='{style.commitBody} {res.css.changeScreenDescription}' ui:field='commitBodyPre'/>

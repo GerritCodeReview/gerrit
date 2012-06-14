@@ -14,7 +14,9 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.Composite;
 
 import com.google.gwt.core.client.GWT;
@@ -23,6 +25,8 @@ import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -32,6 +36,10 @@ public class CommitMessageBlock extends Composite {
 
   private static Binder uiBinder = GWT.create(Binder.class);
 
+  private KeyCommandSet keysAction;
+
+  @UiField
+  SimplePanel starPanel;
   @UiField
   PreElement commitSummaryPre;
   @UiField
@@ -41,7 +49,26 @@ public class CommitMessageBlock extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
+  public CommitMessageBlock(KeyCommandSet keysAction) {
+    this.keysAction = keysAction;
+    initWidget(uiBinder.createAndBindUi(this));
+  }
+
   public void display(final String commitMessage) {
+    display(null, null, commitMessage);
+  }
+
+  public void display(Change.Id changeId, Boolean starred, String commitMessage) {
+    if (changeId != null && starred != null && Gerrit.isSignedIn()) {
+      StarredChanges.Icon star = StarredChanges.createIcon(changeId, starred);
+      star.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());
+      starPanel.add(star);
+
+      if (keysAction != null) {
+        keysAction.add(StarredChanges.newKeyCommand(star));
+      }
+    }
+
     String[] splitCommitMessage = commitMessage.split("\n", 2);
 
     String commitSummary = splitCommitMessage[0];

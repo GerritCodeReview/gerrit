@@ -35,12 +35,14 @@ import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.contact.HttpContactStoreConnection;
 import com.google.gerrit.server.git.ReceiveCommitsExecutorModule;
@@ -49,15 +51,24 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
+import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
+import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.gerrit.sshd.commands.SlaveCommandModule;
+import com.google.gwtorm.jdbc.JdbcExecutor;
+import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
+import com.google.gwtorm.server.StatementExecutor;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,6 +156,7 @@ public class Daemon extends SiteProgram {
       sysInjector = createSysInjector();
       sysInjector.getInstance(PluginGuiceEnvironment.class)
         .setCfgInjector(cfgInjector);
+      sysInjector.getInstance(SchemaUpgrade.class).upgradeSchema();
       manager.add(dbInjector, cfgInjector, sysInjector);
 
       if (sshd) {
@@ -191,6 +203,74 @@ public class Daemon extends SiteProgram {
       return 1;
     }
   }
+
+  static class SchemaUpgrade {
+
+    private final Config config;
+    private final SchemaUpdater updater;
+    private final SchemaFactory<ReviewDb> schema;
+
+    @Inject
+    SchemaUpgrade(@GerritServerConfig Config config, SchemaUpdater updater,
+        SchemaFactory<ReviewDb> schema) {
+      this.config = config;
+      this.updater = updater;
+      this.schema = schema;
+    }
+
+    void upgradeSchema() throws OrmException {
+      SchemaUpgradePolicy policy =
+          config.getEnum("site", null, "upgradeSchemaOnStartup",
+              SchemaUpgradePolicy.OFF);
+      if (policy == SchemaUpgradePolicy.AUTO
+          || policy == SchemaUpgradePolicy.AUTO_NO_PRUNE) {
+        final List<String> pruneList = new ArrayList<String>();
+        updater.update(new UpdateUI() {
+          @Override
+          public void message(String msg) {
+            log.info(msg);
+          }
+
+          @Override
+          public boolean yesno(boolean def, String msg) {
+            return true;
+          }
+
+          @Override
+          public boolean isBatch() {
+            return true;
+          }
+
+          @Override
+          public void pruneSchema(StatementExecutor e, List<String> prune) {
+            for (String p : prune) {
+              if (!pruneList.contains(p)) {
+                pruneList.add(p);
+              }
+            }
+          }
+        });
+
+        if (!pruneList.isEmpty() && policy == SchemaUpgradePolicy.AUTO) {
+          log.info("Pruning: " + pruneList.toString());
+          final JdbcSchema db = (JdbcSchema) schema.open();
+          try {
+            final JdbcExecutor e = new JdbcExecutor(db);
+            try {
+              for (String sql : pruneList) {
+                e.execute(sql);
+              }
+            } finally {
+              e.close();
+            }
+          } finally {
+            db.close();
+          }
+        }
+      }
+    }
+  }
+
 
   private String myVersion() {
     return com.google.gerrit.common.Version.getVersion();

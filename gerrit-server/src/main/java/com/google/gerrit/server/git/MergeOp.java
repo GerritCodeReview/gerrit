@@ -159,6 +159,7 @@ public class MergeOp {
   private CodeReviewCommit mergeTip;
   private Set<RevCommit> alreadyAccepted;
   private RefUpdate branchUpdate;
+  private ObjectInserter inserter;
 
   private final ChangeHooks hooks;
   private final AccountCache accountCache;
@@ -282,6 +283,9 @@ public class MergeOp {
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
     } finally {
+      if (inserter != null) {
+        inserter.release();
+      }
       if (rw != null) {
         rw.release();
       }
@@ -334,6 +338,8 @@ public class MergeOp {
     rw.sort(RevSort.TOPO);
     rw.sort(RevSort.COMMIT_TIME_DESC, true);
     CAN_MERGE = rw.newFlag("CAN_MERGE");
+
+    inserter = repo.newObjectInserter();
   }
 
   private void openBranch() throws MergeException {
@@ -505,21 +511,10 @@ public class MergeOp {
   }
 
   private void mergeOneCommit(final CodeReviewCommit n) throws MergeException {
-    final ThreeWayMerger m;
-    if (destProject.isUseContentMerge()) {
-      // Settings for this project allow us to try and
-      // automatically resolve conflicts within files if needed.
-      // Use ResolveMerge and instruct to operate in core.
-      m = MergeStrategy.RESOLVE.newMerger(repo, true);
-    } else {
-      // No auto conflict resolving allowed. If any of the
-      // affected files was modified, merge will fail.
-      m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repo);
-    }
-
+    final ThreeWayMerger m = newThreeWayMerger();
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
-        writeMergeCommit(m, n);
+        writeMergeCommit(m.getResultTreeId(), n);
 
       } else {
         failed(n, CommitMergeStatus.PATH_CONFLICT);
@@ -537,6 +532,35 @@ public class MergeOp {
     }
   }
 
+  private ThreeWayMerger newThreeWayMerger() {
+    ThreeWayMerger m;
+    if (destProject.isUseContentMerge()) {
+      // Settings for this project allow us to try and
+      // automatically resolve conflicts within files if needed.
+      // Use ResolveMerge and instruct to operate in core.
+      m = MergeStrategy.RESOLVE.newMerger(repo, true);
+    } else {
+      // No auto conflict resolving allowed. If any of the
+      // affected files was modified, merge will fail.
+      m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repo);
+    }
+    m.setObjectInserter(new ObjectInserter.Filter() {
+      @Override
+      protected ObjectInserter delegate() {
+        return inserter;
+      }
+
+      @Override
+      public void flush() {
+      }
+
+      @Override
+      public void release() {
+      }
+    });
+    return m;
+  }
+
   private CodeReviewCommit failed(final CodeReviewCommit n,
       final CommitMergeStatus failure) throws MissingObjectException,
       IncorrectObjectTypeException, IOException {
@@ -550,7 +574,7 @@ public class MergeOp {
     return failed;
   }
 
-  private void writeMergeCommit(final Merger m, final CodeReviewCommit n)
+  private void writeMergeCommit(ObjectId treeId, CodeReviewCommit n)
       throws IOException, MissingObjectException, IncorrectObjectTypeException {
     final List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
     rw.reset();
@@ -599,13 +623,13 @@ public class MergeOp {
     PersonIdent authorIdent = computeAuthor(merged);
 
     final CommitBuilder mergeCommit = new CommitBuilder();
-    mergeCommit.setTreeId(m.getResultTreeId());
+    mergeCommit.setTreeId(treeId);
     mergeCommit.setParentIds(mergeTip, n);
     mergeCommit.setAuthor(authorIdent);
     mergeCommit.setCommitter(myIdent);
     mergeCommit.setMessage(msgbuf.toString());
 
-    mergeTip = (CodeReviewCommit) rw.parseCommit(commit(m, mergeCommit));
+    mergeTip = (CodeReviewCommit) rw.parseCommit(commit(mergeCommit));
   }
 
   private PersonIdent computeAuthor(
@@ -691,19 +715,7 @@ public class MergeOp {
   private void cherryPickChanges() throws MergeException, OrmException {
     while (!toMerge.isEmpty()) {
       final CodeReviewCommit n = toMerge.remove(0);
-      final ThreeWayMerger m;
-
-      if (destProject.isUseContentMerge()) {
-        // Settings for this project allow us to try and
-        // automatically resolve conflicts within files if needed.
-        // Use ResolveMerge and instruct to operate in core.
-        m = MergeStrategy.RESOLVE.newMerger(repo, true);
-      } else {
-        // No auto conflict resolving allowed. If any of the
-        // affected files was modified, merge will fail.
-        m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repo);
-      }
-
+      final ThreeWayMerger m = newThreeWayMerger();
       try {
         if (mergeTip == null) {
           // The branch is unborn. Take a fast-forward resolution to
@@ -898,7 +910,7 @@ public class MergeOp {
     mergeCommit.setCommitter(toCommitterIdent(submitAudit));
     mergeCommit.setMessage(msgbuf.toString());
 
-    final ObjectId id = commit(m, mergeCommit);
+    final ObjectId id = commit(mergeCommit);
     final CodeReviewCommit newCommit = (CodeReviewCommit) rw.parseCommit(id);
     final Change oldChange = n.change;
 
@@ -961,16 +973,11 @@ public class MergeOp {
     db.patchSetAncestors().insert(toInsert);
   }
 
-  private ObjectId commit(final Merger m, final CommitBuilder mergeCommit)
+  private ObjectId commit(CommitBuilder mergeCommit)
       throws IOException, UnsupportedEncodingException {
-    ObjectInserter oi = m.getObjectInserter();
-    try {
-      ObjectId id = oi.insert(mergeCommit);
-      oi.flush();
-      return id;
-    } finally {
-      oi.release();
-    }
+    ObjectId id = inserter.insert(mergeCommit);
+    inserter.flush();
+    return id;
   }
 
   private boolean contains(List<FooterLine> footers, FooterKey key, String val) {

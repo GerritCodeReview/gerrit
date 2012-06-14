@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAGmX///7g\u003d",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-14T12:18:50Z",
+      "side": 1,
+      "message": "change-restored and ref-updated are missing here.  I was going to fix this but if you\u0027re fixing the file anyway...",
+      "revId": "709edd9664136c63d0c6a7239ae7fd04122a0c82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGmX///7o\u003d",
         "filename": "Documentation/cmd-stream-events.txt",
         "patchSetId": 1

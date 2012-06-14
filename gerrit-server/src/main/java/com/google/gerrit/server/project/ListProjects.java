@@ -57,6 +57,12 @@ public class ListProjects {
         return !PERMISSIONS.matches(git);
       }
     },
+    PARENT_CANDIDATES {
+      @Override
+      boolean matches(Repository git) {
+        return true;
+      }
+    },
     PERMISSIONS {
       @Override
       boolean matches(Repository git) throws IOException {
@@ -290,6 +296,24 @@ public class ListProjects {
   private Iterable<NameKey> scan() {
     if (matchPrefix != null) {
       return projectCache.byName(matchPrefix);
+    } else if (type == FilterType.PARENT_CANDIDATES) {
+      SortedSet<Project.NameKey> parents = new TreeSet<Project.NameKey>();
+      for (NameKey pName : projectCache.all()) {
+        ProjectState e = projectCache.get(pName);
+        if (e == null) {
+          // If we can't get it from the cache, pretend it's not present.
+          continue;
+        }
+        ProjectState parentState = e.getParentState();
+        if (parentState != null
+            && !parents.contains(parentState.getProject().getNameKey())) {
+          ProjectControl parentCtrl = parentState.controlFor(currentUser);
+          if (parentCtrl.isVisible() || parentCtrl.isOwner()) {
+            parents.add(parentState.getProject().getNameKey());
+          }
+        }
+      }
+      return parents;
     } else {
       return projectCache.all();
     }

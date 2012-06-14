@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGkn////0\u003d",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-14T02:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGg3///9M\u003d",
+      "revId": "58bf99056e8be517836b2326ecf6fdcb77a61155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGg3///9I\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGkn////w\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-14T02:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGg3///9I\u003d",
+      "revId": "58bf99056e8be517836b2326ecf6fdcb77a61155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGg3///9E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-06-13T11:25:04Z",
       "side": 1,
       "message": "Calling the hook here only creates a draft-published event when the first patch-set of a change was uploaded as draft and then gets published, so that the change status switches from DRAFT to NEW. However if a new draft patch set is uploaded for a change that is already in review and then this patch set gets published, no event is fired (since the change is not any more in DRAFT state and we do not enter the if in line 88).\n\nI believe you should also ensure that the event is fired if a draft patch set on a change in review is published.",
+      "revId": "58bf99056e8be517836b2326ecf6fdcb77a61155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGkn////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/PublishDraft.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-14T02:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGg3///9E\u003d",
       "revId": "58bf99056e8be517836b2326ecf6fdcb77a61155",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -142,6 +142,24 @@
       "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGmH///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-15T14:55:09Z",
+      "side": 1,
+      "message": "when I am waiting your further direction, let\u0027s me provide a new patch set using \u0027first suggestion\u0027 which you think better :)",
+      "parentUuid": "AAAGmH///+8\u003d",
+      "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

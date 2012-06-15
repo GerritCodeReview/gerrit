@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGpH////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-15T19:25:44Z",
+      "side": 1,
+      "message": "2, TimeUnit.HOURS might be more readable.\n\nBut if we have this tied to a listener, does it make sense to expire at all by default? Most of the other caches don\u0027t expire these days and rely on invalidation messages.",
+      "revId": "0c4f1df4ed2ea3c65af7fe9a32bc335c08ddee99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpH////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-15T19:25:44Z",
+      "side": 1,
+      "message": "Don\u0027t parse.  Use new Project.NameKey(). The value returned by event.getProjectName() is not escaped the way parse expects.\n\nNot all reference update events need to cause this to invalidate. Perhaps only for creates under refs/changes/?",
+      "revId": "0c4f1df4ed2ea3c65af7fe9a32bc335c08ddee99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

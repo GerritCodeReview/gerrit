@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAGnH///+U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2012-06-15T06:26:09Z",
+      "side": 1,
+      "message": "as Shawn mentioned in another comment: s/wild project/AllProjects project/\n\nmore occurrences below",
+      "revId": "8eeccbcd14bde7d598ddcc345d0e02a445f18e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGlX///yo\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 3

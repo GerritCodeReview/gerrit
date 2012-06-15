@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGm3///+k\u003d",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011232
+      },
+      "writtenOn": "2012-06-15T08:44:19Z",
+      "side": 1,
+      "message": "Thanks for the clarification.  I agree it should not be included here.",
+      "parentUuid": "AAAGnX////E\u003d",
+      "revId": "f889a2dc8181f48dba636193c6fbcc054be280cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGm3///+8\u003d",
         "filename": "Documentation/cmd-stream-events.txt",
         "patchSetId": 2

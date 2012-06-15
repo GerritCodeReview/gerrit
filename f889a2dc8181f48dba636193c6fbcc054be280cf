@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAGm3///+w\u003d",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011232
+      },
+      "writtenOn": "2012-06-15T07:28:24Z",
+      "side": 1,
+      "message": "Does `cla-signed` also need to be added here?",
+      "revId": "f889a2dc8181f48dba636193c6fbcc054be280cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGm3///+8\u003d",
         "filename": "Documentation/cmd-stream-events.txt",
         "patchSetId": 2

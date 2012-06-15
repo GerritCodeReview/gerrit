@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGlX///u0\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-15T17:47:32Z",
+      "side": 1,
+      "message": "Hmm, is this true?  While you need an openId provider, I don\u0027t think that relates to the email address, does it?",
+      "revId": "c65923bf1837685a6d35fd64f3629926e87d9e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGln///u0\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-15T17:47:32Z",
+      "side": 1,
+      "message": "This should probably also use gitconfig?",
+      "revId": "c65923bf1837685a6d35fd64f3629926e87d9e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGk3////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-06-15T02:19:10Z",
+      "side": 1,
+      "message": "I like your idea!\n\nDone",
+      "parentUuid": "AAAGlH///+0\u003d",
+      "revId": "523adf675a8d2d4fafb08c041d9968d281f45d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGlH///+w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 2
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "I am wrong. I shift in new patchset",
       "parentUuid": "AAAGmH////8\u003d",
+      "revId": "523adf675a8d2d4fafb08c041d9968d281f45d6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGk3////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-06-15T02:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGmH////s\u003d",
       "revId": "523adf675a8d2d4fafb08c041d9968d281f45d6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

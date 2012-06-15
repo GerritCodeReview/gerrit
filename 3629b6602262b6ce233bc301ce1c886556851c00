@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGlH///2E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-15T04:25:42Z",
+      "side": 1,
+      "message": "This solution still does this lookup and these tests potentially many times for the same parent project.  And although you know will limit the returned values, you are still incurring the cost of iterating over every project here!",
+      "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

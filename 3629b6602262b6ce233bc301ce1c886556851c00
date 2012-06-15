@@ -16,6 +16,24 @@
       "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGmH////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-15T04:42:55Z",
+      "side": 1,
+      "message": "your are right!\nI plan shift it to \n\n     if (parentState !\u003d null\n            \u0026\u0026 !parents.contains(parentState.getProject().getNameKey())){\n          ProjectControl parentCtrl \u003d parentState.controlFor(currentUser);\n          if (parentCtrl.isVisible() || parentCtrl.isOwner()) {\n            parents.add(parentState.getProject().getNameKey());\n          }\n      }\n\nhow are about your feeling, welcome proposal and direction.\nThanks a lot!\n/Bruce",
+      "parentUuid": "AAAGlH///2E\u003d",
+      "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

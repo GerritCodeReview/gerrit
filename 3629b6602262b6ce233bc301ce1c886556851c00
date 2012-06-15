@@ -88,6 +88,24 @@
       "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGmH////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-15T05:21:45Z",
+      "side": 1,
+      "message": "Hi Martin \n\nExcuse me.\n\nabout \"move it back into the main loop and simply add a counter increment and check before the continue\u0027\u0027  \n\nhere can I got your further detail information about  the usage of the \u0027a counter increment \u0027 , if you mean using it  to check with \u0027limit\u0027 , I don\u0027t think we need that.\n\nthanks!\n\n/Bruce",
+      "parentUuid": "AAAGmH////U\u003d",
+      "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

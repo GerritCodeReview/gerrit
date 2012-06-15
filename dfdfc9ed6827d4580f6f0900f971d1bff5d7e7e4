@@ -16,6 +16,24 @@
       "revId": "dfdfc9ed6827d4580f6f0900f971d1bff5d7e7e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGk3////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-06-15T01:57:31Z",
+      "side": 1,
+      "message": "It will cost server some time to query the data, especially when a lot of data exists in DB. Because the change query only returns a small amount of changes every time, maybe it can tolerate it.",
+      "parentUuid": "AAAGln///3Y\u003d",
+      "revId": "dfdfc9ed6827d4580f6f0900f971d1bff5d7e7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

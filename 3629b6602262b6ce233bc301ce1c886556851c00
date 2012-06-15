@@ -106,6 +106,24 @@
       "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGmH////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-15T05:54:06Z",
+      "side": 1,
+      "message": "\u0027\u0027parents\u0027 is subset of  \u0027all\u0027 , keep them to use same logic of display() would be clear and better.  but thus will need 2 loops, one for \u0027all\u0027 and the other for \u0027parents\u0027 . so move it back to main loop is better but  when we take in account the related ssh command, we have to check \u0027limit\u0027.  so I agree with you ,even in this fix bug feature let me add the limit checking logic.",
+      "parentUuid": "AAAGmH////M\u003d",
+      "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

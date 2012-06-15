@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGk3///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-06-15T09:15:37Z",
+      "side": 1,
+      "message": "Yes, this way is better, and more reasonable.\n\nDone",
+      "parentUuid": "AAAGlX///z8\u003d",
+      "revId": "dfdfc9ed6827d4580f6f0900f971d1bff5d7e7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGln///3Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
         "patchSetId": 4
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGk3///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-06-15T09:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGlX///0I\u003d",
+      "revId": "dfdfc9ed6827d4580f6f0900f971d1bff5d7e7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGlX///0A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
         "patchSetId": 4
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGk3////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-06-15T09:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGlX///0A\u003d",
+      "revId": "dfdfc9ed6827d4580f6f0900f971d1bff5d7e7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGlX///0E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
         "patchSetId": 4
@@ -100,6 +154,24 @@
       "writtenOn": "2012-06-15T04:09:28Z",
       "side": 1,
       "message": "you can drop this portion of the conditional if you use byPatchSet like we suggest above.",
+      "revId": "dfdfc9ed6827d4580f6f0900f971d1bff5d7e7e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGk3////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-06-15T09:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGlX///0E\u003d",
       "revId": "dfdfc9ed6827d4580f6f0900f971d1bff5d7e7e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -53,9 +53,9 @@ trackingIds:: Issue tracking system links in
 message based on the server's
 link:config-gerrit.html#trackingid[trackingid] sections.
 
-currentPatchSet:: Current <<patchset,patchset attribute>>.
+currentPatchSet:: Current <<patchSet,patchSet attribute>>.
 
-patchSets:: All <<patchset,patchset attribute>> for this change.
+patchSets:: All <<patchSet,patchSet attribute>> for this change.
 
 [[trackingid]]
 trackingid
@@ -76,8 +76,8 @@ name:: User's full name, if configured.
 
 email:: User's preferred email address.
 
-[[patchset]]
-patchset
+[[patchSet]]
+patchSet
 --------
 Refers to a specific patchset within a <<change,change>>.
 
@@ -109,8 +109,8 @@ was added or last updated.
 
 by:: Reviewer of the patch set in <<account,account attribute>>.
 
-[[refupdate]]
-refupdate
+[[refUpdate]]
+refUpdate
 --------
 Information about a ref that was updated.
 

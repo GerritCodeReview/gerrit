@@ -41,9 +41,10 @@ EXAMPLES
 SCHEMA
 ------
 The JSON messages consist of nested objects referencing the *change*,
-*patchset*, *account* involved, and other attributes as appropriate.
+*patchSet*, *account* involved, and other attributes as appropriate.
 The currently supported message types are *patchset-created*,
-*comment-added*, *change-merged*, and *change-abandoned*.
+*change-abandoned*, *change-restored*, *change-merged*,
+*comment-added* and *ref-updated*.
 
 Note that any field may be missing in the JSON messages, so consumers of
 this JSON stream should deal with that appropriately.
@@ -56,7 +57,7 @@ type:: "patchset-created"
 
 change:: link:json.html#change[change attribute]
 
-patchset:: link:json.html#patchset[patchset attribute]
+patchSet:: link:json.html#patchSet[patchSet attribute]
 
 uploader:: link:json.html#account[account attribute]
 
@@ -66,19 +67,23 @@ type:: "change-abandoned"
 
 change:: link:json.html#change[change attribute]
 
-patchset:: link:json.html#patchset[patchset attribute]
+patchSet:: link:json.html#patchSet[patchSet attribute]
 
 abandoner:: link:json.html#account[account attribute]
 
+reason:: Reason for abandoning the change.
+
 Change Restored
-^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^
 type:: "change-restored"
 
 change:: link:json.html#change[change attribute]
 
-patchset:: link:json.html#patchset[patchset attribute]
+patchSet:: link:json.html#patchSet[patchSet attribute]
 
 restorer:: link:json.html#account[account attribute]
+
+reason:: Reason for restoring the change.
 
 Change Merged
 ^^^^^^^^^^^^^
@@ -86,7 +91,7 @@ type:: "change-merged"
 
 change:: link:json.html#change[change attribute]
 
-patchset:: link:json.html#patchset[patchset attribute]
+patchSet:: link:json.html#patchSet[patchSet attribute]
 
 submitter:: link:json.html#account[account attribute]
 
@@ -96,9 +101,11 @@ type:: "comment-added"
 
 change:: link:json.html#change[change attribute]
 
-patchset:: link:json.html#patchset[patchset attribute]
+patchSet:: link:json.html#patchSet[patchSet attribute]
 
 author:: link:json.html#account[account attribute]
+
+approvals:: All link:json.html#approval[approval attributes] granted.
 
 comment:: Comment text author had written
 
@@ -108,7 +115,7 @@ type:: "ref-updated"
 
 submitter:: link:json.html#account[account attribute]
 
-refUpdate:: link:json.html#refupdate[refupdate attribute]
+refUpdate:: link:json.html#refUpdate[refUpdate attribute]
 
 
 SEE ALSO

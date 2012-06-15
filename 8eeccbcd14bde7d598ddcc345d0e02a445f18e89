@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGlX///yo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-15T04:39:10Z",
+      "side": 1,
+      "message": "This is not thread safe. You need to either copy the AccessSection before making removals, or elide these at a later point in time in a thread-safe way. But what you have here is currently not safe because multiple threads can enter this method and modify the shared, visible to other threads, ProjectConfig and its contained AccessSection.\n\nAnd no you can\u0027t just synchronize this method. You need to copy the section, or avoid doing this removal.",
+      "revId": "8eeccbcd14bde7d598ddcc345d0e02a445f18e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGlX///ys\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-15T04:39:10Z",
+      "side": 1,
+      "message": "We have been trying to call this AllProjects now. I would prefer to call this method isAllProjects.",
+      "revId": "8eeccbcd14bde7d598ddcc345d0e02a445f18e89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

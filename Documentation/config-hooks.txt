@@ -24,7 +24,7 @@ patchset-created
 ~~~~~~~~~~~~~~~~
 
 This is called whenever a patchset is created (this includes new
-changes)
+changes).
 
 ====
   patchset-created --change <change id> --change-url <change url> --project <project name> --branch <branch> --uploader <uploader> --commit <sha1> --patchset <patchset id>
@@ -58,7 +58,7 @@ Called whenever a change has been abandoned.
 ====
 
 change-restored
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 Called whenever a change has been restored.
 
@@ -76,9 +76,9 @@ Called whenever a ref has been updated.
 ====
 
 cla-signed
-~~~~~~~~~~~
+~~~~~~~~~~
 
-Called whenever a user signs a contributor license agreement
+Called whenever a user signs a contributor license agreement.
 
 ====
   cla-signed --submitter <submitter> --user-id <user_id> --cla-id <cla_id>
@@ -89,12 +89,13 @@ Configuration Settings
 ----------------------
 
 It is possible to change where Gerrit looks for hooks, and what
-filenames it looks for by adding a [hooks] section to gerrit.config.
+filenames it looks for, by adding a [hooks] section in gerrit.config.
 
-Gerrit will use the value of hooks.path for the hooks directory, and
-the values of hooks.patchsetCreatedHook, hooks.commentAddedHook,
-hooks.changeMergedHook and hooks.changeAbandonedHook for the
-filenames for the hooks.
+Gerrit will use the value of hooks.path for the hooks directory.
+
+For the hook filenames, Gerrit will use the values of hooks.patchsetCreatedHook,
+hooks.commentAddedHook, hooks.changeMergedHook, hooks.changeAbandonedHook,
+hooks.changeRestoredHook, hooks.refUpdatedHook and hooks.claSignedHook.
 
 Missing Change URLs
 -------------------

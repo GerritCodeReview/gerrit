@@ -1195,6 +1195,21 @@ Optional filename for the change merged hook, if not specified then
 Optional filename for the change abandoned hook, if not specified then
 `change-abandoned` will be used.
 
+[[hooks.changeRestoredHook]]hooks.changeRestoredHook::
++
+Optional filename for the change restored hook, if not specified then
+`change-restored` will be used.
+
+[[hooks.refUpdatedHook]]hooks.refUpdatedHook::
++
+Optional filename for the ref updated hook, if not specified then
+`ref-updated` will be used.
+
+[[hooks.claSignedHook]]hooks.claSignedHook::
++
+Optional filename for the CLA signed hook, if not specified then
+`cla-signed` will be used.
+
 [[http]]Section http
 ~~~~~~~~~~~~~~~~~~~~
 

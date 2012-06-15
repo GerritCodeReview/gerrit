@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGlX///v8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-15T17:07:18Z",
+      "side": 1,
+      "message": "this comment isn\u0027t really necessary",
+      "revId": "32812320a9940f354c31cd36e4e0dcf48c0cc222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGlX///wA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-15T17:07:18Z",
+      "side": 1,
+      "message": "This line seems too long.",
+      "revId": "32812320a9940f354c31cd36e4e0dcf48c0cc222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGlX///wE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ListChanges.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-15T17:07:18Z",
+      "side": 1,
+      "message": "space after } before else. I\u0027ll fix this for you.",
+      "revId": "32812320a9940f354c31cd36e4e0dcf48c0cc222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

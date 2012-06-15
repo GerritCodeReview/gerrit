@@ -218,8 +218,12 @@ class HttpPluginServlet extends HttpServlet
 
     String uri = req.getRequestURI();
     String ctx = req.getContextPath();
-    String file = uri.substring(ctx.length() + 1);
+    if (uri.length() <= ctx.length()) {
+      Resource.NOT_FOUND.send(req, res);
+      return;
+    }
 
+    String file = uri.substring(ctx.length() + 1);
     ResourceKey key = new ResourceKey(holder.plugin, file);
     Resource rsc = resourceCache.getIfPresent(key);
     if (rsc != null) {

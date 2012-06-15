@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGnX////E\u003d",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-15T08:26:04Z",
+      "side": 1,
+      "message": "I was also doubting about this. I\u0027m not completely sure, but I think \u0027cla-signed\u0027 should not be added here. This is the documentation of the stream-events command and looking at ChangeHookRunner.doClaSignupHook(Account, ContributorAgreement) it looks like for the \u0027cla-signed\u0027 hook there is no event fired, but just the hook is executed. Since stream-events doesn\u0027t get a event for \u0027cla-signed\u0027 I think it should not be documented here.",
+      "parentUuid": "AAAGm3///+w\u003d",
+      "revId": "f889a2dc8181f48dba636193c6fbcc054be280cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGm3///+8\u003d",
         "filename": "Documentation/cmd-stream-events.txt",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGnX////M\u003d",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-15T08:26:04Z",
+      "side": 1,
+      "message": "I agree, it should be consistent.\n\nDone",
+      "parentUuid": "AAAGm3///+8\u003d",
+      "revId": "f889a2dc8181f48dba636193c6fbcc054be280cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGm3///+4\u003d",
         "filename": "Documentation/cmd-stream-events.txt",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-06-15T02:57:41Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "f889a2dc8181f48dba636193c6fbcc054be280cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGnX////I\u003d",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-15T08:26:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGm3///+4\u003d",
       "revId": "f889a2dc8181f48dba636193c6fbcc054be280cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

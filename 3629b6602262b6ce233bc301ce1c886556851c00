@@ -124,6 +124,24 @@
       "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGmH///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-15T06:18:43Z",
+      "side": 1,
+      "message": "Hi Martin\n\nwhen I reworking on new patch set, I find if user want ssh command \u0027create-project  --parents\u0027  display in tree style,  I mean not only show project name and description ...., not move back to main loop will be better as \u0027\u0027parents\u0027 is subset of \u0027all\u0027 , keep them to use same logic of display() would be clear and better.\n\nI am not sure, still waiting your feedback :)\nthanks!\n/Bruce",
+      "parentUuid": "AAAGmH////E\u003d",
+      "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

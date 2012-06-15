@@ -34,6 +34,24 @@
       "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGmH////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-15T04:56:34Z",
+      "side": 1,
+      "message": ":) improve a bit\n\nfor (NameKey pName : projectCache.all()) {\n        if (parents.contains(pName)) {\n          continue;\n        }\n        ProjectState e \u003d projectCache.get(pName);\n        if (e \u003d\u003d null) {\n          // If we can\u0027t get it from the cache, pretend its not present.\n          //\n          continue;\n        }\n        ProjectState parentState \u003d e.getParentState();\n\n        if (parentState !\u003d null\n            \u0026\u0026 !parents.contains(parentState.getProject().getNameKey())){\n          ProjectControl parentCtrl \u003d parentState.controlFor(currentUser);\n           if (parentCtrl.isVisible() || parentCtrl.isOwner()) {\n               parents.add(parentState.getProject().getNameKey());\n           }\n        }\n\n}",
+      "parentUuid": "AAAGmH////k\u003d",
+      "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

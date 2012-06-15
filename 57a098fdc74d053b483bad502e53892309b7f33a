@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGlH///zk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-15T16:36:36Z",
+      "side": 1,
+      "message": "I think you need to have 2 loops here.  As is, all the checks are still duplicated when the parent gets rejected.  Or, you could keep a rejected set.",
+      "revId": "57a098fdc74d053b483bad502e53892309b7f33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

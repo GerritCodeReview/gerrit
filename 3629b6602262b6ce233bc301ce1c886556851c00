@@ -160,6 +160,24 @@
       "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGlH///zg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-15T16:36:29Z",
+      "side": 1,
+      "message": "I admit, I don\u0027t know what is best in these cases, it is easy for me to sit back and point out all the problems with each solution, but it is harder to figure out the \"right\" solution. :(\n\nIn some ways, I wish that the whole thing was just split into the various use cases because as is, I cannot understand most of it (because it requires anticipating what all the different use cases are attempting to do at once).  If there were code that the various use cases could share, I think that it is better to share that code via small modular sub functions than it is to share it the way it is shared now, via one big function with ifs all over.  \n\nThat being said, I suspect that any solution which does not split things up will likely make someone grumpy.  But, I don\u0027t think you should have to split things up just to fix this (but I welcome some well thought out refactors).  My suggestion is: move the code back into the main loop, because if you don\u0027t you will have to create your own limit logic that might end up different, and if not you will also potentially be checking the projectCtrl permissions twice (since the main loop does some projectCtrl checks also).",
+      "parentUuid": "AAAGmH///+0\u003d",
+      "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

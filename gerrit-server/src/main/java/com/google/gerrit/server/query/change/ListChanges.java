@@ -22,10 +22,12 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.events.AccountAttribute;
 import com.google.gerrit.server.project.ChangeControl;
@@ -43,6 +45,7 @@ import java.io.Writer;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -200,6 +203,7 @@ public class ListChanges {
     out._number = in.getId().get();
     out._sortkey = in.getSortKey();
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
+    out.reviewed = isChangeReviewed(cd) ? true : null;
     out.labels = labelsFor(cd);
     return out;
   }
@@ -291,6 +295,37 @@ public class ListChanges {
     return labels;
   }
 
+  private boolean isChangeReviewed(ChangeData cd) throws OrmException {
+    if (user instanceof IdentifiedUser) {
+      PatchSet.Id patchSetId = cd.currentPatchSet(db).getId();
+      List<ChangeMessage> messages =
+          db.get().changeMessages().byPatchSet(patchSetId).toList();
+
+      if (messages.isEmpty()) {
+        return false;
+      }
+
+      // Sort messages to let the most recent ones at the beginning.
+      Collections.sort(messages, new Comparator<ChangeMessage>() {
+        @Override
+        public int compare(ChangeMessage a, ChangeMessage b) {
+          return b.getWrittenOn().compareTo(a.getWrittenOn());
+        }
+      });
+
+      Account.Id currentUserId = ((IdentifiedUser) user).getAccountId();
+      Account.Id changeOwnerId = cd.change(db).getOwner();
+      for (ChangeMessage cm : messages) {
+        if (currentUserId.equals(cm.getAuthor())) {
+          return true;
+        } else if (changeOwnerId.equals(cm.getAuthor())) {
+          return false;
+        }
+      }
+    }
+    return false;
+  }
+
   static class ChangeInfo {
     String project;
     String branch;
@@ -301,6 +336,7 @@ public class ListChanges {
     Timestamp created;
     Timestamp updated;
     Boolean starred;
+    Boolean reviewed;
 
     String _sortkey;
     int _number;

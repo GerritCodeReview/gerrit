@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGpX////c\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-16T13:12:23Z",
+      "side": 1,
+      "message": "I was under the impression that the email address was tied to the provider.  If that\u0027s not the case, I\u0027ll reword this section.",
+      "parentUuid": "AAAGlX///u0\u003d",
+      "revId": "c65923bf1837685a6d35fd64f3629926e87d9e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGln///u0\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Yes, I agree.",
       "parentUuid": "AAAGln///u0\u003d",
+      "revId": "c65923bf1837685a6d35fd64f3629926e87d9e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpX////g\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-16T13:12:23Z",
+      "side": 1,
+      "message": "Good point.  I\u0027ll change it.",
+      "parentUuid": "AAAGon////A\u003d",
       "revId": "c65923bf1837685a6d35fd64f3629926e87d9e51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

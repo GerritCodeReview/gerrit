@@ -75,6 +75,16 @@ public class Permission implements Comparable<Permission> {
     return LABEL + labelName;
   }
 
+  public static boolean canBeOnAllProjects(String ref, String permissionName) {
+    if (AccessSection.ALL.equals(ref)) {
+      return !OWNER.equals(permissionName);
+    }
+    if (AccessSection.REF_CONFIG.equals(ref)) {
+      return !PUSH.equals(permissionName);
+    }
+    return true;
+  }
+
   protected String name;
   protected boolean exclusiveGroup;
   protected List<PermissionRule> rules;

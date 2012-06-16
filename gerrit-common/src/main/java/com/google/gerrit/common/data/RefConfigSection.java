@@ -21,6 +21,9 @@ public abstract class RefConfigSection {
   /** Pattern that matches all branches in a project. */
   public static final String HEADS = "refs/heads/*";
 
+  /** Configuration settings for a project {@code refs/meta/config} */
+  public static final String REF_CONFIG = "refs/meta/config";
+
   /** Prefix that triggers a regular expression pattern. */
   public static final String REGEX_PREFIX = "^";
 

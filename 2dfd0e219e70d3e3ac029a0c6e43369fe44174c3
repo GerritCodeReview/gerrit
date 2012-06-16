@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGpH///64\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-16T17:55:12Z",
+      "side": 1,
+      "message": "The two sections are still sharing the same backing List instance. setPermissions just uses the List that was supplied. So you need to copy this into a new ArrayList first.",
+      "revId": "2dfd0e219e70d3e3ac029a0c6e43369fe44174c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

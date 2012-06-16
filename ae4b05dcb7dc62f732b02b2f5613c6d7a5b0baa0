@@ -16,6 +16,159 @@
       "revId": "ae4b05dcb7dc62f732b02b2f5613c6d7a5b0baa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpH///6k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-16T18:18:00Z",
+      "side": 1,
+      "message": "This panel doesn\u0027t always need to exist. Please make it dynamically and add it to the end of the main body RootPanel on sign-in rather than retaining a field all of the time in all configurations.",
+      "revId": "ae4b05dcb7dc62f732b02b2f5613c6d7a5b0baa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpH///6o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-16T18:18:00Z",
+      "side": 1,
+      "message": "tab starts this line, we use spaces to indent code",
+      "revId": "ae4b05dcb7dc62f732b02b2f5613c6d7a5b0baa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpH///6g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-16T18:18:00Z",
+      "side": 1,
+      "message": "line starts with tab",
+      "revId": "ae4b05dcb7dc62f732b02b2f5613c6d7a5b0baa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpH///6c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/auth/openid/OpenIdSsoPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-16T18:18:00Z",
+      "side": 1,
+      "message": "2012?",
+      "revId": "ae4b05dcb7dc62f732b02b2f5613c6d7a5b0baa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpH///6U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/auth/openid/OpenIdSsoPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-16T18:18:00Z",
+      "side": 1,
+      "message": "This method isn\u0027t necessary if all you are doing is using the super implementation.",
+      "revId": "ae4b05dcb7dc62f732b02b2f5613c6d7a5b0baa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpH///6Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/auth/openid/OpenIdSsoPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-16T18:18:00Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "ae4b05dcb7dc62f732b02b2f5613c6d7a5b0baa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpH///6Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-16T18:18:00Z",
+      "side": 1,
+      "message": "tab here and next line",
+      "revId": "ae4b05dcb7dc62f732b02b2f5613c6d7a5b0baa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpH///6M\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-16T18:18:00Z",
+      "side": 1,
+      "message": "tab here",
+      "revId": "ae4b05dcb7dc62f732b02b2f5613c6d7a5b0baa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGpH///6I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-16T18:18:00Z",
+      "side": 1,
+      "message": "tab here",
+      "revId": "ae4b05dcb7dc62f732b02b2f5613c6d7a5b0baa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

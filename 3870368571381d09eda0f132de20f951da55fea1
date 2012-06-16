@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGpX////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/AccountAttribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-16T12:51:40Z",
+      "side": 1,
+      "message": "Please add a description of this new field in ./Documentation/json.txt",
+      "revId": "3870368571381d09eda0f132de20f951da55fea1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

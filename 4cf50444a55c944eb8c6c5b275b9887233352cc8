@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGpH///48\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-17T04:51:56Z",
+      "side": 1,
+      "message": "My biggest problem with this commit message is I still don\u0027t understand why I would want this feature in my server, or how I should integrate it into my workflow. Currently reviewers typically assume a change is \"WIP\" by its owner after they post  comments. Owners assume a change is waiting on a reviewer after they push a new patch set. This new WIP state doesn\u0027t seem to buy us anything.\n\nYou have described the mechanics of what the change gives us, but I\u0027m not sold on why I should read a 847 line code review. Why did you build this for OpenStack? How does this improve the workflow employed by the OpenStack contributors?",
+      "revId": "4cf50444a55c944eb8c6c5b275b9887233352cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

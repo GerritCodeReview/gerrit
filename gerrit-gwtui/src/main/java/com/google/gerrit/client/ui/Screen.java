@@ -95,6 +95,10 @@ public abstract class Screen extends View {
     }
   }
 
+  protected void setHeaderVisible(boolean value) {
+    header.setVisible(value);
+  }
+
   protected void setTitleEast(final Widget w) {
     header.setWidget(0, Cols.East.ordinal(), w);
   }

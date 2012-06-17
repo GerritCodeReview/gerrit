@@ -19,14 +19,15 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
 public class ChangeDescriptionBlock extends Composite {
   private final ChangeInfoBlock infoBlock;
   private final CommitMessageBlock messageBlock;
 
-  public ChangeDescriptionBlock() {
+  public ChangeDescriptionBlock(KeyCommandSet keysAction) {
     infoBlock = new ChangeInfoBlock();
-    messageBlock = new CommitMessageBlock();
+    messageBlock = new CommitMessageBlock(keysAction);
 
     final HorizontalPanel hp = new HorizontalPanel();
     hp.add(infoBlock);
@@ -34,9 +35,9 @@ public class ChangeDescriptionBlock extends Composite {
     initWidget(hp);
   }
 
-  public void display(final Change chg, final PatchSetInfo info,
+  public void display(Change chg, Boolean starred, PatchSetInfo info,
       final AccountInfoCache acc) {
     infoBlock.display(chg, acc);
-    messageBlock.display(info.getMessage());
+    messageBlock.display(chg.getId(), starred, info.getMessage());
   }
 }

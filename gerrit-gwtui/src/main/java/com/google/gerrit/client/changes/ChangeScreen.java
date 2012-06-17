@@ -153,6 +153,7 @@ public class ChangeScreen extends Screen
     detailCache.addValueChangeHandler(this);
 
     addStyleName(Gerrit.RESOURCES.css().changeScreen());
+    addStyleName(Gerrit.RESOURCES.css().screenNoHeader());
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
@@ -160,16 +161,11 @@ public class ChangeScreen extends Screen
     keysNavigation.add(new ExpandCollapseDependencySectionKeyCommand(0, 'd', Util.C.expandCollapseDependencies()));
 
     if (Gerrit.isSignedIn()) {
-      StarredChanges.Icon star = StarredChanges.createIcon(changeId, false);
-      star.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());
-      setTitleWest(star);
-
-      keysAction.add(StarredChanges.newKeyCommand(star));
       keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
           .keyPublishComments()));
     }
 
-    descriptionBlock = new ChangeDescriptionBlock();
+    descriptionBlock = new ChangeDescriptionBlock(keysAction);
     add(descriptionBlock);
 
     approvals = new ApprovalTable();
@@ -243,6 +239,7 @@ public class ChangeScreen extends Screen
       }
     }
     setPageTitle(titleBuf.toString());
+    setHeaderVisible(false);
   }
 
   @Override
@@ -265,8 +262,10 @@ public class ChangeScreen extends Screen
     dependencies.setAccountInfoCache(detail.getAccounts());
     approvals.setAccountInfoCache(detail.getAccounts());
 
-    descriptionBlock.display(detail.getChange(), detail
-        .getCurrentPatchSetDetail().getInfo(), detail.getAccounts());
+    descriptionBlock.display(detail.getChange(),
+        detail.isStarred(),
+        detail.getCurrentPatchSetDetail().getInfo(),
+        detail.getAccounts());
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
     approvals.display(detail);

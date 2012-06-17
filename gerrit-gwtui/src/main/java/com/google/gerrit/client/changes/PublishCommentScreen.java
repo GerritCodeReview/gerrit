@@ -83,7 +83,7 @@ public class PublishCommentScreen extends AccountScreen implements
     addStyleName(Gerrit.RESOURCES.css().publishCommentsScreen());
 
     approvalButtons = new ArrayList<ValueRadioButton>();
-    descBlock = new ChangeDescriptionBlock();
+    descBlock = new ChangeDescriptionBlock(null);
     add(descBlock);
 
     final FormPanel form = new FormPanel();
@@ -270,7 +270,7 @@ public class PublishCommentScreen extends AccountScreen implements
   private void display(final PatchSetPublishDetail r) {
     setPageTitle(Util.M.publishComments(r.getChange().getKey().abbreviate(),
         patchSetId.get()));
-    descBlock.display(r.getChange(), r.getPatchSetInfo(), r.getAccounts());
+    descBlock.display(r.getChange(), null, r.getPatchSetInfo(), r.getAccounts());
 
     if (r.getChange().getStatus().isOpen()) {
       initApprovals(r, approvalPanel);

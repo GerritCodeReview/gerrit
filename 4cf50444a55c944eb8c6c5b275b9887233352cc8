@@ -16,6 +16,24 @@
       "revId": "4cf50444a55c944eb8c6c5b275b9887233352cc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGqH///+w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010246
+      },
+      "writtenOn": "2012-06-17T19:42:22Z",
+      "side": 1,
+      "message": "This is about denoting in a discoverable way and obvious way some of what you said above. Reviewers assume a change is WIP after the post comments ... but if there are 20 potential reviewers and 100s of outstanding reviews, it\u0027s tough to sift through the mountain of things outstanding and know what it is you should be spending your time on right now.\n\nSo part of this is about communication ... someone else has already indicated what\u0027s wrong with this and I\u0027m working on it, so it doesn\u0027t need to clutter up your queue.\n\nIt\u0027s also a way to indicate that you are, in fact, going to do something about it. It\u0027s entirely possible that you could give me a negative code review, that I disagree and am not going to do anything about it - and that some of our other core reviewers might also disagree and choose to accept the patch. So just because it\u0027s been reviewed down by one person does not necessarily mean that it has gone back to the drawing board.\n\nThe other part is about allowing us to sort out a view which filters away patches that are in such a state where further effort reviewing the code in its current form is a waste of time.  Having all of our core reviewers need to read the conversation on all of the patches and then track in their head whether or not someone is working on patch is just not really scalable (one of our projects has 17 different reviewers with +2 CRVW access after all, and landing 50 patches in a day per subproject is not uncommon for us) One of the ways in which gerrit has been helpful so far is the inclusion of the voting state of the patch in the overview page ... so that a dev can prioritize what they should be looking at for review.\n\nTo assist with that, we wrote WIP, and we also wrote an \"Important Changes\" view (I\u0027m not sure if Clark has uploaded here or not yet) that provides filtered lists of things to be reviewed and things already reviewed minus things that have been WIP\u0027d. \n\nWe\u0027ve got a follow up patch in work right now to have the movement from WIP back to Reviewable emit an event in the stream, so that our automated testing infrastructure can take some re-test action if that makes sense.\n\nI\u0027ll say this - at least from my personal use so far, having the important changes screen and the WIP state has been extremely useful in helping me keep up with the things that are actively in work. I\u0027m happy to follow up with any questions about the how and why though!",
+      "parentUuid": "AAAGpH///48\u003d",
+      "revId": "4cf50444a55c944eb8c6c5b275b9887233352cc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

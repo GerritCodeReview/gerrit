@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGo3///5g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-17T19:40:21Z",
+      "side": 1,
+      "message": "This now fails the case where destBranch doesn\u0027t exist but HEAD points to it. For example a brand new repository with no commits and a change being submitted to master, which HEAD points to.",
+      "revId": "ce01e35e237a84bc70e967615ca576bcbde04cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

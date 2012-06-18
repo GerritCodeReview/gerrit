@@ -16,6 +16,24 @@
       "revId": "57a098fdc74d053b483bad502e53892309b7f33a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGr3////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-06-18T06:35:37Z",
+      "side": 1,
+      "message": "\"to have 2 loops\". \n\n-- I am not sure I got your idea completely. anyway I will move the logic back to mail loop.\n\n\n \"all the checks are still duplicated when the parent gets rejected,Or, you could keep a rejected set.\"\n\n-- in below case project tree,  \u0027all()\u0027 will bring with (P3, P4,P5,P2,P1,All), \n\nI will checkout one by one in loop.\n\nI check P3\u0027s parent then get \u0027parents\u0027[P2],\nI check P4\u0027s parent and find \u0027parents\u0027 already have P2 then reject continue checking P2.\ndo you think this is duplicated?  but without check how can I know I should reject it?\n\n\n\n      All-Project\n       /\n      P1\n     / \n   P2\n   /\\ \\ \n /   \\  \\ \nP3  P4  P5\n\n\n\u0027rejected set\u0027\n\n-- do you mean now let  \u0027rejectedParents\u0027 keep O2\nin next step checking P5, if P5\u0027 parents in   \u0027rejectedParents\u0027  then continue loop next? but here I cannot find the difference with line 309. \n\nso a bit confused. :(",
+      "parentUuid": "AAAGlH///zk\u003d",
+      "revId": "57a098fdc74d053b483bad502e53892309b7f33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

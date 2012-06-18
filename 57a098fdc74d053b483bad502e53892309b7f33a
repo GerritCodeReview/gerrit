@@ -34,6 +34,24 @@
       "revId": "57a098fdc74d053b483bad502e53892309b7f33a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGr3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-06-18T06:59:30Z",
+      "side": 1,
+      "message": "I guess your \u0027rejected\u0027 idea is about those not matching  line 311. that would really be fine :)",
+      "parentUuid": "AAAGr3////4\u003d",
+      "revId": "57a098fdc74d053b483bad502e53892309b7f33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGr3////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-06-18T13:44:11Z",
+      "side": 1,
+      "message": "Agree. I\u0027ll remove it. Done.",
+      "parentUuid": "AAAGpH////8\u003d",
+      "revId": "0c4f1df4ed2ea3c65af7fe9a32bc335c08ddee99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGpH////4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-15T19:25:44Z",
       "side": 1,
       "message": "Don\u0027t parse.  Use new Project.NameKey(). The value returned by event.getProjectName() is not escaped the way parse expects.\n\nNot all reference update events need to cause this to invalidate. Perhaps only for creates under refs/changes/?",
+      "revId": "0c4f1df4ed2ea3c65af7fe9a32bc335c08ddee99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGr3////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-06-18T13:44:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGpH////4\u003d",
       "revId": "0c4f1df4ed2ea3c65af7fe9a32bc335c08ddee99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

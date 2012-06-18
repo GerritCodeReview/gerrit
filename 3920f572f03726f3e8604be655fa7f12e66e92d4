@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGsH///90\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-18T18:36:12Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "AAAGqX////g\u003d",
+      "revId": "3920f572f03726f3e8604be655fa7f12e66e92d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGqX////c\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
         "patchSetId": 2

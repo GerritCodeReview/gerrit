@@ -64,7 +64,6 @@ public class PublishCommentScreen extends AccountScreen implements
   private final PatchSet.Id patchSetId;
   private Collection<ValueRadioButton> approvalButtons;
   private ChangeDescriptionBlock descBlock;
-  private ApprovalTable approvals;
   private Panel approvalPanel;
   private NpTextArea message;
   private FlowPanel draftsPanel;
@@ -86,9 +85,6 @@ public class PublishCommentScreen extends AccountScreen implements
     approvalButtons = new ArrayList<ValueRadioButton>();
     descBlock = new ChangeDescriptionBlock(null);
     add(descBlock);
-
-    approvals = new ApprovalTable();
-    add(approvals);
 
     final FormPanel form = new FormPanel();
     final FlowPanel body = new FlowPanel();
@@ -278,11 +274,6 @@ public class PublishCommentScreen extends AccountScreen implements
 
     if (r.getChange().getStatus().isOpen()) {
       initApprovals(r, approvalPanel);
-
-      approvals.setAccountInfoCache(r.getAccounts());
-      approvals.display(r);
-    } else {
-      approvals.setVisible(false);
     }
 
     if (lastState != null && patchSetId.equals(lastState.patchSetId)) {

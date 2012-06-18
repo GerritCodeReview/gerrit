@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGq3////0\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011232
+      },
+      "writtenOn": "2012-06-18T01:21:48Z",
+      "side": 1,
+      "message": "Done.  I\u0027ve removed the references to the email address.  The important point here is the proxy config - I spent something like 10 minutes fiddling with the auth config before realising the proxy needed to be set.",
+      "parentUuid": "AAAGpX////c\u003d",
+      "revId": "c65923bf1837685a6d35fd64f3629926e87d9e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGln///u0\u003d",
         "filename": "Documentation/install-quick.txt",
         "patchSetId": 1
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Good point.  I\u0027ll change it.",
       "parentUuid": "AAAGon////A\u003d",
+      "revId": "c65923bf1837685a6d35fd64f3629926e87d9e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGq3////w\u003d",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1011232
+      },
+      "writtenOn": "2012-06-18T01:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGpX////g\u003d",
       "revId": "c65923bf1837685a6d35fd64f3629926e87d9e51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

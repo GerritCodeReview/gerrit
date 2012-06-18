@@ -275,7 +275,7 @@ public class Gerrit implements EntryPoint {
     return selfRedirect("/login/" + token);
   }
 
-  private static String selfRedirect(String suffix) {
+  public static String selfRedirect(String suffix) {
     // Clean up the path. Users seem to like putting extra slashes into the URL
     // which can break redirections by misinterpreting at either client or server.
     String path = Location.getPath();

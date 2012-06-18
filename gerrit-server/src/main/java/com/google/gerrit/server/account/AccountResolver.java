@@ -115,7 +115,19 @@ public class AccountResolver {
     final int lt = nameOrEmail.indexOf('<');
     final int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
-      return byEmail.get(nameOrEmail.substring(lt + 1, gt));
+      Set<Account.Id> ids = byEmail.get(nameOrEmail.substring(lt + 1, gt));
+      if (ids.size() == 1) {
+        return ids;
+      }
+      // more than one match, try to return the best one
+      for (Account.Id id : ids) {
+        Account a = byId.get(id).getAccount();
+        if (a.getFullName().equals(nameOrEmail.substring(0, lt - 1))) {
+          return Collections.singleton(id);
+        }
+      }
+      // no perfect matches, let the caller decide
+      return ids;
     }
 
     if (nameOrEmail.contains("@")) {

@@ -76,6 +76,8 @@ name:: User's full name, if configured.
 
 email:: User's preferred email address.
 
+username:: User's username, if configured.
+
 [[patchSet]]
 patchSet
 --------

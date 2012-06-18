@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGrH///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-06-18T19:04:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGsH///+U\u003d",
+      "revId": "006dfa1b4a70f1bd2d2d0140f7716e26d5b63bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGsH///+Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGrH///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-06-18T19:04:21Z",
+      "side": 1,
+      "message": "byId.get takes and Id and returns an accountState, am I missing something obvious?",
+      "parentUuid": "AAAGsH///+Q\u003d",
+      "revId": "006dfa1b4a70f1bd2d2d0140f7716e26d5b63bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGsH///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-06-18T18:06:30Z",
       "side": 1,
       "message": "why isn\u0027t this part of findAllByNameOrEmail below?",
+      "revId": "006dfa1b4a70f1bd2d2d0140f7716e26d5b63bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGrH///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-06-18T19:04:21Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "AAAGsH///+M\u003d",
       "revId": "006dfa1b4a70f1bd2d2d0140f7716e26d5b63bb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -178,6 +178,24 @@
       "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGr3////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-06-18T06:35:46Z",
+      "side": 1,
+      "message": "\"to share that code via small modular sub functions than it is to share it the way it is shared now\"\n\n-- I like this idea!\n\n\"move the code back into the main loop, because if you don\u0027t you will have to create your own limit logic that might end up different, and if not you will also potentially be checking the projectCtrl permissions twice (since the main loop does some projectCtrl checks also).\" \n\n-- I agree with you.",
+      "parentUuid": "AAAGlH///zg\u003d",
+      "revId": "3629b6602262b6ce233bc301ce1c886556851c00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,7 @@ import com.google.gerrit.client.plugins.PluginInfo;
 import com.google.gerrit.client.plugins.PluginMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -79,7 +80,8 @@ public class PluginListScreen extends PluginScreen {
     }
 
     void populate(final int row, final PluginInfo plugin) {
-      table.setText(row, 1, plugin.name());
+      table.setWidget(row, 1,
+          new Anchor(plugin.name(), "/plugins/" + plugin.name() + "/"));
       table.setText(row, 2, plugin.version());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();

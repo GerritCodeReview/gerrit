@@ -40,8 +40,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -55,6 +57,12 @@ public class ListProjects {
       @Override
       boolean matches(Repository git) throws IOException {
         return !PERMISSIONS.matches(git);
+      }
+    },
+    PARENT_CANDIDATES {
+      @Override
+      boolean matches(Repository git) {
+        return true;
       }
     },
     PERMISSIONS {
@@ -155,6 +163,7 @@ public class ListProjects {
     int found = 0;
     Map<String, ProjectInfo> output = Maps.newTreeMap();
     Map<String, String> hiddenNames = Maps.newHashMap();
+    Set<String> rejected = new HashSet<String>();
 
     final TreeMap<Project.NameKey, ProjectNode> treeMap =
         new TreeMap<Project.NameKey, ProjectNode>();
@@ -166,84 +175,102 @@ public class ListProjects {
           //
           continue;
         }
-
-        final ProjectControl pctl = e.controlFor(currentUser);
-        final boolean isVisible = pctl.isVisible() || (all && pctl.isOwner());
-        if (showTree && !format.isJson()) {
-          treeMap.put(projectName,
-              projectNodeFactory.create(pctl.getProject(), isVisible));
-          continue;
-        }
-
-        if (!isVisible && !(showTree && pctl.isOwner())) {
-          // Require the project itself to be visible to the user.
-          //
-          continue;
-        }
-
         ProjectInfo info = new ProjectInfo();
-        info.name = projectName.get();
-        if (showTree && format.isJson()) {
-          ProjectState parent = e.getParentState();
-          if (parent != null) {
-            ProjectControl parentCtrl = parent.controlFor(currentUser);
+        if (type == FilterType.PARENT_CANDIDATES) {
+          ProjectState parentState = e.getParentState();
+          if (parentState != null
+              && !output.keySet().contains(parentState.getProject().getName())
+              && !rejected.contains(parentState.getProject().getName())) {
+            ProjectControl parentCtrl = parentState.controlFor(currentUser);
             if (parentCtrl.isVisible() || parentCtrl.isOwner()) {
-              info.parent = parent.getProject().getName();
+              info.name = parentState.getProject().getName();
+              info.description = parentState.getProject().getDescription();
             } else {
-              info.parent = hiddenNames.get(parent.getProject().getName());
-              if (info.parent == null) {
-                info.parent = "?-" + (hiddenNames.size() + 1);
-                hiddenNames.put(parent.getProject().getName(), info.parent);
-              }
+              rejected.add(parentState.getProject().getName());
+              continue;
             }
+          } else {
+            continue;
           }
-        }
-        if (showDescription && !e.getProject().getDescription().isEmpty()) {
-          info.description = e.getProject().getDescription();
-        }
 
-        try {
-          if (showBranch != null) {
-            Repository git = repoManager.openRepository(projectName);
-            try {
-              if (!type.matches(git)) {
-                continue;
-              }
+        } else {
+          final ProjectControl pctl = e.controlFor(currentUser);
+          final boolean isVisible = pctl.isVisible() || (all && pctl.isOwner());
+          if (showTree && !format.isJson()) {
+            treeMap.put(projectName,
+                projectNodeFactory.create(pctl.getProject(), isVisible));
+            continue;
+          }
 
-              List<Ref> refs = getBranchRefs(projectName, pctl);
-              if (!hasValidRef(refs)) {
-               continue;
-              }
+          if (!isVisible && !(showTree && pctl.isOwner())) {
+            // Require the project itself to be visible to the user.
+            //
+            continue;
+          }
 
-              for (int i = 0; i < showBranch.size(); i++) {
-                Ref ref = refs.get(i);
-                if (ref != null && ref.getObjectId() != null) {
-                  if (info.branches == null) {
-                    info.branches = Maps.newLinkedHashMap();
-                  }
-                  info.branches.put(showBranch.get(i), ref.getObjectId().name());
+          info.name = projectName.get();
+          if (showTree && format.isJson()) {
+            ProjectState parent = e.getParentState();
+            if (parent != null) {
+              ProjectControl parentCtrl = parent.controlFor(currentUser);
+              if (parentCtrl.isVisible() || parentCtrl.isOwner()) {
+                info.parent = parent.getProject().getName();
+              } else {
+                info.parent = hiddenNames.get(parent.getProject().getName());
+                if (info.parent == null) {
+                  info.parent = "?-" + (hiddenNames.size() + 1);
+                  hiddenNames.put(parent.getProject().getName(), info.parent);
                 }
               }
-            } finally {
-              git.close();
-            }
-          } else if (!showTree && type != FilterType.ALL) {
-            Repository git = repoManager.openRepository(projectName);
-            try {
-              if (!type.matches(git)) {
-                continue;
-              }
-            } finally {
-              git.close();
             }
           }
+          if (showDescription && !e.getProject().getDescription().isEmpty()) {
+            info.description = e.getProject().getDescription();
+          }
 
-        } catch (RepositoryNotFoundException err) {
-          // If the Git repository is gone, the project doesn't actually exist anymore.
-          continue;
-        } catch (IOException err) {
-          log.warn("Unexpected error reading " + projectName, err);
-          continue;
+          try {
+            if (showBranch != null) {
+              Repository git = repoManager.openRepository(projectName);
+              try {
+                if (!type.matches(git)) {
+                  continue;
+                }
+
+                List<Ref> refs = getBranchRefs(projectName, pctl);
+                if (!hasValidRef(refs)) {
+                  continue;
+                }
+
+                for (int i = 0; i < showBranch.size(); i++) {
+                  Ref ref = refs.get(i);
+                  if (ref != null && ref.getObjectId() != null) {
+                    if (info.branches == null) {
+                      info.branches = Maps.newLinkedHashMap();
+                    }
+                    info.branches.put(showBranch.get(i), ref.getObjectId().name());
+                  }
+                }
+              } finally {
+                git.close();
+              }
+            } else if (!showTree && type != FilterType.ALL) {
+              Repository git = repoManager.openRepository(projectName);
+              try {
+                if (!type.matches(git)) {
+                  continue;
+                }
+              } finally {
+                git.close();
+              }
+            }
+
+          } catch (RepositoryNotFoundException err) {
+            // If the Git repository is gone, the project doesn't actually exist anymore.
+            continue;
+          } catch (IOException err) {
+            log.warn("Unexpected error reading " + projectName, err);
+            continue;
+          }
         }
 
         if (limit > 0 && ++found > limit) {

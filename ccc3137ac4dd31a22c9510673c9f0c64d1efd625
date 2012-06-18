@@ -16,6 +16,24 @@
       "revId": "ccc3137ac4dd31a22c9510673c9f0c64d1efd625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGsH///+s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-18T17:40:33Z",
+      "side": 1,
+      "message": "look at Gerrit.java the selfRedirect method around line 278. we have to compute the URL by taking into account Location.getPath() which tells us where Gerrit is installed.",
+      "parentUuid": "AAAGsH///+4\u003d",
+      "revId": "ccc3137ac4dd31a22c9510673c9f0c64d1efd625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

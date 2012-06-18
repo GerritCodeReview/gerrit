@@ -30,6 +30,7 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.RequestLog;
 import org.eclipse.jetty.server.Response;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;
+import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +55,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
   private final AsyncAppender async;
 
-  HttpLog(final SitePaths site) {
+  HttpLog(final SitePaths site, final Config config) {
     final DailyRollingFileAppender dst = new DailyRollingFileAppender();
     dst.setName(LOG_NAME);
     dst.setLayout(new MyLayout());
@@ -69,7 +70,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
 
     async = new AsyncAppender();
     async.setBlocking(true);
-    async.setBufferSize(64);
+    async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
     async.setLocationInfo(false);
     async.addAppender(dst);
     async.activateOptions();
@@ -93,7 +94,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   private void doLog(Request req, Response rsp, CurrentUser user) {
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
-        null, // logger (optional)
+        log, // logger
         System.currentTimeMillis(), // when
         Level.INFO, // level
         "", // message text

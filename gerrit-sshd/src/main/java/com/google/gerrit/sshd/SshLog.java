@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.sshd.SshScope.Context;
@@ -33,6 +34,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.QuotedString;
 
 import java.io.File;
@@ -59,7 +61,7 @@ class SshLog implements LifecycleListener {
 
   @Inject
   SshLog(final Provider<SshSession> session, final Provider<Context> context,
-      final SitePaths site) {
+      final SitePaths site, @GerritServerConfig Config config) {
     this.session = session;
     this.context = context;
 
@@ -77,7 +79,7 @@ class SshLog implements LifecycleListener {
 
     async = new AsyncAppender();
     async.setBlocking(true);
-    async.setBufferSize(64);
+    async.setBufferSize(config.getInt("core", "asyncLoggingBufferSize", 64));
     async.setLocationInfo(false);
     async.addAppender(dst);
     async.activateOptions();
@@ -99,7 +101,7 @@ class SshLog implements LifecycleListener {
   void onAuthFail(final SshSession sd) {
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
-        null, // logger (optional)
+        log, // logger
         System.currentTimeMillis(), // when
         Level.INFO, // level
         "AUTH FAILURE FROM " + sd.getRemoteAddressAsString(), // message text
@@ -168,7 +170,7 @@ class SshLog implements LifecycleListener {
 
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
-        null, // logger (optional)
+        log, // logger
         System.currentTimeMillis(), // when
         Level.INFO, // level
         msg, // message text

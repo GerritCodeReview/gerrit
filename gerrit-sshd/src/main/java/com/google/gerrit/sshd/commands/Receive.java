@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.VisibleRefFilter;
 import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
@@ -31,6 +32,7 @@ import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -92,6 +94,15 @@ final class Receive extends AbstractGitCommand {
       receive.advertiseHistory();
       rp.receive(in, out, err);
     } catch (UnpackException badStream) {
+      // In case this was caused by the user pushing an object whose size
+      // is larger than the receive.maxObjectSizeLimit gerrit.config parameter
+      // we want to present this error to the user
+      if (badStream.getCause() instanceof TooLargeObjectInPackException) {
+        PrintWriter p = toPrintWriter(err);
+        p.print("error: " + badStream.getCause().getMessage() + "\n");
+        p.flush();
+      }
+
       // This may have been triggered by branch level access controls.
       // Log what the heck is going on, as detailed as we can.
       //

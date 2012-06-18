@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGrH////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/RenameGroupOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-18T13:17:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGo3///6E\u003d",
+      "revId": "6e55b979747afd401b8417501d9ad62befa29ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGo3///6I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-17T19:09:04Z",
       "side": 1,
       "message": "i think this base predates the replication plugin being split out. It needs to be rebased and the conflicts resolved.",
+      "revId": "6e55b979747afd401b8417501d9ad62befa29ece",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGrH////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-18T13:17:02Z",
+      "side": 1,
+      "message": "Right, this was done before splitting out the replication into a plugin, but even now this code seems to be correct. \"update.replicate(ru.getName())\" already uses the new GitReferenceUpdated to fire the event that triggers the replication. We also have the same call in master (line 251, now line 294).\n\nI rebased the commit and resolved all the other conflicts.",
+      "parentUuid": "AAAGo3///6I\u003d",
       "revId": "6e55b979747afd401b8417501d9ad62befa29ece",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

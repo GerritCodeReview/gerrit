@@ -50,12 +50,28 @@ public class AccountResolver {
    *        "Full Name &lt;email@example&gt;", just the email address
    *        ("email@example"), a full name ("Full Name"), an account id
    *        ("18419") or an user name ("username").
-   * @return the single account that matches; null if no account matches or
-   *         there are multiple candidates.
+   * @return the single account that matches; best match if there are
+   * multiple and null if no account matches at all
    */
   public Account find(final String nameOrEmail) throws OrmException {
     Set<Account.Id> r = findAll(nameOrEmail);
-    return r.size() == 1 ? byId.get(r.iterator().next()).getAccount() : null;
+    if (r.size() == 1) {
+      byId.get(r.iterator().next()).getAccount();
+    } else {
+      // return best match
+      final int lt = nameOrEmail.indexOf('<');
+      final int gt = nameOrEmail.indexOf('>');
+      if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
+        for (Account.Id id : r) {
+          Account a = byId.get(id).getAccount();
+          if (a.getFullName().equals(nameOrEmail.substring(0, lt - 1))) {
+            return a;
+          }
+        }
+      }
+    }
+    // no good match, return null
+    return null;
   }
 
   /**

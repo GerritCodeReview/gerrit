@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -115,7 +116,21 @@ public class AccountResolver {
     final int lt = nameOrEmail.indexOf('<');
     final int gt = nameOrEmail.indexOf('>');
     if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
-      return byEmail.get(nameOrEmail.substring(lt + 1, gt));
+      Set<Account.Id> ids = byEmail.get(nameOrEmail.substring(lt + 1, gt));
+      if (ids.isEmpty() || ids.size() == 1) {
+        return ids;
+      }
+
+      // more than one match, try to return the best one
+      String name = nameOrEmail.substring(0, lt - 1);
+      Set<Account.Id> nameMatches = Sets.newHashSet();
+      for (Account.Id id : ids) {
+        Account a = byId.get(id).getAccount();
+        if (name.equals(a.getFullName())) {
+          nameMatches.add(id);
+        }
+      }
+      return nameMatches.isEmpty() ? ids : nameMatches;
     }
 
     if (nameOrEmail.contains("@")) {

@@ -63,6 +63,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.NB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,6 +76,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 public class ChangeUtil {
+
+  private static final Logger log = LoggerFactory.getLogger(ChangeUtil.class);
+
   private static int uuidPrefix;
   private static int uuidSeq;
 
@@ -592,10 +597,14 @@ public class ChangeUtil {
     new ApprovalsUtil(db, null).syncChangeStatus(change);
 
     // Email the reviewers
-    final ReplyToChangeSender cm = senderFactory.create(change);
-    cm.setFrom(user.getAccountId());
-    cm.setChangeMessage(cmsg);
-    cm.send();
+    try {
+      final ReplyToChangeSender cm = senderFactory.create(change);
+      cm.setFrom(user.getAccountId());
+      cm.setChangeMessage(cmsg);
+      cm.send();
+    } catch (Exception e) {
+      log.error("Cannot email update for change " + change.getChangeId(), e);
+    }
   }
 
   public static String sortKey(long lastUpdated, int id){

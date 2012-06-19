@@ -203,7 +203,9 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   }
 
   private void load() throws OrmException, NoSuchChangeException {
-    if (detail.getChange().getStatus().equals(Change.Status.NEW) && testMerge) {
+    final Change.Status status = detail.getChange().getStatus();
+    if ((status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT)) &&
+        testMerge) {
       ChangeUtil.testMerge(opFactory, detail.getChange());
     }
 

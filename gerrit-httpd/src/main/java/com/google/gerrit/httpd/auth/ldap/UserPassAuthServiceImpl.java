@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountUserNameException;
+import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
@@ -79,7 +80,8 @@ class UserPassAuthServiceImpl implements UserPassAuthService {
 
     result.success = true;
     result.isNew = res.isNew();
-    webSession.get().login(res, true /* persistent cookie */);
+    webSession.get().login(res, AuthMethod.PASSWORD,
+                           true /* persistent cookie */);
     callback.onSuccess(result);
   }
 }

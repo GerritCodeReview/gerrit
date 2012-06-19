@@ -25,6 +25,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AuthConfig;
@@ -66,6 +67,7 @@ public final class CacheBasedWebSession implements WebSession {
   private final IdentifiedUser.RequestFactory identified;
   private AccessPath accessPath = AccessPath.WEB_UI;
   private Cookie outCookie;
+  private AuthMethod authMethod;
 
   private Key key;
   private Val val;
@@ -142,7 +144,8 @@ public final class CacheBasedWebSession implements WebSession {
     return anonymousProvider.get();
   }
 
-  public void login(final AuthResult res, final boolean rememberMe) {
+  public void login(final AuthResult res, final AuthMethod meth,
+                    final boolean rememberMe) {
     final Account.Id id = res.getAccountId();
     final AccountExternalId.Key identity = res.getExternalId();
 
@@ -153,6 +156,8 @@ public final class CacheBasedWebSession implements WebSession {
     key = manager.createKey(id);
     val = manager.createVal(key, id, rememberMe, identity, null);
     saveCookie();
+
+    authMethod = meth;
   }
 
   /** Change the access path from the default of {@link AccessPath#WEB_UI}. */
@@ -209,5 +214,9 @@ public final class CacheBasedWebSession implements WebSession {
 
   private static boolean isSecure(final HttpServletRequest req) {
     return req.isSecure() || "https".equals(req.getScheme());
+  }
+
+  public AuthMethod getAuthMethod() {
+    return authMethod;
   }
 }

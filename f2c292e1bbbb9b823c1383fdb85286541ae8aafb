@@ -16,6 +16,24 @@
       "revId": "f2c292e1bbbb9b823c1383fdb85286541ae8aafb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGtn///+g\u003d",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-19T12:51:56Z",
+      "side": 1,
+      "message": "Yes, the instance of Gerrit at gerrit-review has no usernames.  Also, in a normal instance it is unconfigured until a user chooses one.",
+      "parentUuid": "AAAGt3////I\u003d",
+      "revId": "f2c292e1bbbb9b823c1383fdb85286541ae8aafb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

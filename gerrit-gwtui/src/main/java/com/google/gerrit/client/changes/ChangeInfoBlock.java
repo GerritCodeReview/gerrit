@@ -19,13 +19,11 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.BranchLink;
-import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
@@ -40,18 +38,15 @@ public class ChangeInfoBlock extends Composite {
   private static final int R_UPDATED = 6;
   private static final int R_STATUS = 7;
   private static final int R_MERGE_TEST = 8;
-  private final int R_PERMALINK;
-  private static final int R_CNT = 10;
+  private static final int R_CNT = 9;
 
   private final Grid table;
 
   public ChangeInfoBlock() {
     if (Gerrit.getConfig().testChangeMerge()) {
       table = new Grid(R_CNT, 2);
-      R_PERMALINK = 9;
     } else {
       table = new Grid(R_CNT - 1, 2);
-      R_PERMALINK = 8;
     }
     table.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     table.addStyleName(Gerrit.RESOURCES.css().changeInfoBlock());
@@ -73,8 +68,6 @@ public class ChangeInfoBlock extends Composite {
     fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
     fmt.addStyleName(R_CHANGE_ID, 1, Gerrit.RESOURCES.css().changeid());
     fmt.addStyleName(R_CNT - 2, 0, Gerrit.RESOURCES.css().bottomheader());
-    fmt.addStyleName(R_PERMALINK, 0, Gerrit.RESOURCES.css().permalink());
-    fmt.addStyleName(R_PERMALINK, 1, Gerrit.RESOURCES.css().permalink());
 
     initWidget(table);
   }
@@ -111,10 +104,5 @@ public class ChangeInfoBlock extends Composite {
     } else {
       table.getCellFormatter().removeStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
     }
-
-    final FlowPanel fp = new FlowPanel();
-    fp.add(new ChangeLink(Util.C.changePermalink(), chg.getId()));
-    fp.add(new CopyableLabel(ChangeLink.permalink(chg.getId()), false));
-    table.setWidget(R_PERMALINK, 1, fp);
   }
 }

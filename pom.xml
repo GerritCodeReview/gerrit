@@ -21,7 +21,7 @@ limitations under the License.
   <groupId>gwtexpui</groupId>
   <artifactId>gwtexpui</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.5</version>
+  <version>1.2.6</version>
   <name>gwtexpui</name>
   <description>Extended UI tools for GWT</description>
   <url>http://android.git.kernel.org/?p=tools/gwtexpui.git</url>
@@ -284,6 +284,14 @@ limitations under the License.
         </executions>
       </plugin>
     </plugins>
+
+    <extensions>
+      <extension>
+        <groupId>net.anzix.aws</groupId>
+        <artifactId>s3-maven-wagon</artifactId>
+        <version>3.2</version>
+      </extension>
+    </extensions>
   </build>
 
   <dependencies>
@@ -310,17 +318,9 @@ limitations under the License.
   </dependencies>
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>gerrit-snapshot-repository</id>
-      <name>gerrit Snapshot Repository</name>
-      <url>dav:https://gerrit-maven-repository.googlecode.com/svn/</url>
-      <uniqueVersion>true</uniqueVersion>
-    </snapshotRepository>
-
     <repository>
-      <id>gerrit-maven-repository</id>
-      <name>gerrit Maven Repository</name>
-      <url>dav:https://gerrit-maven-repository.googlecode.com/svn/</url>
+      <id>gerrit-maven</id>
+      <url>s3://gerrit-maven@commondatastorage.googleapis.com</url>
       <uniqueVersion>true</uniqueVersion>
     </repository>
   </distributionManagement>

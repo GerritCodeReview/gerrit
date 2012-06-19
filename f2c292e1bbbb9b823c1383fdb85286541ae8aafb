@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGt3////I\u003d",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-19T12:02:15Z",
+      "side": 1,
+      "message": "Is it possible that the username is not configured?",
+      "revId": "f2c292e1bbbb9b823c1383fdb85286541ae8aafb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -101,12 +101,17 @@ public class ChangeInfoBlock extends Composite {
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
     table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));
+    boolean changeClosed = chg.getStatus().isClosed();
     if (Gerrit.getConfig().testChangeMerge()) {
-      table.setText(R_MERGE_TEST, 1, chg.isMergeable() ? Util.C
-          .changeInfoBlockCanMergeYes() : Util.C.changeInfoBlockCanMergeNo());
+      if (changeClosed) {
+        table.getRowFormatter().setVisible(R_MERGE_TEST, false);
+      } else {
+        table.setText(R_MERGE_TEST, 1, chg.isMergeable() ? Util.C
+            .changeInfoBlockCanMergeYes() : Util.C.changeInfoBlockCanMergeNo());
+      }
     }
 
-    if (chg.getStatus().isClosed()) {
+    if (changeClosed) {
       table.getCellFormatter().addStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
     } else {
       table.getCellFormatter().removeStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());

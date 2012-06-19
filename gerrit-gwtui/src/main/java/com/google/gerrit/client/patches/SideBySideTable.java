@@ -284,7 +284,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
         || script.getChangeType() == ChangeType.COPIED) {
       m.append(script.getOldName());
     } else {
-      m.append(PatchUtil.C.patchHeaderOld());
+      m.append(PatchUtil.C.patchHeaderVersionA());
     }
     if (!isCommitMessage) {
       m.br();
@@ -301,7 +301,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.setAttribute("width", "50%");
-    m.append(PatchUtil.C.patchHeaderNew());
+    m.append(PatchUtil.C.patchHeaderVersionB());
     if (!isCommitMessage) {
       m.br();
       if (0 < script.getB().size()) {

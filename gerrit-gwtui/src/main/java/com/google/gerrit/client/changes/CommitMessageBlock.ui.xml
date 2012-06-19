@@ -66,11 +66,32 @@ limitations under the License.
     .starPanel {
       float: left;
     }
+
+    .boxTitle {
+      float: left;
+      margin-right: 10px;
+    }
+
+    .permalinkPanel {
+      float: right;
+    }
+
+    .permalinkPanel a {
+      float: left;
+    }
+
+    .permalinkPanel div {
+      display: inline;
+    }
   </ui:style>
 
   <g:HTMLPanel>
     <table class='{style.commitMessageTable}'>
-      <tr><td class='{style.header}'><g:SimplePanel styleName='{style.starPanel}' ui:field='starPanel'></g:SimplePanel>Commit Message</td></tr>
+      <tr><td class='{style.header}'>
+        <g:SimplePanel styleName='{style.starPanel}' ui:field='starPanel'></g:SimplePanel>
+        <div class='{style.boxTitle}'>Commit Message</div>
+        <g:FlowPanel styleName='{style.permalinkPanel}' ui:field='permalinkPanel'></g:FlowPanel>
+      </td></tr>
       <tr><td class='{style.contents}'>
         <pre class='{style.commitSummary} {res.css.changeScreenDescription}' ui:field='commitSummaryPre'/>
         <pre class='{style.commitBody} {res.css.changeScreenDescription}' ui:field='commitBodyPre'/>

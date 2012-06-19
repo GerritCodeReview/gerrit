@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGtH///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-19T15:06:12Z",
+      "side": 1,
+      "message": "Sorry, I missed what object this was. I thought it was the raw database. Its the cache. The cache doesn\u0027t expose a getAll, even though the underlying Guava cache does support that, but the database loader doesn\u0027t take advantage of it. So disregard my comment.",
+      "parentUuid": "AAAGrH///+k\u003d",
+      "revId": "006dfa1b4a70f1bd2d2d0140f7716e26d5b63bb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGsH///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
         "patchSetId": 1

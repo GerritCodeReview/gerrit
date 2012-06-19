@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGwH////8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetPublishDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1005757
+      },
+      "writtenOn": "2012-06-19T14:45:23Z",
+      "side": 1,
+      "message": "Moved this before aic.create(), compared to the linked original change, which was merged and reverted yesterday.",
+      "revId": "522b933e1c13e6e0ea6bb4720004ec2f73902f63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

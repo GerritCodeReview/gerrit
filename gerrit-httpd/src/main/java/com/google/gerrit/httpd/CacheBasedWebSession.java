@@ -25,10 +25,12 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
@@ -62,6 +64,7 @@ public final class CacheBasedWebSession implements WebSession {
   private final HttpServletResponse response;
   private final WebSessionManager manager;
   private final AuthConfig authConfig;
+  private final AuthMethod authMethod;
   private final Provider<AnonymousUser> anonymousProvider;
   private final IdentifiedUser.RequestFactory identified;
   private AccessPath accessPath = AccessPath.WEB_UI;
@@ -75,13 +78,15 @@ public final class CacheBasedWebSession implements WebSession {
       final HttpServletResponse response, final WebSessionManager manager,
       final AuthConfig authConfig,
       final Provider<AnonymousUser> anonymousProvider,
-      final IdentifiedUser.RequestFactory identified) {
+      final IdentifiedUser.RequestFactory identified,
+      @Assisted final AuthMethod authMethod) {
     this.request = request;
     this.response = response;
     this.manager = manager;
     this.authConfig = authConfig;
     this.anonymousProvider = anonymousProvider;
     this.identified = identified;
+    this.authMethod = authMethod;
 
     final String cookie = readCookie();
     if (cookie != null) {
@@ -209,5 +214,9 @@ public final class CacheBasedWebSession implements WebSession {
 
   private static boolean isSecure(final HttpServletRequest req) {
     return req.isSecure() || "https".equals(req.getScheme());
+  }
+
+  public AuthMethod getAuthMethod() {
+    return authMethod;
   }
 }

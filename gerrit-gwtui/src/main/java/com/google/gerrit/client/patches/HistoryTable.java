@@ -79,9 +79,9 @@ class HistoryTable extends FancyFlexTable<Patch> {
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     table.setText(0, 0, PatchUtil.C.patchHeaderPatchSet());
     fmt.setStyleName(0, 0, Gerrit.RESOURCES.css().dataHeader());
-    table.setText(1, 0, PatchUtil.C.patchHeaderOld());
+    table.setText(1, 0, PatchUtil.C.patchHeaderVersionA());
     fmt.setStyleName(1, 0, Gerrit.RESOURCES.css().dataHeader());
-    table.setText(2, 0, PatchUtil.C.patchHeaderNew());
+    table.setText(2, 0, PatchUtil.C.patchHeaderVersionB());
     fmt.setStyleName(2, 0, Gerrit.RESOURCES.css().dataHeader());
     table.setText(3, 0, Util.C.patchTableColumnComments());
     fmt.setStyleName(3, 0, Gerrit.RESOURCES.css().dataHeader());

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGwn///2g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-19T23:29:02Z",
+      "side": 1,
+      "message": "You can\u0027t supply this in the constructor. It has to be passed as input to a method after its made.",
+      "revId": "6301e42f68aea49661a71c2651a4827008b05d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGwn///2c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-19T23:29:02Z",
+      "side": 1,
+      "message": "Add the AuthMethod to this method\u0027s parameter list. Set the field in the body. Fix the callers. :-)",
+      "revId": "6301e42f68aea49661a71c2651a4827008b05d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

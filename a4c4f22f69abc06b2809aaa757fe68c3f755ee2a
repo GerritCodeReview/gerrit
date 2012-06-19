@@ -16,6 +16,24 @@
       "revId": "a4c4f22f69abc06b2809aaa757fe68c3f755ee2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGtn///+A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-06-19T14:59:43Z",
+      "side": 1,
+      "message": "We need the changeId to properly instantiate the star icon which is passed through a series of display calls.",
+      "parentUuid": "AAAGtn///+Y\u003d",
+      "revId": "a4c4f22f69abc06b2809aaa757fe68c3f755ee2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

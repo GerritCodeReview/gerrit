@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGtH////Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetPublishDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-19T04:21:11Z",
+      "side": 1,
+      "message": "you can\u0027t do this after aic.create(). loadAppovals has to run before aic.create() otherwise the accounts aren\u0027t looked up.",
+      "revId": "3fc98f99b4bcb87be6c3d37ab92014ee68e1c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

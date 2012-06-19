@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAGtn///+I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-19T13:50:30Z",
+      "side": 1,
+      "message": "This should probably match the condition in ChangeDetailFactory on line 206 which should probably be NEW or DRAFT?",
+      "revId": "f49578a3a0b82b199ccc2d0331e276b78d1d122f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGt3////Q\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
         "patchSetId": 1

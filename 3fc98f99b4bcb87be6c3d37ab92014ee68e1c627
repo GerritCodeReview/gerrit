@@ -16,6 +16,24 @@
       "revId": "3fc98f99b4bcb87be6c3d37ab92014ee68e1c627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGun////8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetPublishDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1005757
+      },
+      "writtenOn": "2012-06-19T06:25:49Z",
+      "side": 1,
+      "message": "Makes perfect sense.  I take responsibility for this.. Should have been obvious, I moved it to the last possible second.  \"load\" should have been the obvious choice to move this before. :)  Thanks for taking a look!",
+      "parentUuid": "AAAGtH////Y\u003d",
+      "revId": "3fc98f99b4bcb87be6c3d37ab92014ee68e1c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

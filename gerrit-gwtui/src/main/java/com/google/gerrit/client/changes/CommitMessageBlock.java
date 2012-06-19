@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.Composite;
@@ -24,8 +25,10 @@ import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -40,6 +43,8 @@ public class CommitMessageBlock extends Composite {
 
   @UiField
   SimplePanel starPanel;
+  @UiField
+  FlowPanel permalinkPanel;
   @UiField
   PreElement commitSummaryPre;
   @UiField
@@ -68,6 +73,9 @@ public class CommitMessageBlock extends Composite {
         keysAction.add(StarredChanges.newKeyCommand(star));
       }
     }
+
+    permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId));
+    permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId), false));
 
     String[] splitCommitMessage = commitMessage.split("\n", 2);
 

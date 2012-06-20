@@ -101,4 +101,5 @@ public interface GerritConstants extends Constants {
   String jumpMineDraftComments();
 
   String projectAccessError();
+  String projectAccessProposeForReviewHint();
 }

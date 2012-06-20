@@ -207,9 +207,7 @@ public class Schema_65 extends SchemaVersion {
         batch.write(config, commit);
 
         // Save the the final metadata.
-        if (!batch.commitAt(config.getRevision())) {
-          throw new OrmException("Cannot update " + allProjects);
-        }
+        batch.commitAt(config.getRevision());
       } finally {
         batch.close();
       }

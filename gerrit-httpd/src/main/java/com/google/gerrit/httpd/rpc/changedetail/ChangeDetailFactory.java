@@ -275,15 +275,14 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       }
     }
 
-    final Set<Change.Id> descendants = new HashSet<Change.Id>();
+    final Set<PatchSet.Id> descendants = new HashSet<PatchSet.Id>();
     RevId cprev;
     for (PatchSet p : detail.getPatchSets()) {
       cprev = p.getRevision();
       if (cprev != null) {
         for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(cprev)) {
-          final Change.Id ck = a.getPatchSet().getParentKey();
-          if (descendants.add(ck)) {
-            changesToGet.add(ck);
+          if (descendants.add(a.getPatchSet())) {
+            changesToGet.add(a.getPatchSet().getParentKey());
           }
         }
       }
@@ -300,9 +299,9 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     }
 
     final ArrayList<ChangeInfo> neededBy = new ArrayList<ChangeInfo>();
-    for (final Change.Id a : descendants) {
-      final Change ac = m.get(a);
-      if (ac != null) {
+    for (final PatchSet.Id a : descendants) {
+      final Change ac = m.get(a.getParentKey());
+      if (ac != null && ac.currentPatchSetId().equals(a)) {
         neededBy.add(newChangeInfo(ac, null));
       }
     }

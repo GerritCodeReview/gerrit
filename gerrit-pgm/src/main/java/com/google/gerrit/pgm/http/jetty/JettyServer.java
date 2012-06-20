@@ -49,6 +49,8 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
 
+import net.bull.javamelody.SessionListener;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -292,7 +294,7 @@ public class JettyServer {
 
     final List<ContextHandler> all = new ArrayList<ContextHandler>();
     for (String path : paths) {
-      all.add(makeContext(path, env));
+      all.add(makeContext(path, env, cfg));
     }
 
     if (all.size() == 1) {
@@ -312,7 +314,7 @@ public class JettyServer {
   }
 
   private ContextHandler makeContext(final String contextPath,
-      final JettyEnv env) throws MalformedURLException, IOException {
+      final JettyEnv env, final Config cfg) throws MalformedURLException, IOException {
     final ServletContextHandler app = new ServletContextHandler();
 
     // This is the path we are accessed by clients within our domain.
@@ -324,6 +326,13 @@ public class JettyServer {
     // serving to clients.
     //
     app.setBaseResource(getBaseResource());
+
+    // Add a Java Melody Session listener if the melody - session and
+    // melody - monitoring config options are true.
+    if(cfg.getBoolean("melody", "session", false) &&
+        cfg.getBoolean("melody", "monitoring", false)) {
+      app.addEventListener(new SessionListener());
+    }
 
     // Perform the same binding as our web.xml would do, but instead
     // of using the listener to create the injector pass the one we

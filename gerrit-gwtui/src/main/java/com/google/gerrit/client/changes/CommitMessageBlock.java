@@ -64,6 +64,8 @@ public class CommitMessageBlock extends Composite {
   }
 
   public void display(Change.Id changeId, Boolean starred, String commitMessage) {
+    starPanel.clear();
+
     if (changeId != null && starred != null && Gerrit.isSignedIn()) {
       StarredChanges.Icon star = StarredChanges.createIcon(changeId, starred);
       star.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());

@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGzH///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-20T05:19:14Z",
+      "side": 1,
+      "message": "Style pedantry:  according to the code formatting spec, there should be no space after the ! operator:\n\n \u003csetting id\u003d\"org.eclipse.jdt.core.formatter.insert_space_after_prefix_operator\" value\u003d\"do not insert\"/\u003e",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGzH///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-20T05:19:14Z",
+      "side": 1,
+      "message": "Indentation has been changed?",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGzH///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-20T05:19:14Z",
+      "side": 1,
+      "message": "Under what circumstances can a change\u0027s current PatchSet be null?  Don\u0027t changes always have at least one patch set?",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGzH///98\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-20T05:19:14Z",
+      "side": 1,
+      "message": "Maybe `baseNotes` is a better name?",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGzH///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-20T05:19:14Z",
+      "side": 1,
+      "message": "oursCommit -\u003e ourCommit",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGzH///94\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-20T05:19:14Z",
+      "side": 1,
+      "message": "ourBaseNotes (if comment at #59 is valid)",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGzH///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-20T05:19:14Z",
+      "side": 1,
+      "message": "Style: space after !",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGzH///90\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-20T05:19:14Z",
+      "side": 1,
+      "message": "Nit: Capitalise the first word of sentences.",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

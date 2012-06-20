@@ -93,6 +93,7 @@ public final class CacheBasedWebSession implements WebSession {
       key = null;
       val = null;
     }
+    authMethod = isSignedIn() ? AuthMethod.COOKIE : AuthMethod.NONE;
 
     if (isSignedIn() && val.needsCookieRefresh()) {
       // Cookie is more than half old. Send the cookie again to the
@@ -166,9 +167,10 @@ public final class CacheBasedWebSession implements WebSession {
   }
 
   /** Set the user account for this current request only. */
-  public void setUserAccountId(Account.Id id) {
+  public void setUserAccountId(Account.Id id, AuthMethod method) {
     key = new Key("id:" + id);
     val = new Val(id, 0, false, null, "", 0);
+    authMethod = method;
   }
 
   public void logout() {

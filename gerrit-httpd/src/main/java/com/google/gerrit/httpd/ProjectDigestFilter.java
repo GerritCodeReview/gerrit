@@ -22,6 +22,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -164,7 +165,9 @@ class ProjectDigestFilter implements Filter {
     if (expect.equals(response)) {
       try {
         if (tokens.checkToken(nonce, "") != null) {
-          session.get().setUserAccountId(who.getAccount().getId());
+          session.get().setUserAccountId(
+              who.getAccount().getId(),
+              AuthMethod.PASSWORD);
           return true;
 
         } else {

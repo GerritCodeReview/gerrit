@@ -40,7 +40,7 @@ public interface WebSession {
   public void setAccessPath(AccessPath path);
 
   /** Set the user account for this current request only. */
-  public void setUserAccountId(Account.Id id);
+  public void setUserAccountId(Account.Id id, AuthMethod method);
 
   public void logout();
 }

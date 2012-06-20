@@ -203,7 +203,7 @@ public class ListChanges {
     out._number = in.getId().get();
     out._sortkey = in.getSortKey();
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
-    out.reviewed = isChangeReviewed(cd) ? true : null;
+    out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
     out.labels = labelsFor(cd);
     return out;
   }

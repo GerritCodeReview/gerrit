@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGxH///vw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-20T17:04:37Z",
+      "side": 1,
+      "message": "Did you actually mean \"not\" above, because the logic appears to be the reverse?",
+      "revId": "4929607a430641c4ca460b6287de256d11a07a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

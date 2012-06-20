@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAAGyX///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-06-20T13:03:33Z",
+      "side": 1,
+      "message": "While you are at it can you use db here instead, and repo for Repository.",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGzH///+I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 5

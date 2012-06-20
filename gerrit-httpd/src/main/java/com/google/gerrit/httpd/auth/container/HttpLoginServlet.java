@@ -19,6 +19,7 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.AuthConfig;
@@ -135,7 +136,8 @@ class HttpLoginServlet extends HttpServlet {
     }
     rdr.append(token);
 
-    webSession.get().login(arsp, true /* persistent cookie */);
+    webSession.get().login(arsp, AuthMethod.COOKIE,
+                           true /* persistent cookie */);
     rsp.sendRedirect(rdr.toString());
   }
 

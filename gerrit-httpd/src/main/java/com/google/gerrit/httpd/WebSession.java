@@ -18,9 +18,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthResult;
 
 public interface WebSession {
+  public AuthMethod getAuthMethod();
+
   public boolean isSignedIn();
 
   public String getToken();
@@ -31,7 +34,7 @@ public interface WebSession {
 
   public CurrentUser getCurrentUser();
 
-  public void login(AuthResult res, boolean rememberMe);
+  public void login(AuthResult res, AuthMethod meth, boolean rememberMe);
 
   /** Change the access path from the default of {@link AccessPath#WEB_UI}. */
   public void setAccessPath(AccessPath path);

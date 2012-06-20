@@ -26,6 +26,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -416,7 +417,7 @@ class OpenIdServiceImpl implements OpenIdService {
             lastId.setMaxAge(0);
           }
           rsp.addCookie(lastId);
-          webSession.get().login(arsp, remember);
+          webSession.get().login(arsp, AuthMethod.COOKIE, remember);
           if (arsp.isNew() && claimedIdentifier != null) {
             final com.google.gerrit.server.account.AuthRequest linkReq =
                 new com.google.gerrit.server.account.AuthRequest(
@@ -430,7 +431,7 @@ class OpenIdServiceImpl implements OpenIdService {
 
         case LINK_IDENTIY: {
           arsp = accountManager.link(identifiedUser.get().getAccountId(), areq);
-          webSession.get().login(arsp, remember);
+          webSession.get().login(arsp, AuthMethod.COOKIE, remember);
           callback(false, req, rsp);
           break;
         }

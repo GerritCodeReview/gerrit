@@ -16,7 +16,6 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.client.Dispatcher.toProjectAdmin;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.MenuScreen;
 import com.google.gerrit.reviewdb.client.Project;
 
@@ -30,12 +29,8 @@ public abstract class ProjectScreen extends MenuScreen {
   public ProjectScreen(final Project.NameKey toShow) {
     name = toShow;
 
-    final boolean isWild = toShow.equals(Gerrit.getConfig().getWildProject());
-
     link(Util.C.projectAdminTabGeneral(), toProjectAdmin(name, INFO));
-    if (!isWild) {
-      link(Util.C.projectAdminTabBranches(), toProjectAdmin(name, BRANCH));
-    }
+    link(Util.C.projectAdminTabBranches(), toProjectAdmin(name, BRANCH));
     link(Util.C.projectAdminTabAccess(), toProjectAdmin(name, ACCESS));
   }
 

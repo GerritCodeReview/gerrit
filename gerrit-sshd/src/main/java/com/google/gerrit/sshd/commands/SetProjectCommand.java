@@ -130,9 +130,7 @@ final class SetProjectCommand extends SshCommand {
         project.setState(state != null ? state : project.getState());
 
         md.setMessage("Project settings updated");
-        if (!config.commit(md)) {
-          err.append("error: Could not update project " + name + "\n");
-        }
+        config.commit(md);
       } finally {
         md.close();
       }

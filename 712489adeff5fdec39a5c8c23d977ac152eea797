@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGwn///tk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/AbandonChangeHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-06-20T15:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGyX////0\u003d",
+      "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGyX////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-20T06:14:01Z",
       "side": 1,
       "message": "nit: this import is not needed anymore and can be removed",
+      "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGwn///tQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-06-20T15:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGyX////o\u003d",
       "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGwn///tM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-06-20T15:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGyX////s\u003d",
+      "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGyX////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGwn///tU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-06-20T15:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGyX////k\u003d",
+      "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGyX////w\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2012-06-20T06:14:01Z",
       "side": 1,
       "message": "[optional] should \u0027abandonChangeFactory\u0027 now be renamed to \u0027abandonChangeProvider\u0027?",
+      "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGwn///tY\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-06-20T15:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGyX////w\u003d",
       "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1669,6 +1669,54 @@ will be directly stored in lower case.
 +
 By default, unset/false.
 
+[[melody]]Section melody
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+----
+[melody]
+  monitoring = true
+  session = true
+----
+
+The melody section configures JavaMelody.
+link:https://code.google.com/p/javamelody/[JavaMelody] is a tool to
+monitor Java applications. If JavaMelody is enabled, users with
+`Administrate Server` permissions can go to
+`http://your.gerrit.server/monitoring` to view the JavaMelody data.
+
+[[melody.monitoring]]melody.monitoring::
++
+Whether or not JavaMelody monitoring is enabled.
++
+Boolean values are accepted.
++
+* `true`
++
+Enable JavaMelody.
++
+* `false`
++
+Disable JavaMelody.
+
++
+If melody.monitoring is not specified JavaMelody will be disabled.
+This is equivalent to a value of `false`.
+
+[[melody.session]]melody.session::
++
+Whether or not session data should be collected. This option is
+ignored if <<melody.monitoring,melody.monitoring>> is `false`.
++
+Boolean values are accepted.
++
+* `true`
++
+Enable session data collection
++
+* `false`
++
+Disable session data collection.
+
 [[mimetype]]Section mimetype
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

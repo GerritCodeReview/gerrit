@@ -76,8 +76,10 @@ public class CommitMessageBlock extends Composite {
       }
     }
 
-    permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId));
-    permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId), false));
+    if (changeId != null) {
+      permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId));
+      permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId), false));
+    }
 
     String[] splitCommitMessage = commitMessage.split("\n", 2);
 

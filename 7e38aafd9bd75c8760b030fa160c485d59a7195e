@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGwn///0Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-20T00:12:15Z",
+      "side": 1,
+      "message": "fullName can be null for an \"Anonymous Coward\". So this will NPE. We need to invert the order of the test.",
+      "revId": "7e38aafd9bd75c8760b030fa160c485d59a7195e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

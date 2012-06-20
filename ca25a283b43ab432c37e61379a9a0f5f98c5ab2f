@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGyX////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-06-20T10:11:07Z",
+      "side": 1,
+      "message": "import com.google.common.collect.Sets;",
+      "revId": "ca25a283b43ab432c37e61379a9a0f5f98c5ab2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

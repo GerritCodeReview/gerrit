@@ -297,9 +297,13 @@ public class ListChanges {
 
   private boolean isChangeReviewed(ChangeData cd) throws OrmException {
     if (user instanceof IdentifiedUser) {
-      PatchSet.Id patchSetId = cd.currentPatchSet(db).getId();
+      PatchSet currentPatchSet = cd.currentPatchSet(db);
+      if (currentPatchSet == null) {
+        return false;
+      }
+
       List<ChangeMessage> messages =
-          db.get().changeMessages().byPatchSet(patchSetId).toList();
+          db.get().changeMessages().byPatchSet(currentPatchSet.getId()).toList();
 
       if (messages.isEmpty()) {
         return false;

@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc.plugin;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.httpd.RestApiServlet;
+import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.plugins.ListPlugins;
@@ -39,8 +40,9 @@ public class ListPluginsServlet extends RestApiServlet {
 
   @Inject
   ListPluginsServlet(final Provider<CurrentUser> currentUser,
+      final Provider<WebSession> webSession,
       ParameterParser paramParser, Provider<ListPlugins> ls) {
-    super(currentUser);
+    super(currentUser, webSession);
     this.paramParser = paramParser;
     this.factory = ls;
   }

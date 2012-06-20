@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtjsonrpc.common.JsonConstants;
@@ -67,10 +68,13 @@ public abstract class RestApiServlet extends HttpServlet {
   }
 
   private final Provider<CurrentUser> currentUser;
+  private final Provider<WebSession> webSession;
 
   @Inject
-  protected RestApiServlet(final Provider<CurrentUser> currentUser) {
+  protected RestApiServlet(final Provider<CurrentUser> currentUser,
+                           final Provider<WebSession> webSession) {
     this.currentUser = currentUser;
+    this.webSession = webSession;
   }
 
   @Override
@@ -79,8 +83,13 @@ public abstract class RestApiServlet extends HttpServlet {
     noCache(res);
     try {
       checkRequiresCapability();
+      checkXsrfValidation(req);
       super.service(req, res);
     } catch (RequireCapabilityException err) {
+      res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      noCache(res);
+      sendText(req, res, err.getMessage());
+    } catch (XsrfException err) {
       res.setStatus(HttpServletResponse.SC_FORBIDDEN);
       noCache(res);
       sendText(req, res, err.getMessage());
@@ -102,6 +111,17 @@ public abstract class RestApiServlet extends HttpServlet {
             user.getUserName(), rc.value());
         throw new RequireCapabilityException(msg);
       }
+    }
+  }
+
+  private void checkXsrfValidation(final HttpServletRequest req)
+      throws XsrfException {
+    final WebSession session = webSession.get();
+    if (session.getAuthMethod() == AuthMethod.COOKIE
+        && req.getMethod().equals("POST")
+        && req.getRequestURI().startsWith("/a/")) {
+        // TODO: Actually test req.getParameter("xsrftoken")
+      throw new XsrfException("Xsrf validation failed");
     }
   }
 
@@ -209,6 +229,13 @@ public abstract class RestApiServlet extends HttpServlet {
   @SuppressWarnings("serial") // Never serialized or thrown out of this class.
   private static class RequireCapabilityException extends Exception {
     public RequireCapabilityException(String msg) {
+      super(msg);
+    }
+  }
+
+  @SuppressWarnings("serial") // Never serialized or thrown out of this class.
+  private static class XsrfException extends Exception {
+    public XsrfException(String msg) {
       super(msg);
     }
   }

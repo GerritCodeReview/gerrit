@@ -30,6 +30,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.httpd.RestApiServlet;
+import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -59,8 +60,9 @@ public class AccountCapabilitiesServlet extends RestApiServlet {
 
   @Inject
   AccountCapabilitiesServlet(final Provider<CurrentUser> currentUser,
+      final Provider<WebSession> webSession,
       ParameterParser paramParser, Provider<Impl> factory) {
-    super(currentUser);
+    super(currentUser, webSession);
     this.paramParser = paramParser;
     this.factory = factory;
   }

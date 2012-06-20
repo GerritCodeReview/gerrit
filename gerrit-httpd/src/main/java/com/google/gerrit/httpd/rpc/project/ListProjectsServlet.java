@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.httpd.RestApiServlet;
+import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.project.ListProjects;
@@ -38,8 +39,9 @@ public class ListProjectsServlet extends RestApiServlet {
 
   @Inject
   ListProjectsServlet(final Provider<CurrentUser> currentUser,
+      final Provider<WebSession> webSession,
       ParameterParser paramParser, Provider<ListProjects> ls) {
-    super(currentUser);
+    super(currentUser, webSession);
     this.paramParser = paramParser;
     this.factory = ls;
   }

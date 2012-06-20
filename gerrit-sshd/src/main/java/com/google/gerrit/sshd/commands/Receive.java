@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.base.Objects;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
@@ -30,9 +31,10 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +43,8 @@ import java.util.Set;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 final class Receive extends AbstractGitCommand {
+  private static final Logger log = LoggerFactory.getLogger(Receive.class);
+
   @Inject
   private AsyncReceiveCommits.Factory factory;
 
@@ -98,9 +102,18 @@ final class Receive extends AbstractGitCommand {
       // is larger than the receive.maxObjectSizeLimit gerrit.config parameter
       // we want to present this error to the user
       if (badStream.getCause() instanceof TooLargeObjectInPackException) {
-        PrintWriter p = toPrintWriter(err);
-        p.print("error: " + badStream.getCause().getMessage() + "\n");
-        p.flush();
+        StringBuilder msg = new StringBuilder();
+        msg.append("Receive error on project \""
+            + projectControl.getProject().getName() + "\"");
+        msg.append(" (user ");
+        msg.append(Objects.firstNonNull(currentUser.getUserName(),
+            currentUser.getNameEmail()));
+        msg.append(" account ");
+        msg.append(currentUser.getAccountId());
+        msg.append("): ");
+        msg.append(badStream.getCause().getMessage());
+        log.info(msg.toString());
+        throw new UnloggedFailure(128, "error: " + badStream.getCause().getMessage());
       }
 
       // This may have been triggered by branch level access controls.

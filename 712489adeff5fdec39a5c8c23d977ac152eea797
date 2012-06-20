@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGyX////0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/AbandonChangeHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-20T06:14:01Z",
+      "side": 1,
+      "message": "[optional] should \u0027abandonChangeFactory\u0027 now be renamed to \u0027abandonChangeProvider\u0027?",
+      "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGyX////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-20T06:14:01Z",
+      "side": 1,
+      "message": "nit: this import is not needed anymore and can be removed",
+      "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGyX////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-20T06:14:01Z",
+      "side": 1,
+      "message": "nit: this import is not needed anymore and can be removed",
+      "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGyX////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AbandonChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-20T06:14:01Z",
+      "side": 1,
+      "message": "[optional] since changeId can now be null, I wonder if it makes sense to check here for it:\n\n  if (changeId \u003d\u003d null) {\n    throw new InvalidChangeOperationException(\"changeId is required\");\n  }",
+      "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGyX////w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-20T06:14:01Z",
+      "side": 1,
+      "message": "[optional] should \u0027abandonChangeFactory\u0027 now be renamed to \u0027abandonChangeProvider\u0027?",
+      "revId": "712489adeff5fdec39a5c8c23d977ac152eea797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

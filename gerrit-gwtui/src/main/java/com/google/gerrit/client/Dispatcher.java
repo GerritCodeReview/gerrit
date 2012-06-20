@@ -716,8 +716,7 @@ public class Dispatcher {
             return new ProjectInfoScreen(k);
           }
 
-          if (ProjectScreen.BRANCH.equals(panel)
-              && !k.equals(Gerrit.getConfig().getWildProject())) {
+          if (ProjectScreen.BRANCH.equals(panel)) {
             return new ProjectBranchesScreen(k);
           }
 

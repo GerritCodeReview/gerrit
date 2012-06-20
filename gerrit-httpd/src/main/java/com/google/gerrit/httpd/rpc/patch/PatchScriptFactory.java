@@ -256,7 +256,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
         break;
 
       case DELETED:
-        loadPublished(byKey, aic, oldName);
+        loadPublished(byKey, aic, newName);
         break;
 
       case COPIED:
@@ -278,7 +278,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
           break;
 
         case DELETED:
-          loadDrafts(byKey, aic, me, oldName);
+          loadDrafts(byKey, aic, me, newName);
           break;
 
         case COPIED:

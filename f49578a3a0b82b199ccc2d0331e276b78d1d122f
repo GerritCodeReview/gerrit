@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAGzH///9M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-20T08:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGtn///+I\u003d",
+      "revId": "f49578a3a0b82b199ccc2d0331e276b78d1d122f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGt3////Q\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-19T12:01:01Z",
       "side": 1,
       "message": "Probably need to add setVisible(R_MERGE_TEST, true) in this else block.",
+      "revId": "f49578a3a0b82b199ccc2d0331e276b78d1d122f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGzH///9I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-20T08:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGt3////Q\u003d",
       "revId": "f49578a3a0b82b199ccc2d0331e276b78d1d122f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

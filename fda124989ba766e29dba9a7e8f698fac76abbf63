@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGwn///o8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-20T21:24:52Z",
+      "side": 1,
+      "message": "nit: I think this comment is sort of redundant with the code.",
+      "revId": "fda124989ba766e29dba9a7e8f698fac76abbf63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGwn///pA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-20T21:24:52Z",
+      "side": 1,
+      "message": "nit: space needed between \"if\" and \"(\"",
+      "revId": "fda124989ba766e29dba9a7e8f698fac76abbf63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

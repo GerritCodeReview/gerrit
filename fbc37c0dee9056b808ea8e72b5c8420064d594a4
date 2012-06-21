@@ -34,6 +34,24 @@
       "revId": "fbc37c0dee9056b808ea8e72b5c8420064d594a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAGzH///8s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-21T01:00:54Z",
+      "side": 1,
+      "message": "Ah, I misunderstood where this change applies.  I thought it was the \"Reviewed\" column in the list of changed files on the change review page.\n\nSorry.  Newbie confusion :)",
+      "parentUuid": "AAAGzn///+4\u003d",
+      "revId": "fbc37c0dee9056b808ea8e72b5c8420064d594a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

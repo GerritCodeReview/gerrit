@@ -16,6 +16,23 @@
       "revId": "4e129bb3aad18133fb154c7a1d26b0c9f1a5a1be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG3n///+s\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-21T17:25:48Z",
+      "side": 1,
+      "message": "I believe that it still sends to starred (we specifically fixed that earlier so that people could opt in), but it does not send to watchers.",
+      "revId": "4e129bb3aad18133fb154c7a1d26b0c9f1a5a1be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

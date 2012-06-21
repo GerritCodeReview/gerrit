@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAGzH///88\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-21T00:12:47Z",
+      "side": 1,
+      "message": "What\u0027s the motivation for this change other than aesthetics?  Is there a performance benefit?\n\nI get dozens of review requests per day, some of which get approved by someone else and submitted before I\u0027ve finished (or before I\u0027ve even started) reviewing.  I find it useful to be able to go to the merged changes and see which parts I had already reviewed (if any).",
+      "revId": "fbc37c0dee9056b808ea8e72b5c8420064d594a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

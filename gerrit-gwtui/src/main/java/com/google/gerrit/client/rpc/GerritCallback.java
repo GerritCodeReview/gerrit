@@ -37,8 +37,11 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
       new NotSignedInDialog().center();
 
     } else if (isNoSuchEntity(caught)) {
-      new ErrorDialog(Gerrit.C.notFoundBody()).center();
-
+      if (Gerrit.isSignedIn()) {
+        new ErrorDialog(Gerrit.C.notFoundBody()).center();
+      } else {
+        new NotSignedInDialog().center();
+      }
     } else if (isInactiveAccount(caught)) {
       new ErrorDialog(Gerrit.C.inactiveAccountBody()).center();
 

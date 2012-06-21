@@ -42,12 +42,13 @@ public class GlobalCapability {
   public static final String CREATE_PROJECT = "createProject";
 
   /**
-   * Denotes who may email change reviewers.
+   * Denotes who may email change reviewers and watchers.
    * <p>
    * This can be used to deny build bots from emailing reviewers and people who
-   * have starred the changed. Instead, only the authors of the change will be
-   * emailed. The allow rules are evaluated before deny rules, however the
-   * default is to allow emailing, if no explicit rule is matched.
+   * watch the change. Instead, only the authors of the change and those who
+   * starred it will be emailed. The allow rules are evaluated before deny
+   * rules, however the default is to allow emailing, if no explicit rule is
+   * matched.
    */
   public static final String EMAIL_REVIEWERS = "emailReviewers";
 

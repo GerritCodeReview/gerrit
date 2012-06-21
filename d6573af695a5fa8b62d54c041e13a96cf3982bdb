@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG3n///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-21T17:23:55Z",
+      "side": 1,
+      "message": "Should this one be setting repo \u003d null?",
+      "revId": "d6573af695a5fa8b62d54c041e13a96cf3982bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG1H///9I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-21T17:23:55Z",
+      "side": 1,
+      "message": "Hmm, this one does not have the same not null check",
+      "revId": "d6573af695a5fa8b62d54c041e13a96cf3982bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

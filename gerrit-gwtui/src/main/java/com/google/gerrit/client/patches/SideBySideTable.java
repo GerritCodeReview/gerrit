@@ -25,10 +25,7 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -38,8 +35,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtorm.client.KeyUtil;
-
 import org.eclipse.jgit.diff.Edit;
 
 import java.util.ArrayList;
@@ -88,9 +83,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
     final boolean intraline =
         script.getDiffPrefs().isIntralineDifference()
             && script.hasIntralineDifference();
-
-    appendHeader(script, nc);
-    lines.add(null);
 
     if (script.getFileModeA() != FileMode.FILE
         || script.getFileModeB() != FileMode.FILE) {
@@ -260,71 +252,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
       row++;
     }
     return row;
-  }
-
-  private void appendHeader(PatchScript script, final SafeHtmlBuilder m) {
-    boolean isCommitMessage = Patch.COMMIT_MSG.equals(script.getNewName());
-
-    m.openTr();
-
-    m.openTd();
-    m.addStyleName(Gerrit.RESOURCES.css().iconCell());
-    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
-    m.closeTd();
-
-    m.openTd();
-    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
-    m.addStyleName(Gerrit.RESOURCES.css().lineNumber());
-    m.closeTd();
-
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
-    m.setAttribute("width", "50%");
-    if (script.getChangeType() == ChangeType.RENAMED
-        || script.getChangeType() == ChangeType.COPIED) {
-      m.append(script.getOldName());
-    } else {
-      m.append(PatchUtil.C.patchHeaderOld());
-    }
-    if (!isCommitMessage) {
-      m.br();
-      if (0 < script.getA().size()) {
-        if (idSideA == null) {
-          downloadLink(m, patchKey, "1");
-        } else {
-          downloadLink(m, new Patch.Key(idSideA, patchKey.get()), "0");
-        }
-      }
-    }
-    m.closeTd();
-
-    m.openTd();
-    m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
-    m.setAttribute("width", "50%");
-    m.append(PatchUtil.C.patchHeaderNew());
-    if (!isCommitMessage) {
-      m.br();
-      if (0 < script.getB().size()) {
-        downloadLink(m, new Patch.Key(idSideB, patchKey.get()), "0");
-      }
-    }
-    m.closeTd();
-
-    m.openTd();
-    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
-    m.addStyleName(Gerrit.RESOURCES.css().lineNumber());
-    m.closeTd();
-
-    m.closeTr();
-  }
-
-  private void downloadLink(final SafeHtmlBuilder m, final Patch.Key key,
-      final String side) {
-    final String base = GWT.getHostPageBaseURL() + "cat/";
-    m.openAnchor();
-    m.setAttribute("href", base + KeyUtil.encode(key.toString()) + "^" + side);
-    m.append(PatchUtil.C.download());
-    m.closeAnchor();
   }
 
   private void appendSkipLine(final SafeHtmlBuilder m, final int skipCnt) {

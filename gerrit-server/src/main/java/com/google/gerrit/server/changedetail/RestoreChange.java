@@ -29,24 +29,21 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
 
-import javax.annotation.Nullable;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
 
 public class RestoreChange implements Callable<ReviewResult> {
-
-  public interface Factory {
-    RestoreChange create(Change.Id changeId, String changeComment);
-  }
 
   private final RestoredSender.Factory restoredSenderFactory;
   private final ChangeControl.Factory changeControlFactory;
@@ -55,15 +52,25 @@ public class RestoreChange implements Callable<ReviewResult> {
   private final IdentifiedUser currentUser;
   private final ChangeHooks hooks;
 
-  private final Change.Id changeId;
-  private final String changeComment;
+  @Argument(index = 0, required = true, multiValued = false,
+            usage = "change to restore", metaVar = "CHANGE")
+  private Change.Id changeId;
+  public void setChangeId(final Change.Id changeId) {
+    this.changeId = changeId;
+  }
+
+  @Option(name = "--message", aliases = {"-m"},
+          usage = "optional message to append to change")
+  private String message;
+  public void setMessage(final String message) {
+    this.message = message;
+  }
 
   @Inject
   RestoreChange(final RestoredSender.Factory restoredSenderFactory,
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
       final GitRepositoryManager repoManager, final IdentifiedUser currentUser,
-      final ChangeHooks hooks, @Assisted final Change.Id changeId,
-      @Assisted @Nullable final String changeComment) {
+      final ChangeHooks hooks) {
     this.restoredSenderFactory = restoredSenderFactory;
     this.changeControlFactory = changeControlFactory;
     this.db = db;
@@ -71,13 +78,18 @@ public class RestoreChange implements Callable<ReviewResult> {
     this.currentUser = currentUser;
     this.hooks = hooks;
 
-    this.changeId = changeId;
-    this.changeComment = changeComment;
+    changeId = null;
+    message = null;
   }
 
   @Override
   public ReviewResult call() throws EmailException, NoSuchChangeException,
-      OrmException, RepositoryNotFoundException, IOException {
+      InvalidChangeOperationException, OrmException,
+      RepositoryNotFoundException, IOException {
+    if (changeId == null) {
+      throw new InvalidChangeOperationException("changeId is required");
+    }
+
     final ReviewResult result = new ReviewResult();
     result.setChangeId(changeId);
 
@@ -108,9 +120,9 @@ public class RestoreChange implements Callable<ReviewResult> {
             .messageUUID(db)), currentUser.getAccountId(), patchSetId);
     final StringBuilder msgBuf =
         new StringBuilder("Patch Set " + patchSetId.get() + ": Restored");
-    if (changeComment != null && changeComment.length() > 0) {
+    if (message != null && message.length() > 0) {
       msgBuf.append("\n\n");
-      msgBuf.append(changeComment);
+      msgBuf.append(message);
     }
     cmsg.setMessage(msgBuf.toString());
 
@@ -138,7 +150,7 @@ public class RestoreChange implements Callable<ReviewResult> {
     ChangeUtil.updatedChange(db, currentUser, updatedChange, cmsg,
                              restoredSenderFactory);
     hooks.doChangeRestoreHook(updatedChange, currentUser.getAccount(),
-                              changeComment, db);
+                              message, db);
 
     return result;
   }

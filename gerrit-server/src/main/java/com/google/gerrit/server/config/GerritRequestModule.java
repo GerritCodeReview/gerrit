@@ -27,10 +27,8 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.PerformCreateGroup;
 import com.google.gerrit.server.account.PerformRenameGroup;
 import com.google.gerrit.server.account.VisibleGroups;
-import com.google.gerrit.server.changedetail.AbandonChange;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
-import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.BanCommit;
@@ -99,7 +97,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(RebasedPatchSetSender.Factory.class);
     factory(AbandonedSender.Factory.class);
     factory(RemoveReviewer.Factory.class);
-    factory(RestoreChange.Factory.class);
     factory(RestoredSender.Factory.class);
     factory(RevertedSender.Factory.class);
     factory(CommentSender.Factory.class);

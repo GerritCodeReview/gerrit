@@ -22,9 +22,11 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -38,7 +40,7 @@ class RestoreChangeHandler extends Handler<ChangeDetail> {
     RestoreChangeHandler create(PatchSet.Id patchSetId, String message);
   }
 
-  private final RestoreChange.Factory restoreChangeFactory;
+  private final Provider<RestoreChange> restoreChangeProvider;
   private final ChangeDetailFactory.Factory changeDetailFactory;
 
   private final PatchSet.Id patchSetId;
@@ -46,11 +48,11 @@ class RestoreChangeHandler extends Handler<ChangeDetail> {
   private final String message;
 
   @Inject
-  RestoreChangeHandler(final RestoreChange.Factory restoreChangeFactory,
+  RestoreChangeHandler(final Provider<RestoreChange> restoreChangeProvider,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message) {
-    this.restoreChangeFactory = restoreChangeFactory;
+    this.restoreChangeProvider = restoreChangeProvider;
     this.changeDetailFactory = changeDetailFactory;
 
     this.patchSetId = patchSetId;
@@ -59,10 +61,13 @@ class RestoreChangeHandler extends Handler<ChangeDetail> {
 
   @Override
   public ChangeDetail call() throws NoSuchChangeException, OrmException,
-      EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException,
-      RepositoryNotFoundException, IOException {
-    final ReviewResult result =
-        restoreChangeFactory.create(patchSetId.getParentKey(), message).call();
+      EmailException, NoSuchEntityException, InvalidChangeOperationException,
+      PatchSetInfoNotAvailableException, RepositoryNotFoundException,
+      IOException {
+    final RestoreChange restoreChange = restoreChangeProvider.get();
+    restoreChange.setChangeId(patchSetId.getParentKey());
+    restoreChange.setMessage(message);
+    final ReviewResult result = restoreChange.call();
     if (result.getErrors().size() > 0) {
       throw new NoSuchChangeException(result.getChangeId());
     }

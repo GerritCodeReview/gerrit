@@ -123,7 +123,7 @@ public class ReviewCommand extends SshCommand {
   private PublishDraft.Factory publishDraftFactory;
 
   @Inject
-  private RestoreChange.Factory restoreChangeFactory;
+  private Provider<RestoreChange> restoreChangeProvider;
 
   @Inject
   private Submit.Factory submitFactory;
@@ -208,8 +208,10 @@ public class ReviewCommand extends SshCommand {
         final ReviewResult result = abandonChange.call();
         handleReviewResultErrors(result);
       } else if (restoreChange) {
-        final ReviewResult result = restoreChangeFactory.create(
-            patchSetId.getParentKey(), changeComment).call();
+        final RestoreChange restoreChange = restoreChangeProvider.get();
+        restoreChange.setChangeId(patchSetId.getParentKey());
+        restoreChange.setMessage(changeComment);
+        final ReviewResult result = restoreChange.call();
         handleReviewResultErrors(result);
       }
       if (submitChange) {

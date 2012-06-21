@@ -31,6 +31,7 @@ public interface PatchConstants extends Constants {
   String patchHeaderPatchSet();
   String patchHeaderOld();
   String patchHeaderNew();
+  String patchSet();
 
   String patchHistoryTitle();
   String disabledOnLargeFiles();

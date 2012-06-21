@@ -1042,6 +1042,10 @@ a:hover.downloadLink {
   display: table;
 }
 
+.sideBySideScreenSideBySideTable .fileLine {
+  width: 50%;
+}
+
 .sideBySideScreenLinkTable {
   width: 100%;
 }

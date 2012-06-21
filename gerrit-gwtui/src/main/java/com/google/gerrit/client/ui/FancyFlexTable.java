@@ -58,6 +58,10 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
     setRowItem(table.getCellFormatter().getElement(row, 0), item);
   }
 
+  protected void setWidget(final int row, final int col, final Widget widget) {
+    table.setWidget(row, col, widget);
+  }
+
   protected void resetHtml(final SafeHtml body) {
     for (final Iterator<Widget> i = table.iterator(); i.hasNext();) {
       i.next();

@@ -214,6 +214,7 @@ public class ProjectState {
 
     List<SectionMatcher> all = new ArrayList<SectionMatcher>();
     Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    ProjectState allProjects = projectCache.getAllProjects();
     seen.add(getProject().getNameKey());
 
     ProjectState s = this;
@@ -226,7 +227,9 @@ public class ProjectState {
       }
       s = projectCache.get(parent);
     } while (s != null);
-    all.addAll(projectCache.getAllProjects().getLocalAccessSections());
+    if (seen.add(allProjects.getProject().getNameKey())) {
+      all.addAll(allProjects.getLocalAccessSections());
+    }
     return all;
   }
 

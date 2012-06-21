@@ -16,6 +16,24 @@
       "revId": "ead5add88761eb2804cd00b4105c733690baf4ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG2X////s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-21T08:02:20Z",
+      "side": 1,
+      "message": "Hmm, right, username might not be set. Actually I stole this piece of formatting the user from com.google.gerrit.sshd.BaseCommand line 331 to 336. Do you think we also have a problem there?",
+      "parentUuid": "AAAGzn////o\u003d",
+      "revId": "ead5add88761eb2804cd00b4105c733690baf4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -24,6 +24,9 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.IdentityHashMap;
@@ -32,6 +35,9 @@ import java.util.List;
 /** Caches the order AccessSections should be sorted for evaluation. */
 @Singleton
 public class SectionSortCache {
+  private static final Logger log =
+      LoggerFactory.getLogger(SectionSortCache.class);
+
   private static final String CACHE_NAME = "permission_sort";
 
   public static Module module() {
@@ -73,10 +79,11 @@ public class SectionSortCache {
       }
 
     } else {
+      boolean poison = false;
       IdentityHashMap<AccessSection, Integer> srcMap =
           new IdentityHashMap<AccessSection, Integer>();
       for (int i = 0; i < cnt; i++) {
-        srcMap.put(sections.get(i), i);
+        poison |= srcMap.put(sections.get(i), i) != null;
       }
 
       Collections.sort(sections, new MostSpecificComparator(ref));
@@ -91,7 +98,11 @@ public class SectionSortCache {
         }
       }
 
-      cache.put(key, new EntryVal(srcIdx));
+      if (poison) {
+        log.error("Received duplicate AccessSection instances, not caching sort");
+      } else {
+        cache.put(key, new EntryVal(srcIdx));
+      }
     }
   }
 

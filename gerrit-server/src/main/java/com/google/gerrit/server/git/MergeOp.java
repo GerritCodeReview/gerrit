@@ -249,10 +249,12 @@ public class MergeOp {
       log.error("Test merge attempt for change: " + change.getId()
           + " failed", e);
     } finally {
+      if (repo != null) {
+        repo.close();
+      }
       if (db != null) {
         db.close();
       }
-      db = null;
     }
   }
 
@@ -292,8 +294,9 @@ public class MergeOp {
       if (repo != null) {
         repo.close();
       }
-      db.close();
-      db = null;
+      if (db != null) {
+        db.close();
+      }
     }
   }
 

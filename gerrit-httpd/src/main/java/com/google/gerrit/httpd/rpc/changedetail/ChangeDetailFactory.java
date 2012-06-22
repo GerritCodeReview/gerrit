@@ -295,7 +295,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     final ArrayList<ChangeInfo> dependsOn = new ArrayList<ChangeInfo>();
     for (final Change.Id a : ancestorOrder) {
       final Change ac = m.get(a);
-      if (ac != null) {
+      if (ac != null && ac.getProject().equals(detail.getChange().getProject())) {
         dependsOn.add(newChangeInfo(ac, ancestorPatchIds));
       }
     }

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG1X///98\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-22T19:16:43Z",
+      "side": 1,
+      "message": "This is a little ugly, but the only way I could come up with for using \u0027CA\u0027 in the URL.  Also, should I static final \"CA\" somewhere?",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG1X///94\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-22T19:16:43Z",
+      "side": 1,
+      "message": "the \u0027|| psId.get() \u003d\u003d 0\u0027 is a hack.  When GWT de-serializes the item, it returns with a PatchSet.Id.  I can\u0027t figure out how to get it to de-serialize as a PatchSet.CommonAncestorId.",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG1X///90\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchScriptFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-22T19:16:43Z",
+      "side": 1,
+      "message": "This is that same hack",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG1X///9w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchScriptFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-22T19:16:43Z",
+      "side": 1,
+      "message": "Same hack :(",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG1X///9s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-22T19:16:43Z",
+      "side": 1,
+      "message": "I don\u0027t like this, but AnyObjectId.copy() is final so I can\u0027t get it to return a CommonAncestorObjectId.  Is there any other more-OO solution here?",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,9 +14,11 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtjsonrpc.common.JsonConstants;
@@ -99,7 +101,9 @@ public abstract class RestApiServlet extends HttpServlet {
       if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
         String msg = String.format(
             "fatal: %s does not have \"%s\" capability.",
-            user.getUserName(), rc.value());
+            Objects.firstNonNull(user.getUserName(),
+                ((IdentifiedUser)user).getNameEmail()),
+            rc.value());
         throw new RequireCapabilityException(msg);
       }
     }

@@ -31,6 +31,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.notes.NoteMapMerger;
@@ -66,6 +67,7 @@ public class NotesBranchUtil {
   private ObjectReader reader;
   private boolean overwrite;
 
+  private ReviewNoteMerger noteMerger;
 
   @Inject
   public NotesBranchUtil(@GerritPersonIdent final PersonIdent gerritIdent,
@@ -161,14 +163,20 @@ public class NotesBranchUtil {
         // Merge the existing and the new note as if they are both new,
         // means: base == null
         // There is no really a common ancestry for these two note revisions
-        NoteMerger noteMerger = new ReviewNoteMerger();
-        ObjectId noteContent = noteMerger.merge(null, n, ours.getNote(n),
+        ObjectId noteContent = getNoteMerger().merge(null, n, ours.getNote(n),
             reader, inserter).getData();
         ours.set(n, noteContent);
       } else {
         ours.set(n, n.getData());
       }
     }
+  }
+
+  private NoteMerger getNoteMerger() {
+    if (noteMerger == null) {
+      noteMerger = new ReviewNoteMerger();
+    }
+    return noteMerger;
   }
 
   private void loadBase(String notesBranch) throws IOException {
@@ -231,7 +239,8 @@ public class NotesBranchUtil {
             revWalk.parseCommit(refUpdate.getOldObjectId());
         NoteMap theirs =
             NoteMap.read(revWalk.getObjectReader(), theirsCommit);
-        NoteMapMerger merger = new NoteMapMerger(db);
+        NoteMapMerger merger =
+            new NoteMapMerger(db, getNoteMerger(), MergeStrategy.RESOLVE);
         NoteMap merged = merger.merge(base, ours, theirs);
         RevCommit mergeCommit =
             createCommit(merged, gerritIdent, "Merged note commits\n",

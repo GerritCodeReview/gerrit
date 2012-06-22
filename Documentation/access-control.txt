@@ -1078,6 +1078,15 @@ Allow project creation.  This capability allows the granted group to
 either link:cmd-create-project.html[create new git projects via ssh]
 or via the web UI.
 
+[[capability_emailReviewers]]
+Email Reviewers
+~~~~~~~~~~~~~~~
+
+Allow or deny sending email to change reviewers and watchers.  This can be used
+to deny build bots from emailing reviewers and people who watch the change.
+Instead, only the authors of the change and those who starred it will be
+emailed.  The allow rules are evaluated before deny rules, however the default
+is to allow emailing, if no explicit rule is matched.
 
 [[capability_flushCaches]]
 Flush Caches

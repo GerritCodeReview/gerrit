@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 /** Data sent as part of the host page, to bootstrap the UI. */
 public class HostPageData {
   public Account account;
+  public boolean isAdmin;
   public AccountDiffPreference accountDiffPref;
   public String xsrfToken;
   public GerritConfig config;

@@ -80,6 +80,7 @@ public class Gerrit implements EntryPoint {
   private static GerritConfig myConfig;
   private static HostPageData.Theme myTheme;
   private static Account myAccount;
+  private static boolean isAdmin;
   private static AccountDiffPreference myAccountDiffPref;
   private static String xsrfToken;
 
@@ -227,6 +228,10 @@ public class Gerrit implements EntryPoint {
     return myAccount;
   }
 
+  public static boolean isAdmin() {
+    return isAdmin;
+  }
+
   /** @return the currently signed in users's diff preferences; null if no diff preferences defined for the account */
   public static AccountDiffPreference getAccountDiffPreference() {
     return myAccountDiffPref;
@@ -313,6 +318,7 @@ public class Gerrit implements EntryPoint {
 
   static void deleteSessionCookie() {
     myAccount = null;
+    isAdmin = false;
     myAccountDiffPref = null;
     xsrfToken = null;
     refreshMenuBar();
@@ -362,7 +368,10 @@ public class Gerrit implements EntryPoint {
         myTheme = result.theme;
         if (result.account != null) {
           myAccount = result.account;
+          isAdmin = result.isAdmin;
           xsrfToken = result.xsrfToken;
+        } else {
+          isAdmin = false;
         }
         if (result.accountDiffPref != null) {
           myAccountDiffPref = result.accountDiffPref;
@@ -577,7 +586,9 @@ public class Gerrit implements EntryPoint {
       m = new LinkMenuBar();
       addLink(m, C.menuGroups(), PageLinks.ADMIN_GROUPS);
       addLink(m, C.menuProjects(), PageLinks.ADMIN_PROJECTS);
-      addLink(m, C.menuPlugins(), PageLinks.ADMIN_PLUGINS);
+      if (isAdmin()) {
+        addLink(m, C.menuPlugins(), PageLinks.ADMIN_PLUGINS);
+      }
       menuLeft.add(m, C.menuAdmin());
     }
 

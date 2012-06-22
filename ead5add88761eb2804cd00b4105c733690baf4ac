@@ -70,6 +70,24 @@
       "revId": "ead5add88761eb2804cd00b4105c733690baf4ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG1H///zc\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-22T17:06:36Z",
+      "side": 1,
+      "message": "Oh, right. We don\u0027t use this class. I was thinking this was ReceiveCommits (which we do use).\n\nHere I think you can just assume we have a username. Which means that patch set 2 is reasonable.",
+      "parentUuid": "AAAG33////o\u003d",
+      "revId": "ead5add88761eb2804cd00b4105c733690baf4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

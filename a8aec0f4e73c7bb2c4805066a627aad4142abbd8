@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAG2X///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-22T20:34:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGzH///+Q\u003d",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGzH///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-20T05:19:14Z",
       "side": 1,
       "message": "Indentation has been changed?",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG2X///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-22T20:34:06Z",
+      "side": 1,
+      "message": "oops, don\u0027t know how this happened, probably touched the delete-key accidentally.\n\nFixed",
+      "parentUuid": "AAAGzH///+M\u003d",
       "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAG2X///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-22T20:34:06Z",
+      "side": 1,
+      "message": "While I agree that this naming is bad I don\u0027t think fixing of it should be part of this changes delta. Searching in the source code:\n\n git grep \"ReviewDb schema\"\n\nfinds 3 entries, and:\n\n git grep \"Repository db\"\n\nfinds 29 entries. It only makes sense to fix all of them in one change.",
+      "parentUuid": "AAAGyX///+o\u003d",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGzH///+I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-06-20T05:19:14Z",
       "side": 1,
       "message": "Under what circumstances can a change\u0027s current PatchSet be null?  Don\u0027t changes always have at least one patch set?",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG2X///98\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-22T20:34:06Z",
+      "side": 1,
+      "message": "I don\u0027t remember why I wrote this check. Must be that I looked around and found some place where this check is done. For example: ChangeDetailFactory lines 120-124.\n\nNormally it should never be the case to have a change without a (current) patch set. I will remove this check.",
+      "parentUuid": "AAAGzH///+I\u003d",
       "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAG2X///90\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-22T20:34:06Z",
+      "side": 1,
+      "message": "Since we are in the context of NotesBranch (from the class name), the name \"base\" is good for me.",
+      "parentUuid": "AAAGzH///98\u003d",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGzH///+A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2012-06-20T05:19:14Z",
       "side": 1,
       "message": "oursCommit -\u003e ourCommit",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG2X///94\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-22T20:34:06Z",
+      "side": 1,
+      "message": "The \"ours\" comes from the git merge terminology. When performing a merge we talk about: \"base\", \"ours\" and \"theirs\".\nI prefer to stick to this terminology.",
+      "parentUuid": "AAAGzH///+A\u003d",
       "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "AAAG2X///9w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-22T20:34:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAGzH///+E\u003d",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGzH///90\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
         "patchSetId": 5
@@ -149,6 +275,24 @@
       "writtenOn": "2012-06-20T05:19:14Z",
       "side": 1,
       "message": "Nit: Capitalise the first word of sentences.",
+      "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG2X///9s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-22T20:34:06Z",
+      "side": 1,
+      "message": "Done, and removed the last one as it wasn\u0027t true anymore.\nI will fix the (re)use of the same NoteMerger in another change.",
+      "parentUuid": "AAAGzH///90\u003d",
       "revId": "a8aec0f4e73c7bb2c4805066a627aad4142abbd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

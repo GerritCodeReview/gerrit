@@ -33,6 +33,24 @@
       "revId": "4e129bb3aad18133fb154c7a1d26b0c9f1a5a1be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG2X///+c\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-22T12:22:33Z",
+      "side": 1,
+      "message": "Right, this was done in a8c4bd115841cb89ab083e027c18359cfdc03101.\n\nThis means that actually javadoc for GlobalCapability.EMAIL_REVIEWERS is wrong as people who starred the change will receive an email regardless of the Email Reviewers capability of the user who triggered the change.\n\nI will fix the doc and javadoc in the next patch set.",
+      "parentUuid": "AAAG3n///+s\u003d",
+      "revId": "4e129bb3aad18133fb154c7a1d26b0c9f1a5a1be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

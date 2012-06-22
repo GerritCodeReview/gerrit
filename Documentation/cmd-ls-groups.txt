@@ -65,7 +65,6 @@ This option can't be used together with the '--project' option.
 +
 --
 `internal`:: Any group defined within Gerrit.
-`ldap`:: Any group defined by an external LDAP database.
 `system`:: Any system defined and managed group.
 --
 

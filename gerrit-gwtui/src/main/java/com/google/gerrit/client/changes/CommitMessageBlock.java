@@ -76,6 +76,7 @@ public class CommitMessageBlock extends Composite {
       }
     }
 
+    permalinkPanel.clear();
     if (changeId != null) {
       permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId));
       permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId), false));

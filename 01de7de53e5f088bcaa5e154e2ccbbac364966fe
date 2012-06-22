@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG1n///9g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-22T14:20:26Z",
+      "side": 1,
+      "message": "Should this functionality be described in Documentation/cmd-create-group.txt?",
+      "revId": "01de7de53e5f088bcaa5e154e2ccbbac364966fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -106,6 +106,24 @@
       "revId": "ead5add88761eb2804cd00b4105c733690baf4ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG1H///zM\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-22T17:20:24Z",
+      "side": 1,
+      "message": "Yes. Over HTTP this is handled up in JGit. I think. GitOverHttpServlet is the glue here in Gerrit, with ReceivePackServlet doing most of the processing in JGit.\n\nWith no stderr stream you need to get errors to the client packaged into the progress stream, which is buried inside of the ReceivePack instance it wraps. Its probably a bit more work than this simple change.",
+      "parentUuid": "AAAG33////U\u003d",
+      "revId": "ead5add88761eb2804cd00b4105c733690baf4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

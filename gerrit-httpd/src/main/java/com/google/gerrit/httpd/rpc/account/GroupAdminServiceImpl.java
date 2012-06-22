@@ -31,15 +31,20 @@ import com.google.gerrit.reviewdb.client.AccountGroupInclude;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
+import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.OrmException;
@@ -54,6 +59,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
   private final AccountCache accountCache;
   private final AccountResolver accountResolver;
+  private final AccountManager accountManager;
+  private final AuthType authType;
   private final GroupCache groupCache;
   private final GroupBackend groupBackend;
   private final GroupIncludeCache groupIncludeCache;
@@ -70,6 +77,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final AccountCache accountCache,
       final GroupIncludeCache groupIncludeCache,
       final AccountResolver accountResolver,
+      final AccountManager accountManager,
+      final AuthConfig authConfig,
       final GroupCache groupCache,
       final GroupBackend groupBackend,
       final GroupControl.Factory groupControlFactory,
@@ -81,6 +90,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.accountCache = accountCache;
     this.groupIncludeCache = groupIncludeCache;
     this.accountResolver = accountResolver;
+    this.accountManager = accountManager;
+    this.authType = authConfig.getAuthType();
     this.groupCache = groupCache;
     this.groupBackend = groupBackend;
     this.groupControlFactory = groupControlFactory;
@@ -366,11 +377,36 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
   private Account findAccount(final String nameOrEmail) throws OrmException,
       Failure {
-    final Account r = accountResolver.find(nameOrEmail);
+    Account r = accountResolver.find(nameOrEmail);
     if (r == null) {
-      throw new Failure(new NoSuchAccountException(nameOrEmail));
+      switch (authType) {
+        case HTTP_LDAP:
+        case CLIENT_SSL_CERT_LDAP:
+        case LDAP:
+          r = createAccountByLdap(nameOrEmail);
+          break;
+        default:
+      }
+      if (r == null) {
+        throw new Failure(new NoSuchAccountException(nameOrEmail));
+      }
     }
     return r;
+  }
+
+  private Account createAccountByLdap(String user) {
+    if (!user.matches(Account.USER_NAME_PATTERN)) {
+      return null;
+    }
+
+    try {
+      final AuthRequest req = AuthRequest.forUser(user);
+      req.setSkipAuthentication(true);
+      return accountCache.get(accountManager.authenticate(req).getAccountId())
+          .getAccount();
+    } catch (AccountException e) {
+      return null;
+    }
   }
 
   private AccountGroup findGroup(final String name) throws OrmException,

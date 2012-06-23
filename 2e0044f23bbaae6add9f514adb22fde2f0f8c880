@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG6X////U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-23T16:36:08Z",
+      "side": 1,
+      "message": "this exception is not thrown in the constructor",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG6X////E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-23T16:36:08Z",
+      "side": 1,
+      "message": "This should be split only once. A password can contain \":\" but a username cannot. Just find the indexOf(\u0027:\u0027) and cut at that position, if its not present then its actually SC_FORBIDDEN since an authorization was presented, but was wrong. Only a broken client will give us a Basic header with no :",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG6X///+8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-23T16:36:08Z",
+      "side": 1,
+      "message": "import AccountExternalId to reduce the length of the line here.",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG6X///+4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-23T16:36:08Z",
+      "side": 1,
+      "message": "This is weird. You accept the gerrit username, but the ldap password. the username doesn\u0027t have to match ldap. I wonder if we should require the http username to match the ldap username here the way it does for the ldap sign in dialog on the web ui?\n\nSo then above instead of looking up the user by username, you find them by their AccountExternalId that matches SCHEME_GERRIT and the username that was supplied by the client. If I remember right that is how the LDAP sign in dialog works.",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG6X////M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-23T16:36:08Z",
+      "side": 1,
+      "message": "nit: wrap statement in {}. Since we have Guava now you may be able to shorten this to:\n\n  return Objects.firstNonNull(req.getCharacterEncoding(), \"UTF-8\");",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG6X////Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-23T16:36:08Z",
+      "side": 1,
+      "message": "unused?",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG6X////I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-23T16:36:08Z",
+      "side": 1,
+      "message": "use LIT_BASIC here and then not put a space before the realm in next line?",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG6X////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-23T16:36:08Z",
+      "side": 1,
+      "message": "docs please :-)",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG6X////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-23T16:36:08Z",
+      "side": 1,
+      "message": "nit: unnecessary blank line added.",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

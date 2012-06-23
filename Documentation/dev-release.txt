@@ -222,6 +222,23 @@ To read more about the bug fixes:
 -Martin
 ----
 
+* Add an entry to the NEWS section of the main Gerrit project web page
+** Go to: http://code.google.com/p/gerrit/admin
+** Add entry like:
+----
+ * Jun 14, 2012 - Gerrit 2.4.1 [https://groups.google.com/d/topic/repo-discuss/jHg43gixqzs/discussion Released]
+----
+
+* Update the new discussion group announcement to be sticky
+** Go to: http://groups.google.com/group/repo-discuss/topics
+** Click on the announcement thread
+** Near the top right, click on options
+** Under options, cick the "Display this top first" checkbox
+** and Save
+
+* Update the previous discussion group announcement to no longer be sticky
+** See above (unclick checkbox)
+
 
 Merging Stable Fixes to master
 ------------------------------

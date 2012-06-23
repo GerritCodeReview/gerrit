@@ -130,8 +130,8 @@ Tag
 * Push the New Tag
 
 ====
- git push google refs/tags/v2.5-rc0:refs/tags/v2.5-rc0
- git push google refs/tags/v2.5:refs/tags/v2.5
+ git push gerrit-review refs/tags/v2.5-rc0:refs/tags/v2.5-rc0
+ git push gerrit-review refs/tags/v2.5:refs/tags/v2.5
 ====
 
 
@@ -237,3 +237,8 @@ ensure that none of the fixes ever get lost.
  git branch -f stable origin/stable
  git merge stable
 ====
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

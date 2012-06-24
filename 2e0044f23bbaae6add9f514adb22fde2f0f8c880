@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAG53////0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-24T10:06:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG6X////U\u003d",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG6X////E\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-23T16:36:08Z",
       "side": 1,
       "message": "This should be split only once. A password can contain \":\" but a username cannot. Just find the indexOf(\u0027:\u0027) and cut at that position, if its not present then its actually SC_FORBIDDEN since an authorization was presented, but was wrong. Only a broken client will give us a Basic header with no :",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG53////w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-24T10:06:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG6X////E\u003d",
       "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAG53////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-24T10:06:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG6X///+8\u003d",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG6X///+4\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAG53////o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-24T10:06:19Z",
+      "side": 1,
+      "message": "I\u0027ve decided to simplify things and just trigger a regular username/password validation creating a brand new AuthRequest.forUser()",
+      "parentUuid": "AAAG6X///+4\u003d",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG6X////M\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2012-06-23T16:36:08Z",
       "side": 1,
       "message": "nit: wrap statement in {}. Since we have Guava now you may be able to shorten this to:\n\n  return Objects.firstNonNull(req.getCharacterEncoding(), \"UTF-8\");",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG53////k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-24T10:06:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG6X////M\u003d",
       "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AAAG53////g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-24T10:06:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG6X////I\u003d",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG6X////Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
         "patchSetId": 3
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "AAAG53////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-24T10:06:19Z",
+      "side": 1,
+      "message": "Yep, added to next patch-set.",
+      "parentUuid": "AAAG6X////Y\u003d",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG6X////c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
         "patchSetId": 3
@@ -149,6 +275,24 @@
       "writtenOn": "2012-06-23T16:36:08Z",
       "side": 1,
       "message": "nit: unnecessary blank line added.",
+      "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG53////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-24T10:06:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG6X////c\u003d",
       "revId": "2e0044f23bbaae6add9f514adb22fde2f0f8c880",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

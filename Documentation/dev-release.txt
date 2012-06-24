@@ -130,8 +130,8 @@ Tag
 * Push the New Tag
 
 ====
- git push google refs/tags/v2.5-rc0:refs/tags/v2.5-rc0
- git push google refs/tags/v2.5:refs/tags/v2.5
+ git push gerrit-review refs/tags/v2.5-rc0:refs/tags/v2.5-rc0
+ git push gerrit-review refs/tags/v2.5:refs/tags/v2.5
 ====
 
 
@@ -192,8 +192,7 @@ because Status=Submitted is considered a closed issue.
 Mailing List
 ~~~~~~~~~~~~
 
-* Send an email to the mailing list to announce the release
-* Consider including some or all of the following in the email:
+* Send an email to the mailing list to announce the release, consider including some or all of the following in the email:
 ** A link to the release and the release notes (if a final release)
 ** A link to the docs
 ** Describe the type of release (stable, bug fix, RC)
@@ -237,3 +236,8 @@ ensure that none of the fixes ever get lost.
  git branch -f stable origin/stable
  git merge stable
 ====
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

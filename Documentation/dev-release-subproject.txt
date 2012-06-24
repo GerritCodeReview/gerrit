@@ -60,15 +60,15 @@ with this snapshot
 
 * Deploy the snapshot:
 
-----
+====
   mvn deploy
-----
+====
 
 
 Making a Gerrit Subproject Release
 ----------------------------------
 
-* First deploy (and test) the latest snapshot for this subprojects
+* First deploy (and test) the latest snapshot for the subproject
 
 * Update the top level pom.xml in the subproject to reflect the new project
 version (the exact value of the tag you will create below)
@@ -77,8 +77,18 @@ version (the exact value of the tag you will create below)
 
 * Tag the version you just pushed (and push the tag)
 
+====
+ git tag -a -m "prolog-cafe 1.3" v1.3
+ git push gerrit-review refs/tags/v1.3:refs/tags/v1.3
+====
+
 * Deploy the new release:
 
-----
+====
  mvn deploy
-----
+====
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

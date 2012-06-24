@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG73///+8\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-24T22:29:41Z",
+      "side": 1,
+      "message": "s/smae/same/",
+      "revId": "619009cd310343a8ae5e0829dbcea31fc3986c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG73////A\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-24T22:29:41Z",
+      "side": 1,
+      "message": "nit: trailing space",
+      "revId": "619009cd310343a8ae5e0829dbcea31fc3986c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG73///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/ProjectBasicAuthFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-24T22:29:41Z",
+      "side": 1,
+      "message": "this is an extra space you can remove, since LIT_BASIC includes a space already at the end",
+      "revId": "619009cd310343a8ae5e0829dbcea31fc3986c69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

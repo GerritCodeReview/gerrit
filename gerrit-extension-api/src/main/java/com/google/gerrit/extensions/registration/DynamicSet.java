@@ -25,6 +25,9 @@ import com.google.inject.name.Named;
 import com.google.inject.util.Providers;
 import com.google.inject.util.Types;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -39,6 +42,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * registrations to decide between singleton and non-singleton members.
  */
 public class DynamicSet<T> implements Iterable<T> {
+  private static final Logger log = LoggerFactory.getLogger(DynamicSet.class);
   /**
    * Declare a singleton {@code DynamicSet<T>} with a binder.
    * <p>
@@ -147,7 +151,8 @@ public class DynamicSet<T> implements Iterable<T> {
             try {
               next = p.get();
             } catch (RuntimeException e) {
-              // TODO Log failed member of DynamicSet.
+              log.error("Cannot get iterated object from provider " + p
+                  + ": object discared", e);
             }
           }
         }

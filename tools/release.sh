@@ -25,7 +25,7 @@ then
 fi
 
 ./tools/version.sh --release &&
-mvn clean package $include_docs
+mvn clean package $include_docs -P all
 rc=$?
 ./tools/version.sh --reset
 

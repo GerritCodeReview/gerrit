@@ -264,6 +264,7 @@ public class GitOverHttpServlet extends GitServlet {
       ReceivePack rp = rc.getReceivePack();
       rp.setRefLogIdent(user.newRefLogIdent());
       rp.setTimeout(config.getTimeout());
+      rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
       req.setAttribute(ATT_RC, rc);
       session.get().setAccessPath(AccessPath.GIT);
       return rp;

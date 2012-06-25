@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG+X////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-25T14:00:12Z",
+      "side": 1,
+      "message": "Shouldn\u0027t there be a corresponding repo.close()?",
+      "revId": "333d930fa7ce6c1ed33aefc4694f642281fd8b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG+X////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-25T14:00:12Z",
+      "side": 1,
+      "message": "Should the new line also be appended if the noteContent is empty because no reason was specified?",
+      "revId": "333d930fa7ce6c1ed33aefc4694f642281fd8b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG+X////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/NotesBranchUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-25T14:00:12Z",
+      "side": 1,
+      "message": "Not directly related to this refactoring, it was already like this before. Do we need to release this object reader which we create here? The JavaDoc class comment of NoteMap says \"... The reader can be used during any call, and is not released by this class. The caller should arrange for releasing the shared {@code ObjectReader} at the proper times\".",
+      "revId": "333d930fa7ce6c1ed33aefc4694f642281fd8b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

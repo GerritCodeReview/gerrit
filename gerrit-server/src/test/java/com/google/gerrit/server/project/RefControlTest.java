@@ -144,6 +144,18 @@ public class RefControlTest extends TestCase {
         u.controlForRef("refs/heads/foobar").canUpload());
   }
 
+  public void testInheritDuplicateSections() {
+    grant(parent, READ, admin, "refs/*");
+    grant(local, READ, devs, "refs/heads/*");
+    local.getProject().setParentName(parent.getProject().getName());
+    assertTrue("a can read", user("a", admin).isVisible());
+
+    local = new ProjectConfig(new Project.NameKey("local"));
+    local.createInMemory();
+    grant(local, READ, devs, "refs/*");
+    assertTrue("d can read", user("d", devs).isVisible());
+  }
+
   public void testInheritRead_OverrideWithDeny() {
     grant(parent, READ, registered, "refs/*");
     grant(local, READ, registered, "refs/*").setDeny();
@@ -320,7 +332,6 @@ public class RefControlTest extends TestCase {
 
     local = new ProjectConfig(new Project.NameKey("local"));
     local.createInMemory();
-    local.getProject().setParentName(parent.getProject().getName());
 
     Cache<SectionSortCache.EntryKey, SectionSortCache.EntryVal> c =
         CacheBuilder.newBuilder().build();

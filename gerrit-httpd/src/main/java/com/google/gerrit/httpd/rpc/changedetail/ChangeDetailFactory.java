@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
@@ -41,6 +42,7 @@ import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.OrmException;
@@ -252,6 +254,16 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail.setApprovals(ad.values());
   }
 
+  private boolean isReviewer(Change change) {
+    // Return true if the currently logged in user is a reviewer of the change.
+    try {
+      return control.isReviewer(db, new ChangeData(change));
+    }
+    catch (OrmException e) {
+        return false;
+    }
+  }
+
   private void loadCurrentPatchSet() throws OrmException,
       NoSuchEntityException, PatchSetInfoNotAvailableException,
       NoSuchChangeException {
@@ -292,11 +304,24 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     final Map<Change.Id, Change> m =
         db.changes().toMap(db.changes().get(changesToGet));
 
+    final CurrentUser currentUser = control.getCurrentUser();
+    Account.Id currentUserId = null;
+    if (currentUser instanceof IdentifiedUser) {
+        currentUserId = ((IdentifiedUser) currentUser).getAccountId();
+    }
+
     final ArrayList<ChangeInfo> dependsOn = new ArrayList<ChangeInfo>();
     for (final Change.Id a : ancestorOrder) {
       final Change ac = m.get(a);
       if (ac != null && ac.getProject().equals(detail.getChange().getProject())) {
-        dependsOn.add(newChangeInfo(ac, ancestorPatchIds));
+        if (ac.getStatus().getCode() == Change.STATUS_DRAFT) {
+          if (ac.getOwner().equals(currentUserId) || isReviewer(ac)) {
+            dependsOn.add(newChangeInfo(ac, ancestorPatchIds));
+          }
+        }
+        else {
+          dependsOn.add(newChangeInfo(ac, ancestorPatchIds));
+        }
       }
     }
 
@@ -304,7 +329,14 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final PatchSet.Id a : descendants) {
       final Change ac = m.get(a.getParentKey());
       if (ac != null && ac.currentPatchSetId().equals(a)) {
-        neededBy.add(newChangeInfo(ac, null));
+        if (ac.getStatus().getCode() == Change.STATUS_DRAFT) {
+          if (ac.getOwner().equals(currentUserId) || isReviewer(ac)) {
+            neededBy.add(newChangeInfo(ac, null));
+          }
+        }
+        else {
+          neededBy.add(newChangeInfo(ac, null));
+        }
       }
     }
 

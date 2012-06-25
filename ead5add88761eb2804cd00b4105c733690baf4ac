@@ -124,6 +124,24 @@
       "revId": "ead5add88761eb2804cd00b4105c733690baf4ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG+X////w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-25T13:23:51Z",
+      "side": 1,
+      "message": "I\u0027ve spent some time on this but I didn\u0027t find a solution to write a log entry in case of TooLargeObjectInPackException :-(",
+      "parentUuid": "AAAG1H///zM\u003d",
+      "revId": "ead5add88761eb2804cd00b4105c733690baf4ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

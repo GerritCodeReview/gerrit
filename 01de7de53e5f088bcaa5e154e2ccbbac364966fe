@@ -16,6 +16,24 @@
       "revId": "01de7de53e5f088bcaa5e154e2ccbbac364966fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG+X////U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-25T14:46:58Z",
+      "side": 1,
+      "message": "For the create-group command this feature did already exist before this change. I\u0027ve added the documentation in [1].\n\nThis change adds the same feature when adding new members to an existing group from the WebUI. There seems to be no documentation for the GroupScreen, so I\u0027m not sure if there is a good place in the documentation where I could describe this new behaviour which is added by this change.\n\nDone?\n\n[1] https://gerrit-review.googlesource.com/36431",
+      "parentUuid": "AAAG1n///9g\u003d",
+      "revId": "01de7de53e5f088bcaa5e154e2ccbbac364966fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -239,12 +239,14 @@ public class GitOverHttpServlet extends GitServlet {
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     private final AsyncReceiveCommits.Factory factory;
     private final Provider<WebSession> session;
+    private final TransferConfig config;
 
     @Inject
     ReceiveFactory(AsyncReceiveCommits.Factory factory,
-        Provider<WebSession> session) {
+        Provider<WebSession> session, TransferConfig config) {
       this.factory = factory;
       this.session = session;
+      this.config = config;
     }
 
     @Override
@@ -259,10 +261,12 @@ public class GitOverHttpServlet extends GitServlet {
 
       final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
       final ReceiveCommits rc = factory.create(pc, db).getReceiveCommits();
-      rc.getReceivePack().setRefLogIdent(user.newRefLogIdent());
+      ReceivePack rp = rc.getReceivePack();
+      rp.setRefLogIdent(user.newRefLogIdent());
+      rp.setTimeout(config.getTimeout());
       req.setAttribute(ATT_RC, rc);
       session.get().setAccessPath(AccessPath.GIT);
-      return rc.getReceivePack();
+      return rp;
     }
   }
 

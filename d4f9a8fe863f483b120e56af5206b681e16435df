@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG8X////w\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1719,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-26T05:27:39Z",
+      "side": 1,
+      "message": "You should also mention what is the default value for melody.session",
+      "revId": "d4f9a8fe863f483b120e56af5206b681e16435df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG8X////s\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/melody/AcledMonitoringFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-26T05:27:39Z",
+      "side": 1,
+      "message": "This import is not used and should be removed.",
+      "revId": "d4f9a8fe863f483b120e56af5206b681e16435df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG8X////k\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/melody/AcledMonitoringFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-26T05:27:39Z",
+      "side": 1,
+      "message": "nit: \u0027}\u0027 and \u0027else {\u0027 should be in one line",
+      "revId": "d4f9a8fe863f483b120e56af5206b681e16435df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG8X////o\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/melody/AcledMonitoringFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-26T05:27:39Z",
+      "side": 1,
+      "message": "Why do you need to check if currentUser instanceof IdentifiedUser?",
+      "revId": "d4f9a8fe863f483b120e56af5206b681e16435df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -202,7 +202,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
     String subject = c.subject();
     if (subject.length() > 80) {
-      subject = subject.substring(0, 80);
+      subject = subject.substring(0, 80) + "...";
     }
     Change.Status status = c.status();
     if (status != Change.Status.NEW) {

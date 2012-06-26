@@ -69,6 +69,24 @@
       "revId": "5453660b7bff564a0b5db157a406a88bbf8f89a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG+3///+4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-26T15:20:30Z",
+      "side": 1,
+      "message": "Does it make sense to introduce a class like CommitMessageUtil and have this policy implemented there as a static method?",
+      "parentUuid": "AAAG8X///90\u003d",
+      "revId": "5453660b7bff564a0b5db157a406a88bbf8f89a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

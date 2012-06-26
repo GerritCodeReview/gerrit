@@ -53,6 +53,13 @@ Description values containing spaces should be quoted in single quotes
 --member::
 	User name to become initial member of the group.  Multiple --member
 	options may be specified to add more initial members.
++
+Trying to add a user that doesn't have an account in Gerrit fails,
+unless LDAP is used for authentication. If LDAP is used for
+authentication and the user is not found, Gerrit tries to authenticate
+the user against the LDAP backend. If the authentication is successful
+a user account is automatically created, so that the user can be added
+to the group.
 
 --group::
 	Group name to include in the group.  Multiple --group options may

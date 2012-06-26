@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG/3///8M\u003d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/GitReferenceUpdatedListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T20:32:57Z",
+      "side": 1,
+      "message": "Did you squash a lot of work into this single commit by mistake? Given the commit message I expected only a bit of delta in things like the PluginLoader related to logging. But instead I see this.",
+      "revId": "46cc6d944cd130e26c0224a95665144b646affdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

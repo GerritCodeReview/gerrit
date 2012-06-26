@@ -1,10 +1,10 @@
-you are not author ...
-======================
+invalid author
+==============
 
 For every pushed commit Gerrit verifies that the e-mail address of
 the author matches one of the registered e-mail addresses of the
 pushing user. If this is not the case pushing the commit fails with
-the error message "you are not author ...". This policy can be
+the error message "invalid author". This policy can be
 bypassed by having the access right
 link:access-control.html#category_forge_author['Forge Author'].
 
@@ -17,8 +17,8 @@ This error may happen for two reasons:
 Incorrect configuration of the e-mail address on client or server side
 ----------------------------------------------------------------------
 
-If pushing to Gerrit fails with the error message "you are not
-author ..." and you are the author of the commit for which the push
+If pushing to Gerrit fails with the error message "invalid author"
+and you are the author of the commit for which the push
 fails, then either you have not successfully registered this e-mail
 address for your Gerrit account or the author information of the
 pushed commit is incorrect.
@@ -131,8 +131,8 @@ link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documen
 Missing privileges to push commits of other users
 -------------------------------------------------
 
-If pushing to Gerrit fails with the error message "you are not
-author ..." and somebody else is author of the commit for which the
+If pushing to Gerrit fails with the error message "invalid author"
+and somebody else is author of the commit for which the
 push fails, then you have no permissions to forge the author
 identity. In this case you may contact the project owner to request
 the access right '+1 Forge Author Identity' in the 'Forge Identity'

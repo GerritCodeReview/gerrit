@@ -1,10 +1,10 @@
-you are not committer ...
-=========================
+invalid committer
+=================
 
 For every pushed commit Gerrit verifies that the e-mail address of
 the committer matches one of the registered e-mail addresses of the
 pushing user. If this is not the case pushing the commit fails with
-the error message "you are not committer ...". This policy can be
+the error message "invalid committer". This policy can be
 bypassed by having the access right
 link:access-control.html#category_forge_committer['Forge Committer'].
 
@@ -19,8 +19,8 @@ This error may happen for two reasons:
 Incorrect configuration of the e-mail address on client or server side
 ----------------------------------------------------------------------
 
-If pushing to Gerrit fails with the error message "you are not
-committer ..." and you committed the change for which the push fails,
+If pushing to Gerrit fails with the error message "invalid committer"
+and you committed the change for which the push fails,
 then either you have not successfully registered this e-mail address
 for your Gerrit account or the committer information of the pushed
 commit is incorrect.
@@ -96,8 +96,8 @@ link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documen
 Missing privileges to push commits that were committed by other users
 ---------------------------------------------------------------------
 
-If pushing to Gerrit fails with the error message "you are not
-committer ..." and somebody else committed the change for which the
+If pushing to Gerrit fails with the error message "invalid committer"
+and somebody else committed the change for which the
 push fails, then you have no permissions to forge the committer
 identity. In this case you may contact the project owner to request
 the access right '+2 Forge Committer or Tagger Identity' in the

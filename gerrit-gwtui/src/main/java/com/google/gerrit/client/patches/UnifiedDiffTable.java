@@ -275,7 +275,28 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
     m.addStyleName(Gerrit.RESOURCES.css().diffTextFileHeader());
-    m.append(line);
+
+    if (!line.contains("/dev/null") && (line.startsWith("---") || line.startsWith("+++"))) {
+      if (line.endsWith("\n")) {
+        m.append(line.substring(0, line.length() - 1));
+      } else {
+        m.append(line);
+      }
+      m.append(" ");
+
+      if (line.startsWith("---")) {
+        if (idSideA == null) {
+          downloadLink(m, patchKey, "1");
+        } else {
+          downloadLink(m, new Patch.Key(idSideA, patchKey.get()), "0");
+        }
+      } else {
+        downloadLink(m, new Patch.Key(idSideB, patchKey.get()), "0");
+      }
+    } else {
+      m.append(line);
+    }
+
     m.closeTd();
     closeLine(m);
   }

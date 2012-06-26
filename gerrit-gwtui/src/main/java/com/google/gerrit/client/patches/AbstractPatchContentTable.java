@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -55,6 +56,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -850,5 +853,14 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       newComment.setSide(comment.getSide());
       return newComment;
     }
+  }
+
+  protected void downloadLink(final SafeHtmlBuilder m, final Patch.Key key,
+      final String side) {
+    final String base = GWT.getHostPageBaseURL() + "cat/";
+    m.openAnchor();
+    m.setAttribute("href", base + KeyUtil.encode(key.toString()) + "^" + side);
+    m.append(PatchUtil.C.download());
+    m.closeAnchor();
   }
 }

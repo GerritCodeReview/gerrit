@@ -28,7 +28,6 @@ import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -38,7 +37,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtorm.client.KeyUtil;
 
 import org.eclipse.jgit.diff.Edit;
 
@@ -316,15 +314,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.closeTd();
 
     m.closeTr();
-  }
-
-  private void downloadLink(final SafeHtmlBuilder m, final Patch.Key key,
-      final String side) {
-    final String base = GWT.getHostPageBaseURL() + "cat/";
-    m.openAnchor();
-    m.setAttribute("href", base + KeyUtil.encode(key.toString()) + "^" + side);
-    m.append(PatchUtil.C.download());
-    m.closeAnchor();
   }
 
   private void appendSkipLine(final SafeHtmlBuilder m, final int skipCnt) {

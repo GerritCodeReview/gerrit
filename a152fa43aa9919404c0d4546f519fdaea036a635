@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG/3///8E\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountSecurity.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "Actually you may want to audit validateEmail, not registerEmail.\n\nregisterEmail sends an email to the given address, but makes no changes to the server. That email contains a token in a URL. The token is presented to validateEmail, which adds the address to the database.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///74\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeManageService.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "For completeness you may just want to audit this too.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///70\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchDetailService.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "Hmm, yea. If you are going to audit a user saving their own draft comment that isn\u0027t visible to anyone other than themselves, you really should also audit a rebase of a patch set.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "final, and this can be pulled up one line so there isn\u0027t a blank line between logoutUrl and audit.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "private",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "This should be declared only within the finally block. But even there the variable isn\u0027t necessary, just pass the new event to the audit.dispatch().",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "style nit: finally cuddles up with the closing brace:\n\n  try {\n    doLogout(req, rsp);\n  } finally {\n    ...\n  }",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "Do not import log4j.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "Use sfl4j LoggerFactory instead. Loggers should be declared as the first member of the class, so move this above the session member.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "static fields and static constructors should be declared before instance members. Move these above the session field.\n\nThese should both be final, and can be initialized in their declaration without using a static block.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "don\u0027t comment out dead code",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "This is effectively unreachable because of the try/catch in the audit method. So I would remove this catch.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "This Gson instance is thread-safe. You can make it once as a static member of the class.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "This isn\u0027t really true. You are in an HTTP request context. An actual client made a request to you. Its actually anonymous if they don\u0027t have the username, not the system.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///7A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T21:01:34Z",
+      "side": 1,
+      "message": "Please go back and look at my prior comments in patch set 11. I don\u0027t think any of your updates made it into patch set 15.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -58,6 +58,11 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtjsonrpc.common.VoidResult;
 
+import com.smartgwt.client.widgets.menu.IMenuButton;
+import com.smartgwt.client.widgets.menu.Menu;
+import com.smartgwt.client.widgets.menu.MenuItem;
+import com.smartgwt.client.widgets.menu.events.MenuItemClickEvent;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -422,27 +427,30 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     final Panel p = new ActionFlowPanel();
     actionsPanel.add(p);
 
-    final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
-    diffAllSideBySide.addClickHandler(new ClickHandler() {
+    final Menu m = new Menu();
+    p.add(new IMenuButton(Util.C.buttonMore(), m));
+
+    final MenuItem diffAllSideBySide = new MenuItem(Util.C.buttonDiffAllSideBySide());
+    diffAllSideBySide.addClickHandler(new com.smartgwt.client.widgets.menu.events.ClickHandler() {
       @Override
-      public void onClick(ClickEvent event) {
+      public void onClick(MenuItemClickEvent event) {
         for (Patch p : detail.getPatches()) {
           openWindow(Dispatcher.toPatchSideBySide(diffBaseId, p.getKey()));
         }
       }
     });
-    p.add(diffAllSideBySide);
+    m.addItem(diffAllSideBySide);
 
-    final Button diffAllUnified = new Button(Util.C.buttonDiffAllUnified());
-    diffAllUnified.addClickHandler(new ClickHandler() {
+    final MenuItem diffAllUnified = new MenuItem(Util.C.buttonDiffAllUnified());
+    diffAllUnified.addClickHandler(new com.smartgwt.client.widgets.menu.events.ClickHandler() {
       @Override
-      public void onClick(ClickEvent event) {
+      public void onClick(MenuItemClickEvent event) {
         for (Patch p : detail.getPatches()) {
           openWindow(Dispatcher.toPatchUnified(diffBaseId, p.getKey()));
         }
       }
     });
-    p.add(diffAllUnified);
+    m.addItem(diffAllUnified);
   }
 
   private void openWindow(String token) {

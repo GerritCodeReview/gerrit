@@ -40,6 +40,11 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>com.smartgwt</groupId>
+      <artifactId>smartgwt</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>gwtexpui</groupId>
       <artifactId>gwtexpui</artifactId>
     </dependency>

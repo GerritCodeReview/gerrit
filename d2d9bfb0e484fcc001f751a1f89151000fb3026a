@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG/3///4U\u003d",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T23:35:58Z",
+      "side": 1,
+      "message": "Given the license is LGPL, this should be a plugin. So we should fix the core server to enable a plugin to filter /*, and to get access to the Jetty server context so it can register the session listener. But do we need that session listener? Gerrit doesn\u0027t use J2EE sessions to manage user state.",
+      "revId": "d2d9bfb0e484fcc001f751a1f89151000fb3026a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

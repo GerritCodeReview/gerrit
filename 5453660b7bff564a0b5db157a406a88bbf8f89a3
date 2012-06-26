@@ -16,6 +16,23 @@
       "revId": "5453660b7bff564a0b5db157a406a88bbf8f89a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG+3////E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-26T14:23:40Z",
+      "side": 1,
+      "message": "[optional]\nObviously this will print 83 characters when the length \u003e 80. If the length \u003d\u003d 81 then it will print more characters than the actual length of the string (same for the length of 82). If the string is 83 chars long then it will end up with \"...\" but there could be place for the last 3 letters.\n\nDoes it make sense to say we limit the total length of displayed commit subject to 80 chars (or 83 if you like more) and do something like:\n\n if (parentMsg.length() \u003e MAX_LEN) {\n   parentMsg \u003d parentMsg.substring(0, MAX_LEN - 3) + \"...\";\n }",
+      "revId": "5453660b7bff564a0b5db157a406a88bbf8f89a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

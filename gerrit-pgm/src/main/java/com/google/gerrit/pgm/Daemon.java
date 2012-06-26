@@ -17,6 +17,7 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
@@ -354,6 +355,7 @@ public class Daemon extends SiteProgram {
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(RequestContextFilter.module());
+    modules.add(AllRequestFilter.module());
     modules.add(CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));

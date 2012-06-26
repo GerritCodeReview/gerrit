@@ -424,7 +424,11 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       parentsTable.setWidget(row, 0, new InlineLabel(parent.id.get()));
       ptfmt.addStyleName(row, 0, Gerrit.RESOURCES.css().noborder());
       ptfmt.addStyleName(row, 0, Gerrit.RESOURCES.css().monospace());
-      parentsTable.setWidget(row, 1, new InlineLabel(parent.shortMessage));
+      String parentMsg = parent.shortMessage;
+      if (parentMsg.length() > 80) {
+        parentMsg = parentMsg.substring(0, 77) + "...";
+      }
+      parentsTable.setWidget(row, 1, new InlineLabel(parentMsg));
       ptfmt.addStyleName(row, 1, Gerrit.RESOURCES.css().noborder());
       row++;
     }

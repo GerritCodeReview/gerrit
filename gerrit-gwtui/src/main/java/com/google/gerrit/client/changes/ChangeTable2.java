@@ -200,10 +200,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
     table.setWidget(row, C_ID, new TableChangeLink(c.id_abbreviated(), c));
 
-    String subject = c.subject();
-    if (subject.length() > 80) {
-      subject = subject.substring(0, 80);
-    }
+    String subject = Util.cropSubject(c.subject());
     Change.Status status = c.status();
     if (status != Change.Status.NEW) {
       subject += " (" + Util.toLongString(status) + ")";

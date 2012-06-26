@@ -30,6 +30,9 @@ public class Util {
   public static final ChangeListService LIST_SVC;
   public static final ChangeManageService MANAGE_SVC;
 
+  private static final int SUBJECT_MAX_LENGTH = 80;
+  private static final String SUBJECT_CROP_APPENDIX = "...";
+
   static {
     DETAIL_SVC = GWT.create(ChangeDetailService.class);
     JsonUtil.bind(DETAIL_SVC, "rpc/ChangeDetailService");
@@ -59,5 +62,24 @@ public class Util {
       default:
         return status.name();
     }
+  }
+
+  /**
+   * Crops the given change subject if needed so that it has at most
+   * {@link #SUBJECT_MAX_LENGTH} characters.
+   *
+   * @return if the given subject is not longer than {@link #SUBJECT_MAX_LENGTH}
+   *         characters it is returned unchanged, otherwise it is cropped and
+   *         {@link #SUBJECT_CROP_APPENDIX} is appended to the cropped subject,
+   *         the cropped subject including the appendix has
+   *         {@link #SUBJECT_MAX_LENGTH} characters
+   */
+  public static String cropSubject(final String subject) {
+    if (subject.length() > SUBJECT_MAX_LENGTH) {
+      return subject.substring(0,
+          SUBJECT_MAX_LENGTH - SUBJECT_CROP_APPENDIX.length())
+          + SUBJECT_CROP_APPENDIX;
+    }
+    return subject;
   }
 }

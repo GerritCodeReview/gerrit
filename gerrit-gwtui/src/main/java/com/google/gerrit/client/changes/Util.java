@@ -30,6 +30,10 @@ public class Util {
   public static final ChangeListService LIST_SVC;
   public static final ChangeManageService MANAGE_SVC;
 
+  private static final int SUBJECT_MAX_LENGTH = 80;
+  private static final String SUBJECT_CROP_APPENDIX = "...";
+  private static final int SUBJECT_CROP_RANGE = 10;
+
   static {
     DETAIL_SVC = GWT.create(ChangeDetailService.class);
     JsonUtil.bind(DETAIL_SVC, "rpc/ChangeDetailService");
@@ -59,5 +63,41 @@ public class Util {
       default:
         return status.name();
     }
+  }
+
+  /**
+   * Crops the given change subject if needed so that it has at most
+   * {@link #SUBJECT_MAX_LENGTH} characters.
+   *
+   * If the given subject is not longer than {@link #SUBJECT_MAX_LENGTH}
+   * characters it is returned unchanged.
+   *
+   * If the length of the given subject exceeds {@link #SUBJECT_MAX_LENGTH}
+   * characters it is cropped. In this case {@link #SUBJECT_CROP_APPENDIX} is
+   * appended to the cropped subject, the cropped subject including the appendix
+   * has at most {@link #SUBJECT_MAX_LENGTH} characters.
+   *
+   * If cropping is needed, the subject will be cropped after the last space
+   * character that is found within the last {@link #SUBJECT_CROP_RANGE}
+   * characters of the potentially visible characters. If no such space is
+   * found, the subject will be cropped so that the cropped subject including
+   * the appendix has exactly {@link #SUBJECT_MAX_LENGTH} characters.
+   *
+   * @return the subject, cropped if needed
+   */
+  @SuppressWarnings("deprecation")
+  public static String cropSubject(final String subject) {
+    if (subject.length() > SUBJECT_MAX_LENGTH) {
+      final int maxLength = SUBJECT_MAX_LENGTH - SUBJECT_CROP_APPENDIX.length();
+      for (int cropPosition = maxLength; cropPosition > maxLength - SUBJECT_CROP_RANGE; cropPosition--) {
+        // Character.isWhitespace(char) can't be used because this method is not supported by GWT,
+        // see https://developers.google.com/web-toolkit/doc/1.6/RefJreEmulation#Package_java_lang
+        if (Character.isSpace(subject.charAt(cropPosition - 1))) {
+          return subject.substring(0, cropPosition) + SUBJECT_CROP_APPENDIX;
+        }
+      }
+      return subject.substring(0, maxLength) + SUBJECT_CROP_APPENDIX;
+    }
+    return subject;
   }
 }

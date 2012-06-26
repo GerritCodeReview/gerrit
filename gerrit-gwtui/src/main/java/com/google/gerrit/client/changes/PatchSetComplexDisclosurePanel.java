@@ -51,6 +51,7 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
@@ -160,26 +161,12 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       patchTable.display(diffBaseId, detail);
 
       actionsPanel = new FlowPanel();
-      actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
+      actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActionGroups());
       body.add(actionsPanel);
-      if (Gerrit.isSignedIn()) {
-        if (changeDetail.canEdit()) {
-          populateReviewAction();
-          if (changeDetail.isCurrentPatchSet(detail)) {
-            populateActions(detail);
-          }
-        }
-        if (detail.getPatchSet().isDraft()) {
-          if (changeDetail.canPublish()) {
-            populatePublishAction();
-          }
-          if (changeDetail.canDeleteDraft() &&
-              changeDetail.getPatchSets().size() > 1) {
-            populateDeleteDraftPatchSetAction();
-          }
-        }
-      }
-      populateDiffAllActions(detail);
+      populateReviewActions(detail);
+      populateDraftActions(detail);
+      populateMoreActions(detail);
+
       body.add(patchTable);
 
       for(ClickHandler clickHandler : registeredClickHandler) {
@@ -431,13 +418,73 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     infoTable.setWidget(R_PARENTS, 1, parentsTable);
   }
 
-  private void populateActions(final PatchSetDetail detail) {
-    final boolean isOpen = changeDetail.getChange().getStatus().isOpen();
+  private void populateMoreActions(final PatchSetDetail detail) {
+    final Panel p = new ActionFlowPanel();
+    actionsPanel.add(p);
 
+    final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
+    diffAllSideBySide.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        for (Patch p : detail.getPatches()) {
+          openWindow(Dispatcher.toPatchSideBySide(diffBaseId, p.getKey()));
+        }
+      }
+    });
+    p.add(diffAllSideBySide);
+
+    final Button diffAllUnified = new Button(Util.C.buttonDiffAllUnified());
+    diffAllUnified.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        for (Patch p : detail.getPatches()) {
+          openWindow(Dispatcher.toPatchUnified(diffBaseId, p.getKey()));
+        }
+      }
+    });
+    p.add(diffAllUnified);
+  }
+
+  private void openWindow(String token) {
+    String url = Window.Location.getPath() + "#" + token;
+    Window.open(url, "_blank", null);
+  }
+
+  private void populateReviewActions(final PatchSetDetail detail) {
+    if (!Gerrit.isSignedIn() || !changeDetail.canEdit()) {
+      return;
+    }
+
+    final Panel p = new ActionFlowPanel();
+    actionsPanel.add(p);
+
+    final Button reviewButton = new Button(Util.C.buttonReview());
+    reviewButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        Gerrit.display(Dispatcher.toPublish(patchSet.getId()));
+      }
+    });
+    p.add(reviewButton);
+
+    if (changeDetail.canRebase()) {
+      final Button b = new Button(Util.C.buttonRebaseChange());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          Util.MANAGE_SVC.rebaseChange(patchSet.getId(),
+              new ChangeDetailCache.GerritWidgetCallback(b));
+        }
+      });
+      p.add(b);
+    }
+
+    final boolean isOpen = changeDetail.getChange().getStatus().isOpen();
     if (isOpen && changeDetail.canSubmit()) {
       final Button b =
-          new Button(Util.M
-              .submitPatchSet(detail.getPatchSet().getPatchSetId()));
+          new Button(
+              Util.M.submitPatchSet(detail.getPatchSet().getPatchSetId()));
       if (Gerrit.getConfig().testChangeMerge()) {
         b.setEnabled(changeDetail.getChange().isMergeable());
       }
@@ -454,7 +501,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
               });
         }
       });
-      actionsPanel.add(b);
+      p.add(b);
     }
 
     if (changeDetail.canRevert()) {
@@ -463,72 +510,24 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new ActionDialog(b, true, Util.C.revertChangeTitle(),
-              Util.C.headingRevertMessage()) {
+          new ActionDialog(b, true, Util.C.revertChangeTitle(), Util.C
+              .headingRevertMessage()) {
             {
               sendButton.setText(Util.C.buttonRevertChangeSend());
-              message.setText(Util.M.revertChangeDefaultMessage(
-                  detail.getInfo().getSubject(),
-                  detail.getPatchSet().getRevision().get())
-              );
+              message.setText(Util.M.revertChangeDefaultMessage(detail
+                  .getInfo().getSubject(), detail.getPatchSet().getRevision()
+                  .get()));
             }
 
             @Override
             public void onSend() {
               Util.MANAGE_SVC.revertChange(patchSet.getId(), getMessageText(),
-                 createCallback());
-            }
-          }.center();
-        }
-      });
-      actionsPanel.add(b);
-    }
-
-    if (changeDetail.canAbandon()) {
-      final Button b = new Button(Util.C.buttonAbandonChangeBegin());
-      b.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          b.setEnabled(false);
-          new ActionDialog(b, false, Util.C.abandonChangeTitle(),
-              Util.C.headingAbandonMessage()) {
-            {
-              sendButton.setText(Util.C.buttonAbandonChangeSend());
-            }
-
-            @Override
-            public void onSend() {
-              Util.MANAGE_SVC.abandonChange(patchSet.getId(), getMessageText(),
                   createCallback());
             }
           }.center();
         }
       });
-      actionsPanel.add(b);
-    }
-
-    if (changeDetail.getChange().getStatus() == Change.Status.DRAFT
-        && changeDetail.canDeleteDraft()) {
-      final Button b = new Button(Util.C.buttonDeleteDraftChange());
-      b.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          b.setEnabled(false);
-          Util.MANAGE_SVC.deleteDraftChange(patchSet.getId(),
-              new GerritCallback<VoidResult>() {
-                public void onSuccess(VoidResult result) {
-                  Gerrit.display(PageLinks.MINE);
-                }
-
-                @Override
-                public void onFailure(Throwable caught) {
-                  b.setEnabled(true);
-                  super.onFailure(caught);
-                }
-              });
-        }
-      });
-      actionsPanel.add(b);
+      p.add(b);
     }
 
     if (changeDetail.canRestore()) {
@@ -551,95 +550,101 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           }.center();
         }
       });
-      actionsPanel.add(b);
+      p.add(b);
     }
 
-    if (changeDetail.canRebase()) {
-      final Button b = new Button(Util.C.buttonRebaseChange());
+    if (changeDetail.canAbandon()) {
+      final Button b = new Button(Util.C.buttonAbandonChangeBegin());
       b.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          Util.MANAGE_SVC.rebaseChange(patchSet.getId(),
-              new ChangeDetailCache.GerritWidgetCallback(b));
+          new ActionDialog(b, false, Util.C.abandonChangeTitle(),
+              Util.C.headingAbandonMessage()) {
+            {
+              sendButton.setText(Util.C.buttonAbandonChangeSend());
+            }
+
+            @Override
+            public void onSend() {
+              Util.MANAGE_SVC.abandonChange(patchSet.getId(), getMessageText(),
+                  createCallback());
+            }
+          }.center();
         }
       });
-      actionsPanel.add(b);
+      p.add(b);
     }
   }
 
-  private void populateDiffAllActions(final PatchSetDetail detail) {
-    final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
-    diffAllSideBySide.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        for (Patch p : detail.getPatches()) {
-          openWindow(Dispatcher.toPatchSideBySide(diffBaseId, p.getKey()));
-        }
+  private void populateDraftActions(final PatchSetDetail detail) {
+    if (!Gerrit.isSignedIn()) {
+      return;
+    }
+
+    final Panel p = new ActionFlowPanel();
+    actionsPanel.add(p);
+
+    if (detail.getPatchSet().isDraft()) {
+      if (changeDetail.canPublish()) {
+        final Button b = new Button(Util.C.buttonPublishPatchSet());
+        b.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            b.setEnabled(false);
+            Util.MANAGE_SVC.publish(patchSet.getId(),
+                new ChangeDetailCache.GerritWidgetCallback(b));
+          }
+        });
+        p.add(b);
       }
-    });
-    actionsPanel.add(diffAllSideBySide);
-
-    final Button diffAllUnified = new Button(Util.C.buttonDiffAllUnified());
-    diffAllUnified.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        for (Patch p : detail.getPatches()) {
-          openWindow(Dispatcher.toPatchUnified(diffBaseId, p.getKey()));
-        }
+      if (changeDetail.canDeleteDraft()
+          && changeDetail.getPatchSets().size() > 1) {
+        final Button b = new Button(Util.C.buttonDeleteDraftPatchSet());
+        b.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            b.setEnabled(false);
+            PatchUtil.DETAIL_SVC.deleteDraftPatchSet(patchSet.getId(),
+                new ChangeDetailCache.GerritWidgetCallback(b) {
+                  public void onSuccess(final ChangeDetail result) {
+                    if (result != null) {
+                      detailCache.set(result);
+                    } else {
+                      Gerrit.display(PageLinks.MINE);
+                    }
+                  }
+                });
+          }
+        });
+        p.add(b);
       }
-    });
-    actionsPanel.add(diffAllUnified);
-  }
+    }
 
-  private void openWindow(String token) {
-    String url = Window.Location.getPath() + "#" + token;
-    Window.open(url, "_blank", null);
-  }
-
-  private void populateReviewAction() {
-    final Button b = new Button(Util.C.buttonReview());
-    b.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        Gerrit.display(Dispatcher.toPublish(patchSet.getId()));
-      }
-    });
-    actionsPanel.add(b);
-  }
-
-  private void populatePublishAction() {
-    final Button b = new Button(Util.C.buttonPublishPatchSet());
-    b.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        b.setEnabled(false);
-        Util.MANAGE_SVC.publish(patchSet.getId(),
-            new ChangeDetailCache.GerritWidgetCallback(b));
-      }
-    });
-    actionsPanel.add(b);
-  }
-
-  private void populateDeleteDraftPatchSetAction() {
-    final Button b = new Button(Util.C.buttonDeleteDraftPatchSet());
-    b.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        b.setEnabled(false);
-        PatchUtil.DETAIL_SVC.deleteDraftPatchSet(patchSet.getId(),
-            new ChangeDetailCache.GerritWidgetCallback(b) {
-              public void onSuccess(final ChangeDetail result) {
-                if (result != null) {
-                  detailCache.set(result);
-                } else {
+    if (changeDetail.isCurrentPatchSet(detail)
+        && changeDetail.getChange().getStatus() == Change.Status.DRAFT
+        && changeDetail.canDeleteDraft()) {
+      final Button b = new Button(Util.C.buttonDeleteDraftChange());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          Util.MANAGE_SVC.deleteDraftChange(patchSet.getId(),
+              new GerritCallback<VoidResult>() {
+                public void onSuccess(VoidResult result) {
                   Gerrit.display(PageLinks.MINE);
                 }
-              }
-            });
-      }
-    });
-    actionsPanel.add(b);
+
+                @Override
+                public void onFailure(Throwable caught) {
+                  b.setEnabled(true);
+                  super.onFailure(caught);
+                }
+              });
+        }
+      });
+      p.add(b);
+    }
   }
 
   public void refresh() {
@@ -762,6 +767,24 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
             enableOnFailure.setEnabled(true);
           }
         });
+    }
+  }
+
+  private static class ActionFlowPanel extends FlowPanel {
+    private boolean isFirstAction = true;
+
+    public ActionFlowPanel() {
+      super();
+      setStyleName(Gerrit.RESOURCES.css().patchSetActions());
+    }
+
+    @Override
+    public void add(final Widget w) {
+      if (isFirstAction) {
+        w.addStyleName(Gerrit.RESOURCES.css().patchSetFirstAction());
+        isFirstAction = false;
+      }
+      super.add(w);
     }
   }
 }

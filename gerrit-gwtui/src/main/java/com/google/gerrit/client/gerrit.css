@@ -932,12 +932,23 @@
   margin-left: 0.2em;
 }
 
-.patchSetActions {
+.patchSetActionGroups {
   margin-bottom: 10px;
+  overflow: hidden;
+}
+.patchSetActions {
+  float: left;
+  margin-right: 30px;
 }
 .patchSetActions .gwt-Button {
-  margin-right: 30px;
   font-size: 8pt;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+  border-color: grey;
+}
+.patchSetFirstAction {
+  border-left: 1px solid;
 }
 
 .selectPatchSetOldVersion {

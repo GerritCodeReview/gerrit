@@ -162,7 +162,9 @@ public interface GerritCss extends CssResource {
   String patchHistoryTablePatchSetHeader();
   String patchNoDifference();
   String patchScreenDisplayControls();
+  String patchSetActionGroups();
   String patchSetActions();
+  String patchSetFirstAction();
   String patchSetInfoBlock();
   String patchSetLink();
   String patchSetRevision();

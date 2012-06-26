@@ -50,6 +50,24 @@
       "revId": "8abf5ce1dc3612a0d49f03f01f0b1a302739274b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG8X////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-26T06:08:38Z",
+      "side": 1,
+      "message": "\"Use a proper Anchor object that has a ClickHandler registered on it and install the Anchor into the DOM as part of the widget graph\" \n\nI ever try to apply  this glue on headLink()  ,line 363 ? but failed :(",
+      "parentUuid": "AAAGo3///6U\u003d",
+      "revId": "8abf5ce1dc3612a0d49f03f01f0b1a302739274b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

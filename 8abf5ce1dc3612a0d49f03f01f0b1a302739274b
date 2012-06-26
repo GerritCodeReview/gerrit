@@ -68,6 +68,24 @@
       "revId": "8abf5ce1dc3612a0d49f03f01f0b1a302739274b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG8X///+s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-26T09:46:19Z",
+      "side": 1,
+      "message": "my understanding is wrong, I think I should get that cell Element after resetHtml(nc)\nthen insert the prepared Anchor to a right place just before \u0027Download\u0027.  am I now on the right way? :)",
+      "parentUuid": "AAAG8X////U\u003d",
+      "revId": "8abf5ce1dc3612a0d49f03f01f0b1a302739274b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

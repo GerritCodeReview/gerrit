@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG/3///9A\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-26T20:14:57Z",
+      "side": 1,
+      "message": "Actually, this module may need to be built normally. Its part of the dependency chain for gerrit-server for example so if it isn\u0027t built in the main reactor build, gerrit-server might be missing classes, right?\n\nI think you want the shade plugin within this module to skip running.",
+      "revId": "1d2d4e8243a00b0f9d3a13e26002671ebcc3fd16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHBn////Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-27T14:35:58Z",
+      "side": 1,
+      "message": "Much more elegant than my attempt.  Thanks.",
+      "revId": "c4e5006006fdaa3135c013a6ed68935999301fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -211,7 +211,8 @@ public class ChangeControl {
 
   /** Can this user restore this change? */
   public boolean canRestore() {
-    return canAbandon(); // Anyone who can abandon the change can restore it back
+    return canAbandon() // Anyone who can abandon the change can restore it back
+        && getRefControl().canUpload(); // as long as you can upload too
   }
 
   /** All value ranges of any allowed label permission. */

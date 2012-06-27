@@ -157,7 +157,8 @@ public class InMemoryDatabase implements SchemaFactory<ReviewDb> {
               schemaVersion,
               null,
               new AllProjectsName("Test-Projects"),
-              new PersonIdent("name", "email@site")).create(c);
+              new PersonIdent("name", "email@site"),
+              new InMemoryH2Type()).create(c);
         } catch (IOException e) {
           throw new OrmException("Cannot create in-memory database", e);
         } catch (ConfigInvalidException e) {

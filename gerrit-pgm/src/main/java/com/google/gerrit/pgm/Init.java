@@ -141,12 +141,12 @@ public class Init extends SiteProgram {
       }
 
       final StringBuilder buf = new StringBuilder();
-      buf.append(why.getMessage());
-      why = why.getCause();
       while (why != null) {
-        buf.append("\n  caused by ");
-        buf.append(why.toString());
+        buf.append(why.getMessage());
         why = why.getCause();
+        if (why != null) {
+          buf.append("\n  caused by ");
+        }
       }
       throw die(buf.toString(), new RuntimeException("InitInjector failed", ce));
     }

@@ -19,7 +19,6 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,10 +33,10 @@ class ScriptRunner {
   private final String name;
   private final List<String> commands;
 
-  ScriptRunner(final String name) {
+  ScriptRunner(final NamedInputStream script) {
+    this.name = script.getName();
     try {
-      this.name = name;
-      this.commands = parse(name);
+      this.commands = parse(script.getInputStream());
     } catch (IOException e) {
       throw new IllegalStateException("Cannot parse " + name, e);
     }
@@ -63,12 +62,7 @@ class ScriptRunner {
     }
   }
 
-  private List<String> parse(final String name) throws IOException {
-    InputStream in = ReviewDb.class.getResourceAsStream(name);
-    if (in == null) {
-      throw new FileNotFoundException("SQL script " + name + " not found");
-    }
-
+  private List<String> parse(final InputStream in) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
     try {
       String delimiter = ";";

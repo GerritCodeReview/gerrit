@@ -20,7 +20,6 @@ import static com.google.gerrit.pgm.init.InitUtil.saveSecure;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -122,7 +121,7 @@ class UpgradeFrom2_0_x implements InitStep {
 
       String url = oldprop.getProperty("url");
       if (url != null && !convertUrl(database, url)) {
-        database.set("type", DataSourceProvider.Type.JDBC);
+        database.set("type", "jdbc");
         database.set("driver", oldprop.getProperty("driver"));
         database.set("url", url);
       }
@@ -189,7 +188,7 @@ class UpgradeFrom2_0_x implements InitStep {
 
     if (url.startsWith("jdbc:h2:file:")) {
       url = url.substring("jdbc:h2:file:".length());
-      database.set("type", DataSourceProvider.Type.H2);
+      database.set("type", "h2");
       database.set("database", url);
       return true;
     }
@@ -202,7 +201,7 @@ class UpgradeFrom2_0_x implements InitStep {
       }
 
       final InetSocketAddress addr = SocketUtil.parse(url.substring(0, sl), 0);
-      database.set("type", DataSourceProvider.Type.POSTGRESQL);
+      database.set("type", "postgresql");
       sethost(database, addr);
       database.set("database", url.substring(sl + 1));
       setuser(database, username, password);
@@ -211,7 +210,7 @@ class UpgradeFrom2_0_x implements InitStep {
 
     if (url.startsWith("jdbc:postgresql:")) {
       url = url.substring("jdbc:postgresql:".length());
-      database.set("type", DataSourceProvider.Type.POSTGRESQL);
+      database.set("type", "postgresql");
       database.set("hostname", "localhost");
       database.set("database", url);
       setuser(database, username, password);
@@ -226,7 +225,7 @@ class UpgradeFrom2_0_x implements InitStep {
       }
 
       final InetSocketAddress addr = SocketUtil.parse(url.substring(0, sl), 0);
-      database.set("type", DataSourceProvider.Type.MYSQL);
+      database.set("type", "mysql");
       sethost(database, addr);
       database.set("database", url.substring(sl + 1));
       setuser(database, username, password);

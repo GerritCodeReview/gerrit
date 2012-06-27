@@ -14,11 +14,12 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.gerrit.server.config.ConfigUtil.getEnum;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.server.config.ConfigSection;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -31,8 +32,6 @@ import com.google.inject.Singleton;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -46,8 +45,8 @@ public final class DataSourceProvider implements Provider<DataSource>,
 
   @Inject
   DataSourceProvider(final SitePaths site,
-      @GerritServerConfig final Config cfg, Context ctx) {
-    ds = open(site, cfg, ctx);
+      @GerritServerConfig final Config cfg, Context ctx, DataSourceType dst) {
+    ds = open(site, cfg, ctx, dst);
   }
 
   @Override
@@ -74,100 +73,27 @@ public final class DataSourceProvider implements Provider<DataSource>,
     SINGLE_USER, MULTI_USER;
   }
 
-  public static enum Type {
-    H2, POSTGRESQL, MYSQL, JDBC;
-  }
-
   private DataSource open(final SitePaths site, final Config cfg,
-      final Context context) {
-    Type type = getEnum(cfg, "database", null, "type", Type.values(), null);
-    String driver = optional(cfg, "driver");
-    String url = optional(cfg, "url");
-    String username = optional(cfg, "username");
-    String password = optional(cfg, "password");
-
-    if (url == null || url.isEmpty()) {
-      if (type == null) {
-        type = Type.H2;
-      }
-
-      switch (type) {
-        case H2: {
-          String database = optional(cfg, "database");
-          if (database == null || database.isEmpty()) {
-            database = "db/ReviewDB";
-          }
-          File db = site.resolve(database);
-          try {
-            db = db.getCanonicalFile();
-          } catch (IOException e) {
-            db = db.getAbsoluteFile();
-          }
-          url = "jdbc:h2:" + db.toURI().toString();
-          break;
-        }
-
-        case POSTGRESQL: {
-          final StringBuilder b = new StringBuilder();
-          b.append("jdbc:postgresql://");
-          b.append(hostname(optional(cfg, "hostname")));
-          b.append(port(optional(cfg, "port")));
-          b.append("/");
-          b.append(required(cfg, "database"));
-          url = b.toString();
-          break;
-        }
-
-        case MYSQL: {
-          final StringBuilder b = new StringBuilder();
-          b.append("jdbc:mysql://");
-          b.append(hostname(optional(cfg, "hostname")));
-          b.append(port(optional(cfg, "port")));
-          b.append("/");
-          b.append(required(cfg, "database"));
-          url = b.toString();
-          break;
-        }
-
-        case JDBC:
-          driver = required(cfg, "driver");
-          url = required(cfg, "url");
-          break;
-
-        default:
-          throw new IllegalArgumentException(type + " not supported");
-      }
+      final Context context, final DataSourceType dst) {
+    ConfigSection dbs = new ConfigSection(cfg, "database");
+    String driver = dbs.optional("driver");
+    if (Strings.isNullOrEmpty(driver)) {
+      driver = dst.getDriver();
     }
 
-    if (driver == null || driver.isEmpty()) {
-      if (url.startsWith("jdbc:h2:")) {
-        driver = "org.h2.Driver";
-
-      } else if (url.startsWith("jdbc:postgresql:")) {
-        driver = "org.postgresql.Driver";
-
-      } else if (url.startsWith("jdbc:mysql:")) {
-        driver = "com.mysql.jdbc.Driver";
-
-      } else {
-        throw new IllegalArgumentException("database.driver must be set");
-      }
+    String url = dbs.optional("url");
+    if (Strings.isNullOrEmpty(url)) {
+      url = dst.getUrl();
     }
+
+    String username = dbs.optional("username");
+    String password = dbs.optional("password");
 
     boolean usePool;
-    if (url.startsWith("jdbc:mysql:")) {
-      // MySQL has given us trouble with the connection pool,
-      // sometimes the backend disconnects and the pool winds
-      // up with a stale connection. Fortunately opening up
-      // a new MySQL connection is usually very fast.
-      //
-      usePool = false;
-    } else {
-      usePool = true;
-    }
-    usePool = cfg.getBoolean("database", "connectionpool", usePool);
     if (context == Context.SINGLE_USER) {
       usePool = false;
+    } else {
+      usePool = cfg.getBoolean("database", "connectionpool", dst.usePool());
     }
 
     if (usePool) {
@@ -206,34 +132,5 @@ public final class DataSourceProvider implements Provider<DataSource>,
         throw new ProvisionException("Database unavailable", se);
       }
     }
-  }
-
-  private static String hostname(String hostname) {
-    if (hostname == null || hostname.isEmpty()) {
-      hostname = "localhost";
-
-    } else if (hostname.contains(":") && !hostname.startsWith("[")) {
-      hostname = "[" + hostname + "]";
-    }
-    return hostname;
-  }
-
-  private static String port(String port) {
-    if (port != null && !port.isEmpty()) {
-      return ":" + port;
-    }
-    return "";
-  }
-
-  private static String optional(final Config config, final String name) {
-    return config.getString("database", null, name);
-  }
-
-  private static String required(final Config config, final String name) {
-    final String v = optional(config, name);
-    if (v == null || "".equals(v)) {
-      throw new IllegalArgumentException("No database." + name + " configured");
-    }
-    return v;
   }
 }

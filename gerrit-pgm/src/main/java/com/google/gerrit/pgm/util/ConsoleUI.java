@@ -18,6 +18,7 @@ import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 
 import java.io.Console;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Set;
 
 /** Console based interaction with the invoking user. */
 public abstract class ConsoleUI {
@@ -72,6 +73,10 @@ public abstract class ConsoleUI {
 
   /** Prompt the user for a string, suggesting a default, and returning choice. */
   public abstract String readString(String def, String fmt, Object... args);
+
+  /** Prompt the user to make a choice from an allowed list of values. */
+  public abstract String readString(String def, Set<String> allowedValues,
+      String fmt, Object... args);
 
   /** Prompt the user for an integer value, suggesting a default. */
   public int readInt(int def, String fmt, Object... args) {
@@ -162,6 +167,24 @@ public abstract class ConsoleUI {
     }
 
     @Override
+    public String readString(String def, Set<String> allowedValues, String fmt,
+        Object... args) {
+      for (;;) {
+        String r = readString(def, fmt, args);
+        if (allowedValues.contains(r.toLowerCase())) {
+          return r.toLowerCase();
+        }
+        if (!"?".equals(r)) {
+          console.printf("error: '%s' is not a valid choice\n", r);
+        }
+        console.printf("       Supported options are:\n");
+        for (final String v : allowedValues) {
+          console.printf("         %s\n", v.toString().toLowerCase());
+        }
+      }
+    }
+
+    @Override
     public String password(String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       for (;;) {
@@ -238,6 +261,12 @@ public abstract class ConsoleUI {
 
     @Override
     public String readString(String def, String fmt, Object... args) {
+      return def;
+    }
+
+    @Override
+    public String readString(String def, Set<String> allowedValues, String fmt,
+        Object... args) {
       return def;
     }
 

@@ -17,17 +17,27 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.plugins.PluginInfo;
 import com.google.gerrit.client.plugins.PluginMap;
+import com.google.gerrit.client.plugins.PluginReloaded;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class PluginListScreen extends PluginScreen {
 
   private Panel pluginPanel;
   private PluginTable pluginTable;
+  private Button reloadButton;
 
   @Override
   protected void onInitUI() {
@@ -50,20 +60,35 @@ public class PluginListScreen extends PluginScreen {
     pluginTable = new PluginTable();
     pluginTable.addStyleName(Gerrit.RESOURCES.css().pluginsTable());
 
+    reloadButton = new Button(Util.C.buttonReloadPlugins());
+    reloadButton.setTitle(Util.C.buttonReloadPluginsToolTip());
+    reloadButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        doReloadPlugins();
+      }
+    });
+
+    HorizontalPanel buttonPanel = new HorizontalPanel();
+    buttonPanel.add(reloadButton);
+    buttonPanel.addStyleName(Gerrit.RESOURCES.css().pluginsTableButtonPanel());
+
     pluginPanel = new FlowPanel();
     pluginPanel.setWidth("500px");
     pluginPanel.add(pluginTable);
+    pluginPanel.add(buttonPanel);
     add(pluginPanel);
   }
 
   private class PluginTable extends FancyFlexTable<PluginInfo> {
     PluginTable() {
-      table.setText(0, 1, Util.C.columnPluginName());
-      table.setText(0, 2, Util.C.columnPluginVersion());
+      table.setText(0, 2, Util.C.columnPluginName());
+      table.setText(0, 3, Util.C.columnPluginVersion());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void display(final PluginMap plugins) {
@@ -80,18 +105,66 @@ public class PluginListScreen extends PluginScreen {
     }
 
     void populate(final int row, final PluginInfo plugin) {
+      CheckBox checkBox = new CheckBox();
+      table.setWidget(row, 1, checkBox);
       table.setWidget(
           row,
-          1,
+          2,
           new Anchor(plugin.name(), Gerrit.selfRedirect("/plugins/"
               + plugin.name() + "/")));
-      table.setText(row, 2, plugin.version());
+      table.setText(row, 3, plugin.version());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, plugin);
     }
+
+    private List<String> getSelectedPlugins() {
+      List<String> selectedList = new LinkedList<String>();
+      for (int i = 0; i < table.getRowCount(); i++) {
+        PluginInfo plugin = getRowItem(i);
+        if (plugin == null) {
+          continue;
+        }
+        CheckBox checkbox = (CheckBox) table.getWidget(i, 1);
+        if (checkbox.getValue()) {
+          selectedList.add(plugin.name());
+        }
+      }
+      return selectedList;
+    }
+  }
+
+  private void doReloadPlugins() {
+    reloadButton.setEnabled(false);
+    PluginMap.reload(pluginTable.getSelectedPlugins(),
+        new ScreenLoadCallback<PluginReloaded>(this) {
+          @Override
+          protected void preDisplay(PluginReloaded result) {
+            PluginMap.all(new ScreenLoadCallback<PluginMap>(
+                PluginListScreen.this) {
+              @Override
+              protected void preDisplay(final PluginMap result) {
+                reloadButton.setEnabled(true);
+                pluginTable.display(result);
+              }
+
+              @Override
+              public void onFailure(Throwable caught) {
+                super.onFailure(caught);
+                reloadButton.setEnabled(true);
+              }
+            });
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            super.onFailure(caught);
+            reloadButton.setEnabled(true);
+          }
+        });
   }
 }

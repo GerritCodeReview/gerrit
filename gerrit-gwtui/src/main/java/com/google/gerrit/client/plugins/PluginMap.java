@@ -18,11 +18,26 @@ import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 
+import java.util.List;
+
 /** Plugins available from {@code /plugins/}. */
 public class PluginMap extends NativeMap<PluginInfo> {
   public static void all(AsyncCallback<PluginMap> callback) {
     new RestApi("/plugins/")
         .send(NativeMap.copyKeysIntoChildren(callback));
+  }
+
+  public static void reload(List<String> pluginNames,
+      AsyncCallback<PluginReloaded> callback) {
+    RestApi api = new RestApi("/plugins/");
+    if(pluginNames == null || pluginNames.isEmpty()) {
+      api.addParameterTrue("reload");
+    } else {
+      for (String pluginName : pluginNames) {
+        api.addParameter("reload", pluginName);
+      }
+    }
+    api.send(callback);
   }
 
   protected PluginMap() {

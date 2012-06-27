@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHA3////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-27T22:21:15Z",
+      "side": 1,
+      "message": "It isn\u0027t typical for Gerrit to use tool tips, but the logic for this button is a little complicated.  I think the tool tip really helps but am interested in other opinions.",
+      "revId": "d58f7c6bb138b75abfd6878eb2cd4c3af6bd8059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHA3////M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/plugin/ReloadPluginsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-27T22:21:15Z",
+      "side": 1,
+      "message": "I don\u0027t like this very much.  Open to suggestions.",
+      "revId": "d58f7c6bb138b75abfd6878eb2cd4c3af6bd8059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHA3////Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/plugin/ReloadPluginsServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-27T22:21:15Z",
+      "side": 1,
+      "message": "This feels a little ugly to me (especially the largish block of code above to set up the printwriter, just to write one static line...).  Let me know if it should be done differently.",
+      "revId": "d58f7c6bb138b75abfd6878eb2cd4c3af6bd8059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

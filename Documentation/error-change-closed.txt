@@ -1,8 +1,11 @@
 change ... closed
 =================
 
-With this error message Gerrit rejects to push a commit to a change
-that is already closed.
+With this error message Gerrit rejects to push a commit or submit a
+review label (approval) to a change that is already closed.
+
+When Pushing a Commit
+---------------------
 
 This error occurs if you are trying to push a commit that contains
 the Change-Id of a closed change in its commit message. A change can
@@ -24,6 +27,14 @@ this change you may want to restore the change in the Gerrit WebUI
 'Restore Change' button). Afterwards the push should succeed and a
 new patch set for this change will be created.
 
+When Submitting a Review Label
+------------------------------
+
+This error occurs if you are trying to submit a review label (approval) using
+the link:cmd-review.html[ssh review command] after the change has been closed.
+A change can be closed because it was submitted and merged, because it was abandoned,
+or because the patchset to which you are submitting the review has been replaced
+by a newer patchset.
 
 GERRIT
 ------

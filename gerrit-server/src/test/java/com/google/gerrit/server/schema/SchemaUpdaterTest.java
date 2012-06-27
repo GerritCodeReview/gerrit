@@ -27,6 +27,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.testutil.InMemoryDatabase;
+import com.google.gerrit.testutil.InMemoryH2Type;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
@@ -94,6 +95,8 @@ public class SchemaUpdaterTest extends TestCase {
         bind(String.class) //
           .annotatedWith(AnonymousCowardName.class) //
           .toProvider(AnonymousCowardNameProvider.class);
+
+        bind(DataSourceType.class).to(InMemoryH2Type.class);
       }
     }).getInstance(SchemaUpdater.class);
 

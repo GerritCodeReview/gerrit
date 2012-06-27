@@ -286,6 +286,15 @@ public class ConfigUtil {
     }
   }
 
+  public static String getRequired(Config cfg, String section, String name) {
+    final String v = cfg.getString(section, null, name);
+    if (v == null || "".equals(v)) {
+      throw new IllegalArgumentException("No " + section + "." + name
+          + " configured");
+    }
+    return v;
+  }
+
   private static boolean match(final String a, final String... cases) {
     for (final String b : cases) {
       if (equalsIgnoreCase(a, b)) {

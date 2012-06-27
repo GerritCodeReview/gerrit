@@ -23,6 +23,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
 /** Helper to edit a section of the configuration files. */
 class Section {
@@ -125,6 +126,16 @@ class Section {
     return newValue;
   }
 
+  String select(final String title, final String name, final String dv,
+      Set<String> allowedValues) {
+    final String ov = get(name);
+    String nv = ui.readString(ov != null ? ov : dv, allowedValues, "%s", title);
+    if (!eq(ov, nv)) {
+      set(name, nv);
+    }
+    return nv;
+  }
+
   String password(final String username, final String password) {
     final String ov = getSecure(password);
 
@@ -164,6 +175,10 @@ class Section {
     } else {
       flags.sec.unset(section, null, name);
     }
+  }
+
+  String getName() {
+    return section;
   }
 
   private static boolean eq(final String a, final String b) {

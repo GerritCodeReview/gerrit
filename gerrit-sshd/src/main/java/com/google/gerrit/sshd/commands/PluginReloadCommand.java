@@ -15,10 +15,10 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.PluginInstallException;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.server.plugins.PluginLoader;
+import com.google.gerrit.server.plugins.ReloadPlugins;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 
@@ -32,20 +32,16 @@ final class PluginReloadCommand extends SshCommand {
   private List<String> names;
 
   @Inject
-  private PluginLoader loader;
+  private ReloadPlugins impl;
 
   @Override
   protected void run() throws UnloggedFailure {
-    if (names == null || names.isEmpty()) {
-      loader.rescan();
-    } else {
-      try {
-        loader.reload(names);
-      } catch (InvalidPluginException e) {
-        throw die(e.getMessage());
-      } catch (PluginInstallException e) {
-        throw die(e.getMessage());
-      }
+    try {
+      impl.reload(names);
+    } catch (InvalidPluginException e) {
+      throw die(e.getMessage());
+    } catch (PluginInstallException e) {
+      throw die(e.getMessage());
     }
   }
 }

@@ -116,7 +116,7 @@ public abstract class RestApiServlet extends HttpServlet {
     res.setHeader("Content-Disposition", "attachment");
   }
 
-  private static void handleError(
+  protected static void handleError(
       Throwable err, HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     String uri = req.getRequestURI();

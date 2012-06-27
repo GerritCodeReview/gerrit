@@ -68,7 +68,8 @@ public class ReviewCommand extends SshCommand {
 
   private final Set<PatchSet.Id> patchSetIds = new HashSet<PatchSet.Id>();
 
-  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "patch to review")
+  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}",
+      usage = "list of commits or patch sets to review")
   void addPatchSetId(final String token) {
     try {
       patchSetIds.addAll(parsePatchSetId(token));
@@ -79,29 +80,29 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
-  @Option(name = "--project", aliases = "-p", usage = "project containing the patch set")
+  @Option(name = "--project", aliases = "-p", usage = "project containing the specified patch set(s)")
   private ProjectControl projectControl;
 
-  @Option(name = "--message", aliases = "-m", usage = "cover message to publish on change", metaVar = "MESSAGE")
+  @Option(name = "--message", aliases = "-m", usage = "cover message to publish on change(s)", metaVar = "MESSAGE")
   private String changeComment;
 
-  @Option(name = "--abandon", usage = "abandon the patch set")
+  @Option(name = "--abandon", usage = "abandon the specified change(s)")
   private boolean abandonChange;
 
-  @Option(name = "--restore", usage = "restore an abandoned the patch set")
+  @Option(name = "--restore", usage = "restore the specified abandoned change(s)")
   private boolean restoreChange;
 
-  @Option(name = "--submit", aliases = "-s", usage = "submit the patch set")
+  @Option(name = "--submit", aliases = "-s", usage = "submit the specified patch set(s)")
   private boolean submitChange;
 
   @Option(name = "--force-message", usage = "publish the message, "
-      + "even if the label score cannot be applied due to change being closed")
+      + "even if the label score cannot be applied due to the change being closed")
   private boolean forceMessage = false;
 
-  @Option(name = "--publish", usage = "publish a draft patch set")
+  @Option(name = "--publish", usage = "publish the specified draft patch set(s)")
   private boolean publishPatchSet;
 
-  @Option(name = "--delete", usage = "delete a draft patch set")
+  @Option(name = "--delete", usage = "delete the specified draft patch set(s)")
   private boolean deleteDraftPatchSet;
 
   @Inject
@@ -266,7 +267,7 @@ public class ReviewCommand extends SshCommand {
           errMsg += "rule error";
           break;
         case NOT_A_DRAFT:
-          errMsg += "change is not a draft";
+          errMsg += "change/patch set is not a draft";
           break;
         case GIT_ERROR:
           errMsg += "error writing change to git repository";

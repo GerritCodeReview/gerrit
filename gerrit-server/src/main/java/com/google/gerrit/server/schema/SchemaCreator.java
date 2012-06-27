@@ -38,10 +38,6 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
-import com.google.gwtorm.schema.sql.DialectH2;
-import com.google.gwtorm.schema.sql.DialectMySQL;
-import com.google.gwtorm.schema.sql.DialectPostgreSQL;
-import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -65,11 +61,9 @@ public class SchemaCreator {
   private final GitRepositoryManager mgr;
   private final AllProjectsName allProjectsName;
   private final PersonIdent serverUser;
+  private final DataSourceType dataSourceType;
 
   private final int versionNbr;
-  private final ScriptRunner index_generic;
-  private final ScriptRunner index_postgres;
-  private final ScriptRunner mysql_nextval;
 
   private AccountGroup admin;
   private AccountGroup anonymous;
@@ -81,23 +75,23 @@ public class SchemaCreator {
       @Current SchemaVersion version,
       GitRepositoryManager mgr,
       AllProjectsName allProjectsName,
-      @GerritPersonIdent PersonIdent au) {
-    this(site.site_path, version, mgr, allProjectsName, au);
+      @GerritPersonIdent PersonIdent au,
+      DataSourceType dst) {
+    this(site.site_path, version, mgr, allProjectsName, au, dst);
   }
 
   public SchemaCreator(@SitePath File site,
       @Current SchemaVersion version,
       GitRepositoryManager gitMgr,
       AllProjectsName ap,
-      @GerritPersonIdent PersonIdent au) {
+      @GerritPersonIdent PersonIdent au,
+      DataSourceType dst) {
     site_path = site;
     mgr = gitMgr;
     allProjectsName = ap;
     serverUser = au;
+    dataSourceType = dst;
     versionNbr = version.getVersionNbr();
-    index_generic = new ScriptRunner("index_generic.sql");
-    index_postgres = new ScriptRunner("index_postgres.sql");
-    mysql_nextval = new ScriptRunner("mysql_nextval.sql");
   }
 
   public void create(final ReviewDb db) throws OrmException, IOException,
@@ -123,20 +117,8 @@ public class SchemaCreator {
       initWildCardProject();
     }
 
-    final SqlDialect d = jdbc.getDialect();
-    if (d instanceof DialectH2) {
-      index_generic.run(db);
-
-    } else if (d instanceof DialectMySQL) {
-      index_generic.run(db);
-      mysql_nextval.run(db);
-
-    } else if (d instanceof DialectPostgreSQL) {
-      index_postgres.run(db);
-
-    } else {
-      throw new OrmException("Unsupported database " + d.getClass().getName());
-    }
+    dataSourceType.getIndexScript().run(db);
+    dataSourceType.getNextValScript().run(db);
   }
 
   private AccountGroup newGroup(ReviewDb c, String name, AccountGroup.UUID uuid)

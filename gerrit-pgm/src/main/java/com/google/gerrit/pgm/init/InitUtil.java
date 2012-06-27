@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.pgm.util.Die;
 
 import org.eclipse.jgit.lib.Constants;
@@ -247,6 +248,31 @@ class InitUtil {
       port = "https".equals(uri.getScheme()) ? 443 : 80;
     }
     return port;
+  }
+
+  static String required(final Section section, final String name) {
+    String v = section.get(name);
+    if (Strings.isNullOrEmpty(v)) {
+      throw new IllegalArgumentException("No " + section.getName() + "." + name
+          + " configured");
+    }
+    return v;
+  }
+
+  static String hostname(String hostname) {
+    if (Strings.isNullOrEmpty(hostname)) {
+      return "localhost";
+    } else if (hostname.contains(":") && !hostname.startsWith("[")) {
+      return "[" + hostname + "]";
+    }
+    return hostname;
+  }
+
+  static String port(String port) {
+    if (!Strings.isNullOrEmpty(port)) {
+      return ":" + port;
+    }
+    return "";
   }
 
   private InitUtil() {

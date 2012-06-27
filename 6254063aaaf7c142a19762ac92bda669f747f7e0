@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG/n///uI\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-27T23:30:19Z",
+      "side": 1,
+      "message": "s/restored/uploaded/?",
+      "revId": "6254063aaaf7c142a19762ac92bda669f747f7e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

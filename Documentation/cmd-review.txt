@@ -69,16 +69,16 @@ successfully, even if the label could not be changed.
 	complete listing of supported approval categories and values.
 
 --abandon::
-	Abandon the specified patch set(s).
+	Abandon the specified change(s).
 	(option is mutually exclusive with --submit and --restore)
 
 --restore::
-	Restore the specified abandoned patch set(s).
+	Restore the specified abandoned change(s).
 	(option is mutually exclusive with --abandon)
 
 --submit::
 -s::
-	Submit the specified patch set(s) for merging.
+	Submit the specified change(s) for merging.
 	(option is mutually exclusive with --abandon)
 
 --publish::

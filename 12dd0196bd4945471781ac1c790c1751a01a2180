@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAG/3///1o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-27T14:21:26Z",
+      "side": 1,
+      "message": "nit: catch cuddles up to the closing curly brace on the prior line:\n\n  try {\n  } catch (OrmException e) {",
+      "revId": "12dd0196bd4945471781ac1c790c1751a01a2180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///1k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-27T14:21:26Z",
+      "side": 1,
+      "message": "nit: else cuddles to closing curly brace",
+      "revId": "12dd0196bd4945471781ac1c790c1751a01a2180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG/3///1g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-06-27T14:21:26Z",
+      "side": 1,
+      "message": "nit: else cuddles to closing curly brace",
+      "revId": "12dd0196bd4945471781ac1c790c1751a01a2180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

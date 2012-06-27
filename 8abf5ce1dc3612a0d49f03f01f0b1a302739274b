@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHB3///+Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-27T09:25:55Z",
+      "side": 1,
+      "message": "thanks!  \n\nDone",
+      "parentUuid": "AAAGo3///6c\u003d",
+      "revId": "8abf5ce1dc3612a0d49f03f01f0b1a302739274b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAGo3///6Y\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.properties",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-17T18:41:31Z",
       "side": 1,
       "message": "What is this string? It doesn\u0027t need to be translated.",
+      "revId": "8abf5ce1dc3612a0d49f03f01f0b1a302739274b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHB3///+U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-27T09:25:55Z",
+      "side": 1,
+      "message": "I cut it .  I also dislike it.\n\n Done",
+      "parentUuid": "AAAGo3///6Y\u003d",
       "revId": "8abf5ce1dc3612a0d49f03f01f0b1a302739274b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -83,6 +119,24 @@
       "side": 1,
       "message": "my understanding is wrong, I think I should get that cell Element after resetHtml(nc)\nthen insert the prepared Anchor to a right place just before \u0027Download\u0027.  am I now on the right way? :)",
       "parentUuid": "AAAG8X////U\u003d",
+      "revId": "8abf5ce1dc3612a0d49f03f01f0b1a302739274b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHB3///+I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-06-27T09:25:55Z",
+      "side": 1,
+      "message": "good coach !  I get the right sense now\n\nDone",
+      "parentUuid": "AAAG8X///+s\u003d",
       "revId": "8abf5ce1dc3612a0d49f03f01f0b1a302739274b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

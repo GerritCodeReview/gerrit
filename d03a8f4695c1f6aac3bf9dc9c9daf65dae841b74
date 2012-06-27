@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHB3////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-27T07:05:14Z",
+      "side": 1,
+      "message": "licence header?",
+      "revId": "d03a8f4695c1f6aac3bf9dc9c9daf65dae841b74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

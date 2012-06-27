@@ -88,11 +88,25 @@ limitations under the License.
     <module>gerrit-war</module>
 
     <module>gerrit-extension-api</module>
-    <module>gerrit-plugin-api</module>
-    <module>gerrit-plugin-archetype</module>
 
     <module>gerrit-gwtui</module>
   </modules>
+
+  <profiles>
+    <profile>
+      <id>all</id>
+      <modules>
+        <module>gerrit-plugin-api</module>
+        <module>gerrit-plugin-archetype</module>
+      </modules>
+    </profile>
+    <profile>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <id>no-plugins</id>
+    </profile>
+  </profiles>
 
   <licenses>
     <license>

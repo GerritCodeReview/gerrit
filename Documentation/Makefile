@@ -76,6 +76,7 @@ $(DOC_HTML): %.html : %.txt
 	@$(ASCIIDOC) -a toc \
 		-a data-uri \
 		-a 'revision=$(REVISION)' \
+		-a 'newline=\n' \
 		-b xhtml11 \
 		-f asciidoc.conf \
 		$(ASCIIDOC_EXTRA) \

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHCH////0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/AccountSecurity.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG/3///8E\u003d",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG/3///74\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeManageService.java",
         "patchSetId": 15
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-26T21:01:34Z",
       "side": 1,
       "message": "For completeness you may just want to audit this too.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHCH////w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeManageService.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG/3///74\u003d",
       "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHCH////s\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchDetailService.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Yep, agreed.\n\nRebase is definitely an additional patch-set.",
+      "parentUuid": "AAAG/3///70\u003d",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG/3///7w\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
         "patchSetId": 15
@@ -64,6 +118,24 @@
       "writtenOn": "2012-06-26T21:01:34Z",
       "side": 1,
       "message": "final, and this can be pulled up one line so there isn\u0027t a blank line between logoutUrl and audit.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHCH////o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG/3///7w\u003d",
       "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHCH////k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG/3///7g\u003d",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG/3///7o\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
         "patchSetId": 15
@@ -115,6 +205,24 @@
       "writtenOn": "2012-06-26T21:01:34Z",
       "side": 1,
       "message": "style nit: finally cuddles up with the closing brace:\n\n  try {\n    doLogout(req, rsp);\n  } finally {\n    ...\n  }",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHCH////g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG/3///7o\u003d",
       "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHCH////c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Please forgive me on this file: you made already all those comments and I\u0027ve fixed them in Patch#12. A couple of days ago I rebased the wrong \"patch-set\" and rolled back my amendments. \n\nWill apply them again now.",
+      "parentUuid": "AAAG/3///7c\u003d",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG/3///7Y\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
         "patchSetId": 15
@@ -149,6 +275,24 @@
       "writtenOn": "2012-06-26T21:01:34Z",
       "side": 1,
       "message": "Use sfl4j LoggerFactory instead. Loggers should be declared as the first member of the class, so move this above the session member.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHCH////Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG/3///7Y\u003d",
       "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -172,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHCH////U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG/3///7U\u003d",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG/3///7Q\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
         "patchSetId": 15
@@ -183,6 +345,24 @@
       "writtenOn": "2012-06-26T21:01:34Z",
       "side": 1,
       "message": "don\u0027t comment out dead code",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHCH////Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "This method has no more valid effect: removing it.",
+      "parentUuid": "AAAG/3///7Q\u003d",
       "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +386,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHCH////A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "yep, audit() now does the job for me.\nRemoving the catch(Throwable) ugly stuff.",
+      "parentUuid": "AAAG/3///7M\u003d",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG/3///7I\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
         "patchSetId": 15
@@ -217,6 +415,24 @@
       "writtenOn": "2012-06-26T21:01:34Z",
       "side": 1,
       "message": "This Gson instance is thread-safe. You can make it once as a static member of the class.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHCH///+8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "There is no need for Gson anymore. Getting rid of it completely :-)",
+      "parentUuid": "AAAG/3///7I\u003d",
       "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -240,6 +456,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHCH///+4\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Apologies, this was already fixed but just because of my messy rebase I went back to old code.\n\nThis code is not there anymore now.",
+      "parentUuid": "AAAG/3///7E\u003d",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG/3///7A\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
         "patchSetId": 15
@@ -251,6 +485,24 @@
       "writtenOn": "2012-06-26T21:01:34Z",
       "side": 1,
       "message": "Please go back and look at my prior comments in patch set 11. I don\u0027t think any of your updates made it into patch set 15.",
+      "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHCH///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-06-27T09:01:09Z",
+      "side": 1,
+      "message": "Yep, my messy rebase removed this fix :-(\nPutting it back now.",
+      "parentUuid": "AAAG/3///7A\u003d",
       "revId": "a152fa43aa9919404c0d4546f519fdaea036a635",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

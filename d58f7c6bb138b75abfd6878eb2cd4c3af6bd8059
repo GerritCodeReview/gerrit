@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHDH///64\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-28T16:23:18Z",
+      "side": 1,
+      "message": "I considered 2 buttons as well, but felt like that might be cluttered or more confusing than 1 button with dual purposes.  If the consensus is to use 2 buttons though, I can go with that.\n\nA couple things to keep in mind:\n\n1. The server doesn\u0027t need to be restarted with new/updated plugin jar files.  It already has a configurable timer to re-scan for plugin updates.  The reload when no plugins are checked will just speed up this process (or run it if that timer is disabled)\n\n2. Forcing a reload by selecting a specific plugin is helpful if you change other files related to that plugin, such as the configuration data for the replication plugin.  Otherwise, these updates would never be used unless the server was restarted.\n\nI agree, feedback on which plugins changed would be great.  I\u0027ll look into that as a follow-up change.",
+      "parentUuid": "AAAHB3///9I\u003d",
+      "revId": "d58f7c6bb138b75abfd6878eb2cd4c3af6bd8059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHA3////M\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/plugin/ReloadPluginsServlet.java",
         "patchSetId": 1
@@ -82,6 +100,24 @@
       "writtenOn": "2012-06-28T06:33:28Z",
       "side": 1,
       "message": "This comment doesn\u0027t make sense for this class, copy \u0026 paste error?",
+      "revId": "d58f7c6bb138b75abfd6878eb2cd4c3af6bd8059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHDH///60\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ReloadPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-06-28T16:23:18Z",
+      "side": 1,
+      "message": "Yes, thank you, I will fix.",
+      "parentUuid": "AAAHB3///9M\u003d",
       "revId": "d58f7c6bb138b75abfd6878eb2cd4c3af6bd8059",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "ab006acf61060d3532206812ad375caff036cbcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHB3///9A\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-06-28T06:45:23Z",
+      "side": 1,
+      "message": "It will be appended on the next loop iteration.",
+      "parentUuid": "AAAHCH///+I\u003d",
+      "revId": "ab006acf61060d3532206812ad375caff036cbcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

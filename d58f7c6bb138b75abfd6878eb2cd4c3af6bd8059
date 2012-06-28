@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHB3///9I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-28T06:33:28Z",
+      "side": 1,
+      "message": "For the user it is really a bit tricky to understand the logic behind this button: reload all plugins if none selected vs. reload selected plugins.\n\nMaybe those two functions should be really two explicit buttons.\n\nAlternatively it would be possible to update the label of the button, have the button label say \u0027Reload All\u0027 if there is no selection and change it to \u0027Reload Selected\u0027 if something gets selected. Not sure if I like this idea a lot, but at least it would make the logic more transparent for the user.\n\nHaving an option to reload plugins at runtime is great, because it means that the server doesn\u0027t need to be restarted. However I\u0027m wondering if there is really a need to reload single plugins. Is it likely that an administrator modifies 2 plugin in the plugin folder and then only wants to reload the changes for 1 of the plugins? Especially since the second modification will anyway become active on the next Gerrit startup? Maybe it would be much simpler to just have a reload button which always reloads all the plugins? Or is this too expensive?\n\nAnother thing which would be great is to give the user some feedback about which plugins have been changed by the reload or to say that there were no changes. Maybe this doesn\u0027t need to be part of this, but may be an idea for follow-up changes.",
+      "parentUuid": "AAAHA3////U\u003d",
+      "revId": "d58f7c6bb138b75abfd6878eb2cd4c3af6bd8059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHA3////M\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/plugin/ReloadPluginsServlet.java",
         "patchSetId": 1
@@ -47,6 +65,23 @@
       "writtenOn": "2012-06-27T22:21:15Z",
       "side": 1,
       "message": "This feels a little ugly to me (especially the largish block of code above to set up the printwriter, just to write one static line...).  Let me know if it should be done differently.",
+      "revId": "d58f7c6bb138b75abfd6878eb2cd4c3af6bd8059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHB3///9M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ReloadPlugins.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-06-28T06:33:28Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t make sense for this class, copy \u0026 paste error?",
       "revId": "d58f7c6bb138b75abfd6878eb2cd4c3af6bd8059",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

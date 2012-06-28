@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHCH///98\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-06-28T02:41:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHB3///+M\u003d",
+      "revId": "a8b08fb93011d4931713bdb6831ba3a9d1f481c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHB3///+Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHCH///94\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-06-28T02:41:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHB3///+Q\u003d",
+      "revId": "a8b08fb93011d4931713bdb6831ba3a9d1f481c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHB3///+E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-06-27T08:57:07Z",
       "side": 1,
       "message": "Join this line with line 342?",
+      "revId": "a8b08fb93011d4931713bdb6831ba3a9d1f481c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHCH///90\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-06-28T02:41:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHB3///+E\u003d",
       "revId": "a8b08fb93011d4931713bdb6831ba3a9d1f481c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

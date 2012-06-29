@@ -2237,6 +2237,31 @@ code, or standard color name.
 +
 By default a shade of yellow, `FFFFCC`.
 
+[[theme.changeTableOutdatedColor]]theme.changeTableOutdatedColor::
++
+Background color used for patch outdated messages.  The value must be
+a valid HTML hex color code, or standard color name.
++
+By default a shade of red, `FF0000`.
+
+[[theme.tableOddRowColor]]theme.tableOddRowColor::
++
+Background color for tables such as lists of open reviews for odd
+rows.  This is so you can have a different color for odd and even
+rows of the table.  The value must be a valid HTML hex color code,
+or standard color name.
++
+By default transparent.
+
+[[theme.tableEvenRowColor]]theme.tableEvenRowColor::
++
+Background color for tables such as lists of open reviews for even
+rows.  This is so you can have a different color for odd and even
+rows of the table.  The value must be a valid HTML hex color code,
+or standard color name.
++
+By default transparent.
+
 A different theme may be used for signed-in vs. signed-out user status
 by using the "signed-in" and "signed-out" theme sections. Variables
 not specified in a section are inherited from the default theme.

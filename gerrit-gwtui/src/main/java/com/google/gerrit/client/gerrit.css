@@ -43,7 +43,9 @@
 @eval textColor com.google.gerrit.client.Gerrit.getTheme().textColor;
 @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
-
+@eval changeTableOutdatedColor com.google.gerrit.client.Gerrit.getTheme().changeTableOutdatedColor;
+@eval tableOddRowColor com.google.gerrit.client.Gerrit.getTheme().tableOddRowColor;
+@eval tableEvenRowColor com.google.gerrit.client.Gerrit.getTheme().tableEvenRowColor;
 
 @sprite .greenCheckClass {
   gwt-image: "greenCheck";
@@ -411,8 +413,16 @@
   border-spacing: 0;
 }
 
+.changeTable tr:nth-child\(even\) {
+  background: tableEvenRowColor;
+}
+
+.changeTable tr:nth-child\(odd\) {
+  background: tableOddRowColor;
+}
+
 .changeTable .outdated {
-  background: red;
+  background: changeTableOutdatedColor;
 }
 
 .changeTable .iconCell {
@@ -482,7 +492,6 @@
 
 .accountDashboard.changeTable tr {
   color: #444444;
-  background: #F6F6F6;
 }
 .accountDashboard.changeTable tr a {
   color: #444444;
@@ -492,13 +501,12 @@
 .accountDashboard.changeTable .needsReview a {
   font-weight: bold;
   color: textColor;
-  background: backgroundColor;
 }
 
 .changeTable .activeRow,
 .accountDashboard.changeTable .activeRow,
 .accountDashboard.changeTable .activeRow a {
-  background: selectionColor;
+  background: selectionColor !important;
 }
 
 .changeTable .cID {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHFX///+8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-29T04:41:52Z",
+      "side": 1,
+      "message": "I don\u0027t know whether the behavior has changed recently, but if submits are not tied to a patchset it can lead to untested changes from being submitted.",
+      "revId": "ca868f3ad579715ddac5d6491c3de72d9829411f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

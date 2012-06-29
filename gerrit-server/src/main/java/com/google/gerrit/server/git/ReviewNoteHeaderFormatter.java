@@ -52,10 +52,11 @@ class ReviewNoteHeaderFormatter {
   }
 
   void appendApproval(ApprovalCategory category,
-      short value, Account user) {
+      short value, Account user, Date date) {
     sb.append(category.getLabelName());
     sb.append(value < 0 ? "-" : "+").append(Math.abs(value)).append(": ");
     appendUserData(user);
+    sb.append(" ").append(rfc2822DateFormatter.format(date));
     sb.append("\n");
   }
 

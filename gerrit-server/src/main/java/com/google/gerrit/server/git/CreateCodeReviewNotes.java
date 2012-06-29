@@ -190,7 +190,8 @@ public class CreateCodeReviewNotes {
             formatter.appendApproval(
                 type.getCategory(),
                 a.getValue(),
-                accountCache.get(a.getAccountId()).getAccount());
+                accountCache.get(a.getAccountId()).getAccount(),
+                a.getGranted());
           }
         }
       }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAHGX////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-29T06:52:08Z",
+      "side": 1,
+      "message": "BTW, is there any reason why this and some of the other commands don\u0027t have `aliases`?",
+      "revId": "ca868f3ad579715ddac5d6491c3de72d9829411f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHFX///+8\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2012-06-29T04:41:52Z",
       "side": 1,
       "message": "I don\u0027t know whether the behavior has changed recently, but if submits are not tied to a patchset it can lead to untested changes from being submitted.",
+      "revId": "ca868f3ad579715ddac5d6491c3de72d9829411f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHGX////4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-29T06:52:08Z",
+      "side": 1,
+      "message": "The point I\u0027m trying to make here is that when you submit, you submit the whole change.  You can\u0027t submit only one patch set out of total N patch sets that are on the change.  Also you can\u0027t submit any patch set; it must be the current one.\n\nCan you clarify what you mean by \"it can lead to untested changes from being submitted\"?",
+      "parentUuid": "AAAHFX///+8\u003d",
       "revId": "ca868f3ad579715ddac5d6491c3de72d9829411f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

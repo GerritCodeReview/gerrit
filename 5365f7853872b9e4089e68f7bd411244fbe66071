@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHHH////8\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2252,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-29T11:23:20Z",
+      "side": 1,
+      "message": "standatd -\u003e standard",
+      "revId": "5365f7853872b9e4089e68f7bd411244fbe66071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHHH////4\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2260,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-06-29T11:23:20Z",
+      "side": 1,
+      "message": "os -\u003e of",
+      "revId": "5365f7853872b9e4089e68f7bd411244fbe66071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

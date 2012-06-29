@@ -51,6 +51,24 @@
       "revId": "ca868f3ad579715ddac5d6491c3de72d9829411f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHF3///+c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-06-29T17:33:15Z",
+      "side": 1,
+      "message": "There was an effort by Conley I believe to make it possible to do some of these actions (abandon at least I believe) by just specifying a change, I thought initially that this was why you were updating the docs here, perhaps you are not aware of this change?  With that in mind, I am not sure that your updates calrify the current situation (although I agree with what you are trying to do).\n\nI am also trying to point out that I do not believe that it would be a good idea to be able to submit changes without specifying the PS since it is very important that someone specify exactly which patch set they plan to submit.  I want to prevent the situation where a user decides to submit a change and had been reviewing PS X and then another PS get uploaded quickly, without them realizing it, and approved and they run: \"submit change\" without specifying PSX, and PS Y gets inadvertently submitted (not PS X which they reviewed and intended to submit).",
+      "parentUuid": "AAAHGX////4\u003d",
+      "revId": "ca868f3ad579715ddac5d6491c3de72d9829411f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

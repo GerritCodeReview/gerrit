@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHHH////Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-02T08:39:09Z",
+      "side": 1,
+      "message": "I would like not to display it to let the page dry.",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHHH////I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderUnified.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-02T08:39:09Z",
+      "side": 1,
+      "message": "is not used?",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHHH////E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderUnified.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-02T08:39:09Z",
+      "side": 1,
+      "message": "is not used.?",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

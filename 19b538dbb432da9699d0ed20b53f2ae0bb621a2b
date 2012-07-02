@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHHH////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/BanCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-02T07:43:55Z",
+      "side": 1,
+      "message": "Strings is never used",
+      "revId": "19b538dbb432da9699d0ed20b53f2ae0bb621a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

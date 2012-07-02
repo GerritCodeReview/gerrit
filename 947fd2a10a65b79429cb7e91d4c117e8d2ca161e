@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAHHn////Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-02T14:41:07Z",
+      "side": 1,
+      "message": "Maybe also mention that this change adds the \u0027Download\u0027 links in the unified diff view. Then also add the \u0027Bug: 1192\u0027 footer in the last paragraph (see [1]).\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d1192",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHHH////Q\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.properties",
         "patchSetId": 2
@@ -13,6 +30,74 @@
       "writtenOn": "2012-07-02T08:39:09Z",
       "side": 1,
       "message": "I would like not to display it to let the page dry.",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHHn////M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-02T14:41:07Z",
+      "side": 1,
+      "message": "nit: this is import is not used and should be removed",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHHn////I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-02T14:41:07Z",
+      "side": 1,
+      "message": "nit: this is import is not used and should be removed",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHHn////E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-02T14:41:07Z",
+      "side": 1,
+      "message": "nit: this is import is not used and should be removed",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHHn////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderSideBySide.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-02T14:41:07Z",
+      "side": 1,
+      "message": "[optional] I think this div gets unneeded if you set \u0027overflow: hidden\u0027 on the wrapper [1].\n\n[1] http://stackoverflow.com/questions/5803023/how-to-place-two-divs-next-to-each-other",
       "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

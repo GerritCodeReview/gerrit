@@ -29,7 +29,7 @@ public class GitWebType {
       type = new GitWebType();
       type.setLinkName("gitweb");
       type.setProject("?p=${project}.git;a=summary");
-      type.setRevision("?p=${project}.git;a=commit;h=${commit}");
+      type.setRevision("?p=${project}.git;a=commitdiff;h=${commit}");
       type.setBranch("?p=${project}.git;a=shortlog;h=${branch}");
       type.setFileHistory("?p=${project}.git;a=history;hb=${branch};f=${file}");
 

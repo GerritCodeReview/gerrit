@@ -1137,6 +1137,10 @@ at a specific commit when `custom` is used above.
 +
 Valid replacements are `${project}` for the project name in Gerrit
 and `${commit}` for the SHA1 hash for the commit.
++
+Note: it was changed recently to show the whole commit content (commitdiff)
+to restore the old behaviour (commit) use the follow command:
+git config --file <gerit_site>/etc/gerrit.config gitweb.revision '?p=${project}.git;a=commit;h=${commit}'
 
 [[gitweb.project]]gitweb.project::
 +

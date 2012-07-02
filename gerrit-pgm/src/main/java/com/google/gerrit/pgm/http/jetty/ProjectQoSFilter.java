@@ -97,7 +97,7 @@ public class ProjectQoSFilter implements Filter {
     this.userProvider = userProvider;
     this.queue = queue;
     this.context = context;
-    this.maxWait = getTimeUnit(cfg, "httpd", null, "maxwait", 5, MINUTES);
+    this.maxWait = MINUTES.toMillis(getTimeUnit(cfg, "httpd", null, "maxwait", 5, MINUTES));
   }
 
   @Override

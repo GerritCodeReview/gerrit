@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHFn///xE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-02T16:09:41Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand.",
+      "parentUuid": "AAAHHH////Q\u003d",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHHn////M\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2012-07-02T14:41:07Z",
       "side": 1,
       "message": "nit: this is import is not used and should be removed",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHFn///xA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-02T16:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHHn////M\u003d",
       "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHFn///w8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-02T16:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHHn////I\u003d",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHHn////E\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
         "patchSetId": 2
@@ -81,6 +135,24 @@
       "writtenOn": "2012-07-02T14:41:07Z",
       "side": 1,
       "message": "nit: this is import is not used and should be removed",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHFn///w4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-02T16:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHHn////E\u003d",
       "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHFn///xU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderSideBySide.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-02T16:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHHn////U\u003d",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHHH////I\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderUnified.ui.xml",
         "patchSetId": 2
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHFn///xQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderUnified.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-02T16:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHHH////I\u003d",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHHH////E\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderUnified.ui.xml",
         "patchSetId": 2
@@ -132,6 +240,24 @@
       "writtenOn": "2012-07-02T08:39:09Z",
       "side": 1,
       "message": "is not used.?",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHFn///xM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderUnified.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-02T16:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHHH////E\u003d",
       "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

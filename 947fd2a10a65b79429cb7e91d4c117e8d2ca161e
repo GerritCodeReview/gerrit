@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHIn////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-02T19:26:28Z",
+      "side": 1,
+      "message": "I think Bruce meant that it\u0027s maybe not needed to display the \u0027Patch Set\u0027 string in the header.",
+      "parentUuid": "AAAHFn///xE\u003d",
+      "revId": "947fd2a10a65b79429cb7e91d4c117e8d2ca161e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHHn////M\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
         "patchSetId": 2

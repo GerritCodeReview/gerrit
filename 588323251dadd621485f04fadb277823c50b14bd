@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHHH///+o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-03T06:14:55Z",
+      "side": 1,
+      "message": "is not used?",
+      "revId": "588323251dadd621485f04fadb277823c50b14bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHHH///+s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-03T06:14:55Z",
+      "side": 1,
+      "message": "I think we need not display all especially when we have a change with a large number of patchsets, e.g. http://i.imgur.com/8Kji2.png , so I suggest to display in one of below 2 ways.\n\n\n 1\u003e:  \u0027Base\u0027 and latest 2 or 3 patchsets\n 2\u003e:  1\u003e and those having comments\n\n or other better solutions.",
+      "revId": "588323251dadd621485f04fadb277823c50b14bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

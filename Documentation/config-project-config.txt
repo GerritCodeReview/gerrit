@@ -1,0 +1,153 @@
+Gerrit Code Review - Access Controls Configuration Format
+=========================================================
+
+This page explains the inner workings of the access control model of
+Gerrit.  The web UI access control panel is a front end for human
+readable configuration files under the +refs/meta/config+ namespace
+in the affected git.  It is mainly relevant in an automation scenario
+of the access controls.
+
+
+The +refs/meta/config+ name space
+---------------------------------
+
+The name space contains three different files that play different
+roles in the permission model.  With read permission to that reference,
+it is possible to fetch the +refs/meta/config+ reference to a local
+repository.  A nice side effect is that you can also upload changes
+to project permissions and review them just like with regular code
+changes.
+
+
+[[file-project_config]]
+The file +project.config+
+-------------------------
+
+This file contains the link between groups and their permitted actions
+on reference patterns in this git and any gits that inherits this git.
+The format in this file corresponds to the git config file format, so
+if you want to automate your permissions it is a good idea to use the
++git config+ command when writing to the file. This way you know you
+don't accidentally break the format of the file.
+
+Below you will find an example of the format:
+
+----
+[project]
+       description = Rights inherited by all other projects
+[access "refs/*"]
+       permission = group Administrators
+[capability]
+       administrateServer = group Administrators
+----
+
+As you can see, there are three kinds of sections.  The +project+
+section only appears once per project, and it only consists of
+one key, +description+.  The +access+ section appear once per
+reference pattern, such as +refs/*+ or +refs/heads/*+.  Only one
+access section per pattern is allowed.  You will find examples of keys
+and values in each category section <<access_category,below>>.
+The +capability+ section only appears once, and only in the
++All-Projects+ repository.  It controls core features that are
+configured on a global level.  You can find examples of these too
+<<capability_category,below>>.
+
+
+[[project-categories]]
+Project categories
+~~~~~~~~~~~~~~~~~~
+
+The project category includes configuration of project settings.
+
+These are the categories:
+
+- Description
+- Automatically merge
+- Merge strategy
+
+
+[[access-categories]]
+Access categories
+~~~~~~~~~~~~~~~~~
+
+Each +access+ section includes a reference and access rights connected
+to groups.
+
+Here's a list of the current default access rights:
+
+- inheritFrom
+- exclusiveGroupPermissions
+- Label: Code Review
+- Create reference
+- Forge Author
+- Forge Committer
+- Forge Server
+- Owner
+- Push
+- Direct Push
+- Upload To Code Review
+- Push Merge Commits
+- Push Annotated Tag
+- Read
+- Submit
+
+
+[[capability_catgory]]
+Capabilities
+~~~~~~~~~~~~
+
+The +capability+ section only appears once, and only in the
++All-Projects+ repository.  It controls core features that are
+configured on a global level.
+
+A list of the capabilities:
+
+- Administrate Server
+- Create Account
+- Create Group
+- Create Project
+- Flush Caches
+- Kill Task
+- Priority
+- Query Limit
+- Start Replication
+- View Caches
+
+
+[[file-groups]]
+The file +groups+
+-----------------
+
+The +groups+ file contains a list of group UUIDs and names of the
+groups.  This link is made so that renaming of groups are still
+possible without having to rewrite every +groups+ file in every
+repository where it's used.
+
+This is what the default groups file for +All-Projects.git+ looks like:
+
+----
+# UUID                                         Group Name
+#
+3d6da7dc4e99e6f6e5b5196e21b6f504fc530bba       Administrators
+global:Anonymous-Users                         Anonymous Users
+global:Project-Owners                          Project Owners
+global:Registered-Users                        Registered Users
+----
+
+This file can't be written to by the git config command.
+
+
+[[file-rules_pl]]
+The file +rules.pl+
+-------------------
+
+The +rules.pl+ file is an alternative way to specify the access rights
+compared to the project.config file.  This file content should be
+interpretable by the 'Prolog Cafe' interpretor.
+
+You can read more about the +rules.pl+ file and the prolog rules on
+link:prolog-cookbook.html[the Prolog cookbook page].
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

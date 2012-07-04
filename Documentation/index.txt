@@ -22,6 +22,7 @@ Project Owner and Power User Guide
 ----------------------------------
 
 * link:access-control.html[Access Controls]
+* link:config-project-config.html[Access Controls Configuration Format]
 * link:rest-api.html[REST API]
 * link:user-dashboards.html[Dashboards]
 * link:user-submodules.html[Subscribing to Git Submodules]

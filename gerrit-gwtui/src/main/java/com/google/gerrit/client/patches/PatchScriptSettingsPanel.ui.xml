@@ -108,8 +108,8 @@ limitations under the License.
       </g:CheckBox>
       <br/>
       <g:CheckBox
-          ui:field='showTabs'
-          text='Show Tabs'
+          ui:field='showLineEndings'
+          text='Show Line Endings'
           tabIndex='8'>
         <ui:attribute name='text'/>
       </g:CheckBox>
@@ -117,15 +117,15 @@ limitations under the License.
 
     <td rowspan='2'>
       <g:CheckBox
-          ui:field='expandAllComments'
-          text='Expand All Comments'
+          ui:field='showTabs'
+          text='Show Tabs'
           tabIndex='9'>
         <ui:attribute name='text'/>
       </g:CheckBox>
       <br/>
       <g:CheckBox
-          ui:field='retainHeader'
-          text='Retain Header On File Switch'
+          ui:field='expandAllComments'
+          text='Expand All Comments'
           tabIndex='10'>
         <ui:attribute name='text'/>
       </g:CheckBox>
@@ -133,15 +133,15 @@ limitations under the License.
 
     <td rowspan='2'>
       <g:CheckBox
-          ui:field='skipUncommented'
-          text='Skip Uncommented Files'
+          ui:field='retainHeader'
+          text='Retain Header On File Switch'
           tabIndex='11'>
         <ui:attribute name='text'/>
       </g:CheckBox>
       <br/>
       <g:CheckBox
-          ui:field='skipDeleted'
-          text='Skip Deleted Files'
+          ui:field='skipUncommented'
+          text='Skip Uncommented Files'
           tabIndex='12'>
         <ui:attribute name='text'/>
       </g:CheckBox>
@@ -149,9 +149,16 @@ limitations under the License.
 
     <td valign='bottom' rowspan='2'>
       <g:CheckBox
+          ui:field='skipDeleted'
+          text='Skip Deleted Files'
+          tabIndex='13'>
+        <ui:attribute name='text'/>
+      </g:CheckBox>
+      <br/>
+      <g:CheckBox
           ui:field='manualReview'
           text='Manual Review'
-          tabIndex='13'>
+          tabIndex='14'>
         <ui:attribute name='text'/>
       </g:CheckBox>
     </td>
@@ -162,14 +169,14 @@ limitations under the License.
           ui:field='update'
           text='Update'
           styleName='{style.updateButton}'
-          tabIndex='14'>
+          tabIndex='15'>
         <ui:attribute name='text'/>
       </g:Button>
       <g:Button
           ui:field='save'
           text='Save'
           styleName='{style.updateButton}'
-          tabIndex='15'>
+          tabIndex='16'>
         <ui:attribute name='text'/>
       </g:Button>
     </td>

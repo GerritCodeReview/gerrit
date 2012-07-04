@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHL3////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-04T12:46:09Z",
+      "side": 1,
+      "message": "We prefer the following syntax:\n\n Bug: issue 626",
+      "revId": "0d17f96244ae8986abd40f60069f8740f3fd8aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -12,11 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.events;
+package com.google.gerrit.common;
 
-public class DraftPublishedEvent extends StreamEvent {
-    public final String type = "draft-published";
-    public ChangeAttribute change;
-    public PatchSetAttribute patchSet;
-    public AccountAttribute uploader;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.events.StreamEvent;
+
+/** Provides access to system stream events service. */
+public interface StreamEventService {
+  /** Add a listener for receiving stream events. */
+  void addListener(StreamEventListener listener, IdentifiedUser user);
+
+  /** Remove the registered listener. */
+  void removeListener(StreamEventListener listener);
+
+  /** Send a stream event to the registered listeners. */
+  void fireEvent(StreamEvent event, StreamEventAuth auth);
 }

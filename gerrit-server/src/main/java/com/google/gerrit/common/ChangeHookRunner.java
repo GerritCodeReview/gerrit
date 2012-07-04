@@ -17,6 +17,8 @@ package com.google.gerrit.common;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.common.StreamEventAuth.ChangeAuth;
+import com.google.gerrit.common.StreamEventAuth.BranchAuth;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
@@ -25,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.ApprovalAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
-import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.ChangeRestoreEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
@@ -44,8 +44,6 @@ import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -66,7 +64,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 /** Spawns local executables when a hook action occurs. */
 @Singleton
@@ -81,20 +78,6 @@ public class ChangeHookRunner implements ChangeHooks {
         bind(ChangeHooks.class).to(ChangeHookRunner.class);
       }
     }
-
-    private static class ChangeListenerHolder {
-        final ChangeListener listener;
-        final IdentifiedUser user;
-
-        ChangeListenerHolder(ChangeListener l, IdentifiedUser u) {
-            listener = l;
-            user = u;
-        }
-    }
-
-    /** Listeners to receive changes as they happen. */
-    private final Map<ChangeListener, ChangeListenerHolder> listeners =
-      new ConcurrentHashMap<ChangeListener, ChangeListenerHolder>();
 
     /** Filename of the new patchset hook. */
     private final File patchsetCreatedHook;
@@ -138,6 +121,7 @@ public class ChangeHookRunner implements ChangeHooks {
 
     private final SitePaths sitePaths;
 
+    private final StreamEventService streamService;
     /**
      * Create a new ChangeHookRunner.
      *
@@ -154,7 +138,8 @@ public class ChangeHookRunner implements ChangeHooks {
       final @AnonymousCowardName String anonymousCowardName,
       final SitePaths sitePath, final ProjectCache projectCache,
       final AccountCache accountCache, final ApprovalTypes approvalTypes,
-      final EventFactory eventFactory, final SitePaths sitePaths) {
+      final EventFactory eventFactory, final SitePaths sitePaths,
+      final StreamEventService streamService) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -163,6 +148,7 @@ public class ChangeHookRunner implements ChangeHooks {
         this.approvalTypes = approvalTypes;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
+        this.streamService = streamService;
 
         final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
 
@@ -174,14 +160,6 @@ public class ChangeHookRunner implements ChangeHooks {
         changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
         refUpdatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdatedHook", "ref-updated")).getPath());
         claSignedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "claSignedHook", "cla-signed")).getPath());
-    }
-
-    public void addChangeListener(ChangeListener listener, IdentifiedUser user) {
-        listeners.put(listener, new ChangeListenerHolder(listener, user));
-    }
-
-    public void removeChangeListener(ChangeListener listener) {
-        listeners.remove(listener);
     }
 
     /**
@@ -228,7 +206,7 @@ public class ChangeHookRunner implements ChangeHooks {
         event.change = eventFactory.asChangeAttribute(change);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
         event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
-        fireEvent(change, event, db);
+        streamService.fireEvent(event, new ChangeAuth(change, db, projectCache));
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -250,7 +228,7 @@ public class ChangeHookRunner implements ChangeHooks {
         event.change = eventFactory.asChangeAttribute(change);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
         event.uploader = eventFactory.asAccountAttribute(uploader.getAccount());
-        fireEvent(change, event, db);
+        streamService.fireEvent(event, new ChangeAuth(change, db, projectCache));
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -282,7 +260,7 @@ public class ChangeHookRunner implements ChangeHooks {
             }
         }
 
-        fireEvent(change, event, db);
+        streamService.fireEvent(event, new ChangeAuth(change, db, projectCache));
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -306,7 +284,7 @@ public class ChangeHookRunner implements ChangeHooks {
         event.change = eventFactory.asChangeAttribute(change);
         event.submitter = eventFactory.asAccountAttribute(account);
         event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
-        fireEvent(change, event, db);
+        streamService.fireEvent(event, new ChangeAuth(change, db, projectCache));
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -326,7 +304,7 @@ public class ChangeHookRunner implements ChangeHooks {
         event.change = eventFactory.asChangeAttribute(change);
         event.abandoner = eventFactory.asAccountAttribute(account);
         event.reason = reason;
-        fireEvent(change, event, db);
+        streamService.fireEvent(event, new ChangeAuth(change, db, projectCache));
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -346,7 +324,7 @@ public class ChangeHookRunner implements ChangeHooks {
         event.change = eventFactory.asChangeAttribute(change);
         event.restorer = eventFactory.asAccountAttribute(account);
         event.reason = reason;
-        fireEvent(change, event, db);
+        streamService.fireEvent(event, new ChangeAuth(change, db, projectCache));
 
         final List<String> args = new ArrayList<String>();
         addArg(args, "--change", event.change.id);
@@ -370,7 +348,7 @@ public class ChangeHookRunner implements ChangeHooks {
         event.submitter = eventFactory.asAccountAttribute(account);
       }
       event.refUpdate = eventFactory.asRefUpdateAttribute(oldId, newId, refName);
-      fireEvent(refName, event);
+      streamService.fireEvent(event, new BranchAuth(refName, projectCache));
 
       final List<String> args = new ArrayList<String>();
       addArg(args, "--oldrev", event.refUpdate.oldRev);
@@ -393,40 +371,6 @@ public class ChangeHookRunner implements ChangeHooks {
 
         runHook(claSignedHook, args);
       }
-    }
-
-    private void fireEvent(final Change change, final ChangeEvent event, final ReviewDb db) throws OrmException {
-      for (ChangeListenerHolder holder : listeners.values()) {
-          if (isVisibleTo(change, holder.user, db)) {
-              holder.listener.onChangeEvent(event);
-          }
-      }
-    }
-
-    private void fireEvent(Branch.NameKey branchName, final ChangeEvent event) {
-      for (ChangeListenerHolder holder : listeners.values()) {
-          if (isVisibleTo(branchName, holder.user)) {
-              holder.listener.onChangeEvent(event);
-          }
-      }
-    }
-
-    private boolean isVisibleTo(Change change, IdentifiedUser user, ReviewDb db) throws OrmException {
-        final ProjectState pe = projectCache.get(change.getProject());
-        if (pe == null) {
-          return false;
-        }
-        final ProjectControl pc = pe.controlFor(user);
-        return pc.controlFor(change).isVisible(db);
-    }
-
-    private boolean isVisibleTo(Branch.NameKey branchName, IdentifiedUser user) {
-        final ProjectState pe = projectCache.get(branchName.getParentKey());
-        if (pe == null) {
-          return false;
-        }
-        final ProjectControl pc = pe.controlFor(user);
-        return pc.controlForRef(branchName).isVisible();
     }
 
     /**

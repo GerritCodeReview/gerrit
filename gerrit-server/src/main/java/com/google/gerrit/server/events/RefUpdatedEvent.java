@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-public class RefUpdatedEvent extends ChangeEvent {
+public class RefUpdatedEvent extends StreamEvent {
   public final String type = "ref-updated";
   public AccountAttribute submitter;
   public RefUpdateAttribute refUpdate;

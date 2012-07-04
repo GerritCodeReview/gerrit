@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-public class PatchSetCreatedEvent extends ChangeEvent {
+public class PatchSetCreatedEvent extends StreamEvent {
     public final String type = "patchset-created";
     public ChangeAttribute change;
     public PatchSetAttribute patchSet;

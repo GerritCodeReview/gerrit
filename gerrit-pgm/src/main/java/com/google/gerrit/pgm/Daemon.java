@@ -17,6 +17,7 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.StreamEventServiceImpl;
 import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
@@ -288,6 +289,7 @@ public class Daemon extends SiteProgram {
     modules.add(new LogFileCompressor.Module());
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
+    modules.add(new StreamEventServiceImpl.Module());
     modules.add(new ReceiveCommitsExecutorModule());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new DefaultCacheFactory.Module());

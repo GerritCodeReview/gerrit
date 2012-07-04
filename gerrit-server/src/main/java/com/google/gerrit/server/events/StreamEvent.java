@@ -14,5 +14,5 @@
 
 package com.google.gerrit.server.events;
 
-public abstract class ChangeEvent {
+public abstract class StreamEvent {
 }

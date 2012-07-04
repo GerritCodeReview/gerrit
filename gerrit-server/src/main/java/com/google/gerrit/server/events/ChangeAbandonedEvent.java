@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-public class ChangeAbandonedEvent extends ChangeEvent {
+public class ChangeAbandonedEvent extends StreamEvent {
     public final String type = "change-abandoned";
     public ChangeAttribute change;
     public PatchSetAttribute patchSet;

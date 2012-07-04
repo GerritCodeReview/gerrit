@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-public class ChangeMergedEvent extends ChangeEvent {
+public class ChangeMergedEvent extends StreamEvent {
     public final String type = "change-merged";
     public ChangeAttribute change;
     public PatchSetAttribute patchSet;

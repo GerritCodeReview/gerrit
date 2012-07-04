@@ -22,7 +22,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
 
 import org.eclipse.jgit.lib.ObjectId;
@@ -32,10 +31,6 @@ import java.util.Map;
 
 /** Invokes hooks on server actions. */
 public interface ChangeHooks {
-  public void addChangeListener(ChangeListener listener, IdentifiedUser user);
-
-  public void removeChangeListener(ChangeListener listener);
-
   /**
    * Fire the Patchset Created Hook.
    *

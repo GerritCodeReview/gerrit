@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-public class CommentAddedEvent extends ChangeEvent {
+public class CommentAddedEvent extends StreamEvent {
     public final String type = "comment-added";
     public ChangeAttribute change;
     public PatchSetAttribute patchSet;

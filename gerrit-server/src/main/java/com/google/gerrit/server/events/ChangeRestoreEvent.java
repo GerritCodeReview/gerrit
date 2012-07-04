@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.events;
 
-public class ChangeRestoreEvent extends ChangeEvent {
+public class ChangeRestoreEvent extends StreamEvent {
     public final String type = "change-restored";
     public ChangeAttribute change;
     public PatchSetAttribute patchSet;

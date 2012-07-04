@@ -178,6 +178,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected SparseHtmlFile getSparseHtmlFileA(PatchScript s) {
     AccountDiffPreference dp = new AccountDiffPreference(s.getDiffPrefs());
     dp.setShowWhitespaceErrors(false);
+    dp.setShowCrLf(false);
 
     PrettyFormatter f = ClientSideFormatter.FACTORY.get();
     f.setDiffPrefs(dp);

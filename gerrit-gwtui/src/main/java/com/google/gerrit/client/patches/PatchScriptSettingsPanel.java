@@ -76,6 +76,9 @@ public class PatchScriptSettingsPanel extends Composite implements
   CheckBox whitespaceErrors;
 
   @UiField
+  CheckBox crlfErrors;
+
+  @UiField
   CheckBox showTabs;
 
   @UiField
@@ -210,6 +213,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     colWidth.setIntValue(dp.getLineLength());
     intralineDifference.setValue(dp.isIntralineDifference());
     whitespaceErrors.setValue(dp.isShowWhitespaceErrors());
+    crlfErrors.setValue(dp.isShowCrLf());
     showTabs.setValue(dp.isShowTabs());
     skipDeleted.setValue(dp.isSkipDeleted());
     skipUncommented.setValue(dp.isSkipUncommented());
@@ -242,6 +246,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     dp.setSyntaxHighlighting(syntaxHighlighting.getValue());
     dp.setIntralineDifference(intralineDifference.getValue());
     dp.setShowWhitespaceErrors(whitespaceErrors.getValue());
+    dp.setShowCrLf(crlfErrors.getValue());
     dp.setShowTabs(showTabs.getValue());
     dp.setSkipDeleted(skipDeleted.getValue());
     dp.setSkipUncommented(skipUncommented.getValue());

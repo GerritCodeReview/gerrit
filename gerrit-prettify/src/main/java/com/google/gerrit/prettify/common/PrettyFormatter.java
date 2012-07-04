@@ -335,6 +335,10 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       html = showTrailingWhitespace(html);
     }
 
+    if (diffPrefs.isShowLineEndings()){
+      html = showLineEndings(html);
+    }
+
     if (diffPrefs.isShowTabs()) {
       String t = 1 < diffPrefs.getTabSize() ? "\t" : "";
       html = html.replaceAll("\t", "<span class=\"vt\">\u00BB</span>" + t);
@@ -449,12 +453,11 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
 
       } else if (end) {
         if (cr == src.length() - 1) {
-          buf.append(src.substring(0, cr));
+          buf.append(src.substring(0, cr + 1));
           return;
         }
       } else if (cr == src.length() - 2 && src.charAt(cr + 1) == '\n') {
-        buf.append(src.substring(0, cr));
-        buf.append('\n');
+        buf.append(src);
         return;
       }
 
@@ -496,6 +499,14 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
         + ">$1</span>$2";
     src = src.replaceAll("([ \t][ \t]*)(\r?(</span>)?\n)", r);
     src = src.replaceFirst("([ \t][ \t]*)(\r?(</span>)?\n?)$", r);
+    return src;
+  }
+
+  private SafeHtml showLineEndings(SafeHtml src) {
+    final String r = "<span class=\"ledos\""
+        + " title=\"" + PrettifyConstants.C.leDOS() + "\"" //
+        + ">\\\\r</span>$1";
+    src = src.replaceAll("\r([\n])", r);
     return src;
   }
 

@@ -32,6 +32,7 @@ Index
 .. link:project-setup.html[Project Setup]
 .. link:access-control.html[Access Controls]
 ... link:config-labels.html[Review Labels]
+... link:config-project-config.html[Access Controls Configuration Format]
 .. Multi-project management
 ... Submodules
 ... Repo

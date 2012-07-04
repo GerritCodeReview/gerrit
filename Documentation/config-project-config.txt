@@ -1,0 +1,217 @@
+Gerrit Code Review - Project Configuration File Format
+======================================================
+
+This page explains the storage format of Gerrit's project configuration
+and access control models.
+
+The web UI access control panel is a front end for human-readable
+configuration files under the +refs/meta/config+ namespace in the
+affected project.  Direct manipulation of these files is mainly
+relevant in an automation scenario of the access controls.
+
+
+The +refs/meta/config+ name space
+---------------------------------
+
+The name space contains three different files that play different
+roles in the permission model.  With read permission to that reference,
+it is possible to fetch the +refs/meta/config+ reference to a local
+repository.  A nice side effect is that you can also upload changes
+to project permissions and review them just like with regular code
+changes. The preview changes option is also provided on the UI. Please note
+that you will have to configure push rights for the +refs/meta/config+ name
+space if you'd like to use the possibility to automate permission updates.
+
+
+[[file-project_config]]
+The file +project.config+
+-------------------------
+
+The +project.config+ file contains the link between groups and their
+permitted actions on reference patterns in this project and any projects
+that inherit its permissions.
+
+The format in this file corresponds to the Git config file format, so
+if you want to automate your permissions it is a good idea to use the
++git config+ command when writing to the file. This way you know you
+don't accidentally break the format of the file.
+
+Here follows a +git config+ command example:
+
+----
+$ git config -f project.config project.description "Rights inherited by all other projects"
+----
+
+Below you will find an example of the +project.config+ file format:
+
+----
+[project]
+       description = Rights inherited by all other projects
+[access "refs/*"]
+       read = group Administrators
+[capability]
+       administrateServer = group Administrators
+[receive]
+       requireContributorAgreement = false
+----
+
+As you can see, there are several sections.
+
+The +project+ section appears once per project.
+
+The +access+ section appears once per reference pattern, such as
+`refs/*` or `refs/heads/*`.  Only one access section per pattern
+is allowed.  You will find examples of keys and values in each
+category section <<access_category,below>>.
+
+The +receive+ section appears once per project.
+
+The +submit+ section appears once per project.
+
+The +capability+ section only appears once, and only in the
++All-Projects+ repository.  It controls core features that are
+configured on a global level.  You can find examples of these
+<<capability_category,below>>.
+
+
+[[project-section]]
+Project section
+~~~~~~~~~~~~~~~
+
+The project section includes configuration of project settings.
+
+These are the categories:
+
+- Description
+
+
+[[receive-section]]
+Receive section
+~~~~~~~~~~~~~~~
+
+The receive section includes configuration of project-specific
+receive settings:
+
+[[receive.requireContributorAgreement]]receive.requireContributorAgreement::
++
+Controls whether or not a user must complete a contributor agreement before
+they can upload changes. Default is `INHERIT`. If `All-Project` enables this
+option then the dependent project must set it to false if users are not
+required to sign a contributor agreement prior to submitting change for that
+specific project. To use that feature the global option in `gerrit.config`
+must be enabled: link:config-gerrit.html[auth.contributorAgreements].
+
+[[receive.requireSignedOffBy]]receive.requireSignedOffBy::
++
+Sign-off can be a requirement for some projects (for example Linux kernel uses
+it). Sign-off is a line at the end of the commit message which certifies who
+is the author of the commit. It's main purpose is to improve tracking of who
+did  what, especially with patches. Default is `INHERIT`, which means that this
+property inherited from the parent project.
+
+[[receive.requireChangeId]]receive.requireChangeId::
++
+Controls whether or not the Change-Id must be included in the commit message
+in the last paragraph. Default is `INHERIT`, which means that this property
+inherited from the parent project.
+
+[[receive.maxObjectSizeLimit]]receive.maxObjectSizeLimit::
++
+Maximum allowed Git object size that receive-pack will accept. If an object
+is larger than the given size the pack-parsing will abort and the push
+operation will fail. If set to zero then there is no limit.
++
+Gerrit administrators can use this setting to prevent developers from pushing
+objects which are too large to Gerrit. This setting can also be set it
+`gerrit.config` globally link:config-gerrit.html[receive.maxObjectSizeLimit].
++
+The project specific setting in `project.config` is only honored when it
+further reduces the global limit.
++
+Default is zero.
++
+Common unit suffixes of k, m, or g are supported.
+
+[[submit-section]]
+Submit section
+~~~~~~~~~~~~~~
+
+The submit section includes configuration of project-specific
+submit settings:
+
+- Automatically merge
+- Merge strategy
+
+
+[[access-section]]
+Access section
+~~~~~~~~~~~~~~
+
+Each +access+ section includes a reference and access rights connected
+to groups.  Each group listed must exist in the link:#file-groups[+groups+ file].
+
+Please refer to the
+link:access-control.html#access_categories[Access Categories]
+documentation a full list of available access rights.
+
+
+[[capability-section]]
+Capability section
+~~~~~~~~~~~~~~~~~~
+
+The +capability+ section only appears once, and only in the
++All-Projects+ repository.  It controls core features that are
+configured on a global level.
+
+Please refer to the
+link:access-control.html#global_capabilities[Global Capabilities]
+documentation for a full list of available capabilities.
+
+
+[[file-groups]]
+The file +groups+
+-----------------
+
+Each group in this list is linked with its UUID so that renaming of
+groups is still possible without having to rewrite every +groups+ file
+in every repository where it's used.
+
+This is what the default groups file for +All-Projects.git+ looks like:
+
+----
+# UUID                                         Group Name
+#
+3d6da7dc4e99e6f6e5b5196e21b6f504fc530bba       Administrators
+global:Anonymous-Users                         Anonymous Users
+global:Project-Owners                          Project Owners
+global:Registered-Users                        Registered Users
+----
+
+This file can't be written to by the +git config+ command.
+
+In order to reference a group in +project.config+, it must be listed in
+the +groups+ file.  When editing permissions through the web UI this
+file is maintained automatically, but when pushing updates to
++refs/meta/config+ this must be dealt with by hand.  Gerrit will refuse
++project.config+ files that refer to groups not listed in +groups+.
+
+The UUID of a group can be found on the General tab of the group's page
+in the web UI or via the +-v+ option to
+link:cmd-ls-groups.html[the +ls-groups+ SSH command].
+
+
+[[file-rules_pl]]
+The file +rules.pl+
+-------------------
+
+The +rules.pl+ files allows you to replace or amend the default Prolog
+rules that control e.g. what conditions need to be fulfilled for a
+change to be submittable.  This file content should be
+interpretable by the 'Prolog Cafe' interpreter.
+
+You can read more about the +rules.pl+ file and the prolog rules on
+link:prolog-cookbook.html[the Prolog cookbook page].
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

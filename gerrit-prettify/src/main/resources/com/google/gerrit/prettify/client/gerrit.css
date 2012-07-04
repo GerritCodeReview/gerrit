@@ -14,6 +14,7 @@
  */
 
 @external .wse;
+@external .lecr;
 @external .vt;
 @external .wdd;
 @external .wdi;
@@ -32,6 +33,19 @@
 
 .wse {
   background: red;
+  cursor: pointer;
+}
+
+.lecr {
+  border-bottom: #aaaaaa 1px dashed;
+  border-left: #aaaaaa 1px dashed;
+  padding-bottom: 0px;
+  margin: 0px 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+  border-top: #aaaaaa 1px dashed;
+  border-right: #aaaaaa 1px dashed;
+  padding-top: 0px;
   cursor: pointer;
 }
 

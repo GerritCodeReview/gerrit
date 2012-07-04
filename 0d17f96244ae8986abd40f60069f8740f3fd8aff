@@ -16,6 +16,23 @@
       "revId": "0d17f96244ae8986abd40f60069f8740f3fd8aff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHL3////w\u003d",
+        "filename": "gerrit-prettify/src/main/resources/com/google/gerrit/prettify/client/gerrit.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-04T13:30:51Z",
+      "side": 1,
+      "message": "In Gerrit source code we use spaces for indentation,\nplease fix",
+      "revId": "0d17f96244ae8986abd40f60069f8740f3fd8aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

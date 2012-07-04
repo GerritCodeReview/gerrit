@@ -388,6 +388,10 @@ in project.config and create agreement files under
 more agreements.
 +
 By default this is false (no agreements are used).
++
+To enable the actual usage of contributor agreement the project
+specific config option in the `project.config` must be set:
+link:config-project-config.html[receive.requireContributorAgreement].
 
 auth.allowGoogleAccountUpgrade::
 +
@@ -2263,9 +2267,10 @@ limit.
 Gerrit administrators can use this setting to prevent developers
 from pushing objects which are too large to Gerrit.
 +
-This setting can also be set in the `project.config` in order to further
-reduce the global setting. The project specific setting is only honored
-when it further reduces the global limit.
+This setting can also be set in the `project.config`
+link:config-project-config.html[receive.maxObjectSizeLimit] in order
+to further reduce the global setting. The project specific setting is
+only honored when it further reduces the global limit.
 +
 Default is zero.
 +

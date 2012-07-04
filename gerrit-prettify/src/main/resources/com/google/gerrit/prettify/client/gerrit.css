@@ -14,6 +14,7 @@
  */
 
 @external .wse;
+@external .crlfe;
 @external .vt;
 @external .wdd;
 @external .wdi;
@@ -33,6 +34,19 @@
 .wse {
   background: red;
   cursor: pointer;
+}
+
+.crlfe {
+	border-bottom: #ff0000 1px dashed;
+	border-left: #ff0000 1px dashed;
+	padding-bottom: 0px;
+	margin: 0px 2px;
+	padding-left: 2px;
+	padding-right: 2px;
+	border-top: #ff0000 1px dashed;
+	border-right: #ff0000 1px dashed;
+	padding-top: 0px;
+	cursor: pointer;
 }
 
 .vt,

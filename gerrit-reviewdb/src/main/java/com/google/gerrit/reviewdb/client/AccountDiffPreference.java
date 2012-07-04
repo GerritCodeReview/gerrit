@@ -62,6 +62,7 @@ public class AccountDiffPreference {
     p.setLineLength(100);
     p.setSyntaxHighlighting(true);
     p.setShowWhitespaceErrors(true);
+    p.setShowCrLf(true);
     p.setIntralineDifference(true);
     p.setShowTabs(true);
     p.setContext(DEFAULT_CONTEXT);
@@ -88,28 +89,31 @@ public class AccountDiffPreference {
   protected boolean showWhitespaceErrors;
 
   @Column(id = 7)
-  protected boolean intralineDifference;
+  protected boolean showCrLf;
 
   @Column(id = 8)
+  protected boolean intralineDifference;
+
+  @Column(id = 9)
   protected boolean showTabs;
 
   /** Number of lines of context when viewing a patch. */
-  @Column(id = 9)
+  @Column(id = 10)
   protected short context;
 
-  @Column(id = 10)
+  @Column(id = 11)
   protected boolean skipDeleted;
 
-  @Column(id = 11)
+  @Column(id = 12)
   protected boolean skipUncommented;
 
-  @Column(id = 12)
+  @Column(id = 13)
   protected boolean expandAllComments;
 
-  @Column(id = 13)
+  @Column(id = 14)
   protected boolean retainHeader;
 
-  @Column(id = 14)
+  @Column(id = 15)
   protected boolean manualReview;
 
   protected AccountDiffPreference() {
@@ -126,6 +130,7 @@ public class AccountDiffPreference {
     this.lineLength = p.lineLength;
     this.syntaxHighlighting = p.syntaxHighlighting;
     this.showWhitespaceErrors = p.showWhitespaceErrors;
+    this.showCrLf = p.showCrLf;
     this.intralineDifference = p.intralineDifference;
     this.showTabs = p.showTabs;
     this.skipDeleted = p.skipDeleted;
@@ -178,6 +183,14 @@ public class AccountDiffPreference {
 
   public void setShowWhitespaceErrors(boolean showWhitespaceErrors) {
     this.showWhitespaceErrors = showWhitespaceErrors;
+  }
+
+  public boolean isShowCrLf() {
+    return showCrLf;
+  }
+
+  public void setShowCrLf(boolean showCrLf) {
+    this.showCrLf = showCrLf;
   }
 
   public boolean isIntralineDifference() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHL3////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_70.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-05T11:10:08Z",
+      "side": 1,
+      "message": "In order to trigger schema upgrade on init you must increase schema version in the:\n\n gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+      "revId": "3f5da268e6c94475a286cbb4f8c03ece3299af34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

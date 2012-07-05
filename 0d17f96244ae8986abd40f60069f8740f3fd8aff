@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAHKn////o\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/PrettyFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1010225
+      },
+      "writtenOn": "2012-07-05T06:59:10Z",
+      "side": 1,
+      "message": "I think this can be changed to buf.append(src) since \\n will be last character in the line",
+      "revId": "0d17f96244ae8986abd40f60069f8740f3fd8aff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHL3////w\u003d",
         "filename": "gerrit-prettify/src/main/resources/com/google/gerrit/prettify/client/gerrit.css",
         "patchSetId": 1

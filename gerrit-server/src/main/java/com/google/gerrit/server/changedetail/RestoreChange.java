@@ -149,8 +149,8 @@ public class RestoreChange implements Callable<ReviewResult> {
 
     ChangeUtil.updatedChange(db, currentUser, updatedChange, cmsg,
                              restoredSenderFactory);
-    hooks.doChangeRestoreHook(updatedChange, currentUser.getAccount(),
-                              message, db);
+    hooks.doChangeRestoredHook(updatedChange, currentUser.getAccount(),
+                               message, db);
 
     return result;
   }

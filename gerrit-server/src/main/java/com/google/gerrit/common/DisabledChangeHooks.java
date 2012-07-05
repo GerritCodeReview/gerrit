@@ -46,7 +46,7 @@ public final class DisabledChangeHooks implements ChangeHooks {
   }
 
   @Override
-  public void doChangeRestoreHook(Change change, Account account,
+  public void doChangeRestoredHook(Change change, Account account,
       String reason, ReviewDb db) {
   }
 

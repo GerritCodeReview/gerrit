@@ -61,7 +61,7 @@ public interface ChangeHooks {
    *
    * @param change The change itself.
    * @param patchSet The patchset this comment is related to.
-   * @param account The gerrit user who commited the change.
+   * @param account The gerrit user who added the comment.
    * @param comment The comment given.
    * @param approvals Map of Approval Categories and Scores
    * @throws OrmException
@@ -75,7 +75,7 @@ public interface ChangeHooks {
    * Fire the Change Merged Hook.
    *
    * @param change The change itself.
-   * @param account The gerrit user who commited the change.
+   * @param account The gerrit user who submitted the change.
    * @param patchSet The patchset that was merged.
    * @throws OrmException
    */
@@ -101,7 +101,7 @@ public interface ChangeHooks {
    * @param reason Reason for restoring the change.
    * @throws OrmException
    */
-  public void doChangeRestoreHook(Change change, Account account,
+  public void doChangeRestoredHook(Change change, Account account,
       String reason, ReviewDb db) throws OrmException;
 
   /**

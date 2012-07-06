@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHLX////0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-06T12:24:51Z",
+      "side": 1,
+      "message": "absolutely right!\n\nDone",
+      "parentUuid": "AAAG/n////0\u003d",
+      "revId": "1642c5c84b849977ef3526aa1086c011cd104e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG/n////I\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-26T17:51:10Z",
       "side": 1,
       "message": "This should probably be created in a separate method so that it can be easily overriden by subclasses.",
+      "revId": "1642c5c84b849977ef3526aa1086c011cd104e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLX///+Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-06T12:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG/n////I\u003d",
       "revId": "1642c5c84b849977ef3526aa1086c011cd104e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHLX////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-06T12:24:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAG/n////Q\u003d",
+      "revId": "1642c5c84b849977ef3526aa1086c011cd104e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG/n////g\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2012-06-26T17:51:10Z",
       "side": 1,
       "message": "Since you are in the ProjectListPopup class, you should be able to shorten these names to something like RowOpenedEvent.\n\nThe way the NavigationTable is designed, you have to override it to capture the events (the way you do on 112 120).  I don\u0027t think that this new widget should have an API that differs much from the NavigationTable\u0027s interface, it should be used almost the same way as if someone dropped a NavigationTable into their screen.  So, I would suggest to instead either:  a) design this widget to not throw events but instead to have similar named methods as the NavigationTable which need to be overidden (movePointerTo, onOpenRow), or b) add real new events to the NavigationTable class directly so that other users of NavigationTable can benefit from these events and so that this class can then allow users to register to the events from the NavigationTable directly.",
+      "revId": "1642c5c84b849977ef3526aa1086c011cd104e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLX///+U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-06T12:24:51Z",
+      "side": 1,
+      "message": "Hi Martin \n\ngood coach! I like your idea.  I prefer to a)  as in fact there is no real new event.\n\nDone",
+      "parentUuid": "AAAG/n////g\u003d",
       "revId": "1642c5c84b849977ef3526aa1086c011cd104e70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -15,12 +15,11 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.HintTextBox;
+import com.google.gerrit.client.ui.ProjectListPopup;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
-import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountProjectWatchInfo;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -30,19 +29,13 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwtexpui.globalkey.client.GlobalKey;
-import com.google.gwtexpui.globalkey.client.HidePopupPanelCommand;
-import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
 import java.util.List;
 
@@ -53,15 +46,10 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
   private HintTextBox filterTxt;
   private MyWatchesTable watchesTab;
   private Button browse;
-  private PluginSafeDialogBox popup;
-  private Button close;
-  private ProjectsTable projectsTab;
   private Button delSel;
-  private PopupPanel.PositionCallback popupPosition;
   private boolean submitOnSelection;
-  private boolean firstPopupLoad = true;
-  private boolean popingUp;
-  private ScrollPanel sp;
+  private Grid grid;
+  private ProjectListPopup projectsPopup;
 
   @Override
   protected void onInitUI() {
@@ -69,7 +57,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     createWidgets();
 
     /* top table */
-    final Grid grid = new Grid(2, 2);
+    grid = new Grid(2, 2);
     grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     grid.setText(0, 0, Util.C.watchedProjectName());
     grid.setWidget(0, 1, nameTxt);
@@ -98,41 +86,22 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
 
 
     /* popup */
-    final FlowPanel pfp = new FlowPanel();
-    sp = new ScrollPanel(projectsTab);
-    sp.setSize("100%", "100%");
-    pfp.add(sp);
-    pfp.add(close);
-    popup.setWidget(pfp);
-    popup.setHeight("100%");
-    popupPosition = new PopupPanel.PositionCallback() {
+    projectsPopup = new ProjectListPopup() {
+      @Override
+      protected void onMovePointerTo(String projectName) {
+        // prevent user input from being overwritten by simply poping up
+        if (!projectsPopup.isPopingUp() || "".equals(nameBox.getText())) {
+          nameBox.setText(projectName);
+        }
+      }
 
-      public void setPosition(int offsetWidth, int offsetHeight) {
-        int top = grid.getAbsoluteTop() - 50; // under page header
-        // Try to place it to the right of everything else, but not
-        // right justified
-        int left =
-            5 + Math.max(grid.getAbsoluteLeft() + grid.getOffsetWidth(),
-                watchesTab.getAbsoluteLeft() + watchesTab.getOffsetWidth());
-        if (top + offsetHeight > Window.getClientHeight()) {
-          top = Window.getClientHeight() - offsetHeight;
-        }
-        if (left + offsetWidth > Window.getClientWidth()) {
-          left = Window.getClientWidth() - offsetWidth;
-        }
-
-        if (top < 0) {
-          sp.setHeight((sp.getOffsetHeight() + top) + "px");
-          top = 0;
-        }
-        if (left < 0) {
-          sp.setWidth((sp.getOffsetWidth() + left) + "px");
-          left = 0;
-        }
-
-        popup.setPopupPosition(left, top);
+      @Override
+      protected void openRow(String projectName) {
+        nameBox.setText(projectName);
+        doAddNew();
       }
     };
+    projectsPopup.initPopup(Util.C.projects(), PageLinks.SETTINGS_PROJECTS);
   }
 
   protected void createWidgets() {
@@ -185,49 +154,18 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
       }
     });
 
-    projectsTab = new ProjectsTable() {
-      {
-        keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.projectListOpen()));
-        keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
-                                                      Util.C.projectListOpen()));
-      }
-
-      @Override
-      protected void movePointerTo(final int row, final boolean scroll) {
-        super.movePointerTo(row, scroll);
-
-        // prevent user input from being overwritten by simply poping up
-        if (! popingUp || "".equals(nameBox.getText()) ) {
-          nameBox.setText(getRowItem(row).name());
-        }
-      }
-
-      @Override
-      protected void onOpenRow(final int row) {
-        super.onOpenRow(row);
-        nameBox.setText(getRowItem(row).name());
-        doAddNew();
-      }
-    };
-    projectsTab.setSavePointerId(PageLinks.SETTINGS_PROJECTS);
-
-    close = new Button(Util.C.projectsClose());
-    close.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        closePopup();
-      }
-    });
-
-    popup = new PluginSafeDialogBox();
-    popup.setModal(false);
-    popup.setText(Util.C.projects());
-
     browse = new Button(Util.C.buttonBrowseProjects());
     browse.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
-        displayPopup();
+        int top = grid.getAbsoluteTop() - 50; // under page header
+        // Try to place it to the right of everything else, but not
+        // right justified
+        int left =
+            5 + Math.max(grid.getAbsoluteLeft() + grid.getOffsetWidth(),
+                watchesTab.getAbsoluteLeft() + watchesTab.getOffsetWidth());
+        projectsPopup.setPreferredCoordinates(top, left);
+        projectsPopup.displayPopup();
       }
     });
 
@@ -251,27 +189,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
   @Override
   protected void onUnload() {
     super.onUnload();
-    closePopup();
-  }
-
-  protected void displayPopup() {
-    popingUp = true;
-    if (firstPopupLoad) { // For sizing/positioning, delay display until loaded
-      populateProjects();
-    } else {
-      popup.setPopupPositionAndShow(popupPosition);
-
-      GlobalKey.dialog(popup);
-      GlobalKey.addApplication(popup, new HidePopupPanelCommand(0,
-          KeyCodes.KEY_ESCAPE, popup));
-      projectsTab.setRegisterKeys(true);
-      projectsTab.finishDisplay();
-      popingUp = false;
-    }
-  }
-
-  protected void closePopup() {
-    popup.hide();
+    projectsPopup.closePopup();
   }
 
   protected void doAddNew() {
@@ -318,19 +236,6 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
       @Override
       public void preDisplay(final List<AccountProjectWatchInfo> result) {
         watchesTab.display(result);
-      }
-    });
-  }
-
-  protected void populateProjects() {
-    ProjectMap.all(new GerritCallback<ProjectMap>() {
-      @Override
-      public void onSuccess(final ProjectMap result) {
-        projectsTab.display(result);
-        if (firstPopupLoad) { // Display was delayed until table was loaded
-          firstPopupLoad = false;
-          displayPopup();
-        }
       }
     });
   }

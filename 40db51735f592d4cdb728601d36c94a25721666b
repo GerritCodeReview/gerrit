@@ -52,6 +52,24 @@
       "revId": "40db51735f592d4cdb728601d36c94a25721666b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///6k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-06T17:00:56Z",
+      "side": 1,
+      "message": "Ah, I see how it can be confusing. Fixed.",
+      "parentUuid": "AAAHL3///+0\u003d",
+      "revId": "40db51735f592d4cdb728601d36c94a25721666b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

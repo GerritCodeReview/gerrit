@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHLH///9A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScriptSettingsPanel.ui.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-06T08:14:08Z",
+      "side": 1,
+      "message": "I wonder if this should really say \u0027Errors\u0027, it\u0027s not really an error if somebody decides to work with CR-LF files.",
+      "revId": "3f82181c95ea23f925e8033683483bee38c26a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLH///9U\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/PrettyFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-06T08:14:08Z",
+      "side": 1,
+      "message": "Can this be simplified as\n  buf.append(src);\n?",
+      "revId": "3f82181c95ea23f925e8033683483bee38c26a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLH///88\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountDiffPreference.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-06T08:14:08Z",
+      "side": 1,
+      "message": "[optional] During the schema migration we set \u0027false\u0027 as default for this preference and here we set \u0027true\u0027 as default for non signed in users, shouldn\u0027t it be the same default in both places?",
+      "revId": "3f82181c95ea23f925e8033683483bee38c26a11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

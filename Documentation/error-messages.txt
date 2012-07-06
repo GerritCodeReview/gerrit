@@ -15,7 +15,9 @@ Error Messages
 * link:error-change-not-found.html[change ... not found]
 * link:error-contains-banned-commit.html[contains banned commit ...]
 * link:error-has-duplicates.html[... has duplicates]
+* link:error-invalid-author.html[invalid author]
 * link:error-invalid-changeid-line.html[invalid Change-Id line format in commit message]
+* link:error-invalid-committer.html[invalid committer]
 * link:error-missing-changeid.html[missing Change-Id in commit message]
 * link:error-multiple-changeid-lines.html[multiple Change-Id lines in commit message]
 * link:error-no-changes-made.html[no changes made]
@@ -33,8 +35,6 @@ Error Messages
 * link:error-squash-commits-first.html[squash commits first]
 * link:error-upload-denied.html[Upload denied for project \'...']
 * link:error-not-allowed-to-upload-merges.html[you are not allowed to upload merges]
-* link:error-invalid-author.html[invalid author]
-* link:error-invalid-committer.html[invalid committer]
 
 
 General Hints

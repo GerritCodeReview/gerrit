@@ -310,6 +310,9 @@ only at times when a new release is being prepared, and otherwise
 grant nothing at all.  This ensures that accidental pushes don't
 make undesired changes to the public repository.
 
+When a change is pushed directly into a repository, link:refs-notes-review.html[refs/notes/review]
+is updated with the name of the gerrit user who pushed it.
+
 
 repo upload
 -----------

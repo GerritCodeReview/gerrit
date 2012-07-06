@@ -3,7 +3,7 @@ ExportReviewNotes
 
 NAME
 ----
-ExportReviewNotes - Export successful reviews to refs/notes/review
+ExportReviewNotes - Export successful reviews to link:refs-notes-review.html[refs/notes/review]
 
 SYNOPSIS
 --------

@@ -21,6 +21,7 @@ User Guide
 * link:rest-api.html[REST API]
 * link:user-notify.html[Subscribing to Email Notifications]
 * link:user-submodules.html[Subscribing to Git Submodules]
+* link:refs-notes-review.html[refs/notes/review]
 
 Installation
 ------------

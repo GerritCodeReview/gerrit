@@ -1,0 +1,122 @@
+refs/notes/review
+=================
+
+Overview
+--------
+
+refs/notes/review is a special branch, created by Gerrit on repositories, to
+store information about code reviews.
+
+The refs/notes/review branch is not included by default when cloning a
+repository from Gerrit.  It has to be manually fetched:
+
+====
+  $ git fetch origin refs/notes/review
+====
+
+Content
+-------
+
+For each commit, the following information is stored:
+
+[[submitted_by]]
+Submitted-by
+~~~~~~~~~~~~
+
+The name and email address of the Gerrit user that submitted the change in
+RFC 2822 format.
+
+====
+  Submitted-by: Random J Developer <random@developer.example.org>
+====
+
+[[submitted_at]]
+Submitted-at
+~~~~~~~~~~~~
+
+The time the commit was submitted in RFC 2822 time stamp format.
+
+====
+  Submitted-at: Mon, 25 Jun 2012 16:15:57 +0200
+====
+
+[[pushed_by]]
+Pushed-by
+~~~~~~~~~
+
+The name and email address of the Gerrit user that pushed the change in
+RFC 2822 format.  (Only if the commit was directly pushed to the repository,
+bypassing code review.)
+
+====
+  Pushed-by: Random J Developer <random@developer.example.org>
+====
+
+[[pushed_at]]
+Pushed-at
+~~~~~~~~~
+
+The time the commit was submitted in RFC 2822 time stamp format.  (Only if the
+commit was directly pushed to the repository, bypassing code review.)
+
+====
+  Pushed-at: Mon, 25 Jun 2012 16:15:57 +0200
+====
+
+[[reviewed_on]]
+Reviewed-on
+~~~~~~~~~~~
+
+The URL to the change on the Gerrit server.
+
+====
+  Reviewed-on: http://path.to.gerrit/12345
+====
+
+[[code_review]]
+Code-Review
+~~~~~~~~~~~
+
+Code review score, and name and email address of the Gerrit user that
+gave it in RFC 2822 format:
+
+====
+  Code-Review+2: A. N. Other <another@developer.example.org>
+====
+
+[[verified]]
+Verified
+~~~~~~~~
+
+Verified score, and name and email address of the Gerrit user that
+gave it in RFC 2822 format:
+
+====
+  Verified+1: A. N. Other <another@developer.example.org>
+====
+
+
+[[project]]
+Project
+~~~~~~~
+
+The name of the project in which the commit was made.
+
+====
+  Project: kernel/common
+====
+
+[[branch]]
+Branch
+~~~~~~
+
+The branch on which the commit was made.
+
+====
+  Branch: refs/heads/master
+====
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

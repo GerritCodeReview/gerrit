@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHJX///sg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-08T00:34:31Z",
+      "side": 1,
+      "message": "I like this cleanup, thanks.  Could you explain in the commit message what impact this may or may not have on users (scripts)?",
+      "revId": "b4ab17bf229be8a0a128c7e8763e4e908a14c417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

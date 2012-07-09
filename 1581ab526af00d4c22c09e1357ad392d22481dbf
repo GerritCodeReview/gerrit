@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHJH///wg\u003d",
+        "filename": "gerrit-plugin-archetype/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-09T19:05:13Z",
+      "side": 1,
+      "message": "Should this time stamp be here considering your other patch?",
+      "revId": "1581ab526af00d4c22c09e1357ad392d22481dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHLn///9c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-09T10:25:04Z",
+      "side": 1,
+      "message": "Isn\u0027t it possible to reuse the existing Change.Key.abbreviate() method in Change.java?",
+      "revId": "816cc43525cc7350a7b35257d8cf865f76bb4526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLn///9g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-09T10:25:04Z",
+      "side": 1,
+      "message": "format -\u003e Format\n\noneline -\u003e one line",
+      "revId": "816cc43525cc7350a7b35257d8cf865f76bb4526",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

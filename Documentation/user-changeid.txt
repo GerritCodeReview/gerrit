@@ -50,7 +50,7 @@ To install the hook, copy it from Gerrit's daemon:
 
   $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
 
-  $ curl http://review.example.com/tools/hooks/commit-msg
+  $ curl -o .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
 
 For more details, see link:cmd-hook-commit-msg.html[commit-msg].
 

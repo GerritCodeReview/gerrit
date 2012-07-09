@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.base.Preconditions;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -105,6 +106,7 @@ public class QueryProcessor {
   private boolean includeFiles;
   private boolean includeCommitMessage;
   private boolean includeDependencies;
+  private boolean oneline;
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
@@ -182,6 +184,14 @@ public class QueryProcessor {
 
   public void setIncludeCommitMessage(boolean on) {
     includeCommitMessage = on;
+  }
+
+  public void setOneline(boolean on) {
+    oneline = on;
+  }
+
+  public boolean getOneline() {
+    return oneline;
   }
 
   public void setOutput(OutputStream out, OutputFormat fmt) {
@@ -369,6 +379,14 @@ public class QueryProcessor {
   }
 
   private void show(Object data) {
+    if (oneline) {
+      if (data instanceof ChangeAttribute) {
+        ChangeAttribute change = (ChangeAttribute) data;
+        out.print(String.format("%s %s (%s)\n", abbreviate(change.id),
+            change.subject, change.owner.username));
+      }
+      return;
+    }
     switch (outputFormat) {
       default:
       case TEXT:
@@ -388,6 +406,12 @@ public class QueryProcessor {
         out.print('\n');
         break;
     }
+  }
+
+  // move it to some Util place?
+  private String abbreviate(String id) {
+    Preconditions.checkNotNull(id, "must not be null");
+    return id.substring(0, Math.min(id.length(), 9));
   }
 
   private void showText(Object data, int depth) {

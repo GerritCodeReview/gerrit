@@ -70,6 +70,11 @@ class Query extends SshCommand {
     processor.setIncludeDependencies(on);
   }
 
+  @Option(name = "--oneline", usage = "Show simple summary in one line: Change-Id, subject and user name")
+  void setOneline(boolean on) {
+    processor.setOutput(out, QueryProcessor.OutputFormat.SHORT);
+  }
+
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
   private List<String> query;
 

@@ -80,7 +80,7 @@ public class QueryProcessor {
       };
 
   public static enum OutputFormat {
-    TEXT, JSON;
+    TEXT, JSON, SHORT;
   }
 
   private final Gson gson = new Gson();
@@ -387,6 +387,22 @@ public class QueryProcessor {
         out.print(gson.toJson(data));
         out.print('\n');
         break;
+
+      case SHORT:
+        if (data instanceof ChangeAttribute) {
+          if (includeApprovals || includeComments || includeCommitMessage
+              || includeCurrentPatchSet || includeDependencies || includeFiles
+              || includePatchSets) {
+            ErrorMessage m = new ErrorMessage();
+            m.message =
+                "--format=SHORT (or --online) argument is mutually exclusive with all other options";
+            showText(m, 0);
+            return;
+          }
+          ChangeAttribute change = (ChangeAttribute) data;
+          out.print(String.format("%s %s (%s)\n", Change.Key.parse(change.id)
+              .abbreviate(), change.subject, change.owner.username));
+        }
     }
   }
 

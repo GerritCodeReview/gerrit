@@ -9,7 +9,8 @@ SYNOPSIS
 --------
 [verse]
 'ssh' -p <port> <host> 'gerrit query'
-  [--format {TEXT | JSON}]
+  [--format {TEXT | JSON | SHORT}]
+  [--oneline]
   [--current-patch-set]
   [--patch-sets | --all-approvals]
   [--files]
@@ -47,6 +48,10 @@ OPTIONS
 	Formatting method for the results. TEXT is the default,
 	presenting a human readable display. JSON creates one line
 	per matching record, with embedded LFs escaped.
+
+--oneline::
+	Format the output as one line: abbreviated Chang-Id, subject and
+	username. This option is mutually exclusive with all other options.
 
 --current-patch-set::
 	Include information about the current patch set in the results.

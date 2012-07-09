@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHLX///7w\u003d",
+        "filename": "Documentation/refs-notes-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-07-09T13:37:45Z",
+      "side": 1,
+      "message": "Since the different categories are configurable, I guess all review results will show up?\nProbably better to skip Verified and then say that commonly used categories are Code-Review and Verified.",
+      "revId": "be716ac21e2722a1fcbff0ac84ff5bb09fbea795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

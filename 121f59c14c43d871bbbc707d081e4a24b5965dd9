@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJH///mI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-10T16:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHJ3///9M\u003d",
+      "revId": "121f59c14c43d871bbbc707d081e4a24b5965dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJ3///9E\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-05T23:44:50Z",
       "side": 1,
       "message": "Maybe keySideB?",
+      "revId": "121f59c14c43d871bbbc707d081e4a24b5965dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///mE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-10T16:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHJ3///9E\u003d",
       "revId": "121f59c14c43d871bbbc707d081e4a24b5965dd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJH///mA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-10T16:02:52Z",
+      "side": 1,
+      "message": "I need access to the idSideA parameter which I can\u0027t do without adding another method to Dispatcher.java (or by changing the existing private method to public). If you think that\u0027s okay I\u0027ll go ahead and make the change.",
+      "parentUuid": "AAAHJ3///9A\u003d",
+      "revId": "121f59c14c43d871bbbc707d081e4a24b5965dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJ3///88\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderSideBySide.ui.xml",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJH///l8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderSideBySide.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-10T16:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHJ3///88\u003d",
+      "revId": "121f59c14c43d871bbbc707d081e4a24b5965dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJ3///84\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderUnified.ui.xml",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2012-07-05T23:44:50Z",
       "side": 1,
       "message": "Wrap before close tag?  Hmm, anyway to have a single tag \u003ctag/\u003e instead?",
+      "revId": "121f59c14c43d871bbbc707d081e4a24b5965dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///l4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderUnified.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-10T16:02:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHJ3///84\u003d",
       "revId": "121f59c14c43d871bbbc707d081e4a24b5965dd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

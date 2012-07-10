@@ -20,6 +20,7 @@ public class PluginInfo extends JavaScriptObject {
 
   public final native String name() /*-{ return this.name; }-*/;
   public final native String version() /*-{ return this.version; }-*/;
+  public final native boolean isDisabled() /*-{ return this.disabled; }-*/;
 
   protected PluginInfo() {
   }

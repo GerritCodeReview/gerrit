@@ -23,7 +23,7 @@ import java.util.List;
 /** Plugins available from {@code /plugins/}. */
 public class PluginMap extends NativeMap<PluginInfo> {
   public static void all(AsyncCallback<PluginMap> callback) {
-    new RestApi("/plugins/")
+    new RestApi("/plugins/").addParameterTrue("all")
         .send(NativeMap.copyKeysIntoChildren(callback));
   }
 

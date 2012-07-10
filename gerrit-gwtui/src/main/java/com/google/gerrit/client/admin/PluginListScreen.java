@@ -84,11 +84,13 @@ public class PluginListScreen extends PluginScreen {
     PluginTable() {
       table.setText(0, 2, Util.C.columnPluginName());
       table.setText(0, 3, Util.C.columnPluginVersion());
+      table.setText(0, 4, Util.C.columnPluginStatus());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void display(final PluginMap plugins) {
@@ -113,11 +115,15 @@ public class PluginListScreen extends PluginScreen {
           new Anchor(plugin.name(), Gerrit.selfRedirect("/plugins/"
               + plugin.name() + "/")));
       table.setText(row, 3, plugin.version());
+      if(plugin.isDisabled()) {
+        table.setText(row, 4, Util.C.pluginDisabled());
+      }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, plugin);
     }

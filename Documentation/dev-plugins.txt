@@ -192,7 +192,7 @@ For a plugin installed as name `helloworld`, the command implemented
 by PrintHello class will be available to users as:
 
 ----
-$ ssh -P 29418 review.example.com helloworld print
+$ ssh -p 29418 review.example.com helloworld print
 ----
 
 HTTP Servlets
@@ -312,7 +312,7 @@ capability. Binaries can be specified in three different formats:
   the plugin from this location to its own site path.
 +
 ----
-$ ssh -P 29418 localhost gerrit plugin install -n name $(pwd)/my-plugin.jar
+$ ssh -p 29418 localhost gerrit plugin install -n name $(pwd)/my-plugin.jar
 ----
 
 * Valid URL, including any HTTP or FTP site reachable by the
@@ -320,14 +320,14 @@ $ ssh -P 29418 localhost gerrit plugin install -n name $(pwd)/my-plugin.jar
   its own site path.
 +
 ----
-$ ssh -P 29418 localhost gerrit plugin install -n name http://build-server/output/our-plugin.jar
+$ ssh -p 29418 localhost gerrit plugin install -n name http://build-server/output/our-plugin.jar
 ----
 
 * As piped input to the plugin install command. The server will
   copy input until EOF, and save a copy under its own site path.
 +
 ----
-$ ssh -P 29418 localhost gerrit plugin install -n name - <target/name-0.1.jar
+$ ssh -p 29418 localhost gerrit plugin install -n name - <target/name-0.1.jar
 ----
 
 Plugins can also be copied directly into the server's

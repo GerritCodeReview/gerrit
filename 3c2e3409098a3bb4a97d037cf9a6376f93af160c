@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHJX///b4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/AccountFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-10T23:39:02Z",
+      "side": 1,
+      "message": "I know we never finished a global class to do this stuff, but I think that format is just too simple a name and it does not convey any hint as to what to expect.  When this was embedded in a class as a private function, that was passable, but here as a public utility it just doesn\u0027t seem like a good idea.",
+      "revId": "3c2e3409098a3bb4a97d037cf9a6376f93af160c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

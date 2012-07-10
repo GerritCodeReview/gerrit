@@ -16,6 +16,24 @@
       "revId": "1581ab526af00d4c22c09e1357ad392d22481dbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///ls\u003d",
+        "filename": "gerrit-plugin-archetype/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-10T16:04:22Z",
+      "side": 1,
+      "message": "Oh never mind that was only for resource prefs.",
+      "parentUuid": "AAAHJH///wg\u003d",
+      "revId": "1581ab526af00d4c22c09e1357ad392d22481dbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

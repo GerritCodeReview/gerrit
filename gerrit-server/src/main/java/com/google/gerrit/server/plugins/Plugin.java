@@ -89,6 +89,7 @@ public class Plugin {
   private final File dataDir;
   private final ApiType apiType;
   private final ClassLoader classLoader;
+  private final boolean disabled;
   private Class<? extends Module> sysModule;
   private Class<? extends Module> sshModule;
   private Class<? extends Module> httpModule;
@@ -119,6 +120,7 @@ public class Plugin {
     this.dataDir = dataDir;
     this.apiType = apiType;
     this.classLoader = classLoader;
+    this.disabled = srcJar.getName().endsWith(".disabled");
     this.sysModule = sysModule;
     this.sshModule = sshModule;
     this.httpModule = httpModule;
@@ -163,6 +165,10 @@ public class Plugin {
 
   boolean isModified(File jar) {
     return snapshot.lastModified() != jar.lastModified();
+  }
+
+  public boolean isDisabled() {
+    return disabled;
   }
 
   public void start(PluginGuiceEnvironment env) throws Exception {
@@ -294,13 +300,15 @@ public class Plugin {
   }
 
   public void add(RegistrationHandle handle) {
-    if (handle instanceof ReloadableRegistrationHandle) {
-      if (reloadableHandles == null) {
-        reloadableHandles = Lists.newArrayList();
+    if (manager != null) {
+      if (handle instanceof ReloadableRegistrationHandle) {
+        if (reloadableHandles == null) {
+          reloadableHandles = Lists.newArrayList();
+        }
+        reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
       }
-      reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
+      manager.add(handle);
     }
-    manager.add(handle);
   }
 
   List<ReloadableRegistrationHandle<?>> getReloadableHandles() {

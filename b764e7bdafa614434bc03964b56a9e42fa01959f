@@ -16,6 +16,24 @@
       "revId": "b764e7bdafa614434bc03964b56a9e42fa01959f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLH///8E\u003d",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-10T13:47:13Z",
+      "side": 1,
+      "message": "It would be nice to have a curl command that can directly be copied and pasted. However I\u0027m not sure if I like to duplicate all the curl commands that we are having currently in our documentation (in 4 files). Would it make sense to simply substitute \u0027review.example.com\u0027 in all the curl commands with \u0027gerrit-review.googlesource.com\u0027? Anyway that it is not really related to my change and should be done in an own change?",
+      "parentUuid": "AAAHJH///yA\u003d",
+      "revId": "b764e7bdafa614434bc03964b56a9e42fa01959f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

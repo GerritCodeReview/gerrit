@@ -45,12 +45,14 @@ import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.data.SubmitLabelAttribute;
 import com.google.gerrit.server.data.SubmitRecordAttribute;
 import com.google.gerrit.server.data.TrackingIdAttribute;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -62,6 +64,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -78,19 +81,24 @@ public class EventFactory {
   private final SchemaFactory<ReviewDb> schema;
   private final PatchSetInfoFactory psInfoFactory;
   private final PersonIdent myIdent;
+  private final Provider<ReviewDb> db;
+  private final GitRepositoryManager repoManager;
 
   @Inject
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       PatchSetInfoFactory psif,
       PatchListCache patchListCache, SchemaFactory<ReviewDb> schema,
-      @GerritPersonIdent PersonIdent myIdent) {
+      @GerritPersonIdent PersonIdent myIdent,
+      Provider<ReviewDb> db, GitRepositoryManager repoManager) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
     this.schema = schema;
     this.psInfoFactory = psif;
     this.myIdent = myIdent;
+    this.db = db;
+    this.repoManager = repoManager;
   }
 
   /**
@@ -108,6 +116,12 @@ public class EventFactory {
     a.id = change.getKey().get();
     a.number = change.getId().toString();
     a.subject = change.getSubject();
+    try {
+      ChangeData cd = new ChangeData(change);
+      a.commitMessage = cd.commitMessage(repoManager, db);
+    } catch (OrmException e) {
+    } catch (IOException e) {
+    }
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());
     a.status = change.getStatus();
@@ -118,7 +132,8 @@ public class EventFactory {
    * Create a RefUpdateAttribute for the given old ObjectId, new ObjectId, and
    * branch that is suitable for serialization to JSON.
    *
-   * @param refUpdate
+   * @param oldId
+   * @param newId
    * @param refName
    * @return object suitable for serialization to JSON
    */

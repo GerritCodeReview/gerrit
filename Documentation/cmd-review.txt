@@ -52,7 +52,7 @@ OPTIONS
 
 --force-message::
 	Option which allows Gerrit to publish the --message, even
-	when the labels could not be applied due to change being
+	when the labels could not be applied due to the change being
 	closed).
 +
 Used by some scripts/CI-systems, where the results (or links
@@ -69,11 +69,11 @@ successfully, even if the label could not be changed.
 	complete listing of supported approval categories and values.
 
 --abandon::
-	Abandon the specified patch set(s).
+	Abandon the specified change(s).
 	(option is mutually exclusive with --submit and --restore)
 
 --restore::
-	Restore the specified abandoned patch set(s).
+	Restore the specified abandoned change(s).
 	(option is mutually exclusive with --abandon)
 
 --submit::

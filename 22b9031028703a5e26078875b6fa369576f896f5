@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJX///hc\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-07-10T15:14:56Z",
+      "side": 1,
+      "message": "oneline is better than short assuming this is modeled after \u0027git log --oneline\u0027:\n\n       o    oneline\n\n               \u003csha1\u003e \u003ctitle line\u003e\n\n           This is designed to be as compact as possible.\n\nHowever, should this be a --format option instead (or in addition, so you could keep --oneline as a shorthand for --format oneline)?",
+      "parentUuid": "AAAHJH///oc\u003d",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJH///og\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
         "patchSetId": 3

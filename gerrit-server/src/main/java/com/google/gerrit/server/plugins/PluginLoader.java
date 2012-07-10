@@ -45,6 +45,7 @@ import java.lang.ref.ReferenceQueue;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -67,6 +68,7 @@ public class PluginLoader implements LifecycleListener {
   private final PluginGuiceEnvironment env;
   private final ServerInformationImpl srvInfoImpl;
   private final ConcurrentMap<String, Plugin> running;
+  private final ConcurrentMap<String, Plugin> disabled;
   private final Map<String, FileSnapshot> broken;
   private final ReferenceQueue<ClassLoader> cleanupQueue;
   private final ConcurrentMap<CleanupHandle, Boolean> cleanupHandles;
@@ -85,6 +87,7 @@ public class PluginLoader implements LifecycleListener {
     env = pe;
     srvInfoImpl = sii;
     running = Maps.newConcurrentMap();
+    disabled = Maps.newConcurrentMap();
     broken = Maps.newHashMap();
     cleanupQueue = new ReferenceQueue<ClassLoader>();
     cleanupHandles = Maps.newConcurrentMap();
@@ -100,8 +103,14 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  public Iterable<Plugin> getPlugins() {
-    return running.values();
+  public Iterable<Plugin> getPlugins(boolean all) {
+    if(!all) {
+      return running.values();
+    } else {
+      ArrayList<Plugin> plugins = new ArrayList<Plugin>(running.values());
+      plugins.addAll(disabled.values());
+      return plugins;
+    }
   }
 
   public void installPluginFromStream(String name, InputStream in)
@@ -178,6 +187,15 @@ public class PluginLoader implements LifecycleListener {
 
         active.stop();
         running.remove(name);
+        try {
+          FileSnapshot snapshot = FileSnapshot.save(off);
+          Plugin offPlugin = loadPlugin(name, off, snapshot);
+          disabled.put(name, offPlugin);
+        } catch (Throwable e) {
+          // This shouldn't happen, as the plugin was loaded earlier.
+          log.warn(String.format("Cannot load disabled plugin %s", name),
+              e.getCause());
+        }
       }
       cleanInBackground();
     }
@@ -205,6 +223,7 @@ public class PluginLoader implements LifecycleListener {
         p.stop();
       }
       running.clear();
+      disabled.clear();
       broken.clear();
       if (cleanupHandles.size() > running.size()) {
         System.gc();
@@ -250,6 +269,7 @@ public class PluginLoader implements LifecycleListener {
   public synchronized void rescan() {
     List<File> jars = scanJarsInPluginsDirectory();
     stopRemovedPlugins(jars);
+    dropRemovedDisabledPlugins(jars);
 
     for (File jar : jars) {
       String name = nameOf(jar);
@@ -292,14 +312,20 @@ public class PluginLoader implements LifecycleListener {
         oldPlugin.stop();
         running.remove(name);
       }
-      newPlugin.start(env);
+      if(!newPlugin.isDisabled()) {
+        newPlugin.start(env);
+      }
       if (reload) {
         env.onReloadPlugin(oldPlugin, newPlugin);
         oldPlugin.stop();
       } else {
         env.onStartPlugin(newPlugin);
       }
-      running.put(name, newPlugin);
+      if(!newPlugin.isDisabled()) {
+        running.put(name, newPlugin);
+      } else {
+        disabled.put(name, newPlugin);
+      }
       broken.remove(name);
     } catch (Throwable err) {
       broken.put(name, snapshot);
@@ -315,6 +341,16 @@ public class PluginLoader implements LifecycleListener {
     for (String name : unload){
       log.info(String.format("Unloading plugin %s", name));
       running.remove(name).stop();
+    }
+  }
+
+  private void dropRemovedDisabledPlugins(List<File> jars) {
+    Set<String> unload = Sets.newHashSet(disabled.keySet());
+    for (File jar : jars) {
+      unload.remove(nameOf(jar));
+    }
+    for (String name : unload) {
+      disabled.remove(name);
     }
   }
 
@@ -336,6 +372,9 @@ public class PluginLoader implements LifecycleListener {
 
   private static String nameOf(File jar) {
     String name = jar.getName();
+    if(name.endsWith(".disabled")) {
+      name = name.substring(0, name.lastIndexOf('.'));
+    }
     int ext = name.lastIndexOf('.');
     return 0 < ext ? name.substring(0, ext) : name;
   }
@@ -430,7 +469,8 @@ public class PluginLoader implements LifecycleListener {
     File[] matches = pluginsDir.listFiles(new FileFilter() {
       @Override
       public boolean accept(File pathname) {
-        return pathname.getName().endsWith(".jar") && pathname.isFile();
+        return (pathname.getName().endsWith(".jar") || pathname.getName()
+            .endsWith(".jar.disabled")) && pathname.isFile();
       }
     });
     if (matches == null) {

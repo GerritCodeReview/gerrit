@@ -40,6 +40,9 @@ public class ListPlugins {
   @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
   private OutputFormat format = OutputFormat.TEXT;
 
+  @Option(name = "--all", aliases = {"-a"}, usage = "List all plugins, including disabled plugins")
+  private boolean all = false;
+
   @Inject
   protected ListPlugins(PluginLoader pluginLoader) {
     this.pluginLoader = pluginLoader;
@@ -67,7 +70,7 @@ public class ListPlugins {
 
     Map<String, PluginInfo> output = Maps.newTreeMap();
 
-    List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins());
+    List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
     Collections.sort(plugins, new Comparator<Plugin>() {
       @Override
       public int compare(Plugin a, Plugin b) {
@@ -84,11 +87,13 @@ public class ListPlugins {
     for (Plugin p : plugins) {
       PluginInfo info = new PluginInfo();
       info.version = p.getVersion();
+      info.isDisabled = p.isDisabled();
 
       if (format.isJson()) {
         output.put(p.getName(), info);
       } else {
-        stdout.format("%-30s %-10s\n", p.getName(),
+        stdout.format("%-30s %-10s\n", p.getName()
+            + (info.isDisabled ? " (DISABLED)" : ""),
             Strings.nullToEmpty(info.version));
       }
     }
@@ -103,5 +108,6 @@ public class ListPlugins {
 
   private static class PluginInfo {
     String version;
+    boolean isDisabled;
   }
 }

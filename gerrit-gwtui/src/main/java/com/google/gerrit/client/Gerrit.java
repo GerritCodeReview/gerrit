@@ -18,6 +18,7 @@ import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER
 
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
+import com.google.gerrit.client.auth.openid.OpenIdSsoPanel;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
@@ -256,6 +257,13 @@ public class Gerrit implements EntryPoint {
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
         Location.assign(selfRedirect("/become"));
+        break;
+
+      case OPENID_SSO:
+        final RootPanel gBody = RootPanel.get("gerrit_body");
+        OpenIdSsoPanel singleSignOnPanel = new OpenIdSsoPanel();
+        gBody.add(singleSignOnPanel);
+        singleSignOnPanel.authenticate(SignInMode.SIGN_IN, token);
         break;
 
       case OPENID:
@@ -620,6 +628,14 @@ public class Gerrit implements EntryPoint {
               new OpenIdSignInDialog(SignInMode.REGISTER, to, null).center();
             }
           });
+          menuRight.addItem(C.menuSignIn(), new Command() {
+            public void execute() {
+              doSignIn(History.getToken());
+            }
+          });
+          break;
+
+        case OPENID_SSO:
           menuRight.addItem(C.menuSignIn(), new Command() {
             public void execute() {
               doSignIn(History.getToken());

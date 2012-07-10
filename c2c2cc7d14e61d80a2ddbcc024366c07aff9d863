@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHJH///n0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/account/MyWatchedProjectsScreen.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-10T06:39:05Z",
+      "side": 1,
+      "message": "Maybe \"projectsPopup\" (it is an object field, worth a more descriptive name)?",
+      "revId": "c2c2cc7d14e61d80a2ddbcc024366c07aff9d863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///ns\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-10T06:39:05Z",
+      "side": 1,
+      "message": "Does this comment still apply?",
+      "revId": "c2c2cc7d14e61d80a2ddbcc024366c07aff9d863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///oI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-10T06:39:05Z",
+      "side": 1,
+      "message": "s/Postion/Position/",
+      "revId": "c2c2cc7d14e61d80a2ddbcc024366c07aff9d863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///oE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-10T06:39:05Z",
+      "side": 1,
+      "message": "Maybe movePointerTo() and onOpenRow() is enough?",
+      "revId": "c2c2cc7d14e61d80a2ddbcc024366c07aff9d863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///oA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-10T06:39:05Z",
+      "side": 1,
+      "message": "Seems like this should be isPopingUp().",
+      "revId": "c2c2cc7d14e61d80a2ddbcc024366c07aff9d863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///nw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-10T06:39:05Z",
+      "side": 1,
+      "message": "Perhaps \u0027setPreferredCoordinates()\u0027 instead (also this.preferredTop \u003d top...)?",
+      "revId": "c2c2cc7d14e61d80a2ddbcc024366c07aff9d863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

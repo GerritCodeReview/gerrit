@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHJH///oc\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-10T06:02:05Z",
+      "side": 1,
+      "message": "s/online/oneline/  although \"short\" might be a better description?",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///og\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-10T06:02:05Z",
+      "side": 1,
+      "message": "This feels missleading as if the entire output will be jammed onto one line when instead a simple summary line will be printed.",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

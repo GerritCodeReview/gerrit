@@ -46,7 +46,9 @@ Creation
 Gerrit Code Review provides a standard 'commit-msg' hook which
 can be installed in the local Git repository to automatically
 create and insert a unique Change-Id line during `git commit`.
-To install the hook, copy it from Gerrit's daemon:
+To install the hook, copy it from Gerrit's daemon by executing
+one of the following commands while being in the root directory
+of the local Git repository:
 
   $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
 

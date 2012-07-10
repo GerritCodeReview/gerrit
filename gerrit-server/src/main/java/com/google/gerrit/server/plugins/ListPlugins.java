@@ -40,6 +40,9 @@ public class ListPlugins {
   @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
   private OutputFormat format = OutputFormat.TEXT;
 
+  @Option(name = "--all", aliases = {"-a"}, usage = "List all plugins, including disabled plugins")
+  private boolean all;
+
   @Inject
   protected ListPlugins(PluginLoader pluginLoader) {
     this.pluginLoader = pluginLoader;
@@ -67,7 +70,7 @@ public class ListPlugins {
 
     Map<String, PluginInfo> output = Maps.newTreeMap();
 
-    List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins());
+    List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
     Collections.sort(plugins, new Comparator<Plugin>() {
       @Override
       public int compare(Plugin a, Plugin b) {
@@ -76,20 +79,22 @@ public class ListPlugins {
     });
 
     if (!format.isJson()) {
-      stdout.format("%-30s %-10s\n", "Name", "Version");
+      stdout.format("%-30s %-10s %-8s\n", "Name", "Version", "Status");
       stdout
-          .print("----------------------------------------------------------------------\n");
+          .print("-------------------------------------------------------------------------------\n");
     }
 
     for (Plugin p : plugins) {
       PluginInfo info = new PluginInfo();
       info.version = p.getVersion();
+      info.disabled = p.isDisabled() ? true : null;
 
       if (format.isJson()) {
         output.put(p.getName(), info);
       } else {
-        stdout.format("%-30s %-10s\n", p.getName(),
-            Strings.nullToEmpty(info.version));
+        stdout.format("%-30s %-10s %-8s\n", p.getName(),
+            Strings.nullToEmpty(info.version),
+            p.isDisabled() ? "DISABLED" : "");
       }
     }
 
@@ -103,5 +108,9 @@ public class ListPlugins {
 
   private static class PluginInfo {
     String version;
+    // disabled is only read via reflection when building the json output.  We
+    // do not want to show a compiler error that it isn't used.
+    @SuppressWarnings("unused")
+    Boolean disabled;
   }
 }

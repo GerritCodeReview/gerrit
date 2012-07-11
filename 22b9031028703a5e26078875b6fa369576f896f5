@@ -37,6 +37,57 @@
     },
     {
       "key": {
+        "uuid": "AAAHLn///7Y\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T09:14:31Z",
+      "side": 1,
+      "message": "id -\u003e Change-Id",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLn///7U\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T09:14:31Z",
+      "side": 1,
+      "message": "Instead of \"All other options are currently ignored\" it might be better to say something like \"This option cannot be used in conjunction with other options\" or \"This option is mutually exclusive with all other options\".",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLn///7Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T09:14:31Z",
+      "side": 1,
+      "message": "Might be good to check if any other options are also specified, and output an error if so.",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJH///og\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
         "patchSetId": 3

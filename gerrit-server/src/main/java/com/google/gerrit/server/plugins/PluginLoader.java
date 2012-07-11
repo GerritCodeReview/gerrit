@@ -183,6 +183,25 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
+  public void enablePlugins(Set<String> names) throws PluginInstallException {
+    synchronized (this) {
+      for (String name : names) {
+        Plugin off = disabled.get(name);
+        if (off == null) {
+          continue;
+        }
+
+        log.info(String.format("Enabling plugin %s", name));
+        File on = new File(pluginsDir, off.getName() + ".jar");
+        off.getSrcJar().renameTo(on);
+
+        disabled.remove(name);
+        runPlugin(name, on, null);
+      }
+      cleanInBackground();
+    }
+  }
+
   @Override
   public synchronized void start() {
     log.info("Loading plugins from " + pluginsDir.getAbsolutePath());

@@ -34,6 +34,24 @@
       "revId": "37ae3b9c2248d3fa22f79e824a93c7b149a8d0e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLH///6g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-11T09:30:07Z",
+      "side": 1,
+      "message": "You are right, the ENTER key has been broken already before, so I think it\u0027s okay to ignore it for this change.\n\nAbout the \u0027o\u0027 key I just tried it again, and it\u0027s actually working. Not sure what was wrong with my setup before. Sorry for the confusion.",
+      "parentUuid": "AAAHKH///74\u003d",
+      "revId": "37ae3b9c2248d3fa22f79e824a93c7b149a8d0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

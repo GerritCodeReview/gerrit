@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAHJX///aw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-11T00:28:59Z",
+      "side": 1,
+      "message": "nit: I would put this on a new line:\n\n  Strings.nullToEmpty(info.version),\n  info.disabled ? \"DISABLED\" : \"\");",
+      "revId": "2dbe25b5333d16016483a9b185b7c9061b915034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJX///bI\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 3
@@ -13,6 +30,75 @@
       "writtenOn": "2012-07-11T00:04:30Z",
       "side": 1,
       "message": "nit: spaces after ifs (more below).\nI might dispense with the else too since you return in the if (reduces indent).",
+      "revId": "2dbe25b5333d16016483a9b185b7c9061b915034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJX///ao\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-11T00:28:59Z",
+      "side": 1,
+      "message": "what martin said",
+      "parentUuid": "AAAHJX///bI\u003d",
+      "revId": "2dbe25b5333d16016483a9b185b7c9061b915034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJX///ak\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-11T00:28:59Z",
+      "side": 1,
+      "message": "space after if",
+      "revId": "2dbe25b5333d16016483a9b185b7c9061b915034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJX///ac\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-11T00:28:59Z",
+      "side": 1,
+      "message": "space after if",
+      "revId": "2dbe25b5333d16016483a9b185b7c9061b915034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJX///ag\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-11T00:28:59Z",
+      "side": 1,
+      "message": "space after if",
       "revId": "2dbe25b5333d16016483a9b185b7c9061b915034",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

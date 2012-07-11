@@ -16,6 +16,24 @@
       "revId": "37ae3b9c2248d3fa22f79e824a93c7b149a8d0e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHKH///74\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-11T08:58:11Z",
+      "side": 1,
+      "message": "Hi Edwin\n\n thank you to have a look.\n I removed them, because current version of ProjectsTable already has these 2 lines content .\n I test this feature and  find \u0027k\u0027, \u0027j\u0027, \u0027o\u0027  can work.\n \n with or without this feature, \u0027Enter\u0027 hot key can not work. we can test by \n https://gerrit-review.googlesource.com.\n I ever try to only add \n {\n keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C.projectListOpen()));\n }\n but Gerrit feels not happy and give  a running time error  http://i.imgur.com/4pL2N.png.\n I guess its a bug at some corner of Gerrit.\n\n/Bruce",
+      "parentUuid": "AAAHLH///7k\u003d",
+      "revId": "37ae3b9c2248d3fa22f79e824a93c7b149a8d0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "3c2e3409098a3bb4a97d037cf9a6376f93af160c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLH///7s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/AccountFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-11T06:07:33Z",
+      "side": 1,
+      "message": "By now we have some methods for formatting the account in AccountInfo and IdentifiedUser [1]. I need to have a closer look, but I hope I can simply use these methods, so that this change here can be abandoned. Not sure yet, when I have time to pick up this change series again.\n\n[1] https://gerrit-review.googlesource.com/30788",
+      "parentUuid": "AAAHJX///b4\u003d",
+      "revId": "3c2e3409098a3bb4a97d037cf9a6376f93af160c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

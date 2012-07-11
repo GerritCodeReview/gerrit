@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAHJX///ZY\u003d",
+        "filename": "Documentation/refs-notes-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-11T00:53:21Z",
+      "side": 1,
+      "message": "You can also do:\n\n  git config --add remote.origin.fetch refs/notes/review:refs/notes/review\n  git fetch\n\nto fetch this branch now, and always fetch it again in the future. Doing so means you can use `git log --notes\u003dreview` to show the Gerrit information interleaved with the usual log message.",
+      "revId": "be716ac21e2722a1fcbff0ac84ff5bb09fbea795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLX///7w\u003d",
         "filename": "Documentation/refs-notes-review.txt",
         "patchSetId": 1
@@ -13,6 +30,24 @@
       "writtenOn": "2012-07-09T13:37:45Z",
       "side": 1,
       "message": "Since the different categories are configurable, I guess all review results will show up?\nProbably better to skip Verified and then say that commonly used categories are Code-Review and Verified.",
+      "revId": "be716ac21e2722a1fcbff0ac84ff5bb09fbea795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJX///ZU\u003d",
+        "filename": "Documentation/refs-notes-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-11T00:53:21Z",
+      "side": 1,
+      "message": "Correct, all categories are shown. Whatever is configured on the server and required for submit at the time the change is submitted appears here.",
+      "parentUuid": "AAAHLX///7w\u003d",
       "revId": "be716ac21e2722a1fcbff0ac84ff5bb09fbea795",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

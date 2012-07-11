@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJH///Xs\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-11T15:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///7U\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLH///7Q\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJH///Xo\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-11T15:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///7Q\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLH///7M\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-07-11T09:04:58Z",
       "side": 1,
       "message": "s/validator/validators",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///YE\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-11T15:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///7M\u003d",
       "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -124,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJH///YA\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-11T15:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///7E\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLH///7I\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
         "patchSetId": 1
@@ -135,6 +207,24 @@
       "writtenOn": "2012-07-11T09:04:58Z",
       "side": 1,
       "message": "s/validator/validators",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///X8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-11T15:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///7I\u003d",
       "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -158,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJH///X4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-11T15:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///7A\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLH///64\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
         "patchSetId": 1
@@ -175,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJH///X0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-11T15:39:54Z",
+      "side": 1,
+      "message": "The patch I\u0027m making this change for only needed it in one direction. I could implement it for this direction as well if you feel it\u0027s a good idea.",
+      "parentUuid": "AAAHLH///64\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLH///60\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
         "patchSetId": 1
@@ -186,6 +312,24 @@
       "writtenOn": "2012-07-11T09:04:58Z",
       "side": 1,
       "message": "style-nit: the return statement should be surrounded by curly braces",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///Xw\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-11T15:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///60\u003d",
       "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -293,6 +437,24 @@
       "side": 1,
       "message": "If the other change I3d52fd2875e1910e76d1593ca57f4a9fdd732ee2 needs this method to be public then it should probably be made public in this other change?",
       "parentUuid": "AAAGXX///9Q\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///YI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-11T15:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///6w\u003d",
       "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

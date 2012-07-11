@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHJX///aQ\u003d",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-11T00:34:13Z",
+      "side": 1,
+      "message": "We didn\u0027t have logging support here because we didn\u0027t want org.sfl4j in the extension api. Now its part of the extension API, as its now visible to extensions.\n\nIt might not work at runtime in a running server if an extension actually tries to use sfl4j, even though its visible at compile time, as the ClassLoader won\u0027t make sfl4j visible to the extension at runtime.\n\nThat is why I had a TODO in the catch block and didn\u0027t implement logging before.",
+      "revId": "c0732b13010b1d83dccf6d69002a1653087ad24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

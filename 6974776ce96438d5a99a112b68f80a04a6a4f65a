@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHJH///aA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-11T05:34:12Z",
+      "side": 1,
+      "message": "This method returns a list of SubmitRecords, that doesn\u0027t seem like it is the generic function that you describe.",
+      "revId": "6974776ce96438d5a99a112b68f80a04a6a4f65a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///Z8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-11T05:34:12Z",
+      "side": 1,
+      "message": "Mentions Submit rule, more submit stuff below, including comments.",
+      "revId": "6974776ce96438d5a99a112b68f80a04a6a4f65a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

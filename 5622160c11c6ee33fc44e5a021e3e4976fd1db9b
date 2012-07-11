@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHLn///8M\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T09:00:45Z",
+      "side": 1,
+      "message": "Missing indentation.",
+      "revId": "5622160c11c6ee33fc44e5a021e3e4976fd1db9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLn///8I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SshdListenAddress.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T09:00:45Z",
+      "side": 1,
+      "message": "2009 -\u003e 2012",
+      "revId": "5622160c11c6ee33fc44e5a021e3e4976fd1db9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLn///8E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SshdListenAddressModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T09:00:45Z",
+      "side": 1,
+      "message": "2009 -\u003e 2012",
+      "revId": "5622160c11c6ee33fc44e5a021e3e4976fd1db9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLn///8A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SshdListenAddressProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T09:00:45Z",
+      "side": 1,
+      "message": "2009 -\u003e 2012",
+      "revId": "5622160c11c6ee33fc44e5a021e3e4976fd1db9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLn///78\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SshdListenAddressProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T09:00:45Z",
+      "side": 1,
+      "message": "precedence of -\u003e precedence over",
+      "revId": "5622160c11c6ee33fc44e5a021e3e4976fd1db9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLn///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SshdListenAddressProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T09:00:45Z",
+      "side": 1,
+      "message": "! sshdAdvertisedAddress.isEmpty() can be used instead of\n\n sshdAdvertisedAddress !\u003d \"\"",
+      "revId": "5622160c11c6ee33fc44e5a021e3e4976fd1db9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

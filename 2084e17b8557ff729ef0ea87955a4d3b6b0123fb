@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHJH///bM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-11T05:09:40Z",
+      "side": 1,
+      "message": "This change feels a bit like feature creep, it seems like something that should be doable as a plugin instead.  A plugin could fire off of an event, perhaps this event right here?",
+      "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

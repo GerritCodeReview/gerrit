@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHLn///8Y\u003d",
+        "filename": "Documentation/refs-notes-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T01:21:06Z",
+      "side": 1,
+      "message": "The refs/notes/review branch is not included by default when cloning a\n repository from Gerrit.  It has to be manually fetched:\n \n \u003d\u003d\u003d\u003d\n   $ git fetch origin refs/notes/review:refs/notes/review\n \u003d\u003d\u003d\u003d\n \n It is also possible to configure git to always fetch refs/notes/review:\n \n \u003d\u003d\u003d\u003d\n   $ git config --add remote.origin.fetch refs/notes/review:refs/notes/review\n   $ git fetch\n \u003d\u003d\u003d\u003d\n \n When refs/notes/review is fetched, the Gerrit review information can be included\n in the git log output:\n \n \u003d\u003d\u003d\u003d\n    $ git log --show-notes\u003dreview\n \u003d\u003d\u003d\u003d",
+      "parentUuid": "AAAHJX///ZY\u003d",
+      "revId": "be716ac21e2722a1fcbff0ac84ff5bb09fbea795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLX///7w\u003d",
         "filename": "Documentation/refs-notes-review.txt",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Correct, all categories are shown. Whatever is configured on the server and required for submit at the time the change is submitted appears here.",
       "parentUuid": "AAAHLX///7w\u003d",
+      "revId": "be716ac21e2722a1fcbff0ac84ff5bb09fbea795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLn///8c\u003d",
+        "filename": "Documentation/refs-notes-review.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T01:21:06Z",
+      "side": 1,
+      "message": "[[review_scores]]\n Review Labels and Scores\n ~~~~~~~~~~~~~~~~~~~~~~~~\n \n Review label and score, and the name and email address of the Gerrit user that\n gave it in RFC 2822 format:\n \n \u003d\u003d\u003d\u003d\n   Code-Review+2: A. N. Other \u003canother@developer.example.org\u003e\n   Verified+1: A. N. Other \u003canother@developer.example.org\u003e\n \u003d\u003d\u003d\u003d\n \n Commonly used review labels are \"Code-Review\" and \"Verified\", but any label\n configured in Gerrit can be included.\n \n All review labels and scores present on the change at the time of submit are\n included.",
+      "parentUuid": "AAAHJX///ZU\u003d",
       "revId": "be716ac21e2722a1fcbff0ac84ff5bb09fbea795",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHJX///XM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-11T16:38:52Z",
+      "side": 1,
+      "message": "Earlier I was using info.disabled on line 97, but now that might be null so I use p.isDisabled().  That results in a compiler warning that disabled is unused.  Should I worry about that/use @SuppressWarnings?",
+      "revId": "1cce3417ef86840ca6ac026018362daf591da1a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

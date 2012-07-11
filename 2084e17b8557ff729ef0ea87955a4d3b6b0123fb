@@ -16,6 +16,24 @@
       "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHL3///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-11T08:11:43Z",
+      "side": 1,
+      "message": "I understand your concern, you expressed the same during the hackathon. With this change we would have notes in the same refs/notes/review branch both for commits that were submitted after passing code review and those pushed without code review. It would feel strange for me if one set of these notes comes from a core feature and another set of notes from a plugin... because both kind of notes are of the same level of abstraction i.e. they give additional info on how a commit reached a branch.\n\nI see two possibilities: either this change becomes core gerrit feature (like the one already existing for creation of code review notes) or I make both of them as one plugin?",
+      "parentUuid": "AAAHJH///bM\u003d",
+      "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

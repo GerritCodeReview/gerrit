@@ -402,6 +402,9 @@ link:config-gerrit.html#plugins.checkFrequency[plugins.checkFrequency].
 For disabling plugins the link:cmd-plugin-remove.html[plugin remove]
 command can be used.
 
+Disabled plugins can be re-enabled using the
+link:cmd-plugin-enable.html[plugin enable] command.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

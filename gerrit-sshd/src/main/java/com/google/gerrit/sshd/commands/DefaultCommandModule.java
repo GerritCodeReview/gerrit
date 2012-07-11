@@ -49,6 +49,7 @@ public class DefaultCommandModule extends CommandModule {
 
     command(gerrit, "plugin").toProvider(new DispatchCommandProvider(plugin));
     command(plugin, "ls").to(PluginLsCommand.class);
+    command(plugin, "enable").to(PluginEnableCommand.class);
     command(plugin, "install").to(PluginInstallCommand.class);
     command(plugin, "reload").to(PluginReloadCommand.class);
     command(plugin, "remove").to(PluginRemoveCommand.class);

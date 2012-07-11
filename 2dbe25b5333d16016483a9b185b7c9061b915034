@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAHJX///Zw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-11T00:45:41Z",
+      "side": 1,
+      "message": "Usually we use Boolean in the object and set this to true only when its disabled, and null when its false/enabled, thus we only see \"disabled: true\" in the JSON output when its actually disabled, and enabled plugins don\u0027t show this field at all.",
+      "revId": "2dbe25b5333d16016483a9b185b7c9061b915034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJX///bI\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 3

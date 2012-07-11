@@ -35,7 +35,7 @@ import com.google.gerrit.server.events.ApprovalAttribute;
 import com.google.gerrit.server.events.ChangeAbandonedEvent;
 import com.google.gerrit.server.events.ChangeEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
-import com.google.gerrit.server.events.ChangeRestoreEvent;
+import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.DraftPublishedEvent;
 import com.google.gerrit.server.events.EventFactory;
@@ -111,7 +111,7 @@ public class ChangeHookRunner implements ChangeHooks {
     /** Filename of the change abandoned hook. */
     private final File changeAbandonedHook;
 
-    /** Filename of the change abandoned hook. */
+    /** Filename of the change restored hook. */
     private final File changeRestoredHook;
 
     /** Filename of the ref updated hook. */
@@ -339,9 +339,9 @@ public class ChangeHookRunner implements ChangeHooks {
         runHook(change.getProject(), changeAbandonedHook, args);
     }
 
-    public void doChangeRestoreHook(final Change change, final Account account,
+    public void doChangeRestoredHook(final Change change, final Account account,
           final String reason, final ReviewDb db) throws OrmException {
-        final ChangeRestoreEvent event = new ChangeRestoreEvent();
+        final ChangeRestoredEvent event = new ChangeRestoredEvent();
 
         event.change = eventFactory.asChangeAttribute(change);
         event.restorer = eventFactory.asAccountAttribute(account);

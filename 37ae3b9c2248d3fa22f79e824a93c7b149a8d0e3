@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHLH///7k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ProjectListPopup.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-11T07:44:47Z",
+      "side": 1,
+      "message": "Don\u0027t you need to register here the OpenKeyCommands for \u0027o\u0027 and Enter as it was done in MyWatchedProjectsScreen before?\n\n      {\n        keysNavigation.add(new OpenKeyCommand(0, \u0027o\u0027, Util.C.projectListOpen()));\n        keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C.projectListOpen()));\n      }\n\nAt least without this I can\u0027t add projects to the watch list by \u0027o\u0027 or \u0027ENTER\u0027.",
+      "revId": "37ae3b9c2248d3fa22f79e824a93c7b149a8d0e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

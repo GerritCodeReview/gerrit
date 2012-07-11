@@ -87,14 +87,6 @@ limitations under the License.
               <exclude>oro:oro</exclude>
             </excludes>
           </artifactSet>
-          <filters>
-            <filter>
-              <artifact>com.google.gerrit:gerrit-server</artifact>
-              <excludes>
-                <exclude>gerrit/**</exclude>
-              </excludes>
-            </filter>
-          </filters>
         </configuration>
         <executions>
           <execution>

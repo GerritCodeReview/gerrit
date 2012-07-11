@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHLn///7o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/RequiredPluginLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-11T09:07:24Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the copyright be \"The Android Open Source Project\"?",
+      "revId": "64467d8990d700bf887a0e565a42f22c86f16b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

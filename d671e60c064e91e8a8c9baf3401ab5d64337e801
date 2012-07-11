@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHLH///54\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-11T11:50:04Z",
+      "side": 1,
+      "message": "should we better name this \u0027loadInfoTable\u0027?",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLH///50\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-11T11:50:04Z",
+      "side": 1,
+      "message": "should we better name this \u0027loadActionPanel\u0027?",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLH///5w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-11T11:50:04Z",
+      "side": 1,
+      "message": "should we better name this \u0027loadPatchTable\u0027?",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLH///5s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-11T11:50:04Z",
+      "side": 1,
+      "message": "[optional] would it make things easier if in the else case we would do:\n  patchTable \u003d null;\n\nsee other comment below",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLH///5o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-11T11:50:04Z",
+      "side": 1,
+      "message": "If in line 202 we set patchTable in the else block to null, could we then remove this if block? If a patchTable exists it would simply be always visible.",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHLH///5k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-11T11:50:04Z",
+      "side": 1,
+      "message": "Why do we need to make this invisible here? I thought the bug actually was that the actionPanel disappeared and that it should always be shown.",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

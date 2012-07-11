@@ -192,12 +192,10 @@ class AutoRegisterModules {
 
     if (is("org.apache.sshd.server.Command", clazz)) {
       if (sshGen != null) {
-        PluginLoader.log.info("Exporting " + clazz + " as SSH Command");
         sshGen.export(export, clazz);
       }
     } else if (is("javax.servlet.http.HttpServlet", clazz)) {
       if (httpGen != null) {
-        PluginLoader.log.info("Exporting " + clazz + " as HTTP Servlet");
         httpGen.export(export, clazz);
         listen(clazz, clazz);
       }
@@ -249,7 +247,6 @@ class AutoRegisterModules {
         TypeLiteral<?> tl = TypeLiteral.get(type);
         if (env.hasDynamicSet(tl)) {
           sysSingletons.add(clazz);
-          PluginLoader.log.info("Registering " + clazz + " to listener " + tl);
           sysListen.put(tl, clazz);
         } else if (env.hasDynamicMap(tl)) {
           if (clazz.getAnnotation(Export.class) == null) {
@@ -258,7 +255,6 @@ class AutoRegisterModules {
                 clazz.getName(), rawType.getName()));
           }
           sysSingletons.add(clazz);
-          PluginLoader.log.info("Registering " + clazz + " to listener " + tl);
           sysListen.put(tl, clazz);
         } else {
           throw new InvalidPluginException(String.format(

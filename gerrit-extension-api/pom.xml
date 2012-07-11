@@ -47,11 +47,6 @@ limitations under the License.
       <groupId>org.apache.tomcat</groupId>
       <artifactId>servlet-api</artifactId>
     </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
   </dependencies>
 
   <build>

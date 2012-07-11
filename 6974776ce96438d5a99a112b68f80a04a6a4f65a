@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHMH///3M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-07-11T14:59:19Z",
+      "side": 1,
+      "message": "It\u0027s generic in the sense that it evaluates and processes the result of submit-like prolog rules that yield lists of submit records (which currently is the only thing we\u0027re using Prolog for). I can certainly rename the method to evaluateSubmitRules() and clarify the javadoc description.\n\nThe point of the commit is to be a clean and obviously correct refactoring of code that\u0027s currently hardcoded to evaluate a specific Prolog rule.\n\nRefactoring the code to be truly generic would be a much larger effort that would seem like a waste of time until we actually would have a use for it.",
+      "parentUuid": "AAAHJH///aA\u003d",
+      "revId": "6974776ce96438d5a99a112b68f80a04a6a4f65a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJH///Z8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-11T05:34:12Z",
       "side": 1,
       "message": "Mentions Submit rule, more submit stuff below, including comments.",
+      "revId": "6974776ce96438d5a99a112b68f80a04a6a4f65a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHMH///3I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-07-11T14:59:19Z",
+      "side": 1,
+      "message": "I can try to rephrase this so it makes sense for post-submit rules and other cases where we\u0027d want to evaluate submit-like rules.",
+      "parentUuid": "AAAHJH///Z8\u003d",
       "revId": "6974776ce96438d5a99a112b68f80a04a6a4f65a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAHLH///70\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-11T06:00:00Z",
+      "side": 1,
+      "message": "s/whe/when",
+      "revId": "929f96684898f221c4227ef771a119caa6898f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJX///Z0\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
         "patchSetId": 1

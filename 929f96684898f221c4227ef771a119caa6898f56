@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJX///Ww\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-11T16:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///70\u003d",
+      "revId": "929f96684898f221c4227ef771a119caa6898f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJX///Z0\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-11T00:47:52Z",
       "side": 1,
       "message": "We shouldn\u0027t link to a disabled plugin.",
+      "revId": "929f96684898f221c4227ef771a119caa6898f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJX///Ws\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-11T16:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHJX///Z0\u003d",
       "revId": "929f96684898f221c4227ef771a119caa6898f56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHJX///Wo\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-11T16:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHJX///Z4\u003d",
+      "revId": "929f96684898f221c4227ef771a119caa6898f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJX///Zo\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/plugins/PluginInfo.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-07-11T00:47:52Z",
       "side": 1,
       "message": "If you make disabled in the JSON object two changes back in history be \"Boolean\" and null when false (aka enabled) you need to write this as:\n\n  /*-{ return this.disabled ? true : false; } *-}/;\n\nas JSON undefined doesn\u0027t translate into boolean correctly automatically. You need to force it, our project does it with the ?: operator like this.",
+      "revId": "929f96684898f221c4227ef771a119caa6898f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJX///Wg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/plugins/PluginInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-11T16:52:06Z",
+      "side": 1,
+      "message": "Done\n\nThis is a slick trick.  Thanks again for sharing.",
+      "parentUuid": "AAAHJX///Zo\u003d",
       "revId": "929f96684898f221c4227ef771a119caa6898f56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -50,6 +50,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PatchTable extends Composite {
+  public interface PatchValidator {
+    /**
+     * Returns true if patch is valid
+     *
+     * @param patch
+     * @return
+     */
+    boolean isValid(Patch patch);
+  }
+
+  public final PatchValidator PREFERENCE_VALIDATOR =
+      new PatchValidator() {
+        @Override
+        public boolean isValid(Patch patch) {
+          return !((listenablePrefs.get().isSkipDeleted()
+              && patch.getChangeType().equals(ChangeType.DELETED))
+              || (listenablePrefs.get().isSkipUncommented()
+              && patch.getCommentCount() == 0));
+        }
+
+      };
+
   private final FlowPanel myBody;
   private PatchSetDetail detail;
   private Command onLoadCommand;
@@ -176,29 +198,32 @@ public class PatchTable extends Composite {
   /**
    * @return a link to the previous file in this patch set, or null.
    */
-  public InlineHyperlink getPreviousPatchLink(int index, PatchScreen.Type patchType) {
-    for(index--; index > -1; index--) {
-      InlineHyperlink link = createLink(index, patchType, SafeHtml.asis(Util.C
-          .prevPatchLinkIcon()), null);
-      if (link != null) {
-        return link;
-      }
+  public InlineHyperlink getPreviousPatchLink(int index,
+      PatchScreen.Type patchType) {
+    int previousPatchIndex = getPreviousPatch(index, PREFERENCE_VALIDATOR);
+    if (previousPatchIndex < 0) {
+      return null;
     }
-    return null;
+    InlineHyperlink link =
+        createLink(previousPatchIndex, patchType,
+            SafeHtml.asis(Util.C.prevPatchLinkIcon()), null);
+
+    return link;
   }
 
   /**
    * @return a link to the next file in this patch set, or null.
    */
   public InlineHyperlink getNextPatchLink(int index, PatchScreen.Type patchType) {
-    for(index++; index < patchList.size(); index++) {
-      InlineHyperlink link = createLink(index, patchType, null, SafeHtml.asis(Util.C
-          .nextPatchLinkIcon()));
-      if (link != null) {
-        return link;
-      }
+    int nextPatchIndex = getNextPatch(index, false, PREFERENCE_VALIDATOR);
+    if (nextPatchIndex < 0) {
+      return null;
     }
-    return null;
+    InlineHyperlink link =
+        createLink(nextPatchIndex, patchType, null,
+            SafeHtml.asis(Util.C.nextPatchLinkIcon()));
+
+    return link;
   }
 
   /**
@@ -211,13 +236,6 @@ public class PatchTable extends Composite {
   private PatchLink createLink(int index, PatchScreen.Type patchType,
       SafeHtml before, SafeHtml after) {
     Patch patch = patchList.get(index);
-    if (( listenablePrefs.get().isSkipDeleted() &&
-          patch.getChangeType().equals(ChangeType.DELETED) )
-        ||
-        ( listenablePrefs.get().isSkipUncommented() &&
-          patch.getCommentCount() == 0 ) ) {
-      return null;
-    }
 
     Key thisKey = patch.getKey();
     PatchLink link;
@@ -813,5 +831,76 @@ public class PatchTable extends Composite {
     private boolean longRunning() {
       return System.currentTimeMillis() - start > 200;
     }
+  }
+
+
+  /**
+   * Gets the next patch
+   *
+   * @param currentIndex
+   * @param validators
+   * @param loopAround loops back around to the front and traverses if this is
+   *        true
+   * @return
+   */
+  public int getNextPatch(int currentIndex, boolean loopAround,
+      PatchValidator... validators) {
+    return getNextPatchHelper(currentIndex, loopAround, detail.getPatches()
+        .size(), validators);
+  }
+
+  /**
+   * Helper function for getNextPatch
+   *
+   * @param currentIndex
+   * @param validators
+   * @param loopAround
+   * @param maxIndex will only traverse up to this index
+   * @return
+   */
+  private int getNextPatchHelper(int currentIndex, boolean loopAround,
+      int maxIndex, PatchValidator... validators) {
+    for (int i = currentIndex + 1; i < maxIndex; i++) {
+      Patch patch = detail.getPatches().get(i);
+      if (patch != null && patchIsValid(patch, validators)) {
+        return i;
+      }
+    }
+
+    if (loopAround) {
+      return getNextPatchHelper(-1, false, currentIndex, validators);
+    }
+
+    return -1;
+  }
+
+  /**
+   * @return the index to the previous patch
+   */
+  public int getPreviousPatch(int currentIndex, PatchValidator... validators) {
+    for (int i = currentIndex - 1; i >= 0; i--) {
+      Patch patch = detail.getPatches().get(i);
+      if (patch != null && patchIsValid(patch, validators)) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  /**
+   * Helper function that returns whether a patch is valid or not
+   *
+   * @param patch
+   * @param validators
+   * @return whether the patch is valid based on the validators
+   */
+  private boolean patchIsValid(Patch patch, PatchValidator... validators) {
+    for (PatchValidator v : validators) {
+      if (!v.isValid(patch)) {
+        return false;
+      }
+    }
+    return true;
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHL3///9w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-12T14:20:20Z",
+      "side": 1,
+      "message": "Why all uppercase DISABLED? Looking around in this file we don\u0027t use this style.\n\nUse CSS styles to highlight (red font color?) something you consider important.",
+      "revId": "3d37c4504f1c03394afc82c145adc9b8ea69b9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

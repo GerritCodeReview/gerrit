@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHJ3///eY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-07-12T15:35:36Z",
+      "side": 1,
+      "message": "Probably something here indicating you\u0027re just changing the default gitweb link behavior would be helpful.",
+      "revId": "8ef9d0fbea520bb038097337fcc8589e21ed5ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJ3///eU\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1141,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-07-12T15:35:36Z",
+      "side": 1,
+      "message": "Instead of \"changed recently\", maybe instead say \"As of Gerrit v2.5 the default is to ...\"",
+      "revId": "8ef9d0fbea520bb038097337fcc8589e21ed5ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJ3///eQ\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-07-12T15:35:36Z",
+      "side": 1,
+      "message": "s/\u003cgerit_site\u003e/$site_path/ (that\u0027s what used elsewhere in this file, such as on line 7)",
+      "revId": "8ef9d0fbea520bb038097337fcc8589e21ed5ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

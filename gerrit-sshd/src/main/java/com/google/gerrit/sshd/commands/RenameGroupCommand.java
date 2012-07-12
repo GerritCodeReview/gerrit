@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.server.account.PerformRenameGroup;
@@ -38,6 +39,8 @@ public class RenameGroupCommand extends SshCommand {
     try {
       performRenameGroupFactory.create().renameGroup(groupName, newGroupName);
     } catch (OrmException e) {
+      throw die(e);
+    } catch (InvalidNameException e) {
       throw die(e);
     } catch (NameAlreadyUsedException e) {
       throw die(e);

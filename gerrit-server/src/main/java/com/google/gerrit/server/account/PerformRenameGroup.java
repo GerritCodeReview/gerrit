@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -60,7 +61,7 @@ public class PerformRenameGroup {
 
   public GroupDetail renameGroup(final String groupName,
       final String newGroupName) throws OrmException, NameAlreadyUsedException,
-      NoSuchGroupException {
+      NoSuchGroupException, InvalidNameException {
     final AccountGroup.NameKey groupNameKey =
         new AccountGroup.NameKey(groupName);
     final AccountGroup group = groupCache.get(groupNameKey);
@@ -72,11 +73,14 @@ public class PerformRenameGroup {
 
   public GroupDetail renameGroup(final AccountGroup.Id groupId,
       final String newName) throws OrmException, NameAlreadyUsedException,
-      NoSuchGroupException {
+      NoSuchGroupException, InvalidNameException {
     final GroupControl ctl = groupControlFactory.validateFor(groupId);
     final AccountGroup group = db.accountGroups().get(groupId);
     if (group == null || !ctl.isOwner()) {
       throw new NoSuchGroupException(groupId);
+    }
+    if (newName.isEmpty()) {
+      throw new InvalidNameException();
     }
 
     final AccountGroup.NameKey old = group.getNameKey();

@@ -16,6 +16,24 @@
       "revId": "3d37c4504f1c03394afc82c145adc9b8ea69b9f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHMX///z0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-12T17:36:05Z",
+      "side": 1,
+      "message": "Thanks Sasa.  We discussed this on irc and agreed it shouldn\u0027t be all caps.  The general thought was that this might not even be important - a plugin is disabled for a reason, so I didn\u0027t even make it red.",
+      "parentUuid": "AAAHL3///9w\u003d",
+      "revId": "3d37c4504f1c03394afc82c145adc9b8ea69b9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

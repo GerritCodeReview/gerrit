@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHMX///zs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-12T17:45:34Z",
+      "side": 1,
+      "message": "I modeled this on the disabledPlugins() method above, line 176.  In SOP I trust :P - let me know if I should still change this, I\u0027m fine either way.",
+      "parentUuid": "AAAHJH///L4\u003d",
+      "revId": "5cc2db9e517bcd1268e43af9fe28727016bb99b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJH///Lw\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginEnableCommand.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHMX///zk\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginEnableCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-12T17:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHJH///Lw\u003d",
+      "revId": "5cc2db9e517bcd1268e43af9fe28727016bb99b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJH///L0\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginEnableCommand.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-07-12T03:23:56Z",
       "side": 1,
       "message": "s/install/enable/  (since there is an install command)",
+      "revId": "5cc2db9e517bcd1268e43af9fe28727016bb99b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHMX///zg\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginEnableCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-12T17:45:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHJH///L0\u003d",
       "revId": "5cc2db9e517bcd1268e43af9fe28727016bb99b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

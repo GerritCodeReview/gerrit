@@ -52,6 +52,24 @@
       "revId": "1cce3417ef86840ca6ac026018362daf591da1a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///LY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/ListPlugins.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-12T03:59:08Z",
+      "side": 1,
+      "message": "I guess annotate it and explain that in a comment?",
+      "parentUuid": "AAAHMX///0w\u003d",
+      "revId": "1cce3417ef86840ca6ac026018362daf591da1a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

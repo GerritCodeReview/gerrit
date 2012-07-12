@@ -38,6 +38,7 @@ public class PageLinks {
 
   public static final String MINE = "/";
   public static final String ADMIN_GROUPS = "/admin/groups/";
+  public static final String ADMIN_CREATE_GROUP = "/admin/create-group/";
   public static final String ADMIN_PROJECTS = "/admin/projects/";
   public static final String ADMIN_CREATE_PROJECT = "/admin/create-project/";
   public static final String ADMIN_PLUGINS = "/admin/plugins/";

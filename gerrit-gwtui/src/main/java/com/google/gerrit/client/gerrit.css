@@ -1148,6 +1148,10 @@ a:hover.downloadLink {
   padding: 5px 5px 5px 5px;
 }
 
+.createGroupLink {
+  margin-bottom: 10px;
+}
+
 .createProjectLink {
   margin-bottom: 10px;
 }

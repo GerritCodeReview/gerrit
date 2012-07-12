@@ -34,6 +34,24 @@
       "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHJH///MI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-12T03:02:35Z",
+      "side": 1,
+      "message": "Well that depends a bit.  For reviews if the note is a stepping stone towards storing review data in git, it would be worth keeping it in core.  If not, then I kind of agree, it would likely be better if both features were plugins.  Either way, I think it should work off events, not hooks into the core.",
+      "parentUuid": "AAAHL3///+Y\u003d",
+      "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

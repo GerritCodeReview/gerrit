@@ -20,7 +20,7 @@ import com.google.gwtorm.client.StringKey;
 
 /** External tracking id associated with a {@link Change} */
 public final class TrackingId {
-  public static final int TRACKING_ID_MAX_CHAR = 20;
+  public static final int TRACKING_ID_MAX_CHAR = 32;
   public static final int TRACKING_SYSTEM_MAX_CHAR = 10;
 
   /** External tracking id */
@@ -80,20 +80,20 @@ public final class TrackingId {
     protected Change.Id changeId;
 
     @Column(id = 2)
-    protected Id trackingId;
+    protected Id trackingKey;
 
     @Column(id = 3)
     protected System trackingSystem;
 
     protected Key() {
       changeId = new Change.Id();
-      trackingId = new Id();
+      trackingKey = new Id();
       trackingSystem = new System();
     }
 
     protected Key(final Change.Id ch, final Id id, final System s) {
       changeId = ch;
-      trackingId = id;
+      trackingKey = id;
       trackingSystem = s;
     }
 
@@ -103,7 +103,7 @@ public final class TrackingId {
     }
 
     public TrackingId.Id getTrackingId() {
-      return trackingId;
+      return trackingKey;
     }
 
     public TrackingId.System getTrackingSystem() {
@@ -112,7 +112,7 @@ public final class TrackingId {
 
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {trackingId, trackingSystem};
+      return new com.google.gwtorm.client.Key<?>[] {trackingKey, trackingSystem};
     }
   }
 
@@ -140,7 +140,7 @@ public final class TrackingId {
   }
 
   public String getTrackingId() {
-    return key.trackingId.get();
+    return key.trackingKey.get();
   }
 
   public String getSystem() {

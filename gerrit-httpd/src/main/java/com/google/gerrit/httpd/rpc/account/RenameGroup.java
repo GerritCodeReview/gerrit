@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.common.data.GroupDetail;
+import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -44,7 +45,7 @@ class RenameGroup extends Handler<GroupDetail> {
 
   @Override
   public GroupDetail call() throws OrmException, NameAlreadyUsedException,
-      NoSuchGroupException {
+      NoSuchGroupException, InvalidNameException {
     return performRenameGroupFactory.create().renameGroup(groupId, newName);
   }
 }

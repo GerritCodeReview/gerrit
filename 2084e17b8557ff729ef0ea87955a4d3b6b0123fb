@@ -52,6 +52,24 @@
       "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHL3///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-12T14:31:15Z",
+      "side": 1,
+      "message": "\u003e For reviews if the note is a stepping stone towards storing review data in git, it would be worth keeping it in core.\n\nThe stepping stone was adding the NoteMap and NoteMapMerger in JGit. From Gerrit we just make use of that to easily create review notes. Recently I factored out a method in Gerrit to make creation of review notes even simpler.\n\nHowever, review note itself is not a precondition for storing review data in git. This code can become a plugin... and it seems it must as otherwise I can\u0027t convince some people to get this change through ;-)",
+      "parentUuid": "AAAHJH///MI\u003d",
+      "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

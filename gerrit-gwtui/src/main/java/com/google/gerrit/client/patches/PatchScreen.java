@@ -152,10 +152,9 @@ public abstract class PatchScreen extends Screen implements
     idSideB = id.getParentKey();
     this.patchIndex = patchIndex;
 
-    createReviewedPanel();
-
     prefs = fileList != null ? fileList.getPreferences() :
                                new ListenableAccountDiffPreference();
+
     if (Gerrit.isSignedIn()) {
       prefs.reset();
     }
@@ -167,11 +166,24 @@ public abstract class PatchScreen extends Screen implements
           }
         });
 
+    reviewedPanel = new FlowPanel();
     settingsPanel = new PatchScriptSettingsPanel(prefs);
   }
 
-  private void createReviewedPanel(){
-    reviewedPanel = new FlowPanel();
+  private void populateReviewedPanel() {
+    if (fileList == null) {
+      final PatchSet.Id psid = patchKey.getParentKey();
+      fileList = new PatchTable(prefs);
+      fileList.setSavePointerId("PatchTable " + psid);
+      Util.DETAIL_SVC.patchSetDetail(psid,
+          new GerritCallback<PatchSetDetail>() {
+            public void onSuccess(final PatchSetDetail result) {
+              fileList.display(idSideA, result);
+            }
+          });
+    }
+
+    reviewedPanel.clear();
 
     reviewedCheckBox = new CheckBox(PatchUtil.C.reviewedAnd() + " ");
     reviewedCheckBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -364,6 +376,7 @@ public abstract class PatchScreen extends Screen implements
   @Override
   protected void onLoad() {
     super.onLoad();
+
     if (patchSetDetail == null) {
       Util.DETAIL_SVC.patchSetDetail(idSideB,
           new GerritCallback<PatchSetDetail>() {
@@ -512,6 +525,8 @@ public abstract class PatchScreen extends Screen implements
     settingsPanel.setEnableIntralineDifference(script.hasIntralineDifference());
     settingsPanel.setEnabled(true);
     lastScript = script;
+
+    populateReviewedPanel();
 
     if (fileList != null) {
       topNav.display(patchIndex, getPatchScreenType(), fileList);

@@ -301,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHLH///5E\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-12T06:26:07Z",
+      "side": 1,
+      "message": "Yes, I noticed that when reviewing the other change afterwards. If it\u0027s not needed, I think it\u0027s better not to add it and leave it as it is.",
+      "parentUuid": "AAAHJH///X0\u003d",
+      "revId": "5b1fce57330edbf75b67b42fa142335bad230557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLH///60\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/PatchSetDetail.java",
         "patchSetId": 1

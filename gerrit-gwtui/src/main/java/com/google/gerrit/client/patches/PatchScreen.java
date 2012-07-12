@@ -153,8 +153,6 @@ public abstract class PatchScreen extends Screen implements
     idSideB = id.getParentKey();
     this.patchIndex = patchIndex;
 
-    createReviewedPanel();
-
     prefs = fileList != null ? fileList.getPreferences() :
                                new ListenableAccountDiffPreference();
     if (Gerrit.isSignedIn()) {
@@ -168,11 +166,12 @@ public abstract class PatchScreen extends Screen implements
           }
         });
 
+    reviewedPanel = new FlowPanel();
     settingsPanel = new PatchScriptSettingsPanel(prefs);
   }
 
-  private void createReviewedPanel(){
-    reviewedPanel = new FlowPanel();
+  private void populateReviewedPanel(){
+    reviewedPanel.clear();
 
     reviewedCheckBox = new CheckBox(PatchUtil.C.reviewedAnd() + " ");
     reviewedCheckBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -440,6 +439,7 @@ public abstract class PatchScreen extends Screen implements
     final int rpcseq = ++rpcSequence;
     lastScript = null;
     settingsPanel.setEnabled(false);
+    populateReviewedPanel();
     if (isFirst && fileList != null) {
       fileList.movePointerTo(patchKey);
     }

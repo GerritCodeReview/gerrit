@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHL3///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformRenameGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-12T14:10:11Z",
+      "side": 1,
+      "message": "I was able to rename a group to a space:\n\n ssh ... gerrit rename-group test \u0027\" \"\u0027\n\nSuggestion:\n\n if (newName.trim().isEmpty()) {",
+      "revId": "a6e8d2770db2ba3afb387ccd6617dd312c27a09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

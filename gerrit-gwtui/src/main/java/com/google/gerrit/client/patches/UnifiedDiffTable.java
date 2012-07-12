@@ -99,11 +99,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     final SparseHtmlFile b = getSparseHtmlFileB(script);
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
 
-    // Display the patch header
-    for (final String line : script.getPatchHeader()) {
-      appendFileHeader(nc, line);
-    }
-
     if (script.getDisplayMethodA() == DisplayMethod.IMG
         || script.getDisplayMethodB() == DisplayMethod.IMG) {
       final String rawBase = GWT.getHostPageBaseURL() + "cat/";
@@ -187,7 +182,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     resetHtml(nc);
     initScript(script);
 
-    int row = script.getPatchHeader().size();
+    int row = 0;
     final CellFormatter fmt = table.getCellFormatter();
     final Iterator<PatchLine> iLine = lines.iterator();
     while (iLine.hasNext()) {
@@ -265,19 +260,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       row++;
     }
     return row;
-  }
-
-  private void appendFileHeader(final SafeHtmlBuilder m, final String line) {
-    openLine(m);
-    padLineNumber(m);
-    padLineNumber(m);
-
-    m.openTd();
-    m.addStyleName(Gerrit.RESOURCES.css().diffText());
-    m.addStyleName(Gerrit.RESOURCES.css().diffTextFileHeader());
-    m.append(line);
-    m.closeTd();
-    closeLine(m);
   }
 
   private void appendHunkHeader(final SafeHtmlBuilder m, final Hunk hunk) {

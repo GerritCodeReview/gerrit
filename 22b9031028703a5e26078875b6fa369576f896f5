@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHPn////4\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2012-07-13T06:53:46Z",
+      "side": 1,
+      "message": "added both: --format\u003dSHORT and the --oneline (as in git log)\n\nsample:\n\nssh gerrit gerrit query --oneline status:open\n\nI3642ae43 initial revision (david)\n\nor\n\nssh gerrit gerrit query --format\u003dSHORT status:open\n\nI3642ae43 initial revision (david)",
+      "parentUuid": "AAAHJX///hc\u003d",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLn///7Y\u003d",
         "filename": "Documentation/cmd-query.txt",
         "patchSetId": 3
@@ -65,6 +83,24 @@
       "writtenOn": "2012-07-11T09:14:31Z",
       "side": 1,
       "message": "id -\u003e Change-Id",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHPn////0\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2012-07-13T06:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLn///7Y\u003d",
       "revId": "22b9031028703a5e26078875b6fa369576f896f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHPn////w\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2012-07-13T06:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLn///7U\u003d",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLn///7Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
         "patchSetId": 3
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHPn////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2012-07-13T06:53:46Z",
+      "side": 1,
+      "message": "Done:\n\nssh gerrit gerrit query --oneline --comments status:open\n\ntype: error\n\nmessage: --format\u003dSHORT (or --online) argument is mutually exclusive with all other options",
+      "parentUuid": "AAAHLn///7Q\u003d",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHJH///og\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
         "patchSetId": 3
@@ -116,6 +188,24 @@
       "writtenOn": "2012-07-10T06:02:05Z",
       "side": 1,
       "message": "This feels missleading as if the entire output will be jammed onto one line when instead a simple summary line will be printed.",
+      "revId": "22b9031028703a5e26078875b6fa369576f896f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHPn////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Query.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2012-07-13T06:53:46Z",
+      "side": 1,
+      "message": "change to:\n\"Show simple summary in one line: Change-Id, subject and user name\"",
+      "parentUuid": "AAAHJH///og\u003d",
       "revId": "22b9031028703a5e26078875b6fa369576f896f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

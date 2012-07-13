@@ -62,6 +62,7 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.Base64;
+import org.eclipse.jgit.util.ChangeIdUtil;
 import org.eclipse.jgit.util.NB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -463,7 +464,11 @@ public class ChangeUtil {
       revertCommit.setTreeId(parentToCommitToRevert.getTree());
       revertCommit.setAuthor(authorIdent);
       revertCommit.setCommitter(myIdent);
-      revertCommit.setMessage(message);
+
+      final ObjectId computedChangeId =
+          ChangeIdUtil.computeChangeId(parentToCommitToRevert.getTree(),
+              commitToRevert, authorIdent, myIdent, message);
+      revertCommit.setMessage(ChangeIdUtil.insertId(message, computedChangeId, true));
 
       final ObjectInserter oi = git.newObjectInserter();;
       ObjectId id;
@@ -474,7 +479,7 @@ public class ChangeUtil {
         oi.release();
       }
 
-      Change.Key changeKey = new Change.Key("I" + id.name());
+      Change.Key changeKey = new Change.Key("I" + computedChangeId.name());
       final Change change =
           new Change(changeKey, new Change.Id(db.nextChangeId()),
               user.getAccountId(), db.changes().get(changeId).getDest());

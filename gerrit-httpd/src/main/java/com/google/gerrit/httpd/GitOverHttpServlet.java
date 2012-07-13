@@ -44,7 +44,6 @@ import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.http.server.resolver.AsIsFileService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.transport.resolver.ReceivePackFactory;
@@ -177,19 +176,20 @@ public class GitOverHttpServlet extends GitServlet {
   }
 
   static class UploadFactory implements UploadPackFactory<HttpServletRequest> {
-    private final PackConfig packConfig;
+    private final TransferConfig config;
     private final Provider<WebSession> session;
 
     @Inject
     UploadFactory(TransferConfig tc, Provider<WebSession> session) {
-      this.packConfig = tc.getPackConfig();
+      this.config = tc;
       this.session = session;
     }
 
     @Override
     public UploadPack create(HttpServletRequest req, Repository repo) {
       UploadPack up = new UploadPack(repo);
-      up.setPackConfig(packConfig);
+      up.setPackConfig(config.getPackConfig());
+      up.setTimeout(config.getTimeout());
       session.get().setAccessPath(AccessPath.GIT);
       return up;
     }
@@ -239,12 +239,14 @@ public class GitOverHttpServlet extends GitServlet {
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     private final AsyncReceiveCommits.Factory factory;
     private final Provider<WebSession> session;
+    private final TransferConfig config;
 
     @Inject
     ReceiveFactory(AsyncReceiveCommits.Factory factory,
-        Provider<WebSession> session) {
+        Provider<WebSession> session, TransferConfig config) {
       this.factory = factory;
       this.session = session;
+      this.config = config;
     }
 
     @Override
@@ -259,10 +261,12 @@ public class GitOverHttpServlet extends GitServlet {
 
       final IdentifiedUser user = (IdentifiedUser) pc.getCurrentUser();
       final ReceiveCommits rc = factory.create(pc, db).getReceiveCommits();
-      rc.getReceivePack().setRefLogIdent(user.newRefLogIdent());
+      ReceivePack rp = rc.getReceivePack();
+      rp.setRefLogIdent(user.newRefLogIdent());
+      rp.setTimeout(config.getTimeout());
       req.setAttribute(ATT_RC, rc);
       session.get().setAccessPath(AccessPath.GIT);
-      return rc.getReceivePack();
+      return rp;
     }
   }
 

@@ -16,6 +16,24 @@
       "revId": "a6e8d2770db2ba3afb387ccd6617dd312c27a09f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHO3////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PerformRenameGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-13T05:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHL3///+A\u003d",
+      "revId": "a6e8d2770db2ba3afb387ccd6617dd312c27a09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

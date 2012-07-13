@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHO3///9w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-07-13T16:14:35Z",
+      "side": 1,
+      "message": "I don\u0027t think --format\u003dJSON and --oneline are a valid combo. In fact I don\u0027t think specifying both --format and --(oneline)(short)(full)(etc) should be valid either.\n\n--oneline should be an alias for --format\u003doneline\n\nJSON should always mean \"everything\".\n\nTEXT might be misnamed. We\u0027ll need to keep it around for legacy reasons, but we could alias it to --format\u003dfull or something similar. I don\u0027t know how that should intersect with the other flags you can pass to query though. For example, what should --format\u003dfull output when --comments is also passed? As --format\u003dTEXT it\u0027s obvious. Should --comments be removed and just included as a different format option?\n\nI might just defer this to one of the maintainers since I don\u0027t know what the right behavior should be.",
+      "parentUuid": "AAAHPn////c\u003d",
+      "revId": "033c1ead058550eaca90fe53199bb68468f42087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHO3///94\u003d",
         "filename": "Documentation/cmd-query.txt",
         "patchSetId": 4

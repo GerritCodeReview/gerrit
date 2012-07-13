@@ -108,9 +108,11 @@ public interface AdminConstants extends Constants {
 
   String plugins();
   String pluginTabInstalled();
+  String pluginDisabled();
 
   String columnPluginName();
   String columnPluginVersion();
+  String columnPluginStatus();
 
   String noGroupSelected();
   String errorNoMatchingGroups();

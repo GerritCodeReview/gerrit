@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHPH////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-13T05:49:00Z",
+      "side": 0,
+      "message": "Now diffTextFileHeader is not used anymore. It should be removed from GerritCss.java and gerrit.css.",
+      "revId": "2b41c9c739c12f39e33bf9c70baf03ce298ca0aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

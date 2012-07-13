@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHO3///98\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-07-13T15:36:59Z",
+      "side": 1,
+      "message": "I think the --format arg should match the --oneline arg. i.e. don\u0027t mix \u0027short\u0027 and \u0027oneline\u0027. git-log defines a --format\u003dshort and it is different from --format\u003doneline.",
+      "revId": "033c1ead058550eaca90fe53199bb68468f42087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHO3///94\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-07-13T15:36:59Z",
+      "side": 1,
+      "message": "s/Chang-/Change-/",
+      "revId": "033c1ead058550eaca90fe53199bb68468f42087",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

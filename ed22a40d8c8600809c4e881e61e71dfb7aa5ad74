@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHSn////8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginEnableCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-14T01:22:05Z",
+      "side": 1,
+      "message": "Oh, perhaps these should be accumulated and output at the end?  I see no reason to abort enabling all plugins because one fails.",
+      "revId": "ed22a40d8c8600809c4e881e61e71dfb7aa5ad74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

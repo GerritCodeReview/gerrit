@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHSn///+8\u003d",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-15T06:27:26Z",
+      "side": 1,
+      "message": "Lots of interesting new stuff in this doc.  Ideally doc updates would be similar to code updates: keep each new logical feature as a change of its own which builds upon other features/changes, and separate refactors from new features (this makes it much easier to review).  \n\nhttps://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_change_size_number_of_files_touched\n\nIn that light, could you separate out the new content to this file (one new feature) into a change of its own without restructuring it (a refactor) to be included as a subsection to other docs so that those familiar with gitweb who may not be familiar with the rest of the info in this change can review this change on its own?",
+      "revId": "205b32169f5918086b17863714e115f7a839b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG7n///0w\u003d",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-15T06:27:26Z",
+      "side": 1,
+      "message": "Although it is nice to be able to see where this file goes, I don\u0027t know that it makes sense to have a sample in the real source since it will go into war files but yet not be useful since they will need to be edited.  I think this probably belongs somewhere under contrib (perhaps under a new WEB_INF dir)?",
+      "revId": "205b32169f5918086b17863714e115f7a839b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAG7n///1I\u003d",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-15T06:27:26Z",
+      "side": 1,
+      "message": "Should we just remove this from the examples (same in PG?)?",
+      "revId": "205b32169f5918086b17863714e115f7a839b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

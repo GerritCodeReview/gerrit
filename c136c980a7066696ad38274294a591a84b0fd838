@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHSn////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-15T05:47:52Z",
+      "side": 1,
+      "message": "Static types need to go before instance fields and methods:  https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_code_organization",
+      "revId": "c136c980a7066696ad38274294a591a84b0fd838",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

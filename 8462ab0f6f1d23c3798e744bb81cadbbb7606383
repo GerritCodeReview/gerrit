@@ -121,6 +121,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHVn///9E\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/MasterRemovalListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-07-16T17:23:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHV3///+k\u003d",
+      "revId": "8462ab0f6f1d23c3798e744bb81cadbbb7606383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHV3///+8\u003d",
         "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/MasterRemovalListenerFactory.java",
         "patchSetId": 1

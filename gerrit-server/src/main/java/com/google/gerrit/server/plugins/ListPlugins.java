@@ -33,7 +33,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-/** List projects visible to the calling user. */
+/** List the installed plugins. */
 public class ListPlugins {
   private final PluginLoader pluginLoader;
 

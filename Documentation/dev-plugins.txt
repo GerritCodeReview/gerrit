@@ -9,8 +9,8 @@ server version.
 
 An extension in Gerrit runs inside of the same JVM as Gerrit
 in the same way as a plugin, but has limited visibility to the
-server's internals. The limited visiblity reduces the extension's
-dependencies, enabling it to be compatiable across a wider range
+server's internals. The limited visibility reduces the extension's
+dependencies, enabling it to be compatible across a wider range
 of server versions.
 
 Most of this documentation refers to either type as a plugin.
@@ -18,7 +18,7 @@ Most of this documentation refers to either type as a plugin.
 Requirements
 ------------
 
-To start development, clone the sample maven project:
+To start development, clone the sample Maven project:
 
 ----
 $ git clone https://gerrit.googlesource.com/plugins/helloworld
@@ -160,7 +160,7 @@ Command implementations must extend the base class SshCommand:
 ====
 
 If no Guice modules are declared in the manifest, SSH commands may
-use auto-registration by providing an @Export annotatation:
+use auto-registration by providing an @Export annotation:
 
 ====
   import com.google.gerrit.extensions.annotations.Export;

@@ -105,6 +105,24 @@
       "revId": "3113dec3f0a95f4f992bd3c8a3be3f21b89b8406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHXn////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-07-16T16:10:56Z",
+      "side": 1,
+      "message": "I don\u0027t expect other naming patterns but it\u0027s not inconceivable either. I\u0027d say it\u0027s unlikely enough that it\u0027s reasonable to have a single argument from which we can deduce the exact rule names. I\u0027ll send a new patch set with four of the parameters stripped.\n\nWe don\u0027t really have a terminology for this, so I thought \"submit-like\" was a reasonable way of describing something that \"follows the semantics and input/output of the can_submit family of rules\".",
+      "parentUuid": "AAAHWn////Q\u003d",
+      "revId": "3113dec3f0a95f4f992bd3c8a3be3f21b89b8406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

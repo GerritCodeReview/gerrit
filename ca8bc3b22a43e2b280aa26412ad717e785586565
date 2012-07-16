@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHUn////4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/auth/openid/OpenIdSsoPanel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-16T04:42:59Z",
+      "side": 1,
+      "message": "is never used",
+      "revId": "ca8bc3b22a43e2b280aa26412ad717e785586565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHUn////0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/auth/openid/OpenIdSsoPanel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-16T04:42:59Z",
+      "side": 1,
+      "message": "is never used",
+      "revId": "ca8bc3b22a43e2b280aa26412ad717e785586565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

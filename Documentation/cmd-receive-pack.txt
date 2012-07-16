@@ -8,7 +8,10 @@ git-receive-pack - Receive what is pushed into the repository
 SYNOPSIS
 --------
 [verse]
-'git receive-pack' [--reviewer <address>] [--cc <address>] <project>
+'git receive-pack'
+  [--reviewer <address> | --re <address>]
+  [--cc <address>]
+  <project>
 
 DESCRIPTION
 -----------

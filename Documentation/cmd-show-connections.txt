@@ -8,7 +8,7 @@ gerrit show-connections - Display active client SSH connections
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit show-connections' [-n]
+'ssh' -p <port> <host> 'gerrit show-connections' [--numeric | -n]
 
 DESCRIPTION
 -----------

@@ -1,6 +1,12 @@
 Gerrit Code Review - Plugin Development
 =======================================
 
+The Gerrit server functionality can be extended by installing plugins.
+This page describes how plugins for Gerrit can be developed.
+
+Depending on how tightly the extension code is coupled with the Gerrit
+server code, there is a distinction between `plugins` and `extensions`.
+
 A plugin in Gerrit is tightly coupled code that runs in the same
 JVM as Gerrit. It has full access to all server internals. Plugins
 are tightly coupled to a specific major.minor server version and

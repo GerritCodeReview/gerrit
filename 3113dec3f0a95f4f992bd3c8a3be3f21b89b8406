@@ -51,6 +51,24 @@
       "revId": "3113dec3f0a95f4f992bd3c8a3be3f21b89b8406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHWn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-16T13:41:41Z",
+      "side": 1,
+      "message": "\u003e Change https://gerrit-review.googlesource.com/35253 adds another caller of evaluateSubmitRules() using a different set of rule names.\n\nOK, I see that there could be other names. However, from the two examples (this and the other change), it looks like there is a naming pattern:\n\n \"submit_rule\", \"locate_submit_rule\", \"can_submit\", \"locate_submit_filter\", \"filter_submit_results\"\n \"postsubmit_rule\", \"locate_postsubmit_rule\", \"can_postsubmit\", \"locate_postsubmit_filter\", \"filter_postsubmit_results\"\n\nLooks like I need only one parameter (\"submit\" or \"postsubmit\") and I could derive all other names.\nIs this just a coincidence or intention which could be enforced by this method?",
+      "parentUuid": "AAAHXn////8\u003d",
+      "revId": "3113dec3f0a95f4f992bd3c8a3be3f21b89b8406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

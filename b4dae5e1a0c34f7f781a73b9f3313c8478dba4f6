@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHV3////w\u003d",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/ChangeSubject.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-16T14:46:36Z",
+      "side": 1,
+      "message": "This is unfortunately failing when the string length is 59. 59+3\u003e60, so we try to truncate, but we grab range 0,60 which is undefined when the string is only 59 characters long.",
+      "revId": "b4dae5e1a0c34f7f781a73b9f3313c8478dba4f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

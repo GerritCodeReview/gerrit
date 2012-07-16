@@ -16,6 +16,24 @@
       "revId": "ed22a40d8c8600809c4e881e61e71dfb7aa5ad74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHVX///+w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginEnableCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-16T16:37:22Z",
+      "side": 1,
+      "message": "I agree this is a good suggestion.  Would you be agreeable to holding off on that change until after this gets in?  I think it is OK to delay on this for a couple reasons -\n\n* It will be very rare that a plugin fails to enable - it had to be enabled at one point in order to be disabled.  Broken plugins cannot be disabled.\n* It will be rare that an admin will call this interface with more than one plugin specified (imo)\n* The disable command uses the same logic and could use the same fix (although - I admit it is more likely to have a failure when enabling vs disabling)",
+      "parentUuid": "AAAHSn////8\u003d",
+      "revId": "ed22a40d8c8600809c4e881e61e71dfb7aa5ad74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

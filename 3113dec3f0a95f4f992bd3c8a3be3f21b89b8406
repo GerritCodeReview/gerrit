@@ -87,6 +87,24 @@
       "revId": "3113dec3f0a95f4f992bd3c8a3be3f21b89b8406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHWn////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-16T15:56:37Z",
+      "side": 1,
+      "message": "\u003e We could potentially lose some flexibility by passing just the rule name stem and have the function tack on prefixes and suffixes to form the exact rule names, but chances are we won\u0027t have any other callers of the function so it\u0027s probably a reasonable thing to do.\n\nI thought it will always be the same naming pattern for this set of N rule names. Do you expect other naming patterns?\nIf yes, will it always be exactly 5 names (having 5 names is another assumption here)?\n\nMy confusion probably comes from not understanding what exactly \"submit-like\" set of rules mean.",
+      "parentUuid": "AAAHXn////0\u003d",
+      "revId": "3113dec3f0a95f4f992bd3c8a3be3f21b89b8406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

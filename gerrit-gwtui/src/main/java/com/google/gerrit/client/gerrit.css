@@ -1400,3 +1400,7 @@ a:hover.downloadLink {
 /** PluginListScreen **/
 .pluginsTable {
 }
+
+.pluginsTableButtonPanel {
+  padding: 4px;
+}

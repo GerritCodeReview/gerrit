@@ -34,6 +34,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -182,11 +184,16 @@ public abstract class RestApiServlet extends HttpServlet {
 
     public <T> boolean parse(T param, HttpServletRequest req,
         HttpServletResponse res) throws IOException {
+      return parse(param, req, res, new ArrayList<String>());
+    }
+
+    public <T> boolean parse(T param, HttpServletRequest req,
+        HttpServletResponse res, List<String> argNames) throws IOException {
       CmdLineParser clp = parserFactory.create(param);
       try {
         @SuppressWarnings("unchecked")
         Map<String, String[]> parameterMap = req.getParameterMap();
-        clp.parseOptionMap(parameterMap);
+        clp.parseOptionMap(parameterMap, argNames);
       } catch (CmdLineException e) {
         if (!clp.wasHelpRequestedByOption()) {
           res.setStatus(HttpServletResponse.SC_BAD_REQUEST);

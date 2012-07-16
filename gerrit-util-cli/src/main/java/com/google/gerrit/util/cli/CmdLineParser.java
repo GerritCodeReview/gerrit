@@ -209,6 +209,12 @@ public class CmdLineParser {
 
   public void parseOptionMap(Map<String, String[]> parameters)
       throws CmdLineException {
+    parseOptionMap(parameters, new ArrayList<String>());
+  }
+
+  public void parseOptionMap(Map<String, String[]> parameters,
+      List<String> argNames)
+      throws CmdLineException {
     ArrayList<String> tmp = new ArrayList<String>();
     for (Map.Entry<String, String[]> ent : parameters.entrySet()) {
       String name = ent.getKey();
@@ -230,7 +236,9 @@ public class CmdLineParser {
         }
       } else {
         for (String value : ent.getValue()) {
-          tmp.add(name);
+          if (!argNames.contains(ent.getKey())) {
+            tmp.add(name);
+          }
           tmp.add(value);
         }
       }

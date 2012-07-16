@@ -93,6 +93,7 @@ will be performed by scanning all classes in the plugin JAR for
   Gerrit-HttpModule: tld.example.project.HttpModuleClassName
 ====
 
+[[reload_method]]
 Reload Method
 ~~~~~~~~~~~~~
 
@@ -131,6 +132,9 @@ reload::
   the new plugin, ensuring no events are missed (however some events
   may still route to the old plugin if the swap wasn't complete yet).
   The old plugin is stopped.
+
+To reload/restart a plugin the link:cmd-plugin-reload.html[plugin reload]
+command can be used.
 
 Classpath
 ---------
@@ -330,32 +334,8 @@ displayed as part of the index page, if present in the manifest:
 Deployment
 ----------
 
-Compiled plugins and extensions can be deployed to a
-running Gerrit server using the SSH interface by any user with
-link:access-control.html#capability_administrateServer[Administrate Server]
-capability. Binaries can be specified in three different formats:
-
-* Absolute file path on the server's host. The server will copy
-  the plugin from this location to its own site path.
-+
-----
-$ ssh -p 29418 localhost gerrit plugin install -n name $(pwd)/my-plugin.jar
-----
-
-* Valid URL, including any HTTP or FTP site reachable by the
-  server. The server will download the plugin and save a copy in
-  its own site path.
-+
-----
-$ ssh -p 29418 localhost gerrit plugin install -n name http://build-server/output/our-plugin.jar
-----
-
-* As piped input to the plugin install command. The server will
-  copy input until EOF, and save a copy under its own site path.
-+
-----
-$ ssh -p 29418 localhost gerrit plugin install -n name - <target/name-0.1.jar
-----
+Compiled plugins and extensions can be deployed to a running Gerrit
+server using the link:cmd-plugin-install.html[plugin install] command.
 
 Plugins can also be copied directly into the server's
 directory at `$site_path/plugins/$name.jar`.  The name of
@@ -363,6 +343,9 @@ the JAR file, minus the `.jar` extension, will be used as the
 plugin name. Unless disabled, servers periodically scan this
 directory for updated plugins. The time can be adjusted by
 link:config-gerrit.html#plugins.checkFrequency[plugins.checkFrequency].
+
+For disabling plugins the link:cmd-plugin-remove.html[plugin remove]
+command can be used.
 
 GERRIT
 ------

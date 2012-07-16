@@ -1,0 +1,44 @@
+plugin ls
+=========
+
+NAME
+----
+plugin ls - List the installed plugins.
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit plugin ls'
+  [--all | -a]
+  [--format {text | json | json_compact}]
+
+DESCRIPTION
+-----------
+List the installed plugins and show their version and status.
+
+ACCESS
+------
+Caller must be a member of the privileged 'Administrators' group.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+OPTIONS
+-------
+--all::
+-a::
+	List all plugins, including disabled plugins.
+
+--format::
+	What output format to display the results in.
++
+--
+`text`:: Simple text based format.
+`json`:: Map of JSON objects describing each project.
+`json_compact`:: Minimized JSON output.
+--
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

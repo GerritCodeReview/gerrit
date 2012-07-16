@@ -16,13 +16,29 @@ package com.google.gerrit.client.plugins;
 
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gwtjsonrpc.common.AsyncCallback;
+
+import java.util.List;
 
 /** Plugins available from {@code /plugins/}. */
 public class PluginMap extends NativeMap<PluginInfo> {
   public static void all(AsyncCallback<PluginMap> callback) {
     new RestApi("/plugins/").addParameterTrue("all")
         .send(NativeMap.copyKeysIntoChildren(callback));
+  }
+
+  public static void disable(List<String> pluginNames,
+      ScreenLoadCallback<PluginDisabled> callback) {
+    if (pluginNames == null || pluginNames.isEmpty()) {
+      callback.onSuccess(null);
+    } else {
+      RestApi api = new RestApi("/plugins/");
+      for (String pluginName : pluginNames) {
+        api.addParameter("disable", pluginName);
+      }
+      api.send(callback);
+    }
   }
 
   protected PluginMap() {

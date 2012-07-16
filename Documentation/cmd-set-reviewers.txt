@@ -9,9 +9,9 @@ SYNOPSIS
 --------
 [verse]
 'ssh' -p <port> <host> 'gerrit set-reviewers'
-  [--project <PROJECT>]
-  [--add REVIEWER ...]
-  [--remove REVIEWER ...]
+  [--project <PROJECT> | -p <PROJECT>]
+  [--add <REVIEWER> ... | -a <REVIEWER> ...]
+  [--remove <REVIEWER> ... | -r <REVIEWER> ...]
   [--]
   {COMMIT | CHANGE-ID}...
 

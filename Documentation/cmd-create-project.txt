@@ -14,7 +14,7 @@ SYNOPSIS
   [--suggest-parents | -S ]
   [--permissions-only]
   [--description <DESC> | -d <DESC>]
-  [--submit-type <TYPE> |  -t <TYPE>]
+  [--submit-type <TYPE> | -t <TYPE>]
   [--use-contributor-agreements | --ca]
   [--use-signed-off-by | --so]
   [--use-content-merge]

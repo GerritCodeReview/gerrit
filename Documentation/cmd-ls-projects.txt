@@ -10,8 +10,12 @@ SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit ls-projects'
   [--show-branch <BRANCH> ...]
-  [--tree]
+  [--description | -d]
+  [--tree | -t]
   [--type {code | permissions | all}]
+  [--format {text | json | json_compact}]
+  [--all]
+  [--limit <N>]
 
 DESCRIPTION
 -----------
@@ -42,7 +46,7 @@ OPTIONS
 	whole project is not shown.
 
 --description::
---d::
+-d::
 	Allows listing of projects together with their respective
 	description.
 +

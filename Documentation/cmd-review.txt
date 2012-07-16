@@ -9,10 +9,10 @@ SYNOPSIS
 --------
 [verse]
 'ssh' -p <port> <host> 'gerrit review'
-  [--project <PROJECT>]
-  [--message <MESSAGE>]
+  [--project <PROJECT> | -p <PROJECT>]
+  [--message <MESSAGE> | -m <MESSAGE>]
   [--force-message]
-  [--submit]
+  [--submit | -s]
   [--abandon | --restore]
   [--publish]
   [--delete]

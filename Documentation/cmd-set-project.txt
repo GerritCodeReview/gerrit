@@ -10,7 +10,7 @@ SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit set-project'
   [--description <DESC> | -d <DESC>]
-  [--submit-type <TYPE> |  -t <TYPE>]
+  [--submit-type <TYPE> | -t <TYPE>]
   [--use|no-contributor-agreements | --ca|nca]
   [--use|no-signed-off-by | --so|nso]
   [--use|no-content-merge]

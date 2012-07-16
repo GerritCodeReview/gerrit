@@ -9,10 +9,11 @@ SYNOPSIS
 --------
 [verse]
 'ssh' -p <port> <host> 'gerrit ls-groups'
-  [--project <NAME>]
-  [--user <NAME>]
+  [--project <NAME> | -p <NAME>]
+  [--user <NAME> | -u <NAME>]
   [--visible-to-all]
-  [--type {internal | ldap | system}]
+  [--type {internal | system}]
+  [--verbose | -v]
 
 DESCRIPTION
 -----------

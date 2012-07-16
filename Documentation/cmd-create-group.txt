@@ -9,8 +9,8 @@ SYNOPSIS
 --------
 [verse]
 'ssh' -p <port> <host> 'gerrit create-group'
-  [--owner <GROUP>]
-  [--description <DESC>]
+  [--owner <GROUP> | -o <GROUP>]
+  [--description <DESC> | -d <DESC>]
   [--member <USERNAME>]
   [--group <GROUP>]
   [--visible-to-all]

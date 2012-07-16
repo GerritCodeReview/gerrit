@@ -336,7 +336,9 @@ public class PluginLoader implements LifecycleListener {
   private void stopRemovedPlugins(List<File> jars) {
     Set<String> unload = Sets.newHashSet(running.keySet());
     for (File jar : jars) {
-      unload.remove(nameOf(jar));
+      if (!jar.getName().endsWith(".disabled")) {
+        unload.remove(nameOf(jar));
+      }
     }
     for (String name : unload){
       log.info(String.format("Unloading plugin %s", name));
@@ -347,7 +349,9 @@ public class PluginLoader implements LifecycleListener {
   private void dropRemovedDisabledPlugins(List<File> jars) {
     Set<String> unload = Sets.newHashSet(disabled.keySet());
     for (File jar : jars) {
-      unload.remove(nameOf(jar));
+      if (jar.getName().endsWith(".disabled")) {
+        unload.remove(nameOf(jar));
+      }
     }
     for (String name : unload) {
       disabled.remove(name);

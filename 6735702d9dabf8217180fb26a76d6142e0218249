@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHV3////Y\u003d",
+        "filename": "gerrit-plugin-api/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-16T15:59:46Z",
+      "side": 0,
+      "message": "Why did you delete this block? IIRC it was here to prevent the compiled prolog classes from showing up in the plugin API.",
+      "revId": "6735702d9dabf8217180fb26a76d6142e0218249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

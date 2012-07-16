@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHV3////Q\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/CacheRemovalListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-16T15:59:46Z",
+      "side": 1,
+      "message": "final",
+      "revId": "8462ab0f6f1d23c3798e744bb81cadbbb7606383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHV3////M\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/CacheRemovalListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-16T15:59:46Z",
+      "side": 1,
+      "message": "final",
+      "revId": "8462ab0f6f1d23c3798e744bb81cadbbb7606383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHV3////U\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/DefaultCacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-16T15:59:46Z",
+      "side": 1,
+      "message": "final",
+      "revId": "8462ab0f6f1d23c3798e744bb81cadbbb7606383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHV3////I\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/MasterRemovalListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-16T15:59:46Z",
+      "side": 1,
+      "message": "final",
+      "revId": "8462ab0f6f1d23c3798e744bb81cadbbb7606383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHV3////E\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/MasterRemovalListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-16T15:59:46Z",
+      "side": 1,
+      "message": "final",
+      "revId": "8462ab0f6f1d23c3798e744bb81cadbbb7606383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHV3////A\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/MasterRemovalListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-16T15:59:46Z",
+      "side": 1,
+      "message": "final",
+      "revId": "8462ab0f6f1d23c3798e744bb81cadbbb7606383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHV3///+k\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/MasterRemovalListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-16T15:59:46Z",
+      "side": 1,
+      "message": "This implementation just feels really heavyweight to me. What about:\n\n  public interface CacheRemovalListener\u003cK,V\u003e {\n    public void onRemoval(String pluginName,\n      String cacheName,\n      RemovalNotification\u003cK, V\u003e notification);\n  }\n\n  DynamicSet.of(binder(), CacheRemovalListener.class);\n\n  class ForwardingRemovalListener\u003cK, V\u003e implements RemovalListener\u003cK, V\u003e {\n    interface Factory {\n      ForwardingRemovalListener\u003cK, V\u003e create(String cacheName);\n    }\n\n    private final DynamicSet\u003cCacheRemovalListener\u003e listeners;\n    private final String cacheName;\n    private String pluginName \u003d \"gerrit\";\n\n    ForwardingRemovalListener(DynamicSet\u003cCacheRemovalListener\u003e listeners, @Assisted String cacheName) {\n      this.listeners \u003d listeners;\n      this.cacheName \u003d cacheName;\n    }\n\n    @Inject(optional\u003dtrue)\n    void setPluginName(String name) {\n      this.pluginName \u003d name;\n    }\n\n    public void onRemoval(RemovalNotification\u003cK, V\u003e notification) {\n      for (CacheRemovalListener l : listeners) {\n        l.onRemoval(pluginName, cacheName, notification);\n      }\n    }\n  }\n\nMuch smaller implementation, fewer classes declared, and easier to attach to from a plugin.",
+      "revId": "8462ab0f6f1d23c3798e744bb81cadbbb7606383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHV3///+8\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/MasterRemovalListenerFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-16T15:59:46Z",
+      "side": 1,
+      "message": "final",
+      "revId": "8462ab0f6f1d23c3798e744bb81cadbbb7606383",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

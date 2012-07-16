@@ -33,6 +33,24 @@
       "revId": "3113dec3f0a95f4f992bd3c8a3be3f21b89b8406",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHXn////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-07-16T12:43:43Z",
+      "side": 1,
+      "message": "The point of this change is to enable code to evaluate *submit-like* rules, i.e. rules with the same signature as the original can_submit and friends. Right now this is only used for one purpose and one set of Prolog rules, namely the ones passed as arguments on lines 346-347. Change https://gerrit-review.googlesource.com/35253 adds another caller of evaluateSubmitRules() using a different set of rule names.\n\nNote the commit message:\n\n\"...in preparation of future changes where rules with other names but the same input/output will be used for evaluating other things.\"\n\nOne could question if evaluateSubmitRules() is really the right name for the method, but since the return value is a list of SubmitRecord objects I don\u0027t think it\u0027s an unreasonable name. To get a more descriptive name one would have to rename the SubmitRecord class too, so that its name would allow a wider interpretation.",
+      "parentUuid": "AAAHWn////g\u003d",
+      "revId": "3113dec3f0a95f4f992bd3c8a3be3f21b89b8406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

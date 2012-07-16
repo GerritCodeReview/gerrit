@@ -19,7 +19,7 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.httpd.rpc.plugin.ListPluginsServlet;
+import com.google.gerrit.httpd.rpc.plugin.PluginDispatcherServlet;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -80,7 +80,7 @@ class HttpPluginServlet extends HttpServlet
   private final Cache<ResourceKey, Resource> resourceCache;
   private final String sshHost;
   private final int sshPort;
-  private final ListPluginsServlet listServlet;
+  private final PluginDispatcherServlet dispatcherServlet;
 
   private List<Plugin> pending = Lists.newArrayList();
   private String base;
@@ -92,11 +92,11 @@ class HttpPluginServlet extends HttpServlet
       @CanonicalWebUrl Provider<String> webUrl,
       @Named(HttpPluginModule.PLUGIN_RESOURCES) Cache<ResourceKey, Resource> cache,
       @GerritServerConfig Config cfg,
-      SshInfo sshInfo, ListPluginsServlet listServlet) {
+      SshInfo sshInfo, PluginDispatcherServlet dispatcherServlet) {
     this.mimeUtil = mimeUtil;
     this.webUrl = webUrl;
     this.resourceCache = cache;
-    this.listServlet = listServlet;
+    this.dispatcherServlet = dispatcherServlet;
 
     String sshHost = "review.example.com";
     int sshPort = 29418;
@@ -189,7 +189,7 @@ class HttpPluginServlet extends HttpServlet
       throws IOException, ServletException {
     String name = extractName(req);
     if (name.equals("")) {
-      listServlet.service(req, res);
+      dispatcherServlet.service(req, res);
       return;
     }
     final PluginHolder holder = plugins.get(name);

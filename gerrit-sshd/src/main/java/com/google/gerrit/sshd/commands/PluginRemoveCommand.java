@@ -14,29 +14,30 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.server.plugins.PluginLoader;
-import com.google.gerrit.sshd.SshCommand;
+import com.google.gerrit.server.plugins.DisablePlugins;
+import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
-import org.kohsuke.args4j.Argument;
+import org.apache.sshd.server.Environment;
 
-import java.util.List;
+import java.io.IOException;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-final class PluginRemoveCommand extends SshCommand {
-  @Argument(index = 0, metaVar = "NAME", required = true, usage = "plugin to remove")
-  List<String> names;
+final class PluginRemoveCommand extends BaseCommand {
 
   @Inject
-  private PluginLoader loader;
+  private DisablePlugins impl;
 
   @Override
-  protected void run() {
-    if (names != null && !names.isEmpty()) {
-      loader.disablePlugins(Sets.newHashSet(names));
-    }
+  public void start(Environment env) throws IOException {
+    startThread(new CommandRunnable() {
+      @Override
+      public void run() throws Exception {
+        parseCommandLine(impl);
+        impl.display(out);
+      }
+    });
   }
 }

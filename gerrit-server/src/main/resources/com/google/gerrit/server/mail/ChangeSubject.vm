@@ -32,6 +32,6 @@
 ## subject line for ALL emails related to changes.
 ##
 #macro(elipses $length $str)
-#if(($str.length()+3) > $length)${str.substring(0,$length)}...#else$str#end
+#if($str.length() > $length)${str.substring(0,$length)}...#else$str#end
 #end
 Change in $projectName.replaceAll('/.*/', '...')[$branch.shortName]: #elipses(60, $change.subject)

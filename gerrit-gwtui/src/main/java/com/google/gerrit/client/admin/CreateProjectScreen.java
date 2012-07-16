@@ -14,9 +14,13 @@
 
 package com.google.gerrit.client.admin;
 
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
+
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.NotFoundScreen;
+import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -62,7 +66,16 @@ public class CreateProjectScreen extends Screen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    display();
+    AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
+      @Override
+      public void onSuccess(AccountCapabilities ac) {
+        if (ac.canPerform(CREATE_PROJECT)) {
+          display();
+        } else {
+          Gerrit.display(PageLinks.ADMIN_CREATE_PROJECT, new NotFoundScreen());
+        }
+      }
+    }, CREATE_PROJECT);
   }
 
   @Override

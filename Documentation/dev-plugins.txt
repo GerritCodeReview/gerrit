@@ -260,6 +260,27 @@ link:http://daringfireball.net/projects/markdown/[Markdown] style
 if the file name ends with `.md`. Gerrit will automatically convert
 Markdown to HTML if accessed with extension `.html`.
 
+Within the Markdown documentation files macros can be used that allow
+to write documentation with reasonably accurate examples that adjust
+automatically based on the installation.
+
+The following macros are supported:
+
+[width="40%",options="header"]
+|===================================================
+|Macro       | Replacement
+|@PLUGIN@    | name of the plugin
+|@URL@       | Gerrit Web URL
+|@SSH_HOST@  | SSH Host
+|@SSH_PORT@  | SSH Port
+|===================================================
+
+The macros will be replaced when the documentation files are rendered
+from Markdown to HTML.
+
+Macros that start with `\` such as `\@KEEP@` will render as `@KEEP@`
+even if there is an expansion for `KEEP` in the future.
+
 Automatic Index
 ~~~~~~~~~~~~~~~
 

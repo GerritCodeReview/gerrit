@@ -7,13 +7,13 @@ This page describes how plugins for Gerrit can be developed.
 Depending on how tightly the extension code is coupled with the Gerrit
 server code, there is a distinction between `plugins` and `extensions`.
 
-A plugin in Gerrit is tightly coupled code that runs in the same
+A `plugin` in Gerrit is tightly coupled code that runs in the same
 JVM as Gerrit. It has full access to all server internals. Plugins
 are tightly coupled to a specific major.minor server version and
 may require source code changes to compile against a different
 server version.
 
-An extension in Gerrit runs inside of the same JVM as Gerrit
+An `extension` in Gerrit runs inside of the same JVM as Gerrit
 in the same way as a plugin, but has limited visibility to the
 server's internals. The limited visibility reduces the extension's
 dependencies, enabling it to be compatible across a wider range
@@ -67,7 +67,7 @@ ApiType
 
 Plugins using the tightly coupled `gerrit-plugin-api.jar` must
 declare this API dependency in the manifest to gain access to server
-internals. If no Gerrit-ApiType is specified the stable `extension`
+internals. If no `Gerrit-ApiType` is specified the stable `extension`
 API will be assumed. This may cause ClassNotFoundExceptions when
 loading a plugin that needs the plugin API.
 
@@ -80,9 +80,9 @@ Explicit Registration
 
 Plugins that use explicit Guice registration must name the Guice
 modules in the manifest. Up to three modules can be named in the
-manifest. Gerrit-Module supplies bindings to the core server;
-Gerrit-SshModule supplies SSH commands to the SSH server (if
-enabled); Gerrit-HttpModule supplies servlets and filters to the HTTP
+manifest. `Gerrit-Module` supplies bindings to the core server;
+`Gerrit-SshModule` supplies SSH commands to the SSH server (if
+enabled); `Gerrit-HttpModule` supplies servlets and filters to the HTTP
 server (if enabled). If no modules are named automatic registration
 will be performed by scanning all classes in the plugin JAR for
 `@Listen` and `@Export("")` annotations.
@@ -98,7 +98,7 @@ Reload Method
 
 If a plugin holds an exclusive resource that must be released before
 loading the plugin again (for example listening on a network port or
-acquiring a file lock) the manifest must declare Gerrit-ReloadMode
+acquiring a file lock) the manifest must declare `Gerrit-ReloadMode`
 to be `restart`. Otherwise the preferred method of `reload` will
 be used, as it enables the server to hot-patch an updated plugin
 with no down time.
@@ -166,7 +166,7 @@ Command implementations must extend the base class SshCommand:
 ====
 
 If no Guice modules are declared in the manifest, SSH commands may
-use auto-registration by providing an @Export annotation:
+use auto-registration by providing an `@Export` annotation:
 
 ====
   import com.google.gerrit.extensions.annotations.Export;

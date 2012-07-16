@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHWn////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-16T12:30:19Z",
+      "side": 1,
+      "message": "The method which pretends to evaluate submit rules should know (hardcode) all these parameter values. Right?\n\nDoes it make sense to invoke evaluateSubmitRules and pass something like \"xyz_rule\" as a parameter?",
+      "revId": "3113dec3f0a95f4f992bd3c8a3be3f21b89b8406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHWn////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-16T12:30:19Z",
+      "side": 1,
+      "message": "I think all these 5 parameters could be removed as the values are implied by the (new) method name.",
+      "revId": "3113dec3f0a95f4f992bd3c8a3be3f21b89b8406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

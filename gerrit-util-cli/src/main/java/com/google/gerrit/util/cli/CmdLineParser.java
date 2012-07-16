@@ -54,9 +54,11 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 /**
  * Extended command line parser which handles --foo=value arguments.
@@ -209,6 +211,12 @@ public class CmdLineParser {
 
   public void parseOptionMap(Map<String, String[]> parameters)
       throws CmdLineException {
+    parseOptionMap(parameters, Collections.<String>emptySet());
+  }
+
+  public void parseOptionMap(Map<String, String[]> parameters,
+      Set<String> argNames)
+      throws CmdLineException {
     ArrayList<String> tmp = new ArrayList<String>();
     for (Map.Entry<String, String[]> ent : parameters.entrySet()) {
       String name = ent.getKey();
@@ -230,7 +238,9 @@ public class CmdLineParser {
         }
       } else {
         for (String value : ent.getValue()) {
-          tmp.add(name);
+          if (!argNames.contains(ent.getKey())) {
+            tmp.add(name);
+          }
           tmp.add(value);
         }
       }

@@ -126,6 +126,24 @@ link:cmd-show-connections.html[gerrit show-connections]::
 link:cmd-show-queue.html[gerrit show-queue]::
 	Display the background work queues, including replication.
 
+link:cmd-plugin-install.html[gerrit plugin add]::
+    Alias for 'gerrit plugin install'.
+
+link:cmd-plugin-install.html[gerrit plugin install]::
+    Install/Add a plugin.
+
+link:cmd-plugin-ls.html[gerrit plugin ls]::
+    List the installed plugins.
+
+link:cmd-plugin-reload.html[gerrit plugin reload]::
+    Reload/Restart plugins.
+
+link:cmd-plugin-remove.html[gerrit plugin remove]::
+    Disable plugins.
+
+link:cmd-plugin-remove.html[gerrit plugin rm]::
+    Alias for 'gerrit plugin remove'.
+
 link:cmd-kill.html[kill]::
 	Kills a scheduled or running task.
 

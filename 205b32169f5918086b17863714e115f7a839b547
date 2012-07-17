@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "AAAHWn///+A\u003d",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-07-17T09:00:57Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "revId": "205b32169f5918086b17863714e115f7a839b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHWn///98\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-07-17T09:00:57Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "revId": "205b32169f5918086b17863714e115f7a839b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG7n///0w\u003d",
         "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
         "patchSetId": 7
@@ -36,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAAHWn///94\u003d",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-07-17T09:00:57Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "revId": "205b32169f5918086b17863714e115f7a839b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG7n///1I\u003d",
         "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
         "patchSetId": 7
@@ -47,6 +98,23 @@
       "writtenOn": "2012-07-15T06:27:26Z",
       "side": 1,
       "message": "Should we just remove this from the examples (same in PG?)?",
+      "revId": "205b32169f5918086b17863714e115f7a839b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHWn///90\u003d",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/postgresql-ROOT.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-07-17T09:00:57Z",
+      "side": 1,
+      "message": "whitespace",
       "revId": "205b32169f5918086b17863714e115f7a839b547",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

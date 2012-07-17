@@ -98,6 +98,14 @@ import java.sql.Timestamp;
  * or when notice of the change submission occurs.
  */
 public final class Change {
+  public enum DependencyError {
+    ANCESTOR_NOT_CUR_BRANCH,
+    ANCESTOR_OUTDATED,
+    ANCESTOR_DRAFT,
+    ANCESTOR_ABANDONED,
+    ANCESTOR_NOT_VISIBLE
+  }
+
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 

@@ -33,6 +33,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DependencyUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
@@ -211,6 +212,9 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
         testMerge) {
       ChangeUtil.testMerge(opFactory, detail.getChange());
     }
+
+    detail.setDependencyErrors(DependencyUtil.findDependencyErrors(db,
+        detail.getChange(), changeControlFactory, null));
 
     final PatchSet.Id psId = detail.getChange().currentPatchSetId();
     final List<PatchSetApproval> allApprovals =

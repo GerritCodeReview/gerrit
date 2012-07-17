@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /** Detail necessary to display a change. */
 public class ChangeDetail {
@@ -45,6 +46,7 @@ public class ChangeDetail {
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
   protected boolean canEdit;
+  protected Set<Change.DependencyError> dependencyErrors;
 
   public ChangeDetail() {
   }
@@ -229,5 +231,13 @@ public class ChangeDetail {
 
   public boolean canEdit() {
     return canEdit;
+  }
+
+  public Set<Change.DependencyError> getDependencyErrors() {
+    return dependencyErrors;
+  }
+
+  public void setDependencyErrors(Set<Change.DependencyError> dependencyErrors) {
+    this.dependencyErrors = dependencyErrors;
   }
 }

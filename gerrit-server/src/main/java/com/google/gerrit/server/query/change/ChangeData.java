@@ -16,17 +16,22 @@ package com.google.gerrit.server.query.change;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetAncestor;
+import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -47,9 +52,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ChangeData {
   public static void ensureChangeLoaded(
@@ -117,6 +125,9 @@ public class ChangeData {
   private CurrentUser visibleTo;
   private ChangeControl changeControl;
   private List<ChangeMessage> messages;
+  private ArrayList<ChangeData> dependsOn;
+  private ArrayList<ChangeData> neededBy;
+  private HashMap<Change.Id,PatchSet.Id> ancestorPatchIds;
 
   public ChangeData(final Change.Id id) {
     legacyId = id;
@@ -321,5 +332,84 @@ public class ChangeData {
       messages = db.get().changeMessages().byChange(legacyId).toList();
     }
     return messages;
+  }
+
+  public List<ChangeData> getDependsOn() {
+    return dependsOn;
+  }
+
+  public List<ChangeData> getNeededBy() {
+    return neededBy;
+  }
+
+  public PatchSet.Id getAncestorPatchId(Change.Id ck) {
+    return ancestorPatchIds.get(ck);
+  }
+
+  public boolean loadAncestorData(Provider<ReviewDb> dbProvider, ChangeControl control) throws OrmException {
+    boolean retval = true;
+
+    ensureCurrentPatchSetLoaded(dbProvider, new ArrayList<ChangeData>(Arrays.asList(this)));
+
+    ReviewDb db = dbProvider.get();
+
+    ResultSet<PatchSetAncestor> ancestors = db.patchSetAncestors().ancestorsOf(currentPatchSet.getId());
+
+    final HashSet<Change.Id> changesToGet = new HashSet<Change.Id>();
+    final HashMap<Change.Id,PatchSet.Id> ancestorPatchIds =
+        new HashMap<Change.Id,PatchSet.Id>();
+    final List<Change.Id> ancestorOrder = new ArrayList<Change.Id>();
+    for (PatchSetAncestor a : ancestors) {
+      for (PatchSet p : db.patchSets().byRevision(a.getAncestorRevision())) {
+        final Change.Id ck = p.getId().getParentKey();
+        if (changesToGet.add(ck)) {
+          ancestorPatchIds.put(ck, p.getId());
+          ancestorOrder.add(ck);
+        }
+      }
+    }
+
+    final Set<PatchSet.Id> descendants = new HashSet<PatchSet.Id>();
+    RevId cprev;
+    for (PatchSet p : patches) {
+      cprev = p.getRevision();
+      if (cprev != null) {
+        for (PatchSetAncestor a : db.patchSetAncestors().descendantsOf(cprev)) {
+          if (descendants.add(a.getPatchSet())) {
+            changesToGet.add(a.getPatchSet().getParentKey());
+          }
+        }
+      }
+    }
+    final Map<Change.Id, Change> m =
+        db.changes().toMap(db.changes().get(changesToGet));
+
+    final ArrayList<ChangeData> dependsOn = new ArrayList<ChangeData>();
+    for (final Change.Id a : ancestorOrder) {
+      final Change ac = m.get(a);
+      if (ac != null && ac.getProject().equals(change.getProject())) {
+        dependsOn.add(new ChangeData(ac));
+        if (!control.isVisible(db)) {
+          retval = false;
+        }
+      }
+    }
+
+    final ArrayList<ChangeData> neededBy = new ArrayList<ChangeData>();
+    for (final PatchSet.Id a : descendants) {
+      final Change ac = m.get(a.getParentKey());
+      if (ac != null && ac.currentPatchSetId().equals(a)) {
+        neededBy.add(new ChangeData(ac));
+        if (control.isVisible(db)) {
+          retval = false;
+        }
+      }
+    }
+
+    this.dependsOn = dependsOn;
+    this.neededBy = neededBy;
+    this.ancestorPatchIds = ancestorPatchIds;
+
+    return retval;
   }
 }

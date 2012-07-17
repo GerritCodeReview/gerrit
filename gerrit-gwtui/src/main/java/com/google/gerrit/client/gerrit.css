@@ -929,6 +929,11 @@
   font-size: x-small;
 }
 
+.infoBlock td ul {
+  padding: 0 0 0 20px;
+  margin: 0;
+}
+
 
 .patchSetInfoBlock {
   margin-bottom: 10px;

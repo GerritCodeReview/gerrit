@@ -21,6 +21,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
+import java.util.Set;
+
 public class ChangeDescriptionBlock extends Composite {
   private final ChangeInfoBlock infoBlock;
   private final CommitMessageBlock messageBlock;
@@ -36,8 +38,8 @@ public class ChangeDescriptionBlock extends Composite {
   }
 
   public void display(Change chg, Boolean starred, PatchSetInfo info,
-      final AccountInfoCache acc) {
-    infoBlock.display(chg, acc);
+      final AccountInfoCache acc, Set<Change.DependencyError> errors) {
+    infoBlock.display(chg, acc, errors);
     messageBlock.display(chg.getId(), starred, info.getMessage());
   }
 }

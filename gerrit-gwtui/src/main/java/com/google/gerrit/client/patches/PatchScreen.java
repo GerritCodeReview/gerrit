@@ -43,7 +43,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -53,7 +52,11 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class PatchScreen extends Screen implements
     CommentEditorContainer {
@@ -102,7 +105,11 @@ public abstract class PatchScreen extends Screen implements
     MAIN, COMMIT, PREFERENCES, PATCH_SETS, FILES
   }
 
-  protected final Patch.Key patchKey;
+  protected Patch.Key currPatchKey;
+  // A filename - screen items map
+  protected final List<PatchScreenItem> patchScreenItems;
+  protected final boolean allInOne;
+  protected boolean headerDisplayed;
   protected PatchSetDetail patchSetDetail;
   protected PatchTable fileList;
   protected PatchSet.Id idSideA;
@@ -138,16 +145,26 @@ public abstract class PatchScreen extends Screen implements
   private boolean intralineFailure;
 
   /**
+   * Fix : key bindings disabled
+   * Fix : UI (make it pretty)
+   * Fix : reviewed flag in all in one
+   * Fix : settings - Disabled disable/enable switch for now (workaround)
+   */
+
+  /**
    * How this patch should be displayed in the patch screen.
    */
   public static enum Type {
-    UNIFIED, SIDE_BY_SIDE
+    UNIFIED, SIDE_BY_SIDE, ALL_IN_ONE
   }
 
   protected PatchScreen(final Patch.Key id, final int patchIndex,
       final PatchSetDetail detail, final PatchTable patchTable,
       final TopView top, final PatchSet.Id baseId) {
-    patchKey = id;
+    allInOne = id.getFileName().equals("/all");
+    patchScreenItems = new ArrayList<PatchScreenItem>();
+
+    currPatchKey = id;
     patchSetDetail = detail;
     fileList = patchTable;
     topView = top;
@@ -213,7 +230,7 @@ public abstract class PatchScreen extends Screen implements
               null, null);
       reviewedLink.setText("");
     } else {
-      reviewedLink = new ChangeLink("", patchKey.getParentKey());
+      reviewedLink = new ChangeLink("", currPatchKey.getParentKey());
     }
     reviewedAnchor.addClickHandler(new ClickHandler() {
       @Override
@@ -252,7 +269,10 @@ public abstract class PatchScreen extends Screen implements
         @Override
         public void execute() {
           try {
-            onResult(lastScript, false /* not the first time */);
+            onResult(lastScript, false, contentTable, noDifference, currPatchKey /*
+                                                                    * not the
+                                                                    * first time
+                                                                    */);
           } finally {
             RpcStatus.INSTANCE.onRpcComplete(null);
           }
@@ -264,6 +284,10 @@ public abstract class PatchScreen extends Screen implements
   }
 
   private boolean canReuse(AccountDiffPreference dp, PatchScript last) {
+    if (allInOne) {
+      return false;
+    }
+
     if (last.getDiffPrefs().getIgnoreWhitespace() != dp.getIgnoreWhitespace()) {
       // Whitespace ignore setting requires server computation.
       return false;
@@ -298,7 +322,8 @@ public abstract class PatchScreen extends Screen implements
     }
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
-    keysNavigation.add(new UpToChangeCommand(patchKey.getParentKey(), 0, 'u'));
+    keysNavigation.add(new UpToChangeCommand(currPatchKey.getParentKey(), 0,
+        'u'));
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
     if (Gerrit.isSignedIn()) {
@@ -318,15 +343,15 @@ public abstract class PatchScreen extends Screen implements
 
     header = new PatchTableHeader(getPatchScreenType());
 
-    noDifference = new Label(PatchUtil.C.noDifference());
-    noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
-    noDifference.setVisible(false);
+    noDifference = buildNoDifference();
 
-    contentTable = createContentTable();
-    contentTable.fileList = fileList;
+    if (!allInOne) {
+      contentTable = createContentTable();
+      contentTable.fileList = fileList;
+    }
 
-    topNav = new NavLinks(keysNavigation, patchKey.getParentKey());
-    bottomNav = new NavLinks(null, patchKey.getParentKey());
+    topNav = new NavLinks(keysNavigation, currPatchKey.getParentKey());
+    bottomNav = new NavLinks(null, currPatchKey.getParentKey());
 
     add(topNav);
     contentPanel = new FlowPanel();
@@ -338,10 +363,11 @@ public abstract class PatchScreen extends Screen implements
     }
 
     contentPanel.add(header);
-    contentPanel.add(noDifference);
-    contentPanel.add(contentTable);
-    add(contentPanel);
-    add(bottomNav);
+    if (!allInOne) {
+      contentPanel.add(noDifference);
+      contentPanel.add(contentTable);
+      addRemainingItems();
+    }
 
     if (fileList != null) {
       topNav.display(patchIndex, getPatchScreenType(), fileList);
@@ -349,12 +375,24 @@ public abstract class PatchScreen extends Screen implements
     }
   }
 
+  private void addRemainingItems() {
+    add(contentPanel);
+    add(bottomNav);
+  }
+
+  private Label buildNoDifference() {
+    Label noDiffLabel = new Label(PatchUtil.C.noDifference());
+    noDiffLabel.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
+    noDiffLabel.setVisible(false);
+    return noDiffLabel;
+  }
+
   void setReviewedByCurrentUser(boolean reviewed) {
     if (fileList != null) {
-      fileList.updateReviewedStatus(patchKey, reviewed);
+      fileList.updateReviewedStatus(currPatchKey, reviewed);
     }
 
-    PatchUtil.DETAIL_SVC.setReviewedByCurrentUser(patchKey, reviewed,
+    PatchUtil.DETAIL_SVC.setReviewedByCurrentUser(currPatchKey, reviewed,
         new AsyncCallback<VoidResult>() {
           @Override
           public void onFailure(Throwable arg0) {
@@ -381,7 +419,21 @@ public abstract class PatchScreen extends Screen implements
               if (fileList == null) {
                 fileList = new PatchTable(prefs);
                 fileList.display(idSideA, result);
-                patchIndex = fileList.indexOf(patchKey);
+                patchIndex = fileList.indexOf(currPatchKey);
+              }
+              if (allInOne) {
+                for (Patch p : patchSetDetail.getPatches()) {
+                  AbstractPatchContentTable patchTable = createContentTable();
+                  patchTable.fileList = fileList;
+                  Label noDiff = buildNoDifference();
+                  PatchScreenItem item =
+                      new PatchScreenItem(p.getKey(), patchTable, noDiff);
+                  patchScreenItems.add(item);
+                  contentPanel.add(new Label(p.getFileName()));
+                  contentPanel.add(patchTable);
+                  contentPanel.add(noDiff);
+                }
+                addRemainingItems();
               }
               refresh(true);
             }
@@ -393,11 +445,11 @@ public abstract class PatchScreen extends Screen implements
 
   @Override
   protected void onUnload() {
-    if (regNavigation != null) {
+    if (regNavigation != null && !allInOne) {
       regNavigation.removeHandler();
       regNavigation = null;
     }
-    if (regAction != null) {
+    if (regAction != null && !allInOne) {
       regAction.removeHandler();
       regAction = null;
     }
@@ -407,6 +459,10 @@ public abstract class PatchScreen extends Screen implements
   @Override
   public void registerKeys() {
     super.registerKeys();
+    if (allInOne) {
+      return;
+    }
+    contentTable.setRegisterKeys(contentTable.isVisible());
     contentTable.setRegisterKeys(contentTable.isVisible());
     if (regNavigation != null) {
       regNavigation.removeHandler();
@@ -431,10 +487,11 @@ public abstract class PatchScreen extends Screen implements
   }
 
   public Patch.Key getPatchKey() {
-    return patchKey;
+    return currPatchKey;
   }
 
   public int getPatchIndex() {
+    // TODO this one will return -1 for /all, handle
     return patchIndex;
   }
 
@@ -451,20 +508,33 @@ public abstract class PatchScreen extends Screen implements
   }
 
   protected void refresh(final boolean isFirst) {
-    final int rpcseq = ++rpcSequence;
     lastScript = null;
-    settingsPanel.setEnabled(false);
     populateReviewedPanel();
-    if (isFirst && fileList != null) {
-      fileList.movePointerTo(patchKey);
+    if (isFirst && fileList != null && !allInOne) {
+      fileList.movePointerTo(currPatchKey);
     }
-    PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB, //
+    if (allInOne) {
+      fileList.movePointerTo(patchScreenItems.get(0).getKey());
+      for (PatchScreenItem item : patchScreenItems) {
+        loadPatchScript(isFirst, item.getKey(), item.getContentTable(),
+            item.getNoDifference());
+      }
+    } else {
+      settingsPanel.setEnabled(false);
+      loadPatchScript(isFirst, currPatchKey, contentTable, noDifference);
+    }
+  }
+
+  private void loadPatchScript(final boolean isFirst, final Patch.Key key,
+      final AbstractPatchContentTable contentTable, final Label noDiff) {
+    final int rpcseq = ++rpcSequence;
+    PatchUtil.DETAIL_SVC.patchScript(key, idSideA, idSideB, //
         settingsPanel.getValue(), new ScreenLoadCallback<PatchScript>(this) {
           @Override
           protected void preDisplay(final PatchScript result) {
-            if (rpcSequence == rpcseq) {
-              onResult(result, isFirst);
-            }
+            //if (rpcSequence == rpcseq) { //FIXME
+              onResult(result, isFirst, contentTable, noDiff, key);
+            //}
           }
 
           @Override
@@ -477,30 +547,10 @@ public abstract class PatchScreen extends Screen implements
         });
   }
 
-  private void onResult(final PatchScript script, final boolean isFirst) {
-    final String path = PatchTable.getDisplayFileName(patchKey);
-    String fileName = path;
-    final int last = fileName.lastIndexOf('/');
-    if (last >= 0) {
-      fileName = fileName.substring(last + 1);
-    }
-
-    setWindowTitle(fileName);
-    setPageTitle(path);
-
-    if (idSideB.equals(patchSetDetail.getPatchSet().getId())) {
-      commitMessageBlock.setVisible(true);
-      commitMessageBlock.display(patchSetDetail.getInfo().getMessage());
-    } else {
-      commitMessageBlock.setVisible(false);
-      Util.DETAIL_SVC.patchSetDetail(idSideB,
-          new GerritCallback<PatchSetDetail>() {
-            @Override
-            public void onSuccess(PatchSetDetail result) {
-              commitMessageBlock.setVisible(true);
-              commitMessageBlock.display(result.getInfo().getMessage());
-            }
-          });
+  private void onResult(final PatchScript script, final boolean isFirst,
+      AbstractPatchContentTable currContentTable, Label noDiff, final Patch.Key key) {
+    if (!headerDisplayed) {
+      displayFileHeader(key);
     }
 
     historyTable.display(script.getHistory());
@@ -513,29 +563,31 @@ public abstract class PatchScreen extends Screen implements
     boolean hasDifferences = hasEdits || hasMeta;
     boolean pureMetaChange = !hasEdits && hasMeta;
 
-    if (contentTable instanceof SideBySideTable && pureMetaChange) {
+    if (currContentTable instanceof SideBySideTable && pureMetaChange) {
       // User asked for SideBySide (or a link guessed, wrong) and we can't
       // show a binary or pure-rename change there accurately. Switch to
       // the unified view instead.
       //
-      contentTable.removeFromParent();
-      contentTable = new UnifiedDiffTable();
-      contentTable.fileList = fileList;
-      contentPanel.add(contentTable);
-      setToken(Dispatcher.toPatchUnified(idSideA, patchKey));
+      currContentTable.removeFromParent();
+      currContentTable = new UnifiedDiffTable();
+      currContentTable.fileList = fileList;
+      contentPanel.add(currContentTable);
+      setToken(Dispatcher.toPatchUnified(idSideA, key));
     }
 
-    header.display(patchSetDetail, script, patchKey, idSideA, idSideB);
+    header.display(patchSetDetail, script, key, idSideA, idSideB);
 
     if (hasDifferences) {
-      contentTable.display(patchKey, idSideA, idSideB, script);
-      contentTable.display(script.getCommentDetail(), script.isExpandAllComments());
-      contentTable.finishDisplay();
+      currContentTable.display(key, idSideA, idSideB, script);
+      currContentTable.display(script.getCommentDetail(),
+          script.isExpandAllComments());
+      currContentTable.finishDisplay();
     }
-    showPatch(hasDifferences);
+    showPatch(hasDifferences, noDiff, currContentTable);
     settingsPanel.setEnableSmallFileFeatures(!script.isHugeFile());
     settingsPanel.setEnableIntralineDifference(script.hasIntralineDifference());
     settingsPanel.setEnabled(true);
+    // FIXME not required for allinone
     lastScript = script;
 
     if (fileList != null) {
@@ -550,7 +602,7 @@ public abstract class PatchScreen extends Screen implements
         setReviewedByCurrentUser(isReviewed);
       } else {
         for (Patch p : patchSetDetail.getPatches()) {
-          if (p.getKey().equals(patchKey)) {
+          if (p.getKey().equals(key)) {
             isReviewed = p.isReviewedByCurrentUser();
             break;
           }
@@ -560,6 +612,39 @@ public abstract class PatchScreen extends Screen implements
     }
 
     intralineFailure = isFirst && script.hasIntralineFailure();
+  }
+
+  private void displayFileHeader(Patch.Key key) {
+    headerDisplayed = true;
+    if (allInOne) {
+      setWindowTitle("Complete Diff File");
+      setPageTitle("All-in-one Display");
+    } else {
+      final String path = PatchTable.getDisplayFileName(key);
+      String fileName = path;
+      final int last = fileName.lastIndexOf('/');
+      if (last >= 0) {
+        fileName = fileName.substring(last + 1);
+      }
+
+      setWindowTitle(fileName);
+      setPageTitle(path);
+
+    }
+    if (idSideB.equals(patchSetDetail.getPatchSet().getId())) {
+      commitMessageBlock.setVisible(true);
+      commitMessageBlock.display(patchSetDetail.getInfo().getMessage());
+    } else {
+      commitMessageBlock.setVisible(false);
+      Util.DETAIL_SVC.patchSetDetail(idSideB,
+          new GerritCallback<PatchSetDetail>() {
+            @Override
+            public void onSuccess(PatchSetDetail result) {
+              commitMessageBlock.setVisible(true);
+              commitMessageBlock.display(result.getInfo().getMessage());
+            }
+          });
+    }
   }
 
   @Override
@@ -574,10 +659,12 @@ public abstract class PatchScreen extends Screen implements
     }
   }
 
-  private void showPatch(final boolean showPatch) {
-    noDifference.setVisible(!showPatch);
-    contentTable.setVisible(showPatch);
-    contentTable.setRegisterKeys(isCurrentView() && showPatch);
+  private void showPatch(final boolean showPatch, Label noDiff, AbstractPatchContentTable currContentTable) {
+    noDiff.setVisible(!showPatch);
+    currContentTable.setVisible(showPatch);
+    if (!allInOne) {
+      currContentTable.setRegisterKeys(isCurrentView() && showPatch);
+    }
   }
 
   public void setTopView(TopView tv) {
@@ -603,7 +690,7 @@ public abstract class PatchScreen extends Screen implements
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       if (fileList == null || fileList.isAttached()) {
-        final PatchSet.Id psid = patchKey.getParentKey();
+        final PatchSet.Id psid = currPatchKey.getParentKey();
         fileList = new PatchTable(prefs);
         fileList.setSavePointerId("PatchTable " + psid);
         Util.DETAIL_SVC.patchSetDetail(psid,
@@ -614,7 +701,7 @@ public abstract class PatchScreen extends Screen implements
             });
       }
 
-      final PatchBrowserPopup p = new PatchBrowserPopup(patchKey, fileList);
+      final PatchBrowserPopup p = new PatchBrowserPopup(currPatchKey, fileList);
       p.open();
     }
   }

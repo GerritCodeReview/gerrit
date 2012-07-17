@@ -17,6 +17,7 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -51,6 +52,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
       };
 
   private PatchLineComment comment;
+  private Patch.Key patchKey;
 
   private final NpTextArea text;
   private final Button edit;
@@ -59,8 +61,9 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
   private final Button discard;
   private final Timer expandTimer;
 
-  public CommentEditorPanel(final PatchLineComment plc) {
+  public CommentEditorPanel(final PatchLineComment plc, final Patch.Key pk) {
     comment = plc;
+    patchKey = pk;
 
     addStyleName(Gerrit.RESOURCES.css().commentEditorPanel());
     setAuthorNameText(PatchUtil.C.draft());
@@ -246,7 +249,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     cancel.setEnabled(false);
     discard.setEnabled(false);
 
-    PatchUtil.DETAIL_SVC.saveDraft(comment,
+    PatchUtil.DETAIL_SVC.saveDraft(comment, patchKey,
         new GerritCallback<PatchLineComment>() {
           public void onSuccess(final PatchLineComment result) {
             notifyDraftDelta(isNew() ? 1 : 0);

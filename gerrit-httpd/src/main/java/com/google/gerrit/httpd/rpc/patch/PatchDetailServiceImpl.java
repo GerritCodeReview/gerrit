@@ -116,8 +116,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   }
 
   public void saveDraft(final PatchLineComment comment,
-      final AsyncCallback<PatchLineComment> callback) {
-    saveDraftFactory.create(comment).to(callback);
+      Patch.Key key, final AsyncCallback<PatchLineComment> callback) {
+    saveDraftFactory.create(comment, key).to(callback);
   }
 
   public void deleteDraft(final PatchLineComment.Key commentKey,

@@ -33,7 +33,7 @@ import java.util.Collections;
 
 class SaveDraft extends Handler<PatchLineComment> {
   interface Factory {
-    SaveDraft create(PatchLineComment comment);
+    SaveDraft create(PatchLineComment comment, Patch.Key key);
   }
 
   private final ChangeControl.Factory changeControlFactory;
@@ -41,15 +41,17 @@ class SaveDraft extends Handler<PatchLineComment> {
   private final IdentifiedUser currentUser;
 
   private final PatchLineComment comment;
+  private final Patch.Key key;
 
   @Inject
   SaveDraft(final ChangeControl.Factory changeControlFactory,
       final ReviewDb db, final IdentifiedUser currentUser,
-      @Assisted final PatchLineComment comment) {
+      @Assisted final PatchLineComment comment, @Assisted Patch.Key key) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
     this.comment = comment;
+    this.key = key;
   }
 
   @Override
@@ -58,7 +60,7 @@ class SaveDraft extends Handler<PatchLineComment> {
       throw new IllegalStateException("Comment published");
     }
 
-    final Patch.Key patchKey = comment.getKey().getParentKey();
+    final Patch.Key patchKey = key;
     final PatchSet.Id patchSetId = patchKey.getParentKey();
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
 

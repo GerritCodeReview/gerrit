@@ -312,7 +312,7 @@ public class PublishCommentScreen extends AccountScreen implements
           priorFile = fn;
         }
 
-        final CommentEditorPanel editor = new CommentEditorPanel(c);
+        final CommentEditorPanel editor = new CommentEditorPanel(c, patchKey);
         editor.setAuthorNameText(Util.M.lineHeader(c.getLine()));
         editor.setOpen(true);
         commentEditors.add(editor);

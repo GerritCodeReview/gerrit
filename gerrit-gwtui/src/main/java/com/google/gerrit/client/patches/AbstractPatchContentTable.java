@@ -105,7 +105,10 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     table.setStyleName(Gerrit.RESOURCES.css().patchContentTable());
   }
 
-  @Override
+  public void setKey(Patch.Key key) {
+    this.patchKey = key;
+  }
+
   public void notifyDraftDelta(final int delta) {
     if (fileList != null) {
       fileList.notifyDraftDelta(patchKey, delta);
@@ -458,7 +461,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       return null;
     }
 
-    final CommentEditorPanel ed = new CommentEditorPanel(newComment);
+    final CommentEditorPanel ed = new CommentEditorPanel(newComment, patchKey);
     ed.addFocusHandler(this);
     ed.addBlurHandler(this);
     boolean isCommentRow = false;
@@ -583,7 +586,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected void bindComment(final int row, final int col,
       final PatchLineComment line, final boolean isLast, boolean expandComment) {
     if (line.getStatus() == PatchLineComment.Status.DRAFT) {
-      final CommentEditorPanel plc = new CommentEditorPanel(line);
+      final CommentEditorPanel plc = new CommentEditorPanel(line, patchKey);
       plc.addFocusHandler(this);
       plc.addBlurHandler(this);
       table.setWidget(row, col, plc);
@@ -832,6 +835,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       if (p == null) {
         enableButtons(false);
         PatchUtil.DETAIL_SVC.saveDraft(newComment,
+            patchKey,
             new GerritCallback<PatchLineComment>() {
               @Override
               public void onSuccess(final PatchLineComment result) {

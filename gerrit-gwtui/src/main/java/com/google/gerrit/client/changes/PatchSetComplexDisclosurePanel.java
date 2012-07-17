@@ -619,6 +619,14 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       }
     });
     actionsPanel.add(diffAllUnified);
+    final Button diffAllInOne = new Button(Util.C.buttonDiffAllInOne());
+    diffAllInOne.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        openWindow(Dispatcher.toPatchAllInOne(diffBaseId, detail.getInfo().getKey()));
+      }
+    });
+    actionsPanel.add(diffAllInOne);
   }
 
   private void openWindow(String token) {

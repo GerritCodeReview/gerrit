@@ -17,8 +17,8 @@ package com.google.gerrit.client;
 import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_GROUP;
 import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
-import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
+import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.MINE;
 import static com.google.gerrit.common.PageLinks.REGISTER;
 import static com.google.gerrit.common.PageLinks.SETTINGS;
@@ -101,6 +101,21 @@ public class Dispatcher {
     return toPatch("unified", diffBase, id);
   }
 
+  public static String toPatchAllInOne(PatchSet.Id diffBase, PatchSet.Id ps) {
+    Change.Id c = ps.getParentKey();
+    StringBuilder p = new StringBuilder();
+    p.append("/c/").append(c).append("/");
+    if (diffBase != null) {
+      p.append(diffBase.get()).append("..");
+    }
+    p.append(ps.get()).append("//all");
+    return p.toString();
+  }
+
+  public static String toPatchAllInOne(final Patch.Key id) {
+    return toPatchAllInOne(null, id.getParentKey());
+  }
+
   private static String toPatch(String type, PatchSet.Id diffBase, Patch.Key id) {
     PatchSet.Id ps = id.getParentKey();
     Change.Id c = ps.getParentKey();
@@ -117,11 +132,15 @@ public class Dispatcher {
   }
 
   public static String toPatch(final PatchScreen.Type type, final Patch.Key id) {
-    if (type == PatchScreen.Type.SIDE_BY_SIDE) {
-      return toPatchSideBySide(id);
-    } else {
-      return toPatchUnified(id);
+    switch(type) {
+      case SIDE_BY_SIDE:
+        return toPatchSideBySide(id);
+      case UNIFIED:
+        return toPatchUnified(id);
+      case ALL_IN_ONE:
+        return toPatchAllInOne(id);
     }
+    return null;
   }
 
   public static String toPublish(PatchSet.Id ps) {

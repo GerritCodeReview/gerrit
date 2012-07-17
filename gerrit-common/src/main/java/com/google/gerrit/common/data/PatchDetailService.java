@@ -42,7 +42,7 @@ public interface PatchDetailService extends RemoteJsonService {
   @Audit
   @SignInRequired
   void saveDraft(PatchLineComment comment,
-      AsyncCallback<PatchLineComment> callback);
+      Patch.Key key, AsyncCallback<PatchLineComment> callback);
 
   @Audit
   @SignInRequired

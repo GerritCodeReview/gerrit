@@ -422,7 +422,7 @@
 }
 
 .changeTable .outdated {
-  background: changeTableOutdatedColor;
+  background: changeTableOutdatedColor !important;
 }
 
 .changeTable .iconCell {

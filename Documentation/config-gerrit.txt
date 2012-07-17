@@ -2255,7 +2255,7 @@ By default a shade of yellow, `FFFFCC`.
 Background color used for patch outdated messages.  The value must be
 a valid HTML hex color code, or standard color name.
 +
-By default a shade of red, `FF0000`.
+By default a shade of red, `F08080`.
 
 [[theme.tableOddRowColor]]theme.tableOddRowColor::
 +

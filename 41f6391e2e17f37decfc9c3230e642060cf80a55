@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHYX////w\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-17T16:44:57Z",
+      "side": 1,
+      "message": "I believe that we are attempting to use review_site now to describe this location, but both are used in this doc still:\nhttps://gerrit-review.googlesource.com/Documentation/install.html\n\nTo be honest, I don\u0027t like either.  Don\u0027t most of us call our site_paths \"gerrit\" or something like that, it seems like a better sample name for the main directory?  And for the variable, why not use $GERRIT_HOME, it just seems to be more intuitive to me, more unixy?",
+      "revId": "41f6391e2e17f37decfc9c3230e642060cf80a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

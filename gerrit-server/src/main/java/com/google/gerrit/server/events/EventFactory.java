@@ -27,12 +27,17 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.DependencyUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -46,6 +51,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -57,17 +63,23 @@ public class EventFactory {
   private final ApprovalTypes approvalTypes;
   private final PatchListCache patchListCache;
   private final SchemaFactory<ReviewDb> schema;
+  private final CurrentUser currentUser;
+  private final ChangeControl.GenericFactory changeControlFactory;
 
   @Inject
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       ApprovalTypes approvalTypes,
-      PatchListCache patchListCache, SchemaFactory<ReviewDb> schema) {
+      PatchListCache patchListCache, SchemaFactory<ReviewDb> schema,
+      CurrentUser currentUser,
+      ChangeControl.GenericFactory changeControlFactory) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
     this.patchListCache = patchListCache;
     this.schema = schema;
+    this.currentUser = currentUser;
+    this.changeControlFactory = changeControlFactory;
   }
 
   /**
@@ -121,7 +133,8 @@ public class EventFactory {
     a.status = change.getStatus();
   }
 
-  public void addDependencies(ChangeAttribute ca, Change change) {
+  public void addDependencies(ChangeAttribute ca, Change change,
+      Map<Change.Id, Set<Change.DependencyError>> processedChanges) {
     ca.dependsOn = new ArrayList<DependencyAttribute>();
     ca.neededBy = new ArrayList<DependencyAttribute>();
     try {
@@ -142,6 +155,11 @@ public class EventFactory {
           final Change c = db.changes().get(p.getId().getParentKey());
           ca.neededBy.add(newNeededBy(c, p));
         }
+
+        if (ca.dependsOn != null) {
+          ca.dependencyErrors = DependencyUtil.findDependencyErrors(db, change, changeControlFactory, currentUser, processedChanges);
+        }
+      } catch (NoSuchChangeException e) {
       } finally {
         db.close();
       }

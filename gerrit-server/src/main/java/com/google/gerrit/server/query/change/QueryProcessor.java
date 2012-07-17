@@ -48,8 +48,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class QueryProcessor {
   private static final Logger log =
@@ -254,6 +257,8 @@ public class QueryProcessor {
         stats.runTimeMilliseconds = System.currentTimeMillis();
 
         List<ChangeData> results = queryChanges(queryString);
+        Map<Change.Id, Set<Change.DependencyError>> processedChanges =
+            new HashMap<Change.Id, Set<Change.DependencyError>>();
         for (ChangeData d : results) {
           ChangeAttribute c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
@@ -298,7 +303,7 @@ public class QueryProcessor {
           }
 
           if (includeDependencies) {
-            eventFactory.addDependencies(c, d.getChange());
+            eventFactory.addDependencies(c, d.getChange(), processedChanges);
           }
 
           show(c);

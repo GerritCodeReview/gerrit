@@ -17,6 +17,7 @@ package com.google.gerrit.server.events;
 import com.google.gerrit.reviewdb.client.Change;
 
 import java.util.List;
+import java.util.Set;
 
 public class ChangeAttribute {
     public String project;
@@ -42,4 +43,6 @@ public class ChangeAttribute {
 
     public List<DependencyAttribute> dependsOn;
     public List<DependencyAttribute> neededBy;
+
+    public Set<Change.DependencyError> dependencyErrors;
 }

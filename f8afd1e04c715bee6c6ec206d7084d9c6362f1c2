@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHYH////Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-17T17:08:11Z",
+      "side": 1,
+      "message": "Collections.\u003cString\u003e emptySet()",
+      "revId": "f8afd1e04c715bee6c6ec206d7084d9c6362f1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHYH////M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-17T17:08:11Z",
+      "side": 1,
+      "message": "Set",
+      "revId": "f8afd1e04c715bee6c6ec206d7084d9c6362f1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHYH////c\u003d",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-17T17:08:11Z",
+      "side": 1,
+      "message": "Collections.\u003cString\u003e emptySet()",
+      "revId": "f8afd1e04c715bee6c6ec206d7084d9c6362f1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHYH////g\u003d",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-17T17:08:11Z",
+      "side": 1,
+      "message": "Instead of a List, this should be a Set.",
+      "revId": "f8afd1e04c715bee6c6ec206d7084d9c6362f1c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

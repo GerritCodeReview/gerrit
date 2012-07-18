@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAHb3////w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-18T11:26:45Z",
+      "side": 1,
+      "message": "I wonder how many times our users will call us and ask: \"Where is the Rebase button? It used to be there and now it is not there any more!\"\n\nHave you thought about disabling the button instead of hiding it? Would it make this feature less confusing? The reason for disabling the button could then be displayed in the tooltip that would appear on the mouse-over event.",
+      "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHYn////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 2

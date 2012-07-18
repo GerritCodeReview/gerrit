@@ -213,3 +213,43 @@ because it was dynamically installed or reloaded by an administrator.
 
 * link:../Documentation/dev-plugins.html#getting-started[Maven
   archetype for creating gerrit plugin projects]
+
+REST API
+~~~~~~~~
+Gerrit now supports a REST like API available over HTTP. The API is
+suitable for automated tools to build upon, as well as supporting some
+ad-hoc scripting use cases.
+
+* link:../Documentation/rest-api.html[Documentation of the REST API]
+
+* Support REST endpoints to
+** link:../Documentation/rest-api.html#changes[query changes]
+** link:../Documentation/rest-api.html#projects[list projects]
+** link:../Documentation/rest-api.html#suggest-projects[suggest
+   projects]
+** link:../Documentation/rest-api.html#accounts_self_capabilities[query
+   the global capabilities of the calling user]
+
+* Support link:../Documentation/rest-api.html#authentication[anonymous
+  and authenticated access] to the REST endpoints
+
+* Support link:../Documentation/rest-api.html#output[JSON output
+  format] for the REST endpoints
+
+The new REST API is used from the Gerrit WebUI.
+
+Some of the methods from the old internal JSON-RPC interface were
+completely replaced by the new REST API and got deleted:
+
+* `ProjectAdminService.visibleProjects(AsyncCallback<ProjectList>)`
+* `ProjectAdminService.suggestParentCandidates(AsyncCallback<List<Project>>)`
+* `ChangeListService.myStarredChangeIds(AsyncCallback<Set<Change.Id>>)`
+* `ChangeListService.allQueryNext(String, String, int, AsyncCallback<SingleListChangeInfo>)`
+* `ChangeListService.allQueryPrev(String, String, int, AsyncCallback<SingleListChangeInfo>)`
+* `ChangeListService.forAccount(Account.Id, AsyncCallback<AccountDashboardInfo>)`
+
+In addition the `/query` API has been deprecated. By default it is
+still available but server administrators may disable it by setting
+the link:../Documentation/config-gerrit.html#site.enableDeprecatedQuery[
+`site.enableDeprecatedQuery`] parameter in the Gerrit config file. This
+allows to enforce tools to move to the new API.

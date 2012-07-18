@@ -8,6 +8,7 @@ supporting some ad-hoc scripting use cases.
 Protocol Details
 ----------------
 
+[[authentication]]
 Authentication
 ~~~~~~~~~~~~~~
 By default all REST endpoints assume anonymous access and filter
@@ -20,6 +21,7 @@ Gerrit by default uses HTTP digest authentication. To authenticate,
 prefix the endpoint URL with `/a/`. For example to authenticate to
 `/projects/` request URL `/a/projects/`.
 
+[[output]]
 Output Format
 ~~~~~~~~~~~~~
 Most APIs return text format by default. JSON can be requested
@@ -147,6 +149,7 @@ and accepts the same options as query parameters.
   }
 ----
 
+[[suggest-projects]]
 The `/projects/` URL also accepts a prefix string as part of the URL.
 This limits the results to those projects that start with the specified
 prefix.

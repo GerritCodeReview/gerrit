@@ -118,6 +118,7 @@ WAR File
 ** new war: [release-candidate], featured...
 ** old war: deprecated
 
+[[plugin-api]]
 Plugin API JAR File
 ~~~~~~~~~~~~~~~~~~~
 

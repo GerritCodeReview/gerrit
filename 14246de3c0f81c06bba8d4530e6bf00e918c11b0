@@ -37,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "AAAHaH///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-18T02:15:18Z",
+      "side": 1,
+      "message": "I am not sure since I am not the reporter, but it looks like if this loop is never entered that line 822 here will never set submitAudit.  So perhaps it only happens on patchsets which have no approvals whatsoever (which probably also means no CC reviewers, including the owner).",
+      "revId": "14246de3c0f81c06bba8d4530e6bf00e918c11b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//79Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 6

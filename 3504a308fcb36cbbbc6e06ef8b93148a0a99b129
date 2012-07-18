@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHdH////M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-07-18T18:28:01Z",
+      "side": 1,
+      "message": "+1 for disabling",
+      "parentUuid": "AAAHb3////w\u003d",
+      "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHYn////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 2

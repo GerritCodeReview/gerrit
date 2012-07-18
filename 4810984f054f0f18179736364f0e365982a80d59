@@ -16,6 +16,24 @@
       "revId": "4810984f054f0f18179736364f0e365982a80d59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHbn////w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ThemeFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-18T06:48:24Z",
+      "side": 1,
+      "message": "Which other important stylings do you mean?\n\nI\u0027m particularly interested in this one style because this bright red really looks ugly in the UI. I\u0027m not aware of any other places in the UI where we use a red background.",
+      "parentUuid": "AAAHYH////8\u003d",
+      "revId": "4810984f054f0f18179736364f0e365982a80d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

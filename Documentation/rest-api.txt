@@ -147,6 +147,23 @@ and accepts the same options as query parameters.
   }
 ----
 
+The `/projects/` URL also accepts a prefix string as part of the URL.
+This limits the results to those projects that start with the specified
+prefix.
+List all projects that start with `platform/`:
+----
+GET /projects/platform/?format=JSON HTTP/1.0
+HTTP/1.1 200 OK
+Content-Disposition: attachment
+Content-Type: application/json;charset=UTF-8
+)]}'
+{
+"platform/drivers": {},
+"platform/tools": {}
+}
+----
+E.g. this feature can be used by suggestion client UI's to limit results.
+
 [[changes]]
 /changes/ (Query Changes)
 ~~~~~~~~~~~~~~~~~~~~~~~~~

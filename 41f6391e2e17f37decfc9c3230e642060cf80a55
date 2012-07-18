@@ -16,6 +16,24 @@
       "revId": "41f6391e2e17f37decfc9c3230e642060cf80a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHbn////o\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-18T07:02:06Z",
+      "side": 1,
+      "message": "Yes, I agree that we have an inconsistency in the documentation here. I like the proposal of using $GERRIT_HOME.\n\nFor this change I tried to keep that naming at least consistent within this file. At line 377 the same syntax is already used, calling it \u0027site_path\u0027.\n\nIf we agree on a name, we should have one change that cleans this up in the whole documentation.",
+      "parentUuid": "AAAHYX////w\u003d",
+      "revId": "41f6391e2e17f37decfc9c3230e642060cf80a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

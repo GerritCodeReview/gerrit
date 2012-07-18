@@ -7,12 +7,14 @@ This page describes how plugins for Gerrit can be developed.
 Depending on how tightly the extension code is coupled with the Gerrit
 server code, there is a distinction between `plugins` and `extensions`.
 
+[[plugin]]
 A `plugin` in Gerrit is tightly coupled code that runs in the same
 JVM as Gerrit. It has full access to all server internals. Plugins
 are tightly coupled to a specific major.minor server version and
 may require source code changes to compile against a different
 server version.
 
+[[extension]]
 An `extension` in Gerrit runs inside of the same JVM as Gerrit
 in the same way as a plugin, but has limited visibility to the
 server's internals. The limited visibility reduces the extension's
@@ -174,6 +176,7 @@ reload::
 To reload/restart a plugin the link:cmd-plugin-reload.html[plugin reload]
 command can be used.
 
+[[classpath]]
 Classpath
 ---------
 
@@ -189,6 +192,7 @@ link:http://maven.apache.org/plugins/maven-shade-plugin/[shade plugin]
 to package additional dependencies. Relocating (or renaming) classes
 should not be necessary due to the ClassLoader isolation.
 
+[[ssh]]
 SSH Commands
 ------------
 
@@ -243,6 +247,7 @@ by PrintHello class will be available to users as:
 $ ssh -p 29418 review.example.com helloworld print
 ----
 
+[[http]]
 HTTP Servlets
 -------------
 
@@ -291,6 +296,7 @@ by HelloServlet class will be available to users as:
 $ curl http://review.example.com/plugins/helloworld/print
 ----
 
+[[data-directory]]
 Data Directory
 --------------
 
@@ -307,6 +313,7 @@ Plugins can use this to store any data they want.
   }
 ====
 
+[[documentation]]
 Documentation
 -------------
 
@@ -325,6 +332,7 @@ link:http://daringfireball.net/projects/markdown/[Markdown] style
 if the file name ends with `.md`. Gerrit will automatically convert
 Markdown to HTML if accessed with extension `.html`.
 
+[[macros]]
 Within the Markdown documentation files macros can be used that allow
 to write documentation with reasonably accurate examples that adjust
 automatically based on the installation.
@@ -346,6 +354,7 @@ from Markdown to HTML.
 Macros that start with `\` such as `\@KEEP@` will render as `@KEEP@`
 even if there is an expansion for `KEEP` in the future.
 
+[[auto-index]]
 Automatic Index
 ~~~~~~~~~~~~~~~
 
@@ -386,6 +395,7 @@ displayed as part of the index page, if present in the manifest:
 |API Version | Gerrit-ApiVersion
 |===================================================
 
+[[deployment]]
 Deployment
 ----------
 

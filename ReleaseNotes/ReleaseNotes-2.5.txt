@@ -8,6 +8,7 @@ link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.war[http:/
 Upgrade Warnings
 ----------------
 
+[[replication]]
 Replication
 ~~~~~~~~~~~
 
@@ -53,3 +54,162 @@ stale the cached data can be. This is especially useful for slave
 servers account and permission data, or the `ldap_groups` cache, where
 updates are often made to the source without telling Gerrit to reload
 the cache.
+
+New Features
+------------
+
+Plugins
+~~~~~~~
+
+The Gerrit server functionality can be extended by installing plugins.
+Depending on how tightly the extension code is coupled with the Gerrit
+server code, there is a distinction between
+link:../Documentation/dev-plugins.html#plugin[plugins] and
+link:../Documentation/dev-plugins.html#extension[extensions].
+
+* link:#replication[Move replication logic to replication plugin]
++
+This splits all of the replication code out of the core server
+and moves it into a standard plugin.
+
+* link:../Documentation/dev-plugins.html[Documentation about
+  plugin development] including instructions for:
+** link:../Documentation/dev-plugins.html#getting-started[how to get
+   started with plugin development]
+** link:../Documentation/dev-plugins.html#deployment[plugin
+   deployment/installation]
+
+* link:../Documentation/dev-plugins.html#API[API for plugins and
+  extensions]
+
+* Support for link:../Documentation/dev-plugins.html#ssh[SSH command
+  plugins]
++
+Allows plugin developers to declare additional SSH commands.
+
+* Enable aliases for SSH commands
++
+Site administrators can alias SSH commands from a plugin into the
+`gerrit` namespace.
++
+The aliases are configured statically at server startup, but are
+resolved dynamically at invocation time to the currently loaded
+version of the plugin. If the plugin is not loaded, or does not
+define the command, "not found" is returned to the user.
+
+* Support for link:../Documentation/dev-plugins.html#http[HTTP
+  plugins]
++
+Plugins may contribute to the /plugins/NAME/ URL space.
+
+* Automatic registration of plugin bindings
++
+If a plugin has no modules declared in the manifest, automatically
+generate the modules for the plugin based on the class files that
+appear in the plugin and the `@Export` annotations that appear on
+these concrete classes.
++
+For any non-abstract command that extends SshCommand, plugins may
+declare the command with `@Export("name")` to
+link:../Documentation/dev-plugins.html#ssh[bind the implementation
+as that SSH command].
++
+Likewise link:../Documentation/dev-plugins.html#http[HTTP servlets
+can also be bound to URLs].
+
+* link:../Documentation/dev-plugins.html#data-directory[Support a data
+  directory for plugins on demand]
+
+* Support serving static/ and Documentation/ from plugins
++
+The static/ and Documentation/ resource directories of a plugin can be
+served over HTTP for any loaded and running plugin, even if it has no
+other HTTP handlers. This permits a plugin to supply icons or other
+graphics for the web UI, or documentation content to help users learn
+how to use the plugin.
+
+* link:../Documentation/dev-plugins.html#documentation[Auto-formatting
+  of plugin HTTP pages from Markdown files]
++
+If Gerrit detects that a requested plugin resource does not exist, but
+instead a file with a `.md` extension does exist, Gerrit opens the
+`.md` file and reformats it as html.
+
+* Support of link:../Documentation/dev-plugins.html#macros[macros in
+  Markdown plugin documentation]
+
+* link:../Documentation/dev-plugins.html#auto-index[Automatic
+  generation of an index for the plugin documentation]
+
+* Support for audit plugins
++
+Plugins can implement an `AuditListener` to be informed about auditable
+actions:
++
+----
+  @Listener
+  public class MyAuditTrail extends AuditListener
+----
++
+The plugin must define a plugin module that binds the implementation of
+the audit listener in the `configure()` method:
++
+----
+  DynamicSet.bind(binder(), AuditListener.class).to(MyAuditTrail.class);
+----
+
+* Web UI for plugins
++
+Administrators can see the list of installed plugins in the WebUI
+under `Admin` > `Plugins`. For each plugin the plugin status is shown
+and it is possible to navigate to the plugin documentation.
+
+* Servlet to list plugins
++
+Administrators can retrieve plugin information from a REST interface
+by loading `<server-url>/a/plugins/`.
+
+* Support SSH commands to
+** link:../Documentation/cmd-plugin-ls.html[list the installed
+   plugins]
+** link:../Documentation/cmd-plugin-install.html[install plugins]
+** link:../Documentation/cmd-plugin-enable.html[enable plugins]
+** link:../Documentation/cmd-plugin-remove.html[disable plugins]
+** link:../Documentation/cmd-plugin-reload.html[reload plugins]
+
+* Support installation of core plugin on site initialization
+
+* Automatically load/unload/reload plugins
++
+The PluginScanner thread runs every 1 minute by default and loads any
+newly created plugins, unloads any deleted plugins, and reloads any
+plugins that have been modified.
++
+The check frequency can be configured by setting
+link:../Documentation/config-gerrit.html#plugins.checkFrequency[
+plugins.checkFrequency] in the Gerrit config file. By configuration
+the scanner can also be disabled.
+
+* link:../Documentation/dev-plugins.html#classpath[Loading of plugins
+  in own ClassLoader]
+
+* Plugin cleanup in the background
++
+When a plugin is stopped, schedule a Plugin Cleaner task to run
+1 minute later to try and clean out the garbage and release the
+JAR from `$site_path/tmp`.
+
+* Export `LifecycleListener` as extension point
++
+Extensions may need to know when they are starting or stopping.
+Export the interface that they can use to learn this information.
+
+* Support injection of `ServerInformation` into extensions and plugins
++
+Plugins can take this value by injection and learn the current
+server state during their own LifecycleListener. This enables a
+plugin to determine if it is loading as part of server startup, or
+because it was dynamically installed or reloaded by an administrator.
+
+* link:../Documentation/dev-plugins.html#getting-started[Maven
+  archetype for creating gerrit plugin projects]

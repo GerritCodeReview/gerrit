@@ -104,6 +104,7 @@ Subprojects point to snapshot releases
  ./tools/release.sh
 ====
 
+[[plugin-api]]
 Publish the Plugin API JAR File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

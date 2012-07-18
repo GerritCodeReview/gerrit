@@ -124,6 +124,16 @@ project:: Project path in Gerrit.
 
 refName:: Ref name within project.
 
+[[queryLimit]]
+queryLimit
+----------
+Information about the link:access-control.html#capability_queryLimit[queryLimit]
+of a user.
+
+min:: lower limit
+
+max:: upper limit
+
 SEE ALSO
 --------
 

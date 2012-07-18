@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHZ3///4Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-07-18T08:29:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHYn////k\u003d",
+      "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHYH///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-17T17:48:16Z",
       "side": 1,
       "message": "s/commits/commit/ (one parent commit)\n\nI might suggest a version more like you message on 224 \"Cannot rebase a change with multiple parents.  Parents commits:\"",
+      "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHZ3///5E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-07-18T08:29:08Z",
+      "side": 1,
+      "message": "Changed to \"Cannot rebase a change with multiple parents. Parents commits:\"\n\nDone.",
+      "parentUuid": "AAAHYH///+M\u003d",
       "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHZ3///44\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-07-18T08:29:08Z",
+      "side": 1,
+      "message": "Changed to \"Cannot rebase a change without any parents (is this the initial commit?)\"\n\nDone",
+      "parentUuid": "AAAHYH///98\u003d",
+      "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHYH///90\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHZ3///4w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-07-18T08:29:08Z",
+      "side": 1,
+      "message": "Changed to \"Cannot rebase a change with an abandoned parent\"\n\nDone.",
+      "parentUuid": "AAAHYH///90\u003d",
+      "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHYX////o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2012-07-17T17:48:16Z",
       "side": 1,
       "message": "I\u0027ve been trying to put less in the general ChangeUtil dumping ground, perhaps all this rebase stuff deserves its own class now: ChangeRebaseUtil.java, or just RebaseUtil.java?  Or it might even benefit from following the example of the abandon and restore and living in a class here: gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java?",
+      "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHZ3///4U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-07-18T08:29:08Z",
+      "side": 1,
+      "message": "I create the file gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java and follow the example of the abandon and restore.\n\nDone.",
+      "parentUuid": "AAAHYX////o\u003d",
       "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

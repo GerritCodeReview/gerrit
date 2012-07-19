@@ -5,6 +5,22 @@ Gerrit 2.5 is now available:
 
 link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.war]
 
+Gerrit 2.5 includes the bug fixes done with
+link:ReleaseNotes-2.4.1.html[Gerrit 2.4.1] and
+link:ReleaseNotes-2.4.2.html[Gerrit 2.4.2]. These bug fixes are *not*
+listed in these release notes.
+
+Schema Change
+-------------
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+*WARNING:* Upgrading to 2.5.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.5.x.  If you are upgrading from 2.2.x.x or
+newer, you may ignore this warning and upgrade directly to 2.5.x.
+
 Upgrade Warnings
 ----------------
 
@@ -87,7 +103,7 @@ and moves it into a standard plugin.
 +
 Allows plugin developers to declare additional SSH commands.
 
-* Enable aliases for SSH commands
+* Enable link:#ssh-alias[aliases for SSH commands]
 +
 Site administrators can alias SSH commands from a plugin into the
 `gerrit` namespace.
@@ -248,8 +264,363 @@ completely replaced by the new REST API and got deleted:
 * `ChangeListService.allQueryPrev(String, String, int, AsyncCallback<SingleListChangeInfo>)`
 * `ChangeListService.forAccount(Account.Id, AsyncCallback<AccountDashboardInfo>)`
 
+[[query-deprecation]]
 In addition the `/query` API has been deprecated. By default it is
 still available but server administrators may disable it by setting
 the link:../Documentation/config-gerrit.html#site.enableDeprecatedQuery[
 `site.enableDeprecatedQuery`] parameter in the Gerrit config file. This
 allows to enforce tools to move to the new API.
+
+Web
+~~~
+
+Change Screen
+^^^^^^^^^^^^^
+
+* Display commit message in a box
++
+The commit message on the change screen is now placed in a box with a
+title and emphasis on the commit summary. The star icon and the
+permalink are displayed in the box header. The header from the change
+screen is removed as it only held duplicate information.
+
+* Open the dependency section automatically when the change is needed
+  by an open change
+
+* Only show a change as needed by if its current patch set depends on
+  the change
+
+* Show only changes of the same project in the 'Depends On' section
++
+If two projects share the same history it can happen that the same
+commit is pushed for both projects, resulting in two changes. If now
+a successor commit is pushed for one of the projects, the resulting
+successor change was wrongly listing both changes in the 'Depends On'
+section. Now only the predecessor change of the own project is listed.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1383[issue 1383]:
+  Display the approval table on the PublishCommentsScreen.
++
+So far the approval table that shows the reviewers and their current
+votes was only shown on the ChangeScreen. Now it is also shown on the
+PublishCommentScreen. This allows the reviewer to see all existing
+votes and reviewers when doing their own voting and publishing of
+comments. Seeing the existing votes helps the reviewer in
+understanding which votes are still required before the change can be
+submitted.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1380[issue 1380]:
+  Display time next to change comments
++
+When a comment was posted yesterday, or any time older than 1 day but
+less than 1 year ago, display the time too. Display "May 2 17:37" rather
+than just "May 2".
+
+* Only show "Can Merge" when the change is new or draft
+
+* Disable submit button if merge will fail
++
+Only if link:../Documentation/config-gerrit.html#changeMerge[
+`changeMerge.test = true`].
+
+* Allow auto suggesting reviewers to draft changes
++
+Auto completing users for draft changes did't work as the other
+users didn't have access to the drafts. The visibility check for
+the reviewer suggestion is now skipped.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1294[issue 1294]:
+  Shorten subject of parent commit for displaying in the UI
++
+If the parent commit has a very long subject (> 80 characters) shorten
+the subject for displaying it in the Gerrit web UI on the change screen.
+This avoids that the 'Parent(s)' cell for the patch set becomes very
+wide.
+
+* If subject is shortened for displaying in the UI indicate this by '...'
++
+If a commit has a very long subject line (> 80 characters) it is
+shortened when it is displayed in the Gerrit Web UI. Indicate to the
+user that the subject was shortened by appending '...' to the shortened
+subject.
++
+Also the subject is now cropped after a whitespace if possible.
+
+* Insert Change-Id for revert commits
++
+The 'Revert Change' action on a merged change allows to create a new
+change that reverts the merged change. The commit message of the revert
+commit now contains a Change-Id.
++
+It is convenient if a Change-Id is automatically created and inserted
+into the commit message of the revert commit since it makes rebasing of
+the revert commit easier.
+
+* Use more gentle shade of red to highlight outdated dependencies
+
+Patch Screens
+^^^^^^^^^^^^^
+
+* New patch screen header
++
+A new patch screen header was added that is displayed above both the
+side-by-side and unified views. The new header contains actual links to
+the available patchsets and shows which patchset is being currently
+displayed.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1192[issue 1192]:
+  Add download links to the unified diff view
+
+* Improvement of the side-by-side viewer table
++
+The line number column for the right side was moved to be on the far
+right of the table, so that the layout now looks like this:
++
+----
+  1 |  foo       |       bar   | 1
+  2 |  hello     |       hello | 2
+----
++
+This looks nicer when reading a lot of code, as the line numbers are
+less relevant than the code itself which is now in the center of the
+UI.
++
+Line numbers are still links to create comment editors, but they
+use a light shade of gray and skip the underline decoration, making
+them less visually distracting.
++
+Skip lines now use a paler shade of blue and also hide the fact they
+contain anchors, until you hover over them and the anchor shows up.
++
+The expand before and after are changed to be arrows showing in
+which direction the lines will appear above or below the skip
+line.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=626[issue 626]:
+  Option to display line endings
++
+There is a new user preference that allows to display Windows EOL/Cr-Lf.
+'\r' is shown in a dotted-line box (similar to how '\r' is displayed in
+GitWeb).
+
+* Streamlined review workflow
++
+A link was added next to the "Reviewed" checkbox that marks the current
+patch as reviewed and goes to the next unreviewed patch.
+
+User Dashboard
+^^^^^^^^^^^^^^
+* Support for link:../Documentation/user-custom-dashboards.html[custom
+  dashboards]
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1407[issue 1407]:
+  Improve highlighting of unreviewed changes in the user's dashboard
++
+A change will be highlighted as unreviewed if
++
+. the user is reviewer of the change but hasn't published any change
+  message for the current patch set
+. the user has published a change message for the current patch set,
+  but afterwards the change owner has published a change message on
+  the change
+
+* Sort outgoing reviews in the user dashboard by created date
+
+* Sort incoming reviews in the user dashboard by updated date
++
+Sorting the incoming reviews by last updated date, descending, places
+the most recently updated reviews at the top of the list for a user,
+and the oldest stale at the bottom. This may help users to identify
+items to take immediate action on, as they appear closer to the top.
+
+Access Rights Screen
+^^^^^^^^^^^^^^^^^^^^
+
+* Display error if modifying access rights for a ref is forbidden
++
+If a user is owner of at least one ref he is able to edit the access
+rights on a project. If he adds access rights for other refs, these
+access rights were silently ignored on save. Instead of this now an
+error message is displayed to inform the user that he doesn't have
+permissions to do the update for these refs.
++
+In case of such an error the project access screen stays in the edit
+mode so that the unsaved modifications are not lost. The user may now
+propose the changes to the access rights through code review.
+
+* Allow to propose changes to access rights through code review
++
+Users that are able to upload changes for code review for the
+`refs/meta/config` branch can now propose changes to the project access
+rights through code review directly from the ProjectAccessScreen.
++
+When editing the project access rights there is a new button
+'Save for Review' which will create a new change for the access
+rights modifications. Project owners are automatically added as
+reviewer to this change. If a project owner agrees to the access rights
+modifications he can simply approve and submit the change.
+
+* Show all access rights in WebUI if user can read `refs/meta/config`
++
+Users who can read the `refs/meta/config` branch, can see all access
+rights by fetching this branch and looking at the `project.config`
+file. Now they can see the same information in the web UI.
+
+* Allow extra group suggestions for project owners
++
+When suggesting groups to a user, only groups that are visible to the
+user are suggested. These are those group that the user is member of.
+For project owners now also groups to which they are not a member are
+suggested when editing the access rights of the project.
+
+Other
+^^^^^
+
+* Ask user to login if change is not found
++
+Accessing a change URL was failing with 'Application Error - The page
+you requested was not found, or you do not have permission to view this
+page' if the user was not signed in and the change was not visible to
+`Anonymous Users`. Instead Gerrit now asks the user to login and
+afterwards shows the change to the user if it exists and is visible.
+If the change doesn't exist or is not visible, the user will still get
+the NotFoundScreen after sign in.
+
+* Link to owner query from user names
++
+Instead of linking from a user name to the user's dashboards, link to
+a search for changes owned by that user.
+
+* On project creation allow choosing the parent project from a popup
++
+In the create project UI a user can now browse all projects and select
+one as parent for the new project.
+
+* Check for open changes on branch deletion
++
+Check for open changes when deleting a branch in the Gerrit WebUI.
+Delete a branch only if there are no open changes for this branch.
+This makes users aware of open changes when deleting a branch.
+
+* Enable ProjectBranchesScreen for the `All-Projects` project
++
+This allows to see the branches of the `All-Projects` project in the
+web UI.
+
+* Move form for group creation to own screen
++
+Move the form for the group creation from the GroupListScreen to an
+own new CreateGroupScreen and add a link to this screen at the
+beginning of the GroupListScreen. The link to the CreateGroupScreen is
+only visible if the user has the permission to create new groups.
+
+* When adding a user to a group create an account for the user if needed
++
+Trying to add a user to a group that doesn't have an account fails with
+'... is not a registered user.'. Now adding a user to a group does not
+immediately fail if there is no account for the user, but it tries to
+authenticate the user and if the authentication is successful a user
+account is automatically created, so that the user can be added to the
+group. This only works if LDAP is used as user backend.
++
+This allows to add users to groups that did not log in into Gerrit
+before.
+
+* Differentiate between draft changes and draft comments
++
+Show the draft changes of the user when he clicks on `My` > `Drafts`.
+The user's draft comments are now available under `My` >
+`Draft Comments`.
+
+* Show NotFoundScreen if a user that can't create projects tries to
+  access the ProjectCreationScreen
+
+Access Rights
+~~~~~~~~~~~~~
+
+* Restrict rebasing of a change in the web UI to the change owner and
+  the submitter
+
+* Add a new link:../Documentation/access-control.html#category_rebase[
+  access right to permit rebasing changes in the web UI]
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=930[issue 930]:
+  Add new link:../Documentation/access-control.html#category_abandon[
+  access right for abandoning changes]
+
+* Check if user can upload in order to restore
++
+Restoring a change is similar to uploading a new change. If a branch
+gets closed by removing the access rights to upload new changes it
+shouldn't be possible to restore changes for this branch.
+
+* Make read access to `refs/meta/config` by default exclusive to
+  project owners
++
+When initializing a new site a set of default access rights is
+configured on the `All-Projects` project. These default access rights
+include read access on `refs/*` for `Anonymous Users` and read access
+on `refs/meta/config` for `Project Owners`. Since the read access on
+`refs/meta/config` for `Project Owners` was not exclusive,
+`Anonymous users` were able to access the `refs/meta/config` branch
+which by default should only be accessible by the project owners.
+
+Search
+~~~~~~
+* Offer suggestions for the search operators in the search panel
++
+There are many search operators and it's difficult to remember all of
+them. Now the search operators are suggested as the user types the
+query.
+
+* Support alias `self` in queries
++
+Writing an expression like "owner:self status:open" will now identify
+changes that the caller owns and are still open. This `self` alias
+is valid in contexts where a user is expected as an argument to a
+query operator.
+
+* Add parent(s) revision information to output of query command
+
+* Add owner username to output of query command
+
+* `/query` API has been link:#query-deprecation[deprecated]
+
+SSH
+~~~
+* link:http://code.google.com/p/gerrit/issues/detail?id=1095[issue 1095]
+  link:../Documentation/cmd-set-account.html[SSH command to manage
+  accounts]
+
+* link:../Documentation/cmd-set-project.html[SSH command to manage
+  project settings]
+
+* link:../Documentation/cmd-ban-commit.html[SSH command to ban
+  commits]
+
+[[ssh-alias]]
+* Enable aliases for SSH commands
++
+Site administrators can define aliases for SSH commands in the
+link:../Documentation/config-gerrit.html#ssh-alias[`ssh-alias` section]
+of the Gerrit configuration.
+
+* Support JSON output format for the
+  link:../Documentation/cmd-ls-projects.html[ls-projects] SSH command
+
+* Support creation of multiple branches in
+  link:../Documentation/cmd-create-project.html[create-project] SSH
+  command
++
+In case if a project has some kind of waterfall automerging
+a->b->c it is convenient to create all these branches at the
+project creation time.
++
+e.g. '.. gerrit create-project -b master -b foo -b bar ...'
+
+* Add verbose output option to
+  link:../Documentation/cmd-ls-groups.html[ls-groups] command
++
+The verbose mode enabled by the new option makes the ls-groups
+command output a tab-separated table containing all available
+information about each group (though not its members).

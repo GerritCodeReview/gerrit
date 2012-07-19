@@ -34,6 +34,24 @@
       "revId": "4810984f054f0f18179736364f0e365982a80d59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHfH///qE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ThemeFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-19T02:09:48Z",
+      "side": 1,
+      "message": "I meant the !important that you added here: https://gerrit-review.googlesource.com/#/c/36744/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css\nbut I am guessing I don\u0027t really know what that does, I thougt it represented a styling that you could then assign a color to.\n\nNot for your change, but I think that abandoned should also be highlighted as bad when in the dependencies table.",
+      "parentUuid": "AAAHbn////w\u003d",
+      "revId": "4810984f054f0f18179736364f0e365982a80d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHgX///+8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-19T07:46:16Z",
+      "side": 1,
+      "message": "That\u0027s much better. Thanks.\n\nDone.",
+      "parentUuid": "AAAHiH///+0\u003d",
+      "revId": "3a0a66b92dd386b11ea8cdaf8418de588e869fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHiH///+w\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-19T07:40:02Z",
       "side": 1,
       "message": "s/info message is/info message was/\n\nas we use past tense to describe how it was before this commit.",
+      "revId": "3a0a66b92dd386b11ea8cdaf8418de588e869fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHgX///+4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-19T07:46:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHiH///+w\u003d",
       "revId": "3a0a66b92dd386b11ea8cdaf8418de588e869fb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHgX///+0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-19T07:46:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHiH///+s\u003d",
+      "revId": "3a0a66b92dd386b11ea8cdaf8418de588e869fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHiH///+o\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-07-19T07:40:02Z",
       "side": 1,
       "message": "You could just end the sentence after \"of a disabled plugin\" and drop the rest of the commit message as it was already said above.",
+      "revId": "3a0a66b92dd386b11ea8cdaf8418de588e869fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHgX///+w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-19T07:46:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHiH///+o\u003d",
       "revId": "3a0a66b92dd386b11ea8cdaf8418de588e869fb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

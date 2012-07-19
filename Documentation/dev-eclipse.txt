@@ -70,6 +70,7 @@ Duplicate the existing `pgm_daemon` launch configuration:
 * Change Save as to be Local file.
 
 
+[[hosted-mode]]
 Running Hosted Mode
 ~~~~~~~~~~~~~~~~~~~
 
@@ -100,6 +101,7 @@ Duplicate the existing `gwtui_dbg` launch configuration:
 * Change Save as to be Local file.
 
 
+[[known-problems]]
 Known problems
 --------------
 

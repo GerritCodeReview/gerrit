@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHiH////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-19T06:37:25Z",
+      "side": 1,
+      "message": "\u003e other buttons like submit and restore, they are all hidden when not applicable, I think hiding the rebase button will make them consistent.\n\nIf the Submit button is hidden then below the table with reviewers and votes there are the reasons for that:\n* Need Code-Review\n* Need Verified\n\nSimilarly, if the one of Restore/Abandon buttons is hidden then in the top-most table we see the status of the change \"Review in Progress\"/\"Abandoned\" and know the reason.\n\nHowever, if the Rebase button is hidden then, from the change screen, I cannot find out the reason.",
+      "parentUuid": "AAAHfH///rM\u003d",
+      "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHYn////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 2

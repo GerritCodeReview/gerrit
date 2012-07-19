@@ -306,12 +306,12 @@ public class ChangeScreen extends Screen
           }
         }
       }
-      if (detail.getNeededBy() != null) {
-        for (final ChangeInfo ci : detail.getNeededBy()) {
-          if ((ci.getStatus() == Change.Status.NEW) ||
-              (ci.getStatus() == Change.Status.SUBMITTED)) {
-            depsOpen = true;
-          }
+    }
+    if (detail.getNeededBy() != null) {
+      for (final ChangeInfo ci : detail.getNeededBy()) {
+        if ((ci.getStatus() == Change.Status.NEW) ||
+            (ci.getStatus() == Change.Status.SUBMITTED)) {
+          depsOpen = true;
         }
       }
     }

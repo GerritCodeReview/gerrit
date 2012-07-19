@@ -34,6 +34,24 @@
       "revId": "00b47fd7a72e865f0484fde7739f55449bd1e243",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHh3///90\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-19T06:55:07Z",
+      "side": 1,
+      "message": "I am, of course, fine with the two not being merged for this change, but I don\u0027t think it is a good idea to assume that abandoned changes should be highlighted in this widget because it feels like an assumption the widget should not make.  To avoid this, perhaps this alteration could be done by overriding this method in an anonymous extension of this class when embedded in the Dependencies table?  A more complicated solution would be to have some method which sets the statuses to be highlighted.\n\nAnother thing to consider which might make this even harder is that we probably should not highlight abandoned changes in the needed-by section(do they even appear there)!",
+      "parentUuid": "AAAHgX////g\u003d",
+      "revId": "00b47fd7a72e865f0484fde7739f55449bd1e243",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

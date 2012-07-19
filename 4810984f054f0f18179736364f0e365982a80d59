@@ -52,6 +52,24 @@
       "revId": "4810984f054f0f18179736364f0e365982a80d59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHgX////o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/ThemeFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-19T05:18:47Z",
+      "side": 1,
+      "message": "The \u0027!important\u0027 just makes sure that this styling is not overwritten by a later defined styling, see [1].\n\nYou are right that a dependency to an abandoned change should be highlighted as bad as well. I\u0027ve pushed a fix for that [2].\n\n  [1] http://www.electrictoolbox.com/using-important-css/\n  [2] https://gerrit-review.googlesource.com/36860",
+      "parentUuid": "AAAHfH///qE\u003d",
+      "revId": "4810984f054f0f18179736364f0e365982a80d59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

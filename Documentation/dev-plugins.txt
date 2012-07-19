@@ -231,9 +231,10 @@ Servlets may use auto-registration to declare the URL they handle:
   }
 ====
 
-If explicit registration is being used, a Guice ServletModule must
-be supplied to register the HTTP servlets, and the module must be
-declared in the manifest with the `Gerrit-HttpModule` attribute:
+The auto registration only works for standard servlet mappings like
+`/foo` or `/foo/*`. Regex style bindings must use a Guice ServletModule
+to register the HTTP servlets and declare it explicitly in the manifest
+with the `Gerrit-HttpModule` attribute:
 
 ====
   import com.google.inject.servlet.ServletModule;

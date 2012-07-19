@@ -128,6 +128,113 @@ and accepts the same options as query parameters.
   }
 ----
 
+[[changes]]
+/changes/ (Query Changes)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Queries changes visible to the caller. The query string must be
+provided by the `q` parameter. The `n` parameter can be used to limit
+the returned results.
+
+Query for open changes of watched projects:
+----
+  GET /changes/?format=JSON&q=status:open+is:watched&n=2 HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "project": "demo",
+    "branch": "master",
+    "id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
+    "subject": "One change",
+    "status": "NEW",
+    "created": "2012-07-17 07:18:30.854000000",
+    "updated": "2012-07-17 07:19:27.766000000",
+    "reviewed": true,
+    "_sortkey": "001e7057000006dc",
+    "_number": 1756,
+    "owner": {
+      "name": "John Doe"
+    },
+    "labels": {
+      "Verified": {},
+      "Code-Review": {}
+    }
+  },
+  {
+    "project": "demo",
+    "branch": "master",
+    "id": "I09c8041b5867d5b33170316e2abc34b79bbb8501",
+    "subject": "Another change",
+    "status": "NEW",
+    "created": "2012-07-17 07:18:30.884000000",
+    "updated": "2012-07-17 07:18:30.885000000",
+    "_sortkey": "001e7056000006dd",
+    "_number": 1757,
+    "owner": {
+      "name": "John Doe"
+    },
+    "labels": {
+      "Verified": {},
+      "Code-Review": {}
+    },
+    "_more_changes": true
+  }
+----
+
+The change output is sorted by the last update time, most recently
+updated to oldest update.
+
+If the `n` query parameter is supplied and additional changes exist
+that match the query beyond the end, the last change object has a
+`_more_changes: true` JSON field set. Callers can resume a query with
+the `n` query parameter, supplying the last change's `_sortkey` field
+as the value. When going in the reverse direction with the `p` query
+parameter a `_more_changes: true` is put in the first change object if
+there are results *before* the first change returned.
+
+Clients are allowed to specify more than one query by setting the `q`
+parameter multiple times. In this case the result is an array of
+arrays, one per query in the same order the queries were given in.
+
+Query that retrieves changes for a user's dashboard:
+----
+  GET /changes/?format=JSON&q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5 HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    [
+      {
+        "project": "demo",
+        "branch": "master",
+        "id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
+        "subject": "One change",
+        "status": "NEW",
+        "created": "2012-07-17 07:18:30.854000000",
+        "updated": "2012-07-17 07:19:27.766000000",
+        "reviewed": true,
+        "_sortkey": "001e7057000006dc",
+        "_number": 1756,
+        "owner": {
+          "name": "John Doe"
+        },
+        "labels": {
+          "Verified": {},
+          "Code-Review": {}
+        }
+      }
+    ],
+    [],
+    []
+  ]
+----
+
 
 GERRIT
 ------

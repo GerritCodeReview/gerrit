@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHh3///9k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-19T07:02:42Z",
+      "side": 1,
+      "message": "It seems like the lack of a reason message would be just as confusing if the button were disabled instead of missing.  If you simply think neither should happen without a status message, I might agree.  Although useful for the error cases, I might find it strange to see a message saying \"cannot rebase change because it is up to date\"! (Unless I hit the button, of course)",
+      "parentUuid": "AAAHiH////0\u003d",
+      "revId": "3504a308fcb36cbbbc6e06ef8b93148a0a99b129",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHYn////k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 2

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHh3///9E\u003d",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-19T07:24:30Z",
+      "side": 1,
+      "message": "This sentence had me spinning for a while, maybe because it is late(what does the Gerrit version have to do with it? oh, I get it) but i suggest rewording it as simply:  \"To filter the set of global capabilities the `q` parameter can be used.\"",
+      "revId": "3ba61d350316876ca0a9c3655974de95a7a40567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

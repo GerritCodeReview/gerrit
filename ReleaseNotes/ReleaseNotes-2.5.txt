@@ -535,6 +535,17 @@ The user's draft comments are now available under `My` >
 * Show NotFoundScreen if a user that can't create projects tries to
   access the ProjectCreationScreen
 
+* Add Edit, Reload next to non-editable Full Name field
++
+If the user database is actually an external system users might need go
+to another server to edit their account data, and then re-import their
+account data by going through a login cycle. This is highly similiar to
+LDAP where the directory provides account data and its refreshed every
+time the user visits the `/login/` URL handler.
++
+The URL for the external system can be configured for the
+link:#custom-extension[`CUSTOM_EXTENSION`] auth type.
+
 Access Rights
 ~~~~~~~~~~~~~
 
@@ -554,6 +565,7 @@ Restoring a change is similar to uploading a new change. If a branch
 gets closed by removing the access rights to upload new changes it
 shouldn't be possible to restore changes for this branch.
 
+[[hide-config]]
 * Make read access to `refs/meta/config` by default exclusive to
   project owners
 +
@@ -624,3 +636,895 @@ e.g. '.. gerrit create-project -b master -b foo -b bar ...'
 The verbose mode enabled by the new option makes the ls-groups
 command output a tab-separated table containing all available
 information about each group (though not its members).
+
+Documentation
+~~~~~~~~~~~~~
+
+Commands
+^^^^^^^^
+
+* document for the link:../documentation/cmd-create-group.html[`create-group`]
+  command that for unknown users an account is automatically created if
+  the LDAP authentication succeeds
+
+* Update documentation and help text for the
+  link:../documentation/cmd-review.html[`review`] SSH command
++
+The review command can be applied to multiple changes, but the
+help text was written in singular tense.
++
+Add a paragraph in the documentation explaining that the
+`--force-message` option will not be effective if the `review` command
+fails because the user is not permitted to change the label.
+
+* Clarify that `init --batch` doesn't drop old database objects
+
+* Update the list of unsupported slave commands
+
+* Fix link:../Documentation/cmd-stream-events.html[`stream-events`]
+  documentation
++
+Some attributes contained in the events were not described, for a few
+others the name was given in a wrong case.
+
+* Fix and complete synopsis of commands
+
+Access Control
+^^^^^^^^^^^^^^
+
+* Clarify the ref format for
+  link:../Documentation/access-control.html#category_push_merge[`Push
+  Merge Commit`]
++
+Elaborate on the required format of the ref used for `Push Merge Commit`
+access right entries to avoid user confusion when granting access to
+`refs/heads/*` still doesn't allow them to push any merge commits.
+
+* Document the
+  link:../Documentation/access-control.html#capability_emailReviewers[
+  `emailReviewers`] capability
+
+Error
+^^^^^
+* Improve documentation of link:../Documentation/error-change-closed.html[
+  `change closed` error]
++
+The `change closed` error can also occur when trying to submit a
+review label with the SSH review command onto a change that has
+been closed (submitted and merged, or abandoned) or onto a patchset
+that has been replaced by a newer patchset.
+
+* Correct documentation of `invalid author` and `invalid committer`
+  errors
++
+The error messages `you are not committer ...` and `you are not
+author ...` were replaced with `invalid author` and `invalid
+committer`.
+
+Dev
+^^^
+
+* Update push URL in link:../SUBMITTING_PATCHES[SUBMITTING_PATCHES]
++
+Pushes are now accepted at the same address as clone/fetch/pull.
+
+* Update link:../Documentation/dev-contributing.html[contributor
+  document]
++
+We now prefer to use Guava (previously known as Google Collections).
+
+* Fixed broken link to source code
++
+Updated the documentation source code links to point to:
+http://code.google.com/p/gerrit/source/checkout
+
+* State link:../Documentation/dev-eclipse.html#known-problems[known issues]
+  when debugging Gerrit with Eclipse
+
+* Improved the section on
+  link:../Documentation/dev-eclipse.html#hosted-mode[hosted mode
+  debugging]
++
+The existing section on hosted mode debugging left out a couple of
+steps, and the requirement to use `DEVELOPMENT_BECOME_ANY_ACCOUNT`
+instead of `OpenID` was not mentioned anywhere.
+
+* Add a link:../Documentation/dev-release.html[release preparation
+  document]
++
+Document what it takes to make a Gerrit stable or stable-fix release,
+and how to release Gerrit subprojects.
+
+Other
+^^^^^
+
+* Specify output file for curl commands in documentation
++
+For downloading the `commit-msg` hook and the `gerrit-cherry-pick`
+script users can either use scp or curl. Specify the output file for
+each curl command so that the result is equal to the matching scp
+command.
+
+* Document that user must be in repository root to install `commit-msg`
+  hook
+
+* Add some clarifications to the
+  link:../Documentation/install-quick.html[quick installation guide]
+
+* Add missing documentation about
+  link:../Documentation/config-gerrit.html#hooks[hook configuration]
++
+Add documentation of hook config for `change-restored`, `ref-updated`
+and `cla-signed` hooks.
+
+* Mention that also MySQL supports replication, not just Postgres
+
+* Make sorting of release notes consistent so that the release notes
+  for the newest release is always on top
+
+* Various corrections
++
+Correct typos, spelling mistakes, and grammatical errors.
+
+Dev
+~~~
+* Add link:../Documentation/dev-release.html#plugin-api[script for
+  releasing plugin API jars]
+
+* Pushes are now accepted at the same address as clone/fetch/pull
++
+To submit patches commits can be pushed to
+https://gerrit.googlesource.com/gerrit
+
+* Add `-Pchrome`, `-Pwebkit`, `-Pfirefox` aliases for building
++
+This makes it easier to build for the browser you want to
+test on, rather than remembering what its GWT name is.
+
+* Disable assertions for KeyCommandSet when running in gwtdebug mode
++
+The assertions in the KeyCommandSet class cause exceptions when a
+KeyCommand is registered several times.
+
+* Add the run profiles to the favorites menu
+
+* Add Intellij IDEA files to ignore list
+
+* Move local Maven repository to Google Cloud Storage
+
+* Make sure asciidoc uses unix line endings in generated HTML.
++
+Use an explicit asciidoc attribute to make sure the produced HTML will
+always contain unix line endings.  This will help in producing build
+results that are better comparable by size.
+
+* Remove timestamp from all `org.eclipse.core.resources.prefs` files
++
+Eclipse overwrites these files when we import projects using m2e.
+Eclipse 3 writes a timestamp at the top of these files making the Git
+working tree dirty.  Eclipse 4 (Juno) still overwrites these files but
+doesn't write the timestamp.  This should help to keep the working tree
+clean.  However, since the timestamp is currently present in these
+files, Eclispe 4 would still make them dirty by overwriting and
+effectively removing the timestamp.
++
+This change removes the timestamp from these files. This helps those
+using Eclipse 4 and doesn't make it worse for those still using Eclispe
+3.
+
+* Add Maven profile to skip build of plugin modules
++
+Building the plugin modules ('Plugin API' and 'Plugin Archetype') may
+take a significant amount of time (since many jars are downloaded).
+During development it is not needed to build the plugin modules. A new
+Maven profile was added that skips the build of the plugin modules,
+so that developers have a faster turnaround. This profile is called
+`no-plugins` and it's active by default. To include the plugin modules
+into the build activate the `all` profile:
++
+----
+  mvn clean package -P all
+----
++
+The script to make release builds has been adapted to activate the
+`all` profile so that the plugin modules are always built for release
+builds.
+
+Mail
+~~~~
+
+* Add unified diff to newchange mail template
++
+Add `$email.UnifiedDiff` as new macro to the `NewChange.vm` mail
+template. This macro is expanded to a unified diff of the patch.
+
+* link:../Documentation/config-gerrit.html#sendemail.includeDiff[
+  sendemail.includeDiff]: Enable `$email.UnifiedDiff` in `NewChange.vm`
++
+Instead of making site administrators hack the email template, allow
+admins to enable the diff feature by setting a configuration variable
+in `gerrit.config`.
+
+* link:../Documentation/config-gerrit.html#sendemail.maximumDiffSize[
+  sendemail.maximumDiffSize]: Limit the size of diffs sent by email
++
+If a unified diff included in an email will exceed the limit configured
+by the system administrator, only the affected file paths are listed in
+the email instead. This gives interested parties some context on the
+size and scope of the change, without killing their inbox.
+
+* Catch all exceptions when emailing change update
+
+* Allow unique from address generation
++
+Allow the from email address to be a ParameterizedString that handles
+the `${userHash}` variable. The value of the variable is the md5 hash
+of the user name. This allows unique generation of email addresses, so
+GMAIL threads names of users in conversations correctly. For example,
+the from pattern for gerrit-review defined in the Gerrit configuration
+looks like this:
++
+----
+  [sendemail]
+    from = ${user} <noreply-gerritcodereview+${userHash}@google.com>
+----
+
+* Show new change URLs in the body of the new change email
++
+Some email clients hide the signature section of an email
+automatically.  If there are no reviewers listed on a new change,
+such as when a change is pushed over HTTP and a notification is
+automatically sent out to any subscribed watchers, the URL was
+hidden inside of the signature and not readily available.
++
+Show the URL right away in the body.
+
+Miscellaneous
+~~~~~~~~~~~~~
+* Back in-memory caches with Guava, disk caches with H2
++
+Instead of using Ehcache for in-memory caches, use Guava. The Guava
+cache code has been more completely tested by Google in high load
+production environments, and it tends to have fewer bugs. It enables
+caches to be built at any time, rather than only at server startup.
++
+By creating a Guava cache as soon as it is declared, rather than
+during the LifecycleListener.start() for the CachePool, we can promise
+any downstream consumer of the cache that the cache is ready to
+execute requests the moment it is supplied by Guice. This fixes a
+startup ordering problem in the GroupCache and the ProjectCache, where
+code wants to use one of these caches during startup to resolve a
+group or project by name.
++
+Tracking the Gauva backend caches with a DynamicMap makes it possible
+for plugins to define their own in-memory caches using CacheModule's
+cache() function to declare the cache. It allows the core server to
+make the cache available to administrators over SSH with the gerrit
+show-caches and gerrit `flush-caches` commands.
++
+Persistent caches store in a private H2 database per cache, with a
+simple one-table schema that stores each entry in a table row as a
+pair of serialized objects (key and value). Database reads are gated
+by a BloomFilter, to reduce the number of calls made to H2 during
+cache misses. In theory less than 3% of cache misses will reach H2 and
+find nothing. Stores happen on a background thread quickly after the
+put is made to the cache, reducing the risk that a diff or web_session
+record is lost during an ungraceful shutdown.
++
+Cache databases are capped around 128M worth of stored data by running
+a prune cycle each day at 1 AM local server time. Records are removed
+from the database by ordering on the last access time, where last
+accessed is the last time the record was moved from disk to memory.
+
+* Add OpenID SSO support.
++
+Setting `OPENID_SSO` for
+link:../Documentation/config-gerrit.html#auth.type[`auth.type`] in the
+`gerrit.config` will allow the admin to specify an SSO entry point URL
+so that users clicking on "Sign In" are sent directly to that URL.
+
+* Git over HTTP BasicAuth against Gerrit basic auth.
++
+Allows the configuration of native Gerrit username/password
+authentication scheme used for Git over HTTP BasicAuth, as alternative
+of the default DigestAuth scheme against the random generated password
+on Gerrit DB.
++
+Example setting for link:../Documentation/config-gerrit.html#auth.type[
+`auth.type`] and link:../Documentation/config-gerrit.html#auth.gitBasicAuth[
+`auth.gitBasicAuth`]:
++
+----
+  [auth]
+    type = LDAP
+    gitBasicAuth = true
+----
++
+With this configuration Git over HTTP protocol will be authenticated using
+`HTTP-BasicAuth` and credentials checked on LDAP.
+
+* Migrate existing internal LDAP groups
++
+Previously, LDAP groups were mirrored in the AccountGroup table and
+given an Id and UUID the same as internal groups. Update these groups
+to be backed by only a GroupReference, with a special "ldap:" UUID
+prefix. Migrate all existing references to the UUID in ownerGroupUUID
+and any `project.config`.
++
+This made the LDAP group type obsolete and it was removed.
+
+* Abstract group systems into GroupBackend interface
+
+* Add more link:../Documentation/config-gerrit.html#theme[theme color
+  options]
++
+** Add a theme option to change outdated background color
+** Add odd/even row background color for tables such as list of open
+reviews.  This makes them more visible without clicking on them.
+
+* link:../Documentation/user-notify.html[Add `notify` section in
+  `project.config`]
++
+The notify section allows project owners to include emails to users
+directly from `project.config`. This removes the need to create fake
+user accounts to always BCC a group mailing list.
+
+* Include the contributor agreements in the `project.config` and
+  migrate contributor agreements to `All-Projects`
++
+Update the parsing of `project.config` to support the contributor
+agreements.
++
+Add a new schema to move the ContributorAgreement, AccountAgreement,
+and AccountGroupAgreement information into the `All-Projects`
+`project.config`.
+
+* Add `sameGroupVisibility` to `All-Projects` `project.config`
++
+The `sameGroupVisiblity` is needed to restrict the visibility of
+accounts when `accountVisibility` is `SAME_GROUP`. Namely, this is a
+way to make sure the `autoVerify` group in a `contributor-agreements`
+section is never suggested.
+
+* Log sign in failures on info level
++
+If for a user signing in into the Gerrit web UI fails, this can have
+many reasons, e.g. username is wrong, password is wrong, user is marked
+as inactive, user is locked in the user backend etc. In all cases the
+user just gets a generic error message 'Incorrect username or
+password.'. Gerrit administrators had trouble to find the exact reason
+for the sign in problem because the corresponding AccountException was
+not logged.
+
+* Do not log 'Object too large' as error with full stacktrace
++
+If a user pushes an object which is larger than the configured
+`receive.maxObjectSizeLimit` parameter, the push is rejected with an
+'Object too large' error. In addition an error log entry with the full
+stacktrace was written into the error log.
++
+This is not really a server error, but just a user doing something that
+is not allowed, and thus it should not be logged as error. For a Gerrit
+administrator it might still be interesting how often the limit is hit.
+This is why it makes sense to still log this on info level.
++
+For the user pushing a too large object we now do not print the
+'fatal: Unpack error, check server log' message anymore, but only the
+'Object too large' error message.
+
+* Add better explanations to rejection messages
++
+Provide information to the user why a certain push was rejected.
+
+* Automatic schema upgrade on Gerrit startup
++
+In case when Gerrit administrator(s) don't have a direct access to the
+file system where the review site is located it gets difficult to
+perform a schema upgrade (run the init program). For such cases it is
+convenient if Gerrit performs schema upgrade automatically on its
+startup.
++
+Since this is a potentially dangerous operation, by default it will not
+be performed. The configuration parameter
+link:../Documentation/config-gerrit.html#site.upgradeSchemaOnStartup[
+site.upgradeSchemaOnStartup] is used to switch on automatic schema
+upgrade.
+
+* Shorten column names that are longer than 30 characters
++
+Some databases can't deal with column names that are longer than 30
+characters. Examples are MaxDB and
+link:http://groups.google.com/group/repo-discuss/browse_thread/thread/ecb713d42c04ae8a/cc963525d8247a17?lnk=gst#cc963525d8247a17[Oracle].
++
+Gerrit had two column names in the `accounts` table that exceeded the
+30 characters: `displayPatchSetsInReverseOrder`,
+`displayPersonNameInReviewCategory`
++
+These 2 columns were renamed so that their names fit within the 30
+character range.
+
+* Increase the maximum length for tracking ID's to 32 characters
++
+So far tracking ID's had a maximum length of only 20 characters.
+
+* Set `GERRIT_SITE` in Gerrit hooks as environment variable
++
+Allows development of hooks parametrised on Gerrit location. This can
+be useful to allow hooks to load the Gerrit configuration when needed
+(from `$GERRIT_SITE`) or even store their additional config files under
+`$GERRIT_SITE/etc` and retrieve them at startup.
+
+* Add an exponentially rolling garbage collection script
++
+`git-exproll.sh` is a git garbage collection script aimed specifically
+at reducing exccessive garbage collection and particularly large
+packfile churn for Gerrit installations.
++
+Excessive garbage collection on "dormant" repos is wasteful of both CPU
+and disk IO.  Large packfile churn can lead to heavy RAM and FS usage
+on Gerrit servers when the Gerrit process continues to hold open the
+old delete packfiles.  This situation is most detrimental when jgit is
+configured with large caching parameters.  Aside from these downsides,
+running git gc often can be very beneficial to performance on servers.
+This script attempts to implement a git gc policy which avoids the
+downsides mentioned above so that git gc can be comfortably run very
+regularly.
++
+`git-exproll.sh` uses keep files to manage which files will get
+repacked.  It also uses timestamps on the repos to detect dormant repos
+to avoid repacking them at all.  The primary packfile objective is to
+keep around a series of packfiles with sizes spaced out exponentially
+from each other, and to roll smaller packfiles into larger ones once
+the smaller ones have grown.  This strategy attempts to balance disk
+space usage with avoiding rewriting large packfiles most of the time.
++
+The exponential packing objective above does not save a large amount of
+time or CPU, but it does prevent the packfile churn.  Depending on repo
+usage, however the dormant repo detection and avoidance can result in a
+very large time savings.
+
+* Unpack JARs for running servers in `$site_path/tmp`
++
+Instead of unpacking a running server into `~/.gerritcodereview/tmp`
+only use that location for commands like init where there is no active
+site. From gerrit.sh always use `$site_path/tmp` for the JARs to
+isolate servers that run on the same host under the same UNIX user
+account.
+
+[[custom-extension]]
+* Allow for the `CUSTOM_EXTENSION` `auth.type` to configure URLs for
+  editing the user name and obtaining an HTTP password
++
+Allow `CUSTOM_EXTENSION` auth type to supply by `auth.editFullNameUrl`
+a URL in the web UI that links users to the other account system,
+where they can edit their name, and then use another reload URL to
+cycle through the `/login/` step and refresh the data cached by Gerrit.
++
+Allow `CUSTOM_EXTENSION` auth type to supply by `auth.httpPasswordUrl`
+a URL in the web UI that allows users to obtain an HTTP password.
++
+Like the rest of the `CUSTOM_EXTENSION` stuff, this is hack that will
+eventually go away when there is proper support for authentication
+plugins.
+
+Performance
+~~~~~~~~~~~
+* Assume labels are correct in ListChanges
++
+To reduce end-user latency when displaying changes in a search result
+or user dashboard, assume the labels are accurate in the database at
+display time and don't recompute the access privileges of a reviewer.
+
+* Notify the cache that the git_tags was modified
++
+The tag cache was updated in-place, which prevented the H2 based
+storage from writing out the updated tag information. This meant
+servers almost never had the right data stored on disk and had to
+recompute it at startup.
++
+Anytime the value is now modified in place, put it back into the
+cache so it can be saved for use on the next startup.
+
+* Special case hiding `refs/meta/config` from Git clients
++
+VisibleRefFilter requires a lot of server CPU to accurately provide
+the correct listing to clients when they cannot read `refs/*`.
++
+Since the default configuration is now to link:#hide-config[
+hide `refs/meta/config`], use a special case in VisibleRefFilter that
+permits showing every reference except `refs/meta/config` if a user can
+read every other reference in the repository.
+
+* Avoid second remote call to lookup approvals when loading change
+  results
++
+By using the new link:../Documentation/rest-api.html#changes[`/changes/`]
+REST endpoint the web UI client now obtains the label information
+during the query and avoids a second round trip to lookup the current
+approvals for each displayed change. For most users this should improve
+the way the page renders. The verified and code review columns will be
+populated before the table is made visible, preventing the layout from
+"jumping" the way the old UI did when the 2nd RPC finally finished and
+supplied the label data.
+
+* Load patch set approvals in parallel
++
+ResultSet is a future-like interface, the database system is free to
+execute each result set asynchronously in the background if it
+supports that. gwtorm's default SQL backend always runs queries
+immediately and then returns a ListResultSet, so for most installs this
+has no real impact in ordering.
++
+For the system that runs gerrit-review, each query has a high cost in
+network latency, the system treats ResultSet as a future promise to
+supply the matching rows. Getting all of the necessary ResultSets up
+front allows the database to send all requests to the backend as early
+as possible, allowing the network latency to overlap.
+
+Upgrades
+--------
+* Update Gson to 2.1
+* Update GWT to 2.4.0
+* Update JGit to 2.0.0.201206130900-r.23-gb3dbf19
+
+* Use gwtexpui 1.2.6
++
+** Hide superfluous status text from clippy flash widget
+** Fix diappearance of text in CopyableLabel when clicking on it
+
+* Update Guava to 12.0.1
++
+This fixes a performance problem with LoadingCache where the cache's
+inner table did not dynamically resize to handle a larger number
+of cached items, causing O(N) lookup performance for most objects.
+
+Bug Fixes
+---------
+
+Security
+~~~~~~~~
+* Ensure that only administrators can change the global capabilities
++
+Only Gerrit server administrators (members of the groups that have
+the `administrateServer` capability) should be able to edit the
+global capabilities because being able to edit the global capabilities
+means being able to assign the `administrateServer` capability.
++
+Because of this on the `All-Projects` project it is disallowed to assign
++
+. the `owner` access rights on `refs/*`
++
+Project owners (members of groups to which the `owner` access right
+is assigned) are able to edit the access control list of the projects
+they own. Hence being owner of the `All-Projects` project would allow
+to edit the global capabilities and assign the `administrateServer`
+capabilitiy without being Gerrit administrator.
++
+In earlier Gerrit versions (2.1.x) it was already implemented like
+this but the corresponding checks got lost.
++
+. the 'push' access right on `refs/meta/config`
++
+Being able to push configuration changes to the `All-Projects` project
+allows to edit the global capabilities and hence a user with this
+access right could assign the `administrateServer` capability without
+being Gerrit administrator.
++
+From the Gerrit WebUI (ProjectAccessScreen) it is not possible anymore
+to assign on the `All-Projects` project the `owner` access right on
+`refs/*` and the `push` access right on `refs/meta/config`.
++
+In addition it is ensured that an `owner` access right that is assigned
+for `refs/*` on the `All-Projects` project has no effect and that only
+Gerrit administrators with the `push` access right can push
+configuration changes to the `All-Projects` project.
++
+It is still possible to assign both access rights (`owner` on `refs/*`
+and `push` on `refs/meta/config`) on the `All-Projects` project by directly
+editing its `project.config` file and pushing to `refs/meta/config`.
+To fix this it would be needed to reject assigning these access rights
+on the `All-Projects` project as invalid configuration, however doing this
+would mean to break existing configurations of the `All-Projects` project
+that assign these access rights. At the moment there is no migration
+framework in place that would allow to migrate `project.config` files.
+Hence this check is currently not done and these access rights in this
+case have simply no effect.
+
+Web
+~~~
+
+* Do not show "Session cookie not available" on sign in
++
+When LDAP is used for authentication, clicking on the 'Sign In' link
+opens a user/password dialog. In this dialog the "Session cookie not
+available." message was always shown as warning. This warning was
+pretty useless since the user was about to sign in because he had no
+current session.
++
+This problem was discussed on the
+link:https://groups.google.com/forum/#!topic/repo-discuss/j-t77m8-7I0/discussion[
+Gerrit mailing list].
+
+* Reject restoring a change if its destination branch does not exist
+  anymore
+
+* Reject submitting a change if its destination branch does not exist
+  anymore
++
+If a branch got deleted and there was an open change for this branch,
+it was still possible to submit this open change. As result the
+destination branch was implicitly recreated, even if the user
+submitting the change had no privileges to create branches.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1352[issue 1352]:
+  Don't display "Download" link for `/COMMIT_MSG`
++
+The commit message file is special, it doesn't actually exist and
+cannot be downloaded. Don't offer the download link in the side by
+side viewer.
+
+* Dependencies were lost in the ChangeScreen's "Needed By" table
++
+Older patchsets are now iterated for decendents, so that the dependency
+chain does not break on new upstream patchsets.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1442[issue 1442]:
+  Only show draft change dependency if current user is owner or reviewer
++
+In the change screen, the dependencies panel was showing draft changes
+in the "Depends On" and "Needed By" lists for all users, and when there
+was no user logged in.
+
+* Fix disappearance of action buttons when selecting the last patch set
+as `Old Version History`
+
+* Fix updating patch list when `Old Version History` is changed
++
+If a collapsed patch set panel was expanded and re-closed it's patch
+list wasn't updated anymore when the selection for `Old Version History`
+was changed.
+
+* Don't NPE if current patch set is not available
++
+Broken changes may have the current patch set field incorrectly
+specified, causing currentPatchSet to be unable to locate the
+correct data and return it. When this happens don't NPE, just
+claim the change is not reviewed.
+
+* Fix displaying of comments on deleted files
++
+Published and draft comments that are posted on deleted files were not
+loaded and displayed.
+
+* Only set reviewed attribute on open changes
++
+If a change is merged or abandoned, do not consider the reviewed
+property for the calling user, so that the change is not highlighted
+as unreviewed on the user's dashboard.
+
+* Change PatchTable pointer when loading patch
++
+This patch fixes an issue with the "file list" table displayed by
+clicking on the "Files" sub-menu when viewing a diff.
++
+Originally when navigating between patch screens the highlighted row
+(pointer) of the file list table would not change when not directly
+interacting with the table e.g. by clicking on the previous or next
+file link.
++
+This patch updates the file list table whenever a new patch screen is loaded
+so that the pointer corresponds to the current patch being displayed.
+
+* Don't hyperlink non-internal groups
++
+When an external group (such as LDAP) is used in a permission rule,
+don't attempt to link to the group in the internal account system UI.
+The group won't load successfully. Instead just display the name and
+put the UUID into a tooltip to show the full DN.
+
+* Fix: Popup jumps back to original position when resizing screen
++
+On 'Watched Projects' screen, the 'Browse' button displays a popup
+window. If the user moves it and then resizes the screen, it won't snap
+back to the original position.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1457[issue 1457]:
+  Prevent groups from being renamed to empty string
+
+* Fixed AccountGroupInfoScreen search callback
++
+If the search returned no results, the search button would not be
+enabled and the status panel was not shown. Fixed the panel and button
+to always be enabled.
+
+* Fix NullPointerException on `/p/`
++
+Requesting just `/p/` caused a NullPointerException as the redirection
+logic had no project name to form a URL from. Detect requests for `/p/`
+and redirect to 'Admin' > 'Projects' to show the projects the caller
+has access to.
+
+Mail
+~~~~
+
+* Fix: Rebase did not mail all reviewers
+
+* Fix email showing in AccountLink instead of names
++
+Prefer the full name for the display text of the link.
+
+* Fix signature delimiter for e-mail messages
++
+Make sure the signature delimiter is "-- " (two dashes and a space).
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1397[issue 1397]:
+  Don't wait for banner message from SMTP server after STARTTLS
+  negotiation
++
+According to RFC 2847 section 5.2, SMTP server won't send the banner
+message again after STARTTLS negotiation. The original code will hang
+until SMTP server kicks it off due to timeout and can't send email with
+STARTTLS enabled, aka. `sendemail.smtpEncryption = tls`.
+
+SSH
+~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1437[issue 1437]:
+  Send event to stream when draft change is published
++
+When a change is uploaded as a draft, a `patchset-created` event is
+sent to the event stream, but since drafts are private to the owner,
+the event is not publicly visible.  When the draft is later published,
+no publicly visible event was sent. As result of this external tools
+that rely on the event stream to detect new changes didn't receive
+events for any changes that were first uploaded as draft.
++
+There is now a new event, `draft-published`, which is sent to the
+event stream when a draft change is published.  The content of this
+event is the same as `patchset-created`.
+
+* Fix: Wrong ps/rev in `change-merged` stream-event
++
+When using cherry-pick as merge strategy, the wrong ref was set in the
+`change-merged` stream-event.
++
+The issue stems from Gerrit would not acknowledge the resulting new
+pachset (the actual cherry-pick).
+
+* Fix the `export-review-notes` command's Guice bindings
++
+The `export-review-notes` command was broken becasue of the CachePool
+class being bound twice. The startup of the command failed because of
+that.
+
+* Fix sorting of SSH help text
++
+Commands were displaying in random order, sort commands before output.
+
+* `replicate` command: Do not log errors for wrong user input
++
+If the user provided an invalid combination of command options or an
+non existing project name this was logged in the `error.log` but
+printing the error out to the user is sufficient.
+
+Authentication
+~~~~~~~~~~~~~~
+
+* Fix NPE in LdapRealm caused by non-LDAP users
++
+Servers that are connected to LDAP but have non-LDAP user accounts
+created by `gerrit create-account` (e.g. batch role accounts for
+build systems) were crashing with a NullPointerException when the
+LdapRealm tried to discover which LDAP groups the non-LDAP user
+was a member of in the directory.
+
+* Fix domain field of HTTP digest authentication
++
+Per RFC 2617 the domain field is optional. If it is not present,
+the digest token is valid on any URL on the server. When set it
+must be a path prefix describing the URLs that the password would
+be valid against.
++
+When a canonical URL is known, supply that as the only domain that
+is valid. When the URL is missing (e.g. because the provider is
+still broken) rely on the context path of the application instead.
+
+Replication
+~~~~~~~~~~~
+
+* Fix inconsistent behaviour when replicating `refs/meta/config`
++
+In `replication.config`, if `authGroup` is set to be used together with
+`mirror = true`, refs blocked through the `authGroup` are deleted from
+the slave/mirror. The same correctly applies if the `authGroup` is used
+to block `refs/meta/config`.
++
+However, if `replicatePermission` was set to `false`, Gerrit was
+refusing to clean up `refs/meta/config` on the slave/mirror.
+
+* Fix bug with member assignment order in PushReplication.
++
+The groupCache was being used before it was set in the class. Fix the
+ordering of the assignment.
+
+Approval Categories
+~~~~~~~~~~~~~~~~~~~
+
+* Make `NoBlock` and `NoOp` approval category functions work
+
+* Fix category block status without negative score
++
+Categories without blocking or approval scores will result in the
+blocking/approved image appearing in the category column after changes
+are merged should the score by the reviewer match the minimum or
+maximum value respectively.
++
+A check to ignore "No Score" values of 0 was added.
+
+* Fix NPE in `PRED__load_commit_labels_1`
++
+If a change query uses reviewer information and loads the approvals
+map, but there are no approvals for a given patch set available, the
+collection came out null, which cannot be iterated. Make it always be
+an empty list.
+
+Other
+~~~~~
+
+* Set link:../Documentation/config-gerrit.html#transfer.timeout[transfer
+  timeout] for pushes through HTTP
++
+The transfer timeout was only set when pushing via SSH.
+
+* link:../Documentation/config-gerrit.html#receive.maxObjectSizeLimit[
+  Limit maximum Git object size] when pushing through HTTP
++
+The limit for the maximum object size was only set when pushing via SSH.
+
+* Fix units of `httpd.maxwait`
++
+The default unit here is minutes, but Jetty wants to get milliseconds
+from the maxWait field. Convert the minutes returned by getTimeUnit to
+be milliseconds, matching what Jetty expects.
++
+This should resolve a large number of 503 errors for Git over HTTP.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1493[issue 1493]:
+  Fix wrong "change ... closed" message on direct push
++
+Pushing a commit directly into the central repository with bypassing
+code review wrongly resulted in a "change ... closed" message if the
+commit was already pushed for review and if a Change-Id was included in
+the commit message. Despite of the error message the push succeeded and
+the corresponding change got closed. Now the message is not printed
+anymore.
+
+* Fix NPE that can hide guice CreationException on site init
++
+Note that the `--show-stack-trace` option is needed to print the stack
+trace when a program stops with a Die exception.
+
+* Do not automatically add author/committer as reviewer to drafts
+
+* Fix NullPointerException in MergeOp
++
+The body of the commit object may have been discarded earlier to
+save memory, so ensure it exists before asking for the author.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1396[issue 1396]:
+  Initialize the submodule commit message buffer
+
+* Create index for submodule subscriptions on site upgrade
+
+* Fix URL to Jetty XML DTDs so they can be properly validated
+
+* Fix resource leak when `changeMerge.test` is `true`
+
+* Fix possible synchronization issue in TaskThunk
+
+* Make sure we use only one type of NoteMerger for review notes creation
+
+* Fix generation of owner group in GroupDetail
++
+Set the GroupDetail.ownerGroup to the AccountGroup.ownerGroupUUID
+instead of the groupUUID.

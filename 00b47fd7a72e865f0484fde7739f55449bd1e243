@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHh3////I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-19T05:27:01Z",
+      "side": 1,
+      "message": "Won\u0027t this also add [OUTDATED] to the end of the change?\n\nAlso, while this table is probably only used for the changescreen now, it was originally also used on the ChangeList screen.  When Shawn started with the REST api stuff I think he just copied the old ChangeTable and renamed it ChangeTable2.  But I suspect that the intent is to merge them again, so we probably need some way to signal that abandoned changes should be highlighted.  I kinda wonder if it wouldn\u0027t be possible to merge these 2 again by making one inherit from the other to help prevent further diverging?",
+      "revId": "00b47fd7a72e865f0484fde7739f55449bd1e243",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

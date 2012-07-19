@@ -206,7 +206,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {
       s += " (" + c.getStatus().name() + ")";
     }
-    if (! c.isLatest()) {
+    if (! c.isLatest() || Change.Status.ABANDONED.equals(c.getStatus())) {
       s += " [OUTDATED]";
       table.getRowFormatter().addStyleName(row, Gerrit.RESOURCES.css().outdated());
     } else {

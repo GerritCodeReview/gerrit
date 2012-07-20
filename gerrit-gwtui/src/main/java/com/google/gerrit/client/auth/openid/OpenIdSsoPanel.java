@@ -16,10 +16,8 @@ package com.google.gerrit.client.auth.openid;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.auth.openid.DiscoveryResult;
-import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;

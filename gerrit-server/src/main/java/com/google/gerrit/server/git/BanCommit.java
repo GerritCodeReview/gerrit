@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.GitRepositoryManager.REF_REJECT_COMMITS;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;

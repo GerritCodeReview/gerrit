@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHtH///30\u003d",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-20T01:35:50Z",
+      "side": 1,
+      "message": "GET /changes/?format\u003dJSON \\\n \u0026q\u003dis:open+owner:self\\\n \u0026q\u003dis:open+reviewer:self+-owner:self\\\n \u0026q\u003dis:closed+own\\\n er:self+limit:5 HTTP/1.0\n\nhere the second \u0027q\u0027 end part  \u0027+-owner:self\u0027 is wrong ?\u0027, it should be \u0027+owner:self\u0027",
+      "revId": "c57b1ff2d4514e1f7aa7c7ae25d92a15606e16ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

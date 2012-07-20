@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHtX///y4\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-07-20T16:54:11Z",
+      "side": 1,
+      "message": "s/project/projects/  or  s/project/a project/",
+      "revId": "b28405eedac561d2242da86fe8a7407b7176a619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtX///y0\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-07-20T16:54:11Z",
+      "side": 1,
+      "message": "s/right/rights/",
+      "revId": "b28405eedac561d2242da86fe8a7407b7176a619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHuH////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-20T06:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHtH///6U\u003d",
+      "revId": "eea9a536addc2de911bdb0705b24e26de2b5d411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHtH///6Y\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHuH////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-20T06:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHtH///6Y\u003d",
+      "revId": "eea9a536addc2de911bdb0705b24e26de2b5d411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHtH///6M\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-07-20T00:51:24Z",
       "side": 1,
       "message": "\"automatically opened on a closed change if open changes\ndepend on it\"",
+      "revId": "eea9a536addc2de911bdb0705b24e26de2b5d411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHuH////0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-20T06:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHtH///6M\u003d",
       "revId": "eea9a536addc2de911bdb0705b24e26de2b5d411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

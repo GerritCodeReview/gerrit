@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHuH////o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-20T06:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHtX///3s\u003d",
+      "revId": "0c7e761d4b83bbc2dbb28f90eb211df8023adfa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHtX///3o\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-20T06:24:30Z",
       "side": 1,
       "message": "nit: If you decide to add the newline on line 13, you should also consider adding one before \"With this change...\"",
+      "revId": "0c7e761d4b83bbc2dbb28f90eb211df8023adfa0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHuH////s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-20T06:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHtX///3o\u003d",
       "revId": "0c7e761d4b83bbc2dbb28f90eb211df8023adfa0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -446,7 +446,7 @@ See <<restart_changes,below>>.
 
 [[category_abandon]]
 Abandon
-~~~~
+~~~~~~~
 
 This category controls whether users are allowed to abandon changes
 to projects in Gerrit. It can give permission to abandon a specific

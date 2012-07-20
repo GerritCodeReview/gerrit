@@ -673,6 +673,12 @@ public class MergeOp {
           identifiedUserFactory.create(submitter.getAccountId());
       Set<String> emails = new HashSet<String>();
       for (RevCommit c : codeReviewCommits) {
+        try {
+          rw.parseBody(c);
+        } catch (IOException e) {
+          log.warn("Cannot parse commit " + c.name() + " in " + destBranch, e);
+          continue;
+        }
         emails.add(c.getAuthorIdent().getEmailAddress());
       }
 

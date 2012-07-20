@@ -58,8 +58,8 @@ Endpoints
 [[accounts_self_capabilities]]
 /accounts/self/capabilities (Account Capabilities)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Returns the global capabilities (such as createProject or
-createGroup) that are enabled for the calling user. This can be used
+Returns the global capabilities (such as `createProject` or
+`createGroup`) that are enabled for the calling user. This can be used
 by UI tools to discover if administrative features are available
 to the caller, so they can hide (or show) relevant UI actions.
 
@@ -98,6 +98,25 @@ Administrator that has authenticated with digest authentication:
     "startReplication": true
   }
 ----
+
+To filter the set of global capabilities the `q` parameter can be used.
+Filtering may decrease the response time by avoiding looking at every
+possible alternative for the caller.
+
+----
+  GET /a/accounts/self/capabilities?format=JSON&q=createAccount&q=createGroup HTTP/1.0
+  Authorization: Digest username="admin", realm="Gerrit Code Review", nonce="...
+
+  )]}'
+  {
+    "createAccount": true,
+    "createGroup": true
+  }
+----
+
+Most results are boolean, and a field is only present when its value
+is `true`. link:json.html#queryLimit[`queryLimit`] is a range and is
+presented as a nested JSON object with `min` and `max` members.
 
 [[projects]]
 /projects/ (List Projects)

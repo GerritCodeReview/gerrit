@@ -34,6 +34,24 @@
       "revId": "c57b1ff2d4514e1f7aa7c7ae25d92a15606e16ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtH///1Y\u003d",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-20T05:12:42Z",
+      "side": 1,
+      "message": "all above of my guess is wrong. I got it by \u0027?format\u003dJSON\u0026q\u003dstatus:open+OR+reviewer:bruce+AND+reviewer:david+OR+-owner:\"Edwin+Kempin\"\u0027\n\n\u0027+\u0027 just like space \n\nAND , this is default relation\n\nOR \n\n\u0027-\u0027 is NOT",
+      "parentUuid": "AAAHtH///3A\u003d",
+      "revId": "c57b1ff2d4514e1f7aa7c7ae25d92a15606e16ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHuH////g\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-20T14:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHjH///4M\u003d",
+      "revId": "02e216f969ae1ba8dc908b17eb6a4e433a04c2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHjH///34\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-19T18:25:48Z",
       "side": 1,
       "message": "\"and reformats it as html\"?",
+      "revId": "02e216f969ae1ba8dc908b17eb6a4e433a04c2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHuH////c\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-20T14:07:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHjH///34\u003d",
       "revId": "02e216f969ae1ba8dc908b17eb6a4e433a04c2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

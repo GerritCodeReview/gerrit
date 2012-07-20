@@ -288,8 +288,8 @@ public class PluginLoader implements LifecycleListener {
       }
 
       try {
-        runPlugin(name, jar, active);
-        if (active == null) {
+        Plugin loadedPlugin = runPlugin(name, jar, active);
+        if (active == null && !loadedPlugin.isDisabled()) {
           log.info(String.format("Loaded plugin %s", name));
         }
       } catch (PluginInstallException e) {
@@ -300,7 +300,7 @@ public class PluginLoader implements LifecycleListener {
     cleanInBackground();
   }
 
-  private void runPlugin(String name, File jar, Plugin oldPlugin)
+  private Plugin runPlugin(String name, File jar, Plugin oldPlugin)
       throws PluginInstallException {
     FileSnapshot snapshot = FileSnapshot.save(jar);
     try {
@@ -327,6 +327,7 @@ public class PluginLoader implements LifecycleListener {
         disabled.put(name, newPlugin);
       }
       broken.remove(name);
+      return newPlugin;
     } catch (Throwable err) {
       broken.put(name, snapshot);
       throw new PluginInstallException(err);

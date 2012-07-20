@@ -16,6 +16,24 @@
       "revId": "c57b1ff2d4514e1f7aa7c7ae25d92a15606e16ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtH///3A\u003d",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-07-20T04:19:36Z",
+      "side": 1,
+      "message": "guess   \u0027+\u0027 means AND, \u0027+-\u0027  means OR,  interesting.  If I am right, on this way \u0027-\u0027  will mean NOT but \u0027-\u0027 cannot work.",
+      "parentUuid": "AAAHtH///30\u003d",
+      "revId": "c57b1ff2d4514e1f7aa7c7ae25d92a15606e16ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

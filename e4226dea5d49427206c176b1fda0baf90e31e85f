@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHuH////U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-20T08:11:09Z",
+      "side": 1,
+      "message": "This paragraph tells the same as the first paragraph. I suggest to remove it.",
+      "revId": "e4226dea5d49427206c176b1fda0baf90e31e85f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

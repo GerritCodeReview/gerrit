@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
@@ -164,6 +165,11 @@ class UrlModule extends ServletModule {
       protected void doGet(HttpServletRequest req, HttpServletResponse rsp)
           throws IOException {
         String name = req.getPathInfo();
+        if (Strings.isNullOrEmpty(name)) {
+          toGerrit(PageLinks.ADMIN_PROJECTS, req, rsp);
+          return;
+        }
+
         while (name.endsWith("/")) {
           name = name.substring(0, name.length() - 1);
         }

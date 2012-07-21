@@ -16,6 +16,7 @@ package com.google.gerrit.server.events;
 
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -46,6 +47,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -119,6 +121,79 @@ public class EventFactory {
     a.sortKey = change.getSortKey();
     a.open = change.getStatus().isOpen();
     a.status = change.getStatus();
+  }
+
+  /**
+   * Add submitRecords to an existing ChangeAttribute.
+   *
+   * @param ca
+   * @param change
+   */
+  public void addSubmitRecords(ChangeAttribute ca,
+                               List<SubmitRecord> submitRecords)
+  {
+    ca.submitRecords = new ArrayList<SubmitRecordAttribute>();
+
+    for (SubmitRecord submitRecord : submitRecords) {
+      SubmitRecordAttribute sa = new SubmitRecordAttribute();
+      switch (submitRecord.status) {
+      case OK:
+        sa.status = "OK";
+        break;
+
+      case NOT_READY:
+        sa.status = "NOT_READY";
+        if (!submitRecord.labels.isEmpty()) {
+          sa.labels = new ArrayList<SubmitLabelAttribute>();
+          for (SubmitRecord.Label lbl : submitRecord.labels) {
+            SubmitLabelAttribute la = new SubmitLabelAttribute();
+            la.label = lbl.label;
+            switch (lbl.status) {
+            case OK:
+              la.status = "OK";
+              break;
+
+            case REJECT:
+              la.status = "REJECT";
+              break;
+
+            case NEED:
+              la.status = "NEED";
+              break;
+
+            case IMPOSSIBLE:
+              la.status = "IMPOSSIBLE";
+              break;
+
+            default:
+              throw new IllegalArgumentException(
+                  "Unsupported SubmitRecord.Label.status (" + lbl.status
+                  + ")");
+            }
+            sa.labels.add(la);
+          }
+        }
+        break;
+
+      case CLOSED:
+        sa.status = "CLOSED";
+        break;
+
+      case RULE_ERROR:
+        sa.status = "RULE_ERROR";
+        break;
+
+      default:
+        throw new IllegalStateException(
+            "Unsupported SubmitRecord.status + (" + submitRecord.status
+            + ")");
+      }
+      ca.submitRecords.add(sa);
+    }
+    // Remove empty lists so a confusing label won't be displayed in the output.
+    if (ca.submitRecords.isEmpty()) {
+      ca.submitRecords = null;
+    }
   }
 
   public void addDependencies(ChangeAttribute ca, Change change) {

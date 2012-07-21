@@ -70,6 +70,11 @@ class Query extends SshCommand {
     processor.setIncludeDependencies(on);
   }
 
+  @Option(name = "--submit-records", usage = "Include submit and label status")
+  void setSubmitRecords(boolean on) {
+    processor.setIncludeSubmitRecords(on);
+  }
+
   @Argument(index = 0, required = true, multiValued = true, metaVar = "QUERY", usage = "Query to execute")
   private List<String> query;
 

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -24,6 +25,8 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.PatchSetAttribute;
 import com.google.gerrit.server.events.QueryStats;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
@@ -92,6 +95,7 @@ public class QueryProcessor {
   private final ChangeQueryRewriter queryRewriter;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager repoManager;
+  private final ChangeControl.Factory changeControlFactory;
   private final int maxLimit;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
@@ -105,6 +109,7 @@ public class QueryProcessor {
   private boolean includeFiles;
   private boolean includeCommitMessage;
   private boolean includeDependencies;
+  private boolean includeSubmitRecords;
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
@@ -113,7 +118,8 @@ public class QueryProcessor {
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
       ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      ChangeControl.Factory changeControlFactory) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
@@ -122,6 +128,7 @@ public class QueryProcessor {
     this.maxLimit = currentUser.getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
+    this.changeControlFactory = changeControlFactory;
   }
 
   int getLimit() {
@@ -182,6 +189,10 @@ public class QueryProcessor {
 
   public void setIncludeCommitMessage(boolean on) {
     includeCommitMessage = on;
+  }
+
+  public void setIncludeSubmitRecords(boolean on) {
+    includeSubmitRecords = on;
   }
 
   public void setOutput(OutputStream out, OutputFormat fmt) {
@@ -258,6 +269,22 @@ public class QueryProcessor {
           ChangeAttribute c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
           eventFactory.addTrackingIds(c, d.trackingIds(db));
+
+          if (includeSubmitRecords) {
+            try {
+              PatchSet.Id psId = d.getChange().currentPatchSetId();
+              Change.Id changeId = psId.getParentKey();
+              ChangeControl control =
+                changeControlFactory.validateFor(changeId);
+              List<SubmitRecord> submitResult = control.canSubmit(db.get(),
+                                                                  psId);
+              eventFactory.addSubmitRecords(c, submitResult);
+            } catch (OrmException e) {
+              // Squash DB exceptions and leave submit records partially filled
+            } catch (NoSuchChangeException e) {
+              // Squash DB exceptions and leave submit records partially filled
+            }
+          }
 
           if (includeCommitMessage) {
             eventFactory.addCommitMessage(c, d.commitMessage(repoManager, db));

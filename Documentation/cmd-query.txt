@@ -16,6 +16,7 @@ SYNOPSIS
   [--comments]
   [--commit-message]
   [--dependencies]
+  [--submit-records]
   [--]
   <query>
   [limit:<n>]
@@ -79,6 +80,11 @@ OPTIONS
 --dependencies::
 	Show information about patch sets which depend on, or are needed by,
 	each patch set.
+
+--submit-records::
+	Show submit record information about the change, which
+	includes whether the change has or can be submitted, and
+	whether each review label has had its criteria met.
 
 limit:<n>::
 	Maximum number of results to return.  This is actually a

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -24,6 +25,7 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.PatchSetAttribute;
 import com.google.gerrit.server.events.QueryStats;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gson.Gson;
@@ -105,6 +107,7 @@ public class QueryProcessor {
   private boolean includeFiles;
   private boolean includeCommitMessage;
   private boolean includeDependencies;
+  private boolean includeSubmitRecords;
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
@@ -113,7 +116,7 @@ public class QueryProcessor {
   QueryProcessor(EventFactory eventFactory,
       ChangeQueryBuilder.Factory queryBuilder, CurrentUser currentUser,
       ChangeQueryRewriter queryRewriter, Provider<ReviewDb> db,
-      GitRepositoryManager repoManager) {
+                 GitRepositoryManager repoManager) {
     this.eventFactory = eventFactory;
     this.queryBuilder = queryBuilder.create(currentUser);
     this.queryRewriter = queryRewriter;
@@ -182,6 +185,10 @@ public class QueryProcessor {
 
   public void setIncludeCommitMessage(boolean on) {
     includeCommitMessage = on;
+  }
+
+  public void setIncludeSubmitRecords(boolean on) {
+    includeSubmitRecords = on;
   }
 
   public void setOutput(OutputStream out, OutputFormat fmt) {
@@ -258,6 +265,15 @@ public class QueryProcessor {
           ChangeAttribute c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
           eventFactory.addTrackingIds(c, d.trackingIds(db));
+
+          if (includeSubmitRecords) {
+            PatchSet.Id psId = d.getChange().currentPatchSetId();
+            PatchSet patchSet = db.get().patchSets().get(psId);
+            Change.Id changeId = psId.getParentKey();
+            List<SubmitRecord> submitResult = d.changeControl().canSubmit( //
+                db.get(), patchSet, null, false, true);
+            eventFactory.addSubmitRecords(c, submitResult);
+          }
 
           if (includeCommitMessage) {
             eventFactory.addCommitMessage(c, d.commitMessage(repoManager, db));

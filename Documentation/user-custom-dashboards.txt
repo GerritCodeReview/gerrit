@@ -1,0 +1,48 @@
+Gerrit Code Review - Custom Dashboards
+======================================
+
+Description
+-----------
+
+A custom dashboard is shown in a layout similar to the per-user
+dashboard, but the sections are entirely configured from the URL.
+Because of this custom dashboards are stateless on the server side.
+Users or projects can simply trade URLs using an external system like
+a project wiki, or site administrators can put the links into the
+site's `GerritHeader.html` or `GerritFooter.html`.
+
+Dashboards are available via URLs like:
+----
+  /#/dashboard/?title=Custom+View&To+Review=reviewer:john.doe@example.com&Pending+In+myproject=project:myproject+is:open
+----
+This opens a view showing the title "Custom View" with two sections,
+"To Review" and "Pending in myproject":
+----
+  Custom View
+
+  To Review
+
+    Results of `reviewer:john.doe@example.com`
+
+  Pending In myproject
+
+    Results of `project:myproject is:open`
+----
+
+The dashboard URLs are easy to configure. All keys and values in the
+URL are encoded as query parameters. Set the page and window title
+using an optional `title=Text` parameter.
+
+Each section's title is defined by the parameter name, the section
+display order is defined by the order the parameters appear in the
+URL, and the query results are defined by the parameter value. To
+limit the number of rows in a query use `limit:N`, otherwise the
+entire result set will be shown (up to the user's query limit).
+
+Parameters may be separated from each other using any of the following
+characters, as some users may find one more readable than another:
+`&` or `;` or `,`
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

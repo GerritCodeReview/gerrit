@@ -21,17 +21,55 @@ of server versions.
 
 Most of this documentation refers to either type as a plugin.
 
-Requirements
-------------
+[[getting-started]]
+Getting started
+---------------
 
-To start development, clone the sample Maven project:
+To get started with the development of a plugin there are two
+recommended ways:
 
+. use the Gerrit Plugin Maven archetype to create a new plugin project:
++
+With the Gerrit Plugin Maven archetype you can create a skeleton for a
+plugin project.
++
+----
+mvn archetype:generate -DarchetypeGroupId=com.google.gerrit \
+    -DarchetypeArtifactId=gerrit-plugin-archetype \
+    -DarchetypeVersion=2.5-SNAPSHOT \
+    -DgroupId=com.google.gerrit \
+    -DartifactId=testPlugin
+----
++
+Maven will ask for additional properties and then create the plugin in
+the current directory. To change the default property values answer 'n'
+when Maven asks to confirm the properties configuration. It will then
+ask again for all properties including those with predefined default
+values.
+
+. clone the sample helloworld plugin:
++
+This is a Maven project that adds an SSH command to Gerrit to print
+out a hello world message. It can be taken as an example to develop
+an own plugin.
++
 ----
 $ git clone https://gerrit.googlesource.com/plugins/helloworld
 ----
++
+When starting from this example one should take care to adapt the
+`Gerrit-ApiVersion` in the `pom.xml` to the version of Gerrit for which
+the plugin is developed. If the plugin is developed for a released
+Gerrit version (no `SNAPSHOT` version) then the URL for the
+`gerrit-api-repository` in the `pom.xml` needs to be changed to
+`https://gerrit-api.commondatastorage.googleapis.com/release/`.
 
-This project includes the dependencies file that matches the war file to
-develop against. Dependencies are offered in two different formats:
+[[API]]
+API
+---
+
+There are two different API formats offered against which plugins can
+be developed:
 
 gerrit-extension-api.jar::
   A stable but thin interface. Suitable for extensions that need

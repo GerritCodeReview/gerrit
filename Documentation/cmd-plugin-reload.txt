@@ -13,8 +13,13 @@ SYNOPSIS
 
 DESCRIPTION
 -----------
-Reload/Restart plugins. Whether a plugin is reloaded or restarted
-is defined by the plugin's link:dev-plugins.html#reload_method[reload method].
+Reload/Restart plugins.
+
+Whether a plugin is reloaded or restarted is defined by the plugin's
+link:dev-plugins.html#reload_method[reload method].
+
+E.g. a plugin needs to be reloaded if its configuration is modified to
+make the new configuration data become active.
 
 ACCESS
 ------

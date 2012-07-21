@@ -57,6 +57,9 @@ currentPatchSet:: Current <<patchSet,patchSet attribute>>.
 
 patchSets:: All <<patchSet,patchSet attribute>> for this change.
 
+submitRecords:: The <<submitRecord,submitRecord attribute>> contains
+information about whether this change has been or can be submitted.
+
 [[trackingid]]
 trackingid
 ----------
@@ -133,6 +136,35 @@ of a user.
 min:: lower limit
 
 max:: upper limit
+
+[[submitRecord]]
+submitRecord
+------------
+Information about the submit status of a change.
+
+status:: Current submit status.
+
+  NOT_READY;; Change is not ready to be merged.
+
+  OK;; Change is ready to be merged.
+
+  CLOSED;; Change has been merged.
+
+labels:: If the status is NOT_READY, this describes the state of
+each code review <<label,label attribute>>.
+
+[[label]]
+label
+-----
+Information about a code review label for a change.
+
+label:: The name of the label.
+
+status:: The status of the label.
+
+  NEED;; The acceptance criteria for this label have not been met.
+
+  OK;; The acceptance criteria for this label have been met.
 
 SEE ALSO
 --------

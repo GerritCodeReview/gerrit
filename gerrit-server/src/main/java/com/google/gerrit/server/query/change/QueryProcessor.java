@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -105,6 +106,7 @@ public class QueryProcessor {
   private boolean includeFiles;
   private boolean includeCommitMessage;
   private boolean includeDependencies;
+  private boolean includeSubmitRecords;
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
@@ -184,6 +186,10 @@ public class QueryProcessor {
     includeCommitMessage = on;
   }
 
+  public void setIncludeSubmitRecords(boolean on) {
+    includeSubmitRecords = on;
+  }
+
   public void setOutput(OutputStream out, OutputFormat fmt) {
     this.outputStream = out;
     this.outputFormat = fmt;
@@ -258,6 +264,15 @@ public class QueryProcessor {
           ChangeAttribute c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
           eventFactory.addTrackingIds(c, d.trackingIds(db));
+
+          if (includeSubmitRecords) {
+            PatchSet.Id psId = d.getChange().currentPatchSetId();
+            PatchSet patchSet = db.get().patchSets().get(psId);
+            Change.Id changeId = psId.getParentKey();
+            List<SubmitRecord> submitResult = d.changeControl().canSubmit( //
+                db.get(), patchSet, null, false, true);
+            eventFactory.addSubmitRecords(c, submitResult);
+          }
 
           if (includeCommitMessage) {
             eventFactory.addCommitMessage(c, d.commitMessage(repoManager, db));

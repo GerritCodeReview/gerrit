@@ -42,4 +42,5 @@ public class ChangeAttribute {
 
     public List<DependencyAttribute> dependsOn;
     public List<DependencyAttribute> neededBy;
+    public List<SubmitRecordAttribute> submitRecords;
 }

@@ -57,6 +57,9 @@ currentPatchSet:: Current <<patchSet,patchSet attribute>>.
 
 patchSets:: All <<patchSet,patchSet attribute>> for this change.
 
+submitRecords:: The <<submitRecord,submitRecord attribute>> contains
+information about whether this change has been or can be submitted.
+
 [[trackingid]]
 trackingid
 ----------
@@ -133,6 +136,47 @@ of a user.
 min:: lower limit
 
 max:: upper limit
+
+[[submitRecord]]
+submitRecord
+------------
+Information about the submit status of a change.
+
+status:: Current submit status.
+
+  OK;; The change is ready for submission or already submitted.
+
+  NOT_READY;; The change is missing a required label.
+
+  RULE_ERROR;; An internal server error occurred preventing computation.
+
+labels:: This describes the state of each code review
+<<label,label attribute>>, unless the status is RULE_ERROR.
+
+[[label]]
+label
+-----
+Information about a code review label for a change.
+
+label:: The name of the label.
+
+status:: The status of the label.
+
+  OK;; This label provides what is necessary for submission.
+
+  REJECT;; This label prevents the change from being submitted.
+
+  NEED;; The label is required for submission, but has not
+  been satisfied.
+
+  MAY;; The label may be set, but it's neither necessary for
+  submission nor does it block submission if set.
+
+  IMPOSSIBLE;; The label is required for submission, but is impossible
+  to complete.  The likely cause is access has not been granted
+  correctly by the project owner or site administrator.
+
+by:: The <<account,account>> that applied the label.
 
 SEE ALSO
 --------

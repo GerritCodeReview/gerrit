@@ -104,6 +104,24 @@
       "revId": "1c79ed7a72369fba4fb9cd94bbd91cdca3e93580",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtH//+0Q\u003d",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-23T09:02:56Z",
+      "side": 1,
+      "message": "Ah, OK.",
+      "parentUuid": "AAAHun///8s\u003d",
+      "revId": "1c79ed7a72369fba4fb9cd94bbd91cdca3e93580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

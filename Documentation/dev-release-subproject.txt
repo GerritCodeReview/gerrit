@@ -1,11 +1,11 @@
-Making a Gerrit Sub Project Release
-===================================
+Making a Release of a Gerrit Subproject / Core Plugin
+=====================================================
 
-Preparing a New Gerrit Subproject Snapshot for Publishing
----------------------------------------------------------
+Preparing a New Snapshot for Publishing
+---------------------------------------
 
-* You will need to have the following in the pom.xml to make it
-  deployable to the gerrit-maven storage bucket:
+* You will need to have the following in the `pom.xml` to make it
+  deployable to the `gerrit-maven` storage bucket:
 
 ----
   <distributionManagement>
@@ -19,7 +19,7 @@ Preparing a New Gerrit Subproject Snapshot for Publishing
 ----
 
 
-* Add this to the pom.xml to enable the wagon provider:
+* Add this to the `pom.xml` to enable the wagon provider:
 
 ----
   <build>
@@ -34,7 +34,7 @@ Preparing a New Gerrit Subproject Snapshot for Publishing
 ----
 
 
-* Add your username and password to your ~/.m2/settings.xml file.
+* Add your username and password to your `~/.m2/settings.xml` file.
   These need to come from the link:https://code.google.com/apis/console/[API Console].
 
 ----
@@ -52,11 +52,14 @@ Preparing a New Gerrit Subproject Snapshot for Publishing
 ----
 
 
-Making a Gerrit Subproject Snapshot
------------------------------------
+Making a Snapshot
+-----------------
 
-* First build and deploy the latest snapshot and ensure that Gerrit builds
-with this snapshot
+* Only for plugins: in the `pom.xml` update the Gerrit version under
+`properties` > `Gerrit-ApiVersion` to the version of the new Gerrit
+release
+* First build and deploy the latest snapshot and ensure that Gerrit
+builds/runs with this snapshot
 
 * Deploy the snapshot:
 
@@ -65,15 +68,17 @@ with this snapshot
 ====
 
 
-Making a Gerrit Subproject Release
-----------------------------------
+Making a Release
+----------------
 
-* First deploy (and test) the latest snapshot for the subproject
+* First deploy (and test) the latest snapshot for the subproject/plugin
 
-* Update the top level pom.xml in the subproject to reflect the new project
-version (the exact value of the tag you will create below)
+* Update the top level `pom.xml` in the subproject/plugin to reflect
+the new project version (the exact value of the tag you will create
+below)
 
-* Commit the pom change and push to the project's repo refs/for/<master/stable>
+* Commit the pom change and push to the project's repo
+`refs/for/<master/stable>`
 
 * Tag the version you just pushed (and push the tag)
 

@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHq3///wE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-07-23T08:25:32Z",
+      "side": 1,
+      "message": "It is for performance concern.  I keep it as we have chance to reuse the old instance without populating it again, e.g.  for \u0027Patch Set n\u0027 , \n\nfirstly we diff all patch sets with \u0027Base\u0027, for \u0027Patch Set n\u0027  we get an instance of patchTable,  let\u0027s call it \u0027patchTableInstanceOfPatchSetN:Base\u0027;\n\nthen we diff all patch sets with \u0027Patch Set n\u0027, here for  \u0027Patch Set n\u0027, it is diffing with itself, so we hide the old instance \u0027patchTableInstanceOfPatchSetN:Base\u0027;\n\nnext step if we want have a look of the result of first step again, the chance comes,  for \u0027Patch Set n\u0027 we need not to populated the instance of patchTable, and just let the \u0027patchTableInstanceOfPatchSetN:Base\u0027 visible.",
+      "parentUuid": "AAAHLH///5s\u003d",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLH///5o\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 1
@@ -87,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHq3///wU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-07-23T08:25:32Z",
+      "side": 1,
+      "message": "It is for performance concern as above.",
+      "parentUuid": "AAAHLH///5o\u003d",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLH///5k\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 1
@@ -98,6 +134,24 @@
       "writtenOn": "2012-07-11T11:50:04Z",
       "side": 1,
       "message": "Why do we need to make this invisible here? I thought the bug actually was that the actionPanel disappeared and that it should always be shown.",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHq3///uw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 665,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-07-23T08:25:32Z",
+      "side": 1,
+      "message": "Just like the actionsPanel should display with patchTable together when current patchset is diffing with other patchset, \n\nAlso the actionsPanel should disappear with patchTable together when current patch set is diffing with itself.",
+      "parentUuid": "AAAHLH///5k\u003d",
       "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -71,6 +71,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
   private static final Pattern PAT_LABEL =
       Pattern.compile("^[a-zA-Z][a-zA-Z0-9]*((=|>=|<=)[+-]?|[+-])\\d+$");
 
+  // NOTE: As new search operations are added, please keep the
+  // SearchSuggestOracle up to date.
+
   public static final String FIELD_AGE = "age";
   public static final String FIELD_BRANCH = "branch";
   public static final String FIELD_CHANGE = "change";

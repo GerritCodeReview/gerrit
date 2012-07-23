@@ -27,8 +27,13 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestBox.SuggestionCallback;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
+
+import java.util.Collection;
 
 class SearchPanel extends Composite {
   private final HintTextBox searchBox;
@@ -42,14 +47,21 @@ class SearchPanel extends Composite {
     searchBox = new HintTextBox();
     searchBox.setVisibleLength(70);
     searchBox.setHintText(Gerrit.C.searchHint());
+    final MySuggestionDisplay suggestionDisplay = new MySuggestionDisplay();
     searchBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
         if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
-          doSearch();
+          if (!suggestionDisplay.isSuggestionSelected) {
+            doSearch();
+          }
         }
       }
     });
+
+    final SuggestBox suggestBox = new SuggestBox(new SearchSuggestOracle(), searchBox, suggestionDisplay);
+    suggestBox.setAutoSelectEnabled(false);
+    searchBox.setStyleName("gwt-TextBox");
 
     final Button searchButton = new Button(Gerrit.C.searchButton());
     searchButton.addClickHandler(new ClickHandler() {
@@ -59,7 +71,7 @@ class SearchPanel extends Composite {
       }
     });
 
-    body.add(searchBox);
+    body.add(suggestBox);
     body.add(searchButton);
   }
 
@@ -104,6 +116,27 @@ class SearchPanel extends Composite {
       Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
     } else {
       Gerrit.display(PageLinks.toChangeQuery(query), QueryScreen.forQuery(query));
+    }
+  }
+
+  private static class MySuggestionDisplay extends SuggestBox.DefaultSuggestionDisplay {
+    private boolean isSuggestionSelected;
+
+    @Override
+    protected Suggestion getCurrentSelection() {
+      Suggestion currentSelection = super.getCurrentSelection();
+      isSuggestionSelected = currentSelection != null;
+      return currentSelection;
+    }
+
+    @Override
+    protected void showSuggestions(SuggestBox suggestBox,
+        Collection<? extends Suggestion> suggestions,
+        boolean isDisplayStringHTML, boolean isAutoSelectEnabled,
+        SuggestionCallback callback) {
+      super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML,
+          isAutoSelectEnabled, callback);
+      moveSelectionDown();
     }
   }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHun///8k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-23T09:02:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHtH//+0k\u003d",
+      "revId": "1c79ed7a72369fba4fb9cd94bbd91cdca3e93580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHtH//+0o\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHun///8g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-23T09:02:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHtH//+0o\u003d",
+      "revId": "1c79ed7a72369fba4fb9cd94bbd91cdca3e93580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHtH//+0g\u003d",
         "filename": "Documentation/dev-eclipse.txt",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-07-23T08:51:43Z",
       "side": 1,
       "message": "This is not a release notes update.",
+      "revId": "1c79ed7a72369fba4fb9cd94bbd91cdca3e93580",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHun///8s\u003d",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-23T09:02:02Z",
+      "side": 1,
+      "message": "It is, this anchor was inserted so that the release notes can link to this section (see release notes line 672).",
+      "parentUuid": "AAAHtH//+0g\u003d",
       "revId": "1c79ed7a72369fba4fb9cd94bbd91cdca3e93580",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

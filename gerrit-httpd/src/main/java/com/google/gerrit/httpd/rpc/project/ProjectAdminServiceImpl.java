@@ -89,25 +89,25 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     changeProjectSettingsFactory.create(update).to(callback);
   }
 
+  private static ObjectId getBase(final String baseRevision) {
+    if (baseRevision != null && !baseRevision.isEmpty()) {
+      return ObjectId.fromString(baseRevision);
+    }
+    return null;
+  }
+
   @Override
   public void changeProjectAccess(Project.NameKey projectName,
       String baseRevision, String msg, List<AccessSection> sections,
       AsyncCallback<ProjectAccess> cb) {
-    ObjectId base;
-    if (baseRevision != null && !baseRevision.isEmpty()) {
-      base = ObjectId.fromString(baseRevision);
-    } else {
-      base = null;
-    }
-    changeProjectAccessFactory.create(projectName, base, sections, msg).to(cb);
+    changeProjectAccessFactory.create(projectName, getBase(baseRevision), sections, msg).to(cb);
   }
 
   @Override
   public void reviewProjectAccess(Project.NameKey projectName,
       String baseRevision, String msg, List<AccessSection> sections,
       AsyncCallback<Change.Id> cb) {
-    ObjectId base = ObjectId.fromString(baseRevision);
-    reviewProjectAccessFactory.create(projectName, base, sections, msg).to(cb);
+    reviewProjectAccessFactory.create(projectName, getBase(baseRevision), sections, msg).to(cb);
   }
 
   @Override

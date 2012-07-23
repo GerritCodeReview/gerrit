@@ -27,6 +27,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
@@ -51,6 +52,9 @@ class SearchPanel extends Composite {
       }
     });
 
+    final SuggestBox suggestBox = new SuggestBox(new SearchSuggestOracle(), searchBox);
+    searchBox.setStyleName("gwt-TextBox");
+
     final Button searchButton = new Button(Gerrit.C.searchButton());
     searchButton.addClickHandler(new ClickHandler() {
       @Override
@@ -59,7 +63,7 @@ class SearchPanel extends Composite {
       }
     });
 
-    body.add(searchBox);
+    body.add(suggestBox);
     body.add(searchButton);
   }
 

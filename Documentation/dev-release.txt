@@ -95,14 +95,32 @@ review, get merged
  git tag -a -m "gerrit 2.5" v2.5
 ====
 
-* Build
+* Build (without plugins)
 
 ====
  ./tools/release.sh
 ====
 
-* Sanity check WAR
+Publish the Plugin API JAR File
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+* Push JAR to `commondatastorage.googleapis.com`
+** Run `tools/deploy_api.sh`
+
+Prepare the Core Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~
+* link:dev-release-subproject.html[Release and publish] the core plugins
+
+Package Gerrit with Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Include core plugins into WAR
+====
+ $ ./tools/version.sh --release && mvn clean package -f gerrit-package-plugins/pom.xml
+ $ ./tools/version.sh --reset
+====
+
+* Find WAR that includes the core plugins at `gerrit-package-plugins\target\gerrit-*.war`
+* Sanity check WAR
 
 Publish to the Project Locations
 --------------------------------
@@ -117,12 +135,6 @@ WAR File
 * Update labels:
 ** new war: [release-candidate], featured...
 ** old war: deprecated
-
-Plugin API JAR File
-~~~~~~~~~~~~~~~~~~~
-
-* Push JAR to commondatastorage.googleapis.com
-** Run tools/deploy_api.sh
 
 Tag
 ~~~

@@ -61,6 +61,9 @@ public abstract class ConsoleUI {
   /** Display a header message before a series of prompts. */
   public abstract void header(String fmt, Object... args);
 
+  /** Display a message. */
+  public abstract void message(String fmt, Object... args);
+
   /** Request the user to answer a yes/no question. */
   public abstract boolean yesno(Boolean def, String fmt, Object... args);
 
@@ -215,6 +218,11 @@ public abstract class ConsoleUI {
       fmt = fmt.replaceAll("\n", "\n*** ");
       console.printf("\n*** " + fmt + "\n*** \n\n", args);
     }
+
+    @Override
+    public void message(String fmt, Object... args) {
+      console.printf(fmt, args);
+    }
   }
 
   private static class Batch extends ConsoleUI {
@@ -249,6 +257,10 @@ public abstract class ConsoleUI {
 
     @Override
     public void header(String fmt, Object... args) {
+    }
+
+    @Override
+    public void message(String fmt, Object... args) {
     }
   }
 }

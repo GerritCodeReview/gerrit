@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHsH///yY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-24T15:52:54Z",
+      "side": 1,
+      "message": "I\u0027ll look into refactoring this stuff...",
+      "parentUuid": "AAAHtH//+Q8\u003d",
+      "revId": "e04d6dcc6032c77cc277c9ba708c25e72db88a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHtH//+Qs\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-24T04:58:18Z",
       "side": 1,
       "message": "I believe Gustaf created a Callback which takes a widget in its constructor that it will enable on completion.",
+      "revId": "e04d6dcc6032c77cc277c9ba708c25e72db88a8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHsH///yU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PluginListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-24T15:52:54Z",
+      "side": 1,
+      "message": "Gustaf pointed me to https://gerrit-review.googlesource.com/#/c/35120/ - is this what you had in mind?  This particular Callback is specific to ChangeDetailCache, but I\u0027ll look into making a more generic version.",
+      "parentUuid": "AAAHtH//+Qs\u003d",
       "revId": "e04d6dcc6032c77cc277c9ba708c25e72db88a8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

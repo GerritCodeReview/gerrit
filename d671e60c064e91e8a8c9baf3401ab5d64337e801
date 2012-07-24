@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHs3//+Zc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-07-24T13:34:31Z",
+      "side": 1,
+      "message": "yes.\n\nDone",
+      "parentUuid": "AAAHLH///54\u003d",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLH///50\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHs3//+ZY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-07-24T13:34:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///50\u003d",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHLH///5w\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-07-11T11:50:04Z",
       "side": 1,
       "message": "should we better name this \u0027loadPatchTable\u0027?",
+      "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHs3//+ZU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006818
+      },
+      "writtenOn": "2012-07-24T13:34:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHLH///5w\u003d",
       "revId": "d671e60c064e91e8a8c9baf3401ab5d64337e801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

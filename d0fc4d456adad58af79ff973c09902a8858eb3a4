@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHtX//+fE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/plugin/DisablePluginsServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-24T17:36:20Z",
+      "side": 1,
+      "message": "GET should never have a side-effect on a server. This needs to be a POST.\n\nI\u0027m worried about someone convincing an admin to click on a hyperlink that uses a URL shortening service to shorten and hide a plugin disable URL, they follow it, and *bam*, no more plugin loaded. That\u0027s bad.\n\nIf its at least a POST you need to use a form submission to cause the same change. Which is a bit more effort to subvert.\n\nWe really should have some form of XSRF protection against a plugin being disabled by a rogue form submission too. I shouldn\u0027t be able to write a small HTML page that has a \"Submit\" button on it that disables a plugin just because I clicked on it. The page should require getting a token from our server and resending that same token back to our server to verify that the page really had access to our server in the first place, and thus was made by us, and therefore gave the admin ample opportunity to be warned about the consequences of what they are about to do.",
+      "revId": "d0fc4d456adad58af79ff973c09902a8858eb3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtX//+fg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/DisablePlugins.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-24T17:36:20Z",
+      "side": 1,
+      "message": "stupid name for a method that disables as a side effect of displaying. maybe disable is a better name?",
+      "revId": "d0fc4d456adad58af79ff973c09902a8858eb3a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

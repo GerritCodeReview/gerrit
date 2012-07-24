@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAHtX//+cc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-24T18:44:05Z",
+      "side": 1,
+      "message": "Make this a TreeSet.",
+      "revId": "1d94ba3814d9b8ad6edbd6f6c64158f54bc0033a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHsH///2U\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
         "patchSetId": 1
@@ -36,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAHtX//+cg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-24T18:44:05Z",
+      "side": 1,
+      "message": "Not that you can use from a program. Its in ChangeQueryBuilder. The method names are the operators.",
+      "parentUuid": "AAAHsH///2U\u003d",
+      "revId": "1d94ba3814d9b8ad6edbd6f6c64158f54bc0033a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHsH///2Q\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
         "patchSetId": 1
@@ -47,6 +82,57 @@
       "writtenOn": "2012-07-23T21:38:02Z",
       "side": 1,
       "message": "Future improvement: It\u0027d be nice to suggest project names (RPC)",
+      "revId": "1d94ba3814d9b8ad6edbd6f6c64158f54bc0033a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtX//+cM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-24T18:44:05Z",
+      "side": 1,
+      "message": "Maybe on empty string suggest a few common queries like \"status:open age:1week\" ?",
+      "revId": "1d94ba3814d9b8ad6edbd6f6c64158f54bc0033a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtX//+cY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-24T18:44:05Z",
+      "side": 1,
+      "message": "You can use a TreeSet.tailSet(lastWord) to find all items that begin with lastWord, or are later. This will be faster than looping through the suggestion list:\n\n  for (String suggestion : suggestions.tailSet(lastWord)) {\n    if (!suggestion.startsWith(lastWord)) break;\n    ...\n  }",
+      "revId": "1d94ba3814d9b8ad6edbd6f6c64158f54bc0033a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtX//+cU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchSuggestOracle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-24T18:44:05Z",
+      "side": 1,
+      "message": "The replacement for any operator that doesn\u0027t end with : should include a space to save typing. So if I complete AND I should get \"AND \" put into the box so I am ready for the next operator. Same with \"status:open\". \"age:1week\" as an example is nice, but may break this notion of adding a space automatically.",
       "revId": "1d94ba3814d9b8ad6edbd6f6c64158f54bc0033a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

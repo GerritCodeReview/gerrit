@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHtH//+Vo\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-24T02:17:46Z",
+      "side": 1,
+      "message": "s/keeping/keep/",
+      "revId": "9709b93cf829f424476528770bfdfa1e88499b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtH//+T4\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-24T02:17:46Z",
+      "side": 1,
+      "message": "/set in/set/",
+      "revId": "9709b93cf829f424476528770bfdfa1e88499b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtH//+T0\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-24T02:17:46Z",
+      "side": 1,
+      "message": "/and can treats/the system treats/",
+      "revId": "9709b93cf829f424476528770bfdfa1e88499b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtH//+VQ\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1208,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-24T02:17:46Z",
+      "side": 1,
+      "message": "I am not sure this is a bug fix",
+      "revId": "9709b93cf829f424476528770bfdfa1e88499b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtH//+VM\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-24T02:17:46Z",
+      "side": 1,
+      "message": "(For user dashboards)",
+      "revId": "9709b93cf829f424476528770bfdfa1e88499b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAHtH//+VI\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1271,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-24T02:17:46Z",
+      "side": 1,
+      "message": "Was /p a new feature in 2.5?",
+      "revId": "9709b93cf829f424476528770bfdfa1e88499b18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

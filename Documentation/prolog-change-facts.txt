@@ -1,0 +1,100 @@
+Prolog Facts for Gerrit Changes
+===============================
+
+Prior to invoking the `submit_rule(X)` query for a change, Gerrit initializes
+the Prolog engine with a set of facts (current data) about this change.
+The following table provides an overview of the provided facts.
+
+IMPORTANT: All the terms listed below are defined in the `gerrit` package. To use any
+of them we must use a qualified name like `gerrit:change_branch(X)`.
+
+.Prolog facts about the current change
+[grid="cols"]
+[options="header"]
+|=============================================================================
+|Fact                 |Example  |Description
+
+|`change_branch/1`    |`change_branch('refs/heads/master').`
+    |Destination Branch for the change as string atom
+
+|`change_owner/1`     |`change_owner(user(1000000)).`
+    |Owner of the change as `user(ID)` term. ID is the numeric account ID
+
+|`change_project/1`   |`change_project('full/project/name').`
+    |Name of the project as string atom
+
+|`change_topic/1`     |`change_topic('plugins').`
+    |Topic name as string atom
+
+|`commit_author/1`    |`commit_author(user(100000)).`
+    |Author of the commit as `user(ID)` term. ID is the numeric account ID
+
+|`commit_author/3`    |`commit_author(user(100000), 'John Doe', 'john.doe@example.com').`
+    |ID, full name and the email of the commit author.  The full name and the
+    email are string atoms
+
+|`commit_committer/1` |`commit_committer()`
+    |Committer of the commit as `user(ID)` term. ID is the numeric account ID
+
+|`commit_committer/3` |`commit_committer()`
+    |ID, full name and the email of the commit committer. The full name and the
+    email are string atoms
+
+.2+|`commit_label/2`  |`commit_label(label('Code-Review', 2), user(1000000)).`
+    .2+|Set of votes on the last patch-set
+
+                      |`commit_label(label('Verified', -1), user(1000001)).`
+
+|`commit_message/1`   |`commit_message('Fix bug X').`
+    |Commit message as string atom
+
+.4+|`current_user/1`  |`current_user(user(1000000)).`
+    .4+|Current user as one of the four given possibilities
+
+                      |`current_user(user(anonymous)).`
+                      |`current_user(user(peer_daemon)).`
+                      |`current_user(user(replication)).`
+|=============================================================================
+
+In addition Gerrit provides a set of built-in helper predicates that can be used
+when implementing the `submit_rule` predicate. The most common ones are listed in
+the following table.
+
+.Built-in Prolog helper predicates
+[grid="cols"]
+[options="header"]
+|=============================================================================
+|Predicate                  |Example usage  |Description
+
+|`commit_delta/1`           |`commit_delta('\\.java$').`
+    |True if any file name from the last patch set matches the given regex.
+
+|`commit_delta/3`           |`commit_delta('\\.java$', T, P)`
+    |Returns the change type (via `T`) and path (via `P`), if the change type
+    is `rename`, it also returns the old path. If the change type is `rename`, it
+    returns a delete for old path and an add for new path. If the change type
+    is `copy`, an add is returned along with new path.
+
+    Possible values for the change type are the following symbols: `add`,
+    `modify`, `delete`, `rename`, `copy`
+
+|`commit_delta/4`           |`commit_delta('\\.java$', T, P, O)`
+    |Like `commit_delta/3` plus the old path (via `O`) if applicable.
+
+|`commit_edits/2`           |`commit_edits('/pom.xml$', 'dependency')`
+    |True if any of the files matched by the file name regex (first parameter)
+    have edited lines that match the regex in the second parameter. This
+    example will be true if there is a modification of a `pom.xml` file such
+    that an edited line contains or contained the string `'dependency'`.
+
+|`commit_message_matches/1` |`commit_message_matches('^Bug fix')`
+    |True if the commit message matches the given regex.
+
+|=============================================================================
+
+NOTE: for a complete list of built-in helpers read the `gerrit_common.pl` and
+all Java classes whose name matches `PRED_*.java` from Gerrit's source code.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

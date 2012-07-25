@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAHzH///90\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-25T17:17:38Z",
+      "side": 1,
+      "message": "Forgot to add here as first point that one should update the versions of the plugins in the gerrit-package-plugins/pom.xml to the release versions.",
+      "revId": "5916400dac1b451e1710a2850a5e63cffcb90718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

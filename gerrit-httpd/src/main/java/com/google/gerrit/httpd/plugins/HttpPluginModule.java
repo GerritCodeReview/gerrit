@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.gerrit.httpd.RequireIdentifiedUserFilter;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
@@ -28,6 +29,8 @@ public class HttpPluginModule extends ServletModule {
   protected void configureServlets() {
     bind(HttpPluginServlet.class);
     serve("/plugins/*").with(HttpPluginServlet.class);
+    filter("/a/*").through(RequireIdentifiedUserFilter.class);
+    serveRegex("^/(?:a/)?plugins/(.*)?$").with(HttpPluginServlet.class);
 
     bind(StartPluginListener.class)
       .annotatedWith(UniqueAnnotations.create())

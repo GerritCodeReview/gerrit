@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Requires the user to be authenticated over HTTP. */
 @Singleton
-class RequireIdentifiedUserFilter implements Filter {
+public class RequireIdentifiedUserFilter implements Filter {
   private final Provider<CurrentUser> user;
 
   @Inject

@@ -28,6 +28,7 @@ public class HttpPluginModule extends ServletModule {
   protected void configureServlets() {
     bind(HttpPluginServlet.class);
     serve("/plugins/*").with(HttpPluginServlet.class);
+    serveRegex("^/(?:a/)?plugins/(.*)?$").with(HttpPluginServlet.class);
 
     bind(StartPluginListener.class)
       .annotatedWith(UniqueAnnotations.create())

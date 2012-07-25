@@ -220,6 +220,11 @@ public class CmdLineParser {
     ArrayList<String> tmp = new ArrayList<String>();
     for (Map.Entry<String, String[]> ent : parameters.entrySet()) {
       String name = ent.getKey();
+      if (name.equals("token")) {
+        // "token" is a reserved parameter used to verify the request didn't
+        // come from a xsrf. Leaving it in confuses the parser.
+        continue;
+      }
       if (!name.startsWith("-")) {
         if (name.length() == 1) {
           name = "-" + name;

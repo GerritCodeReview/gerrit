@@ -42,6 +42,73 @@ public class RestApi {
    */
   private static final String JSON_MAGIC = ")]}'\n";
 
+  private class MyRequestCallback<T extends JavaScriptObject> implements
+      RequestCallback {
+    private final boolean wasGet;
+    private final AsyncCallback<T> cb;
+
+    public MyRequestCallback(boolean wasGet, AsyncCallback<T> cb) {
+      this.wasGet = wasGet;
+      this.cb = cb;
+    }
+
+    @Override
+    public void onResponseReceived(Request req, Response res) {
+      int status = res.getStatusCode();
+      if (status != 200) {
+        RpcStatus.INSTANCE.onRpcComplete();
+        if ((400 <= status && status < 600) && isTextBody(res)) {
+          cb.onFailure(new RemoteJsonException(res.getText(), status, null));
+        } else {
+          cb.onFailure(new StatusCodeException(status, res.getStatusText()));
+        }
+        return;
+      }
+
+      if (!isJsonBody(res)) {
+        RpcStatus.INSTANCE.onRpcComplete();
+        cb.onFailure(new RemoteJsonException("Invalid JSON"));
+        return;
+      }
+
+      String json = res.getText();
+      if (!json.startsWith(JSON_MAGIC)) {
+        RpcStatus.INSTANCE.onRpcComplete();
+        cb.onFailure(new RemoteJsonException("Invalid JSON"));
+        return;
+      }
+      json = json.substring(JSON_MAGIC.length());
+
+      if (wasGet && json.startsWith("{\"_authkey\":")) {
+        RestApi.this.resendPost(cb, json);
+        return;
+      }
+
+      T data;
+      try {
+        // javac generics bug
+        data = Natives.<T> parseJSON(json);
+      } catch (RuntimeException e) {
+        RpcStatus.INSTANCE.onRpcComplete();
+        cb.onFailure(new RemoteJsonException("Invalid JSON"));
+        return;
+      }
+
+      cb.onSuccess(data);
+      RpcStatus.INSTANCE.onRpcComplete();
+    }
+
+    @Override
+    public void onError(Request req, Throwable err) {
+      RpcStatus.INSTANCE.onRpcComplete();
+      if (err.getMessage().contains("XmlHttpRequest.status")) {
+        cb.onFailure(new ServerUnavailableException());
+      } else {
+        cb.onFailure(err);
+      }
+    }
+  }
+
   private StringBuilder url;
   private boolean hasQueryParams;
 
@@ -101,55 +168,24 @@ public class RestApi {
   public <T extends JavaScriptObject> void send(final AsyncCallback<T> cb) {
     RequestBuilder req = new RequestBuilder(RequestBuilder.GET, url.toString());
     req.setHeader("Accept", JsonConstants.JSON_TYPE);
-    req.setCallback(new RequestCallback() {
-      @Override
-      public void onResponseReceived(Request req, Response res) {
-        RpcStatus.INSTANCE.onRpcComplete();
-        int status = res.getStatusCode();
-        if (status != 200) {
-          if ((400 <= status && status < 500) && isTextBody(res)) {
-            cb.onFailure(new RemoteJsonException(res.getText(), status, null));
-          } else {
-            cb.onFailure(new StatusCodeException(status, res.getStatusText()));
-          }
-          return;
-        }
-
-        if (!isJsonBody(res)) {
-          cb.onFailure(new RemoteJsonException("Invalid JSON"));
-          return;
-        }
-
-        String json = res.getText();
-        if (!json.startsWith(JSON_MAGIC)) {
-          cb.onFailure(new RemoteJsonException("Invalid JSON"));
-          return;
-        }
-
-        T data;
-        try {
-          // javac generics bug
-          data = Natives.<T>parseJSON(json.substring(JSON_MAGIC.length()));
-        } catch (RuntimeException e) {
-          cb.onFailure(new RemoteJsonException("Invalid JSON"));
-          return;
-        }
-
-        cb.onSuccess(data);
-      }
-
-      @Override
-      public void onError(Request req, Throwable err) {
-        RpcStatus.INSTANCE.onRpcComplete();
-        if (err.getMessage().contains("XmlHttpRequest.status")) {
-          cb.onFailure(new ServerUnavailableException());
-        } else {
-          cb.onFailure(err);
-        }
-      }
-    });
+    req.setCallback(new MyRequestCallback<T>(true, cb));
     try {
       RpcStatus.INSTANCE.onRpcStart();
+      req.send();
+    } catch (RequestException e) {
+      RpcStatus.INSTANCE.onRpcComplete();
+      cb.onFailure(e);
+    }
+  }
+
+  private <T extends JavaScriptObject> void resendPost(
+      final AsyncCallback<T> cb, String token) {
+    RequestBuilder req = new RequestBuilder(RequestBuilder.POST, url.toString());
+    req.setHeader("Accept", JsonConstants.JSON_TYPE);
+    req.setHeader("Content-Type", JsonConstants.JSON_TYPE);
+    req.setRequestData(token);
+    req.setCallback(new MyRequestCallback<T>(false, cb));
+    try {
       req.send();
     } catch (RequestException e) {
       RpcStatus.INSTANCE.onRpcComplete();

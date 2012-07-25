@@ -2431,6 +2431,7 @@ Sample `etc/secure.config`:
 ----
 [auth]
   registerEmailPrivateKey = 2zHNrXE2bsoylzUqDxZp0H1cqUmjgWb6
+  restTokenPrivateKey = 7e40PzCjlUKOnXATvcBNXH6oyiu+r0dFk2c=
 
 [database]
   username = webuser

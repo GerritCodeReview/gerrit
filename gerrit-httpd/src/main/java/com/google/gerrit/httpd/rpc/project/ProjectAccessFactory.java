@@ -125,9 +125,12 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
 
       } else if (RefConfigSection.isValid(name)) {
         RefControl rc = pc.controlForRef(name);
-        if (rc.isOwner() || metaConfigControl.isVisible()) {
+        if (rc.isOwner()) {
           local.add(section);
           ownerOf.add(name);
+
+        } else if (metaConfigControl.isVisible()) {
+          local.add(section);
 
         } else if (rc.isVisible()) {
           // Filter the section to only add rules describing groups that

@@ -48,6 +48,7 @@ import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
+import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ChangeMergeQueue;
@@ -169,6 +170,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(GitReferenceUpdated.class);
     DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});
+    DynamicSet.setOf(binder(), CacheRemovalListener.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
 

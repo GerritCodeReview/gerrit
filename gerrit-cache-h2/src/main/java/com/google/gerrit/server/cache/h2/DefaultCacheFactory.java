@@ -22,10 +22,12 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.CacheBinding;
+import com.google.gerrit.server.cache.ForwardingRemovalListener;;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 
@@ -37,6 +39,13 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
   public static class Module extends LifecycleModule {
     @Override
     protected void configure() {
+      install(new FactoryModule() {
+        @Override
+        protected void configure() {
+          factory(ForwardingRemovalListener.Factory.class);
+        }
+      });
+
       bind(DefaultCacheFactory.class);
       bind(MemoryCacheFactory.class).to(DefaultCacheFactory.class);
       bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
@@ -45,10 +54,13 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
   }
 
   private final Config cfg;
+  private final ForwardingRemovalListener.Factory forwardingRemovalListenerFactory;
 
   @Inject
-  public DefaultCacheFactory(@GerritServerConfig Config config) {
+  public DefaultCacheFactory(@GerritServerConfig Config config,
+      ForwardingRemovalListener.Factory forwardingRemovalListenerFactory) {
     this.cfg = config;
+    this.forwardingRemovalListenerFactory = forwardingRemovalListenerFactory;
   }
 
   @Override
@@ -72,6 +84,8 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
     builder.maximumWeight(cfg.getLong(
         "cache", def.name(), "memoryLimit",
         def.maximumWeight()));
+
+    builder.removalListener(forwardingRemovalListenerFactory.create(def.name()));
 
     Weigher<K, V> weigher = def.weigher();
     if (weigher != null && unwrapValueHolder) {

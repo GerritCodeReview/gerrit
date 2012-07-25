@@ -101,11 +101,17 @@ public abstract class RestApiServlet extends HttpServlet {
       CurrentUser user = currentUser.get();
       CapabilityControl ctl = user.getCapabilities();
       if (!ctl.canPerform(rc.value()) && !ctl.canAdministrateServer()) {
-        String msg = String.format(
-            "fatal: %s does not have \"%s\" capability.",
-            Objects.firstNonNull(user.getUserName(),
-                ((IdentifiedUser)user).getNameEmail()),
-            rc.value());
+        String fallbackUserId;
+        if(user instanceof IdentifiedUser) {
+          fallbackUserId = ((IdentifiedUser)user).getNameEmail();
+        } else {
+          // The user is likely an AnonymousUser.
+          fallbackUserId = user.toString();
+        }
+        String msg =
+            String.format("fatal: %s does not have \"%s\" capability.",
+                Objects.firstNonNull(user.getUserName(), fallbackUserId),
+                rc.value());
         throw new RequireCapabilityException(msg);
       }
     }

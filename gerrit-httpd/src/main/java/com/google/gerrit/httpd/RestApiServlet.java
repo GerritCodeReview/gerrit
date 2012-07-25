@@ -14,6 +14,9 @@
 
 package com.google.gerrit.httpd;
 
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -38,6 +41,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -80,18 +84,20 @@ public abstract class RestApiServlet extends HttpServlet {
   @Override
   protected void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
-    noCache(res);
+    res.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Cache-Control", "no-cache, must-revalidate");
+    res.setHeader("Content-Disposition", "attachment");
+
     try {
       checkRequiresCapability();
       super.service(req, res);
     } catch (RequireCapabilityException err) {
-      res.setStatus(HttpServletResponse.SC_FORBIDDEN);
-      noCache(res);
-      sendText(req, res, err.getMessage());
+      sendError(res, SC_FORBIDDEN, err.getMessage());
     } catch (Error err) {
-      handleError(err, req, res);
+      handleException(err, req, res);
     } catch (RuntimeException err) {
-      handleError(err, req, res);
+      handleException(err, req, res);
     }
   }
 
@@ -114,16 +120,8 @@ public abstract class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static void noCache(HttpServletResponse res) {
-    res.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-    res.setHeader("Pragma", "no-cache");
-    res.setHeader("Cache-Control", "no-cache, must-revalidate");
-    res.setHeader("Content-Disposition", "attachment");
-  }
-
-  private static void handleError(
-      Throwable err, HttpServletRequest req, HttpServletResponse res)
-      throws IOException {
+  private static void handleException(Throwable err, HttpServletRequest req,
+      HttpServletResponse res) throws IOException {
     String uri = req.getRequestURI();
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       uri += "?" + req.getQueryString();
@@ -132,10 +130,14 @@ public abstract class RestApiServlet extends HttpServlet {
 
     if (!res.isCommitted()) {
       res.reset();
-      res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-      noCache(res);
-      sendText(req, res, "Internal Server Error");
+      sendError(res, SC_INTERNAL_SERVER_ERROR, "Internal Server Error");
     }
+  }
+
+  protected static void sendError(HttpServletResponse res,
+      int statusCode, String msg) throws IOException {
+    res.setStatus(statusCode);
+    sendText(null, res, msg);
   }
 
   protected static boolean acceptsJson(HttpServletRequest req) {
@@ -155,16 +157,17 @@ public abstract class RestApiServlet extends HttpServlet {
     return false;
   }
 
-  protected static void sendText(HttpServletRequest req,
+  protected static void sendText(@Nullable HttpServletRequest req,
       HttpServletResponse res, String data) throws IOException {
     res.setContentType("text/plain");
     res.setCharacterEncoding("UTF-8");
     send(req, res, data.getBytes("UTF-8"));
   }
 
-  protected static void send(HttpServletRequest req, HttpServletResponse res,
-      byte[] data) throws IOException {
-    if (data.length > 256 && RPCServletUtils.acceptsGzipEncoding(req)) {
+  protected static void send(@Nullable HttpServletRequest req,
+      HttpServletResponse res, byte[] data) throws IOException {
+    if (data.length > 256 && req != null
+        && RPCServletUtils.acceptsGzipEncoding(req)) {
       res.setHeader("Content-Encoding", "gzip");
       data = HtmlDomUtil.compress(data);
     }

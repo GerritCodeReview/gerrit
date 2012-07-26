@@ -16,6 +16,24 @@
       "revId": "5916400dac1b451e1710a2850a5e63cffcb90718",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53////8\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-26T07:06:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAHzH///90\u003d",
+      "revId": "5916400dac1b451e1710a2850a5e63cffcb90718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

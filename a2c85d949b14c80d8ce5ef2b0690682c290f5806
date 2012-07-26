@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH3X///sY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-26T15:49:46Z",
+      "side": 1,
+      "message": "Given how this is implemented, its going to be slow for some servers on some projects to respond. 75k changes in a repository may cause this to take more than 800 ms to answer. I am not sure hiding/disabling this button is worth an extra 800 ms of response time when viewing a change.",
+      "revId": "a2c85d949b14c80d8ce5ef2b0690682c290f5806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

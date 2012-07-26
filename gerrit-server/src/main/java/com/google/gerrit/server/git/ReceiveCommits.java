@@ -67,6 +67,7 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -252,6 +253,7 @@ public class ReceiveCommits {
   private Task closeProgress;
   private Task commandProgress;
   private MessageSender messageSender;
+  private BatchRefUpdate batch;
 
   @Inject
   ReceiveCommits(final ReviewDb db,
@@ -459,6 +461,10 @@ public class ReceiveCommits {
     closeProgress = progress.beginSubTask("closed", UNKNOWN);
     commandProgress = progress.beginSubTask("refs", UNKNOWN);
 
+    batch = repo.getRefDatabase().newBatchUpdate();
+    batch.setRefLogIdent(rp.getRefLogIdent());
+    batch.setRefLogMessage("push", true);
+
     parseCommands(commands);
     if (newChange != null && newChange.getResult() == NOT_ATTEMPTED) {
       createNewChanges();
@@ -467,6 +473,22 @@ public class ReceiveCommits {
 
     doReplaces();
     replaceProgress.end();
+
+    if (!batch.getCommands().isEmpty()) {
+      try {
+        batch.execute(rp.getRevWalk(), commandProgress);
+      } catch (IOException err) {
+        int cnt = 0;
+        for (ReceiveCommand cmd : batch.getCommands()) {
+          if (cmd.getResult() == NOT_ATTEMPTED) {
+            cmd.setResult(REJECTED_OTHER_REASON, "internal server error");
+            cnt++;
+          }
+        }
+        log.error(String.format(
+            "Failed to store %d refs in %s", cnt, project.getName()), err);
+      }
+    }
 
     if (!errors.isEmpty()) {
       for (Error error : errors.keySet()) {
@@ -690,9 +712,7 @@ public class ReceiveCommits {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canCreate(rp.getRevWalk(), obj)) {
       validateNewCommits(ctl, cmd);
-      if (cmd.getResult() == NOT_ATTEMPTED) {
-        cmd.execute(rp);
-      }
+      batch.addCommand(cmd);
     } else {
       errors.put(Error.CREATE, ctl.getRefName());
       reject(cmd, "can not create new references");
@@ -707,9 +727,7 @@ public class ReceiveCommits {
       }
 
       validateNewCommits(ctl, cmd);
-      if (cmd.getResult() == NOT_ATTEMPTED) {
-        cmd.execute(rp);
-      }
+      batch.addCommand(cmd);
     } else {
       if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
         errors.put(Error.CONFIG_UPDATE, GitRepositoryManager.REF_CONFIG);
@@ -742,9 +760,7 @@ public class ReceiveCommits {
   private void parseDelete(final ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canDelete()) {
-      if (cmd.getResult() == NOT_ATTEMPTED) {
-        cmd.execute(rp);
-      }
+      batch.addCommand(cmd);
     } else {
       if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
         reject(cmd, "cannot delete project configuration");
@@ -777,9 +793,7 @@ public class ReceiveCommits {
     }
 
     if (ctl.canForceUpdate()) {
-      if (cmd.getResult() == NOT_ATTEMPTED) {
-        cmd.execute(rp);
-      }
+      batch.setAllowNonFastForwards(true).addCommand(cmd);
     } else {
       cmd.setResult(REJECTED_NONFASTFORWARD, " need '"
           + PermissionRule.FORCE_PUSH + "' privilege.");

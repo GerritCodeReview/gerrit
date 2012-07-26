@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ProgressMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +59,7 @@ public class MultiProgressMonitor {
   private static final char NO_SPINNER = ' ';
 
   /** Handle for a sub-task. */
-  public class Task {
+  public class Task implements ProgressMonitor {
     private final String name;
     private final int total;
     private volatile int count;
@@ -76,6 +77,7 @@ public class MultiProgressMonitor {
      *
      * @param completed number of work units completed.
      */
+    @Override
     public void update(final int completed) {
       count += completed;
       if (total != UNKNOWN) {
@@ -96,6 +98,23 @@ public class MultiProgressMonitor {
       if (total == UNKNOWN && count > 0) {
         wakeUp();
       }
+    }
+
+    @Override
+    public void start(int totalTasks) {
+    }
+
+    @Override
+    public void beginTask(String title, int totalWork) {
+    }
+
+    @Override
+    public void endTask() {
+    }
+
+    @Override
+    public boolean isCancelled() {
+      return false;
     }
   }
 

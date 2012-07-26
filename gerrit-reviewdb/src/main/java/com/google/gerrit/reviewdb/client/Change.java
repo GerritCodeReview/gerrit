@@ -491,6 +491,10 @@ public final class Change {
     --nbrPatchSets;
   }
 
+  public void updateNumberOfPatchSets(int max) {
+    nbrPatchSets = Math.max(nbrPatchSets, max);
+  }
+
   public PatchSet.Id currPatchSetId() {
     return new PatchSet.Id(changeId, nbrPatchSets);
   }

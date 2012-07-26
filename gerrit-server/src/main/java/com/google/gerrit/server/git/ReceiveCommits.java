@@ -1862,8 +1862,12 @@ public class ReceiveCommits {
         final Ref ref = byCommit.get(c.copy());
         if (ref != null) {
           rw.parseBody(c);
-          closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
+          Change.Key closedChange =
+              closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
           closeProgress.update(1);
+          if (closedChange != null) {
+            byKey.remove(closedChange);
+          }
         }
 
         rw.parseBody(c);
@@ -1904,7 +1908,7 @@ public class ReceiveCommits {
     }
   }
 
-  private void closeChange(final ReceiveCommand cmd, final PatchSet.Id psi,
+  private Change.Key closeChange(final ReceiveCommand cmd, final PatchSet.Id psi,
       final RevCommit commit) throws OrmException {
     final String refName = cmd.getRefName();
     final Change.Id cid = psi.getParentKey();
@@ -1913,7 +1917,7 @@ public class ReceiveCommits {
     final PatchSet ps = db.patchSets().get(psi);
     if (change == null || ps == null) {
       log.warn(project.getName() + " " + psi + " is missing");
-      return;
+      return null;
     }
 
     if (change.getStatus() == Change.Status.MERGED ||
@@ -1922,7 +1926,7 @@ public class ReceiveCommits {
       // might just be moving from an experimental branch into
       // a more stable branch.
       //
-      return;
+      return null;
     }
 
     final ReplaceResult result = new ReplaceResult();
@@ -1933,6 +1937,7 @@ public class ReceiveCommits {
 
     markChangeMergedByPush(db, result);
     sendMergedEmail(result);
+    return change.getKey();
   }
 
   private Map<ObjectId, Ref> changeRefsById() throws IOException {

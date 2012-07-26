@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH4n///+0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SignedTokenRestTokenVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-26T16:31:16Z",
+      "side": 1,
+      "message": "Sometimes this is returning null.  It is very sporadic, it happens about 50% of the time for me.  The problem is in these lines of SignedToken:\n\n    final int s \u003d tokenString.indexOf(\u0027$\u0027);\n    if (s \u003c\u003d 0) {\n      return null;\n    }\n\n    final String recvText \u003d tokenString.substring(s + 1);\n    final byte[] in;\n    try {\n      in \u003d decodeBase64(tokenString.substring(0, s));\n    } catch (RuntimeException e) {\n      return null;\n    }\n    if (in.length !\u003d tokenLength) {\n      return null;\n    }\n\nRoughly half the time, in.length is 27 rather than the expected 28.  I\u0027m not sure what is causing this.",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH3X///rw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-26T16:31:16Z",
+      "side": 1,
+      "message": "I suspect there is a more streamlined way I could do this for subclasses.  One thing I realized after I uploaded - probably should have this return boolean rather than throw.",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

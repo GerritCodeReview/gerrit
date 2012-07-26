@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH53////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-26T07:33:28Z",
+      "side": 1,
+      "message": "remove this line to enable the auto selection",
+      "revId": "d575a4554159f50766631326a233dbd3ee1e57fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53////0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-26T07:33:28Z",
+      "side": 1,
+      "message": "I guess you\u0027ve added this method to get the first suggestion automatically selected?\n\nIf yes, you don\u0027t need this method, but you can simply remove line 63 which disables the auto selection:\n  suggestBox.setAutoSelectEnabled(false);",
+      "revId": "d575a4554159f50766631326a233dbd3ee1e57fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

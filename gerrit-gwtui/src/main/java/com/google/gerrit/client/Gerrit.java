@@ -649,8 +649,11 @@ public class Gerrit implements EntryPoint {
           if (cfg.getRegisterUrl() != null) {
             menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
           }
-          signInAnchor = anchor(C.menuSignIn(), loginRedirect(History.getToken()));
-          menuRight.add(signInAnchor);
+          menuRight.addItem(C.menuSignIn(), new Command() {
+            public void execute() {
+              doSignIn(History.getToken());
+            }
+          });
           break;
 
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:

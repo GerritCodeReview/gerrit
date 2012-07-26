@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAH53///9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-26T12:11:24Z",
+      "side": 1,
+      "message": "This doesn\u0027t compile because \u0027disabled\u0027 isn\u0027t defined. It exists in the current master, can you please rebase this change to make it compileable?",
+      "revId": "ed22a40d8c8600809c4e881e61e71dfb7aa5ad74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAHSn////8\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/PluginEnableCommand.java",
         "patchSetId": 2

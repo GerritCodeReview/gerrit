@@ -89,12 +89,6 @@ public class PatchSetsBlock extends Composite {
     for (final PatchSet ps : patchSets) {
       final PatchSetComplexDisclosurePanel p =
           new PatchSetComplexDisclosurePanel(ps, ps == currps);
-      if (diffBaseId != null) {
-        p.setDiffBaseId(diffBaseId);
-        if (ps == currps) {
-          p.refresh();
-        }
-      }
       add(p);
       patchSetPanelsList.add(p);
     }
@@ -175,7 +169,6 @@ public class PatchSetsBlock extends Composite {
         deactivate();
         PatchSetComplexDisclosurePanel patchSetPanel =
             patchSetPanels.get(patchSetId);
-        patchSetPanel.setOpen(true);
         patchSetPanel.setActive(true);
         activePatchSetId = patchSetId;
       }
@@ -226,6 +219,9 @@ public class PatchSetsBlock extends Composite {
     public void onOpen(OpenEvent<DisclosurePanel> event) {
       // when a patch set panel is opened by the user
       // it should automatically become active
+      PatchSetComplexDisclosurePanel patchSetPanel =
+          patchSetPanels.get(patchSetId);
+      patchSetPanel.refresh();
       activate(patchSetId);
     }
 

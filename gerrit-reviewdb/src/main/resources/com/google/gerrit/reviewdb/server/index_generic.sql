@@ -146,8 +146,8 @@ ON patch_set_ancestors (ancestor_revision);
 -- *********************************************************************
 -- TrackingIdAccess
 --
-CREATE INDEX tracking_ids_byTrkId
-ON tracking_ids (tracking_id);
+CREATE INDEX tracking_ids_byTrkKey
+ON tracking_ids (tracking_key);
 
 
 -- *********************************************************************

@@ -16,6 +16,24 @@
       "revId": "d7c9327a574f464b57f29f6bf02fe62b84e0e62f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH3X//+5I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-27T18:35:15Z",
+      "side": 1,
+      "message": "Sorry I didn\u0027t get a chance to get to this today.  I\u0027ll try to take care of it on Monday.",
+      "parentUuid": "AAAH53///0Y\u003d",
+      "revId": "d7c9327a574f464b57f29f6bf02fe62b84e0e62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

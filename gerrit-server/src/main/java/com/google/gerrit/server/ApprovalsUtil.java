@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -74,16 +73,29 @@ public class ApprovalsUtil {
    *
    * @param change Change to update
    * @throws OrmException
-   * @throws IOException
    * @return List<PatchSetApproval> The previous approvals
    */
   public List<PatchSetApproval> copyVetosToLatestPatchSet(Change change)
-      throws OrmException, IOException {
+      throws OrmException {
+    return copyVetosToLatestPatchSet(db, change);
+  }
+
+  /**
+   * Moves the PatchSetApprovals to the last PatchSet on the change while
+   * keeping the vetos.
+   *
+   * @param db database connection to use for updates.
+   * @param change Change to update
+   * @throws OrmException
+   * @return List<PatchSetApproval> The previous approvals
+   */
+  public List<PatchSetApproval> copyVetosToLatestPatchSet(ReviewDb db,
+      Change change) throws OrmException {
     PatchSet.Id source;
     if (change.getNumberOfPatchSets() > 1) {
       source = new PatchSet.Id(change.getId(), change.getNumberOfPatchSets() - 1);
     } else {
-      throw new IOException("Previous patch set could not be found");
+      throw new OrmException("Previous patch set could not be found");
     }
 
     PatchSet.Id dest = change.currPatchSetId();
@@ -103,18 +115,9 @@ public class ApprovalsUtil {
     return patchSetApprovals;
   }
 
-
-  /** Attach reviewers to a change. */
-  public void addReviewers(Change change, PatchSet ps, PatchSetInfo info,
-      Set<Account.Id> wantReviewers) throws OrmException {
-    Set<Id> existing = Sets.<Account.Id> newHashSet();
-    addReviewers(change, ps, info, wantReviewers, existing);
-  }
-
-  /** Attach reviewers to a change. */
-  public void addReviewers(Change change, PatchSet ps, PatchSetInfo info,
-      Set<Account.Id> wantReviewers, Set<Account.Id> existingReviewers)
-      throws OrmException {
+  public void addReviewers(ReviewDb db, Change change, PatchSet ps,
+      PatchSetInfo info, Set<Id> wantReviewers,
+      Set<Account.Id> existingReviewers) throws OrmException {
     List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
     if (allTypes.isEmpty()) {
       return;

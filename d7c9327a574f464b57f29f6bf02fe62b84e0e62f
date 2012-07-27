@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH53///0Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-27T14:23:24Z",
+      "side": 1,
+      "message": "Is this line still needed? I think this URL is already covered by the new regular expression added below.\n\nAlso accessing the HttpPluginServlet without authentication results in an internal server error. An exception occurs on checking if the user has admin privileges (because the user is not provided). Maybe the HttpPluginServlet shouldn\u0027t be accessible without authentication at all (so that this internal server error cannot happen)?\n\njava.lang.ClassCastException: com.google.gerrit.server.AnonymousUser cannot be cast to com.google.gerrit.server.IdentifiedUser\n\tat com.google.gerrit.httpd.RestApiServlet.checkRequiresCapability(RestApiServlet.java:104)\n\tat com.google.gerrit.httpd.RestApiServlet.service(RestApiServlet.java:85)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:717)\n\tat com.google.gerrit.httpd.plugins.HttpPluginServlet.service(HttpPluginServlet.java:192)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:717)\n\tat com.google.inject.servlet.ServletDefinition.doService(ServletDefinition.java:263)\n\tat com.google.inject.servlet.ServletDefinition.service(ServletDefinition.java:178)\n\tat com.google.inject.servlet.ManagedServletPipeline.service(ManagedServletPipeline.java:91)\n\tat com.google.inject.servlet.FilterChainInvocation.doFilter(FilterChainInvocation.java:62)\n...",
+      "revId": "d7c9327a574f464b57f29f6bf02fe62b84e0e62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "a2c85d949b14c80d8ce5ef2b0690682c290f5806",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33///XI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-07-27T09:01:17Z",
+      "side": 1,
+      "message": "If we use the db data retrieved in function \u0027loadCurrentPatchSet\u0027 of this file, we can save three times db access in file \u0027RebaseChange\u0027, they are line 327, line 342, line 348 in file \u0027RebaseChange\u0027,  can it make some performance improvement?",
+      "parentUuid": "AAAH3X///sY\u003d",
+      "revId": "a2c85d949b14c80d8ce5ef2b0690682c290f5806",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

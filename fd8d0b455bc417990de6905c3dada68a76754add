@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH53///4o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-27T06:42:44Z",
+      "side": 1,
+      "message": "Setting allowNonFastFarwards on the batch set this option for all the contained commands and not just for this one command. Is this okay?",
+      "revId": "fd8d0b455bc417990de6905c3dada68a76754add",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

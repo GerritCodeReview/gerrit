@@ -14,14 +14,19 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /** Module providing the {@link ReceiveCommitsExecutor}. */
 public class ReceiveCommitsExecutorModule extends AbstractModule {
@@ -32,10 +37,31 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @ReceiveCommitsExecutor
-  public Executor getReceiveCommitsExecutor(@GerritServerConfig Config config,
+  public WorkQueue.Executor createReceiveCommitsExecutor(
+      @GerritServerConfig Config config,
       WorkQueue queues) {
     int poolSize = config.getInt("receive", null, "threadPoolSize",
         Runtime.getRuntime().availableProcessors());
     return queues.createQueue(poolSize, "ReceiveCommits");
+  }
+
+  @Provides
+  @Singleton
+  @ChangeUpdateExecutor
+  public ListeningExecutorService createChangeUpdateExecutor(@GerritServerConfig Config config) {
+    int poolSize = config.getInt("receive", null, "changeUpdateThreads", 1);
+    if (poolSize <= 1) {
+      return MoreExecutors.sameThreadExecutor();
+    }
+    return MoreExecutors.listeningDecorator(
+        MoreExecutors.getExitingExecutorService(
+          new ThreadPoolExecutor(1, poolSize,
+              10, TimeUnit.MINUTES,
+              new ArrayBlockingQueue<Runnable>(poolSize),
+              new ThreadFactoryBuilder()
+                .setNameFormat("ChangeUpdate-%d")
+                .setDaemon(true)
+                .build(),
+              new ThreadPoolExecutor.CallerRunsPolicy())));
   }
 }

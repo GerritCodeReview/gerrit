@@ -1796,6 +1796,18 @@ processed.
 +
 Defaults to the number of available CPUs according to the Java runtime.
 
+[[receive.changeUpdateThreads]]receive.changeUpdateThreads::
++
+Number of threads to perform change creation or patch set updates
+concurrently. Each thread uses its own database connection from
+the database connection pool, and if all threads are busy then
+main receive thread will also perform a change creation or patch
+set update.
++
+Defaults to 1, using only the main receive thread. This feature is for
+databases with very high latency that can benfit from concurrent
+operations when multiple changes are impacted at once.
+
 [[receive.timeout]]receive.timeout::
 +
 Overall timeout on the time taken to process the change data in

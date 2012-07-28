@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH63///8U\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/PrettifyConstants.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-28T13:15:00Z",
+      "side": 1,
+      "message": "I suggest to name this \"leCR\" as it is used as text hint for the \\r symbol in the diff screen. The constant value should be changed to a more neutral value like \"Carriage Return\" or just \"CR\".\n\nOne day we may decide to also show \"\\n\" at the diff screen and then we will introduce \"leLF\" here and assign it the \"Line Feed\" or \"LF\" value.",
+      "revId": "b9ff2224ddee9f03589a0be241800172ca19820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH63///8Q\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/PrettifyConstants.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-28T13:15:00Z",
+      "side": 1,
+      "message": "please change to:\n\n leCR \u003d Carriage Return",
+      "revId": "b9ff2224ddee9f03589a0be241800172ca19820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH63///8E\u003d",
+        "filename": "gerrit-prettify/src/main/java/com/google/gerrit/prettify/common/PrettyFormatter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-28T13:15:00Z",
+      "side": 1,
+      "message": "This works for the example I provided in the review of the patch set 4 but it still fails to render \"\\r\" in a little bit different case.\nFor example change this file content:\n\n aaa\\r\\n\n bbb\\r\\n\n ccc\\r\\n\n\nto:\n\n aaa\\r\\n\n bbb\\n\n ccc\\n\n ddd\\r\\n\n\nand the diff will again not show the \"\\r\" at the end of bbb in the old version. The reason is the expectation that \\r is followed by an (optional) \u003c/span\u003e and then \\n. This will not be the case for the example above. However, expecting the \u003c/span\u003e and \\n after \\r is unnecessary.\n\nShowing CR shouldn\u0027t be any more complex than showing tabs. We should simply search for \"\\r\" and replace it with:\n\n \u003cspan class\u003d\"ledos\" title\u003d\"CR\"\u003e\\\\r\u003c/span\u003e\n\nSo this method should become:\n\n private SafeHtml showLineEndings(SafeHtml src) {\n   final String r \u003d \"\u003cspan class\u003d\\\"lecr\\\"\"\n       + \" title\u003d\\\"\" + PrettifyConstants.C.leCR() + \"\\\"\" //\n       + \"\u003e\\\\\\\\r\u003c/span\u003e\";\n   src \u003d src.replaceAll(\"\\r\", r);\n   return src;\n }\n\nIt could also be inlined at the line 339.",
+      "revId": "b9ff2224ddee9f03589a0be241800172ca19820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH63///8M\u003d",
+        "filename": "gerrit-prettify/src/main/resources/com/google/gerrit/prettify/client/gerrit.css",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-28T13:15:00Z",
+      "side": 1,
+      "message": "change to .lecr",
+      "revId": "b9ff2224ddee9f03589a0be241800172ca19820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH63///8I\u003d",
+        "filename": "gerrit-prettify/src/main/resources/com/google/gerrit/prettify/client/gerrit.css",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-28T13:15:00Z",
+      "side": 1,
+      "message": "change to .lecr",
+      "revId": "b9ff2224ddee9f03589a0be241800172ca19820e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

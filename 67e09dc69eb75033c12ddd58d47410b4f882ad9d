@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH5H///2g\u003d",
+        "filename": "tools/release.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-28T19:32:35Z",
+      "side": 1,
+      "message": "Could you explain this change?",
+      "revId": "67e09dc69eb75033c12ddd58d47410b4f882ad9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

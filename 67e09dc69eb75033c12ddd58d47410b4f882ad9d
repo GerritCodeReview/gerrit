@@ -16,6 +16,24 @@
       "revId": "67e09dc69eb75033c12ddd58d47410b4f882ad9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH63///78\u003d",
+        "filename": "tools/release.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-28T20:22:09Z",
+      "side": 1,
+      "message": "gerrit-package-plugins has a dependency to the gerrit-war artefact. When running the Maven build for gerrit-package-plugins Maven needs to find the gerrit-war artefact in the local Maven repository so that it can download it. The Maven call above creates the gerrit-war artefact and with \u0027install\u0027 it will be installed into the local Maven repository.",
+      "parentUuid": "AAAH5H///2g\u003d",
+      "revId": "67e09dc69eb75033c12ddd58d47410b4f882ad9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

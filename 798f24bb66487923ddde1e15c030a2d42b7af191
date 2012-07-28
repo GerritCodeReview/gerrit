@@ -16,6 +16,24 @@
       "revId": "798f24bb66487923ddde1e15c030a2d42b7af191",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH6X///88\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-07-28T00:18:24Z",
+      "side": 1,
+      "message": "I know BUT in this case we needed to make it public to be able to be exchanged between us.",
+      "parentUuid": "AAAHHH////Y\u003d",
+      "revId": "798f24bb66487923ddde1e15c030a2d42b7af191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

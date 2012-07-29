@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAH33//+3s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-29T04:57:42Z",
+      "side": 1,
+      "message": "This should also check res.getStatusCode() returned 200 and not something else.",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+3o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SignedTokenRestTokenVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-29T04:57:42Z",
+      "side": 1,
+      "message": "This key should probably be stored in secure.config or something like we do with the email validation token. That way the key is the same across server restarts, and existing user requests aren\u0027t invalidated right away.",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+3k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SignedTokenRestTokenVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-29T04:57:42Z",
+      "side": 1,
+      "message": "This would be really bad. The server shouldn\u0027t start.",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+3g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SignedTokenRestTokenVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-29T04:57:42Z",
+      "side": 1,
+      "message": "Instead of user as String, use Account.Id?",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH4n///+0\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SignedTokenRestTokenVerifier.java",
         "patchSetId": 1
@@ -19,6 +87,41 @@
     },
     {
       "key": {
+        "uuid": "AAAH33//+3c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SignedTokenRestTokenVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-29T04:57:42Z",
+      "side": 1,
+      "message": "Base64 sometimes contains \u003d as a trailing padding character. If that is present, and you just run \"token\u003d$base64\" back in as POST input as a form, maybe the \u003d is being eaten by the form data parser?\n\nIts been years since I have worried about the standard for form encoding, its possible that \u003d, \u0026 and % are special and must always be encoded to avoid these sorts of problems.",
+      "parentUuid": "AAAH4n///+0\u003d",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+3Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-29T04:57:42Z",
+      "side": 1,
+      "message": "AOSP copyright header?",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH3X///rw\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
         "patchSetId": 1
@@ -30,6 +133,41 @@
       "writtenOn": "2012-07-26T16:31:16Z",
       "side": 1,
       "message": "I suspect there is a more streamlined way I could do this for subclasses.  One thing I realized after I uploaded - probably should have this return boolean rather than throw.",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+3U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-29T04:57:42Z",
+      "side": 1,
+      "message": "Why return boolean? I think its right to abort hard if the token isn\u0027t valid.\n\nOne thing you can do for subclasses would be to override doPost() to verify the token, and make both doPost and doGet final. Have doPost call a new abstract method like doRequest that would actually do the work, but only if the token was verified correctly by doPost. This makes it hard to avoid the XSRF checking by accident in code.",
+      "parentUuid": "AAAH3X///rw\u003d",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+3Q\u003d",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-29T04:57:42Z",
+      "side": 1,
+      "message": "This is good argument for calling it _token instead of token. We are unlikely to make a valid command line flag named --_token. We however might one day make a flag named --token somewhere.",
       "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

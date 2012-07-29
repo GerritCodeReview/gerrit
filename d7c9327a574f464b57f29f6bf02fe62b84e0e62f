@@ -34,6 +34,41 @@
       "revId": "d7c9327a574f464b57f29f6bf02fe62b84e0e62f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+34\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-29T04:45:31Z",
+      "side": 1,
+      "message": "HttpPluginServlet needs to be accessible by anonymous users. But certain things within it don\u0027t.",
+      "parentUuid": "AAAH53///0Y\u003d",
+      "revId": "d7c9327a574f464b57f29f6bf02fe62b84e0e62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+30\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-29T04:45:31Z",
+      "side": 1,
+      "message": "This filter should already be registered and this line is therefore unnecessary.",
+      "revId": "d7c9327a574f464b57f29f6bf02fe62b84e0e62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

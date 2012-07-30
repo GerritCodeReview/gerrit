@@ -89,32 +89,32 @@ public class AccountDiffPreference {
   protected boolean showWhitespaceErrors;
 
   @Column(id = 7)
-  protected boolean showLineEndings;
-
-  @Column(id = 8)
   protected boolean intralineDifference;
 
-  @Column(id = 9)
+  @Column(id = 8)
   protected boolean showTabs;
 
   /** Number of lines of context when viewing a patch. */
-  @Column(id = 10)
+  @Column(id = 9)
   protected short context;
 
-  @Column(id = 11)
+  @Column(id = 10)
   protected boolean skipDeleted;
 
-  @Column(id = 12)
+  @Column(id = 11)
   protected boolean skipUncommented;
 
-  @Column(id = 13)
+  @Column(id = 12)
   protected boolean expandAllComments;
 
-  @Column(id = 14)
+  @Column(id = 13)
   protected boolean retainHeader;
 
-  @Column(id = 15)
+  @Column(id = 14)
   protected boolean manualReview;
+
+  @Column(id = 15)
+  protected boolean showLineEndings;
 
   protected AccountDiffPreference() {
   }

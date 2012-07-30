@@ -1590,6 +1590,13 @@ public class ReceiveCommits {
   }
 
   private void validateNewCommits(RefControl ctl, ReceiveCommand cmd) {
+    if (ctl.canForgeAuthor()
+        && ctl.canForgeCommitter()
+        && ctl.canForgeGerritServerIdentity()
+        && ctl.canUploadMerges()) {
+      return;
+    }
+
     final RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);

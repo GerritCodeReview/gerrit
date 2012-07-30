@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH33//+vs\u003d",
+        "filename": "gerrit-commit-validation-plugin/src/main/java/com/googlesource/gerrit/plugins/validators/HelloWorldValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-30T04:48:10Z",
+      "side": 1,
+      "message": "`commitFullMessage` and `commitMessage` have the same value.  Do we need them both?",
+      "revId": "0a6188e2c792fce9a533e35d60bc6c766b3952c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+vw\u003d",
+        "filename": "gerrit-commit-validation-plugin/src/main/java/com/googlesource/gerrit/plugins/validators/HelloWorldValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-30T04:48:10Z",
+      "side": 1,
+      "message": "Whitespace",
+      "revId": "0a6188e2c792fce9a533e35d60bc6c766b3952c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

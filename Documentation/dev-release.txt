@@ -78,15 +78,18 @@ Prepare the Subprojects
 Prepare Gerrit
 ~~~~~~~~~~~~~~
 
-* In the 'stable-2.5' branch: Update the top level pom in Gerrit to ensure that
-none of the Subprojects point to snapshot releases
+* Create a `stable-2.5` branch for making the new release
 
-* In the 'master' branch: Update the poms for the Gerrit version, push for
+* In the `master` branch: Update the poms for the Gerrit version, push for
 review, get merged
 
 ====
  tools/version.sh --snapshot=2.5
 ====
+
+* Checkout the `stable-2.5` branch
+* Update the top level `pom.xml` in Gerrit to ensure that none of the
+Subprojects point to snapshot releases
 
 * Tag
 
@@ -95,14 +98,35 @@ review, get merged
  git tag -a -m "gerrit 2.5" v2.5
 ====
 
-* Build
+* Build (without plugins)
 
 ====
  ./tools/release.sh
 ====
 
-* Sanity check WAR
+Publish the Plugin API JAR File
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+* Push JAR to `commondatastorage.googleapis.com`
+** Run `tools/deploy_api.sh`
+
+Prepare the Core Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~
+* link:dev-release-subproject.html[Release and publish] the core plugins
+
+Package Gerrit with Plugins
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Ensure that the core plugins listed in `gerrit-package-plugins/pom.xml`
+point to the latest release version (no dependency to snapshot versions)
+* Include core plugins into WAR
+====
+ $ ./tools/version.sh --release && mvn clean package -f gerrit-package-plugins/pom.xml
+ $ ./tools/version.sh --reset
+====
+
+* Find WAR that includes the core plugins at
+`gerrit-package-plugins\target\gerrit-v2.5.war`
+* Sanity check WAR
 
 Publish to the Project Locations
 --------------------------------
@@ -117,12 +141,6 @@ WAR File
 * Update labels:
 ** new war: [release-candidate], featured...
 ** old war: deprecated
-
-Plugin API JAR File
-~~~~~~~~~~~~~~~~~~~
-
-* Push JAR to commondatastorage.googleapis.com
-** Run tools/deploy_api.sh
 
 Tag
 ~~~

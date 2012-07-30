@@ -148,6 +148,11 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
+  public static File storeInTemp(String pluginName, InputStream in,
+      SitePaths sitePaths) throws IOException {
+    return asTemp(in, tempNameFor(pluginName), ".jar", sitePaths.tmp_dir);
+  }
+
   private static File asTemp(InputStream in,
       String prefix, String suffix,
       File dir) throws IOException {

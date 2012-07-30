@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH33//+og\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountDiffPreference.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-07-30T17:12:50Z",
+      "side": 1,
+      "message": "This CL is bad. You cannot renumber ID fields just because you feel like it. Doing so corrupts my database.",
+      "revId": "632653c2d0cb88ab5256b2d4077fcdc08df6728d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

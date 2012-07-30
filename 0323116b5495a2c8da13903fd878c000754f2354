@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH53///yY\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ProjectAdminService.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-30T09:09:20Z",
+      "side": 1,
+      "message": "nit: missing space",
+      "revId": "0323116b5495a2c8da13903fd878c000754f2354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53///yU\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/HttpLogoutServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-30T09:09:20Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "0323116b5495a2c8da13903fd878c000754f2354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53///yQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-30T09:09:20Z",
+      "side": 1,
+      "message": "nit: indention seems to be wrong",
+      "revId": "0323116b5495a2c8da13903fd878c000754f2354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53///yM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-30T09:09:20Z",
+      "side": 1,
+      "message": "Does this formatting make sense if the method name is not camel-case? e.g. \u0027SetText\u0027 would be formatted as \u0027s e tt e x t\u0027?\nMaybe this formatting should only be done if ccase \u003d\u003d true?",
+      "revId": "0323116b5495a2c8da13903fd878c000754f2354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53///yE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-30T09:09:20Z",
+      "side": 1,
+      "message": "nit: missing space after if",
+      "revId": "0323116b5495a2c8da13903fd878c000754f2354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53///yA\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-30T09:09:20Z",
+      "side": 1,
+      "message": "why not to return \u0027null\u0027 here?",
+      "revId": "0323116b5495a2c8da13903fd878c000754f2354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53///yI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/GerritJsonServlet.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-30T09:09:20Z",
+      "side": 1,
+      "message": "nit: missing curly braces around one-line blocks",
+      "revId": "0323116b5495a2c8da13903fd878c000754f2354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53///yc\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-30T09:09:20Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "0323116b5495a2c8da13903fd878c000754f2354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53///ys\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-30T09:09:20Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "0323116b5495a2c8da13903fd878c000754f2354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH53///yo\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-30T09:09:20Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "0323116b5495a2c8da13903fd878c000754f2354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

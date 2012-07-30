@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
@@ -28,6 +29,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -1116,12 +1118,22 @@ public class ReceiveCommits {
     walk.sort(RevSort.TOPO);
     walk.sort(RevSort.REVERSE, true);
     try {
+      Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(newChange.getNewId()));
-      for (ObjectId id : existingObjects()) {
-        try {
-          walk.markUninteresting(walk.parseCommit(id));
-        } catch (IOException e) {
+      for (Ref ref : repo.getAllRefs().values()) {
+        if (ref.getObjectId() == null) {
           continue;
+        } else if (ref.getName().startsWith("refs/changes/")) {
+          existing.add(ref.getObjectId());
+        } else if (ref.getName().startsWith(R_HEADS)
+            || ref.getName().equals(destBranchCtl.getRefName())) {
+          try {
+            walk.markUninteresting(walk.parseCommit(ref.getObjectId()));
+          } catch (IOException e) {
+            log.warn(String.format("Invalid ref %s in %s",
+                ref.getName(), project.getName()), e);
+            continue;
+          }
         }
       }
 
@@ -1131,7 +1143,7 @@ public class ReceiveCommits {
         if (c == null) {
           break;
         }
-        if (replaceByCommit.containsKey(c)) {
+        if (existing.contains(c) || replaceByCommit.containsKey(c)) {
           // This commit was already scheduled to replace an existing PatchSet.
           //
           continue;

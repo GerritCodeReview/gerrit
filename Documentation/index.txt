@@ -22,6 +22,7 @@ User Guide
 * link:user-custom-dashboards.html[Custom Dashboards]
 * link:user-notify.html[Subscribing to Email Notifications]
 * link:user-submodules.html[Subscribing to Git Submodules]
+* link:refs-notes-review.html[The `refs/notes/review` namespace]
 
 Installation
 ------------

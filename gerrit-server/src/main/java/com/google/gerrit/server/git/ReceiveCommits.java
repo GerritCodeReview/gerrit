@@ -1137,6 +1137,7 @@ public class ReceiveCommits {
         }
       }
 
+      List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<Change.Key>();
       for (;;) {
         final RevCommit c = walk.next();
@@ -1156,53 +1157,58 @@ public class ReceiveCommits {
 
         Change.Key changeKey = new Change.Key("I" + c.name());
         final List<String> idList = c.getFooterLines(CHANGE_ID);
-        if (!idList.isEmpty()) {
-          final String idStr = idList.get(idList.size() - 1).trim();
-          if (idStr.matches("^I00*$")) {
-            // Reject this invalid line from EGit.
+        if (idList.isEmpty()) {
+          newChanges.add(new CreateRequest(c, changeKey));
+          continue;
+        }
+
+        final String idStr = idList.get(idList.size() - 1).trim();
+        if (idStr.matches("^I00*$")) {
+          // Reject this invalid line from EGit.
+          reject(newChange, "invalid Change-Id");
+          return Collections.emptyList();
+        }
+
+        changeKey = new Change.Key(idStr);
+        pending.add(new ChangeLookup(c, changeKey));
+      }
+
+      for (ChangeLookup p : pending) {
+        if (newChangeIds.contains(p.changeKey)) {
+          reject(newChange, "squash commits first");
+          return Collections.emptyList();
+        }
+
+        List<Change> changes = p.changes.toList();
+        if (changes.size() > 1) {
+          // WTF, multiple changes in this project have the same key?
+          // Since the commit is new, the user should recreate it with
+          // a different Change-Id. In practice, we should never see
+          // this error message as Change-Id should be unique.
+          //
+          reject(newChange, p.changeKey.get() + " has duplicates");
+          return Collections.emptyList();
+        }
+
+        if (changes.size() == 1) {
+          // Schedule as a replacement to this one matching change.
+          //
+          if (requestReplace(newChange, false, changes.get(0), p.commit)) {
+            continue;
+          } else {
+            return Collections.emptyList();
+          }
+        }
+
+        if (changes.size() == 0) {
+          if (!isValidChangeId(p.changeKey.get())) {
             reject(newChange, "invalid Change-Id");
             return Collections.emptyList();
           }
 
-          changeKey = new Change.Key(idStr);
-          if (newChangeIds.contains(changeKey)) {
-            reject(newChange, "squash commits first");
-            return Collections.emptyList();
-          }
-
-          final List<Change> changes =
-              db.changes().byBranchKey(destBranch, changeKey).toList();
-          if (changes.size() > 1) {
-            // WTF, multiple changes in this project have the same key?
-            // Since the commit is new, the user should recreate it with
-            // a different Change-Id. In practice, we should never see
-            // this error message as Change-Id should be unique.
-            //
-            reject(newChange, changeKey.get() + " has duplicates");
-            return Collections.emptyList();
-          }
-
-          if (changes.size() == 1) {
-            // Schedule as a replacement to this one matching change.
-            //
-            if (requestReplace(newChange, false, changes.get(0), c)) {
-              continue;
-            } else {
-              return Collections.emptyList();
-            }
-          }
-
-          if (changes.size() == 0) {
-            if (!isValidChangeId(idStr)) {
-              reject(newChange, "invalid Change-Id");
-              return Collections.emptyList();
-            }
-
-            newChangeIds.add(changeKey);
-          }
+          newChangeIds.add(p.changeKey);
         }
-
-        newChanges.add(new CreateRequest(c, changeKey));
+        newChanges.add(new CreateRequest(p.commit, p.changeKey));
       }
     } catch (IOException e) {
       // Should never happen, the core receive process would have
@@ -1227,9 +1233,20 @@ public class ReceiveCommits {
     return newChanges;
   }
 
-
   private static boolean isValidChangeId(String idStr) {
     return idStr.matches("^I[0-9a-fA-F]{40}$") && !idStr.matches("^I00*$");
+  }
+
+  private class ChangeLookup {
+    final RevCommit commit;
+    final Change.Key changeKey;
+    final ResultSet<Change> changes;
+
+    ChangeLookup(RevCommit c, Change.Key key) throws OrmException {
+      commit = c;
+      changeKey = key;
+      changes = db.changes().byBranchKey(destBranch, key);
+    }
   }
 
   private class CreateRequest {

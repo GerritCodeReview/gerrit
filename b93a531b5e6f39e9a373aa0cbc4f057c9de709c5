@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH33//+wA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-30T04:42:01Z",
+      "side": 1,
+      "message": "Copyright header is missing.",
+      "revId": "b93a531b5e6f39e9a373aa0cbc4f057c9de709c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+v8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-30T04:42:01Z",
+      "side": 1,
+      "message": "Blank line added?",
+      "revId": "b93a531b5e6f39e9a373aa0cbc4f057c9de709c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH33//+v4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-07-30T04:42:01Z",
+      "side": 1,
+      "message": "Line is not terminated with a period.",
+      "revId": "b93a531b5e6f39e9a373aa0cbc4f057c9de709c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

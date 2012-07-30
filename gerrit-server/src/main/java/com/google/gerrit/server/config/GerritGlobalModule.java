@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
@@ -166,6 +167,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ChangeControl.GenericFactory.class);
     bind(ProjectControl.GenericFactory.class);
     factory(FunctionState.Factory.class);
+
+    install(new AuditModule());
 
     bind(GitReferenceUpdated.class);
     DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});

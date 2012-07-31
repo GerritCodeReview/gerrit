@@ -6,7 +6,7 @@
 # Java based Maven plugin so its fully portable.
 #
 
-POM_FILES=$(git ls-files | grep pom.xml)
+POM_FILES=$(git ls-files | grep pom.xml | grep -v gerrit-plugin-archetype/src/main/resources/archetype-resources/pom.xml)
 
 case "$1" in
 --snapshot=*)

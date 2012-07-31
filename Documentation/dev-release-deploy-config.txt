@@ -1,0 +1,135 @@
+Deploy Gerrit Artifacts
+=======================
+
+Gerrit Artifacts are stored on
+link:https://developers.google.com/storage/[Google Cloud Storage].
+Via the link:https://code.google.com/apis/console/[API Console] the
+Gerrit maintainers have access to the `Gerrit Code Review` project.
+This projects host several buckets for storing Gerrit artifacts:
+
+* `gerrit-api`:
++
+Bucket to store the Gerrit Extension API Jar and the Gerrit Plugin API
+Jar.
+
+* `gerrit-maven`:
++
+Bucket to store Gerrit Subproject Artifacts (e.g. `gwtexpui`,
+`gwtjsonrpc` etc.).
+
+* `gerrit-plugins`:
++
+Bucket to store Gerrit Core Plugin Artifacts.
+
+[[deploy-configuration-settings-xml]]
+Deploy Configuration in Maven `settings.xml`
+--------------------------------------------
+
+To upload artifacts to a bucket the user must authenticate with a
+username and password. The username and password need to be retrieved
+from the link:https://code.google.com/apis/console/[API Console]:
+
+* Go to the `Gerrit Code Review` project
+* In the menu on the left select `Google Cloud Storage` >
+`Interoperable Access`
+* Use the `Access Key` as username
+* Click under `Secret` on the `Show` button to find the password
+
+To make the username and password known to Maven, they must be
+configured in the `~/.m2/settings.xml` file.
+
+----
+  <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+      <server>
+        <id>gerrit-api-repository</id>
+        <username>GOOG..EXAMPLE.....EXAMPLE</username>
+        <password>EXAMPLE..EXAMPLE..EXAMPLE</password>
+      </server>
+      <server>
+        <id>gerrit-maven-repository</id>
+        <username>GOOG..EXAMPLE.....EXAMPLE</username>
+        <password>EXAMPLE..EXAMPLE..EXAMPLE</password>
+      </server>
+      <server>
+        <id>gerrit-plugins-repository</id>
+        <username>GOOG..EXAMPLE.....EXAMPLE</username>
+        <password>EXAMPLE..EXAMPLE..EXAMPLE</password>
+      </server>
+    </servers>
+  </settings>
+----
+
+[[deploy-configuration-subprojects]]
+Gerrit Subprojects
+~~~~~~~~~~~~~~~~~~
+
+* You will need to have the following in the `pom.xml` to make it
+deployable to the `gerrit-maven` storage bucket:
+
+----
+  <distributionManagement>
+    <repository>
+      <id>gerrit-maven-repository</id>
+      <name>Gerrit Maven Repository</name>
+      <url>s3://gerrit-maven@commondatastorage.googleapis.com</url>
+      <uniqueVersion>true</uniqueVersion>
+    </repository>
+  </distributionManagement>
+----
+
+
+* Add this to the `pom.xml` to enable the wagon provider:
+
+----
+  <build>
+    <extensions>
+      <extension>
+        <groupId>net.anzix.aws</groupId>
+        <artifactId>s3-maven-wagon</artifactId>
+        <version>3.2</version>
+      </extension>
+    </extensions>
+  </build>
+----
+
+
+[[deploy-configuration-core-plugins]]
+Gerrit Core Plugins
+~~~~~~~~~~~~~~~~~~~
+
+* You will need to have the following in the `pom.xml` to make it
+deployable to the `gerrit-plugins` storage bucket:
+
+----
+  <distributionManagement>
+    <repository>
+      <id>gerrit-plugins-repository</id>
+      <name>Gerrit Plugins Repository</name>
+      <url>s3://gerrit-plugins@commondatastorage.googleapis.com</url>
+      <uniqueVersion>true</uniqueVersion>
+    </repository>
+  </distributionManagement>
+----
+
+
+* Add this to the `pom.xml` to enable the wagon provider:
+
+----
+  <build>
+    <extensions>
+      <extension>
+        <groupId>net.anzix.aws</groupId>
+        <artifactId>s3-maven-wagon</artifactId>
+        <version>3.2</version>
+      </extension>
+    </extensions>
+  </build>
+----
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH9n////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/rpc/RestApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-31T21:24:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH33//+3s\u003d",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH33//+3o\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SignedTokenRestTokenVerifier.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-29T04:57:42Z",
       "side": 1,
       "message": "This key should probably be stored in secure.config or something like we do with the email validation token. That way the key is the same across server restarts, and existing user requests aren\u0027t invalidated right away.",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH9n////M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SignedTokenRestTokenVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-31T21:24:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH33//+3o\u003d",
       "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2012-07-29T04:57:42Z",
       "side": 1,
       "message": "Instead of user as String, use Account.Id?",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH9n////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SignedTokenRestTokenVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-31T21:24:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH33//+3g\u003d",
       "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH9n////I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/SignedTokenRestTokenVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-31T21:24:30Z",
+      "side": 1,
+      "message": "I found the problem - sometimes the token had a \u0027+\u0027 character, which java was URL-decoding to be a space.  The current fix is to replace(\u0027+\u0027, \u0027 \u0027);",
+      "parentUuid": "AAAH33//+3c\u003d",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH33//+3Y\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
         "patchSetId": 1
@@ -116,6 +188,24 @@
       "writtenOn": "2012-07-29T04:57:42Z",
       "side": 1,
       "message": "AOSP copyright header?",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH9n////Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-31T21:24:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH33//+3Y\u003d",
       "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH9n////g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-31T21:24:30Z",
+      "side": 1,
+      "message": "Brilliant idea.  I overrode doPost initially, but was worried about subclasses forgetting to call super().  Switching to an abstract class and making doGet/doPost final is the perfect solution.  Thanks!",
+      "parentUuid": "AAAH33//+3U\u003d",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH33//+3Q\u003d",
         "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
         "patchSetId": 1
@@ -168,6 +276,24 @@
       "writtenOn": "2012-07-29T04:57:42Z",
       "side": 1,
       "message": "This is good argument for calling it _token instead of token. We are unlikely to make a valid command line flag named --_token. We however might one day make a flag named --token somewhere.",
+      "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH9n////c\u003d",
+        "filename": "gerrit-util-cli/src/main/java/com/google/gerrit/util/cli/CmdLineParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-07-31T21:24:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH33//+3Q\u003d",
       "revId": "1f83ac8c6f905b98d2e859651459111eb12417bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,8 +1,73 @@
 Making a Release of a Gerrit Subproject / Core Plugin
 =====================================================
 
-Preparing a New Snapshot for Publishing
----------------------------------------
+[[make-snapshot]]
+Make a Snapshot
+---------------
+
+* Only for plugins: in the `pom.xml` update the Gerrit version under
+`properties` > `Gerrit-ApiVersion` to the version of the new Gerrit
+release
+* Build the latest snapshot and install it into the local Maven
+repository:
++
+====
+  mvn clean install
+====
+
+* Test Gerrit with this snapshot
+
+
+[[prepare-release]]
+Prepare the Release
+-------------------
+
+* link:#make-snapshot[First create (and test) the latest snapshot for
+the subproject/plugin]
+
+* Update the top level `pom.xml` in the subproject/plugin to reflect
+the new project version (the exact value of the tag you will create
+below)
+
+* Create the Release Tag
++
+====
+ git tag -a -m "prolog-cafe 1.3" v1.3
+====
+
+* Build and install into local Maven repository:
++
+====
+  mvn clean install
+====
+
+
+[[publish-release]]
+Publish the Release
+-------------------
+
+* Make sure you have done the link:#deploy-configuration[configuration
+needed for deployment]
+
+* Deploy the new release:
++
+====
+  mvn deploy
+====
+
+* Push the pom change(s) to the project's repository
+`refs/for/<master|stable>`
+
+* Push the Release Tag
++
+====
+  git push gerrit-review refs/tags/v1.3:refs/tags/v1.3
+====
+
+
+[[deploy-configuration]]
+Configuration for Deployment
+----------------------------
 
 * You will need to have the following in the `pom.xml` to make it
   deployable to the `gerrit-maven` storage bucket:
@@ -50,48 +115,6 @@ Preparing a New Snapshot for Publishing
     </servers>
   </settings>
 ----
-
-
-Making a Snapshot
------------------
-
-* Only for plugins: in the `pom.xml` update the Gerrit version under
-`properties` > `Gerrit-ApiVersion` to the version of the new Gerrit
-release
-* First build and deploy the latest snapshot and ensure that Gerrit
-builds/runs with this snapshot
-
-* Deploy the snapshot:
-
-====
-  mvn deploy
-====
-
-
-Making a Release
-----------------
-
-* First deploy (and test) the latest snapshot for the subproject/plugin
-
-* Update the top level `pom.xml` in the subproject/plugin to reflect
-the new project version (the exact value of the tag you will create
-below)
-
-* Commit the pom change and push to the project's repo
-`refs/for/<master/stable>`
-
-* Tag the version you just pushed (and push the tag)
-
-====
- git tag -a -m "prolog-cafe 1.3" v1.3
- git push gerrit-review refs/tags/v1.3:refs/tags/v1.3
-====
-
-* Deploy the new release:
-
-====
- mvn deploy
-====
 
 
 GERRIT

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH7n///10\u003d",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-31T14:08:24Z",
+      "side": 1,
+      "message": "We generally deploy subproject snapshots after changes have been merged to them that need to make it into Gerrrit.  This allows Gerrit\u0027s pom in master to point to it and for users to then build Gerrit when the subproject has had an API change.  Once it has been tested in Gerrit master for a whlie and when approaching time to make a Gerrit release, we then can freeze the subproject and make a \"release\" version.",
+      "parentUuid": "AAAH83///+4\u003d",
+      "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH7n///2s\u003d",
         "filename": "Documentation/dev-release-subproject.txt",
         "patchSetId": 1

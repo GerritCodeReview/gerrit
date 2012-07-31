@@ -47,7 +47,11 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -67,8 +71,8 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    protected SideBySideTable createContentTable() {
-      return new SideBySideTable();
+    protected SideBySideTable createContentTable(VerticalOverviewBar overviewBar) {
+      return new SideBySideTable(overviewBar);
     }
 
     @Override
@@ -85,8 +89,8 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    protected UnifiedDiffTable createContentTable() {
-      return new UnifiedDiffTable();
+    protected UnifiedDiffTable createContentTable(VerticalOverviewBar overviewBar) {
+      return new UnifiedDiffTable(overviewBar);
     }
 
     @Override
@@ -114,14 +118,16 @@ public abstract class PatchScreen extends Screen implements
   private FlowPanel reviewedPanel;
   private InlineHyperlink reviewedLink;
   private HistoryTable historyTable;
+  private FlowPanel northPanel;
   private FlowPanel topPanel;
+  private Widget topWidget;
   private FlowPanel contentPanel;
   private PatchTableHeader header;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
+  private VerticalOverviewBar overviewBar;
   private CommitMessageBlock commitMessageBlock;
   private NavLinks topNav;
-  private NavLinks bottomNav;
 
   private int rpcSequence;
   private PatchScript lastScript;
@@ -171,6 +177,14 @@ public abstract class PatchScreen extends Screen implements
 
     reviewedPanel = new FlowPanel();
     settingsPanel = new PatchScriptSettingsPanel(prefs);
+  }
+
+  private static int height(FlowPanel topArea) {
+    int height = 0;
+    for(int i = 0; i < topArea.getWidgetCount(); i++) {
+      height += topArea.getWidget(i).getOffsetHeight();
+    }
+    return height;
   }
 
   private void populateReviewedPanel(){
@@ -292,10 +306,7 @@ public abstract class PatchScreen extends Screen implements
   @Override
   protected void onInitUI() {
     super.onInitUI();
-
-    if (Gerrit.isSignedIn()) {
-      setTitleFarEast(reviewedPanel);
-    }
+    removePageTitle();
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new UpToChangeCommand(patchKey.getParentKey(), 0, 'u'));
@@ -314,7 +325,6 @@ public abstract class PatchScreen extends Screen implements
     commitMessageBlock = new CommitMessageBlock();
 
     topPanel = new FlowPanel();
-    add(topPanel);
 
     header = new PatchTableHeader(getPatchScreenType());
 
@@ -322,13 +332,27 @@ public abstract class PatchScreen extends Screen implements
     noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
     noDifference.setVisible(false);
 
-    contentTable = createContentTable();
+    overviewBar = new VerticalOverviewBar(Gerrit.getBodyScrollPanel());
+    contentTable = createContentTable(overviewBar);
     contentTable.fileList = fileList;
 
     topNav = new NavLinks(keysNavigation, patchKey.getParentKey());
-    bottomNav = new NavLinks(null, patchKey.getParentKey());
+    Grid grid = new Grid(1, 3);
+    grid.setText(0, 0, patchKey.getFileName());
+    if (Gerrit.isSignedIn()) {
+      grid.setWidget(0, 2, reviewedPanel);
+    }
+    CellFormatter fmt = grid.getCellFormatter();
+    fmt.setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT);
+    fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+    topNav.setStyleName(Gerrit.RESOURCES.css().patchScreenHeader());
+    grid.setStyleName(Gerrit.RESOURCES.css().patchScreenHeader());
 
-    add(topNav);
+    northPanel = new FlowPanel();
+    northPanel.add(grid);
+    northPanel.add(topNav);
+    northPanel.add(topPanel);
+
     contentPanel = new FlowPanel();
     if (getPatchScreenType() == PatchScreen.Type.SIDE_BY_SIDE) {
       contentPanel.setStyleName(//
@@ -340,12 +364,11 @@ public abstract class PatchScreen extends Screen implements
     contentPanel.add(header);
     contentPanel.add(noDifference);
     contentPanel.add(contentTable);
+    add(northPanel);
     add(contentPanel);
-    add(bottomNav);
 
     if (fileList != null) {
       topNav.display(patchIndex, getPatchScreenType(), fileList);
-      bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
   }
 
@@ -422,7 +445,7 @@ public abstract class PatchScreen extends Screen implements
     }
   }
 
-  protected abstract AbstractPatchContentTable createContentTable();
+  protected abstract AbstractPatchContentTable createContentTable(VerticalOverviewBar overviewBar);
 
   public abstract PatchScreen.Type getPatchScreenType();
 
@@ -484,9 +507,7 @@ public abstract class PatchScreen extends Screen implements
     if (last >= 0) {
       fileName = fileName.substring(last + 1);
     }
-
     setWindowTitle(fileName);
-    setPageTitle(path);
 
     if (idSideB.equals(patchSetDetail.getPatchSet().getId())) {
       commitMessageBlock.setVisible(true);
@@ -519,7 +540,7 @@ public abstract class PatchScreen extends Screen implements
       // the unified view instead.
       //
       contentTable.removeFromParent();
-      contentTable = new UnifiedDiffTable();
+      contentTable = new UnifiedDiffTable(overviewBar);
       contentTable.fileList = fileList;
       contentPanel.add(contentTable);
       setToken(Dispatcher.toPatchUnified(idSideA, patchKey));
@@ -540,7 +561,6 @@ public abstract class PatchScreen extends Screen implements
 
     if (fileList != null) {
       topNav.display(patchIndex, getPatchScreenType(), fileList);
-      bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
 
     if (Gerrit.isSignedIn()) {
@@ -571,7 +591,10 @@ public abstract class PatchScreen extends Screen implements
     }
     if (topView != null && prefs.get().isRetainHeader()) {
       setTopView(topView);
+    } else {
+      Gerrit.setPanelNorth(northPanel, height(northPanel));
     }
+    Gerrit.setPanelEast(overviewBar, 16);
   }
 
   private void showPatch(final boolean showPatch) {
@@ -581,18 +604,26 @@ public abstract class PatchScreen extends Screen implements
   }
 
   public void setTopView(TopView tv) {
+    if (topWidget != null) {
+      topWidget.removeFromParent();
+      topWidget = null;
+    }
     topView = tv;
-    topPanel.clear();
-    switch(tv) {
-      case COMMIT:      topPanel.add(commitMessageBlock);
-        break;
-      case PREFERENCES: topPanel.add(settingsPanel);
-        break;
-      case PATCH_SETS:  topPanel.add(historyTable);
-        break;
-      case FILES:       topPanel.add(fileList);
+    switch (topView) {
+      case PREFERENCES: top(topPanel, settingsPanel); break;
+      case PATCH_SETS:  top(topPanel, historyTable); break;
+      case COMMIT:      top(contentPanel, commitMessageBlock); break;
+      case FILES:       top(contentPanel, fileList); break;
+      case MAIN:
+        Gerrit.setPanelNorth(northPanel, height(northPanel));
         break;
     }
+  }
+
+  private void top(FlowPanel p, Widget w) {
+    topWidget = w;
+    p.insert(w, 0);
+    Gerrit.setPanelNorth(northPanel, height(northPanel));
   }
 
   public class FileListCmd extends KeyCommand {

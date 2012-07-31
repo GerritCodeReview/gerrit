@@ -124,12 +124,12 @@ public class ListChanges {
   private List<String> queries;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "Maximum number of results to return")
-  void setLimit(int limit) {
+  public void setLimit(int limit) {
     imp.setLimit(limit);
   }
 
   @Option(name = "-o", multiValued = true, usage = "Output options per change")
-  void addOption(ListChangesOption o) {
+  public void addOption(ListChangesOption o) {
     options.add(o);
   }
 
@@ -139,7 +139,7 @@ public class ListChanges {
   }
 
   @Option(name = "-P", metaVar = "SORTKEY", usage = "Previous changes before SORTKEY")
-  void setSortKeyAfter(String key) {
+  public void setSortKeyAfter(String key) {
     // Querying for the prior page of changes requires sortkey_after predicate.
     // Changes are shown most recent->least recent. The previous page of
     // results contains changes that were updated after the given key.
@@ -148,7 +148,7 @@ public class ListChanges {
   }
 
   @Option(name = "-N", metaVar = "SORTKEY", usage = "Next changes after SORTKEY")
-  void setSortKeyBefore(String key) {
+  public void setSortKeyBefore(String key) {
     // Querying for the next page of changes requires sortkey_before predicate.
     // Changes are shown most recent->least recent. The next page contains
     // changes that were updated before the given key.
@@ -190,6 +190,14 @@ public class ListChanges {
 
   public ListChanges setFormat(OutputFormat fmt) {
     this.format = fmt;
+    return this;
+  }
+
+  public ListChanges addQuery(String query) {
+    if (queries == null) {
+      queries = Lists.newArrayList();
+    }
+    queries.add(query);
     return this;
   }
 

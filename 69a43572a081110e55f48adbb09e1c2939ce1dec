@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAH83////s\u003d",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-31T06:41:37Z",
+      "side": 1,
+      "message": "Normally at the end of every doc file we have a link back to the index:\n\n  GERRIT\n  ------\n  Part of link:index.html[Gerrit Code Review]",
+      "revId": "69a43572a081110e55f48adbb09e1c2939ce1dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH7n///48\u003d",
         "filename": "Documentation/index.txt",
         "patchSetId": 8

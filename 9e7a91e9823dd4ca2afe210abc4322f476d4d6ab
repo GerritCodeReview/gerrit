@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///+4\u003d",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-31T13:50:48Z",
+      "side": 1,
+      "message": "Is there a need to deploy the snapshots? For the testing it should be sufficient if there are installed into the local Maven repository, isn\u0027t it?",
+      "parentUuid": "AAAH7n///2o\u003d",
+      "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH7n///2s\u003d",
         "filename": "Documentation/dev-release-subproject.txt",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2012-07-31T13:40:07Z",
       "side": 1,
       "message": "Maybe we should change the name of this war file (and perhaps even project) so that things become less confusing and we we don\u0027t have a circular depedency?  We could name it Gerrit-core? Or alternativly, we name the Gerrrit with plugins something like Gerrit-full?",
+      "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///+0\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-31T13:50:48Z",
+      "side": 1,
+      "message": "I was also thinking about this. I\u0027m open to suggestions how to name the war the includes the core plugins.\n\n+1 for \u0027gerrit-full-v2.5.war\u0027\n\nBut since this would not only be a modification in the docs, I would make it a seperate change.",
+      "parentUuid": "AAAH7n///2Y\u003d",
       "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

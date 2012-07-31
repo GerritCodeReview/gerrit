@@ -256,6 +256,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
             cancel.setEnabled(true);
             discard.setEnabled(true);
             render();
+            doneEditing();
             onSave.onSuccess(VoidResult.INSTANCE);
           }
 
@@ -310,6 +311,13 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
             super.onFailure(caught);
           }
         });
+  }
+
+  private void doneEditing() {
+    CommentEditorContainer c = getContainer();
+    if (c != null) {
+      c.doneEditing(this);
+    }
   }
 
   private void removeUI() {

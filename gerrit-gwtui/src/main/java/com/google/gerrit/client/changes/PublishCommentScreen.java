@@ -180,6 +180,10 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   @Override
+  public void doneEditing(CommentEditorPanel editor) {
+  }
+
+  @Override
   public void remove(CommentEditorPanel editor) {
     commentEditors.remove(editor);
 

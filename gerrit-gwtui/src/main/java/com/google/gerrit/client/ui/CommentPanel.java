@@ -55,6 +55,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
   private final DoubleClickHTML messageText;
   private FlowPanel buttons;
   private boolean recent;
+  private ClickHandler clickHandler;
 
   public CommentPanel(final AccountInfo author, final Date when, String message) {
     this();
@@ -82,6 +83,9 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
       @Override
       public void onClick(ClickEvent event) {
         setOpen(!isOpen());
+        if(clickHandler != null) {
+          clickHandler.onClick(event);
+        }
       }
     });
     header.setText(0, 0, "");
@@ -124,6 +128,10 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
 
   public void setAuthorNameText(final String nameText) {
     header.setText(0, 0, nameText);
+  }
+
+  public void setClickHandler(final ClickHandler handler) {
+    clickHandler = handler;
   }
 
   protected void setDateText(final String dateText) {

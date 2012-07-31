@@ -48,6 +48,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         }
       };
 
+  public UnifiedDiffTable(VerticalOverviewBar overviewBar) {
+    super(overviewBar);
+  }
+
   @Override
   protected void onCellDoubleClick(final int row, final int column) {
     if (column > C_ARROW && getRowItem(row) instanceof PatchLine) {

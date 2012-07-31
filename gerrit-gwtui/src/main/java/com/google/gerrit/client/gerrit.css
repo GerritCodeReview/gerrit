@@ -54,7 +54,7 @@
 
 .gerritTopMenu {
   font-size: 9pt;
-  padding-top: 5px;
+  padding-top: 0px;
   padding-left: 5px;
   padding-right: 5px;
   background: topMenuColor;
@@ -68,6 +68,13 @@
   background: selectionColor;
 }
 
+.gerritBtmMenuContainer {
+  clear: both;
+  margin-top: 15px;
+  padding-top: 2px;
+  margin-bottom: 15px;
+}
+
 .gerritBody {
   font-size: 11pt;
   padding-left: 5px;
@@ -76,6 +83,7 @@
 
 .version,
 .keyhelp {
+  font-size: 9pt;
   color: #a0adcc;
   right: 0;
   padding-right: 10px;
@@ -244,6 +252,10 @@
   border-right: 1px solid black;
 }
 
+.patchMenu {
+  width: 100%;
+  padding: 0;
+}
 .topmenu {
   width: 100%;
 }
@@ -399,7 +411,7 @@
 .screenHeader {
   white-space: nowrap;
   font-size: 16pt;
-  margin: 3px 0 8px;
+  padding: 3px 0 8px;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -599,6 +611,15 @@
 /** PatchScreen **/
 .patchScreenDisplayControls .gwt-CheckBox {
   margin-right: 1em;
+}
+.patchScreenHeader {
+  font-size: 9pt;
+  width: 100%;
+  padding: 0;
+  border-spacing: 0;
+}
+.patchScreenHeader td {
+  font-size: 9pt;
 }
 
 
@@ -1074,7 +1095,8 @@ a:hover.downloadLink {
 .sideBySideScreenLinkTable {
   width: 100%;
 }
-.sideBySideScreenLinkTable td {
+.sideBySideScreenLinkTable td,
+.patchScreenHeader td {
   width: 33%;
 }
 
@@ -1089,7 +1111,7 @@ a:hover.downloadLink {
 /** Patch History Table **/
 .patchHistoryTable {
   width: auto;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .patchHistoryTable .dataCell {
@@ -1412,4 +1434,39 @@ a:hover.downloadLink {
 
 /** PluginListScreen **/
 .pluginsTable {
+}
+
+.verticalOverviewBar {
+  background: white;
+  padding: 1px;
+  margin-right: 4px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+.verticalOverviewBarMarker {
+  position: absolute;
+}
+.verticalOverviewBarCommentMarker {
+  cursor: pointer;
+  width: 100%;
+  background-color: lightgray;
+  border: 1px solid darkgray;
+}
+.verticalOverviewBarCodeBlockMarkerLeft {
+  width: 50%;
+}
+.verticalOverviewBarCodeBlockMarkerRight {
+  left: 60%;
+  width: 50%;
+}
+.verticalOverviewBarCodeBlockMarkerInsert {
+  background-color: #DFD;
+  border: 1px solid #9F9;
+}
+.verticalOverviewBarCodeBlockMarkerDelete {
+  background-color: #FEE;
+  border: 1px solid #FAA;
 }

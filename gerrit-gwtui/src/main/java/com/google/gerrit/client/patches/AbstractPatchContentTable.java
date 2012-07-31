@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -73,7 +74,14 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private final KeyCommandSet keysOpenByEnter;
   private HandlerRegistration regOpenByEnter;
 
-  protected AbstractPatchContentTable() {
+  protected final VerticalOverviewBar overviewBar;
+  private int rowHeightPx;
+  /** We don't know the height of comment panels when they are added, so we must add them to the overview bar later */
+  private final List<CommentPanel> commentMarkersToAdd;
+
+  protected AbstractPatchContentTable(VerticalOverviewBar overviewBar) {
+    this.overviewBar = overviewBar;
+    commentMarkersToAdd = new ArrayList<CommentPanel>();
     keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new PrevChunkKeyCmd(0, 'p', PatchUtil.C.chunkPrev()));
@@ -122,9 +130,18 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   @Override
+  public void doneEditing(CommentEditorPanel panel) {
+    int row = findRowInTableContaining(panel);
+    if (row != -1) {
+      overviewBar.setCommentMarkerHeight(row, panel.getOffsetHeight()
+          / getRowHeightPx());
+    }
+  }
+
+  @Override
   public void remove(CommentEditorPanel panel) {
-    final int nRows = table.getRowCount();
-    for (int row = 0; row < nRows; row++) {
+    int row = findRowInTableContaining(panel);
+    if (row != -1) {
       final int nCells = table.getCellCount(row);
       for (int cell = 0; cell < nCells; cell++) {
         if (table.getWidget(row, cell) == panel) {
@@ -143,6 +160,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
             table.getCellFormatter().addStyleName(row - 1, cell,
                 Gerrit.RESOURCES.css().commentPanelLast());
           }
+          overviewBar.removeCommentMarker(row);
           return;
         }
       }
@@ -174,6 +192,21 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     idSideB = b;
 
     render(s);
+
+    overviewBar.setTotalLines(table.getRowCount());
+  }
+
+  private int findRowInTableContaining(Widget w) {
+    final int nRows = table.getRowCount();
+    for (int row = 0; row < nRows; row++) {
+      final int nCells = table.getCellCount(row);
+      for (int cell = 0; cell < nCells; cell++) {
+        if (table.getWidget(row, cell) == w) {
+          return row;
+        }
+      }
+    }
+    return -1;
   }
 
   protected SparseHtmlFile getSparseHtmlFileA(PatchScript s) {
@@ -211,6 +244,26 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected abstract void onInsertComment(PatchLine pl);
 
   public abstract void display(CommentDetail comments, boolean expandComments);
+
+  @Override
+  public void finishDisplay() {
+    super.finishDisplay();
+    overviewBar.setTotalLines(table.getRowCount());
+
+    Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() {
+      @Override
+      public void execute() {
+        for(CommentPanel panel : commentMarkersToAdd) {
+          int row = findRowInTableContaining(panel);
+          if(row != -1) {
+            int height = panel.getOffsetHeight()
+                / getRowHeightPx();
+            overviewBar.addCommentMarker(row, height);
+          }
+        }
+      }
+    });
+  }
 
   @Override
   protected MyFlexTable createFlexTable() {
@@ -478,6 +531,9 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       insertRow(row);
       styleCommentRow(row);
     }
+    // Default height for new comments is 4, as this is roughly what the comment
+    // box will be once done editing if the contents are 1 line.
+    overviewBar.addCommentMarker(row, 4);
     table.setWidget(row, column, ed);
     styleLastCommentCell(row, column);
 
@@ -588,6 +644,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       plc.addBlurHandler(this);
       table.setWidget(row, col, plc);
       styleLastCommentCell(row, col);
+      commentMarkersToAdd.add(plc);
 
     } else {
       final AccountInfo author = accountCache.get(line.getAuthor());
@@ -596,6 +653,19 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       panel.setOpen(expandComment);
       panel.addFocusHandler(this);
       panel.addBlurHandler(this);
+      panel.setClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          // We must re-find the row because the user could have expanded
+          // context lines, which adjusts the position of the comment block in
+          // the overview bar.
+          int newRow = findRowInTableContaining(panel);
+          if (newRow != -1) {
+            overviewBar.setCommentMarkerHeight(newRow, panel.getOffsetHeight()
+                / getRowHeightPx());
+          }
+        }
+      });
       table.setWidget(row, col, panel);
       styleLastCommentCell(row, col);
 
@@ -606,6 +676,11 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       }
       l.comments.add(line);
       l.panels.add(panel);
+      if (expandComment) {
+        commentMarkersToAdd.add(panel);
+      } else {
+        overviewBar.addCommentMarker(row, 1);
+      }
     }
 
     styleCommentRow(row);
@@ -650,6 +725,13 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     if (!fmt.getStyleName(row, col - 1).contains(Gerrit.RESOURCES.css().commentHolder())) {
       fmt.addStyleName(row, col, Gerrit.RESOURCES.css().commentHolderLeftmost());
     }
+  }
+
+  private int getRowHeightPx() {
+    if(rowHeightPx == 0) {
+      rowHeightPx = table.getRowFormatter().getElement(0).getOffsetHeight();
+    }
+    return rowHeightPx;
   }
 
   protected static class CommentList {

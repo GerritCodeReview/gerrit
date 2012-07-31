@@ -156,14 +156,14 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   protected void scrollIntoView(final Element tr) {
     if (!computedScrollType) {
       parentScrollPanel = null;
-      Widget w = getParent();
+      /*Widget w = getParent();
       while (w != null) {
         if (w instanceof ScrollPanel) {
           parentScrollPanel = (ScrollPanel) w;
           break;
         }
         w = w.getParent();
-      }
+      }*/
       computedScrollType = true;
     }
 

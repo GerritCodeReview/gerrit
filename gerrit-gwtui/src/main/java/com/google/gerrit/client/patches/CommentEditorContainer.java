@@ -18,4 +18,6 @@ public interface CommentEditorContainer {
   void notifyDraftDelta(int delta);
 
   void remove(CommentEditorPanel panel);
+
+  void doneEditing(CommentEditorPanel panel);
 }

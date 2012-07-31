@@ -17,7 +17,6 @@ package com.google.gerrit.client.account;
 import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DEFAULT_PAGESIZE;
 import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESIZE_CHOICES;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.reviewdb.client.Account;
@@ -28,6 +27,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -267,9 +267,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     Util.ACCOUNT_SVC.changePreferences(p, new GerritCallback<VoidResult>() {
       @Override
       public void onSuccess(final VoidResult result) {
-        Gerrit.getUserAccount().setGeneralPreferences(p);
-        Gerrit.applyUserPreferences();
-        enable(true);
+        Window.Location.reload();
       }
 
       @Override

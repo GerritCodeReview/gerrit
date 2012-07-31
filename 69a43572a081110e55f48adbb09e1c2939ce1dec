@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAH83////U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-07-31T08:04:01Z",
+      "side": 1,
+      "message": "This line is too long. Please try to keep the overall line width no longer than 72 chars and also have only one row in the first paragraph. See https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_commit_message\n\nfor details.",
+      "revId": "69a43572a081110e55f48adbb09e1c2939ce1dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH83////s\u003d",
         "filename": "Documentation/database-setup.txt",
         "patchSetId": 8

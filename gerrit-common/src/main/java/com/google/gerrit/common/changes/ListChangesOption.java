@@ -38,6 +38,14 @@ public enum ListChangesOption {
     this.value = v;
   }
 
+  public int getValue() {
+    return value;
+  }
+
+  public static ListChangesOption fromValue(int value) {
+    return ListChangesOption.values()[value];
+  }
+
   public static EnumSet<ListChangesOption> fromBits(int v) {
     EnumSet<ListChangesOption> r = EnumSet.noneOf(ListChangesOption.class);
     for (ListChangesOption o : ListChangesOption.values()) {

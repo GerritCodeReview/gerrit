@@ -15,8 +15,8 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
@@ -46,27 +46,35 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
@@ -95,9 +103,12 @@ public class Gerrit implements EntryPoint {
   private static AccountDiffPreference myAccountDiffPref;
   private static String xsrfToken;
 
-  private static MorphingTabPanel menuLeft;
-  private static LinkMenuBar menuRight;
-  private static LinkMenuBar diffBar;
+  private static MorphingTabPanel menuTabs;
+  private static LinkMenuBar menuLinks;
+  private static LinkMenuBar patchLinks;
+  private static Panel mainMenu;
+  private static Panel patchMenu;
+  private static FlowPanel topArea;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
   private static SearchPanel searchPanel;
@@ -105,6 +116,11 @@ public class Gerrit implements EntryPoint {
   private static ViewSite<Screen> body;
   private static PatchScreen patchScreen;
   private static String lastChangeListToken;
+
+  private static DockLayoutPanel dock;
+  private static FlowPanel northArea;
+  private static FlowPanel eastArea;
+  private static ScrollPanel bodyScrollPanel;
 
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
@@ -114,6 +130,22 @@ public class Gerrit implements EntryPoint {
   static void upgradeUI(String token) {
     History.newItem(Dispatcher.RELOAD_UI + token, false);
     Window.Location.reload();
+  }
+
+  public static void setPanelNorth(Widget widget, double size) {
+    northArea.clear();
+    northArea.add(widget);
+    dock.setWidgetSize(northArea, size);
+  }
+
+  public static void setPanelEast(Widget widget, double size) {
+    eastArea.clear();
+    eastArea.add(widget);
+    dock.setWidgetSize(eastArea, size);
+  }
+
+  public static ScrollPanel getBodyScrollPanel() {
+    return bodyScrollPanel;
   }
 
   public static PatchScreen.TopView getPatchScreenTopView() {
@@ -177,17 +209,30 @@ public class Gerrit implements EntryPoint {
    * @param view the loaded view.
    */
   public static void updateMenus(Screen view) {
+    int h = 0;
     if (view instanceof PatchScreen) {
       patchScreen = (PatchScreen) view;
-      menuLeft.setVisible(diffBar, true);
-      menuLeft.selectTab(menuLeft.getWidgetIndex(diffBar));
-    } else {
-      if (patchScreen != null && menuLeft.getSelectedWidget() == diffBar) {
-        menuLeft.selectTab(isSignedIn() ? 1 : 0);
-      }
+      topArea.clear();
+      topArea.add(patchMenu);
+      h = patchMenu.getOffsetHeight();
+    } else if (patchScreen != null) {
       patchScreen = null;
-      menuLeft.setVisible(diffBar, false);
+      topArea.clear();
+      topArea.add(mainMenu);
+      h = mainMenu.getOffsetHeight();
+      if (siteHeader != null) {
+        topArea.add(siteHeader);
+        h += siteHeader.getOffsetHeight();
+      }
     }
+    if (0 < h) {
+      dock.setWidgetSize(topArea, h);
+    }
+  }
+
+  private static boolean showSiteHeader() {
+    return !isSignedIn()
+        || myAccount.getGeneralPreferences().isShowSiteHeader();
   }
 
   /**
@@ -345,7 +390,6 @@ public class Gerrit implements EntryPoint {
   @Override
   public void onModuleLoad() {
     UserAgent.assertNotInIFrame();
-
     KeyUtil.setEncoderImpl(new KeyUtil.Encoder() {
       @Override
       public String encode(String e) {
@@ -372,6 +416,7 @@ public class Gerrit implements EntryPoint {
     });
 
     initHostname();
+    initHistoryHooks();
     Window.setTitle(M.windowTitle1(myHost));
 
     final HostPageDataService hpd = GWT.create(HostPageDataService.class);
@@ -440,7 +485,7 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static void populateBottomMenu(final RootPanel btmmenu) {
+  private static void populateBottomMenu(FlowPanel btmmenu) {
     final Label keyHelp = new Label(C.keyHelp());
     keyHelp.setStyleName(RESOURCES.css().keyhelp());
     btmmenu.add(keyHelp);
@@ -474,33 +519,7 @@ public class Gerrit implements EntryPoint {
   private void onModuleLoad2(HostPageData hpd) {
     RESOURCES.gwt_override().ensureInjected();
     RESOURCES.css().ensureInjected();
-
-    final RootPanel gTopMenu = RootPanel.get("gerrit_topmenu");
-    final RootPanel gStarting = RootPanel.get("gerrit_startinggerrit");
-    final RootPanel gBody = RootPanel.get("gerrit_body");
-    final RootPanel gBottomMenu = RootPanel.get("gerrit_btmmenu");
-
-    gTopMenu.setStyleName(RESOURCES.css().gerritTopMenu());
-    gBody.setStyleName(RESOURCES.css().gerritBody());
-
-    final Grid menuLine = new Grid(1, 3);
-    menuLeft = new MorphingTabPanel();
-    menuRight = new LinkMenuBar();
-    searchPanel = new SearchPanel();
-    menuLeft.setStyleName(RESOURCES.css().topmenuMenuLeft());
-    menuLine.setStyleName(RESOURCES.css().topmenu());
-    gTopMenu.add(menuLine);
-    final FlowPanel menuRightPanel = new FlowPanel();
-    menuRightPanel.setStyleName(RESOURCES.css().topmenuMenuRight());
-    menuRightPanel.add(menuRight);
-    menuRightPanel.add(searchPanel);
-    menuLine.setWidget(0, 0, menuLeft);
-    menuLine.setWidget(0, 1, new FlowPanel());
-    menuLine.setWidget(0, 2, menuRightPanel);
-    final CellFormatter fmt = menuLine.getCellFormatter();
-    fmt.setStyleName(0, 0, RESOURCES.css().topmenuTDmenu());
-    fmt.setStyleName(0, 1, RESOURCES.css().topmenuTDglue());
-    fmt.setStyleName(0, 2, RESOURCES.css().topmenuTDmenu());
+    removeLoadingGerrit();
 
     siteHeader = RootPanel.get("gerrit_header");
     siteFooter = RootPanel.get("gerrit_footer");
@@ -517,14 +536,31 @@ public class Gerrit implements EntryPoint {
         if (view instanceof ChangeListScreen) {
           lastChangeListToken = token;
         }
+        if (0 < northArea.getWidgetCount()) {
+          northArea.clear();
+          dock.setWidgetSize(northArea, 0);
+        }
+        if (0 < eastArea.getWidgetCount()) {
+          eastArea.clear();
+          dock.setWidgetSize(eastArea, 0);
+        }
 
         super.onShowView(view);
         view.onShowView();
       }
     };
-    gBody.add(body);
+    body.getElement().setId("gerrit_body");
+    body.setStyleName(RESOURCES.css().gerritBody());
 
-    RpcStatus.INSTANCE = new RpcStatus(gTopMenu);
+    mainMenu = new FlowPanel();
+    FlowPanel gBtmDiv = new FlowPanel();
+    FlowPanel gBtmMenu = new FlowPanel();
+
+    mainMenu.getElement().setId("gerrit_topmenu");
+    gBtmMenu.getElement().setId("gerrit_btmmenu");
+    gBtmDiv.setStyleName(RESOURCES.css().gerritBtmMenuContainer());
+
+    RootPanel.get().add(RpcStatus.INSTANCE);
     JsonUtil.addRpcStartHandler(RpcStatus.INSTANCE);
     JsonUtil.addRpcCompleteHandler(RpcStatus.INSTANCE);
     JsonUtil.setDefaultXsrfManager(new XsrfManager() {
@@ -539,14 +575,51 @@ public class Gerrit implements EntryPoint {
       }
     });
 
-    gStarting.getElement().getParentElement().removeChild(
-        gStarting.getElement());
-    RootPanel.detachNow(gStarting);
+    menuTabs = new MorphingTabPanel();
+    menuLinks = new LinkMenuBar();
+    searchPanel = new SearchPanel();
+    patchMenu = createPatchMenu();
+    patchMenu.setStyleName(RESOURCES.css().gerritTopMenu());
+    mainMenu.setStyleName(RESOURCES.css().gerritTopMenu());
 
     applyUserPreferences();
-    initHistoryHooks();
-    populateBottomMenu(gBottomMenu);
     refreshMenuBar();
+    populateBottomMenu(gBtmMenu);
+
+    northArea = new FlowPanel();
+    eastArea = new FlowPanel();
+    topArea = new FlowPanel();
+    topArea.add(mainMenu);
+
+    mainMenu.add(createMainMenu());
+    if (siteFooter != null) {
+      gBtmDiv.add(siteFooter);
+    }
+    if (siteHeader != null) {
+      topArea.add(siteHeader);
+    }
+    gBtmDiv.add(gBtmMenu);
+    RootPanel.get().add(topArea);
+
+    FlowPanel scrollArea = new FlowPanel();
+    scrollArea.add(body);
+    scrollArea.add(gBtmDiv);
+    bodyScrollPanel = new ScrollPanel(scrollArea);
+    dock = new DockLayoutPanel(Unit.PX);
+    RootPanel.get().insert(RootLayoutPanel.get(), 0);
+    RootLayoutPanel.get().add(dock);
+    Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() {
+      @Override
+      public void execute() {
+        // GWT based CSS injection is performed in a scheduleFinally(), so CSS
+        // rules are not immediately available. Finish setting up the dock panel
+        // in a finally, where the browser has a chance to measure height.
+        dock.addNorth(topArea, topArea.getOffsetHeight());
+        dock.addNorth(northArea, 0);
+        dock.addEast(eastArea, 0);
+        dock.add(bodyScrollPanel);
+      }
+    });
 
     History.addValueChangeHandler(new ValueChangeHandler<String>() {
       @Override
@@ -566,6 +639,34 @@ public class Gerrit implements EntryPoint {
       signInAnchor.setHref(loginRedirect(token));
     }
     loadPlugins(hpd, token);
+  }
+
+  private static Widget createMainMenu() {
+    menuTabs.setStyleName(RESOURCES.css().topmenuMenuLeft());
+
+    FlowPanel right = new FlowPanel();
+    right.setStyleName(RESOURCES.css().topmenuMenuRight());
+    right.add(menuLinks);
+    right.add(searchPanel);
+
+    Grid bar = new Grid(1, 3);
+    bar.setStyleName(RESOURCES.css().topmenu());
+    bar.setWidget(0, 0, menuTabs);
+    bar.setWidget(0, 1, new FlowPanel());
+    bar.setWidget(0, 2, right);
+
+    CellFormatter fmt = bar.getCellFormatter();
+    fmt.setStyleName(0, 0, RESOURCES.css().topmenuTDmenu());
+    fmt.setStyleName(0, 1, RESOURCES.css().topmenuTDglue());
+    fmt.setStyleName(0, 2, RESOURCES.css().topmenuTDmenu());
+    return bar;
+  }
+
+  private static void removeLoadingGerrit() {
+    RootPanel msg = RootPanel.get("gerrit_startinggerrit");
+    Element div = msg.getElement();
+    div.getParentElement().removeChild(div);
+    RootPanel.detachNow(msg);
   }
 
   private void loadPlugins(HostPageData hpd, final String token) {
@@ -612,8 +713,9 @@ public class Gerrit implements EntryPoint {
   }
 
   public static void refreshMenuBar() {
-    menuLeft.clear();
-    menuRight.clear();
+    menuTabs.clear();
+    menuLinks.clear();
+    patchLinks.clear();
 
     final boolean signedIn = isSignedIn();
     final GerritConfig cfg = getConfig();
@@ -623,7 +725,7 @@ public class Gerrit implements EntryPoint {
     addLink(m, C.menuAllOpen(), PageLinks.toChangeQuery("status:open"));
     addLink(m, C.menuAllMerged(), PageLinks.toChangeQuery("status:merged"));
     addLink(m, C.menuAllAbandoned(), PageLinks.toChangeQuery("status:abandoned"));
-    menuLeft.add(m, C.menuAll());
+    menuTabs.add(m, C.menuAll());
 
     if (signedIn) {
       m = new LinkMenuBar();
@@ -632,21 +734,11 @@ public class Gerrit implements EntryPoint {
       addLink(m, C.menuMyWatchedChanges(), PageLinks.toChangeQuery("is:watched status:open"));
       addLink(m, C.menuMyStarredChanges(), PageLinks.toChangeQuery("is:starred"));
       addLink(m, C.menuMyDraftComments(), PageLinks.toChangeQuery("has:draft"));
-      menuLeft.add(m, C.menuMine());
-      menuLeft.selectTab(1);
+      menuTabs.add(m, C.menuMine());
+      menuTabs.selectTab(1);
     } else {
-      menuLeft.selectTab(0);
+      menuTabs.selectTab(0);
     }
-
-    patchScreen = null;
-    diffBar = new LinkMenuBar();
-    menuLeft.addInvisible(diffBar, C.menuDiff());
-    addDiffLink(diffBar, CC.patchTableDiffSideBySide(), PatchScreen.Type.SIDE_BY_SIDE);
-    addDiffLink(diffBar, CC.patchTableDiffUnified(), PatchScreen.Type.UNIFIED);
-    addDiffLink(diffBar, C.menuDiffCommit(), PatchScreen.TopView.COMMIT);
-    addDiffLink(diffBar, C.menuDiffPreferences(), PatchScreen.TopView.PREFERENCES);
-    addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
-    addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
 
     final LinkMenuBar projectsBar = new LinkMenuBar();
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
@@ -660,7 +752,7 @@ public class Gerrit implements EntryPoint {
         }
       }, CREATE_PROJECT);
     }
-    menuLeft.add(projectsBar, C.menuProjects());
+    menuTabs.add(projectsBar, C.menuProjects());
 
     if (signedIn) {
       final LinkMenuBar groupsBar = new LinkMenuBar();
@@ -673,7 +765,7 @@ public class Gerrit implements EntryPoint {
           }
         }
       }, CREATE_GROUP);
-      menuLeft.add(groupsBar, C.menuGroups());
+      menuTabs.add(groupsBar, C.menuGroups());
 
       final LinkMenuBar pluginsBar = new LinkMenuBar();
       AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
@@ -681,8 +773,8 @@ public class Gerrit implements EntryPoint {
         public void onSuccess(AccountCapabilities result) {
           if (result.canPerform(ADMINISTRATE_SERVER)) {
             addLink(pluginsBar, C.menuPluginsInstalled(), PageLinks.ADMIN_PLUGINS);
-            menuLeft.insert(pluginsBar, C.menuPlugins(),
-                menuLeft.getWidgetIndex(groupsBar) + 1);
+            menuTabs.insert(pluginsBar, C.menuPlugins(),
+                menuTabs.getWidgetIndex(groupsBar) + 1);
           }
         }
       }, ADMINISTRATE_SERVER);
@@ -694,16 +786,21 @@ public class Gerrit implements EntryPoint {
       addDocLink(m, C.menuDocumentationSearch(), "user-search.html");
       addDocLink(m, C.menuDocumentationUpload(), "user-upload.html");
       addDocLink(m, C.menuDocumentationAccess(), "access-control.html");
-      menuLeft.add(m, C.menuDocumentation());
+      menuTabs.add(m, C.menuDocumentation());
     }
 
     if (signedIn) {
-      whoAmI();
-      addLink(menuRight, C.menuSettings(), PageLinks.SETTINGS);
+      menuLinks.add(whoAmI());
+      patchLinks.add(whoAmI());
+      addLink(menuLinks, C.menuSettings(), PageLinks.SETTINGS);
+      addDiffLink(patchLinks, C.menuDiffPreferences(), PatchScreen.TopView.PREFERENCES);
       if (cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP) {
-        menuRight.add(anchor(C.menuSignOut(), selfRedirect("/logout")));
+        menuLinks.add(anchor(C.menuSignOut(), selfRedirect("/logout")));
+        patchLinks.add(anchor(C.menuSignOut(), selfRedirect("/logout")));
       }
     } else {
+      addDiffLink(patchLinks, C.menuDiffPreferences(), PatchScreen.TopView.PREFERENCES);
+
       switch (cfg.getAuthType()) {
         case HTTP:
         case HTTP_LDAP:
@@ -711,48 +808,52 @@ public class Gerrit implements EntryPoint {
           break;
 
         case OPENID:
-          menuRight.addItem(C.menuRegister(), new Command() {
-            public void execute() {
-              final String to = History.getToken();
-              new OpenIdSignInDialog(SignInMode.REGISTER, to, null).center();
-            }
-          });
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
+          menuLinks.addItem(C.menuRegister(), new OpenIdRegister());
+          menuLinks.addItem(C.menuSignIn(), new SignIn());
+          patchLinks.addItem(C.menuRegister(), new OpenIdRegister());
+          patchLinks.addItem(C.menuSignIn(), new SignIn());
           break;
 
         case OPENID_SSO:
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
+          menuLinks.addItem(C.menuSignIn(), new SignIn());
+          patchLinks.addItem(C.menuSignIn(), new SignIn());
           break;
 
         case LDAP:
         case LDAP_BIND:
         case CUSTOM_EXTENSION:
           if (cfg.getRegisterUrl() != null) {
-            menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
+            menuLinks.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
+            patchLinks.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
           }
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
+          menuLinks.addItem(C.menuSignIn(), new SignIn());
+          patchLinks.addItem(C.menuSignIn(), new SignIn());
           break;
 
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-          menuRight.add(anchor("Become", selfRedirect("/become")));
+          menuLinks.add(anchor("Become", selfRedirect("/become")));
+          patchLinks.add(anchor("Become", selfRedirect("/become")));
           break;
       }
     }
   }
 
-  public static void applyUserPreferences() {
+  private static final class SignIn implements Command {
+    @Override
+    public void execute() {
+      doSignIn(History.getToken());
+    }
+  }
+
+  private static final class OpenIdRegister implements Command {
+    @Override
+    public void execute() {
+      final String to = History.getToken();
+      new OpenIdSignInDialog(SignInMode.REGISTER, to, null).center();
+    }
+  }
+
+  private static void applyUserPreferences() {
     if (myAccount != null) {
       final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
       CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
@@ -766,11 +867,11 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static void whoAmI() {
+  private static Widget whoAmI() {
     final String name = FormatUtil.nameEmail(getUserAccount());
     final InlineLabel l = new InlineLabel(name);
     l.setStyleName(RESOURCES.css().menuBarUserName());
-    menuRight.add(l);
+    return l;
   }
 
   private static Anchor anchor(final String text, final String to) {
@@ -783,6 +884,32 @@ public class Gerrit implements EntryPoint {
   private static void addLink(final LinkMenuBar m, final String text,
       final String historyToken) {
     m.addItem(new LinkMenuItem(text, historyToken));
+  }
+
+  private static Panel createPatchMenu() {
+    LinkMenuBar left = new LinkMenuBar();
+    patchLinks = new LinkMenuBar();
+
+    addDiffLink(left, CC.patchTableDiffSideBySide(), PatchScreen.Type.SIDE_BY_SIDE);
+    addDiffLink(left, CC.patchTableDiffUnified(), PatchScreen.Type.UNIFIED);
+    addDiffLink(left, C.menuDiffCommit(), PatchScreen.TopView.COMMIT);
+    addDiffLink(left, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
+    addDiffLink(left, C.menuDiffFiles(), PatchScreen.TopView.FILES);
+
+    left.addStyleName(RESOURCES.css().topmenuMenuLeft());
+    patchLinks.addStyleName(RESOURCES.css().topmenuMenuRight());
+
+    Grid bar = new Grid(1, 3);
+    bar.setStyleName(RESOURCES.css().patchMenu());
+    bar.setWidget(0, 0, left);
+    bar.setWidget(0, 1, new FlowPanel());
+    bar.setWidget(0, 2, patchLinks);
+
+    CellFormatter fmt = bar.getCellFormatter();
+    fmt.setStyleName(0, 0, RESOURCES.css().topmenuTDmenu());
+    fmt.setStyleName(0, 1, RESOURCES.css().topmenuTDglue());
+    fmt.setStyleName(0, 2, RESOURCES.css().topmenuTDmenu());
+    return bar;
   }
 
   private static void addDiffLink(final LinkMenuBar m, final String text,

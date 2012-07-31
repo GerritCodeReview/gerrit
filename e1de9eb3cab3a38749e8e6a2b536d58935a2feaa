@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH83///9Q\u003d",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-31T20:38:08Z",
+      "side": 1,
+      "message": "\"Only valid when the current revision or all revisions are selected.\"\nAlso true for this field?",
+      "revId": "e1de9eb3cab3a38749e8e6a2b536d58935a2feaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

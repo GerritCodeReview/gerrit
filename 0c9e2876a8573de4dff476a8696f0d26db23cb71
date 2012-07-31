@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH+H///9g\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-07-31T18:02:08Z",
+      "side": 1,
+      "message": "I think it would be easier to understand if you start by explaining what a submit rule is, and that the default one requires the max in each category, and no veto vote.",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH+H///9k\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-07-31T18:02:08Z",
+      "side": 1,
+      "message": "By default?",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH+H///9c\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-07-31T18:02:08Z",
+      "side": 1,
+      "message": "I think this section is less useful and can either be removed and reference wikipedia, or moved to the end.\n\nWhile the prolog-shell could be really useful in the future, it is not useful for testing rules.pl as it stands today, so it seems a bit misleading to introduce it this early in the document.",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH+H///9Y\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-07-31T18:02:08Z",
+      "side": 1,
+      "message": "This should be moved to a document outside of a \u0027cookbook\u0027 and instead into some kind of reference.",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH+H///9U\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-07-31T18:02:08Z",
+      "side": 1,
+      "message": "IF you are going to keep the prolog introduction, you should also introduce the underscore/any term character.",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH+H///9Q\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-07-31T18:02:08Z",
+      "side": 1,
+      "message": "Move to the prolog intro?",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH+H///9M\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-07-31T18:02:08Z",
+      "side": 1,
+      "message": "Probably better to show/demonstrate usage of the built-in helpers?\nie:\n%% commit_message_matches/1:\n%%\n:- public commit_message_matches/1.\n%%\ncommit_message_matches(Pattern) :-\n  commit_message(Msg),\n  regex_matches(Pattern, Msg).\n\nUnless the example is more aimed to demonstrate pattern matching in prolog.",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH+H///9I\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-07-31T18:02:08Z",
+      "side": 1,
+      "message": "Let\u0027s add 1+1\u003d2 here too, it\u0027s a fairly basic rule and many people ask for it.",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

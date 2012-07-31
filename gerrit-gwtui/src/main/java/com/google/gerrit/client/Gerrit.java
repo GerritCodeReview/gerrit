@@ -46,9 +46,11 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.URL;
@@ -60,13 +62,17 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
@@ -103,8 +109,14 @@ public class Gerrit implements EntryPoint {
   private static SearchPanel searchPanel;
   private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
+  private static ScrollPanel scrollBody;
   private static PatchScreen patchScreen;
   private static String lastChangeListToken;
+
+  private static DockLayoutPanel panel;
+  private static IsWidget side;
+  private static IsWidget top;
+  private static boolean addedPanels;
 
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
@@ -114,6 +126,36 @@ public class Gerrit implements EntryPoint {
   static void upgradeUI(String token) {
     History.newItem(Dispatcher.RELOAD_UI + token, false);
     Window.Location.reload();
+  }
+
+  public static void addPanelEast(IsWidget widget, double size) {
+    if (side != null) {
+      panel.remove(side);
+    }
+    panel.remove(scrollBody);
+    panel.addEast(widget, size);
+    panel.add(scrollBody);
+    side = widget;
+    addedPanels = true;
+  }
+
+  public static void addPanelNorth(IsWidget widget, double size) {
+    if (top != null) {
+      panel.remove(top);
+    }
+    panel.remove(scrollBody);
+    panel.addNorth(widget, size);
+    panel.add(scrollBody);
+    top = widget;
+    addedPanels = true;
+  }
+
+  public static void setNorthSize(double size) {
+    panel.setWidgetSize(top.asWidget(), size);
+  }
+
+  public static ScrollPanel getBodyScrollPanel() {
+    return scrollBody;
   }
 
   public static PatchScreen.TopView getPatchScreenTopView() {
@@ -475,6 +517,9 @@ public class Gerrit implements EntryPoint {
     RESOURCES.gwt_override().ensureInjected();
     RESOURCES.css().ensureInjected();
 
+    panel = new DockLayoutPanel(Unit.PX);
+    RootLayoutPanel.get().add(panel);
+
     final RootPanel gTopMenu = RootPanel.get("gerrit_topmenu");
     final RootPanel gStarting = RootPanel.get("gerrit_startinggerrit");
     final RootPanel gBody = RootPanel.get("gerrit_body");
@@ -520,6 +565,16 @@ public class Gerrit implements EntryPoint {
 
         super.onShowView(view);
         view.onShowView();
+        if (!addedPanels) {
+          if (side != null) {
+            panel.remove(side);
+          }
+          if (top != null) {
+            panel.remove(top);
+          }
+          panel.forceLayout();
+        }
+        addedPanels = false;
       }
     };
     gBody.add(body);
@@ -547,6 +602,20 @@ public class Gerrit implements EntryPoint {
     initHistoryHooks();
     populateBottomMenu(gBottomMenu);
     refreshMenuBar();
+
+    gBody.add(gBottomMenu);
+    Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() {
+      @Override
+      public void execute() {
+        // We must do this later (in a ScheduleFinally block) to give the CSS
+        // injected above time to load. Otherwise we calculate the height of the
+        // nav bar using default CSS and not the loaded CSS which changes the
+        // size of things.
+        panel.addNorth(gTopMenu, gTopMenu.getOffsetHeight());
+        scrollBody = new ScrollPanel(gBody);
+        panel.add(scrollBody);
+      }
+    });
 
     History.addValueChangeHandler(new ValueChangeHandler<String>() {
       @Override

@@ -82,7 +82,7 @@ public abstract class Screen extends View {
     Gerrit.setWindowTitle(this, text);
   }
 
-  protected void setPageTitle(final String text) {
+  protected void setPageTitleWithoutReaddingHeader(final String text) {
     final String old = headerText.getText();
     if (text.isEmpty()) {
       header.setVisible(false);
@@ -92,6 +92,14 @@ public abstract class Screen extends View {
     }
     if (windowTitle == null || windowTitle == old) {
       setWindowTitle(text);
+    }
+  }
+
+  protected void setPageTitle(final String text) {
+    setPageTitleWithoutReaddingHeader(text);
+    FlowPanel fp = (FlowPanel)getWidget();
+    if(fp.getWidgetCount() != 2) {
+      fp.insert(header, 0);
     }
   }
 
@@ -109,6 +117,11 @@ public abstract class Screen extends View {
 
   protected void setTitleWest(final Widget w) {
     header.setWidget(0, Cols.West.ordinal(), w);
+  }
+
+  protected Widget getAndRemoveHeader() {
+    header.removeFromParent();
+    return header;
   }
 
   protected void add(final Widget w) {

@@ -28,7 +28,7 @@ limitations under the License.
     .commitMessageTable {
       border-collapse: separate;
       border-spacing: 0;
-      margin-bottom: 10px;
+      padding-bottom: 10px;
     }
 
     .header {

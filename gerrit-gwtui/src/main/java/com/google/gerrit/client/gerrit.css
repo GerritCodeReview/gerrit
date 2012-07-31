@@ -399,7 +399,7 @@
 .screenHeader {
   white-space: nowrap;
   font-size: 16pt;
-  margin: 3px 0 8px;
+  padding: 3px 0 8px;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -1089,7 +1089,7 @@ a:hover.downloadLink {
 /** Patch History Table **/
 .patchHistoryTable {
   width: auto;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .patchHistoryTable .dataCell {
@@ -1412,4 +1412,35 @@ a:hover.downloadLink {
 
 /** PluginListScreen **/
 .pluginsTable {
+}
+
+.verticalOverviewBar {
+  background: white;
+  padding: 1px;
+  margin-right: 4px;  /** I'm not sure why this is necessary to get a ~1px space on the right. */
+}
+.verticalOverviewBarMarker {
+  position: absolute;
+}
+.verticalOverviewBarCommentMarker {
+  cursor: pointer;
+  width: 100%;
+  height: 2px;
+  background-color: lightgray;
+  border: 1px solid darkgray;
+}
+.verticalOverviewBarCodeBlockMarkerLeft {
+  width: 50%;
+}
+.verticalOverviewBarCodeBlockMarkerRight {
+  left: 60%;
+  width: 50%;
+}
+.verticalOverviewBarCodeBlockMarkerInsert {
+  background-color: #DFD;
+  border: 1px solid #9F9;
+}
+.verticalOverviewBarCodeBlockMarkerDelete {
+  background-color: #FEE;
+  border: 1px solid #FAA;
 }

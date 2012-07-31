@@ -67,8 +67,8 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    protected SideBySideTable createContentTable() {
-      return new SideBySideTable();
+    protected SideBySideTable createContentTable(VerticalOverviewBar overviewBar) {
+      return new SideBySideTable(overviewBar);
     }
 
     @Override
@@ -85,8 +85,8 @@ public abstract class PatchScreen extends Screen implements
     }
 
     @Override
-    protected UnifiedDiffTable createContentTable() {
-      return new UnifiedDiffTable();
+    protected UnifiedDiffTable createContentTable(VerticalOverviewBar overviewBar) {
+      return new UnifiedDiffTable(overviewBar);
     }
 
     @Override
@@ -115,13 +115,14 @@ public abstract class PatchScreen extends Screen implements
   private InlineHyperlink reviewedLink;
   private HistoryTable historyTable;
   private FlowPanel topPanel;
+  private FlowPanel topArea;
   private FlowPanel contentPanel;
   private PatchTableHeader header;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
+  private VerticalOverviewBar overviewBar;
   private CommitMessageBlock commitMessageBlock;
   private NavLinks topNav;
-  private NavLinks bottomNav;
 
   private int rpcSequence;
   private PatchScript lastScript;
@@ -171,6 +172,14 @@ public abstract class PatchScreen extends Screen implements
 
     reviewedPanel = new FlowPanel();
     settingsPanel = new PatchScriptSettingsPanel(prefs);
+  }
+
+  private int getTopAreaHeight() {
+    int height = 0;
+    for(int i = 0; i < topArea.getWidgetCount(); i++) {
+      height += topArea.getWidget(i).getOffsetHeight();
+    }
+    return height;
   }
 
   private void populateReviewedPanel(){
@@ -314,7 +323,6 @@ public abstract class PatchScreen extends Screen implements
     commitMessageBlock = new CommitMessageBlock();
 
     topPanel = new FlowPanel();
-    add(topPanel);
 
     header = new PatchTableHeader(getPatchScreenType());
 
@@ -322,13 +330,22 @@ public abstract class PatchScreen extends Screen implements
     noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
     noDifference.setVisible(false);
 
-    contentTable = createContentTable();
+    overviewBar = new VerticalOverviewBar(Gerrit.getBodyScrollPanel());
+    contentTable = createContentTable(overviewBar);
     contentTable.fileList = fileList;
 
     topNav = new NavLinks(keysNavigation, patchKey.getParentKey());
-    bottomNav = new NavLinks(null, patchKey.getParentKey());
 
-    add(topNav);
+    topArea = new FlowPanel();
+    topArea.setStyleName(Gerrit.RESOURCES.css().gerritBody());
+    topArea.add(getAndRemoveHeader());
+    topArea.add(topPanel);
+    topArea.add(topNav);
+    // Use an initial default height. We are still waiting on data to come back
+    // to fill in these widgets so we can calculate the actual height.
+    Gerrit.addPanelNorth(topArea, 30);
+    Gerrit.addPanelEast(overviewBar, 16);
+
     contentPanel = new FlowPanel();
     if (getPatchScreenType() == PatchScreen.Type.SIDE_BY_SIDE) {
       contentPanel.setStyleName(//
@@ -341,11 +358,9 @@ public abstract class PatchScreen extends Screen implements
     contentPanel.add(noDifference);
     contentPanel.add(contentTable);
     add(contentPanel);
-    add(bottomNav);
 
     if (fileList != null) {
       topNav.display(patchIndex, getPatchScreenType(), fileList);
-      bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
   }
 
@@ -422,7 +437,7 @@ public abstract class PatchScreen extends Screen implements
     }
   }
 
-  protected abstract AbstractPatchContentTable createContentTable();
+  protected abstract AbstractPatchContentTable createContentTable(VerticalOverviewBar overviewBar);
 
   public abstract PatchScreen.Type getPatchScreenType();
 
@@ -486,7 +501,7 @@ public abstract class PatchScreen extends Screen implements
     }
 
     setWindowTitle(fileName);
-    setPageTitle(path);
+    setPageTitleWithoutReaddingHeader(path);
 
     if (idSideB.equals(patchSetDetail.getPatchSet().getId())) {
       commitMessageBlock.setVisible(true);
@@ -519,7 +534,7 @@ public abstract class PatchScreen extends Screen implements
       // the unified view instead.
       //
       contentTable.removeFromParent();
-      contentTable = new UnifiedDiffTable();
+      contentTable = new UnifiedDiffTable(overviewBar);
       contentTable.fileList = fileList;
       contentPanel.add(contentTable);
       setToken(Dispatcher.toPatchUnified(idSideA, patchKey));
@@ -540,7 +555,6 @@ public abstract class PatchScreen extends Screen implements
 
     if (fileList != null) {
       topNav.display(patchIndex, getPatchScreenType(), fileList);
-      bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
 
     if (Gerrit.isSignedIn()) {
@@ -560,6 +574,7 @@ public abstract class PatchScreen extends Screen implements
     }
 
     intralineFailure = isFirst && script.hasIntralineFailure();
+    Gerrit.setNorthSize(getTopAreaHeight());
   }
 
   @Override
@@ -593,6 +608,7 @@ public abstract class PatchScreen extends Screen implements
       case FILES:       topPanel.add(fileList);
         break;
     }
+    Gerrit.setNorthSize(getTopAreaHeight());
   }
 
   public class FileListCmd extends KeyCommand {

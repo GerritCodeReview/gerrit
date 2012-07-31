@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH83////c\u003d",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-07-31T07:16:35Z",
+      "side": 1,
+      "message": "Can you describe which values are allowed for the \u0027o\u0027 parameter and which effect they have?\n\nShould the description of the \u0027change\u0027 entity in json.txt be updated?",
+      "revId": "69279b7957f5dd46755736a39e3fc7429b6c3c52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH7n///2o\u003d",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-31T13:40:07Z",
+      "side": 1,
+      "message": "I believe that you no longer have instructions to deploy snapshots now?",
+      "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH7n///2s\u003d",
+        "filename": "Documentation/dev-release-subproject.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-31T13:40:07Z",
+      "side": 1,
+      "message": "s? \u003cmaster/stable\u003e? \u003cmaster¦stable\u003e?",
+      "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH7n///2Y\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-07-31T13:40:07Z",
+      "side": 1,
+      "message": "Maybe we should change the name of this war file (and perhaps even project) so that things become less confusing and we we don\u0027t have a circular depedency?  We could name it Gerrit-core? Or alternativly, we name the Gerrrit with plugins something like Gerrit-full?",
+      "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -255,8 +255,8 @@ public class ChangeScreen extends Screen
         titleBuf.append(subject);
       }
     }
-    setPageTitle(titleBuf.toString());
-    setHeaderVisible(false);
+    removePageTitle();
+    setWindowTitle(titleBuf.toString());
   }
 
   @Override

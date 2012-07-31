@@ -116,6 +116,7 @@ public interface GerritCss extends CssResource {
   String fileLineNone();
   String filePathCell();
   String gerritTopMenu();
+  String gerritBtmMenuContainer();
   String gerritBody();
   String groupDescriptionPanel();
   String groupExternalNameFilterTextBox();
@@ -158,12 +159,15 @@ public interface GerritCss extends CssResource {
   String parentsTable();
   String patchBrowserPopup();
   String patchBrowserPopupBody();
+  String patchCellReverseDiff();
   String patchComments();
   String patchContentTable();
   String patchHistoryTable();
   String patchHistoryTablePatchSetHeader();
+  String patchMenu();
   String patchNoDifference();
   String patchScreenDisplayControls();
+  String patchScreenHeader();
   String patchSetActions();
   String patchSetInfoBlock();
   String patchSetLink();
@@ -215,5 +219,11 @@ public interface GerritCss extends CssResource {
   String version();
   String watchedProjectFilter();
   String selectPatchSetOldVersion();
-  String patchCellReverseDiff();
+  String verticalOverviewBar();
+  String verticalOverviewBarMarker();
+  String verticalOverviewBarCodeBlockMarkerLeft();
+  String verticalOverviewBarCodeBlockMarkerRight();
+  String verticalOverviewBarCodeBlockMarkerInsert();
+  String verticalOverviewBarCodeBlockMarkerDelete();
+  String verticalOverviewBarCommentMarker();
 }

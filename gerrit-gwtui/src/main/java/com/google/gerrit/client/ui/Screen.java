@@ -16,9 +16,7 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.View;
 
@@ -33,48 +31,27 @@ import com.google.gwtexpui.user.client.View;
   * decoration will expand to take up any extra space.
   */
 public abstract class Screen extends View {
-  private Grid header;
-  private InlineLabel headerText;
-  private FlowPanel body;
+  private final FlowPanel body;
+  private Label headerText;
   private String token;
   private boolean requiresSignIn;
   private String windowTitle;
 
   protected Screen() {
-    initWidget(new FlowPanel());
+    initWidget(body = new FlowPanel());
     setStyleName(Gerrit.RESOURCES.css().screen());
   }
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    if (header == null) {
-      onInitUI();
-    }
-  }
-
-  public void registerKeys() {
-  }
-
-  private static enum Cols {
-    West, Title, East, FarEast;
+    onInitUI();
   }
 
   protected void onInitUI() {
-    final FlowPanel me = (FlowPanel) getWidget();
-    me.add(header = new Grid(1, Cols.values().length));
-    me.add(body = new FlowPanel());
+  }
 
-    FlowPanel title = new FlowPanel();
-    title.add(headerText = new InlineLabel());
-    title.setStyleName(Gerrit.RESOURCES.css().screenHeader());
-    header.setWidget(0, Cols.Title.ordinal(), title);
-
-    header.setStyleName(Gerrit.RESOURCES.css().screenHeader());
-    header.getCellFormatter().setHorizontalAlignment(0, Cols.FarEast.ordinal(),
-      HasHorizontalAlignment.ALIGN_RIGHT);
-    // force FarEast all the way to the right
-    header.getCellFormatter().setWidth(0, Cols.FarEast.ordinal(), "100%");
+  public void registerKeys() {
   }
 
   protected void setWindowTitle(final String text) {
@@ -82,33 +59,25 @@ public abstract class Screen extends View {
     Gerrit.setWindowTitle(this, text);
   }
 
-  protected void setPageTitle(final String text) {
-    final String old = headerText.getText();
+  protected void setPageTitle(String text) {
     if (text.isEmpty()) {
-      header.setVisible(false);
-    } else {
+      removePageTitle();
+    } else if (headerText != null) {
       headerText.setText(text);
-      header.setVisible(true);
+    } else {
+      body.insert(headerText = new Label(), 0);
+      headerText.setStyleName(Gerrit.RESOURCES.css().screenHeader());
     }
-    if (windowTitle == null || windowTitle == old) {
+    if (windowTitle == null) {
       setWindowTitle(text);
     }
   }
 
-  protected void setHeaderVisible(boolean value) {
-    header.setVisible(value);
-  }
-
-  protected void setTitleEast(final Widget w) {
-    header.setWidget(0, Cols.East.ordinal(), w);
-  }
-
-  protected void setTitleFarEast(final Widget w) {
-    header.setWidget(0, Cols.FarEast.ordinal(), w);
-  }
-
-  protected void setTitleWest(final Widget w) {
-    header.setWidget(0, Cols.West.ordinal(), w);
+  protected void removePageTitle() {
+    if (headerText != null) {
+      headerText.removeFromParent();
+      headerText = null;
+    }
   }
 
   protected void add(final Widget w) {

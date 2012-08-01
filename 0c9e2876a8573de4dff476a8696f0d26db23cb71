@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///8c\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH+H///9g\u003d",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH+H///9k\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-31T18:02:08Z",
       "side": 1,
       "message": "By default?",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///6k\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH+H///9k\u003d",
       "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///8E\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH+H///9c\u003d",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH+H///9Y\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-07-31T18:02:08Z",
       "side": 1,
       "message": "This should be moved to a document outside of a \u0027cookbook\u0027 and instead into some kind of reference.",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///70\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:51:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH+H///9Y\u003d",
       "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///74\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:51:05Z",
+      "side": 1,
+      "message": "I removed the prolog intro.",
+      "parentUuid": "AAAH+H///9U\u003d",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH+H///9Q\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-07-31T18:02:08Z",
       "side": 1,
       "message": "Move to the prolog intro?",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///7o\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:51:05Z",
+      "side": 1,
+      "message": "Removing it as prolog intro is removed.",
+      "parentUuid": "AAAH+H///9Q\u003d",
       "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///7g\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:51:05Z",
+      "side": 1,
+      "message": "OK, I will add that as an improvement of the first version of the example.",
+      "parentUuid": "AAAH+H///9M\u003d",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH+H///9I\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2012-07-31T18:02:08Z",
       "side": 1,
       "message": "Let\u0027s add 1+1\u003d2 here too, it\u0027s a fairly basic rule and many people ask for it.",
+      "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///6g\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:51:05Z",
+      "side": 1,
+      "message": "Please contribute it after this change gets submitted.",
+      "parentUuid": "AAAH+H///9I\u003d",
       "revId": "0c9e2876a8573de4dff476a8696f0d26db23cb71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

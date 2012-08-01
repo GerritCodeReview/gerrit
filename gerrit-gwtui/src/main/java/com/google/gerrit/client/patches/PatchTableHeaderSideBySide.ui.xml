@@ -26,6 +26,7 @@ limitations under the License.
       width: 100%;
       background-color: trimColor;
       overflow: hidden;
+      font-size: 0; /* inline-block spacing fix */
     }
 
     .wrapper .box {

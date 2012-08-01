@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///8Y\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH8H///90\u003d",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH8H///9w\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-08-01T01:41:50Z",
       "side": 1,
       "message": "I prefer hyperlinks that describe what they link to rather than just say \"this link\", \"click here\" or similar. I think a link text like \"The Wikipedia page on Prolog\" would be better.",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///8U\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH8H///9w\u003d",
       "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///8Q\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH8H///9s\u003d",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH+H///84\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2012-08-01T09:11:17Z",
       "side": 1,
       "message": "Have a link to pgm-prolog-shell.txt and move the prolog introduction to that file",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///8M\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "OK, convinced, I removed most of this section leaving only the basic info and the link.",
+      "parentUuid": "AAAH+H///84\u003d",
       "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///8A\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "These are asciidoc callouts. When the \"-a icons\" parameter\nof asciidoc is used the rendering looks great:\n\nhttp://www.methods.co.nz/asciidoc/chunked/ch20.html\n\nHowever, as suggested by Johan, I removed the Prolog intro section almost completely, which also removes this piece of text",
+      "parentUuid": "AAAH8H///9o\u003d",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH8H///9k\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2012-08-01T01:41:50Z",
       "side": 1,
       "message": "Perhaps better to use a phony name (John Doe etc) and an @example.com email address.",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///78\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "It somehow made sense to me have an example where a change is automatically submittable when the author is \"Shawn Pearce\" :-)\n\nBut, I agree, I should use phony names and email addresses.\n\nDone.",
+      "parentUuid": "AAAH8H///9k\u003d",
       "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///7w\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH8H///9g\u003d",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH8H///9c\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2012-08-01T01:41:50Z",
       "side": 1,
       "message": "s/must have `ok` status/must have either `ok` or `may` status/",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///7s\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH8H///9c\u003d",
       "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///7k\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH8H///9U\u003d",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH8H///9Q\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 2
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH83///7U\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "I think the \"locate_submit_filter\" is not searched for in the current project but only starting from its parent. See the ChangeControl.java:\n\n 401         Term filterRule \u003d\n 402             parentEnv.once(\"gerrit\", \"locate_submit_filter\", new VariableTerm());\n\nSo, although using submit filter is more canonical it is not possible to define it in the rules.pl for a project A and also make it effective for the project A. This may be something we want to improve.\n\nNevertheless, I would like to add a section on using submit filter as this is something that Gerrit admin would do to enforce submit rules globally. This will be done in a follow-up change to keep this one smaller and easier to review.",
+      "parentUuid": "AAAH8H///9Q\u003d",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH8H///9M\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 2
@@ -183,6 +363,24 @@
       "writtenOn": "2012-08-01T01:41:50Z",
       "side": 1,
       "message": "Another interesting example would be to use commit_delta/4 to implement per-language approval categories for \"language literacy\". For example, if a commit modifies a .java file someone with \"Java literacy\" (i.e. member of such a group, possibly the author himself) needs to approve the change.",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///7Q\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-01T13:48:34Z",
+      "side": 1,
+      "message": "I agree on adding more examples, including this one.\n\nHowever, I would also like to get a first version submitted without ever increasing the size of this file and making it harder for review. Once we get it submitted we can continue adding examples in smaller changes.",
+      "parentUuid": "AAAH8H///9M\u003d",
       "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

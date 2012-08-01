@@ -21,6 +21,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.ChangeHooks;
@@ -1590,6 +1591,18 @@ public class ReceiveCommits {
   }
 
   private void validateNewCommits(RefControl ctl, ReceiveCommand cmd) {
+    if (ctl.canForgeAuthor()
+        && ctl.canForgeCommitter()
+        && ctl.canForgeGerritServerIdentity()
+        && ctl.canUploadMerges()
+        && !project.isUseSignedOffBy()
+        && Iterables.isEmpty(rejectCommits)
+        && !GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())
+        && !(MagicBranch.isMagicBranch(cmd.getRefName())
+            || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
+      return;
+    }
+
     final RevWalk walk = rp.getRevWalk();
     walk.reset();
     walk.sort(RevSort.NONE);
@@ -1690,7 +1703,7 @@ public class ReceiveCommits {
     }
 
     final List<String> idList = c.getFooterLines(CHANGE_ID);
-    if ((MagicBranch.isMagicBranch(cmd.getRefName()) || NEW_PATCHSET.matcher(cmd.getRefName()).matches())) {
+    if (MagicBranch.isMagicBranch(cmd.getRefName()) || NEW_PATCHSET.matcher(cmd.getRefName()).matches()) {
       if (idList.isEmpty()) {
         if (project.isRequireChangeID()) {
           String errMsg = "missing Change-Id in commit message";

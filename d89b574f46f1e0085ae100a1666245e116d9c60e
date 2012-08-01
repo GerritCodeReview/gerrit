@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH7X///A8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-01T22:51:42Z",
+      "side": 1,
+      "message": "This feels more like a createLink() (and perhaps line 164 should also be createDownloadLink())?",
+      "revId": "d89b574f46f1e0085ae100a1666245e116d9c60e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH+n///94\u003d",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-08-01T18:23:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH83////4\u003d",
+      "revId": "27bae9f9708c5f18649f4b710ff8a32ad8bb170f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH7n///4c\u003d",
         "filename": "Documentation/config-gitweb.txt",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-31T04:57:18Z",
       "side": 1,
       "message": "Maybe this apache section should be moved right above the Apache restart, and titled something like:  \"Configure your webserver to execute the gitweb cgi\" and then it could say \"for example with apache\"...",
+      "revId": "27bae9f9708c5f18649f4b710ff8a32ad8bb170f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH+n///90\u003d",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-08-01T18:23:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH7n///4c\u003d",
       "revId": "27bae9f9708c5f18649f4b710ff8a32ad8bb170f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

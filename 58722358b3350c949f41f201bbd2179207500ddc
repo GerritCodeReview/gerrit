@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH7H//+/Y\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/CacheRemovalListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-08-01T15:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH7X///ok\u003d",
+      "revId": "58722358b3350c949f41f201bbd2179207500ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH7X///og\u003d",
         "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/DefaultCacheFactory.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-31T17:58:16Z",
       "side": 1,
       "message": "This should be declared in GerritGlobalModule.",
+      "revId": "58722358b3350c949f41f201bbd2179207500ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH7H//+/Q\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/DefaultCacheFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-08-01T15:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH7X///og\u003d",
       "revId": "58722358b3350c949f41f201bbd2179207500ddc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH7H//+/U\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/DefaultCacheFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-08-01T15:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH7X///oc\u003d",
+      "revId": "58722358b3350c949f41f201bbd2179207500ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH7n///4Q\u003d",
         "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/ForwardingRemovalListener.java",
         "patchSetId": 5
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH7H//+/M\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/ForwardingRemovalListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-08-01T15:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH7n///4Q\u003d",
+      "revId": "58722358b3350c949f41f201bbd2179207500ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH7X///oY\u003d",
         "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/ForwardingRemovalListener.java",
         "patchSetId": 5
@@ -81,6 +153,24 @@
       "writtenOn": "2012-07-31T17:58:16Z",
       "side": 1,
       "message": "!Strings.isNullOrEmpty(name)",
+      "revId": "58722358b3350c949f41f201bbd2179207500ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH7H//+/I\u003d",
+        "filename": "gerrit-cache-h2/src/main/java/com/google/gerrit/server/cache/h2/ForwardingRemovalListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-08-01T15:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH7X///oY\u003d",
       "revId": "58722358b3350c949f41f201bbd2179207500ddc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

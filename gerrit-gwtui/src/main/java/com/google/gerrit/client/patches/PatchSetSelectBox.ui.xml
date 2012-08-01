@@ -28,18 +28,21 @@ limitations under the License.
 
     .wrapper {
       width: 100%;
+      text-align: center;
+      font-size: 0; /* inline-block spacing fix */
     }
 
-    .patchSetLabel {
-      font-weight: bold;
+    .linkPanel {
+      display: inline-block;
     }
 
     .linkPanel > div {
       display: inline-block;
-      padding: 3px;
+      float: left;
     }
 
     .linkPanel {
+      overflow: hidden; /* div clear fix */
       font-size: 12px;
     }
 
@@ -47,6 +50,27 @@ limitations under the License.
       padding: 3px;
       display: inline-block;
       text-decoration: none;
+      float: left;
+    }
+
+    .patchSetLabel {
+      font-weight: bold;
+      float: left;
+      padding: 3px;
+    }
+
+    .sideMarker {
+      padding: 3px;
+    }
+
+    .downloadLink {
+      float: left;
+      padding: 1px !important;
+      margin-left: 3px;
+    }
+
+    .downloadLink > a {
+      text-size: 0;
     }
 
     .selected {
@@ -56,6 +80,7 @@ limitations under the License.
 
     .sideMarker {
       font-family: monospace;
+      float: left;
     }
 
     .hidden {
@@ -64,7 +89,10 @@ limitations under the License.
   </ui:style>
 
   <g:HTMLPanel styleName='wrapper'>
-    <g:HTMLPanel styleName='{style.linkPanel}' ui:field='linkPanel'><span class='{style.patchSetLabel}'><ui:text from="{cons.patchSet}" /></span> <span class='{style.sideMarker}' ui:field='sideMarker'></span>: </g:HTMLPanel>
+    <g:HTMLPanel styleName='{style.linkPanel}' ui:field='linkPanel'>
+      <div class='{style.patchSetLabel}'><ui:text from="{cons.patchSet}" /></div>
+      <div class='{style.sideMarker}' ui:field='sideMarker'></div>
+    </g:HTMLPanel>
   </g:HTMLPanel>
 </ui:UiBinder>
 

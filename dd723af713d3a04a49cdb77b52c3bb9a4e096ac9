@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH83///9A\u003d",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-01T07:35:45Z",
+      "side": 0,
+      "message": "Why is Custom Dashboards removed?",
+      "revId": "dd723af713d3a04a49cdb77b52c3bb9a4e096ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH83///88\u003d",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-01T07:35:45Z",
+      "side": 0,
+      "message": "Why is Developing Plugins removed?",
+      "revId": "dd723af713d3a04a49cdb77b52c3bb9a4e096ac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

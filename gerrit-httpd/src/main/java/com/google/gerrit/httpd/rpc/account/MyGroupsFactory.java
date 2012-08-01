@@ -14,9 +14,9 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.VisibleGroups;
 import com.google.gwtorm.server.OrmException;
@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 
 import java.util.List;
 
-class MyGroupsFactory extends Handler<List<GroupDetail>> {
+class MyGroupsFactory extends Handler<List<AccountGroup>> {
   interface Factory {
     MyGroupsFactory create();
   }
@@ -39,7 +39,7 @@ class MyGroupsFactory extends Handler<List<GroupDetail>> {
   }
 
   @Override
-  public List<GroupDetail> call() throws OrmException, NoSuchGroupException {
+  public List<AccountGroup> call() throws OrmException, NoSuchGroupException {
     final VisibleGroups visibleGroups = visibleGroupsFactory.create();
     return visibleGroups.get(user).getGroups();
   }

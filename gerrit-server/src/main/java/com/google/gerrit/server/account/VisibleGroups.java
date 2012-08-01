@@ -14,18 +14,15 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,7 +38,6 @@ public class VisibleGroups {
   private final Provider<IdentifiedUser> identifiedUser;
   private final GroupCache groupCache;
   private final GroupControl.Factory groupControlFactory;
-  private final GroupDetailFactory.Factory groupDetailFactory;
 
   private boolean onlyVisibleToAll;
   private AccountGroup.Type groupType;
@@ -49,12 +45,10 @@ public class VisibleGroups {
   @Inject
   VisibleGroups(final Provider<IdentifiedUser> currentUser,
       final GroupCache groupCache,
-      final GroupControl.Factory groupControlFactory,
-      final GroupDetailFactory.Factory groupDetailFactory) {
+      final GroupControl.Factory groupControlFactory) {
     this.identifiedUser = currentUser;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
-    this.groupDetailFactory = groupDetailFactory;
   }
 
   public void setOnlyVisibleToAll(final boolean onlyVisibleToAll) {
@@ -65,13 +59,12 @@ public class VisibleGroups {
     this.groupType = groupType;
   }
 
-  public GroupList get() throws OrmException, NoSuchGroupException {
-    final Iterable<AccountGroup> groups = groupCache.all();
-    return createGroupList(filterGroups(groups));
+  public GroupList get() {
+    return createGroupList(filterGroups(groupCache.all()));
   }
 
   public GroupList get(final Collection<ProjectControl> projects)
-      throws OrmException, NoSuchGroupException {
+      throws NoSuchGroupException {
     final Set<AccountGroup> groups =
         new TreeSet<AccountGroup>(new GroupComparator());
     for (final ProjectControl projectControl : projects) {
@@ -93,8 +86,7 @@ public class VisibleGroups {
    * groups.
    * @See GroupMembership#getKnownGroups()
    */
-  public GroupList get(final IdentifiedUser user) throws OrmException,
-      NoSuchGroupException {
+  public GroupList get(final IdentifiedUser user) throws NoSuchGroupException {
     if (identifiedUser.get().getAccountId().equals(user.getAccountId())
         || identifiedUser.get().getCapabilities().canAdministrateServer()) {
       final Set<AccountGroup.UUID> effective =
@@ -134,13 +126,8 @@ public class VisibleGroups {
     return filteredGroups;
   }
 
-  private GroupList createGroupList(final List<AccountGroup> groups)
-      throws OrmException, NoSuchGroupException {
-    final List<GroupDetail> groupDetailList = new ArrayList<GroupDetail>();
-    for (final AccountGroup group : groups) {
-      groupDetailList.add(groupDetailFactory.create(group.getId()).call());
-    }
-    return new GroupList(groupDetailList, identifiedUser.get()
+  private GroupList createGroupList(final List<AccountGroup> groups) {
+    return new GroupList(groups, identifiedUser.get()
         .getCapabilities().canCreateGroup());
   }
 }

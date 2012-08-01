@@ -18,13 +18,14 @@ import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
-import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
+import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.List;
 import java.util.Set;
@@ -61,7 +62,7 @@ public interface AccountSecurity extends RemoteJsonService {
   void myExternalIds(AsyncCallback<List<AccountExternalId>> callback);
 
   @SignInRequired
-  void myGroups(AsyncCallback<List<GroupDetail>> callback);
+  void myGroups(AsyncCallback<List<AccountGroup>> callback);
 
   @Audit
   @SignInRequired

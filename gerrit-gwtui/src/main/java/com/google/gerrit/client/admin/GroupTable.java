@@ -18,7 +18,6 @@ import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -32,7 +31,7 @@ import java.util.List;
 
 
 public class GroupTable extends NavigationTable<AccountGroup> {
-  private static final int NUM_COLS = 5;
+  private static final int NUM_COLS = 3;
 
   private final boolean enableLink;
 
@@ -52,9 +51,7 @@ public class GroupTable extends NavigationTable<AccountGroup> {
 
     table.setText(0, 1, Util.C.columnGroupName());
     table.setText(0, 2, Util.C.columnGroupDescription());
-    table.setText(0, 3, Util.C.headingOwner());
-    table.setText(0, 4, Util.C.columnGroupType());
-    table.setText(0, 5, Util.C.columnGroupVisibleToAll());
+    table.setText(0, 3, Util.C.columnGroupVisibleToAll());
     table.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -82,20 +79,19 @@ public class GroupTable extends NavigationTable<AccountGroup> {
     History.newItem(Dispatcher.toGroup(getRowItem(row).getId()));
   }
 
-  public void display(final List<GroupDetail> result) {
+  public void display(final List<AccountGroup> result) {
     while (1 < table.getRowCount())
       table.removeRow(table.getRowCount() - 1);
 
-    for(GroupDetail detail : result) {
+    for(AccountGroup group : result) {
       final int row = table.getRowCount();
       table.insertRow(row);
       applyDataRowStyle(row);
-      populate(row, detail);
+      populate(row, group);
     }
   }
 
-  void populate(final int row, final GroupDetail detail) {
-    AccountGroup k = detail.group;
+  void populate(final int row, final AccountGroup k) {
     if (enableLink) {
       table.setWidget(row, 1, new Hyperlink(k.getName(),
           Dispatcher.toGroup(k.getId())));
@@ -103,10 +99,8 @@ public class GroupTable extends NavigationTable<AccountGroup> {
       table.setText(row, 1, k.getName());
     }
     table.setText(row, 2, k.getDescription());
-    table.setText(row, 3, detail.ownerGroup.getName());
-    table.setText(row, 4, k.getType().toString());
     if (k.isVisibleToAll()) {
-      table.setWidget(row, 5, new Image(Gerrit.RESOURCES.greenCheck()));
+      table.setWidget(row, 3, new Image(Gerrit.RESOURCES.greenCheck()));
     }
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();

@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.rpc.account;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
@@ -213,9 +212,9 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void myGroups(final AsyncCallback<List<GroupDetail>> callback) {
-    run(callback, new Action<List<GroupDetail>>() {
-      public List<GroupDetail> run(final ReviewDb db) throws OrmException,
+  public void myGroups(final AsyncCallback<List<AccountGroup>> callback) {
+    run(callback, new Action<List<AccountGroup>>() {
+      public List<AccountGroup> run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         return myGroupsFactory.create().call();
       }

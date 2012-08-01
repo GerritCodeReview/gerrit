@@ -14,7 +14,6 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -26,7 +25,6 @@ import com.google.gerrit.server.ioutil.ColumnFormatter;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
@@ -84,8 +82,7 @@ public class ListGroupsCommand extends SshCommand {
       }
 
       final ColumnFormatter formatter = new ColumnFormatter(stdout, '\t');
-      for (final GroupDetail groupDetail : groupList.getGroups()) {
-        final AccountGroup g = groupDetail.group;
+      for (final AccountGroup g : groupList.getGroups()) {
         formatter.addColumn(g.getName());
         if (verboseOutput) {
           formatter.addColumn(KeyUtil.decode(g.getGroupUUID().toString()));
@@ -102,8 +99,6 @@ public class ListGroupsCommand extends SshCommand {
         formatter.nextLine();
       }
       formatter.finish();
-    } catch (OrmException e) {
-      throw die(e);
     } catch (NoSuchGroupException e) {
       throw die(e);
     }

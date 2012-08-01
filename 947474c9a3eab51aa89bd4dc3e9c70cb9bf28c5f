@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH8H///90\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-01T01:41:50Z",
+      "side": 1,
+      "message": "By saying \"by definition\", we make it sound like a definitive and immutable rule. Perhaps \"by default\" or something similar would avoid giving readers that impression?",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH8H///9w\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-01T01:41:50Z",
+      "side": 1,
+      "message": "I prefer hyperlinks that describe what they link to rather than just say \"this link\", \"click here\" or similar. I think a link text like \"The Wikipedia page on Prolog\" would be better.",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH8H///9s\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-01T01:41:50Z",
+      "side": 1,
+      "message": "s/uses own/uses its own/",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH8H///9o\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-01T01:41:50Z",
+      "side": 1,
+      "message": "It\u0027s probably better to make this a numbered list to get a neater rendering.",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH8H///9k\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-01T01:41:50Z",
+      "side": 1,
+      "message": "Perhaps better to use a phony name (John Doe etc) and an @example.com email address.",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH8H///9g\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-01T01:41:50Z",
+      "side": 1,
+      "message": "Don\u0027t forget the may() status that was introduced in https://gerrit-review.googlesource.com/35200.",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH8H///9c\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-01T01:41:50Z",
+      "side": 1,
+      "message": "s/must have `ok` status/must have either `ok` or `may` status/",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH8H///9U\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-01T01:41:50Z",
+      "side": 1,
+      "message": "s/show/shows/",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH8H///9Q\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-01T01:41:50Z",
+      "side": 1,
+      "message": "Isn\u0027t the canonical way of reusing the default rules to implement a submit filter? I don\u0027t know if the Prolog implementation becomes easier, but one major advantage is that Gerrit only looks for submit_rule in the current git while it looks for filters in the git inheritance tree all the way up to All-Projects.git.",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH8H///9M\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-01T01:41:50Z",
+      "side": 1,
+      "message": "Another interesting example would be to use commit_delta/4 to implement per-language approval categories for \"language literacy\". For example, if a commit modifies a .java file someone with \"Java literacy\" (i.e. member of such a group, possibly the author himself) needs to approve the change.",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

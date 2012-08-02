@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH/X///po\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-08-02T15:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH83////U\u003d",
+      "revId": "69a43572a081110e55f48adbb09e1c2939ce1dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH83////s\u003d",
         "filename": "Documentation/database-setup.txt",
         "patchSetId": 8

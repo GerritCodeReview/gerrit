@@ -443,6 +443,10 @@ public class ChangeControl {
       return ruleError("Project submit rule has no solution");
     }
 
+    return resultsToSubmitRecord(submitRule, results);
+  }
+
+  public List<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
     // Convert the results from Prolog Cafe's format to Gerrit's common format.
     // can_submit/1 terminates when an ok(P) record is found. Therefore walk
     // the results backwards, using only that ok(P) record if it exists. This

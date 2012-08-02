@@ -1,0 +1,45 @@
+gerrit test-submit-rule
+===========
+
+NAME
+----
+gerrit test-submit-rule - Test prolog submit rules with a chosen changeset.
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit test-submit-rule'
+  [-c CHANGESET] [-s]
+
+DESCRIPTION
+-----------
+Provides a way to test prolog link:prolog-cookbook.html[submit rules]. The output
+is a string representation of the submit_rule(X) result.
+
+OPTIONS
+-------
+-c::
+	Loads the specified changeset into the prolog environment.
+
+-s::
+	Reads a rules.pl file from stdin instead of rules.pl in refs/meta/config.
+
+ACCESS
+------
+Can be used by anyone that has permission to read the specified changeset.
+
+EXAMPLES
+--------
+
+====
+$ cat non-author-codereview.pl | ssh -p 29418 review.example.com gerrit test-submit-rule -c I78f2c6673db24e4e92ed32f604c960dc952437d9 -s
+Result: NOT_READY[Non-Author-Code-Review: NEED, Verified: NEED, Code-Review: OK by 1000000]
+====
+
+SCRIPTING
+------
+Can be used either interactively for testing new prolog submit rules, or from a script to check the submit status of a change.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

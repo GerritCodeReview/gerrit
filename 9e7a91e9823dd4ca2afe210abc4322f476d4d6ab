@@ -140,6 +140,24 @@
       "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH/H///tA\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-02T12:41:12Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be easier to hold of publishing this doc until then since this procedure will likely be incorrect then and is kind of incorrect now since we have never done a release the way you describe it here?",
+      "parentUuid": "AAAH83///+0\u003d",
+      "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

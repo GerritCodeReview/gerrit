@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIA3///94\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-08-02T14:32:05Z",
+      "side": 1,
+      "message": "is",
+      "revId": "c2bc76a4d25ed8768502e5f06a79bd9e80f5a1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIA3///90\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-08-02T14:32:05Z",
+      "side": 1,
+      "message": "Not sure what you mean here, What is the other half of the both referencing?",
+      "revId": "c2bc76a4d25ed8768502e5f06a79bd9e80f5a1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIA3///9w\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-08-02T14:32:05Z",
+      "side": 1,
+      "message": "s/Here we will/This document will/",
+      "revId": "c2bc76a4d25ed8768502e5f06a79bd9e80f5a1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIA3///9s\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-08-02T14:32:05Z",
+      "side": 1,
+      "message": "embeds the",
+      "revId": "c2bc76a4d25ed8768502e5f06a79bd9e80f5a1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIA3///9o\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-08-02T14:32:05Z",
+      "side": 1,
+      "message": "long sentence, but probably ok.",
+      "revId": "c2bc76a4d25ed8768502e5f06a79bd9e80f5a1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIA3///9c\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-08-02T14:32:05Z",
+      "side": 1,
+      "message": "I think gerrit still calculates all solutions, but if it finds one that is OK, it will discard all others as you mentioned earlier in the document.",
+      "revId": "c2bc76a4d25ed8768502e5f06a79bd9e80f5a1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIA3///9I\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-08-02T14:32:05Z",
+      "side": 1,
+      "message": "This example would be even more cool if it was made non project specific and instead matches on a directory, ie, use something like\ngerrit:commit_delta(\u0027^Documentation/.*\u0027)",
+      "revId": "c2bc76a4d25ed8768502e5f06a79bd9e80f5a1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

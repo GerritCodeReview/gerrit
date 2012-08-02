@@ -31,6 +31,7 @@ public class MasterCommandModule extends CommandModule {
     command(gerrit, "rename-group").to(RenameGroupCommand.class);
     command(gerrit, "create-project").to(CreateProjectCommand.class);
     command(gerrit, "gsql").to(AdminQueryShell.class);
+    command(gerrit, "test-submit-rule").to(TestSubmitRule.class);
     command(gerrit, "set-reviewers").to(SetReviewersCommand.class);
     command(gerrit, "receive-pack").to(Receive.class);
     command(gerrit, "set-project-parent").to(AdminSetParent.class);

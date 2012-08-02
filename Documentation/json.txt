@@ -134,6 +134,15 @@ min:: lower limit
 
 max:: upper limit
 
+[[processedApproval]]
+processedApproval
+--------
+Information whether a change is submittable according to the relevant prolog submission rules.
+
+value:: READY if the change can be submitted, otherwise NOT_READY.
+
+approvals:: A list of all approval categories and their values in <<approval, approval attribute>>.
+
 SEE ALSO
 --------
 

@@ -1,0 +1,79 @@
+gerrit test-submit-rule
+===========
+
+NAME
+----
+gerrit test-submit-rule - Test prolog submit rules with a chosen changeset.
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit test-submit-rule' -c CHANGESET
+  [-s]
+  [--use-filters]
+  [--format {TEXT | JSON}]
+
+DESCRIPTION
+-----------
+Provides a way to test prolog link:prolog-cookbook.html[submit rules].
+
+OPTIONS
+-------
+-c::
+	Loads the specified changeset into the prolog environment.
+
+-s::
+	Reads a rules.pl file from stdin instead of rules.pl in refs/meta/config.
+
+--use-filters::
+	Also run the submit_filter/2 from the parent projects of the specified change.
+
+--format::
+	Formatting method for the results. TEXT is the default,
+	presenting a human readable display. JSON presents the output as a JSON record.
+
+ACCESS
+------
+Can be used by anyone that has permission to read the specified changeset.
+
+EXAMPLES
+--------
+
+====
+$ cat non-author-codereview.pl | ssh -p 29418 review.example.com gerrit test-submit-rule -c I78f2c6673db24e4e92ed32f604c960dc952437d9 -s
+NOT_READY
+	Non-Author-Code-Review: NOT_READY
+	Verified: NOT_READY
+	Code-Review: NOT_READY by Anonymous Coward <jbjoerk@gmail.com>
+====
+
+====
+cat non-author-codereview.pl | ssh -p 29418 review.example.com gerrit test-submit-rule --format=JSON -c I78f2c6673db24e4e92ed32f604c960dc952437d9 -s
+{
+  "status": "NOT_READY",
+  "labels": [
+    {
+      "label": "Non-Author-Code-Review",
+      "status": "NEED"
+    },
+    {
+      "label": "Verified",
+      "status": "NEED"
+    },
+    {
+      "label": "Code-Review",
+      "status": "OK",
+      "applied_by": {
+        "id": 1000000
+      }
+    }
+  ]
+}
+====
+SCRIPTING
+------
+Can be used either interactively for testing new prolog submit rules, or from a script to check the submit status of a change.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

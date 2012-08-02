@@ -443,12 +443,18 @@ public class ChangeControl {
       return ruleError("Project submit rule has no solution");
     }
 
-    // Convert the results from Prolog Cafe's format to Gerrit's common format.
-    // can_submit/1 terminates when an ok(P) record is found. Therefore walk
-    // the results backwards, using only that ok(P) record if it exists. This
-    // skips partial results that occur early in the output. Later after the loop
-    // the out collection is reversed to restore it to the original ordering.
-    //
+    return resultsToSubmitRecord(submitRule, results);
+  }
+
+  /**
+   * Convert the results from Prolog Cafe's format to Gerrit's common format.
+   *
+   * can_submit/1 terminates when an ok(P) record is found. Therefore walk
+   * the results backwards, using only that ok(P) record if it exists. This
+   * skips partial results that occur early in the output. Later after the loop
+   * the out collection is reversed to restore it to the original ordering.
+   */
+  public List<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
     List<SubmitRecord> out = new ArrayList<SubmitRecord>(results.size());
     for (int resultIdx = results.size() - 1; 0 <= resultIdx; resultIdx--) {
       Term submitRecord = results.get(resultIdx);

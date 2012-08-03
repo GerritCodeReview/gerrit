@@ -18,9 +18,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.ssh.SshInfo;
-
-import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.JGitText;
@@ -42,14 +39,12 @@ public abstract class NewChangeSender extends ChangeEmail {
   private static final Logger log =
       LoggerFactory.getLogger(NewChangeSender.class);
 
-  private final SshInfo sshInfo;
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
 
   protected NewChangeSender(EmailArguments ea, String anonymousCowardName,
-      SshInfo sshInfo, Change c) {
+      Change c) {
     super(ea, anonymousCowardName, c, "newchange");
-    this.sshInfo = sshInfo;
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {
@@ -85,19 +80,6 @@ public abstract class NewChangeSender extends ChangeEmail {
       names.add(getNameFor(id));
     }
     return names;
-  }
-
-  public String getSshHost() {
-    final List<HostKey> hostKeys = sshInfo.getHostKeys();
-    if (hostKeys.isEmpty()) {
-      return null;
-    }
-
-    final String host = hostKeys.get(0).getHost();
-    if (host.startsWith("*:")) {
-      return getGerritHost() + host.substring(1);
-    }
-    return host;
   }
 
   public boolean getIncludeDiff() {

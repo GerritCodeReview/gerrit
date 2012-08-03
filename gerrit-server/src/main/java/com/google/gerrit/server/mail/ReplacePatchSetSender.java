@@ -17,11 +17,8 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import com.jcraft.jsch.HostKey;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,14 +34,11 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
 
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
-  private final SshInfo sshInfo;
 
   @Inject
   public ReplacePatchSetSender(EmailArguments ea,
-      @AnonymousCowardName String anonymousCowardName, SshInfo si,
-      @Assisted Change c) {
+      @AnonymousCowardName String anonymousCowardName, @Assisted Change c) {
     super(ea, anonymousCowardName, c, "newpatchset");
-    sshInfo = si;
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {
@@ -84,18 +78,5 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       names.add(getNameFor(id));
     }
     return names;
-  }
-
-  public String getSshHost() {
-    final List<HostKey> hostKeys = sshInfo.getHostKeys();
-    if (hostKeys.isEmpty()) {
-      return null;
-    }
-
-    final String host = hostKeys.get(0).getHost();
-    if (host.startsWith("*:")) {
-      return getGerritHost() + host.substring(1);
-    }
-    return host;
   }
 }

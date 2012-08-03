@@ -14,15 +14,9 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.google.gerrit.common.data.GroupDescriptions;
-import com.google.gerrit.common.data.GroupReference;
+
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -30,35 +24,30 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.StarredChange;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.Predicate;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.SingleGroupUser;
 import com.google.gwtorm.server.OrmException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 
 /** Sends an email to one or more interested parties. */
-public abstract class ChangeEmail extends OutgoingEmail {
+public abstract class ChangeEmail extends NotificationEmail {
   private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
 
   protected final Change change;
@@ -66,14 +55,13 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected PatchSetInfo patchSetInfo;
   protected ChangeMessage changeMessage;
 
-  protected ProjectState projectState;
   protected ChangeData changeData;
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
 
   protected ChangeEmail(EmailArguments ea, final String anonymousCowardName,
       final Change c, final String mc) {
-    super(ea, anonymousCowardName, mc);
+    super(ea, anonymousCowardName, mc, c.getProject(), c.getDest());
     change = c;
     changeData = change != null ? new ChangeData(change) : null;
     emailOnlyAuthors = false;
@@ -128,12 +116,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() throws EmailException {
-    if (args.projectCache != null) {
-      projectState = args.projectCache.get(change.getProject());
-    } else {
-      projectState = null;
-    }
-
     if (patchSet == null) {
       try {
         patchSet = args.db.get().patchSets().get(change.currentPatchSetId());
@@ -158,22 +140,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
     setChangeSubjectHeader();
     setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
-    setListIdHeader();
     setChangeUrlHeader();
     setCommitIdHeader();
-  }
-
-  private void setListIdHeader() throws EmailException {
-    // Set a reasonable list id so that filters can be used to sort messages
-    setVHeader("Mailing-List", "list $email.listId");
-    setVHeader("List-Id", "<$email.listId.replace('@', '.')>");
-    if (getSettingsUrl() != null) {
-      setVHeader("List-Unsubscribe", "<$email.settingsUrl>");
-    }
-  }
-
-  public String getListId() throws EmailException {
-    return velocify("gerrit-$projectName.replace('/', '-')@$email.gerritHost");
   }
 
   private void setChangeUrlHeader() {
@@ -280,19 +248,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
     throw new PatchListNotAvailableException("no patchSet specified");
   }
 
-  /** Get the project entity the change is in; null if its been deleted. */
-  protected ProjectState getProjectState() {
-    return projectState;
-  }
-
-  /** Get the groups which own the project. */
-  protected Set<AccountGroup.UUID> getProjectOwners() {
-    final ProjectState r;
-
-    r = args.projectCache.get(change.getProject());
-    return r != null ? r.getOwners() : Collections.<AccountGroup.UUID> emptySet();
-  }
-
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
   protected void rcptToAuthors(final RecipientType rt) {
     for (final Account.Id id : authors) {
@@ -317,164 +272,45 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
   }
 
-  /** BCC users and groups that want notification of events. */
-  protected void bccWatches(NotifyType type) {
-    try {
-      Watchers matching = getWatches(type);
-      for (Account.Id user : matching.accounts) {
-        add(RecipientType.BCC, user);
-      }
-      for (Address addr : matching.emails) {
-        add(RecipientType.BCC, addr);
-      }
-    } catch (OrmException err) {
-      // Just don't CC everyone. Better to send a partial message to those
-      // we already have queued up then to fail deliver entirely to people
-      // who have a lower interest in the change.
-      log.warn("Cannot BCC watchers for " + type, err);
-    }
-  }
-
-  /** Returns all watches that are relevant */
+  @Override
   protected final Watchers getWatches(NotifyType type) throws OrmException {
-    Watchers matching = new Watchers();
     if (changeData == null) {
-      return matching;
+      return new Watchers();
     }
-
-    Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
-
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(change.getProject())) {
-      projectWatchers.add(w.getAccountId());
-      if (w.isNotify(type)) {
-        add(matching, w);
-      }
-    }
-
-    for (AccountProjectWatch w : args.db.get().accountProjectWatches()
-        .byProject(args.allProjectsName)) {
-      if (!projectWatchers.contains(w.getAccountId()) && w.isNotify(type)) {
-        add(matching, w);
-      }
-    }
-
-    ProjectState state = projectState;
-    while (state != null) {
-      for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
-        if (nc.isNotify(type)) {
-          try {
-            add(matching, nc, state.getProject().getNameKey());
-          } catch (QueryParseException e) {
-            log.warn(String.format(
-                "Project %s has invalid notify %s filter \"%s\": %s",
-                state.getProject().getName(), nc.getName(),
-                nc.getFilter(), e.getMessage()));
-          }
-        }
-      }
-      state = state.getParentState();
-    }
-
-    return matching;
-  }
-
-  protected static class Watchers {
-    protected final Set<Account.Id> accounts = Sets.newHashSet();
-    protected final Set<Address> emails = Sets.newHashSet();
+    return super.getWatches(type);
   }
 
   @SuppressWarnings("unchecked")
-  private void add(Watchers matching, NotifyConfig nc, Project.NameKey project)
-      throws OrmException, QueryParseException {
-    for (GroupReference ref : nc.getGroups()) {
-      AccountGroup group =
-          GroupDescriptions.toAccountGroup(args.groupBackend.get(ref.getUUID()));
-      if (group == null) {
-        log.warn(String.format(
-            "Project %s has invalid group %s in notify section %s",
-            project.get(), ref.getName(), nc.getName()));
-        continue;
-      }
-
-      if (group.getType() != AccountGroup.Type.INTERNAL) {
-        log.warn(String.format(
-            "Project %s cannot use group %s of type %s in notify section %s",
-            project.get(), ref.getName(), group.getType(), nc.getName()));
-        continue;
-      }
-
-      ChangeQueryBuilder qb = args.queryBuilder.create(new SingleGroupUser(
-          args.capabilityControlFactory,
-          ref.getUUID()));
-      qb.setAllowFile(true);
-      Predicate<ChangeData> p = qb.is_visible();
-      if (nc.getFilter() != null) {
-        p = Predicate.and(qb.parse(nc.getFilter()), p);
-        p = args.queryRewriter.get().rewrite(p);
-      }
-      if (p.match(changeData)) {
-        recursivelyAddAllAccounts(matching, group);
-      }
-    }
-
-    if (!nc.getAddresses().isEmpty()) {
-      if (nc.getFilter() != null) {
-        ChangeQueryBuilder qb = args.queryBuilder.create(args.anonymousUser);
-        qb.setAllowFile(true);
-        Predicate<ChangeData> p = qb.parse(nc.getFilter());
-        p = args.queryRewriter.get().rewrite(p);
-        if (p.match(changeData)) {
-          matching.emails.addAll(nc.getAddresses());
-        }
-      } else {
-        matching.emails.addAll(nc.getAddresses());
-      }
-    }
-  }
-
-  private void recursivelyAddAllAccounts(Watchers matching, AccountGroup group)
-      throws OrmException {
-    Set<AccountGroup.Id> seen = Sets.newHashSet();
-    Queue<AccountGroup.Id> scan = Lists.newLinkedList();
-    scan.add(group.getId());
-    seen.add(group.getId());
-    while (!scan.isEmpty()) {
-      AccountGroup.Id next = scan.remove();
-      for (AccountGroupMember m : args.db.get().accountGroupMembers()
-          .byGroup(next)) {
-        matching.accounts.add(m.getAccountId());
-      }
-      for (AccountGroupInclude m : args.db.get().accountGroupIncludes()
-          .byGroup(next)) {
-        if (seen.add(m.getIncludeId())) {
-          scan.add(m.getIncludeId());
-        }
-      }
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  private void add(Watchers matching, AccountProjectWatch w)
-      throws OrmException {
-    IdentifiedUser user =
-        args.identifiedUserFactory.create(args.db, w.getAccountId());
+  @Override
+  protected boolean checkFilter(CurrentUser user, String filter,
+      boolean visible) throws OrmException {
     ChangeQueryBuilder qb = args.queryBuilder.create(user);
-    Predicate<ChangeData> p = qb.is_visible();
-    if (w.getFilter() != null) {
-      try {
-        qb.setAllowFile(true);
-        p = Predicate.and(qb.parse(w.getFilter()), p);
-        p = args.queryRewriter.get().rewrite(p);
-        if (p.match(changeData)) {
-          matching.accounts.add(w.getAccountId());
-        }
-      } catch (QueryParseException e) {
-        // Ignore broken filter expressions.
-      }
-    } else if (p.match(changeData)) {
-      matching.accounts.add(w.getAccountId());
+    qb.setAllowFile(true);
+    Predicate<ChangeData> p = null;
+    if (visible) {
+      p = qb.is_visible();
     }
+    if (filter != null) {
+      try {
+        if (p == null) {
+          p = qb.parse(filter);
+        } else {
+          p = Predicate.and(qb.parse(filter), p);
+        }
+        p = args.queryRewriter.get().rewrite(p);
+      } catch (QueryParseException e) {
+        log.warn(String.format(
+            "Invalid filter \"%s\": %s", filter, e.getMessage()));
+        // Ignore broken filter expressions.
+        return false;
+      }
+    }
+
+    if (p == null) {
+      return true;
+    }
+
+    return p.match(changeData);
   }
 
   /** Any user who has published comments on this change. */
@@ -540,10 +376,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
     velocityContext.put("change", change);
     velocityContext.put("changeId", change.getKey());
     velocityContext.put("coverLetter", getCoverLetter());
-    velocityContext.put("branch", change.getDest());
-    velocityContext.put("fromName", getNameFor(fromId));
-    velocityContext.put("projectName", //
-        projectState != null ? projectState.getProject().getName() : null);
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);
   }

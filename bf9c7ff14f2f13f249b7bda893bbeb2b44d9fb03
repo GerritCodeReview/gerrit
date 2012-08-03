@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAH/X///F4\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-03T02:08:30Z",
+      "side": 1,
+      "message": "s/Change/Changes/ ?",
+      "revId": "bf9c7ff14f2f13f249b7bda893bbeb2b44d9fb03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH/X///F0\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-03T02:08:30Z",
+      "side": 1,
+      "message": "s/Prolog engine/the Prolog engine/",
+      "revId": "bf9c7ff14f2f13f249b7bda893bbeb2b44d9fb03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH/X///Fw\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-03T02:08:30Z",
+      "side": 1,
+      "message": "s/pugins/plugins/ I assume?",
+      "revId": "bf9c7ff14f2f13f249b7bda893bbeb2b44d9fb03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH/X///FU\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-03T02:08:30Z",
+      "side": 1,
+      "message": "I think we should have less sloppy regexps in the examples, so let\u0027s say\n\n .*\\.java$\n\nor even \n\n \\.java$\n\n(unless there\u0027s an implicit ^ so that we really need the .*).",
+      "revId": "bf9c7ff14f2f13f249b7bda893bbeb2b44d9fb03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH/X///FQ\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-03T02:08:30Z",
+      "side": 1,
+      "message": "s/Gerrits/Gerrit\u0027s/",
+      "revId": "bf9c7ff14f2f13f249b7bda893bbeb2b44d9fb03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

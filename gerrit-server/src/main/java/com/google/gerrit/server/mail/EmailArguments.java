@@ -29,6 +29,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryRewriter;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -56,6 +57,7 @@ class EmailArguments {
   final Provider<ReviewDb> db;
   final RuntimeInstance velocityRuntime;
   final EmailSettings settings;
+  final SshInfo sshInfo;
 
   @Inject
   EmailArguments(GitRepositoryManager server, ProjectCache projectCache,
@@ -70,7 +72,7 @@ class EmailArguments {
       ChangeQueryBuilder.Factory queryBuilder,
       Provider<ChangeQueryRewriter> queryRewriter, Provider<ReviewDb> db,
       RuntimeInstance velocityRuntime,
-      EmailSettings settings) {
+      EmailSettings settings, SshInfo sshInfo) {
     this.server = server;
     this.projectCache = projectCache;
     this.groupBackend = groupBackend;
@@ -89,5 +91,6 @@ class EmailArguments {
     this.db = db;
     this.velocityRuntime = velocityRuntime;
     this.settings = settings;
+    this.sshInfo = sshInfo;
   }
 }

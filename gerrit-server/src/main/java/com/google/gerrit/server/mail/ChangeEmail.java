@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.mail;
 
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
+
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupInclude;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
@@ -50,7 +52,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Queue;
@@ -58,7 +59,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /** Sends an email to one or more interested parties. */
-public abstract class ChangeEmail extends OutgoingEmail {
+public abstract class ChangeEmail extends NotificationEmail {
   private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
 
   protected final Change change;
@@ -66,14 +67,13 @@ public abstract class ChangeEmail extends OutgoingEmail {
   protected PatchSetInfo patchSetInfo;
   protected ChangeMessage changeMessage;
 
-  protected ProjectState projectState;
   protected ChangeData changeData;
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
 
   protected ChangeEmail(EmailArguments ea, final String anonymousCowardName,
       final Change c, final String mc) {
-    super(ea, anonymousCowardName, mc);
+    super(ea, anonymousCowardName, mc, c.getProject(), c.getDest());
     change = c;
     changeData = change != null ? new ChangeData(change) : null;
     emailOnlyAuthors = false;
@@ -133,12 +133,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() throws EmailException {
-    if (args.projectCache != null) {
-      projectState = args.projectCache.get(change.getProject());
-    } else {
-      projectState = null;
-    }
-
     if (patchSet == null) {
       try {
         patchSet = args.db.get().patchSets().get(change.currentPatchSetId());
@@ -163,22 +157,8 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
     setChangeSubjectHeader();
     setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
-    setListIdHeader();
     setChangeUrlHeader();
     setCommitIdHeader();
-  }
-
-  private void setListIdHeader() throws EmailException {
-    // Set a reasonable list id so that filters can be used to sort messages
-    setVHeader("Mailing-List", "list $email.listId");
-    setVHeader("List-Id", "<$email.listId.replace('@', '.')>");
-    if (getSettingsUrl() != null) {
-      setVHeader("List-Unsubscribe", "<$email.settingsUrl>");
-    }
-  }
-
-  public String getListId() throws EmailException {
-    return velocify("gerrit-$projectName.replace('/', '-')@$email.gerritHost");
   }
 
   private void setChangeUrlHeader() {
@@ -283,19 +263,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
       return args.patchListCache.get(change, patchSet);
     }
     throw new PatchListNotAvailableException("no patchSet specified");
-  }
-
-  /** Get the project entity the change is in; null if its been deleted. */
-  protected ProjectState getProjectState() {
-    return projectState;
-  }
-
-  /** Get the groups which own the project. */
-  protected Set<AccountGroup.UUID> getProjectOwners() {
-    final ProjectState r;
-
-    r = args.projectCache.get(change.getProject());
-    return r != null ? r.getOwners() : Collections.<AccountGroup.UUID> emptySet();
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
@@ -569,10 +536,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
     velocityContext.put("change", change);
     velocityContext.put("changeId", change.getKey());
     velocityContext.put("coverLetter", getCoverLetter());
-    velocityContext.put("branch", change.getDest());
-    velocityContext.put("fromName", getNameFor(fromId));
-    velocityContext.put("projectName", //
-        projectState != null ? projectState.getProject().getName() : null);
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);
   }

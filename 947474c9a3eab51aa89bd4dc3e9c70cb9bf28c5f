@@ -352,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "AAAH/X///FA\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-03T02:10:50Z",
+      "side": 1,
+      "message": "Okay, that\u0027s fine. It seems like the default use case would be to change the submit rules for all or at least many projects, so putting submit_rule implementations in every project\u0027s rules.pl is probably not very practical.",
+      "parentUuid": "AAAH83///7U\u003d",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH8H///9M\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 2
@@ -381,6 +399,24 @@
       "side": 1,
       "message": "I agree on adding more examples, including this one.\n\nHowever, I would also like to get a first version submitted without ever increasing the size of this file and making it harder for review. Once we get it submitted we can continue adding examples in smaller changes.",
       "parentUuid": "AAAH8H///9M\u003d",
+      "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAH/X///E8\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-03T02:10:50Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "AAAH83///7Q\u003d",
       "revId": "947474c9a3eab51aa89bd4dc3e9c70cb9bf28c5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

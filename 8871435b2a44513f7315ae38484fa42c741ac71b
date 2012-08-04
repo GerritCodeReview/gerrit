@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIDH///7c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T20:20:12Z",
+      "side": 1,
+      "message": "nit: space after if",
+      "revId": "8871435b2a44513f7315ae38484fa42c741ac71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIDH///7Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T20:20:12Z",
+      "side": 1,
+      "message": "nit: space after a cast operator: ((IdentifiedUser) user)",
+      "revId": "8871435b2a44513f7315ae38484fa42c741ac71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

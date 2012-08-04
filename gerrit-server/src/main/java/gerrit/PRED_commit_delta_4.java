@@ -110,8 +110,8 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
           continue;
         }
 
-        if (regex.matcher(newName).matches() ||
-            (oldName != null && regex.matcher(oldName).matches())) {
+        if (regex.matcher(newName).find() ||
+            (oldName != null && regex.matcher(oldName).find())) {
           SymbolTerm changeSym = getTypeSymbol(changeType);
           SymbolTerm newSym = SymbolTerm.create(newName);
           SymbolTerm oldSym = Prolog.Nil;

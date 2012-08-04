@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIDH///7I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T21:11:46Z",
+      "side": 1,
+      "message": "rouge: A red powder or cream used as a cosmetic for coloring the cheeks or lips.\n\nrogue: A dishonest or unprincipled man.\n\nI don\u0027t think the color applied to the website matters. Its the dishonest server we care about. :-)",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIDH///6w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestTokenVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T21:11:46Z",
+      "side": 1,
+      "message": "s/encode/sign/",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIDH///60\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestTokenVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T21:11:46Z",
+      "side": 1,
+      "message": "Don\u0027t force me to store the URL into the token. Instead of decode have void verify(Account.Id user, String url, String token). So we pass in the current URL and the current user, and the verifier can verify.\n\nThis allows the verifier to do something more fancy like construct an HMAC of a random nonce, Account.Id, URL, and return that as the token by itself. This can be shorter because the URL isn\u0027t included in the token text, its supplied again by the caller.",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIDH///7A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T21:11:46Z",
+      "side": 1,
+      "message": "Use the JSON_MAGIC constant in RestApiServlet. Format the token into the JSON body using Gson to ensure its escaped correctly, if necessary. It shouldn\u0027t need to be escaped but I prefer to be paranoid.",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIDH///68\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T21:11:46Z",
+      "side": 1,
+      "message": "This isn\u0027t actually a hard failure during the POST. The client could have expected back a text formatted reply given the operation it was making. Don\u0027t force it to accept JSON.\n\nWhat you really wanted to test was that the Content-Type is JSON. Which you aren\u0027t testing here.",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIDH///64\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T21:11:46Z",
+      "side": 1,
+      "message": "Parsing errors in the content reading should be caught and reported through handleError.",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIDH///6o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T21:11:46Z",
+      "side": 1,
+      "message": "Lets call this _authkey. I know I am sort of waffling back and forth, but see my remark below about abandon change. If we need to merge the token and user data like a message into the same JSON object we may be happy the _authkey is an unlikely field name.",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIDH///6s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T21:11:46Z",
+      "side": 1,
+      "message": "This method might need to be able to accept POST data too. Consider abandon change, it needs the comment the user types into the box. We should probably consider passing the JsonObject down into doRequest.",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIDH///7E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-04T21:11:46Z",
+      "side": 1,
+      "message": "line wrap like above",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

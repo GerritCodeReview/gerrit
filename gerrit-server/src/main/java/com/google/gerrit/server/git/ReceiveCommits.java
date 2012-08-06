@@ -60,6 +60,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.mail.CreateChangeSender;
+import com.google.gerrit.server.mail.DirectPushedSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -243,6 +244,7 @@ public class ReceiveCommits {
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final MergedSender.Factory mergedSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
+  private final DirectPushedSender.Factory directPushedSenderFactory;
   private final GitReferenceUpdated replication;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHooks hooks;
@@ -296,6 +298,7 @@ public class ReceiveCommits {
       final CreateChangeSender.Factory createChangeSenderFactory,
       final MergedSender.Factory mergedSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
+      final DirectPushedSender.Factory directPushedSenderFactory,
       final GitReferenceUpdated replication,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHooks hooks,
@@ -322,6 +325,7 @@ public class ReceiveCommits {
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.mergedSenderFactory = mergedSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
+    this.directPushedSenderFactory = directPushedSenderFactory;
     this.replication = replication;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
@@ -583,6 +587,10 @@ public class ReceiveCommits {
               c.getOldId(),
               c.getNewId(),
               currentUser.getAccount());
+        }
+
+        if (isHead(c)) {
+          sendDirectPushedEmail(c);
         }
       }
     }
@@ -2384,6 +2392,29 @@ public class ReceiveCommits {
       @Override
       public String toString() {
         return "send-email merged";
+      }
+    }));
+  }
+
+  private void sendDirectPushedEmail(final ReceiveCommand cmd) {
+    final String branchName = cmd.getRefName();
+
+    workQueue.getDefaultQueue()
+        .submit(requestScopePropagator.wrap(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          final DirectPushedSender mail = directPushedSenderFactory.create(project, branchName, cmd.getType());
+          mail.setFrom(currentUser.getAccountId());
+          mail.send();
+        } catch (Exception e) {
+          log.error("Cannot send email for direct pushes on branch: " + branchName, e);
+        }
+      }
+
+      @Override
+      public String toString() {
+        return "send-email direct pushed";
       }
     }));
   }

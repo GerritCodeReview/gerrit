@@ -126,7 +126,7 @@ point to the latest release version (no dependency to snapshot versions)
 ====
 
 * Find WAR that includes the core plugins at
-`gerrit-package-plugins\target\gerrit-v2.5.war`
+`gerrit-package-plugins\target\gerrit-full-v2.5.war`
 * Sanity check WAR
 
 Publish to the Project Locations

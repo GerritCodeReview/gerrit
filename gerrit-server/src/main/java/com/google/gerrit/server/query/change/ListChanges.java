@@ -349,6 +349,10 @@ public class ListChanges {
     }
 
     PatchSet ps = cd.currentPatchSet(db);
+    if (ps == null) {
+      return Collections.emptyMap();
+    }
+
     Map<String, LabelInfo> labels = Maps.newLinkedHashMap();
     for (SubmitRecord rec : ctl.canSubmit(db.get(), ps, cd, true, false)) {
       if (rec.labels == null) {

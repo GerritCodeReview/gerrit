@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIEH////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-08-06T18:18:58Z",
+      "side": 1,
+      "message": "Done.  Although I suspect you are underestimating the threat from websites using reddish-colored themes :)",
+      "parentUuid": "AAAIDH///7I\u003d",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIDH///6w\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestTokenVerifier.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-08-04T21:11:46Z",
       "side": 1,
       "message": "s/encode/sign/",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIEH////0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestTokenVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-08-06T18:18:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIDH///6w\u003d",
       "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIEH////w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RestTokenVerifier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-08-06T18:18:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIDH///60\u003d",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIDH///7A\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2012-08-04T21:11:46Z",
       "side": 1,
       "message": "Use the JSON_MAGIC constant in RestApiServlet. Format the token into the JSON body using Gson to ensure its escaped correctly, if necessary. It shouldn\u0027t need to be escaped but I prefer to be paranoid.",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIEH////c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-08-06T18:18:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIDH///7A\u003d",
       "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIEH////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-08-06T18:18:58Z",
+      "side": 1,
+      "message": "Done.  Thankfully this will trim down the curl arguments needed for scripting.",
+      "parentUuid": "AAAIDH///68\u003d",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIDH///64\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2012-08-04T21:11:46Z",
       "side": 1,
       "message": "Parsing errors in the content reading should be caught and reported through handleError.",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIEH////o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-08-06T18:18:58Z",
+      "side": 1,
+      "message": "They already are... JsonSyntaxException extends RuntimeException, which is caught in the super\u0027s service() method and passed to handleError.  I can be more explicit about it here though if you prefer.",
+      "parentUuid": "AAAIDH///64\u003d",
       "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIEH////k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-08-06T18:18:58Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "AAAIDH///6o\u003d",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIDH///6s\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
         "patchSetId": 3
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIEH////g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-08-06T18:18:58Z",
+      "side": 1,
+      "message": "Done.  This makes me think - will it be possible to use a POST which includes an uploaded file anymore?  I\u0027ve considered a web interface for uploading plugin .jar\u0027s..",
+      "parentUuid": "AAAIDH///6s\u003d",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIDH///7E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
         "patchSetId": 3
@@ -149,6 +293,24 @@
       "writtenOn": "2012-08-04T21:11:46Z",
       "side": 1,
       "message": "line wrap like above",
+      "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIEH////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/AuthConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-08-06T18:18:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIDH///7E\u003d",
       "revId": "2400f9cdeabe6f56513daccbcb0f03ef8be13935",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

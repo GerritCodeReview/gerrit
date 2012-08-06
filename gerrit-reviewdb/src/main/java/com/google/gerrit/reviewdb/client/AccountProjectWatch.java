@@ -22,7 +22,7 @@ import com.google.gwtorm.client.StringKey;
 public final class AccountProjectWatch {
 
   public enum NotifyType {
-    NEW_CHANGES, ALL_COMMENTS, SUBMITTED_CHANGES, ALL
+    NEW_CHANGES, ALL_COMMENTS, SUBMITTED_CHANGES, DIRECT_PUSHES, ALL
   }
 
   public static final String FILTER_ALL = "*";
@@ -109,6 +109,10 @@ public final class AccountProjectWatch {
   @Column(id = 4)
   protected boolean notifySubmittedChanges;
 
+  /** Automatically receive notification for direct pushes to refs/heads/ */
+  @Column(id = 5)
+  protected boolean notifyDirectPushes;
+
   protected AccountProjectWatch() {
   }
 
@@ -142,6 +146,9 @@ public final class AccountProjectWatch {
 
       case SUBMITTED_CHANGES:
         return notifySubmittedChanges;
+
+      case DIRECT_PUSHES:
+        return notifyDirectPushes;
     }
     return false;
   }
@@ -160,10 +167,15 @@ public final class AccountProjectWatch {
         notifySubmittedChanges = v;
         break;
 
+      case DIRECT_PUSHES:
+        notifyDirectPushes = v;
+        break;
+
       case ALL:
         notifyNewChanges = v;
         notifyAllComments = v;
         notifySubmittedChanges = v;
+        notifyDirectPushes = v;
         break;
     }
   }

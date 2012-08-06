@@ -45,19 +45,16 @@ public abstract class ThreadLocalRequestScopePropagator<C>
     return new Callable<T>() {
       @Override
       public T call() throws Exception {
-        if (threadLocal.get() != null) {
-          // This is consistent with the Guice ServletScopes.continueRequest()
-          // behavior.
-          throw new IllegalStateException("Cannot continue request, "
-              + "thread already has request in progress. A new thread must "
-              + "be used to propagate the request scope context.");
-        }
-
-        threadLocal.set(ctx);
+        C old = threadLocal.get();
         try {
+          threadLocal.set(ctx);
           return callable.call();
         } finally {
-          threadLocal.remove();
+          if (old != null) {
+            threadLocal.set(old);
+          } else {
+            threadLocal.remove();
+          }
         }
       }
     };

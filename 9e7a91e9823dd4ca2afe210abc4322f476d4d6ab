@@ -158,6 +158,24 @@
       "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIAX///9Y\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-06T12:52:26Z",
+      "side": 1,
+      "message": "Actually you are right. We should wait with submitting this doc update until a first release was done with this new process. Before doing the release we have to clarify how the name of the war file should be. Then this doc can be adapted before submit.\n\nDone in [1]. I will rebase this change once [1] gets submitted.\n\n[1] https://gerrit-review.googlesource.com/37210",
+      "parentUuid": "AAAH/H///tA\u003d",
+      "revId": "9e7a91e9823dd4ca2afe210abc4322f476d4d6ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

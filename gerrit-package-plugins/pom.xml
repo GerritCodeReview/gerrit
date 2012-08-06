@@ -74,7 +74,7 @@ limitations under the License.
         <artifactId>maven-war-plugin</artifactId>
         <version>2.1.1</version>
         <configuration>
-          <warName>gerrit-${project.version}</warName>
+          <warName>gerrit-full-${project.version}</warName>
           <archive>
             <addMavenDescriptor>false</addMavenDescriptor>
             <manifestEntries>

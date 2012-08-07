@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIH3////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-07T14:27:53Z",
+      "side": 1,
+      "message": "\u0027\\\u0027 might work. \u0027M\u0027 works me because our internal code review system (not Gerrit that other thing we have) uses \u0027M\u0027 for this exact action, and \u0027m\u0027 to toggle the review flag but not advance files. It makes some logical sense that you can mark (\u0027m\u0027) or mark-and-next (\u0027M\u0027). But I am not tied to it.",
+      "parentUuid": "AAAIH3////k\u003d",
+      "revId": "8e684387ec22c624361d02663fd217652e020d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIH3////s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2012-08-07T14:10:26Z",
       "side": 1,
       "message": "I would prefer not to fake a click event. Abstract the logic used by this anchor into a function, and have the anchor and this key press both invoke that same function.",
+      "revId": "8e684387ec22c624361d02663fd217652e020d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIH3////Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-07T14:27:53Z",
+      "side": 1,
+      "message": "This is really why I -1\u0027d the change. The key used is just bikeshed painting.",
+      "parentUuid": "AAAIH3////s\u003d",
       "revId": "8e684387ec22c624361d02663fd217652e020d31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

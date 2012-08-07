@@ -180,6 +180,76 @@ need a (global) voting category for each label contained in the result of
 label is met will probably not be made by explicit voting but, instead, by
 inspecting the facts about the change.
 
+Submit Filter
+-------------
+Another mechanism of changing the default submit rules is to implement the
+`submit_filter/2` predicate. While Gerrit will search for the `submit_rule` only
+in the `rules.pl` file of the current project, the `submit_filter` will be
+searched for in the `rules.pl` of all parent projects of the current project,
+but not in the `rules.pl` of the current project. The search will start from the
+immediate parent of the current project, then in the parent project of that
+project and so on until, and including, the 'All-Projects' project.
+
+The purpose of the submit filter is, as its name says, to filter the results
+of the `submit_rule`. Therefore, the `submit_filter` predicate has two
+parameters:
+
+====
+  submit_filter(In, Out) :- ...
+====
+
+Gerrit will invoke `submit_filter` with the `In` parameter containing a `submit`
+structure produced by the `submit_rule` and will take the value of the `Out`
+parameter as the result.
+
+The `Out` value of a `submit_filter` will become the `In` value for the
+next `submit_filter` in the parent line. The value of the `Out` parameter
+of the top-most `submit_filter` is the final result of the submit rule that
+is used to decide whether a change is submittable or not.
+
+IMPORTANT: `submit_filter` is a mechanism for Gerrit administrators to implement
+and enforce submit rules that would apply to all projects while `submit_rule` is
+a mechanism for project owners to implement project specific submit rules.
+However, project owners who own several projects could also make use of
+`submit_filter` by using a common parent project for all their projects and
+implementing the `submit_filter` in this common parent project. This way they
+can avoid implementing the same `submit_rule` in all their projects.
+
+The following "drawing" illustrates the order of the invocation and the chaining
+of the results of the `submit_rule` and `submit_filter` predicates.
+
+====
+  All-Projects
+  ^   submit_filter(B, S) :- ...  <4>
+  |
+  Parent-3
+  ^   <no submit filter here>
+  |
+  Parent-2
+  ^   submit_filter(A, B) :- ...  <3>
+  |
+  Parent-1
+  ^   submit_filter(X, A) :- ...  <2>
+  |
+  MyProject
+      submit_rule(X) :- ...       <1>
+====
+
+<1> The `submit_rule` of `MyProject` is invoked first.
+<2> The result `X` is filtered through the `submit_filter` from the `Parent-1`
+project.
+<3> The result of `submit_filter` from `Parent-1` project is filtered by the
+`submit_filter` in the `Parent-2` project. Since `Parent-3` project doesn't have
+a `submit_filter` it is skipped.
+<4> The result of `submit_filter` from `Parent-2` project is filtered by the
+`submit_filter` in the `All-Projects` project. The value in `S` is the final
+value of the submit rule evaluation.
+
+NOTE: If `MyProject` doesn't define its own `submit_rule` Gerrit will invoke the
+default implementation of submit rule that is named `gerrit:default_submit` and
+its result will be filtered as described above.
+
+
 Prolog vs Gerrit plugin for project specific submit rules
 ---------------------------------------------------------
 Since version 2.5 Gerrit supports plugins and extension points. A plugin or an
@@ -200,6 +270,12 @@ Examples
 The following examples should serve as a cookbook for developing own submit rules.
 Some of them are too trivial to be used in production and their only purpose is
 to provide step by step introduction and understanding.
+
+Some of the examples will implement the `submit_rule` and some will implement
+the `submit_filter` just to show both possibilities.  Remember that
+`submit_rule` is only invoked from the current project and `submit_filter` is
+invoked from all parent projects. This is the most important fact in deciding
+whether to implement `submit_rule` or `submit_filter`.
 
 Example 1: Make every change submittable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -540,6 +616,27 @@ principle.  This means we want a combination of examples 7 and 8.
 
 The `remove_verified_category` and `add_non_author_approval` predicates are the
 same as defined in the previous two examples.
+
+Example 11: Remove the `Verified` category from all projects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example 9, implements `submit_rule` that removes the `Verified` category from
+one project. In this example we do the same but we want to remove the `Verified`
+category from all projects. This means we have to implement `submit_filter` and
+we have to do that in the `rules.pl` of the `All-Projects` project.
+
+.rules.pl
+[caption=""]
+====
+  submit_filter(In, Out) :-
+    In =.. [submit | Ls],
+    remove_verified_category(Ls, R),
+    Out =.. [submit | R].
+
+  remove_verified_category([], []).
+  remove_verified_category([label('Verified', _) | T], R) :-
+    remove_verified_category(T, R), !.
+  remove_verified_category([H|T], [H|R]) :- remove_verified_category(T, R).
+====
 
 GERRIT
 ------

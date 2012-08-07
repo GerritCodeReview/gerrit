@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIH3////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-07T14:10:26Z",
+      "side": 1,
+      "message": "Can I suggest \u0027M\u0027? Does that work?\n\nReason is, \u0027m\u0027 should toggle the mark reviewed flag and stay on this file, while \u0027M\u0027 should toggle the flag and move to the next file.",
+      "revId": "8e684387ec22c624361d02663fd217652e020d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIH3////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-07T14:10:26Z",
+      "side": 1,
+      "message": "I would prefer not to fake a click event. Abstract the logic used by this anchor into a function, and have the anchor and this key press both invoke that same function.",
+      "revId": "8e684387ec22c624361d02663fd217652e020d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,8 +25,8 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.ChangeLink;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
-import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -112,6 +112,7 @@ public abstract class PatchScreen extends Screen implements
 
   private CheckBox reviewedCheckBox;
   private FlowPanel reviewedPanel;
+  private InlineHyperlink reviewedLink;
   private HistoryTable historyTable;
   private FlowPanel topPanel;
   private FlowPanel contentPanel;
@@ -131,7 +132,9 @@ public abstract class PatchScreen extends Screen implements
 
   /** Keys that cause an action on this screen */
   private KeyCommandSet keysNavigation;
+  private KeyCommandSet keysAction;
   private HandlerRegistration regNavigation;
+  private HandlerRegistration regAction;
   private boolean intralineFailure;
 
   /**
@@ -193,13 +196,6 @@ public abstract class PatchScreen extends Screen implements
     Anchor reviewedAnchor = new Anchor("");
     SafeHtml.set(reviewedAnchor, text);
 
-    reviewedAnchor.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        setReviewedByCurrentUser(true);
-      }
-    });
-
     final PatchValidator unreviewedValidator = new PatchValidator() {
       public boolean isValid(Patch patch) {
         return !patch.isReviewedByCurrentUser();
@@ -212,25 +208,20 @@ public abstract class PatchScreen extends Screen implements
 
     if (nextUnreviewedPatchIndex > -1) {
       // Create invisible patch link to change page
-      final PatchLink reviewedLink =
+      reviewedLink =
           fileList.createLink(nextUnreviewedPatchIndex, getPatchScreenType(),
               null, null);
       reviewedLink.setText("");
-      reviewedAnchor.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          reviewedLink.go();
-        }
-      });
     } else {
-      final ChangeLink upLink = new ChangeLink("", patchKey.getParentKey());
-      reviewedAnchor.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          upLink.go();
-        }
-      });
+      reviewedLink = new ChangeLink("", patchKey.getParentKey());
     }
+    reviewedAnchor.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        setReviewedByCurrentUser(true);
+        reviewedLink.go();
+      }
+    });
 
     return reviewedAnchor;
   }
@@ -309,6 +300,14 @@ public abstract class PatchScreen extends Screen implements
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysNavigation.add(new UpToChangeCommand(patchKey.getParentKey(), 0, 'u'));
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
+
+    if (Gerrit.isSignedIn()) {
+      keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
+      keysAction
+          .add(new ToggleReviewedCmd(0, 'm', PatchUtil.C.toggleReviewed()));
+      keysAction.add(new MarkAsReviewedAndGoToNextCmd(0, 'M', PatchUtil.C
+          .markAsReviewedAndGoToNext()));
+    }
 
     historyTable = new HistoryTable(this);
 
@@ -393,6 +392,10 @@ public abstract class PatchScreen extends Screen implements
       regNavigation.removeHandler();
       regNavigation = null;
     }
+    if (regAction != null) {
+      regAction.removeHandler();
+      regAction = null;
+    }
     super.onUnload();
   }
 
@@ -405,6 +408,13 @@ public abstract class PatchScreen extends Screen implements
       regNavigation = null;
     }
     regNavigation = GlobalKey.add(this, keysNavigation);
+    if (regAction != null) {
+      regAction.removeHandler();
+      regAction = null;
+    }
+    if (keysAction != null) {
+      regAction = GlobalKey.add(this, keysAction);
+    }
   }
 
   protected abstract AbstractPatchContentTable createContentTable();
@@ -601,6 +611,33 @@ public abstract class PatchScreen extends Screen implements
 
       final PatchBrowserPopup p = new PatchBrowserPopup(patchKey, fileList);
       p.open();
+    }
+  }
+
+  public class ToggleReviewedCmd extends KeyCommand {
+    public ToggleReviewedCmd(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      final boolean isReviewed = !reviewedCheckBox.getValue();
+      reviewedCheckBox.setValue(isReviewed);
+      setReviewedByCurrentUser(isReviewed);
+    }
+  }
+
+  public class MarkAsReviewedAndGoToNextCmd extends KeyCommand {
+    public MarkAsReviewedAndGoToNextCmd(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      if (reviewedLink != null) {
+        setReviewedByCurrentUser(true);
+        reviewedLink.go();
+      }
     }
   }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIE3///tE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-08-07T20:10:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIAX///9o\u003d",
+      "revId": "f3c41fecb82b45be6f4bb15bffaae8fe6a1df421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIAX///9g\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIE3///tM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-08-07T20:10:21Z",
+      "side": 1,
+      "message": "This hides the extra space in side-by-side view where the links don\u0027t have to be aligned like in the unified view. Perhaps it could be a separate change but I though it was a small enough change to include here.",
+      "parentUuid": "AAAIAX///9g\u003d",
+      "revId": "f3c41fecb82b45be6f4bb15bffaae8fe6a1df421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIAX///9k\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2012-08-06T09:46:11Z",
       "side": 1,
       "message": "Why is this style not already set in the createDownloadLink() method?",
+      "revId": "f3c41fecb82b45be6f4bb15bffaae8fe6a1df421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIE3///tI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011147
+      },
+      "writtenOn": "2012-08-07T20:10:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIAX///9k\u003d",
       "revId": "f3c41fecb82b45be6f4bb15bffaae8fe6a1df421",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

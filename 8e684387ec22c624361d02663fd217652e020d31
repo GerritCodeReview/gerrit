@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIH3////k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-08-07T14:22:28Z",
+      "side": 1,
+      "message": "Martin was thinking \u0027|\u0027 or \u0027\\\u0027 for \"Mark and go to next\", since it\u0027s next to \u0027]\u0027 (on our keyboards at least). Does that work?",
+      "parentUuid": "AAAIH3////w\u003d",
+      "revId": "8e684387ec22c624361d02663fd217652e020d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIH3////s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 1

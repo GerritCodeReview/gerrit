@@ -856,7 +856,7 @@ public class ReceiveCommits {
       } else {
         errors.put(Error.UPDATE, ctl.getRefName());
       }
-      reject(cmd, "can not update the reference as a fast forward");
+      reject(cmd);
     }
   }
 

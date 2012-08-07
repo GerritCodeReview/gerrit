@@ -7,8 +7,9 @@ Objective
 Gerrit is a web based code review system, facilitating online code
 reviews for projects using the Git version control system.
 
-Gerrit makes reviews easier by showing changes in a side-by-side
-display, and allowing inline comments to be added by any reviewer.
+Gerrit makes reviews easier by showing changes in a side-by-side and
+unified display, and allowing file comments and inline comments to
+be added by any reviewer.
 
 Gerrit simplifies Git based project maintainership by permitting
 any authorized user to submit changes to the master Git repository,
@@ -99,11 +100,13 @@ selected by Gerrit by identifying users who have change approval
 permissions in the project.
 
 Reviewers use the web interface to read the side-by-side or unified
-diff of a change, and insert draft inline comments where appropriate.
+diff of a change, and insert draft comments where appropriate.
 A draft comment is visible only to the reviewer, until they publish
 those comments.  Published comments are automatically emailed to
 the change author by Gerrit, and are CC'd to all other reviewers
-who have already commented on the change.
+who have already commented on the change. file comments are
+highlighted to separate these high level comments from the code-line
+comments.
 
 When publishing comments reviewers are also given the opportunity
 to score the change, indicating whether they feel the change is

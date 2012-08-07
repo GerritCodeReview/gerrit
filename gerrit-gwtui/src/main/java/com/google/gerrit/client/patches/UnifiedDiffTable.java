@@ -21,6 +21,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.EditList.Hunk;
@@ -28,6 +29,11 @@ import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -48,18 +54,28 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         }
       };
 
+  protected UnifiedDiffTable() {
+    super();
+  }
+
   @Override
   protected void onCellDoubleClick(final int row, final int column) {
-    if (getRowItem(row) instanceof PatchLine) {
-      final PatchLine pl = (PatchLine) getRowItem(row);
-      switch (pl.getType()) {
-        case DELETE:
-        case CONTEXT:
-          createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0);
-          break;
-        case INSERT:
-          createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1);
-          break;
+    if (column > 0) {
+      if (row == FILE_COMMENT_ROW) {
+        createCommentEditor(row + 1, PC, 0, column == 1 ? (short) 0 : (short) 1);
+        return;
+      }
+      if (getRowItem(row) instanceof PatchLine) {
+        final PatchLine pl = (PatchLine) getRowItem(row);
+        switch (pl.getType()) {
+          case DELETE:
+          case CONTEXT:
+            createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0);
+            break;
+          case INSERT:
+            createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1);
+            break;
+        }
       }
     }
   }
@@ -93,11 +109,68 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     nc.closeElement("img");
   }
 
+  private void displayTableHead(final PatchScript script,
+      final PatchSetDetail detail) {
+    patchTableHeader.display(detail, script, patchKey, idSideA,
+        idSideB, new DoubleClickHandler() {
+          @Override
+          public void onDoubleClick(DoubleClickEvent event) {
+            if (patchTableHeader.listA.isFile) {
+              onCellDoubleClick(0, 1);
+            }
+          }
+        }, new DoubleClickHandler() {
+          @Override
+          public void onDoubleClick(DoubleClickEvent event) {
+            if (patchTableHeader.listB.isFile) {
+              onCellDoubleClick(0, 2);
+            }
+          }
+        });
+    table.setWidget(0, 3, patchTableHeader);
+
+    if (patchTableHeader.listA.isFile) {
+      final Anchor sideA  = new Anchor();
+      sideA.setText(PatchUtil.C.commentOnFileAnchorText());
+      sideA.setHref("javascript:;");
+      sideA.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          onCellDoubleClick(0, 1);
+        }
+      });
+      table.setWidget(0, 1, sideA);
+    }
+
+    if (patchTableHeader.listB.isFile) {
+      final Anchor sideB = new Anchor();
+      sideB.setText(PatchUtil.C.commentOnFileAnchorText());
+      sideB.setHref("javascript:;");
+      sideB.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          onCellDoubleClick(0, 2);
+        }
+      });
+      table.setWidget(0, 2, sideB);
+    }
+  }
+
   @Override
-  protected void render(final PatchScript script) {
+  protected void render(final PatchScript script, final PatchSetDetail detail) {
     final SparseHtmlFile a = getSparseHtmlFileA(script);
     final SparseHtmlFile b = getSparseHtmlFileB(script);
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
+
+    // Append UnifiedDiffTable Header
+    openTableHeaderLine(nc);
+    padLineNumberOnTableHeaderForSideA(nc);
+    padLineNumberOnTableHeaderForSideB(nc);
+    nc.openTd();
+    nc.setStyleName(Gerrit.RESOURCES.css().fileLine());
+    nc.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    nc.closeTd();
+    closeLine(nc);
 
     // Display the patch header
     for (final String line : script.getPatchHeader()) {
@@ -149,8 +222,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
           openLine(nc);
-          appendLineNumber(nc, hunk.getCurA());
-          appendLineNumber(nc, hunk.getCurB());
+          appendLineNumberForSideA(nc, hunk.getCurA());
+          appendLineNumberForSideB(nc, hunk.getCurB());
           appendLineText(nc, false, CONTEXT, a, hunk.getCurA());
           closeLine(nc);
           hunk.incBoth();
@@ -158,12 +231,12 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
         } else if (hunk.isDeletedA()) {
           openLine(nc);
-          appendLineNumber(nc, hunk.getCurA());
-          padLineNumber(nc);
+          appendLineNumberForSideA(nc, hunk.getCurA());
+          padLineNumberForSideB(nc);
           appendLineText(nc, syntaxHighlighting, DELETE, a, hunk.getCurA());
           closeLine(nc);
           hunk.incA();
-          lines.add(new PatchLine(DELETE, hunk.getCurA(), 0));
+          lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
           if (a.size() == hunk.getCurA()
               && script.getA().isMissingNewlineAtEnd()) {
             appendNoLF(nc);
@@ -171,12 +244,12 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
         } else if (hunk.isInsertedB()) {
           openLine(nc);
-          padLineNumber(nc);
-          appendLineNumber(nc, hunk.getCurB());
+          padLineNumberForSideA(nc);
+          appendLineNumberForSideB(nc, hunk.getCurB());
           appendLineText(nc, syntaxHighlighting, INSERT, b, hunk.getCurB());
           closeLine(nc);
           hunk.incB();
-          lines.add(new PatchLine(INSERT, 0, hunk.getCurB()));
+          lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
           if (b.size() == hunk.getCurB()
               && script.getB().isMissingNewlineAtEnd()) {
             appendNoLF(nc);
@@ -185,6 +258,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       }
     }
     resetHtml(nc);
+    displayTableHead(script, detail);
     initScript(script);
 
     int row = script.getPatchHeader().size();
@@ -222,37 +296,43 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
     final ArrayList<PatchLineComment> all = new ArrayList<PatchLineComment>();
     for (int row = 0; row < table.getRowCount();) {
-      if (getRowItem(row) instanceof PatchLine) {
+      final List<PatchLineComment> fora;
+      final List<PatchLineComment> forb;
+      if (row == 0) {
+        fora = cd.getForA(0);
+        forb = cd.getForB(0);
+      } else if (getRowItem(row) instanceof PatchLine) {
         final PatchLine pLine = (PatchLine) getRowItem(row);
-        final List<PatchLineComment> fora = cd.getForA(pLine.getLineA());
-        final List<PatchLineComment> forb = cd.getForB(pLine.getLineB());
-        row++;
+        fora = cd.getForA(pLine.getLineA());
+        forb = cd.getForB(pLine.getLineB());
 
-        if (!fora.isEmpty() && !forb.isEmpty()) {
-          all.clear();
-          all.addAll(fora);
-          all.addAll(forb);
-          Collections.sort(all, BY_DATE);
-          row = insert(all, row, expandComments);
-
-        } else if (!fora.isEmpty()) {
-          row = insert(fora, row, expandComments);
-
-        } else if (!forb.isEmpty()) {
-          row = insert(forb, row, expandComments);
-        }
       } else {
         row++;
+        continue;
+      }
+
+      row++;
+      if (!fora.isEmpty() && !forb.isEmpty()) {
+        all.clear();
+        all.addAll(fora);
+        all.addAll(forb);
+        Collections.sort(all, BY_DATE);
+        row = insert(all, row, expandComments);
+      } else if (!fora.isEmpty()) {
+        row = insert(fora, row, expandComments);
+
+      } else if (!forb.isEmpty()) {
+        row = insert(forb, row, expandComments);
       }
     }
   }
-
 
   @Override
   protected void insertRow(final int row) {
     super.insertRow(row);
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, PC - 2, Gerrit.RESOURCES.css().lineNumber());
+    fmt.addStyleName(row, PC - 2, Gerrit.RESOURCES.css().rightBorder());
     fmt.addStyleName(row, PC - 1, Gerrit.RESOURCES.css().lineNumber());
     fmt.addStyleName(row, PC, Gerrit.RESOURCES.css().diffText());
   }
@@ -269,10 +349,11 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void appendFileHeader(final SafeHtmlBuilder m, final String line) {
     openLine(m);
-    padLineNumber(m);
-    padLineNumber(m);
+    padLineNumberForSideA(m);
+    padLineNumberForSideB(m);
 
     m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().fileLine());
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
     m.addStyleName(Gerrit.RESOURCES.css().diffTextFileHeader());
     m.append(line);
@@ -282,10 +363,11 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void appendHunkHeader(final SafeHtmlBuilder m, final Hunk hunk) {
     openLine(m);
-    padLineNumber(m);
-    padLineNumber(m);
+    padLineNumberForSideA(m);
+    padLineNumberForSideB(m);
 
     m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().fileLine());
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
     m.addStyleName(Gerrit.RESOURCES.css().diffTextHunkHeader());
     m.append("@@ -");
@@ -323,6 +405,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       final SparseHtmlFile src, final int i) {
     final SafeHtml text = src.getSafeHtmlLine(i);
     m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().fileLine());
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
     switch (type) {
       case CONTEXT:
@@ -352,8 +435,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void appendNoLF(final SafeHtmlBuilder m) {
     openLine(m);
-    padLineNumber(m);
-    padLineNumber(m);
+    padLineNumberForSideA(m);
+    padLineNumberForSideB(m);
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
     m.addStyleName(Gerrit.RESOURCES.css().diffTextNoLF());
@@ -364,9 +447,17 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void openLine(final SafeHtmlBuilder m) {
     m.openTr();
-    m.setAttribute("valign", "top");
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.setAttribute("valign", "top");
+    m.closeTd();
+  }
+
+  private void openTableHeaderLine(final SafeHtmlBuilder m) {
+    m.openTr();
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.closeTd();
   }
 
@@ -374,16 +465,48 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.closeTr();
   }
 
-  private void padLineNumber(final SafeHtmlBuilder m) {
+  private void padLineNumberForSideB(final SafeHtmlBuilder m) {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.closeTd();
   }
 
-  private void appendLineNumber(final SafeHtmlBuilder m, final int idx) {
+  private void padLineNumberForSideA(final SafeHtmlBuilder m) {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
-    m.append(SafeHtml.asis("<a href=\"javascript:void(0)\">"+ (idx + 1) + "</a>"));
+    m.addStyleName(Gerrit.RESOURCES.css().rightBorder());
+    m.closeTd();
+  }
+
+  private void padLineNumberOnTableHeaderForSideB(final SafeHtmlBuilder m) {
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.closeTd();
+  }
+
+  private void padLineNumberOnTableHeaderForSideA(final SafeHtmlBuilder m) {
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().rightBorder());
+    m.closeTd();
+  }
+
+  private void appendLineNumberForSideB(final SafeHtmlBuilder m, final int idx) {
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.append(SafeHtml.asis("<a href=\"javascript:void(0)\">" + (idx + 1)
+        + "</a>"));
+    m.closeTd();
+  }
+
+  private void appendLineNumberForSideA(final SafeHtmlBuilder m, final int idx) {
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().rightBorder());
+    m.append(SafeHtml.asis("<a href=\"javascript:void(0)\">" + (idx + 1)
+        + "</a>"));
     m.closeTd();
   }
 }

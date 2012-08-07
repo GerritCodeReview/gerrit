@@ -116,7 +116,6 @@ public abstract class PatchScreen extends Screen implements
   private HistoryTable historyTable;
   private FlowPanel topPanel;
   private FlowPanel contentPanel;
-  private PatchTableHeader header;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
   private CommitMessageBlock commitMessageBlock;
@@ -316,8 +315,6 @@ public abstract class PatchScreen extends Screen implements
     topPanel = new FlowPanel();
     add(topPanel);
 
-    header = new PatchTableHeader(getPatchScreenType());
-
     noDifference = new Label(PatchUtil.C.noDifference());
     noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
     noDifference.setVisible(false);
@@ -330,9 +327,12 @@ public abstract class PatchScreen extends Screen implements
 
     add(topNav);
     contentPanel = new FlowPanel();
-    contentPanel.setStyleName(Gerrit.RESOURCES.css()
-        .sideBySideScreenSideBySideTable());
-    contentPanel.add(header);
+    if (getPatchScreenType() == PatchScreen.Type.SIDE_BY_SIDE) {
+      contentPanel.setStyleName(Gerrit.RESOURCES.css()
+          .sideBySideScreenSideBySideTable());
+    } else {
+      contentPanel.setStyleName(Gerrit.RESOURCES.css().unifiedTable());
+    }
     contentPanel.add(noDifference);
     contentPanel.add(contentTable);
     add(contentPanel);
@@ -520,10 +520,8 @@ public abstract class PatchScreen extends Screen implements
       setToken(Dispatcher.toPatchUnified(idSideA, patchKey));
     }
 
-    header.display(patchSetDetail, script, patchKey, idSideA, idSideB);
-
     if (hasDifferences) {
-      contentTable.display(patchKey, idSideA, idSideB, script);
+      contentTable.display(patchKey, idSideA, idSideB, script, patchSetDetail);
       contentTable.display(script.getCommentDetail(), script.isExpandAllComments());
       contentTable.finishDisplay();
     }

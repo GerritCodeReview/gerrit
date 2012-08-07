@@ -17,26 +17,17 @@ limitations under the License.
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-
   <ui:style>
-    @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
-    .wrapper {
-      width: 100%;
-      background-color: trimColor;
-      font-size: 0; /* inline-block spacing fix */
-    }
-
-    .wrapper .box {
-      width: 100%;
-      text-align: left;
-      margin-left: 3px;
-    }
+   .box {
+     width: 100%;
+     text-align: left;
+     margin-left: 3px;
+   }
   </ui:style>
 
-  <g:HTMLPanel styleName="{style.wrapper}">
-    <g:SimplePanel addStyleNames='{style.box}' ui:field='sideAPanel'/>
-    <g:SimplePanel addStyleNames='{style.box}' ui:field='sideBPanel'/>
+  <g:HTMLPanel>
+   <g:SimplePanel addStyleNames='{style.box}' ui:field='sideAPanel'/><g:SimplePanel addStyleNames='{style.box}' ui:field='sideBPanel'/>
   </g:HTMLPanel>
 </ui:UiBinder>
 

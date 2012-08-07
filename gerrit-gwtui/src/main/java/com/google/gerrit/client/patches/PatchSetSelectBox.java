@@ -21,10 +21,9 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -33,6 +32,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.LinkedList;
@@ -47,9 +47,11 @@ public class PatchSetSelectBox extends Composite {
   interface BoxStyle extends CssResource {
     String selected();
 
-    String hidden();
+    String sideMarker();
 
-    String downloadLink();
+    String patchSetLabel();
+
+    String hidden();
   }
 
   public enum Side {
@@ -62,6 +64,7 @@ public class PatchSetSelectBox extends Composite {
   PatchSet.Id idSideB;
   PatchSet.Id idActive;
   Side side;
+  boolean isFile;
   PatchScreen.Type screenType;
   List<Anchor> links;
 
@@ -71,9 +74,6 @@ public class PatchSetSelectBox extends Composite {
   @UiField
   BoxStyle style;
 
-  @UiField
-  DivElement sideMarker;
-
   public PatchSetSelectBox(Side side, final PatchScreen.Type type) {
     this.side = side;
     this.screenType = type;
@@ -81,8 +81,9 @@ public class PatchSetSelectBox extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  public void display(final PatchSetDetail detail, final PatchScript script, Patch.Key key,
-      PatchSet.Id idSideA, PatchSet.Id idSideB) {
+  public void display(final PatchSetDetail detail, final PatchScript script,
+      Patch.Key key, PatchSet.Id idSideA, PatchSet.Id idSideB,
+      DoubleClickHandler handler) {
     this.script = script;
     this.patchKey = key;
     this.idSideA = idSideA;
@@ -90,12 +91,17 @@ public class PatchSetSelectBox extends Composite {
     this.idActive = (side == Side.A) ? idSideA : idSideB;
     this.links = new LinkedList<Anchor>();
 
+    isFile = isFile();
     linkPanel.clear();
 
+    Label patchSet = new Label(PatchUtil.C.patchSet());
+    patchSet.addStyleName(style.patchSetLabel());
+    linkPanel.add(patchSet);
+
     if (screenType == PatchScreen.Type.UNIFIED) {
-      sideMarker.setInnerText((side == Side.A) ? "(-)" : "(+)");
-    } else {
-      sideMarker.getStyle().setDisplay(Display.NONE);
+      Label sideMarker = new Label((side == Side.A) ? "(-)" : "(+)");
+      sideMarker.addStyleName(style.sideMarker());
+      linkPanel.add(sideMarker);
     }
 
     Anchor baseLink = null;
@@ -130,6 +136,7 @@ public class PatchSetSelectBox extends Composite {
     Anchor downloadLink = createDownloadLink();
     if (downloadLink != null) {
       linkPanel.add(downloadLink);
+      linkPanel.add(createAddFileCommentLink(handler));
     }
   }
 
@@ -161,11 +168,14 @@ public class PatchSetSelectBox extends Composite {
     return anchor;
   }
 
-  private Anchor createDownloadLink() {
+  private boolean isFile() {
     boolean isCommitMessage = Patch.COMMIT_MSG.equals(script.getNewName());
+    return !(isCommitMessage || (side == Side.A && 0 >= script.getA().size())
+        || (side == Side.B && 0 >= script.getB().size()));
+  }
 
-    if (isCommitMessage || (side == Side.A && 0 >= script.getA().size())
-        || (side == Side.B && 0 >= script.getB().size())) {
+  private Anchor createDownloadLink() {
+    if (!isFile) {
       return null;
     }
 
@@ -180,7 +190,20 @@ public class PatchSetSelectBox extends Composite {
     final Anchor anchor = new Anchor();
     anchor.setHref(base + KeyUtil.encode(key.toString()) + "^" + sideURL);
     anchor.setTitle(PatchUtil.C.download());
-    anchor.setStyleName(style.downloadLink());
+    DOM.insertBefore(anchor.getElement(), image.getElement(),
+        DOM.getFirstChild(anchor.getElement()));
+
+    return anchor;
+  }
+
+  private Anchor createAddFileCommentLink(DoubleClickHandler handler) {
+    if (!isFile) {
+      return null;
+    }
+    Image image = new Image(Gerrit.RESOURCES.addFileComment());
+    final Anchor anchor = new Anchor();
+    anchor.addDoubleClickHandler(handler);
+    anchor.setTitle(PatchUtil.C.addFileComment());
     DOM.insertBefore(anchor.getElement(), image.getElement(),
         DOM.getFirstChild(anchor.getElement()));
 

@@ -22,12 +22,15 @@ import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.PatchScript.FileMode;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -39,7 +42,6 @@ import org.eclipse.jgit.diff.Edit;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class SideBySideTable extends AbstractPatchContentTable {
   private static final int A = 2;
@@ -49,14 +51,25 @@ public class SideBySideTable extends AbstractPatchContentTable {
   private SparseHtmlFile a;
   private SparseHtmlFile b;
 
+  protected SideBySideTable() {
+    super();
+  }
+
   @Override
   protected void onCellDoubleClick(final int row, int column) {
-    if (column > 0 && getRowItem(row) instanceof PatchLine) {
-      final PatchLine line = (PatchLine) getRowItem(row);
-      if (column == 1 || column == A) {
-        createCommentEditor(row + 1, A, line.getLineA(), (short) 0);
-      } else if (column == B || column == 4) {
-        createCommentEditor(row + 1, B, line.getLineB(), (short) 1);
+    if (column > 0) {
+      if (row == FILE_COMMENT_ROW) {
+        createCommentEditor(row + 1, column == A ? A : B, 0,
+            column == A ? (short) 0 : (short) 1);
+        return;
+      }
+      if (getRowItem(row) instanceof PatchLine) {
+        final PatchLine line = (PatchLine) getRowItem(row);
+        if (column == 1 || column == A) {
+          createCommentEditor(row + 1, A, line.getLineA(), (short) 0);
+        } else if (column == B || column == 4) {
+          createCommentEditor(row + 1, B, line.getLineB(), (short) 1);
+        }
       }
     }
   }
@@ -75,7 +88,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   @Override
-  protected void render(final PatchScript script) {
+  protected void render(final PatchScript script, final PatchSetDetail detail) {
     a = getSparseHtmlFileA(script);
     b = getSparseHtmlFileB(script);
     final ArrayList<Object> lines = new ArrayList<Object>();
@@ -83,6 +96,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
     final boolean intraline =
         script.getDiffPrefs().isIntralineDifference()
             && script.hasIntralineDifference();
+    appendHeader(script, nc);
+    lines.add(null);
 
     if (script.getFileModeA() != FileMode.FILE
         || script.getFileModeB() != FileMode.FILE) {
@@ -154,9 +169,9 @@ public class SideBySideTable extends AbstractPatchContentTable {
           if (del && ins) {
             lines.add(new PatchLine(REPLACE, hunk.getCurA(), hunk.getCurB()));
           } else if (del) {
-            lines.add(new PatchLine(DELETE, hunk.getCurA(), 0));
+            lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
           } else if (ins) {
-            lines.add(new PatchLine(INSERT, 0, hunk.getCurB()));
+            lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
           }
         }
       }
@@ -168,6 +183,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
       lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
     }
     resetHtml(nc);
+    displayTableHead(script, detail);
     initScript(script);
 
     for (int row = 0; row < lines.size(); row++) {
@@ -175,6 +191,53 @@ public class SideBySideTable extends AbstractPatchContentTable {
       if (lines.get(row) instanceof SkippedLine) {
         createSkipLine(row, (SkippedLine) lines.get(row));
       }
+    }
+  }
+
+  private void displayTableHead(final PatchScript script,
+      final PatchSetDetail detail) {
+    patchTableHeader.display(detail, script, patchKey, idSideA, idSideB,
+        new DoubleClickHandler() {
+          @Override
+          public void onDoubleClick(DoubleClickEvent event) {
+            if (patchTableHeader.listA.isFile) {
+              onCellDoubleClick(0, A);
+            }
+          }
+        }, new DoubleClickHandler() {
+          @Override
+          public void onDoubleClick(DoubleClickEvent event) {
+            if (patchTableHeader.listB.isFile) {
+              onCellDoubleClick(0, B);
+            }
+          }
+        });
+    table.setWidget(0, 2, patchTableHeader);
+
+    if (patchTableHeader.listA.isFile) {
+      final Anchor sideA = new Anchor();
+      sideA.setText(PatchUtil.C.commentOnFileAnchorText());
+      sideA.setHref("javascript:;");
+      sideA.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          onCellDoubleClick(0, A);
+        }
+      });
+      table.setWidget(0, A - 1, sideA);
+    }
+
+    if (patchTableHeader.listB.isFile) {
+      final Anchor sideB = new Anchor();
+      sideB.setText(PatchUtil.C.commentOnFileAnchorText());
+      sideB.setHref("javascript:;");
+      sideB.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          onCellDoubleClick(0, B);
+        }
+      });
+      table.setWidget(0, B, sideB);
     }
   }
 
@@ -209,28 +272,33 @@ public class SideBySideTable extends AbstractPatchContentTable {
     setAccountInfoCache(cd.getAccounts());
 
     for (int row = 0; row < table.getRowCount();) {
-      if (getRowItem(row) instanceof PatchLine) {
+      final Iterator<PatchLineComment> ai;
+      final Iterator<PatchLineComment> bi;
+
+      if (row == 0) {
+        ai = cd.getForA(0).iterator();
+        bi = cd.getForB(0).iterator();
+      } else if (getRowItem(row) instanceof PatchLine) {
         final PatchLine pLine = (PatchLine) getRowItem(row);
-        final List<PatchLineComment> fora = cd.getForA(pLine.getLineA());
-        final List<PatchLineComment> forb = cd.getForB(pLine.getLineB());
-        row++;
-
-        final Iterator<PatchLineComment> ai = fora.iterator();
-        final Iterator<PatchLineComment> bi = forb.iterator();
-        while (ai.hasNext() && bi.hasNext()) {
-          final PatchLineComment ac = ai.next();
-          final PatchLineComment bc = bi.next();
-          insertRow(row);
-          bindComment(row, A, ac, !ai.hasNext(), expandComments);
-          bindComment(row, B, bc, !bi.hasNext(), expandComments);
-          row++;
-        }
-
-        row = finish(ai, row, A, expandComments);
-        row = finish(bi, row, B, expandComments);
+        ai = cd.getForA(pLine.getLineA()).iterator();
+        bi = cd.getForB(pLine.getLineB()).iterator();
       } else {
         row++;
+        continue;
       }
+
+      row++;
+      while (ai.hasNext() && bi.hasNext()) {
+        final PatchLineComment ac = ai.next();
+        final PatchLineComment bc = bi.next();
+        insertRow(row);
+        bindComment(row, A, ac, !ai.hasNext(), expandComments);
+        bindComment(row, B, bc, !bi.hasNext(), expandComments);
+        row++;
+      }
+
+      row = finish(ai, row, A, expandComments);
+      row = finish(bi, row, B, expandComments);
     }
   }
 
@@ -252,6 +320,35 @@ public class SideBySideTable extends AbstractPatchContentTable {
       row++;
     }
     return row;
+  }
+
+  private void appendHeader(PatchScript script, final SafeHtmlBuilder m) {
+    m.openTr();
+
+    m.openTd();
+    m.addStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.nbsp();
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().fileLine());
+    m.setAttribute("colspan", 2);
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().rightmost());
+    m.closeTd();
+
+    m.closeTr();
   }
 
   private void appendSkipLine(final SafeHtmlBuilder m, final int skipCnt) {

@@ -26,6 +26,7 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.PrettyFormatter;
 import com.google.gerrit.prettify.common.SparseFileContent;
@@ -61,12 +62,14 @@ import java.util.List;
 
 public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     implements CommentEditorContainer, FocusHandler, BlurHandler {
+  static final int FILE_COMMENT_ROW = 0;
   protected PatchTable fileList;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
   protected PatchSet.Id idSideA;
   protected PatchSet.Id idSideB;
   protected boolean onlyOneHunk;
+  protected final PatchTableHeader patchTableHeader;
 
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
@@ -102,6 +105,11 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       keysComment = null;
     }
 
+    if (this instanceof SideBySideTable) {
+      patchTableHeader = new PatchTableHeader(PatchScreen.Type.SIDE_BY_SIDE);
+    } else {
+      patchTableHeader = new PatchTableHeader(PatchScreen.Type.UNIFIED);
+    }
     table.setStyleName(Gerrit.RESOURCES.css().patchContentTable());
   }
 
@@ -167,12 +175,12 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   public void display(final Patch.Key k, final PatchSet.Id a,
-      final PatchSet.Id b, final PatchScript s) {
+      final PatchSet.Id b, final PatchScript s, final PatchSetDetail d ) {
     patchKey = k;
     idSideA = a;
     idSideB = b;
 
-    render(s);
+    render(s,d);
   }
 
   protected SparseHtmlFile getSparseHtmlFileA(PatchScript s) {
@@ -205,7 +213,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     return f;
   }
 
-  protected abstract void render(PatchScript script);
+  protected abstract void render(PatchScript script, final PatchSetDetail detail);
 
   protected abstract void onInsertComment(PatchLine pl);
 
@@ -379,7 +387,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected void createCommentEditor(final int suggestRow, final int column,
       final int line, final short file) {
     if (Gerrit.isSignedIn()) {
-      if (1 <= line) {
+      if (0 <= line) {
         final Patch.Key parentKey;
         final short side;
         switch (file) {
@@ -469,7 +477,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       styleCommentRow(row);
     }
     table.setWidget(row, column, ed);
-    styleLastCommentCell(row, column);
+    styleLastCommentCell(row, column, newComment.getLine() == FILE_COMMENT_ROW);
 
     int span = 1;
     for (int r = row + 1; r < table.getRowCount(); r++) {
@@ -568,7 +576,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       plc.addFocusHandler(this);
       plc.addBlurHandler(this);
       table.setWidget(row, col, plc);
-      styleLastCommentCell(row, col);
+      styleLastCommentCell(row, col, line.getLine() == FILE_COMMENT_ROW);
 
     } else {
       final AccountInfo author = accountCache.get(line.getAuthor());
@@ -578,7 +586,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       panel.addFocusHandler(this);
       panel.addBlurHandler(this);
       table.setWidget(row, col, panel);
-      styleLastCommentCell(row, col);
+      styleLastCommentCell(row, col, line.getLine() == FILE_COMMENT_ROW);
 
       CommentList l = (CommentList) getRowItem(row);
       if (l == null) {
@@ -622,12 +630,17 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         .commentHolder(), true);
   }
 
-  private void styleLastCommentCell(final int row, final int col) {
+  private void styleLastCommentCell(final int row, final int col,
+      boolean isFileCommentCell) {
     final CellFormatter fmt = table.getCellFormatter();
     fmt.removeStyleName(row - 1, col, //
         Gerrit.RESOURCES.css().commentPanelLast());
     fmt.setStyleName(row, col, Gerrit.RESOURCES.css().commentHolder());
     fmt.addStyleName(row, col, Gerrit.RESOURCES.css().commentPanelLast());
+    if (isFileCommentCell) {
+      fmt.addStyleName(row, col, Gerrit.RESOURCES.css()
+          .publishedFileCommentCell());
+    }
   }
 
   protected static class CommentList {
@@ -662,6 +675,9 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
           // Find out which cell was actually clicked.
           Element td = getEventTargetCell(event);
           if (td == null) {
+            return;
+          }
+          if (rowOf(td) == 0) {
             return;
           }
           onCellDoubleClick(rowOf(td), columnOf(td));
@@ -765,7 +781,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   private class PublishedCommentPanel extends CommentPanel implements
-      ClickHandler {
+      ClickHandler{
     final PatchLineComment comment;
     final Button reply;
     final Button replyDone;

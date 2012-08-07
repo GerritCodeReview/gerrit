@@ -427,20 +427,53 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         spans[col] = table.getFlexCellFormatter().getRowSpan(row, cell);
         if (col == column) {
           final Widget w = table.getWidget(row, cell);
-          if (w instanceof CommentEditorPanel) {
-            // Don't insert two editors on the same position, it doesn't make
-            // any sense to the user.
+          if (w instanceof CommentEditorPanel
+              && ((CommentEditorPanel) w).getComment().getKey().getParentKey()
+                  .equals(newComment.getKey().getParentKey())) {
+            // Don't insert two editors for same patch version on the same
+            // position, it doesn't make any sense to the user.
             //
+            // On UnifiedDiff view, one line may be followed by 2 comments in
+            // sequence:
+            //    published comment on old version[1]
+            //    editor comment on new version[2]
+            // Click the 'Reply' button of [1],
+            // Gerrit should create a new editor comment on old version.
+            //
+            // If the case is
+            //    published comment on old version[1]
+            //    draft comment on *old* version  [2]
+            // Do the same action as above,
+            // Gerrit should not create a new one.
+            //
+
             return ((CommentEditorPanel) w);
 
           } else if (w instanceof CommentPanel) {
-            if (newComment != null && newComment.getParentUuid() != null) {
+            //if (newComment != null && newComment.getParentUuid() != null) {
               // If we are a reply, we were given the exact row to insert
               // ourselves at. We should be before this panel so break.
               //
-              break FIND_ROW;
-            }
+              // In some cases, e.g. on UnifiedDiff view if there is a line
+              // followed by 4 comments in sequence:
+              //   old version published comment[1]
+              //   new version published comment[2]
+              //   old version draft comment[3]
+              //   new version draft comment[4]
+              // Click the 'Reply' button of [1],
+              // Gerrit should NOT create a new draft comment, instead
+              // Gerrit should open [3].
+              //
+              //break FIND_ROW;
+            //}
             row++;
+            // On SideBySide diff view.
+            // E.g. if there is a line followed by 2 comments in sequence:
+            //   published comment[1]
+            //   editor comment[2]
+            // Double click this line, Gerrit should not create a new
+            // editor, instead Gerrit should open [2].
+            cell--;
           } else {
             break FIND_ROW;
           }
@@ -808,11 +841,10 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     }
 
     private void cannedReply(String message) {
-      CommentEditorPanel p = createEditor(null);
+      final PatchLineComment newComment = newComment();
+      newComment.setMessage(message);
+      CommentEditorPanel p = createEditor(newComment);
       if (p == null) {
-        final PatchLineComment newComment = newComment();
-        newComment.setMessage(message);
-
         enableButtons(false);
         PatchUtil.DETAIL_SVC.saveDraft(newComment,
             new GerritCallback<PatchLineComment>() {

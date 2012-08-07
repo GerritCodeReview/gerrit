@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIGH///78\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-07T14:43:02Z",
+      "side": 1,
+      "message": "I like \u0027m\u0027 and \u0027M\u0027, for German keyboards this looks easier, but in the end it\u0027s not important to me which keys are used. So if wanted we can decide to use other keys.",
+      "parentUuid": "AAAIH3////U\u003d",
+      "revId": "8e684387ec22c624361d02663fd217652e020d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIH3////s\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 1
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "This is really why I -1\u0027d the change. The key used is just bikeshed painting.",
       "parentUuid": "AAAIH3////s\u003d",
+      "revId": "8e684387ec22c624361d02663fd217652e020d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIGH///74\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-07T14:43:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIH3////Q\u003d",
       "revId": "8e684387ec22c624361d02663fd217652e020d31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

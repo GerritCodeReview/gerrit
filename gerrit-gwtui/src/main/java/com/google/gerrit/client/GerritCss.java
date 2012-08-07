@@ -59,6 +59,7 @@ public interface GerritCss extends CssResource {
   String commentCell();
   String commentEditorPanel();
   String commentHolder();
+  String publishedFileCommentCell();
   String commentPanel();
   String commentPanelBorder();
   String commentPanelAuthorCell();
@@ -68,6 +69,7 @@ public interface GerritCss extends CssResource {
   String commentPanelHeader();
   String commentPanelLast();
   String commentPanelMessage();
+  String publishedFileComment();
   String commentPanelMenuBar();
   String commentPanelSummary();
   String commentPanelSummaryCell();
@@ -178,6 +180,7 @@ public interface GerritCss extends CssResource {
   String registerScreenNextLinks();
   String registerScreenSection();
   String rightmost();
+  String rightBorder();
   String rpcStatus();
   String rpcStatusLoading();
   String rpcStatusPanel();
@@ -188,6 +191,7 @@ public interface GerritCss extends CssResource {
   String sectionHeader();
   String sideBySideScreenLinkTable();
   String sideBySideScreenSideBySideTable();
+  String unifiedTable();
   String singleLine();
   String skipLine();
   String smallHeading();

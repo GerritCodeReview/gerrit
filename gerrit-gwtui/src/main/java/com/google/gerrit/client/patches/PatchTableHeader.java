@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
@@ -63,9 +64,13 @@ public class PatchTableHeader extends Composite {
   }
 
 
-  public void display(final PatchSetDetail detail, PatchScript script, final Patch.Key patchKey,
-      final PatchSet.Id idSideA, final PatchSet.Id idSideB) {
-    listA.display(detail, script, patchKey, idSideA, idSideB);
-    listB.display(detail, script, patchKey, idSideA, idSideB);
+  public void display(final PatchSetDetail detail, PatchScript script,
+      final Patch.Key patchKey, final PatchSet.Id idSideA,
+      final PatchSet.Id idSideB, DoubleClickHandler patchSideAClickHandler,
+      DoubleClickHandler patchSideBClickHandler) {
+    listA.display(detail, script, patchKey, idSideA, idSideB,
+        patchSideAClickHandler);
+    listB.display(detail, script, patchKey, idSideA, idSideB,
+        patchSideBClickHandler);
   }
 }

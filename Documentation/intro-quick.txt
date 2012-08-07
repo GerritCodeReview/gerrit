@@ -209,10 +209,12 @@ Since we are the code reviewer, we're going to review the code. To do
 this we can view it within the Gerrit web interface as either a
 unified or side-by-side diff by selecting the appropriate option. In
 the example below we've selected the side-by-side view. In either of
-these views you can add comments by double clicking on the line (or
-single click the line number) that you want to comment on. Once
-published these comments are viewable to all, allowing discussion
-of the change to take place.
+these views you can add line comments by double clicking on the line
+(or single click the line number) that you want to comment on or add
+file comments on the whole patch by double clicking the 'Patch Set' in
+the table header (or single click the 'All' in the line-number column
+header). Once published these comments are viewable to all, allowing
+discussion of the change to take place.
 
 .Side By Side Patch View
 image::images/intro-quick-review-line-comment.jpg[Adding a Comment]

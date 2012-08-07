@@ -312,7 +312,11 @@ public class PublishCommentScreen extends AccountScreen implements
         }
 
         final CommentEditorPanel editor = new CommentEditorPanel(c);
-        editor.setAuthorNameText(Util.M.lineHeader(c.getLine()));
+        if (c.getLine() != 0) {
+          editor.setAuthorNameText(Util.M.lineHeader(c.getLine()));
+        } else {
+          editor.setAuthorNameText(Util.M.fileComment());
+        }
         editor.setOpen(true);
         commentEditors.add(editor);
         panel.add(editor);

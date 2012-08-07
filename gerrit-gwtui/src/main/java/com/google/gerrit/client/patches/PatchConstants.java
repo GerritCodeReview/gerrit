@@ -46,6 +46,7 @@ public interface PatchConstants extends Constants {
   String commentPrev();
   String commentNext();
   String fileList();
+  String markAsReviewedAndGoToNext();
   String expandComment();
 
   String commentEditorSet();

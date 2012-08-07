@@ -37,8 +37,10 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -112,6 +114,7 @@ public abstract class PatchScreen extends Screen implements
 
   private CheckBox reviewedCheckBox;
   private FlowPanel reviewedPanel;
+  private Anchor reviewedAnchor;
   private HistoryTable historyTable;
   private FlowPanel topPanel;
   private FlowPanel contentPanel;
@@ -131,7 +134,9 @@ public abstract class PatchScreen extends Screen implements
 
   /** Keys that cause an action on this screen */
   private KeyCommandSet keysNavigation;
+  private KeyCommandSet keysAction;
   private HandlerRegistration regNavigation;
+  private HandlerRegistration regAction;
   private boolean intralineFailure;
 
   /**
@@ -182,7 +187,8 @@ public abstract class PatchScreen extends Screen implements
     });
 
     reviewedPanel.add(reviewedCheckBox);
-    reviewedPanel.add(getReviewedAnchor());
+    reviewedAnchor = getReviewedAnchor();
+    reviewedPanel.add(reviewedAnchor);
   }
 
   private Anchor getReviewedAnchor() {
@@ -310,6 +316,12 @@ public abstract class PatchScreen extends Screen implements
     keysNavigation.add(new UpToChangeCommand(patchKey.getParentKey(), 0, 'u'));
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
+    if (Gerrit.isSignedIn()) {
+      keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
+      keysAction.add(new MarkAsReviewedAndGoToNextCmd(0, 'v', PatchUtil.C
+          .markAsReviewedAndGoToNext()));
+    }
+
     historyTable = new HistoryTable(this);
 
     commitMessageBlock = new CommitMessageBlock();
@@ -393,6 +405,10 @@ public abstract class PatchScreen extends Screen implements
       regNavigation.removeHandler();
       regNavigation = null;
     }
+    if (regAction != null) {
+      regAction.removeHandler();
+      regAction = null;
+    }
     super.onUnload();
   }
 
@@ -405,6 +421,13 @@ public abstract class PatchScreen extends Screen implements
       regNavigation = null;
     }
     regNavigation = GlobalKey.add(this, keysNavigation);
+    if (regAction != null) {
+      regAction.removeHandler();
+      regAction = null;
+    }
+    if (keysAction != null) {
+      regAction = GlobalKey.add(this, keysAction);
+    }
   }
 
   protected abstract AbstractPatchContentTable createContentTable();
@@ -601,6 +624,21 @@ public abstract class PatchScreen extends Screen implements
 
       final PatchBrowserPopup p = new PatchBrowserPopup(patchKey, fileList);
       p.open();
+    }
+  }
+
+  public class MarkAsReviewedAndGoToNextCmd extends KeyCommand {
+    public MarkAsReviewedAndGoToNextCmd(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      if (reviewedAnchor != null) {
+        DomEvent.fireNativeEvent(
+            Document.get().createClickEvent(0, 0, 0, 0, 0, false, false, false,
+                false), reviewedAnchor);
+      }
     }
   }
 }

@@ -28,6 +28,9 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.event.dom.client.HasDoubleClickHandlers;
 import com.google.gwt.event.dom.client.HasFocusHandlers;
+import com.google.gwt.event.logical.shared.HasHighlightHandlers;
+import com.google.gwt.event.logical.shared.HighlightEvent;
+import com.google.gwt.event.logical.shared.HighlightHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
@@ -46,13 +49,13 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import java.util.Date;
 
 public class CommentPanel extends Composite implements HasDoubleClickHandlers,
-    HasFocusHandlers, FocusHandler, HasBlurHandlers, BlurHandler {
+    HasFocusHandlers, FocusHandler, HasBlurHandlers, BlurHandler, HasHighlightHandlers<Boolean> {
   private static final int SUMMARY_LENGTH = 75;
   private final HandlerManager handlerManager = new HandlerManager(this);
   private final FlexTable header;
   private final InlineLabel messageSummary;
   private final FlowPanel content;
-  private final DoubleClickHTML messageText;
+  protected final DoubleClickHTML messageText;
   private FlowPanel buttons;
   private boolean recent;
 
@@ -82,6 +85,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
       @Override
       public void onClick(ClickEvent event) {
         setOpen(!isOpen());
+        fireEvent(new CommentHighlightEvent(isOpen()));
       }
     });
     header.setText(0, 0, "");
@@ -247,10 +251,30 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers,
     recent = r;
   }
 
-  private static class DoubleClickHTML extends HTML implements
+  public static class DoubleClickHTML extends HTML implements
       HasDoubleClickHandlers {
     public HandlerRegistration addDoubleClickHandler(DoubleClickHandler handler) {
       return addDomHandler(handler, DoubleClickEvent.getType());
+    }
+  }
+
+  @Override
+  public HandlerRegistration addHighlightHandler(
+      HighlightHandler<Boolean> handler) {
+    return  addHandler(handler, HighlightEvent.getType());
+  }
+
+  /**
+   * A comment message highlight event.
+   */
+  private static class CommentHighlightEvent extends HighlightEvent<Boolean> {
+    protected CommentHighlightEvent(Boolean highlighted) {
+      super(highlighted);
+    }
+
+    @Override
+    public Boolean getHighlighted() {
+      return super.getHighlighted();
     }
   }
 }

@@ -45,6 +45,7 @@ public interface ChangeMessages extends Messages {
   String needApproval(String labelName);
   String publishComments(String changeId, int ps);
   String lineHeader(int line);
+  String fileComment();
 
   String changeQueryWindowTitle(String query);
   String changeQueryPageTitle(String query);

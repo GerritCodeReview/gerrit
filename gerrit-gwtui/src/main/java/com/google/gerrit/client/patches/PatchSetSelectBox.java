@@ -21,10 +21,9 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -33,6 +32,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.LinkedList;
@@ -47,9 +47,11 @@ public class PatchSetSelectBox extends Composite {
   interface BoxStyle extends CssResource {
     String selected();
 
-    String hidden();
+    String sideMarker();
 
-    String downloadLink();
+    String patchSetLabel();
+
+    String hidden();
   }
 
   public enum Side {
@@ -64,15 +66,13 @@ public class PatchSetSelectBox extends Composite {
   Side side;
   PatchScreen.Type screenType;
   List<Anchor> links;
+  boolean fileExists;
 
   @UiField
   HTMLPanel linkPanel;
 
   @UiField
   BoxStyle style;
-
-  @UiField
-  DivElement sideMarker;
 
   public PatchSetSelectBox(Side side, final PatchScreen.Type type) {
     this.side = side;
@@ -81,8 +81,9 @@ public class PatchSetSelectBox extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  public void display(final PatchSetDetail detail, final PatchScript script, Patch.Key key,
-      PatchSet.Id idSideA, PatchSet.Id idSideB) {
+  public void display(final PatchSetDetail detail, final PatchScript script,
+      Patch.Key key, PatchSet.Id idSideA, PatchSet.Id idSideB,
+      DoubleClickHandler handler) {
     this.script = script;
     this.patchKey = key;
     this.idSideA = idSideA;
@@ -92,10 +93,15 @@ public class PatchSetSelectBox extends Composite {
 
     linkPanel.clear();
 
+    Label patchSet = new Label(PatchUtil.C.patchSet());
+    patchSet.addDoubleClickHandler(handler);
+    patchSet.addStyleName(style.patchSetLabel());
+    linkPanel.add(patchSet);
+
     if (screenType == PatchScreen.Type.UNIFIED) {
-      sideMarker.setInnerText((side == Side.A) ? "(-)" : "(+)");
-    } else {
-      sideMarker.getStyle().setDisplay(Display.NONE);
+      Label sideMarker = new Label((side == Side.A) ? "(-)" : "(+)");
+      sideMarker.addStyleName(style.sideMarker());
+      linkPanel.add(sideMarker);
     }
 
     Anchor baseLink = null;
@@ -129,6 +135,7 @@ public class PatchSetSelectBox extends Composite {
 
     Anchor downloadLink = createDownloadLink();
     if (downloadLink != null) {
+      fileExists = true;
       linkPanel.add(downloadLink);
     }
   }
@@ -180,7 +187,6 @@ public class PatchSetSelectBox extends Composite {
     final Anchor anchor = new Anchor();
     anchor.setHref(base + KeyUtil.encode(key.toString()) + "^" + sideURL);
     anchor.setTitle(PatchUtil.C.download());
-    anchor.setStyleName(style.downloadLink());
     DOM.insertBefore(anchor.getElement(), image.getElement(),
         DOM.getFirstChild(anchor.getElement()));
 

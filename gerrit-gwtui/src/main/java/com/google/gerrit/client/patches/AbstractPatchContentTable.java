@@ -427,20 +427,16 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         spans[col] = table.getFlexCellFormatter().getRowSpan(row, cell);
         if (col == column) {
           final Widget w = table.getWidget(row, cell);
-          if (w instanceof CommentEditorPanel) {
-            // Don't insert two editors on the same position, it doesn't make
-            // any sense to the user.
-            //
+          if (w instanceof CommentEditorPanel
+              && ((CommentEditorPanel) w).getComment().getKey().getParentKey()
+                  .equals(newComment.getKey().getParentKey())) {
+            // Don't insert two editors for same patch version on the same
+            // position, it doesn't make any sense to the user.
             return ((CommentEditorPanel) w);
 
           } else if (w instanceof CommentPanel) {
-            if (newComment != null && newComment.getParentUuid() != null) {
-              // If we are a reply, we were given the exact row to insert
-              // ourselves at. We should be before this panel so break.
-              //
-              break FIND_ROW;
-            }
             row++;
+            cell--;
           } else {
             break FIND_ROW;
           }
@@ -808,11 +804,10 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     }
 
     private void cannedReply(String message) {
-      CommentEditorPanel p = createEditor(null);
+      final PatchLineComment newComment = newComment();
+      newComment.setMessage(message);
+      CommentEditorPanel p = createEditor(newComment);
       if (p == null) {
-        final PatchLineComment newComment = newComment();
-        newComment.setMessage(message);
-
         enableButtons(false);
         PatchUtil.DETAIL_SVC.saveDraft(newComment,
             new GerritCallback<PatchLineComment>() {

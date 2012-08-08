@@ -120,6 +120,23 @@
       "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIGn///58\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-08T15:35:47Z",
+      "side": 1,
+      "message": "This looks wrong to me, can you explain why it is needed?",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

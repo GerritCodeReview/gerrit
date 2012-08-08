@@ -90,6 +90,8 @@ public class PatchSetSelectBox extends Composite {
     this.idActive = (side == Side.A) ? idSideA : idSideB;
     this.links = new LinkedList<Anchor>();
 
+    linkPanel.clear();
+
     if (screenType == PatchScreen.Type.UNIFIED) {
       sideMarker.setInnerText((side == Side.A) ? "(-)" : "(+)");
     } else {

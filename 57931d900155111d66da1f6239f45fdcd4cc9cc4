@@ -34,6 +34,24 @@
       "revId": "57931d900155111d66da1f6239f45fdcd4cc9cc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIGn///8Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-08T10:59:32Z",
+      "side": 1,
+      "message": "Yes, I\u0027ve meant the \u0027myIdent\u0027 and see now why it can\u0027t be used :-(\n\nOk, when the check for changeMerge.test is done there is no submit approval, but why we are creating a new patch set in this case?",
+      "parentUuid": "AAAIGn///8c\u003d",
+      "revId": "57931d900155111d66da1f6239f45fdcd4cc9cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIGn///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-08T08:43:50Z",
+      "side": 1,
+      "message": "submitAudit won\u0027t get set if there are no approvals.",
+      "revId": "31050f2173a99a8fcfa90ebb86cd0ff17dd3702e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIGn///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-08T08:43:50Z",
+      "side": 1,
+      "message": "NPE here if submitAudit has not been set at line 823.",
+      "revId": "31050f2173a99a8fcfa90ebb86cd0ff17dd3702e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

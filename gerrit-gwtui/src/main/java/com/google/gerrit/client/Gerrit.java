@@ -15,6 +15,7 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
@@ -584,10 +585,23 @@ public class Gerrit implements EntryPoint {
     addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
     addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
 
+    final LinkMenuBar projectsBar = new LinkMenuBar();
+    addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
+    if(signedIn) {
+      AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
+        @Override
+        public void onSuccess(AccountCapabilities result) {
+          if (result.canPerform(CREATE_PROJECT)) {
+            addLink(projectsBar, C.menuProjectsCreate(), PageLinks.ADMIN_CREATE_PROJECT);
+          }
+        }
+      }, CREATE_PROJECT);
+    }
+    menuLeft.add(projectsBar, C.menuProjects());
+
     if (signedIn) {
       final LinkMenuBar menuBar = new LinkMenuBar();
       addLink(menuBar, C.menuGroups(), PageLinks.ADMIN_GROUPS);
-      addLink(menuBar, C.menuProjects(), PageLinks.ADMIN_PROJECTS);
       AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
         @Override
         public void onSuccess(AccountCapabilities result) {

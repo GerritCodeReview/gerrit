@@ -936,56 +936,59 @@ public class MergeOp {
 
     final ObjectId id = commit(mergeCommit);
     final CodeReviewCommit newCommit = (CodeReviewCommit) rw.parseCommit(id);
-    final Change oldChange = n.change;
 
-    n.change =
-        db.changes().atomicUpdate(n.change.getId(),
-            new AtomicUpdate<Change>() {
-              @Override
-              public Change update(Change change) {
-                change.nextPatchSetId();
-                return change;
-              }
-            });
+    if (submitAudit != null) {
+      final Change oldChange = n.change;
 
-    final PatchSet ps = new PatchSet(n.change.currPatchSetId());
-    ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-    ps.setUploader(submitAudit.getAccountId());
-    ps.setRevision(new RevId(id.getName()));
-    insertAncestors(ps.getId(), newCommit);
-    db.patchSets().insert(Collections.singleton(ps));
+      n.change =
+          db.changes().atomicUpdate(n.change.getId(),
+              new AtomicUpdate<Change>() {
+                @Override
+                public Change update(Change change) {
+                  change.nextPatchSetId();
+                  return change;
+                }
+              });
 
-    n.change =
-        db.changes().atomicUpdate(n.change.getId(),
-            new AtomicUpdate<Change>() {
-              @Override
-              public Change update(Change change) {
-                change.setCurrentPatchSet(patchSetInfoFactory.get(newCommit,
-                    ps.getId()));
-                return change;
-              }
-            });
+      final PatchSet ps = new PatchSet(n.change.currPatchSetId());
+      ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+      ps.setUploader(submitAudit.getAccountId());
+      ps.setRevision(new RevId(id.getName()));
+      insertAncestors(ps.getId(), newCommit);
+      db.patchSets().insert(Collections.singleton(ps));
 
-    this.submitted.remove(oldChange);
-    this.submitted.add(n.change);
+      n.change =
+          db.changes().atomicUpdate(n.change.getId(),
+              new AtomicUpdate<Change>() {
+                @Override
+                public Change update(Change change) {
+                  change.setCurrentPatchSet(patchSetInfoFactory.get(newCommit,
+                      ps.getId()));
+                  return change;
+                }
+              });
 
-    if (approvalList != null) {
-      for (PatchSetApproval a : approvalList) {
-        db.patchSetApprovals().insert(
-            Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+      this.submitted.remove(oldChange);
+      this.submitted.add(n.change);
+
+      if (approvalList != null) {
+        for (PatchSetApproval a : approvalList) {
+          db.patchSetApprovals().insert(
+              Collections.singleton(new PatchSetApproval(ps.getId(), a)));
+        }
       }
-    }
 
-    final RefUpdate ru = repo.updateRef(ps.getRefName());
-    ru.setExpectedOldObjectId(ObjectId.zeroId());
-    ru.setNewObjectId(newCommit);
-    ru.disableRefLog();
-    if (ru.update(rw) != RefUpdate.Result.NEW) {
-      throw new IOException(String.format(
-          "Failed to create ref %s in %s: %s", ps.getRefName(),
-          n.change.getDest().getParentKey().get(), ru.getResult()));
+      final RefUpdate ru = repo.updateRef(ps.getRefName());
+      ru.setExpectedOldObjectId(ObjectId.zeroId());
+      ru.setNewObjectId(newCommit);
+      ru.disableRefLog();
+      if (ru.update(rw) != RefUpdate.Result.NEW) {
+        throw new IOException(String.format(
+            "Failed to create ref %s in %s: %s", ps.getRefName(), n.change
+                .getDest().getParentKey().get(), ru.getResult()));
+      }
+      replication.fire(n.change.getProject(), ru.getName());
     }
-    replication.fire(n.change.getProject(), ru.getName());
 
     newCommit.copyFrom(n);
     newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;

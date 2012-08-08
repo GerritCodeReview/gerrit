@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIGn///84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-08T10:41:23Z",
+      "side": 1,
+      "message": "I think it would be better to leave the submitter as uploader if it is available, and if not fallback to the Gerrit Server identity as the change uploader had nothing to do with this new patch set.\n\nI\u0027m rather wondering how it can actually happen that somebody presses submit and then when the commit should be cherry-picked there is no submit approval? Maybe it\u0027s wrong in the first place that the submitAudit is null at all and we should investigate how it can be?",
+      "revId": "57931d900155111d66da1f6239f45fdcd4cc9cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

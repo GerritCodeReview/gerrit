@@ -52,6 +52,24 @@
       "revId": "57931d900155111d66da1f6239f45fdcd4cc9cc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIGn///8I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-08T11:03:01Z",
+      "side": 1,
+      "message": "According to the change that adds it [1]:\n\n\"When a change is published via the cherry-pick merge strategy, we should show the final commit as a patchset in the change history.  This resolves a few errors in the UI, such as searching for the cherry-picked SHA1 was failing.\"\n\n[1] https://gerrit-review.googlesource.com/#/c/30040/",
+      "parentUuid": "AAAIGn///8Q\u003d",
+      "revId": "57931d900155111d66da1f6239f45fdcd4cc9cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

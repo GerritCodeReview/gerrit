@@ -21,16 +21,18 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.LinkedList;
@@ -46,6 +48,8 @@ public class PatchSetSelectBox extends Composite {
     String selected();
 
     String hidden();
+
+    String downloadLink();
   }
 
   public enum Side {
@@ -68,7 +72,7 @@ public class PatchSetSelectBox extends Composite {
   BoxStyle style;
 
   @UiField
-  SpanElement sideMarker;
+  DivElement sideMarker;
 
   public PatchSetSelectBox(Side side, final PatchScreen.Type type) {
     this.side = side;
@@ -88,12 +92,20 @@ public class PatchSetSelectBox extends Composite {
 
     if (screenType == PatchScreen.Type.UNIFIED) {
       sideMarker.setInnerText((side == Side.A) ? "(-)" : "(+)");
+    } else {
+      sideMarker.getStyle().setDisplay(Display.NONE);
     }
 
+    Anchor baseLink = null;
     if (detail.getInfo().getParents().size() > 1) {
-      addLink(PatchUtil.C.patchBaseAutoMerge(), null);
+      baseLink = createLink(PatchUtil.C.patchBaseAutoMerge(), null);
     } else {
-      addLink(PatchUtil.C.patchBase(), null);
+      baseLink = createLink(PatchUtil.C.patchBase(), null);
+    }
+
+    links.add(baseLink);
+    if (screenType == PatchScreen.Type.UNIFIED || side == Side.A) {
+      linkPanel.add(baseLink);
     }
 
     if (side == Side.B) {
@@ -102,7 +114,9 @@ public class PatchSetSelectBox extends Composite {
 
     for (Patch patch : script.getHistory()) {
       PatchSet.Id psId = patch.getKey().getParentKey();
-      addLink(Integer.toString(psId.get()), psId);
+      Anchor anchor = createLink(Integer.toString(psId.get()), psId);
+      links.add(anchor);
+      linkPanel.add(anchor);
     }
 
     if (idActive == null && side == Side.A) {
@@ -111,14 +125,13 @@ public class PatchSetSelectBox extends Composite {
       links.get(idActive.get()).setStyleName(style.selected());
     }
 
-    Anchor downloadLink = getDownloadLink();
+    Anchor downloadLink = createDownloadLink();
     if (downloadLink != null) {
-      linkPanel.add(new Label(" - "));
       linkPanel.add(downloadLink);
     }
   }
 
-  private void addLink(String label, final PatchSet.Id id) {
+  private Anchor createLink(String label, final PatchSet.Id id) {
     final Anchor anchor = new Anchor(label);
     anchor.addClickHandler(new ClickHandler() {
       @Override
@@ -143,11 +156,10 @@ public class PatchSetSelectBox extends Composite {
 
     });
 
-    links.add(anchor);
-    linkPanel.add(anchor);
+    return anchor;
   }
 
-  private Anchor getDownloadLink() {
+  private Anchor createDownloadLink() {
     boolean isCommitMessage = Patch.COMMIT_MSG.equals(script.getNewName());
 
     if (isCommitMessage || (side == Side.A && 0 >= script.getA().size())
@@ -161,8 +173,14 @@ public class PatchSetSelectBox extends Composite {
     String sideURL = (side == Side.A) ? "1" : "0";
     final String base = GWT.getHostPageBaseURL() + "cat/";
 
-    final Anchor anchor = new Anchor(PatchUtil.C.download());
+    Image image = new Image(Gerrit.RESOURCES.downloadIcon());
+
+    final Anchor anchor = new Anchor();
     anchor.setHref(base + KeyUtil.encode(key.toString()) + "^" + sideURL);
+    anchor.setTitle(PatchUtil.C.download());
+    anchor.setStyleName(style.downloadLink());
+    DOM.insertBefore(anchor.getElement(), image.getElement(),
+        DOM.getFirstChild(anchor.getElement()));
 
     return anchor;
   }

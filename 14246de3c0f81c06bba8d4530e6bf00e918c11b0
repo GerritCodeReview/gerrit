@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIGn///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 821,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-08T08:44:25Z",
+      "side": 1,
+      "message": "There was a mail on repo-discuss earlier today reporting the same error.  It looks like it is indeed caused by submitAudit being null, but the code at which the NPE occurs is not introduced in this change.  It\u0027s in change #30040.  See my comments over there.\n\n[1] https://gerrit-review.googlesource.com/#/c/30040",
+      "parentUuid": "AAAHaH///+A\u003d",
+      "revId": "14246de3c0f81c06bba8d4530e6bf00e918c11b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAABEn//79Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 6

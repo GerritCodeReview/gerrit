@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIGn///8g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-08T11:57:06Z",
+      "side": 1,
+      "message": "I don\u0027t see any much better option here. Maybe have the \"CA\" as static final in the PatchSet.CommonAncestorId class?",
+      "parentUuid": "AAAG1X///98\u003d",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAG1X///94\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-06-22T19:16:43Z",
       "side": 1,
       "message": "the \u0027|| psId.get() \u003d\u003d 0\u0027 is a hack.  When GWT de-serializes the item, it returns with a PatchSet.Id.  I can\u0027t figure out how to get it to de-serialize as a PatchSet.CommonAncestorId.",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIGn///7c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/PatchSetDetailFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-08T11:57:06Z",
+      "side": 1,
+      "message": "No idea what needs to be changed to make this work, but if we stay with this hack it would be nice to have a comment here explaining what you explained in your comment above :-)\n\nMaybe this hack could be hidden inside the PatchSet.CommonAncestorId class.\nThen it\u0027s at least only in one place.\n  if (PatchSet.CommonAncestorId.isCommonAncestor(psId)) {\n\nin PatchSet.CommonAncestorId:\n  public static boolean isCommonAncestor(PatchSet.Id psId) {\n    return psId instanceof PatchSet.CommonAncestorId || psId.get() \u003d\u003d 0;\n  }",
+      "parentUuid": "AAAG1X///94\u003d",
       "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

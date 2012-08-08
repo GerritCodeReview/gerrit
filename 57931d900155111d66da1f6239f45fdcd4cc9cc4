@@ -88,6 +88,24 @@
       "revId": "57931d900155111d66da1f6239f45fdcd4cc9cc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIGn///7Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 953,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-08T11:53:03Z",
+      "side": 1,
+      "message": "This method is used in the change mergeable testing.\n\nThe call sequence is:  ChangeUtil.testMerge() -\u003e MergeOp.verifyMergeability() -\u003e MergeOp.preMerge() -\u003e MergeOp.cherryPickChanges() -\u003e MergeOp.writeCherryPickCommit()\n\nhow can we check if it\u0027s a real submit or just a mergeability test?",
+      "parentUuid": "AAAIGn///8A\u003d",
+      "revId": "57931d900155111d66da1f6239f45fdcd4cc9cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

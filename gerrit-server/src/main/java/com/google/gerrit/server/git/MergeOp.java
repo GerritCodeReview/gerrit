@@ -904,7 +904,7 @@ public class MergeOp {
 
     final PatchSet ps = new PatchSet(n.change.currPatchSetId());
     ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-    ps.setUploader(submitAudit.getAccountId());
+    ps.setUploader(n.change.getOwner());
     ps.setRevision(new RevId(id.getName()));
     insertAncestors(ps.getId(), newCommit);
     schema.patchSets().insert(Collections.singleton(ps));

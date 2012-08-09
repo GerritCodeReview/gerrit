@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "AAAIFn///08\u003d",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-08-09T07:50:37Z",
+      "side": 1,
+      "message": "Suggestion:\n\"The Perl package included with msysGit version 1.7.8 is broken.\"",
+      "revId": "d7f53715387c8d8acd2146d338aa68fd47064952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///18\u003d",
         "filename": "Documentation/config-gitweb.txt",
         "patchSetId": 4
@@ -64,6 +81,57 @@
       "writtenOn": "2012-08-09T01:26:19Z",
       "side": 1,
       "message": "Extra period after \"broken\".",
+      "revId": "d7f53715387c8d8acd2146d338aa68fd47064952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIFn///04\u003d",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-08-09T07:50:37Z",
+      "side": 1,
+      "message": "Nit: I should say I\u0027m not a native English speaker here, but I must confess I\u0027m not a fan of the word distro. It sounds like slang to me, and I\u0027d prefer another wording where possible. Also, \"you\u0027ll have\" is repeated twice in a very short span, and that sounds repetetive to me. As I\u0027m not a native speaker, if you feel that this is out of touch please disregard it.\n\nSuggestion:\nThe above means that you\u0027re missing CGI.pm, and that you\u0027ll have to deploy it to the environment yourself. You can retrieve the Perl 5.8.8 package from here:",
+      "revId": "d7f53715387c8d8acd2146d338aa68fd47064952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIFn///00\u003d",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-08-09T07:50:37Z",
+      "side": 1,
+      "message": "Suggestion:\nUnzip the contents of `lib/` into `msysgit/lib/perl5/5.8.8/lib` and overwrite existing files.",
+      "revId": "d7f53715387c8d8acd2146d338aa68fd47064952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIFn///0w\u003d",
+        "filename": "Documentation/config-gitweb.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-08-09T07:50:37Z",
+      "side": 1,
+      "message": "Suggestion: \n\"[...]read them. Read more about the settings here: link:https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#_a_id_gitweb_a_section_gitweb[GitWeb settings] Add the following:\"",
       "revId": "d7f53715387c8d8acd2146d338aa68fd47064952",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

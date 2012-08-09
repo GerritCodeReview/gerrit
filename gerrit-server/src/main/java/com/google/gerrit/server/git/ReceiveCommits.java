@@ -613,10 +613,10 @@ public class ReceiveCommits {
       if (replace.inputCommand == newChange) {
         replaceCount++;
 
-        if (replace.cmd.getResult() == OK) {
+        if (replace.cmd != null && replace.cmd.getResult() == OK) {
           okToInsert++;
         }
-      } else if (replace.cmd.getResult() == OK) {
+      } else if (replace.cmd != null && replace.cmd.getResult() == OK) {
         try {
           if (replace.insertPatchSet().checkedGet() != null) {
             replace.inputCommand.setResult(OK);

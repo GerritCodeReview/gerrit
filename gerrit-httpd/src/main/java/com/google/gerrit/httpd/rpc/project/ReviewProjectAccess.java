@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -31,17 +32,16 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.patch.AddReviewer;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -81,36 +81,56 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
 
   @Override
   protected Change.Id updateProjectConfig(ProjectConfig config, MetaDataUpdate md)
-      throws IOException, NoSuchProjectException, ConfigInvalidException, OrmException {
-    int nextChangeId = db.nextChangeId();
-    PatchSet.Id patchSetId = new PatchSet.Id(new Change.Id(nextChangeId), 1);
-    final PatchSet ps = new PatchSet(patchSetId);
+      throws IOException, OrmException {
+    Change.Id changeId = new Change.Id(db.nextChangeId());
+    PatchSet ps = new PatchSet(new PatchSet.Id(changeId, 1));
     RevCommit commit = config.commitToNewRef(md, ps.getRefName());
     if (commit.getId().equals(base)) {
       return null;
     }
-    Change.Key changeKey = new Change.Key("I" + commit.name());
-    final Change change =
-        new Change(changeKey, new Change.Id(nextChangeId), user.getAccountId(),
-            new Branch.NameKey(config.getProject().getNameKey(),
-                GitRepositoryManager.REF_CONFIG));
+
+    Change change = new Change(
+        new Change.Key("I" + commit.name()),
+        changeId,
+        user.getAccountId(),
+        new Branch.NameKey(
+            config.getProject().getNameKey(),
+            GitRepositoryManager.REF_CONFIG));
     change.nextPatchSetId();
 
     ps.setCreatedOn(change.getCreatedOn());
-    ps.setUploader(user.getAccountId());
+    ps.setUploader(change.getOwner());
     ps.setRevision(new RevId(commit.name()));
 
-    db.patchSets().insert(Collections.singleton(ps));
-
-    final PatchSetInfo info = patchSetInfoFactory.get(commit, ps.getId());
+    PatchSetInfo info = patchSetInfoFactory.get(commit, ps.getId());
     change.setCurrentPatchSet(info);
     ChangeUtil.updated(change);
 
-    db.changes().insert(Collections.singleton(change));
+    db.changes().beginTransaction(changeId);
+    try {
+      insertAncestors(ps.getId(), commit);
+      db.patchSets().insert(Collections.singleton(ps));
+      db.changes().insert(Collections.singleton(change));
+      addProjectOwnersAsReviewers(changeId);
+      db.commit();
+    } finally {
+      db.rollback();
+    }
+    return changeId;
+  }
 
-    addProjectOwnersAsReviewers(change.getId());
+  private void insertAncestors(PatchSet.Id id, RevCommit src)
+      throws OrmException {
+    final int cnt = src.getParentCount();
+    List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);
+    for (int p = 0; p < cnt; p++) {
+      PatchSetAncestor a;
 
-    return change.getId();
+      a = new PatchSetAncestor(new PatchSetAncestor.Id(id, p + 1));
+      a.setAncestorRevision(new RevId(src.getParent(p).name()));
+      toInsert.add(a);
+    }
+    db.patchSetAncestors().insert(toInsert);
   }
 
   private void addProjectOwnersAsReviewers(final Change.Id changeId) {

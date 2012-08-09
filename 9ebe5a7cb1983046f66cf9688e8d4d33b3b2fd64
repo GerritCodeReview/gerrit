@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIFn///0Q\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-08-09T08:39:56Z",
+      "side": 1,
+      "message": "In that case better do it on passwd too. :)\n\nMy non-nativeness is showing itself again. \"Other\" or \"others\"?",
+      "parentUuid": "AAAIGn///3o\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3k\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -138,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIFn///0I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-08-09T08:39:56Z",
+      "side": 1,
+      "message": "On the other hand, as I argued once in my quick installation guide once, it could be a good thing to write the current version out, as it\u0027s a testament to which version of Gerrit this guide will work for. Any future Gerrits may be detailed differently in the installation process, and this is a nice way to make the reader between a new release and a documentation update to understand that there may be differences between this guide and the actual behaviour in a newer version. A future update should merely update the \"current release number\" to that which that version is tested with.\n\nDid that make any sense?\n\n2.4-rc0 och line 179, and 2.4-rc1 on line 259 though, please update either.",
+      "parentUuid": "AAAIGn///3U\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3Q\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -200,6 +236,23 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "Add a note to \"see below\" or a link to the BouncyCastle section?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIFn///z8\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-08-09T08:39:56Z",
+      "side": 1,
+      "message": "I\u0027ve said something about anonymizing output previously.\n\nSuggestion: s/Jason Huntley/User/",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -274,6 +327,24 @@
     },
     {
       "key": {
+        "uuid": "AAAIFn///z4\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-08-09T08:39:56Z",
+      "side": 1,
+      "message": "either that or just bold it up a bit with + or `.\n\n[...] for each webapp under +tomcat/conf/Catalina/localhost/webapp-context.xml+. [...]",
+      "parentUuid": "AAAIGn///20\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///2w\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -325,6 +396,23 @@
     },
     {
       "key": {
+        "uuid": "AAAIFn///z0\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-08-09T08:39:56Z",
+      "side": 1,
+      "message": "Hmm, new options?\n\nWhy? A short line of why they\u0027re good please, or a link to their java documentation isn\u0027t bad, that way the reader can make an informed decision of whether to have them or not.\n\nBut I do appreciate the hints to make Gerrit run better, so I think they\u0027re worth to keep. Just need a little background to them is all.",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///2k\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -370,6 +458,23 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "setup -\u003e set up",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIFn///zk\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-08-09T08:39:56Z",
+      "side": 1,
+      "message": "s#jhuntley@127.0.0.1#user@review.corporation.com#\n\nI almost think localhost in the above commandline should be replaced too. A consistent server name will help the reader here.",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

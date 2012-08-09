@@ -282,7 +282,7 @@ public class ChangeScreen extends Screen
     descriptionBlock.display(detail.getChange(),
         detail.isStarred(),
         detail.getCurrentPatchSetDetail().getInfo(),
-        detail.getAccounts());
+        detail.getAccounts(), detail.getSubmitType());
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
     approvals.display(detail);

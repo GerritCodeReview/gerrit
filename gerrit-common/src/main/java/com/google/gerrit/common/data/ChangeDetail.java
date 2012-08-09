@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,6 +41,7 @@ public class ChangeDetail {
   protected List<PatchSet> patchSets;
   protected List<ApprovalDetail> approvals;
   protected List<SubmitRecord> submitRecords;
+  protected Project.SubmitType submitType;
   protected boolean canSubmit;
   protected List<ChangeMessage> messages;
   protected PatchSet.Id currentPatchSetId;
@@ -185,6 +187,14 @@ public class ChangeDetail {
 
   public List<SubmitRecord> getSubmitRecords() {
     return submitRecords;
+  }
+
+  public void setSubmitType(Project.SubmitType submitType) {
+    this.submitType = submitType;
+  }
+
+  public Project.SubmitType getSubmitType() {
+    return submitType;
   }
 
   public boolean isCurrentPatchSet(final PatchSetDetail detail) {

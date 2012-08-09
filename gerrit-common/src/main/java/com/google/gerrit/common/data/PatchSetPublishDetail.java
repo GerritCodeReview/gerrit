@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.Project;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +34,7 @@ public class PatchSetPublishDetail {
   protected List<PermissionRange> labels;
   protected List<ApprovalDetail> approvals;
   protected List<SubmitRecord> submitRecords;
+  protected Project.SubmitType submitAction;
   protected List<PatchSetApproval> given;
   protected boolean canSubmit;
 
@@ -59,6 +61,14 @@ public class PatchSetPublishDetail {
 
   public List<SubmitRecord> getSubmitRecords() {
     return submitRecords;
+  }
+
+  public void setSubmitAction(Project.SubmitType submitAction) {
+    this.submitAction = submitAction;
+  }
+
+  public Project.SubmitType getSubmitAction() {
+    return submitAction;
   }
 
   public List<PatchSetApproval> getGiven() {

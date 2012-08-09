@@ -95,6 +95,7 @@ public interface ChangeConstants extends Constants {
   String changeInfoBlockUploaded();
   String changeInfoBlockUpdated();
   String changeInfoBlockStatus();
+  String changeInfoBlockSubmitAction();
   String changePermalink();
   String changeInfoBlockCanMerge();
   String changeInfoBlockCanMergeYes();

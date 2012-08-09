@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
@@ -520,6 +521,11 @@ public class ChangeControl {
     Collections.reverse(out);
 
     return out;
+  }
+
+  public SubmitType getSubmitType() {
+    ProjectState projectState = getProjectControl().getProjectState();
+    return projectState.getProject().getSubmitType();
   }
 
   private List<SubmitRecord> logInvalidResult(Term rule, Term record) {

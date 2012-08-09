@@ -274,7 +274,8 @@ public class PublishCommentScreen extends AccountScreen implements
   private void display(final PatchSetPublishDetail r) {
     setPageTitle(Util.M.publishComments(r.getChange().getKey().abbreviate(),
         patchSetId.get()));
-    descBlock.display(r.getChange(), null, r.getPatchSetInfo(), r.getAccounts());
+    descBlock.display(r.getChange(), null, r.getPatchSetInfo(), r.getAccounts(),
+        r.getSubmitType());
 
     if (r.getChange().getStatus().isOpen()) {
       initApprovals(r, approvalPanel);

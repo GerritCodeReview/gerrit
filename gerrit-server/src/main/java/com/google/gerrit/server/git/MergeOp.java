@@ -567,7 +567,14 @@ public class MergeOp {
   }
 
   private SubmitType getSubmitType(final Change change, final PatchSet ps) {
-    return destProject.getSubmitType();
+    try {
+      return changeControlFactory.controlFor(change,
+          identifiedUserFactory.create(change.getOwner())).getSubmitAction(db,
+          ps);
+    } catch (NoSuchChangeException e) {
+      log.error("Failed to get submit action for " + change.getKey());
+      return null;
+    }
   }
 
   private static <K, T> List<T> getList(final K key, final Map<K, List<T>> map) {

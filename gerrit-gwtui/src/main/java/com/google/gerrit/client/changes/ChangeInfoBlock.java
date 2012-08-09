@@ -23,6 +23,7 @@ import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -36,9 +37,10 @@ public class ChangeInfoBlock extends Composite {
   private static final int R_TOPIC = 4;
   private static final int R_UPLOADED = 5;
   private static final int R_UPDATED = 6;
-  private static final int R_STATUS = 7;
-  private static final int R_MERGE_TEST = 8;
-  private static final int R_CNT = 9;
+  private static final int R_SUBMIT_ACTION = 7;
+  private static final int R_STATUS = 8;
+  private static final int R_MERGE_TEST = 9;
+  private static final int R_CNT = 10;
 
   private final Grid table;
 
@@ -59,6 +61,7 @@ public class ChangeInfoBlock extends Composite {
     initRow(R_UPLOADED, Util.C.changeInfoBlockUploaded());
     initRow(R_UPDATED, Util.C.changeInfoBlockUpdated());
     initRow(R_STATUS, Util.C.changeInfoBlockStatus());
+    initRow(R_SUBMIT_ACTION, Util.C.changeInfoBlockSubmitAction());
     if (Gerrit.getConfig().testChangeMerge()) {
       initRow(R_MERGE_TEST, Util.C.changeInfoBlockCanMerge());
     }
@@ -77,7 +80,8 @@ public class ChangeInfoBlock extends Composite {
     table.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
-  public void display(final Change chg, final AccountInfoCache acc) {
+  public void display(final Change chg, final AccountInfoCache acc
+      , Project.SubmitType submitAction) {
     final Branch.NameKey dst = chg.getDest();
 
     CopyableLabel changeIdLabel =
@@ -94,6 +98,8 @@ public class ChangeInfoBlock extends Composite {
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
     table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));
+    table.setText(R_SUBMIT_ACTION, 1,
+        com.google.gerrit.client.admin.Util.toLongString(submitAction));
     final Change.Status status = chg.getStatus();
     if (Gerrit.getConfig().testChangeMerge()) {
       if (status.equals(Change.Status.NEW) || status.equals(Change.Status.DRAFT)) {

@@ -1406,7 +1406,7 @@ public class ReceiveCommits {
     }
 
     for (ReplaceRequest req : replaceByChange.values()) {
-      if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
+      if (req.inputCommand.getResult() == NOT_ATTEMPTED && req.cmd != null) {
         batch.addCommand(req.cmd);
       }
     }
@@ -1414,7 +1414,7 @@ public class ReceiveCommits {
     if (newChange != null && newChange.getResult() != NOT_ATTEMPTED) {
       // Cancel creations tied to refs/for/ or refs/drafts/ command.
       for (ReplaceRequest req : replaceByChange.values()) {
-        if (req.inputCommand == newChange) {
+        if (req.inputCommand == newChange && req.cmd != null) {
           req.cmd.setResult(Result.REJECTED_OTHER_REASON, "aborted");
         }
       }

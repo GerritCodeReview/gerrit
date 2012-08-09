@@ -161,6 +161,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     }
     detail.setSubmitRecords(submitRecords);
 
+    detail.setSubmitType(control.getSubmitType());
+
     patchsetsById = new HashMap<PatchSet.Id, PatchSet>();
     loadPatchSets();
     loadMessages();

@@ -14,12 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
-
 import com.google.gerrit.client.Dispatcher;
-import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.account.AccountCapabilities;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -28,22 +23,13 @@ import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ProjectListScreen extends Screen {
-  private VerticalPanel createProjectLinkPanel;
   private ProjectsTable projects;
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    createProjectLinkPanel.setVisible(false);
-    AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
-      @Override
-      public void onSuccess(AccountCapabilities ac) {
-        createProjectLinkPanel.setVisible(ac.canPerform(CREATE_PROJECT));
-      }
-    }, CREATE_PROJECT);
     ProjectMap.all(new ScreenLoadCallback<ProjectMap>(this) {
       @Override
       protected void preDisplay(final ProjectMap result) {
@@ -57,13 +43,6 @@ public class ProjectListScreen extends Screen {
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.C.projectListTitle());
-
-    createProjectLinkPanel = new VerticalPanel();
-    createProjectLinkPanel.setStyleName(Gerrit.RESOURCES.css()
-        .createProjectLink());
-    createProjectLinkPanel.add(new Hyperlink(Util.C.headingCreateProject(),
-        PageLinks.ADMIN_CREATE_PROJECT));
-    add(createProjectLinkPanel);
 
     projects = new ProjectsTable() {
       @Override

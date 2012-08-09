@@ -60,7 +60,6 @@ public interface AdminConstants extends Constants {
   String noMembersInfo();
   String headingExternalGroup();
   String headingCreateGroup();
-  String headingCreateProject();
   String headingParentProjectName();
   String columnProjectName();
   String headingAgreements();

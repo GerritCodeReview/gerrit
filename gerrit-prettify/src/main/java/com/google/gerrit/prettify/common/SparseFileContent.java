@@ -249,7 +249,7 @@ public class SparseFileContent {
     range.lines = lines;
 
     SparseFileContent r = new SparseFileContent();
-    r.setSize(size());
+    r.setSize(lines.size());
     r.setMissingNewlineAtEnd(isMissingNewlineAtEnd());
     r.setPath(getPath());
     r.ranges.add(range);

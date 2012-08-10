@@ -137,6 +137,24 @@
       "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIOH///so\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-08-10T17:59:42Z",
+      "side": 1,
+      "message": "When comparing against the common ancestor, we want to see all the changes made in the feature branch.  So we diff against the last commit in the feature branch, which is the first parent of the current merge.  I believe this is how \u0027git diff A...B\u0027 works (note the 3 dots, not 2).",
+      "parentUuid": "AAAIGn///58\u003d",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

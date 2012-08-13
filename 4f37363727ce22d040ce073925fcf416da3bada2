@@ -140,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "AAAITX///9c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-13T10:53:11Z",
+      "side": 1,
+      "message": "sorry, this comment relates to the line below (line 111)",
+      "parentUuid": "AAAITX///+w\u003d",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///58\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4

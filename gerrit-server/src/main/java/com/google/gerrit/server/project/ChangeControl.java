@@ -16,12 +16,12 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -439,9 +439,63 @@ public class ChangeControl {
     return out;
   }
 
-  public SubmitType getSubmitType() {
-    ProjectState projectState = getProjectControl().getProjectState();
-    return projectState.getProject().getSubmitType();
+  public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet) {
+    return getSubmitTypeRecord(db, patchSet, null);
+  }
+
+  @SuppressWarnings("unchecked")
+  public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet,
+      @Nullable ChangeData cd) {
+    if (!patchSet.getId().equals(change.currentPatchSetId())) {
+      return typeRuleError("Patch set " + patchSet.getPatchSetId()
+          + " is not current");
+    }
+
+    try {
+      if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
+        return typeRuleError("Patch set " + patchSet.getPatchSetId()
+            + " not found");
+      }
+      if (patchSet.isDraft() && !isDraftVisible(db, cd)) {
+        return typeRuleError("Patch set " + patchSet.getPatchSetId()
+            + " not found");
+      }
+    } catch (OrmException err) {
+      return logTypeRuleError("Cannot read patch set " + patchSet.getId(),
+          err);
+    }
+
+    List<String> results;
+    SubmitRuleEvaluator evaluator;
+    try {
+      evaluator = new SubmitRuleEvaluator(db, patchSet,
+          getProjectControl(), this, change, cd,
+          false,
+          "locate_submit_type", "get_submit_type",
+          "locate_submit_type_filter", "filter_submit_type_results");
+      results = evaluator.evaluate().toJava();
+    } catch (RuleEvalException e) {
+      return logTypeRuleError(e.getMessage(), e);
+    }
+
+    if (results.isEmpty()) {
+      // Should never occur for a well written rule
+      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
+          + change.getId() + " of " + getProject().getName()
+          + " has no solution.");
+      return typeRuleError("Project submit rule has no solution");
+    }
+
+    // Take only the first result and convert it to SubmitTypeRecord
+    // This logic will need to change once we support multiple submit types
+    // in the UI
+    String typeName = results.get(0);
+    try {
+      return SubmitTypeRecord.OK(
+          Project.SubmitType.valueOf(typeName.toUpperCase()));
+    } catch (IllegalArgumentException e) {
+      return logInvalidType(evaluator.getSubmitRule(), typeName);
+    }
   }
 
   private List<SubmitRecord> logInvalidResult(Term rule, Term record) {
@@ -464,6 +518,29 @@ public class ChangeControl {
     rec.status = SubmitRecord.Status.RULE_ERROR;
     rec.errorMessage = err;
     return Collections.singletonList(rec);
+  }
+
+  private SubmitTypeRecord logInvalidType(Term rule, String record) {
+    return logTypeRuleError("Submit type rule " + rule + " for change "
+        + change.getId() + " of " + getProject().getName()
+        + " output invalid result: " + record);
+  }
+
+  private SubmitTypeRecord logTypeRuleError(String err, Exception e) {
+    log.error(err, e);
+    return typeRuleError("Error evaluating project type rules, check server log");
+  }
+
+  private SubmitTypeRecord logTypeRuleError(String err) {
+    log.error(err);
+    return typeRuleError("Error evaluating project type rules, check server log");
+  }
+
+  private SubmitTypeRecord typeRuleError(String err) {
+    SubmitTypeRecord rec = new SubmitTypeRecord();
+    rec.status = SubmitTypeRecord.Status.RULE_ERROR;
+    rec.errorMessage = err;
+    return rec;
   }
 
   private void appliedBy(SubmitRecord.Label label, Term status) {

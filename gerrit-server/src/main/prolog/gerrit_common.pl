@@ -140,17 +140,28 @@ not_same(_, _).
 :- public can_submit/2.
 %%
 can_submit(SubmitRule, S) :-
-  call_submit_rule(SubmitRule, Tmp),
+  call_rule(SubmitRule, Tmp),
   Tmp =.. [submit | Ls],
   ( is_all_ok(Ls) -> S = ok(Tmp), ! ; S = not_ready(Tmp) ).
 
-call_submit_rule(P:X, Arg) :- !, F =.. [X, Arg], P:F.
-call_submit_rule(X, Arg) :- !, F =.. [X, Arg], F.
+call_rule(P:X, Arg) :- !, F =.. [X, Arg], P:F.
+call_rule(X, Arg) :- !, F =.. [X, Arg], F.
 
 is_all_ok([]).
 is_all_ok([label(_, ok(__)) | Ls]) :- is_all_ok(Ls).
 is_all_ok([label(_, may(__)) | Ls]) :- is_all_ok(Ls).
 is_all_ok(_) :- fail.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% get_submit_type/2:
+%%
+%%   Executes the SubmitTypeRule and return the first solution
+:- public get_submit_type/2.
+%%
+get_submit_type(SubmitTypeRule, A) :-
+  call_rule(SubmitTypeRule, A), !.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -175,6 +186,29 @@ locate_submit_rule(RuleName) :-
   .
 locate_submit_rule(RuleName) :-
   RuleName = gerrit:default_submit.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% locate_submit_type_rule/1:
+%%
+%%   Finds a submit_type_rule depending on what rules are available.
+%%   If none are available, use default_submit_type/1.
+%%
+:- public locate_submit_type_rule/1.
+%%
+
+locate_submit_type_rule(RuleName) :-
+  '$compiled_predicate'(user, submit_type_rule, 1),
+  !,
+  RuleName = user:submit_type_rule
+  .
+locate_submit_type_rule(RuleName) :-
+  clause(user:submit_type_rule(_), _),
+  !,
+  RuleName = user:submit_type_rule
+  .
+locate_submit_type_rule(RuleName) :-
+  RuleName = gerrit:default_submit_type.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

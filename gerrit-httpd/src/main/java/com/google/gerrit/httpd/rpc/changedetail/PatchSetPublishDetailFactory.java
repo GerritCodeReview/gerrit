@@ -34,7 +34,6 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.OrmException;
@@ -61,7 +60,6 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private final ApprovalTypes approvalTypes;
   private final AccountInfoCacheFactory aic;
   private final IdentifiedUser user;
-  private final ProjectCache projectCache;
 
   private final PatchSet.Id patchSetId;
 
@@ -78,9 +76,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       final ChangeControl.GenericFactory changeControlGenericFactory,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final ApprovalTypes approvalTypes,
-      final IdentifiedUser user,
-      final ProjectCache projectCache,
-      @Assisted final PatchSet.Id patchSetId) {
+      final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
     this.infoFactory = infoFactory;
     this.db = db;
     this.functionState = functionState;
@@ -90,7 +86,6 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     this.approvalTypes = approvalTypes;
     this.aic = accountInfoCacheFactory.create();
     this.user = user;
-    this.projectCache = projectCache;
 
     this.patchSetId = patchSetId;
   }
@@ -191,8 +186,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       detail.setSubmitRecords(submitRecords);
     }
 
-    detail.setSubmitType(projectCache.get(change.getProject())
-        .getProject().getSubmitType());
+    detail.setSubmitTypeRecord(control.getSubmitTypeRecord(db, patchSet));
 
     detail.setLabels(allowed);
     detail.setGiven(given);

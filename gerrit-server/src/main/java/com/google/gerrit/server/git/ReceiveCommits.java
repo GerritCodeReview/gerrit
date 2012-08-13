@@ -1318,6 +1318,9 @@ public class ReceiveCommits {
       final List<FooterLine> footerLines = commit.getFooterLines();
       for (final FooterLine footerLine : footerLines) {
         try {
+          if (ps.isDraft()) {
+            continue;
+          }
           if (isReviewer(footerLine)) {
             reviewers.add(toAccountId(footerLine.getValue().trim()));
           } else if (footerLine.matches(FooterKey.CC)) {

@@ -208,6 +208,23 @@
       "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAITH///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-08-13T11:19:40Z",
+      "side": 1,
+      "message": "Another issue I see with this line is the hardcoded \"getParent(1)\". What will be the first parent of a merge commit depends on the person who creates the merge commit in his local Git repository. Depending on where is the HEAD (at the moment of merging) the first parent may be the tip of the \"origin/master\" or the tip of the feature branch.",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

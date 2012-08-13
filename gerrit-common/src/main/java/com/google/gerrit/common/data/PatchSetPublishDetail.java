@@ -34,7 +34,7 @@ public class PatchSetPublishDetail {
   protected List<PermissionRange> labels;
   protected List<ApprovalDetail> approvals;
   protected List<SubmitRecord> submitRecords;
-  protected Project.SubmitType submitType;
+  protected SubmitTypeRecord submitTypeRecord;
   protected List<PatchSetApproval> given;
   protected boolean canSubmit;
 
@@ -63,12 +63,12 @@ public class PatchSetPublishDetail {
     return submitRecords;
   }
 
-  public void setSubmitType(Project.SubmitType submitType) {
-    this.submitType = submitType;
+  public void setSubmitTypeRecord(SubmitTypeRecord submitTypeRecord) {
+    this.submitTypeRecord = submitTypeRecord;
   }
 
-  public Project.SubmitType getSubmitType() {
-    return submitType;
+  public SubmitTypeRecord getSubmitTypeRecord() {
+    return submitTypeRecord;
   }
 
   public List<PatchSetApproval> getGiven() {

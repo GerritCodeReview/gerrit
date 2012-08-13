@@ -42,6 +42,7 @@ public class ChangeDetail {
   protected List<ApprovalDetail> approvals;
   protected List<SubmitRecord> submitRecords;
   protected Project.SubmitType submitType;
+  protected SubmitTypeRecord submitTypeRecord;
   protected boolean canSubmit;
   protected List<ChangeMessage> messages;
   protected PatchSet.Id currentPatchSetId;
@@ -189,12 +190,12 @@ public class ChangeDetail {
     return submitRecords;
   }
 
-  public void setSubmitType(Project.SubmitType submitType) {
-    this.submitType = submitType;
+  public void setSubmitTypeRecord(SubmitTypeRecord submitTypeRecord) {
+    this.submitTypeRecord = submitTypeRecord;
   }
 
-  public Project.SubmitType getSubmitType() {
-    return submitType;
+  public SubmitTypeRecord getSubmitTypeRecord() {
+    return submitTypeRecord;
   }
 
   public boolean isCurrentPatchSet(final PatchSetDetail detail) {

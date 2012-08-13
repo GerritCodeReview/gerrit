@@ -140,12 +140,12 @@ not_same(_, _).
 :- public can_submit/2.
 %%
 can_submit(SubmitRule, S) :-
-  call_submit_rule(SubmitRule, Tmp),
+  call_rule(SubmitRule, Tmp),
   Tmp =.. [submit | Ls],
   ( is_all_ok(Ls) -> S = ok(Tmp), ! ; S = not_ready(Tmp) ).
 
-call_submit_rule(P:X, Arg) :- !, F =.. [X, Arg], P:F.
-call_submit_rule(X, Arg) :- !, F =.. [X, Arg], F.
+call_rule(P:X, Arg) :- !, F =.. [X, Arg], P:F.
+call_rule(X, Arg) :- !, F =.. [X, Arg], F.
 
 is_all_ok([]).
 is_all_ok([label(_, ok(__)) | Ls]) :- is_all_ok(Ls).
@@ -180,6 +180,31 @@ listN(N, [_|T]) :- N > 0, N1 is N - 1, listN(N1, T).
 
 locate_submit_rule(RuleName) :-
   locate_helper(submit_rule, default_submit, 1, RuleName).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% get_submit_type/2:
+%%
+%%   Executes the SubmitTypeRule and return the first solution
+%%
+:- public get_submit_type/2.
+%%
+get_submit_type(SubmitTypeRule, A) :-
+  call_rule(SubmitTypeRule, A), !.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% locate_submit_type/1:
+%%
+%%   Finds a submit_type_rule depending on what rules are available.
+%%   If none are available, use project_default_submit_type/1.
+%%
+:- public locate_submit_type/1.
+%%
+locate_submit_type(RuleName) :-
+  locate_helper(submit_type, project_default_submit_type, 1, RuleName).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -311,6 +336,17 @@ filter_submit_results(Filter, [], Out, Out).
 call_submit_filter(P:X, R, S) :- !, F =.. [X, R, S], P:F.
 call_submit_filter(X, R, S) :- F =.. [X, R, S], F.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% filter_submit_type_results/3:
+%%
+%%   Executes the submit_type_filter against the result,
+%%   returns the filtered result.
+%%
+:- public filter_submit_type_results/3.
+%%
+filter_submit_type_results(Filter, In, Out) :- call_submit_filter(Filter, In, Out).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
@@ -331,6 +367,16 @@ locate_submit_filter(FilterName) :-
 %%
 noop_filter(In, In).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% locate_submit_type_filter/1:
+%%
+%%   Finds a submit_type_filter if available.
+%%
+:- public locate_submit_type_filter/1.
+%%
+locate_submit_type_filter(FilterName) :-
+  locate_helper(submit_type_filter, noop_filter, 2, FilterName).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%

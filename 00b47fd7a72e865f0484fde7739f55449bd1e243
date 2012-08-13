@@ -52,6 +52,24 @@
       "revId": "00b47fd7a72e865f0484fde7739f55449bd1e243",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAITX///9o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-13T10:41:45Z",
+      "side": 1,
+      "message": "Sorry, I had have no time to work on this. The ideas are good. I guess it can still be done in another change.",
+      "parentUuid": "AAAHh3///90\u003d",
+      "revId": "00b47fd7a72e865f0484fde7739f55449bd1e243",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

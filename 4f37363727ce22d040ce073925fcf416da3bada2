@@ -155,6 +155,24 @@
       "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAITX///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-13T09:15:32Z",
+      "side": 1,
+      "message": "Ok this makes sense. But if this is the intention, then setting the parent tree here seems not to be enough.\nWhen testing this feature I again hit this ArrayIndexOutOfBoundsException that I already mentioned on patch set 2 and this time I\u0027ve spend some time to investigate it.\n\nFirst of all here all the steps to reproduce it:\n  1. have as base commit (common ancestor) a file with the following content \u003c1\u003e\n       aaa\n       bbb\n       ccc\n  2. in the master branch add a 4th line \"ddd\" \u003c2\u003e\n       aaa\n       bbb\n       ccc\n       ddd\n  3. in the feature branch remove the second line \u003c3\u003e\n       aaa\n       ccc\n  4. checkout the master branch and merge in the feature branch into it,\n     as result the file has the following content \u003c4\u003e\n       aaa\n       ccc\n       ddd\n  5. push the merge commit \u003c4\u003e and select \u0027Common Ancestor\u0027, trying to see\n     the diff for the file fails with an ArrayIndexOutOfBoundsException\n\njava.lang.ArrayIndexOutOfBoundsException: Array index out of range: 5\n\tat org.eclipse.jgit.util.IntList.get(IntList.java:82)\n\tat org.eclipse.jgit.diff.RawText.getEnd(RawText.java:215)\n\tat org.eclipse.jgit.diff.RawText.getString(RawText.java:187)\n\tat org.eclipse.jgit.diff.RawText.getString(RawText.java:166)\n\tat com.google.gerrit.httpd.rpc.patch.PatchScriptBuilder.packContent(PatchScriptBuilder.java:377)\n\tat com.google.gerrit.httpd.rpc.patch.PatchScriptBuilder.build(PatchScriptBuilder.java:207)\n\tat com.google.gerrit.httpd.rpc.patch.PatchScriptBuilder.toPatchScript(PatchScriptBuilder.java:125)\n\tat com.google.gerrit.httpd.rpc.patch.PatchScriptFactory.call(PatchScriptFactory.java:161)\n\tat com.google.gerrit.httpd.rpc.patch.PatchScriptFactory.call(PatchScriptFactory.java:63)\n...\n\nUnderstanding why the excpetion occurs took me some time. Here is what I found:\n\nIf you set a breakpoint in PatchListLoader in line 167, you can see by inspecting the values that \u0027aTree\u0027 and \u0027bTree\u0027 are set as expected (\u0027aTree\u0027 is the tree of the base commit \u003c1\u003e, \u0027bTree\u0027 is the tree of the commit that deleted the \u0027bbb\u0027 line \u003c3\u003e). \u0027aTree\u0027 and \u0027bTree\u0027 are used to compute the list of DiffEntry\u0027s (line 157). This list has as expected only one DiffEntry, the deletion of line \u0027bbb\u0027. However when the PatchList is created (line 167) the commits \u0027a\u0027 and \u0027b\u0027 that are given to the constructor do not match the trees used to compute the DiffEntry\u0027s (\u0027a\u0027 is as expected the base commit \u003c1\u003e, but \u0027b\u0027 is the merge commit \u003c4\u003e). In the PatchScriptBuilder (method \u0027packContent\u0027) we now try to match the diff entries computed for commits \u003c1\u003e and \u003c3\u003e to the commits given by \u0027a\u0027 \u003c1\u003e and \u0027b\u0027 \u003c4\u003e. Because of the mismatch we then run into the ArrayIndexOutOfBoundsException.\n\nIf you are trying this out, don\u0027t forget to clean the Gerrit caches in between (\u0027gerrit flush-caches --all\u0027). This is needed since the DiffEntry\u0027s are cached and will then not be recomputed.",
+      "parentUuid": "AAAIOH///so\u003d",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -23,6 +23,7 @@ import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -569,7 +570,20 @@ public class MergeOp {
   }
 
   private SubmitType getSubmitType(final Change change, final PatchSet ps) {
-    return destProject.getSubmitType();
+    try {
+      final SubmitTypeRecord r =
+          changeControlFactory.controlFor(change,
+              identifiedUserFactory.create(change.getOwner()))
+              .getSubmitTypeRecord(db, ps);
+      if (r.status != SubmitTypeRecord.Status.OK) {
+        log.error("Failed to get submit type for " + change.getKey());
+        return null;
+      }
+      return r.type;
+    } catch (NoSuchChangeException e) {
+      log.error("Failed to get submit type for " + change.getKey(), e);
+      return null;
+    }
   }
 
   private static <K, T> List<T> getList(final K key, final Map<K, List<T>> map) {

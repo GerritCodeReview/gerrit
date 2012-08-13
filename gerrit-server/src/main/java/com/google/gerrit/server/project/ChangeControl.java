@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -523,9 +524,90 @@ public class ChangeControl {
     return out;
   }
 
-  public SubmitType getSubmitType() {
+  public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet) {
+    return getSubmitTypeRecord(db, patchSet, null);
+  }
+
+  public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet,
+      @Nullable ChangeData cd) {
+    if (!patchSet.getId().equals(change.currentPatchSetId())) {
+      return typeRuleError("Patch set " + patchSet.getPatchSetId()
+          + " is not current");
+    }
+
+    try {
+      if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
+        return typeRuleError("Patch set " + patchSet.getPatchSetId()
+            + " not found");
+      }
+      if (patchSet.isDraft() && !isDraftVisible(db, cd)) {
+        return typeRuleError("Patch set " + patchSet.getPatchSetId()
+            + " not found");
+      }
+    } catch (OrmException err) {
+      return logTypeRuleError("Cannot read patch set " + patchSet.getId(),
+          err);
+    }
+
+    Term submitTypeRule;
     ProjectState projectState = getProjectControl().getProjectState();
-    return projectState.getProject().getSubmitType();
+    PrologEnvironment env;
+
+    try {
+      env = projectState.newPrologEnvironment();
+    } catch (CompileException err) {
+      return logTypeRuleError("Cannot consult rules.pl for "
+          + getProject().getName(), err);
+    }
+
+    try {
+      env.set(StoredValues.REVIEW_DB, db);
+      env.set(StoredValues.CHANGE, change);
+      env.set(StoredValues.CHANGE_DATA, cd);
+      env.set(StoredValues.PATCH_SET, patchSet);
+      env.set(StoredValues.CHANGE_CONTROL, this);
+
+      submitTypeRule = env.once(
+        "gerrit", "locate_submit_type_rule",
+        new VariableTerm());
+      if (submitTypeRule == null) {
+        return logTypeRuleError("No user:submit_type_rule found for "
+            + getProject().getName());
+      }
+
+      try {
+        // TODO: do we really need "get_submit_type"?
+        // we want just to get a very first result of the submit_type_rule
+        // and return it. Right now it is only needed as a mean to invoke
+        // the submitTypeRule as, without that level of indirection, the
+        // direct invocation of the submitTypeRule fails
+        List<Term[]> results = env.all("gerrit", "get_submit_type", submitTypeRule, new VariableTerm());
+
+        if (results.isEmpty()) {
+          return logTypeRuleError("Submit type rule " + submitTypeRule
+              + " for change " + change.getId() + " of "
+              + getProject().getName() + " has no solution");
+        }
+        Term typeTerm = results.get(0)[1];
+        SubmitType type;
+        try {
+          type = Project.SubmitType.valueOf(typeTerm.name().toUpperCase());
+        } catch (IllegalArgumentException e) {
+          return logInvalidType(submitTypeRule, typeTerm);
+        }
+        return SubmitTypeRecord.OK(type);
+      } catch (PrologException err) {
+        return logTypeRuleError(
+            "Exception calling submit_type_rule on change " + change.getId()
+                + " of " + getProject().getName(), err);
+      } catch (RuntimeException err) {
+        return logTypeRuleError(
+            "Exception calling submit_type_rule on change " + change.getId()
+                + " of " + getProject().getName(), err);
+      }
+    } finally {
+      env.close();
+    }
   }
 
   private List<SubmitRecord> logInvalidResult(Term rule, Term record) {
@@ -548,6 +630,29 @@ public class ChangeControl {
     rec.status = SubmitRecord.Status.RULE_ERROR;
     rec.errorMessage = err;
     return Collections.singletonList(rec);
+  }
+
+  private SubmitTypeRecord logInvalidType(Term rule, Term record) {
+    return logTypeRuleError("Submit type rule " + rule + " for change "
+        + change.getId() + " of " + getProject().getName()
+        + " output invalid result: " + record);
+  }
+
+  private SubmitTypeRecord logTypeRuleError(String err, Exception e) {
+    log.error(err, e);
+    return typeRuleError("Error evaluating project type rules, check server log");
+  }
+
+  private SubmitTypeRecord logTypeRuleError(String err) {
+    log.error(err);
+    return typeRuleError("Error evaluating project type rules, check server log");
+  }
+
+  private SubmitTypeRecord typeRuleError(String err) {
+    SubmitTypeRecord rec = new SubmitTypeRecord();
+    rec.status = SubmitTypeRecord.Status.RULE_ERROR;
+    rec.errorMessage = err;
+    return rec;
   }
 
   private void appliedBy(SubmitRecord.Label label, Term status) {

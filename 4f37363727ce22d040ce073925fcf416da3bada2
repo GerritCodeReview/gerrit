@@ -123,6 +123,23 @@
     },
     {
       "key": {
+        "uuid": "AAAITX///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-13T09:25:41Z",
+      "side": 1,
+      "message": "Maybe you need a \u0027bFor\u0027 method here to return the first parent commit of key.getNewId() in case it is a comparison with the common ancestor?",
+      "revId": "4f37363727ce22d040ce073925fcf416da3bada2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///58\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 4

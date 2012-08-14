@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAIaX///4Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-14T17:58:27Z",
+      "side": 1,
+      "message": "This is crazy. Stop calling the code that writes to the repository every time you merge test a cherry-pick. We shouldn\u0027t even be here. We shouldn\u0027t have written that commit to the repository just because a user viewed the page.",
+      "revId": "0d0f61df85cccbb93d7e0c388c3fee6ca8b4d463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAITH///6Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3

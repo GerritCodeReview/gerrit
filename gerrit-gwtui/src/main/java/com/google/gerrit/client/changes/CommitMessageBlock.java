@@ -19,7 +19,6 @@ import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.Composite;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.dom.client.Style.Display;
@@ -101,9 +100,13 @@ public class CommitMessageBlock extends Composite {
       commitBodyPre.getStyle().setDisplay(Display.NONE);
     } else {
       // Linkify commit body
-      SafeHtml commitBodyLinkified = new SafeHtmlBuilder().append(commitBody);
+      SafeHtml commitBodyLinkified =
+          new SafeHtmlBuilder().openElement("p").append(commitBody)
+              .closeElement("p");
       commitBodyLinkified = commitBodyLinkified.linkify();
       commitBodyLinkified = CommentLinkProcessor.apply(commitBodyLinkified);
+      commitBodyLinkified = commitBodyLinkified.replaceAll("\n\n", "</p><p>");
+      commitBodyLinkified = commitBodyLinkified.replaceAll("\n", "<br />");
       commitBodyPre.setInnerHTML(commitBodyLinkified.asString());
     }
   }

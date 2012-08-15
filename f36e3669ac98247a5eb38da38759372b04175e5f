@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIW3///GE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/TokenVerifiedRestApiServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-15T00:32:37Z",
+      "side": 1,
+      "message": "The server NPEs here with a bad result for the client if _authKey was not included in the request body. We should handle this sort of case better with a handleError call like we do when the token isn\u0027t valid.",
+      "revId": "f36e3669ac98247a5eb38da38759372b04175e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIW3///F8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_72.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-15T00:32:37Z",
+      "side": 1,
+      "message": "2012",
+      "revId": "f36e3669ac98247a5eb38da38759372b04175e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -203,6 +203,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new DefaultCacheFactory.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
+    modules.add(new SignedTokenRestTokenVerifier.Module());
     modules.add(new PluginModule());
     modules.add(new CanonicalWebUrlModule() {
       @Override

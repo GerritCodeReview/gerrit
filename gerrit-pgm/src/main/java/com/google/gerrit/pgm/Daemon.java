@@ -22,6 +22,7 @@ import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.httpd.GitOverHttpModule;
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.RequestContextFilter;
+import com.google.gerrit.httpd.SignedTokenRestTokenVerifier;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
@@ -294,6 +295,7 @@ public class Daemon extends SiteProgram {
     modules.add(new DefaultCacheFactory.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
+    modules.add(new SignedTokenRestTokenVerifier.Module());
     modules.add(new PluginModule());
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {

@@ -85,5 +85,9 @@ class InitAuth implements InitStep {
     if (auth.getSecure("registerEmailPrivateKey") == null) {
       auth.setSecure("registerEmailPrivateKey", SignedToken.generateRandomKey());
     }
+
+    if (auth.getSecure("restTokenPrivateKey") == null) {
+      auth.setSecure("restTokenPrivateKey", SignedToken.generateRandomKey());
+    }
   }
 }

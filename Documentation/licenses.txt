@@ -28,7 +28,7 @@ Included Components
 |Apache Commons Pool        | <<apache2,Apache License 2.0>>
 |Apache Log4J               | <<apache2,Apache License 2.0>>
 |Apache MINA                | <<apache2,Apache License 2.0>>
-|Apache Tomact Servlet API  | <<apache2,Apache License 2.0>>
+|Apache Tomcat Servlet API  | <<apache2,Apache License 2.0>>
 |Apache SSHD                | <<apache2,Apache License 2.0>>, see also <<sshd,NOTICE>>
 |Apache Velocity            | <<apache2,Apache License 2.0>>
 |Apache Xerces              | <<apache2,Apache License 2.0>>

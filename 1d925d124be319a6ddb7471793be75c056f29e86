@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIdH///9w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "I am not sure these two abstraction are related to each other. If not, you might consider to split this change into a configuration part and a runtime part.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////s\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "better use a local variable for the return value instead of modifying the argument",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////w\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "remove this empty line",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////g\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/PostgreSQLInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "This class has many commonalities with MySQLInitializer. Please consider extracting these out.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////c\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Section.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "please use less cryptic identifiers: dv -\u003e defaultValue, nv -\u003e newValue, ov -\u003e oldValue (would be the meaning i\u0027d guess)",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////Y\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "Here, there is dátabase-specific coding left.Please consider moving these data-base-specific conversion routines to the database-specific init classes.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "I don\u0027t think theres much value in the constructor parameters indexScript and nextValScript. indexScript could just default to \"index_generic.sql\" and nextValScript is kind of optional.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "Why default to \"index_generic.sql\" here let subclasses override this id not appropriate?",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "This is rather a path than a name, is\u0027t it?",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "You might rather return an empty stream.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "s/from/from the class loader\r\n\r\n  Returning null is a bit ugly. Why not return an empty stream?",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "s/from/from the class loader\r\n\r\n  Returning null is a bit ugly. Why not return an empty stream?",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/NamedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "The name of this class suggests that this _is an_ InputStream. Why extend the InputStream class by delegating to the stream passed?",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "If script \u0027d be an empty script instead of null, you wouldn\u0027t have to check for null here.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "You might want to consider to close the stream outside this method where you are obtaining it.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH///90\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ScriptRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "I liked the old version of this class better. Basically, you seem to have some means to skip executing a script if not required by a datasource type. \r\n\r\nA clean way to do this could be to \r\n  - have the data source platforms return a SkriptRunner instead of a NamedInputStream.\r\n  - if the skript is to be skipped just return a SkriptRunner, which does noting on run(db)\r\n\r\nIf you do so, you don\u0027t need a NamedInputStream any longer as the name (a path actually) (if required) would be encapsulated in the script runner.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdH///98\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaUpdaterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1007114
+      },
+      "writtenOn": "2012-08-15T11:46:43Z",
+      "side": 1,
+      "message": "Does this now effectivley use an in-memory H2 database for the execution of this test. If yes, you might want to consider to add a test (configuration) to test on a file-based H2 as well. Or you might mant to state this in the commit message.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

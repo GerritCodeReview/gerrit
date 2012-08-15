@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAIbH///ck\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-08-15T21:07:48Z",
+      "side": 1,
+      "message": "We are still bikeshedding the URL on repo-discuss.",
+      "revId": "d7352b5fcb9d8e2853c0d74ad97a2f6dd0ab4224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

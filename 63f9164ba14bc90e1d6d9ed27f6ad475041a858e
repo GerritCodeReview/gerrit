@@ -2,6 +2,91 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAIdn///84\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-15T18:01:43Z",
+      "side": 1,
+      "message": "s/\u0027Submit Rule\u0027/A \u0027Submit Rule\u0027/ ?",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdn///80\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-15T18:01:43Z",
+      "side": 1,
+      "message": "s/about the is/about the change is/",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdn///8w\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-15T18:01:43Z",
+      "side": 1,
+      "message": "s/for `submit_rule/1`/for a `submit_rule/1`/ ?",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdn///8Y\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-15T18:01:43Z",
+      "side": 1,
+      "message": "If a user term isn\u0027t returned I believe you\u0027ll get NPEs when displaying lists of changes. That\u0027s why I wrote https://gerrit-review.googlesource.com/35201 so that this error is discovered early and is properly reported. I was a while since I looked at it, and the code might\u0027ve changed since then, so don\u0027t take my word for it.",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIdn///8Q\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010606
+      },
+      "writtenOn": "2012-08-15T18:01:43Z",
+      "side": 1,
+      "message": "s/find/finds/",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIH3///X8\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 10

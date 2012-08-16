@@ -73,6 +73,12 @@ A specific example of this might look something like this:
   $ curl -o ~/duhproject/.git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
 ====
 
+Make sure the hook file is executable:
+
+====
+  $ chmod u+x ~/duhproject/.git/hooks/commit-msg
+====
+
 SEE ALSO
 --------
 

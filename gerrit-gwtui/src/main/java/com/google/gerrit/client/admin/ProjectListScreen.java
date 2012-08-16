@@ -15,6 +15,8 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -23,6 +25,7 @@ import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.Anchor;
 
 public class ProjectListScreen extends Screen {
   private ProjectsTable projects;
@@ -46,6 +49,16 @@ public class ProjectListScreen extends Screen {
 
     projects = new ProjectsTable() {
       @Override
+      protected void initColumnHeaders() {
+        super.initColumnHeaders();
+        if(Gerrit.getGitwebLink() != null) {
+          table.setText(0, 3, Util.C.projectRepoBrowser());
+          table.getFlexCellFormatter().
+            addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+        }
+      }
+
+      @Override
       protected void onOpenRow(final int row) {
         History.newItem(link(getRowItem(row)));
       }
@@ -55,9 +68,21 @@ public class ProjectListScreen extends Screen {
       }
 
       @Override
+      protected void insert(int row, ProjectInfo k) {
+        super.insert(row, k);
+        table.getFlexCellFormatter().
+          addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
+      }
+
+      @Override
       protected void populate(final int row, final ProjectInfo k) {
         table.setWidget(row, 1, new Hyperlink(k.name(), link(k)));
         table.setText(row, 2, k.description());
+        GitwebLink l = Gerrit.getGitwebLink();
+        if (l != null) {
+          table.setWidget(row, 3, new Anchor(l.getLinkName(), false, l.toProject(k
+              .name_key())));
+        }
 
         setRowItem(row, k);
       }

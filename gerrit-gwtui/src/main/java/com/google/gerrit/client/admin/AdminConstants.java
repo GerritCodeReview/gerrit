@@ -50,6 +50,7 @@ public interface AdminConstants extends Constants {
 
   String buttonBrowseProjects();
   String projects();
+  String projectRepoBrowser();
   String headingGroupUUID();
   String headingOwner();
   String headingDescription();

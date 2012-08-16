@@ -49,7 +49,6 @@ import java.util.Map;
  * </pre>
  */
 class PRED_current_user_2 extends Predicate.P2 {
-  private static final long serialVersionUID = 1L;
   private static final SymbolTerm user = intern("user", 1);
   private static final SymbolTerm anonymous = intern("anonymous");
 

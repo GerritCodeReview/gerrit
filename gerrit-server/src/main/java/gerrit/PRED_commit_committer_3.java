@@ -24,8 +24,6 @@ import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.Term;
 
 public class PRED_commit_committer_3 extends AbstractCommitUserIdentityPredicate {
-  private static final long serialVersionUID = 1L;
-
   public PRED_commit_committer_3(Term a1, Term a2, Term a3, Operation n) {
     super(a1, a2, a3, n);
   }

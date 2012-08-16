@@ -33,7 +33,6 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
 public class PRED_current_user_1 extends Predicate.P1 {
-  private static final long serialVersionUID = 1L;
   private static final SymbolTerm user = SymbolTerm.intern("user", 1);
   private static final SymbolTerm anonymous = SymbolTerm.intern("anonymous");
   private static final SymbolTerm peerDaemon = SymbolTerm.intern("peer_daemon");

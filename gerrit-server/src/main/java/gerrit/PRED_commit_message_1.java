@@ -32,8 +32,6 @@ import com.googlecode.prolog_cafe.lang.Term;
  * </pre>
  */
 public class PRED_commit_message_1 extends Predicate.P1 {
-  private static final long serialVersionUID = 1L;
-
   public PRED_commit_message_1(Term a1, Operation n) {
     arg1 = a1;
     cont = n;

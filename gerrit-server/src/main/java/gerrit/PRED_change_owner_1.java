@@ -28,7 +28,6 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
 public class PRED_change_owner_1 extends Predicate.P1 {
-  private static final long serialVersionUID = 1L;
   private static final SymbolTerm user = SymbolTerm.intern("user", 1);
 
   public PRED_change_owner_1(Term a1, Operation n) {

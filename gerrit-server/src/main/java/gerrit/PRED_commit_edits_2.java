@@ -54,8 +54,6 @@ import java.util.regex.Pattern;
  * </pre>
  */
 public class PRED_commit_edits_2 extends Predicate.P2 {
-  private static final long serialVersionUID = 1L;
-
   public PRED_commit_edits_2(Term a1, Term a2, Operation n) {
     arg1 = a1;
     arg2 = a2;

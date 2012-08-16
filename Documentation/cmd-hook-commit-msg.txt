@@ -73,6 +73,8 @@ A specific example of this might look something like this:
   $ curl -o ~/duhproject/.git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
 ====
 
+It may be necessary to set the executable mode flag on the hook file after downloading it.
+
 SEE ALSO
 --------
 

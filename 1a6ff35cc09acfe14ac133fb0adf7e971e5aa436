@@ -16,6 +16,24 @@
       "revId": "1a6ff35cc09acfe14ac133fb0adf7e971e5aa436",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAIg3////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-16T05:40:56Z",
+      "side": 1,
+      "message": "No I don\u0027t think so, note that it is inserting a close and then an open, not an open and then a close.",
+      "parentUuid": "AAAIh3////8\u003d",
+      "revId": "1a6ff35cc09acfe14ac133fb0adf7e971e5aa436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

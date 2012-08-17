@@ -1110,6 +1110,13 @@ By default unset, as the HTTP daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
 
+[[gerrit.reportBugUrl]]gerrit.reportBugUrl::
++
+URL to direct users to when they need to report a bug about the
+Gerrit service. By default this links to the upstream Gerrit
+Code Review's own bug tracker but could be directed to the system
+administrator's ticket queue.
+
 [[gitweb]]Section gitweb
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

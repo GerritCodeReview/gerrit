@@ -121,6 +121,13 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         "test", false));
     config.setAnonymousCowardName(anonymousCowardName);
 
+    config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
+    if (config.getReportBugUrl() == null) {
+      config.setReportBugUrl("http://code.google.com/p/gerrit/issues/list");
+    } else if (config.getReportBugUrl().isEmpty()) {
+      config.setReportBugUrl(null);
+    }
+
     final Set<Account.FieldName> fields = new HashSet<Account.FieldName>();
     for (final Account.FieldName n : Account.FieldName.values()) {
       if (realm.allowsEdit(n)) {

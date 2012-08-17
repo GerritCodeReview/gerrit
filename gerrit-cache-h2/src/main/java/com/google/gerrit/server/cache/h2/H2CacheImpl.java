@@ -270,6 +270,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
 
     Funnel<K> funnel() {
       return new Funnel<K>() {
+        private static final long serialVersionUID = 1L;
+
         @Override
         public void funnel(K from, PrimitiveSink into) {
           try {

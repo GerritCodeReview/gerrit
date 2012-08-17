@@ -43,7 +43,6 @@ import java.util.regex.Pattern;
  * </pre>
  */
 public class PRED_commit_delta_4 extends Predicate.P4 {
-  private static final long serialVersionUID = 1L;
   private static final SymbolTerm add = SymbolTerm.intern("add");
   private static final SymbolTerm modify = SymbolTerm.intern("modify");
   private static final SymbolTerm delete = SymbolTerm.intern("delete");

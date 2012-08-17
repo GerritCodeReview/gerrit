@@ -25,8 +25,6 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 
 public class PRED_change_topic_1 extends Predicate.P1 {
-  private static final long serialVersionUID = 1L;
-
   public PRED_change_topic_1(Term a1, Operation n) {
     arg1 = a1;
     cont = n;

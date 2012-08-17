@@ -104,6 +104,8 @@ public class CommitMessageBlock extends Composite {
       SafeHtml commitBodyLinkified = new SafeHtmlBuilder().append(commitBody);
       commitBodyLinkified = commitBodyLinkified.linkify();
       commitBodyLinkified = CommentLinkProcessor.apply(commitBodyLinkified);
+      commitBodyLinkified = commitBodyLinkified.replaceAll("\n\n", "<p></p>");
+      commitBodyLinkified = commitBodyLinkified.replaceAll("\n", "<br />");
       commitBodyPre.setInnerHTML(commitBodyLinkified.asString());
     }
   }

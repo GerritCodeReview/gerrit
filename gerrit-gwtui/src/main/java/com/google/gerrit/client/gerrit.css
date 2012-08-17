@@ -659,8 +659,10 @@
   padding-left: 0;
   padding-right: 0;
   border-top: 1px solid black;
-  border-left: 1px solid black;
   border-right: 1px solid black;
+}
+.patchContentTable td.commentHolderLeftmost {
+  border-left: 1px solid black;
 }
 .patchContentTable td.commentHolder.commentPanelLast {
   border-bottom: 1px solid black;

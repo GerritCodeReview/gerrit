@@ -632,6 +632,9 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         Gerrit.RESOURCES.css().commentPanelLast());
     fmt.setStyleName(row, col, Gerrit.RESOURCES.css().commentHolder());
     fmt.addStyleName(row, col, Gerrit.RESOURCES.css().commentPanelLast());
+    if (!fmt.getStyleName(row, col - 1).contains(Gerrit.RESOURCES.css().commentHolder())) {
+      fmt.addStyleName(row, col, Gerrit.RESOURCES.css().commentHolderLeftmost());
+    }
   }
 
   protected static class CommentList {

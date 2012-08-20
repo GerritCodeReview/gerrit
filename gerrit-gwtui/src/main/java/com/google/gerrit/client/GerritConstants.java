@@ -21,6 +21,7 @@ public interface GerritConstants extends Constants {
   String menuSignOut();
   String menuRegister();
   String menuSettings();
+  String reportBug();
 
   String signInDialogTitle();
   String signInDialogClose();

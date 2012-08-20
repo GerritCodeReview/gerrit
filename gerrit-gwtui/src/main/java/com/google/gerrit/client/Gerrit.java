@@ -58,8 +58,8 @@ import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -447,9 +447,19 @@ public class Gerrit implements EntryPoint {
       vs = "dev";
     }
 
-    final HTML version = new HTML(M.poweredBy(vs));
-    version.setStyleName(RESOURCES.css().version());
-    btmmenu.add(version);
+    FlowPanel poweredBy = new FlowPanel();
+    poweredBy.setStyleName(RESOURCES.css().version());
+    poweredBy.add(new InlineHTML(M.poweredBy(vs)));
+    if (getConfig().getReportBugUrl() != null) {
+      poweredBy.add(new InlineLabel(" | "));
+      Anchor a = new Anchor(
+          C.reportBug(),
+          getConfig().getReportBugUrl());
+      a.setTarget("_blank");
+      a.setStyleName("");
+      poweredBy.add(a);
+    }
+    btmmenu.add(poweredBy);
   }
 
   private void onModuleLoad2() {

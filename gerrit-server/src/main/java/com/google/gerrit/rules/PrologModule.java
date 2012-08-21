@@ -14,11 +14,13 @@
 
 package com.google.gerrit.rules;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.FactoryModule;
 
 public class PrologModule extends FactoryModule {
   @Override
   protected void configure() {
+    DynamicSet.setOf(binder(), PredicateProvider.class);
     factory(PrologEnvironment.Factory.class);
   }
 }

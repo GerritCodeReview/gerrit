@@ -16,6 +16,7 @@ package com.google.gerrit.rules;
 
 import static com.googlecode.prolog_cafe.lang.PrologMachineCopy.save;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -50,8 +51,12 @@ import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,10 +74,12 @@ public class RulesCache {
   /** Default size of the internal Prolog database within each interpreter. */
   private static final int DB_MAX = 256;
 
-  private static final String[] PACKAGE_LIST = {
-      Prolog.BUILTIN,
-      "gerrit",
-    };
+  private static final List<String> PACKAGE_LIST = Collections.unmodifiableList(
+      Arrays.asList(
+          Prolog.BUILTIN,
+          "gerrit"
+      )
+    );
 
   private final Map<ObjectId, MachineRef> machineCache =
       new HashMap<ObjectId, MachineRef>();
@@ -94,16 +101,18 @@ public class RulesCache {
   private final File cacheDir;
   private final File rulesDir;
   private final GitRepositoryManager gitMgr;
+  private final DynamicSet<PredicateProvider> predicateProviders;
   private final ClassLoader systemLoader;
   private final PrologMachineCopy defaultMachine;
 
   @Inject
   protected RulesCache(@GerritServerConfig Config config, SitePaths site,
-      GitRepositoryManager gm) {
+      GitRepositoryManager gm, DynamicSet<PredicateProvider> predicateProviders) {
     enableProjectRules = config.getBoolean("rules", null, "enable", true);
     cacheDir = site.resolve(config.getString("cache", null, "directory"));
     rulesDir = cacheDir != null ? new File(cacheDir, "rules") : null;
     gitMgr = gm;
+    this.predicateProviders = predicateProviders;
 
     systemLoader = getClass().getClassLoader();
     defaultMachine = save(newEmptyMachine(systemLoader));
@@ -207,15 +216,21 @@ public class RulesCache {
     }
   }
 
-  private static BufferingPrologControl newEmptyMachine(ClassLoader cl) {
+  private BufferingPrologControl newEmptyMachine(ClassLoader cl) {
     BufferingPrologControl ctl = new BufferingPrologControl();
     ctl.setMaxArity(PrologEnvironment.MAX_ARITY);
     ctl.setMaxDatabaseSize(DB_MAX);
-    ctl.setPrologClassLoader(new PrologClassLoader(cl));
+    ctl.setPrologClassLoader(new PrologClassLoader(new PredicateClassLoader(
+        predicateProviders, cl)));
     ctl.setEnabled(EnumSet.allOf(Prolog.Feature.class), false);
 
+    List<String> packages = new LinkedList<String>(PACKAGE_LIST);
+    for (PredicateProvider predicateProvider : predicateProviders) {
+      packages.addAll(predicateProvider.getPackages());
+    }
+
     // Bootstrap the interpreter and ensure there is clean state.
-    ctl.initialize(PACKAGE_LIST);
+    ctl.initialize(packages.toArray(new String[packages.size()]));
     return ctl;
   }
 

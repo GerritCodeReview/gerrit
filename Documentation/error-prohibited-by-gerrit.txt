@@ -19,6 +19,9 @@ In particular this error occurs:
    access right on 'refs/tags/*'
 4. if you push a lightweight tag without the access right link:access-control.html#category_create['Create
    Reference'] for the reference name 'refs/tags/*'
+5. if you push a tag with somebody else as tagger and you don't have the
+   link:access-control.html#category_forge_committer['Forge Committer']
+   access right for the reference name 'refs/tags/*'
 
 For new users it often happens that they accidentally try to bypass
 code review. The push then fails with the error message 'prohibited

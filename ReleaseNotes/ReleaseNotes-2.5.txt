@@ -298,6 +298,8 @@ a successor commit is pushed for one of the projects, the resulting
 successor change was wrongly listing both changes in the 'Depends On'
 section. Now only the predecessor change of the own project is listed.
 
+* Highlight dependencies to abandoned changes by red background
+
 * link:http://code.google.com/p/gerrit/issues/detail?id=1383[issue 1383]:
   Display the approval table on the PublishCommentsScreen.
 +
@@ -408,6 +410,19 @@ GitWeb).
 A link was added next to the "Reviewed" checkbox that marks the current
 patch as reviewed and goes to the next unreviewed patch.
 
+* Add key commands to mark a patch as reviewed
++
+Add key commands
++
+. to toggle the reviewed flag for a patch ('m')
++
+and
++
+. to mark the patch as reviewed and navigate to the next unreviewed
+patch ('M').
+
+* Use download icons instead of the `Download` text links
+
 User Dashboard
 ^^^^^^^^^^^^^^
 * Support for link:../Documentation/user-custom-dashboards.html[custom
@@ -491,6 +506,13 @@ the NotFoundScreen after sign in.
 Instead of linking from a user name to the user's dashboards, link to
 a search for changes owned by that user.
 
+* link:../Documentation/config-gerrit.html#gerrit.reportBugUrl[Allow
+  configuring the `Report Bug` URL]
++
+Let site administrators direct users to their own ticket queue, as for
+many servers most of the reported bugs are small internal problems like
+asking for a repository to be created or updating group memberships.
+
 * On project creation allow choosing the parent project from a popup
 +
 In the create project UI a user can now browse all projects and select
@@ -507,12 +529,37 @@ This makes users aware of open changes when deleting a branch.
 This allows to see the branches of the `All-Projects` project in the
 web UI.
 
+* Move the project listing menu items to a new top-level item
++
+Finding the project listing was very opaque to end users. Nobody
+expected to look under `Admin` and furthermore, anonymous users were
+unable to find that link at all.
++
+Introduced a new top-level `Projects` menu that has `List` in it to
+take you to the project listing.
++
+In addition the `Create new project` link from the top of that listing
+was moved to this new menu.
+
 * Move form for group creation to own screen
 +
 Move the form for the group creation from the GroupListScreen to an
 own new CreateGroupScreen and add a link to this screen at the
 beginning of the GroupListScreen. The link to the CreateGroupScreen is
 only visible if the user has the permission to create new groups.
+
+* Drop the `Owners` column from the group list screen
++
+The `Owners` column on the group list screen has been dropped in order
+to link:#performance-issue-on-showing-group-list[speed up the loading
+of the group list screen].
+
+* Drop the `Group Type` column from the group list screen
++
+Since link:#migrate-ldap-groups[the LDAP group type was removed] there
+is no need to display the group type on the group list screen anymore.
+There are only 3 `SYSTEM` groups using well known names, and everything
+else has the type `INTERNAL`.
 
 * When adding a user to a group create an account for the user if needed
 +
@@ -737,6 +784,8 @@ and how to release Gerrit subprojects.
 
 Other
 ^^^^^
+* Describe link:../Documentation/refs-notes-review.html[
+  `refs/notes/review` and its contents]
 
 * Specify output file for curl commands in documentation
 +
@@ -756,6 +805,8 @@ command.
 +
 Add documentation of hook config for `change-restored`, `ref-updated`
 and `cla-signed` hooks.
+
+* Document that the commit message hook file should be executable
 
 * Mention that also MySQL supports replication, not just Postgres
 
@@ -943,6 +994,7 @@ Example setting for link:../Documentation/config-gerrit.html#auth.type[
 With this configuration Git over HTTP protocol will be authenticated using
 `HTTP-BasicAuth` and credentials checked on LDAP.
 
+[[migrate-ldap-groups]]
 * Migrate existing internal LDAP groups
 +
 Previously, LDAP groups were mirrored in the AccountGroup table and
@@ -1109,6 +1161,78 @@ plugins.
 
 Performance
 ~~~~~~~~~~~
+[[performance-issue-on-showing-group-list]]
+* Fix performance issues on showing the list of groups in the Gerrit
+  WebUI
++
+Loading `Admin` > `Groups` on large servers was very slow. The entire
+group membership database was downloaded to the browser when showing
+just the list of groups.
++
+Now the amount of data that needs to be downloaded to the browser is
+reduced by using the more leightweight `AccountGroup` type instead of
+the `GroupDetail` type when showing the groups in a list format. As a
+consequence the `Owners` column that showed the name of the owner group
+had been dropped.
+
+* Add a fast path to avoid checking every commit on push
++
+If a user can forge author, committer and gerrit server identity, and
+can upload merges, don't bother checking the commit history of what is
+being uploaded. This can save time on servers that are trying to accept
+a large project import using the push permission.
+
+* Improve performance of `ReceiveCommits` by reducing `RevWalk` load
++
+JGit RevWalk does not perform well when a large number of objects are
+added to the start set by `markStart` or `markUninteresting`. Avoid
+putting existing `refs/changes/` or `refs/tags/` into the `RevWalk` and
+instead use only the `refs/heads` namespace and the name of the branch
+used in the `refs/for/` push line.
++
+Catch existing changes by looking for their exact commit SHA-1, rather
+than complete ancestory. This should have roughly the same outcome for
+anyone pushing a new commit on top of an existing open change, but
+with lower computional cost at the server.
+
+* Lookup changes in parallel during `ReceiveCommits`
++
+If the database has high query latency, the loop that locates existing
+changes on the destination branch given Change-Id can be slow. Start
+all of the queries as commits are discovered, but don't block on
+results until all queries were started.
++
+If the database can build the `ResultSet` in the background, this may
+hide some of the query latency by allowing the queries to overlap when
+more than one lookup must be performed for a push.
+
+* Perform change update on multiple threads
++
+When multiple changes need to be created or updated for a single push
+operation they are now inserted into the database by parallel threads,
+up to the maximum allowed thread count. The current thread is used
+when the thread pool is already fully in use, falling back to the
+prior behavior where each concurrent push operation can do its own
+concurrent database update. The thread pool exists to reduce latency
+so long as there are sufficient threads available.
++
+This helps push times on databases that are high latency, such as
+database servers that are running on a different machine from the
+Gerrit server itself, e.g. gerrit.googlesource.com.
++
+The new thread pool is
+link:../Documentation/config-gerrit.html#receive.changeUpdateThreads[
+disabled by default], limiting the overhead to servers that have good
+latency with their database, such as using in-process H2 database, or
+a MySQL or PostgreSQL on the same host.
+
+* Use `BatchRefUpdate` to execute reference changes
++
+Some storage backends for JGit are able to update multiple references
+in a single pass efficiently. Take advantage of this by pushing
+any normal reference updates (such as direct push or branch create)
+into a single `BatchRefUpdate` object.
+
 * Assume labels are correct in ListChanges
 +
 To reduce end-user latency when displaying changes in a search result
@@ -1284,6 +1408,14 @@ If a collapsed patch set panel was expanded and re-closed it's patch
 list wasn't updated anymore when the selection for `Old Version History`
 was changed.
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=1523[issue 1523]:
+  Update diff base to match old version history
++
+When changing the diff base in the `Old Version History` on the change
+screen and then entering the Side-By-Side view for a file, clicking on
+the back button in the browser (reentering the change screen) was
+causing the files to be wrongly compared with `Base` again.
+
 * Don't NPE if current patch set is not available
 +
 Broken changes may have the current patch set field incorrectly
@@ -1295,6 +1427,16 @@ claim the change is not reviewed.
 +
 Published and draft comments that are posted on deleted files were not
 loaded and displayed.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=735[issue 735]:
+  Fix `ArrayIndexOutOfBoundsException` on navigation to next/previous
+  patch
++
+An `ArrayIndexOutOfBoundsException` could occur when navigating from
+one patch to the next/previous patch if the next/previous patch was a
+newly added binary file. The exception occurred if the user was not
+signed in or if the user was signed in and had `Syntax Coloring` in the
+preferences enabled.
 
 * Only set reviewed attribute on open changes
 +
@@ -1368,6 +1510,14 @@ STARTTLS enabled, aka. `sendemail.smtpEncryption = tls`.
 
 SSH
 ~~~
+* Fix reject message if bypassing code review is not allowed
++
+If a user is not allowed to bypass code review, but tries to push a
+commit directly, Gerrit rejected this push with the error message
+"can not update the reference as a fast forward". This message was
+confusing to the user since the push only failed due to missing
+access rights. Go back to the old message that says "prohibited
+by Gerrit".
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=1437[issue 1437]:
   Send event to stream when draft change is published
@@ -1506,6 +1656,8 @@ trace when a program stops with a Die exception.
 
 * Do not automatically add author/committer as reviewer to drafts
 
+* Do not automatically add reviewers from footer lines to drafts
+
 * Fix NullPointerException in MergeOp
 +
 The body of the commit object may have been discarded earlier to
@@ -1514,6 +1666,27 @@ save memory, so ensure it exists before asking for the author.
 * link:http://code.google.com/p/gerrit/issues/detail?id=1396[issue 1396]:
   Initialize the submodule commit message buffer
 
+* Fix file name matching in `commit_delta` to perform substring
+  matching
++
+The `commit_delta` predicate was matching the entire file name against
+the given regular expression while other predicates (`commit_edits`,
+`commit_message_matches`) performed substring matching. It was
+inconsistent that for `commit_delta` it was needed to write something
+like:
++
+----
+  commit_delta('.*\.java')
+----
++
+to match all `*.java` files, while for `commit_edits` it was:
++
+----
+  commit_edits('\.java$', '...')
+----
++
+to match the same set of (Java) files.
+
 * Create index for submodule subscriptions on site upgrade
 
 * Fix URL to Jetty XML DTDs so they can be properly validated
@@ -1521,6 +1694,31 @@ save memory, so ensure it exists before asking for the author.
 * Fix resource leak when `changeMerge.test` is `true`
 
 * Fix possible synchronization issue in TaskThunk
+
+* Fix possible NPEs in `ReplaceRequest.cmd` usage in `ReceiveCommits`
++
+The `cmd` field is populated by `validate(boolean)`. If this method
+fails, results on some `ReplaceRequests` may not be set. Guard the
+attempt to access the field with a null check.
+
+* Match no labels if current patch set is not available
++
+If the current patch set cannot be loaded from `ChangeData`, assume no
+label information. This works around an NullPointerException inside of
+`ChangeControl` where the `PatchSet` is otherwise required.
+
+* Create new patch set references before database records
++
+Ensure the commit used by a new change or replacement patch set
+always exists in the Git repository by writing the reference first
+as part of the overall `BatchRefUpdate`, then inserting the database
+records if all of the references stored successfully.
+
+* Fix rebase patch set and revert change to update Git first
++
+Update the Git reference before writing to the database. This way the
+repository cannot be corrupted if the server goes down between the two
+actions.
 
 * Make sure we use only one type of NoteMerger for review notes creation
 

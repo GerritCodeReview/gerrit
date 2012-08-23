@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///yI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "I think they are related. The goal is that support for new database types can be added to Gerrit. The two interfaces are just two aspects a new database type has to support. DatabaseConfigInitializer is used during the init phase, DataSourceType is used during normal runtime. It\u0027s just split into two interfaces because we have different projects for init and server runtime and there shouldn\u0027t be unneeded dependencies between these projects.",
+      "parentUuid": "AAAIdH///9w\u003d",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdH////s\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitUtil.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-08-15T11:46:43Z",
       "side": 1,
       "message": "better use a local variable for the return value instead of modifying the argument",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///yE\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIdH////s\u003d",
       "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///yA\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIdH////w\u003d",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdH////g\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/PostgreSQLInitializer.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-08-15T11:46:43Z",
       "side": 1,
       "message": "This class has many commonalities with MySQLInitializer. Please consider extracting these out.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///x8\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/PostgreSQLInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s worth to extract these few common lines so that they can be reused in the two initializers.",
+      "parentUuid": "AAAIdH////g\u003d",
       "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///x4\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/Section.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "I agree, but the naming is actually consistent with other methods in this class, see \u0027string\u0027 method in line 89.",
+      "parentUuid": "AAAIdH////c\u003d",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdH////Y\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-08-15T11:46:43Z",
       "side": 1,
       "message": "Here, there is dátabase-specific coding left.Please consider moving these data-base-specific conversion routines to the database-specific init classes.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///y0\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/UpgradeFrom2_0_x.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "This class was intentionally not touched. It is only used for upgrades from old 2.0.x versions and hence this code doesn\u0027t need to support any new DataSouceType\u0027s which might be added by plugins in the future.",
+      "parentUuid": "AAAIdH////Y\u003d",
       "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///xA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIdH///+8\u003d",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdH////A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2012-08-15T11:46:43Z",
       "side": 1,
       "message": "Why default to \"index_generic.sql\" here let subclasses override this id not appropriate?",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///w8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIdH////A\u003d",
       "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///xE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIdH////I\u003d",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdH////U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2012-08-15T11:46:43Z",
       "side": 1,
       "message": "You might rather return an empty stream.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///xI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "We are now retuning a ScriptRunner that just does nothing.",
+      "parentUuid": "AAAIdH////U\u003d",
       "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///yo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "The method is now returning a ScriptRunner. Returning null is not allowed anymore.",
+      "parentUuid": "AAAIdH////Q\u003d",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdH////M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceType.java",
         "patchSetId": 1
@@ -200,6 +398,24 @@
       "writtenOn": "2012-08-15T11:46:43Z",
       "side": 1,
       "message": "s/from/from the class loader\r\n\r\n  Returning null is a bit ugly. Why not return an empty stream?",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///xM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "The method is now returning a ScriptRunner. Returning null is not allowed anymore.",
+      "parentUuid": "AAAIdH////M\u003d",
       "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///xU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/NamedInputStream.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "This class was removed as it\u0027s not needed anymore.",
+      "parentUuid": "AAAIdH////E\u003d",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdH///+E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
         "patchSetId": 1
@@ -234,6 +468,24 @@
       "writtenOn": "2012-08-15T11:46:43Z",
       "side": 1,
       "message": "If script \u0027d be an empty script instead of null, you wouldn\u0027t have to check for null here.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///xc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "Done by having the DataSourceType return a ScriptRunner instead of a NamedInputStream.",
+      "parentUuid": "AAAIdH///+E\u003d",
       "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///xY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIdH///+A\u003d",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdH///90\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ScriptRunner.java",
         "patchSetId": 1
@@ -274,6 +544,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///xg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ScriptRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "Having the DataSourceType returning a ScriptRunner is a good idea!\n\nDone.",
+      "parentUuid": "AAAIdH///90\u003d",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdH///98\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaUpdaterTest.java",
         "patchSetId": 1
@@ -285,6 +573,24 @@
       "writtenOn": "2012-08-15T11:46:43Z",
       "side": 1,
       "message": "Does this now effectivley use an in-memory H2 database for the execution of this test. If yes, you might want to consider to add a test (configuration) to test on a file-based H2 as well. Or you might mant to state this in the commit message.",
+      "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///w4\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/schema/SchemaUpdaterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T14:08:15Z",
+      "side": 1,
+      "message": "I believe the test always used an in-memory H2 database, this is why I think it doesn\u0027t need to be mentioned in the commit message. Adding a test for a file-based H2 database I don\u0027t see in the scope of this change.",
+      "parentUuid": "AAAIdH///98\u003d",
       "revId": "1d925d124be319a6ddb7471793be75c056f29e86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

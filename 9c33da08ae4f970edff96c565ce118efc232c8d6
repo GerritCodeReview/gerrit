@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///2s\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T07:38:19Z",
+      "side": 1,
+      "message": "Ok, I\u0027ve removed it here. We already have the same sentence above for stable releases (line 31).\n\nDone.",
+      "parentUuid": "AAAI1n///7w\u003d",
+      "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI1n///7o\u003d",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///2o\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T07:38:19Z",
+      "side": 1,
+      "message": "Yes, this is needed, but it\u0027s automatically done by the release script. It now invokes \u0027mvn clean install\u0027 instead of just \u0027mvn clean package\u0027 [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/36922/3/tools/release.sh",
+      "parentUuid": "AAAI1n///7o\u003d",
+      "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI1n///7k\u003d",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2012-08-23T03:52:30Z",
       "side": 1,
       "message": "Hmm, how about creating a different tag for this just as with the full war file?  Perhaps full-v2.5, or v2.5-full?",
+      "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///2k\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T07:38:19Z",
+      "side": 1,
+      "message": "I also think it\u0027s not nice to recreate the tag here.\n\nCreating a second tag here with a name as you propose is possible. I think in this case it needs only some minor modifications of the follow-up steps.\n\nHowever I\u0027m a bit afraid that having two tags might be confusing to everybody who is not familiar with the release process. People are normally interested in the state that was used to create the WAR file they downloaded from the Gerrit Project Homepage, this would be the second tag. However when they install and run this version, in the WebUI they would see the name of the first tag behind the \u0027Powered by Gerrit Code Review\u0027, wouldn\u0027t they? Also the version inserted in the documentation pages would be the name of the first tag. This is why I thought staying with one tag might be just easier. So I\u0027m still undecided about this.",
+      "parentUuid": "AAAI1n///7k\u003d",
       "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

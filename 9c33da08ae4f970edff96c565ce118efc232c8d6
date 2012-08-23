@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI1n///7w\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-23T03:52:30Z",
+      "side": 1,
+      "message": "I beleive this sentence was meant to apply to stable releases (RC0s in particular), not stable bug fixes",
+      "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///7o\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-23T03:52:30Z",
+      "side": 1,
+      "message": "Don\u0027t we need to install the plugin api locally at this step to be able to prepare the core plugins in the next step?",
+      "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///7k\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-23T03:52:30Z",
+      "side": 1,
+      "message": "Hmm, how about creating a different tag for this just as with the full war file?  Perhaps full-v2.5, or v2.5-full?",
+      "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

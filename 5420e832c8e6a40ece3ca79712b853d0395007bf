@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI5n///2c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T08:17:20Z",
+      "side": 1,
+      "message": "The arguments are not used at the moment. Is it already known that they will be needed later?",
+      "revId": "5420e832c8e6a40ece3ca79712b853d0395007bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

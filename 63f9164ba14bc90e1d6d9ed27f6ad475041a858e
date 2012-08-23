@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI1n///7Q\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-23T04:23:44Z",
+      "side": 1,
+      "message": "s/is a logic/is logic/",
+      "parentUuid": "AAAIdn///84\u003d",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAItH///9M\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 10
@@ -30,6 +48,41 @@
       "writtenOn": "2012-08-20T11:32:37Z",
       "side": 1,
       "message": "It should be mentioned that Prolog submit rules may be disabled by a Gerrit administrator by setting rules.enabled\u003dfalse in the Gerrit config file [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#_a_id_rules_a_section_rules",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///7M\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-23T04:23:44Z",
+      "side": 1,
+      "message": "s/on Gerrit UI/in the Gerrit UI/",
+      "parentUuid": "AAAItH///9M\u003d",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///68\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-23T04:23:44Z",
+      "side": 1,
+      "message": "s/Prolog/the Prolog/",
       "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +140,23 @@
     },
     {
       "key": {
+        "uuid": "AAAI1n///7I\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-23T04:23:44Z",
+      "side": 1,
+      "message": "s/let/let the/",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdn///8Q\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 10
@@ -98,6 +168,40 @@
       "writtenOn": "2012-08-15T18:01:43Z",
       "side": 1,
       "message": "s/find/finds/",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///7E\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-23T04:23:44Z",
+      "side": 1,
+      "message": "s/mean/means/",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///7A\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-23T04:23:44Z",
+      "side": 1,
+      "message": "s/about/about a/",
       "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

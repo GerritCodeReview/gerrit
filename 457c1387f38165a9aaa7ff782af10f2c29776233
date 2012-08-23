@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI5n///20\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T06:30:05Z",
+      "side": 1,
+      "message": "To be consistent with the formatting of the other column headers, \u0027Browser\u0027 should start with a capital \u0027B\u0027.",
+      "revId": "457c1387f38165a9aaa7ff782af10f2c29776233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///28\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T06:30:05Z",
+      "side": 1,
+      "message": "nit: missing space after \u0027if\u0027",
+      "revId": "457c1387f38165a9aaa7ff782af10f2c29776233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n///24\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-23T06:30:05Z",
+      "side": 1,
+      "message": "This line must be also protected by \n  if (Gerrit.getGitwebLink() !\u003d null) {\n\nOtherwise there will be empty cells if no GitWeb link is configured.",
+      "revId": "457c1387f38165a9aaa7ff782af10f2c29776233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

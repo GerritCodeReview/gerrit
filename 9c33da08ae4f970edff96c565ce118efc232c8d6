@@ -104,6 +104,24 @@
       "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///54\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-24T04:47:42Z",
+      "side": 1,
+      "message": "Hmm, as you say the full tag is needed for the war, but that also implies it is needed to know what version of the core plugins are in the war, so I think we really need it.  If 2tags is too much, what about only pushing the full tag upstream from now on?",
+      "parentUuid": "AAAI5n///2k\u003d",
+      "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

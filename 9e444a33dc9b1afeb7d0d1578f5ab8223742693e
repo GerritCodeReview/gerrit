@@ -37,6 +37,41 @@
     },
     {
       "key": {
+        "uuid": "AAAI2n///pM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-24T22:46:39Z",
+      "side": 1,
+      "message": "Now I understand.  Thanks for the explanation.\n\nHow about simply appending \", i.e. do not list the projects for which the access rights for this group are inherited.\"",
+      "parentUuid": "AAAI5H///rw\u003d",
+      "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI2n///pI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-24T22:46:39Z",
+      "side": 1,
+      "message": "Does \"(still)\" imply that a use case for this feature is that you intend to remove a group, but first want to check where it\u0027s used?",
+      "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI2n///qk\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 1
@@ -66,6 +101,24 @@
       "side": 1,
       "message": "Hmm, I didn\u0027t know that we make a space after the ! operator. In all the rest of the file there is no space after this operator, so for consistency reasons I would prefer to leave the new lines also without space here.",
       "parentUuid": "AAAI2n///qk\u003d",
+      "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI2n///pE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-24T22:46:39Z",
+      "side": 1,
+      "message": "It\u0027s in the code style settings (tools/GoogleFormat.xml):\n\n \u003csetting id\u003d\"org.eclipse.jdt.core.formatter.insert_space_after_binary_operator\" value\u003d\"insert\"/\u003e\n\nI\u0027ve tried to follow it with new code that I\u0027ve added, and I\u0027ve pointed it out (and it\u0027s been fixed) in other reviews.\n\nBut it does not seem to be consistently followed everywhere.  Some files do, some don\u0027t, and in some there\u0027s a mix of both.",
+      "parentUuid": "AAAI5H///r0\u003d",
       "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

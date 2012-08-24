@@ -88,6 +88,24 @@
       "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///rg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T18:52:40Z",
+      "side": 1,
+      "message": "Sasa is currently in vacations, but if I remember correctly he wants to implement this functionality as a plugin once Gerrit 2.5 with plugin support is available.",
+      "parentUuid": "AAAI2n///qM\u003d",
+      "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

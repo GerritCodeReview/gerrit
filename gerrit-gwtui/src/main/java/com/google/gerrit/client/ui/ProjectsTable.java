@@ -35,7 +35,10 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.projectListOpen()));
     keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
                                                   Util.C.projectListOpen()));
+    initColumnHeaders();
+  }
 
+  protected void initColumnHeaders() {
     table.setText(0, 1, Util.C.projectName());
     table.setText(0, 2, Util.C.projectDescription());
 

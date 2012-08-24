@@ -16,6 +16,7 @@ SYNOPSIS
   [--format {text | json | json_compact}]
   [--all]
   [--limit <N>]
+  [--has-acl-for GROUP]
 
 DESCRIPTION
 -----------
@@ -90,6 +91,13 @@ used to unescape the output.
 
 --limit::
 	Cap the number of results to the first N matches.
+
+--has-acl-for::
+	Display only projects on which access rights for this group are
+	directly assigned. Projects which only inherit access rights for
+	this group are not listed.
++
+With this option you can find out on which projects a group is used.
 
 HTTP
 ----

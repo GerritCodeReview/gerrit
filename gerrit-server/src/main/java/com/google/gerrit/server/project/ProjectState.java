@@ -174,7 +174,7 @@ public class ProjectState {
   }
 
   /** Get the sections that pertain only to this project. */
-  private List<SectionMatcher> getLocalAccessSections() {
+  List<SectionMatcher> getLocalAccessSections() {
     List<SectionMatcher> sm = localAccessSections;
     if (sm == null) {
       Collection<AccessSection> fromConfig = config.getAccessSections();

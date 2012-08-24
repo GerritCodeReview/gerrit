@@ -15,11 +15,16 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.StringUtil;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
@@ -86,6 +91,8 @@ public class ListProjects {
 
   private final CurrentUser currentUser;
   private final ProjectCache projectCache;
+  private final GroupCache groupCache;
+  private final GroupControl.Factory groupControlFactory;
   private final GitRepositoryManager repoManager;
   private final ProjectNode.Factory projectNodeFactory;
 
@@ -115,12 +122,18 @@ public class ListProjects {
 
   private String matchPrefix;
 
+  @Option(name = "--group", aliases = {"-g"}, metaVar = "GROUP", usage =
+      "displays only projects on which locally access rights for this group are assigned")
+  private AccountGroup.Id groupId;
+
   @Inject
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
-      GitRepositoryManager repoManager,
-      ProjectNode.Factory projectNodeFactory) {
+      GroupCache groupCache, GroupControl.Factory groupControlFactory,
+      GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
+    this.groupCache = groupCache;
+    this.groupControlFactory = groupControlFactory;
     this.repoManager = repoManager;
     this.projectNodeFactory = projectNodeFactory;
   }
@@ -175,6 +188,22 @@ public class ListProjects {
           //
           continue;
         }
+
+        final ProjectControl pctl = e.controlFor(currentUser);
+        if (groupId != null) {
+          try {
+            if (!groupControlFactory.controlFor(groupId).isVisible()) {
+              break;
+            }
+          } catch (NoSuchGroupException ex) {
+            break;
+          }
+          if (!pctl.getLocalGroups().contains(
+              GroupReference.forGroup(groupCache.get(groupId)))) {
+            continue;
+          }
+        }
+
         ProjectInfo info = new ProjectInfo();
         if (type == FilterType.PARENT_CANDIDATES) {
           ProjectState parentState = e.getParentState();
@@ -194,7 +223,6 @@ public class ListProjects {
           }
 
         } else {
-          final ProjectControl pctl = e.controlFor(currentUser);
           final boolean isVisible = pctl.isVisible() || (all && pctl.isOwner());
           if (showTree && !format.isJson()) {
             treeMap.put(projectName,

@@ -120,6 +120,7 @@ public class ProjectControl {
   private final Collection<ContributorAgreement> contributorAgreements;
 
   private List<SectionMatcher> allSections;
+  private List<SectionMatcher> localSections;
   private Map<String, RefControl> refControls;
   private Boolean declaredOwner;
 
@@ -239,8 +240,17 @@ public class ProjectControl {
   }
 
   public Set<GroupReference> getAllGroups() {
+    return getGroups(access());
+  }
+
+  public Set<GroupReference> getLocalGroups() {
+    return getGroups(localAccess());
+  }
+
+  private static Set<GroupReference> getGroups(
+      final List<SectionMatcher> sectionMatcherList) {
     final Set<GroupReference> all = new HashSet<GroupReference>();
-    for (final SectionMatcher matcher : access()) {
+    for (final SectionMatcher matcher : sectionMatcherList) {
       final AccessSection section = matcher.section;
       for (final Permission permission : section.getPermissions()) {
         for (final PermissionRule rule : permission.getRules()) {
@@ -250,6 +260,7 @@ public class ProjectControl {
     }
     return all;
   }
+
 
   private Capable verifyActiveContributorAgreement() {
     if (! (user instanceof IdentifiedUser)) {
@@ -390,6 +401,13 @@ public class ProjectControl {
       allSections = state.getAllSections();
     }
     return allSections;
+  }
+
+  private List<SectionMatcher> localAccess() {
+    if (localSections == null) {
+      localSections = state.getLocalAccessSections();
+    }
+    return localSections;
   }
 
   boolean match(PermissionRule rule) {

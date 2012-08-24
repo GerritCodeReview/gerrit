@@ -37,6 +37,7 @@ public interface GerritCss extends CssResource {
   String approvalhint();
   String approvalrole();
   String approvalscore();
+  String votable();
   String blockHeader();
   String bottomheader();
   String cAPPROVAL();

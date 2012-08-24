@@ -871,6 +871,12 @@
 .infoTable td.approvalscore {
   text-align: center;
 }
+.infoTable td.votable {
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* for IE8 */
+  filter:alpha(opacity=50); /* IE5-7 */
+  opacity: 0.5; /* Safari, Opera */
+  -moz-opacity:0.50; /* FireFox */
+}
 .infoTable td.negscore {
   color: red;
 }

@@ -397,8 +397,13 @@ public class ApprovalTable extends Composite {
 
     for (String labelName : columns) {
       fmt.setStyleName(row, col, Gerrit.RESOURCES.css().approvalscore());
+      if (!ad.canVote(labelName)) {
+        fmt.addStyleName(row, col, Gerrit.RESOURCES.css().votable());
+        final Image readOnlyIcon = new Image(Gerrit.RESOURCES.readonly());
+        readOnlyIcon.setTitle(Gerrit.C.userCannotVoteToolTip());
+        table.setWidget(row, col, readOnlyIcon);
 
-      if (ad.isRejected(labelName)) {
+      } else if (ad.isRejected(labelName)) {
         table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
 
       } else if (ad.isApproved(labelName)) {

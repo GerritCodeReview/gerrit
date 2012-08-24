@@ -106,6 +106,24 @@
       "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI2n///o4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-24T23:03:37Z",
+      "side": 1,
+      "message": "OK, good.   This feature will be very useful for something I\u0027m working on.",
+      "parentUuid": "AAAI5H///rg\u003d",
+      "revId": "2084e17b8557ff729ef0ea87955a4d3b6b0123fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

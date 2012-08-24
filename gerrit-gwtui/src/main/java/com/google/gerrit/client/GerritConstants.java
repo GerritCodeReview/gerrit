@@ -106,4 +106,6 @@ public interface GerritConstants extends Constants {
 
   String projectAccessError();
   String projectAccessProposeForReviewHint();
+
+  String userCannotVoteToolTip();
 }

@@ -55,6 +55,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private final ReviewDb db;
   private final FunctionState.Factory functionState;
   private final ChangeControl.Factory changeControlFactory;
+  private final ChangeControl.GenericFactory changeControlGenericFactory;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ApprovalTypes approvalTypes;
   private final AccountInfoCacheFactory aic;
   private final IdentifiedUser user;
@@ -71,12 +73,16 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final FunctionState.Factory functionState,
       final ChangeControl.Factory changeControlFactory,
+      final ChangeControl.GenericFactory changeControlGenericFactory,
+      final IdentifiedUser.GenericFactory identifiedUserFactory,
       final ApprovalTypes approvalTypes,
       final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
     this.infoFactory = infoFactory;
     this.db = db;
     this.functionState = functionState;
     this.changeControlFactory = changeControlFactory;
+    this.changeControlGenericFactory = changeControlGenericFactory;
+    this.identifiedUserFactory = identifiedUserFactory;
     this.approvalTypes = approvalTypes;
     this.aic = accountInfoCacheFactory.create();
     this.user = user;
@@ -190,7 +196,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   }
 
   private void loadApprovals(final PatchSetPublishDetail detail,
-      final ChangeControl control) throws OrmException {
+      final ChangeControl control) throws OrmException, NoSuchChangeException {
     final PatchSet.Id psId = detail.getChange().currentPatchSetId();
     final Change.Id changeId = patchSetId.getParentKey();
     final List<PatchSetApproval> allApprovals =
@@ -220,6 +226,14 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       }
       if (ca.getPatchSetId().equals(psId)) {
         d.add(ca);
+      }
+      final ChangeControl chgCtrl =
+          changeControlGenericFactory.controlFor(detail.getChange(),
+              identifiedUserFactory.create(ca.getAccountId()));
+      for (PermissionRange pr : chgCtrl.getLabelRanges()) {
+        if (pr.getMin() != 0 || pr.getMax() != 0) {
+          d.votable(pr.getLabel());
+        }
       }
     }
 

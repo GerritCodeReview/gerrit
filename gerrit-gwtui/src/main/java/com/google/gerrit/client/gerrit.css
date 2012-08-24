@@ -871,6 +871,9 @@
 .infoTable td.approvalscore {
   text-align: center;
 }
+.infoTable td.notVotable {
+  background: #F5F5F5;
+}
 .infoTable td.negscore {
   color: red;
 }

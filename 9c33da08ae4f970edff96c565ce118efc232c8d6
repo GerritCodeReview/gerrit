@@ -122,6 +122,24 @@
       "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///1c\u003d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T06:33:55Z",
+      "side": 1,
+      "message": "Yes, I think the only tag that is needed is the full tag, but then isn\u0027t it confusing that the tag name in the Powered By and in the Documentation pages is different and not existing in the central repo? By recreating the tag as described above it looks more consistent, since everywhere it\u0027s just the same tag name. But maybe this inconsistency is not really important. Would be good to get also an opinion from Shawn and Sasa.",
+      "parentUuid": "AAAI1n///54\u003d",
+      "revId": "9c33da08ae4f970edff96c565ce118efc232c8d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

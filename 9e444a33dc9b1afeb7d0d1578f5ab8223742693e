@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI2n///qc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-24T14:35:10Z",
+      "side": 1,
+      "message": "What does locally mean in this context?  Locally to what?",
+      "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI2n///qk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-24T14:35:10Z",
+      "side": 1,
+      "message": "Style nit: there should be a space after the ! operator.",
+      "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI2n///qg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-24T14:35:10Z",
+      "side": 1,
+      "message": "Space after !",
+      "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

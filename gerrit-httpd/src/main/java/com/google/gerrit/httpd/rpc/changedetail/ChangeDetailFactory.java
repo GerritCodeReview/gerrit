@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
+import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -71,6 +72,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
   private final ApprovalTypes approvalTypes;
   private final ChangeControl.Factory changeControlFactory;
+  private final ChangeControl.GenericFactory changeControlGenericFactory;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final FunctionState.Factory functionState;
   private final PatchSetDetailFactory.Factory patchSetDetail;
   private final AccountInfoCacheFactory aic;
@@ -93,6 +96,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final PatchSetDetailFactory.Factory patchSetDetail, final ReviewDb db,
       final GitRepositoryManager repoManager,
       final ChangeControl.Factory changeControlFactory,
+      final ChangeControl.GenericFactory changeControlGenericFactory,
+      final IdentifiedUser.GenericFactory identifiedUserFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final AnonymousUser anonymousUser,
       final MergeOp.Factory opFactory,
@@ -104,6 +109,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     this.db = db;
     this.repoManager = repoManager;
     this.changeControlFactory = changeControlFactory;
+    this.changeControlGenericFactory = changeControlGenericFactory;
+    this.identifiedUserFactory = identifiedUserFactory;
     this.anonymousUser = anonymousUser;
     this.aic = accountInfoCacheFactory.create();
 
@@ -240,6 +247,12 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       }
       if (ca.getPatchSetId().equals(psId)) {
         d.add(ca);
+      }
+      final ChangeControl chgCtrl =
+          changeControlGenericFactory.controlFor(detail.getChange(),
+              identifiedUserFactory.create(ca.getAccountId()));
+      for (PermissionRange pr : chgCtrl.getLabelRanges()) {
+        d.votable(pr.getLabel());
       }
     }
 

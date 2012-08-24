@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI5H///0c\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "Would it makes sense if DependencyError would include the ChangeId of the ancestor change that is causing the error? This might be helpful to understand which ancestor change is causing the problem.",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///1E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "Do you need the \u0027processed\u0027 parameter in this public method? I would expect that all external callers would just pass \u0027null\u0027 for it.\n\nnit: this line could be wrapped",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///1A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "Do you need the \u0027processed\u0027 parameter in this public method? I would expect that all external callers would just pass \u0027null\u0027 for it.\n\nnit: this line could be wrapped",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///08\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "nit: this line could be wrapped",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///0I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "Should the change be added to the \u0027processed\u0027 map before doing the recursive call in line 138?",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///04\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///00\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///0w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///0s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "Just looking at the method name, I was expecting that the return type would be a set of ancestor data, but not a boolean. Maybe you can document the return value as JavaDoc? From the usage of this method in DependencyUtil I thought the return value would say whether all ancestors are visible, but looking at the implementation it would also return false if any of the descendants is not visible.\n\nThe method is not only loading ancestors but also descandants. From the method name I wasn\u0027t expecting this. Maybe you can find a better method name?",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///0o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "Can we in this place be sure that \u0027patches\u0027 contains all the patch sets of the change? Looking at ensureCurrentPatchSetLoaded(...) it looks like \u0027patches\u0027 might just contain the current patch set.",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///0k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure if I understand this. \u0027control\u0027 is the ChangeControl for the one change for which we want to load the ancestors. Don\u0027t you need to create a new ChangeControl here for the ancestor change?",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///0g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T08:46:12Z",
+      "side": 1,
+      "message": "Same as above. Don\u0027t you need to create a new ChangeControl here for the dependent change?",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

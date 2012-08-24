@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5H///rw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T18:30:21Z",
+      "side": 1,
+      "message": "It\u0027s \u0027local access rights\u0027 vs. \u0027inherited access rights\u0027 (at least this is how it\u0027s named in the sources).\n\nWith the new option a project is only listed if an access right for the specified group is defined on that project, if access rights for this group are only inherited the project is not listed. Any way to write it better?",
+      "parentUuid": "AAAI2n///qc\u003d",
+      "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI2n///qk\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-08-24T14:35:10Z",
       "side": 1,
       "message": "Style nit: there should be a space after the ! operator.",
+      "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///r0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-24T18:30:21Z",
+      "side": 1,
+      "message": "Hmm, I didn\u0027t know that we make a space after the ! operator. In all the rest of the file there is no space after this operator, so for consistency reasons I would prefer to leave the new lines also without space here.",
+      "parentUuid": "AAAI2n///qk\u003d",
       "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI3X///dc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-08-25T04:29:31Z",
+      "side": 1,
+      "message": "suggetst \"...only projects on which access rights for the specified group are assigned directly not inherit.\"\n\nand the option full name \u0027--group \u0027 is not good as the intuitive understanding of it is to let Gerrit list those projects the specified group can access by rights assigned directly on these project or inherited from parent project. maybe later user will want this feature.\n(by option short name we can distinguish them by  \u0027-g\u0027 and \u0027-G\u0027. )",
+      "parentUuid": "AAAI2n///pM\u003d",
+      "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI2n///pI\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "It\u0027s in the code style settings (tools/GoogleFormat.xml):\n\n \u003csetting id\u003d\"org.eclipse.jdt.core.formatter.insert_space_after_binary_operator\" value\u003d\"insert\"/\u003e\n\nI\u0027ve tried to follow it with new code that I\u0027ve added, and I\u0027ve pointed it out (and it\u0027s been fixed) in other reviews.\n\nBut it does not seem to be consistently followed everywhere.  Some files do, some don\u0027t, and in some there\u0027s a mix of both.",
       "parentUuid": "AAAI5H///r0\u003d",
+      "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI3X///dg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-08-25T04:29:31Z",
+      "side": 1,
+      "message": "we shold keep code, especially new code in current feature align with tools/GoogleFormat.xml, not the old style.\n\ncurrently there are most old code \u0027s style is not match tools/GoogleFormat.xml.\nsome of them are there just for read or review easily in some special case.  others really need update in a special-purpose patchset but this seems a bikesheding work, at leat for me not willing to spent time on it.",
+      "parentUuid": "AAAI2n///pE\u003d",
       "revId": "9e444a33dc9b1afeb7d0d1578f5ab8223742693e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI3X///Rg\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-28T01:19:53Z",
+      "side": 1,
+      "message": "just -\u003e only",
+      "revId": "c4de7e4893369bbe51be0ef9a2aeb5c2e90efc57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI3X///Rk\u003d",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-28T01:19:53Z",
+      "side": 1,
+      "message": "just -\u003e only",
+      "revId": "c4de7e4893369bbe51be0ef9a2aeb5c2e90efc57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.server.git.MergeUtil.computeAuthor;
+import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -27,7 +29,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
@@ -36,7 +37,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
@@ -54,14 +54,11 @@ import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AnyObjectId;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -69,11 +66,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.merge.MergeStrategy;
-import org.eclipse.jgit.merge.Merger;
-import org.eclipse.jgit.merge.ThreeWayMerger;
-import org.eclipse.jgit.revwalk.FooterKey;
-import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -82,21 +74,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
-
-import javax.annotation.Nullable;
 
 /**
  * Merges changes in submission order into a single branch.
@@ -118,14 +102,6 @@ public class MergeOp {
   }
 
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
-  private static final String R_HEADS_MASTER =
-      Constants.R_HEADS + Constants.MASTER;
-  private static final ApprovalCategory.Id CRVW =
-      new ApprovalCategory.Id("CRVW");
-  private static final ApprovalCategory.Id VRIF =
-      new ApprovalCategory.Id("VRIF");
-  private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
-  private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   /** Amount of time to wait between submit and checking for missing deps. */
   private static final long DEPENDENCY_DELAY =
@@ -138,7 +114,6 @@ public class MergeOp {
   private final GitReferenceUpdated replication;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
-  private final Provider<String> urlProvider;
   private final ApprovalTypes approvalTypes;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -149,7 +124,6 @@ public class MergeOp {
   private final Branch.NameKey destBranch;
   private Project destProject;
   private final List<CodeReviewCommit> toMerge;
-  private List<Change> submitted;
   private final Map<Change.Id, CodeReviewCommit> commits;
   private ReviewDb db;
   private Repository repo;
@@ -157,14 +131,14 @@ public class MergeOp {
   private RevFlag CAN_MERGE;
   private CodeReviewCommit branchTip;
   private CodeReviewCommit mergeTip;
-  private Set<RevCommit> alreadyAccepted;
-  private RefUpdate branchUpdate;
+  private PersonIdent refLogIdent;
   private ObjectInserter inserter;
 
   private final ChangeHooks hooks;
   private final AccountCache accountCache;
   private final TagCache tagCache;
   private final CreateCodeReviewNotes.Factory codeReviewNotesFactory;
+  private final SubmitStrategyFactory submitStrategyFactory;
   private final SubmoduleOp.Factory subOpFactory;
   private final WorkQueue workQueue;
   private final RequestScopePropagator requestScopePropagator;
@@ -173,17 +147,15 @@ public class MergeOp {
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
       final ProjectCache pc, final FunctionState.Factory fs,
       final GitReferenceUpdated rq, final MergedSender.Factory msf,
-      final MergeFailSender.Factory mfsf,
-      @CanonicalWebUrl @Nullable final Provider<String> cwu,
-      final ApprovalTypes approvalTypes, final PatchSetInfoFactory psif,
-      final IdentifiedUser.GenericFactory iuf,
+      final MergeFailSender.Factory mfsf, final ApprovalTypes approvalTypes,
+      final PatchSetInfoFactory psif, final IdentifiedUser.GenericFactory iuf,
       final ChangeControl.GenericFactory changeControlFactory,
       @GerritPersonIdent final PersonIdent myIdent,
       final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
       final ChangeHooks hooks, final AccountCache accountCache,
       final TagCache tagCache, final CreateCodeReviewNotes.Factory crnf,
-      final SubmoduleOp.Factory subOpFactory,
-      final WorkQueue workQueue,
+      final SubmitStrategyFactory submitStrategyFactory,
+      final SubmoduleOp.Factory subOpFactory, final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator) {
     repoManager = grm;
     schemaFactory = sf;
@@ -192,7 +164,6 @@ public class MergeOp {
     replication = rq;
     mergedSenderFactory = msf;
     mergeFailSenderFactory = mfsf;
-    urlProvider = cwu;
     this.approvalTypes = approvalTypes;
     patchSetInfoFactory = psif;
     identifiedUserFactory = iuf;
@@ -202,6 +173,7 @@ public class MergeOp {
     this.accountCache = accountCache;
     this.tagCache = tagCache;
     codeReviewNotesFactory = crnf;
+    this.submitStrategyFactory = submitStrategyFactory;
     this.subOpFactory = subOpFactory;
     this.workQueue = workQueue;
     this.requestScopePropagator = requestScopePropagator;
@@ -216,8 +188,6 @@ public class MergeOp {
       setDestProject();
       openRepository();
       final Ref destBranchRef = repo.getRef(destBranch.get());
-      submitted = new ArrayList<Change>();
-      submitted.add(change);
 
       // Test mergeability of the change if the last merged sha1
       // in the branch is different from the last sha1
@@ -227,7 +197,9 @@ public class MergeOp {
           || (destBranchRef != null && !destBranchRef.getObjectId().getName()
               .equals(change.getLastSha1MergeTested().get()))) {
         openSchema();
-        preMerge();
+        validateChangeList(Collections.singletonList(change));
+        openBranch();
+        preMerge(getAlreadyAccepted(branchTip));
 
         // update sha1 tested merge.
         if (destBranchRef != null) {
@@ -277,11 +249,13 @@ public class MergeOp {
     try {
       openSchema();
       openRepository();
-      submitted = db.changes().submitted(destBranch).toList();
-      preMerge();
-      updateBranch();
-      updateChangeStatus();
-      updateSubscriptions();
+      final List<Change> submitted = db.changes().submitted(destBranch).toList();
+      validateChangeList(submitted);
+      final RefUpdate branchUpdate = openBranch();
+      preMerge(getAlreadyAccepted(branchTip));
+      updateBranch(branchUpdate);
+      updateChangeStatus(submitted);
+      updateSubscriptions(submitted);
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
     } finally {
@@ -300,24 +274,14 @@ public class MergeOp {
     }
   }
 
-  private void preMerge() throws MergeException, OrmException {
-    openBranch();
-    validateChangeList();
-    mergeTip = branchTip;
-    switch (destProject.getSubmitType()) {
-      case CHERRY_PICK:
-        cherryPickChanges();
-        break;
-
-      case FAST_FORWARD_ONLY:
-      case MERGE_ALWAYS:
-      case MERGE_IF_NECESSARY:
-      default:
-        reduceToMinimalMerge();
-        mergeTopics();
-        markCleanMerges();
-        break;
-    }
+  private void preMerge(final Set<RevCommit> alreadyAccepted) throws MergeException {
+    final SubmitStrategy strategy =
+        submitStrategyFactory.create(destProject.getSubmitType(), db, repo, rw,
+            inserter, CAN_MERGE, alreadyAccepted, destBranch,
+            destProject.isUseContentMerge());
+    mergeTip = strategy.run(branchTip, toMerge);
+    refLogIdent = strategy.getRefLogIdent();
+    commits.putAll(strategy.getNewCommits());
   }
 
   private void openRepository() throws MergeException {
@@ -345,15 +309,12 @@ public class MergeOp {
     inserter = repo.newObjectInserter();
   }
 
-  private void openBranch() throws MergeException {
-    alreadyAccepted = new HashSet<RevCommit>();
-
+  private RefUpdate openBranch() throws MergeException {
     try {
-      branchUpdate = repo.updateRef(destBranch.get());
+      final RefUpdate branchUpdate = repo.updateRef(destBranch.get());
       if (branchUpdate.getOldObjectId() != null) {
         branchTip =
             (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
-        alreadyAccepted.add(branchTip);
       } else {
         branchTip = null;
       }
@@ -373,6 +334,21 @@ public class MergeOp {
             "Failed to check existence of destination branch", e);
       }
 
+      return branchUpdate;
+    } catch (IOException e) {
+      throw new MergeException("Cannot open branch", e);
+    }
+  }
+
+  private Set<RevCommit> getAlreadyAccepted(final CodeReviewCommit branchTip)
+      throws MergeException {
+    final Set<RevCommit> alreadyAccepted = new HashSet<RevCommit>();
+
+    if (branchTip != null) {
+      alreadyAccepted.add(branchTip);
+    }
+
+    try {
       for (final Ref r : repo.getAllRefs().values()) {
         if (r.getName().startsWith(Constants.R_HEADS)
             || r.getName().startsWith(Constants.R_TAGS)) {
@@ -384,11 +360,13 @@ public class MergeOp {
         }
       }
     } catch (IOException e) {
-      throw new MergeException("Cannot open branch", e);
+      throw new MergeException("Failed to determine already accepted commits.", e);
     }
+
+    return alreadyAccepted;
   }
 
-  private void validateChangeList() throws MergeException {
+  private void validateChangeList(final List<Change> submitted) throws MergeException {
     final Set<ObjectId> tips = new HashSet<ObjectId>();
     for (final Ref r : repo.getAllRefs().values()) {
       tips.add(r.getObjectId());
@@ -476,562 +454,7 @@ public class MergeOp {
     }
   }
 
-  private void reduceToMinimalMerge() throws MergeException {
-    final Collection<CodeReviewCommit> heads;
-    try {
-      heads = new MergeSorter(rw, alreadyAccepted, CAN_MERGE).sort(toMerge);
-    } catch (IOException e) {
-      throw new MergeException("Branch head sorting failed", e);
-    }
-
-    toMerge.clear();
-    toMerge.addAll(heads);
-    Collections.sort(toMerge, new Comparator<CodeReviewCommit>() {
-      public int compare(final CodeReviewCommit a, final CodeReviewCommit b) {
-        return a.originalOrder - b.originalOrder;
-      }
-    });
-  }
-
-  private void mergeTopics() throws MergeException {
-    // Take the first fast-forward available, if any is available in the set.
-    //
-    if (destProject.getSubmitType() != Project.SubmitType.MERGE_ALWAYS) {
-      for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext();) {
-        try {
-          final CodeReviewCommit n = i.next();
-          if (mergeTip == null || rw.isMergedInto(mergeTip, n)) {
-            mergeTip = n;
-            i.remove();
-            break;
-          }
-        } catch (IOException e) {
-          throw new MergeException("Cannot fast-forward test during merge", e);
-        }
-      }
-    }
-
-    if (destProject.getSubmitType() == Project.SubmitType.FAST_FORWARD_ONLY) {
-      // If this project only permits fast-forwards, abort everything else.
-      //
-      while (!toMerge.isEmpty()) {
-        final CodeReviewCommit n = toMerge.remove(0);
-        n.statusCode = CommitMergeStatus.NOT_FAST_FORWARD;
-      }
-
-    } else {
-      // For every other commit do a pair-wise merge.
-      //
-      while (!toMerge.isEmpty()) {
-        mergeOneCommit(toMerge.remove(0));
-      }
-    }
-  }
-
-  private void mergeOneCommit(final CodeReviewCommit n) throws MergeException {
-    final ThreeWayMerger m = newThreeWayMerger();
-    try {
-      if (m.merge(new AnyObjectId[] {mergeTip, n})) {
-        writeMergeCommit(m.getResultTreeId(), n);
-
-      } else {
-        failed(n, CommitMergeStatus.PATH_CONFLICT);
-      }
-    } catch (IOException e) {
-      if (e.getMessage().startsWith("Multiple merge bases for")) {
-        try {
-          failed(n, CommitMergeStatus.CRISS_CROSS_MERGE);
-        } catch (IOException e2) {
-          throw new MergeException("Cannot merge " + n.name(), e);
-        }
-      } else {
-        throw new MergeException("Cannot merge " + n.name(), e);
-      }
-    }
-  }
-
-  private ThreeWayMerger newThreeWayMerger() {
-    ThreeWayMerger m;
-    if (destProject.isUseContentMerge()) {
-      // Settings for this project allow us to try and
-      // automatically resolve conflicts within files if needed.
-      // Use ResolveMerge and instruct to operate in core.
-      m = MergeStrategy.RESOLVE.newMerger(repo, true);
-    } else {
-      // No auto conflict resolving allowed. If any of the
-      // affected files was modified, merge will fail.
-      m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(repo);
-    }
-    m.setObjectInserter(new ObjectInserter.Filter() {
-      @Override
-      protected ObjectInserter delegate() {
-        return inserter;
-      }
-
-      @Override
-      public void flush() {
-      }
-
-      @Override
-      public void release() {
-      }
-    });
-    return m;
-  }
-
-  private CodeReviewCommit failed(final CodeReviewCommit n,
-      final CommitMergeStatus failure) throws MissingObjectException,
-      IncorrectObjectTypeException, IOException {
-    rw.reset();
-    rw.markStart(n);
-    rw.markUninteresting(mergeTip);
-    CodeReviewCommit failed;
-    while ((failed = (CodeReviewCommit) rw.next()) != null) {
-      failed.statusCode = failure;
-    }
-    return failed;
-  }
-
-  private void writeMergeCommit(ObjectId treeId, CodeReviewCommit n)
-      throws IOException, MissingObjectException, IncorrectObjectTypeException {
-    final List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
-    rw.reset();
-    rw.markStart(n);
-    rw.markUninteresting(mergeTip);
-    for (final RevCommit c : rw) {
-      final CodeReviewCommit crc = (CodeReviewCommit) c;
-      if (crc.patchsetId != null) {
-        merged.add(crc);
-      }
-    }
-
-    final StringBuilder msgbuf = new StringBuilder();
-    if (merged.size() == 1) {
-      final CodeReviewCommit c = merged.get(0);
-      rw.parseBody(c);
-      msgbuf.append("Merge \"");
-      msgbuf.append(c.getShortMessage());
-      msgbuf.append("\"");
-
-    } else {
-      msgbuf.append("Merge changes ");
-      for (final Iterator<CodeReviewCommit> i = merged.iterator(); i.hasNext();) {
-        msgbuf.append(i.next().change.getKey().abbreviate());
-        if (i.hasNext()) {
-          msgbuf.append(',');
-        }
-      }
-    }
-
-    if (!R_HEADS_MASTER.equals(destBranch.get())) {
-      msgbuf.append(" into ");
-      msgbuf.append(destBranch.getShortName());
-    }
-
-    if (merged.size() > 1) {
-      msgbuf.append("\n\n* changes:\n");
-      for (final CodeReviewCommit c : merged) {
-        rw.parseBody(c);
-        msgbuf.append("  ");
-        msgbuf.append(c.getShortMessage());
-        msgbuf.append("\n");
-      }
-    }
-
-    PersonIdent authorIdent = computeAuthor(merged);
-
-    final CommitBuilder mergeCommit = new CommitBuilder();
-    mergeCommit.setTreeId(treeId);
-    mergeCommit.setParentIds(mergeTip, n);
-    mergeCommit.setAuthor(authorIdent);
-    mergeCommit.setCommitter(myIdent);
-    mergeCommit.setMessage(msgbuf.toString());
-
-    mergeTip = (CodeReviewCommit) rw.parseCommit(commit(mergeCommit));
-  }
-
-  private PersonIdent computeAuthor(
-      final List<CodeReviewCommit> codeReviewCommits) {
-    PatchSetApproval submitter = null;
-    for (final CodeReviewCommit c : codeReviewCommits) {
-      PatchSetApproval s = getSubmitter(db, c.patchsetId);
-      if (submitter == null
-          || (s != null && s.getGranted().compareTo(submitter.getGranted()) > 0)) {
-        submitter = s;
-      }
-    }
-
-    // Try to use the submitter's identity for the merge commit author.
-    // If all of the commits being merged are created by the submitter,
-    // prefer the identity line they used in the commits rather than the
-    // preferred identity stored in the user account. This way the Git
-    // commit records are more consistent internally.
-    //
-    PersonIdent authorIdent;
-    if (submitter != null) {
-      IdentifiedUser who =
-          identifiedUserFactory.create(submitter.getAccountId());
-      Set<String> emails = new HashSet<String>();
-      for (RevCommit c : codeReviewCommits) {
-        try {
-          rw.parseBody(c);
-        } catch (IOException e) {
-          log.warn("Cannot parse commit " + c.name() + " in " + destBranch, e);
-          continue;
-        }
-        emails.add(c.getAuthorIdent().getEmailAddress());
-      }
-
-      final Timestamp dt = submitter.getGranted();
-      final TimeZone tz = myIdent.getTimeZone();
-      if (emails.size() == 1
-          && who.getEmailAddresses().contains(emails.iterator().next())) {
-        authorIdent =
-            new PersonIdent(codeReviewCommits.get(0).getAuthorIdent(), dt, tz);
-      } else {
-        authorIdent = who.newCommitterIdent(dt, tz);
-      }
-    } else {
-      authorIdent = myIdent;
-    }
-    return authorIdent;
-  }
-
-  private void markCleanMerges() throws MergeException {
-    if (mergeTip == null) {
-      // If mergeTip is null here, branchTip was null, indicating a new branch
-      // at the start of the merge process. We also elected to merge nothing,
-      // probably due to missing dependencies. Nothing was cleanly merged.
-      //
-      return;
-    }
-
-    try {
-      rw.reset();
-      rw.sort(RevSort.TOPO);
-      rw.sort(RevSort.REVERSE, true);
-      rw.markStart(mergeTip);
-      for (RevCommit c : alreadyAccepted) {
-        rw.markUninteresting(c);
-      }
-
-      CodeReviewCommit c;
-      while ((c = (CodeReviewCommit) rw.next()) != null) {
-        if (c.patchsetId != null) {
-          c.statusCode = CommitMergeStatus.CLEAN_MERGE;
-          if (branchUpdate.getRefLogIdent() == null) {
-            setRefLogIdent(getSubmitter(db, c.patchsetId));
-          }
-        }
-      }
-    } catch (IOException e) {
-      throw new MergeException("Cannot mark clean merges", e);
-    }
-  }
-
-  private void setRefLogIdent(final PatchSetApproval submitAudit) {
-    if (submitAudit != null) {
-      branchUpdate.setRefLogIdent(identifiedUserFactory.create(
-          submitAudit.getAccountId()).newRefLogIdent());
-    }
-  }
-
-  private void cherryPickChanges() throws MergeException, OrmException {
-    while (!toMerge.isEmpty()) {
-      final CodeReviewCommit n = toMerge.remove(0);
-      final ThreeWayMerger m = newThreeWayMerger();
-      try {
-        if (mergeTip == null) {
-          // The branch is unborn. Take a fast-forward resolution to
-          // create the branch.
-          //
-          mergeTip = n;
-          n.statusCode = CommitMergeStatus.CLEAN_MERGE;
-
-        } else if (n.getParentCount() == 0) {
-          // Refuse to merge a root commit into an existing branch,
-          // we cannot obtain a delta for the cherry-pick to apply.
-          //
-          n.statusCode = CommitMergeStatus.CANNOT_CHERRY_PICK_ROOT;
-
-        } else if (n.getParentCount() == 1) {
-          // If there is only one parent, a cherry-pick can be done by
-          // taking the delta relative to that one parent and redoing
-          // that on the current merge tip.
-          //
-          m.setBase(n.getParent(0));
-          if (m.merge(mergeTip, n)) {
-            writeCherryPickCommit(m, n);
-
-          } else {
-            n.statusCode = CommitMergeStatus.PATH_CONFLICT;
-          }
-
-        } else {
-          // There are multiple parents, so this is a merge commit. We
-          // don't want to cherry-pick the merge as clients can't easily
-          // rebase their history with that merge present and replaced
-          // by an equivalent merge with a different first parent. So
-          // instead behave as though MERGE_IF_NECESSARY was configured.
-          //
-          if (hasDependenciesMet(n)) {
-            if (rw.isMergedInto(mergeTip, n)) {
-              mergeTip = n;
-            } else {
-              mergeOneCommit(n);
-            }
-            markCleanMerges();
-
-          } else {
-            // One or more dependencies were not met. The status was
-            // already marked on the commit so we have nothing further
-            // to perform at this time.
-            //
-          }
-        }
-
-      } catch (IOException e) {
-        throw new MergeException("Cannot merge " + n.name(), e);
-      }
-    }
-  }
-
-  private boolean hasDependenciesMet(final CodeReviewCommit n)
-      throws IOException {
-    // Oddly we can determine this by running the merge sorter and
-    // look for the one commit to come out as a result. This works
-    // as the merge sorter checks the dependency chain as part of
-    // its logic trying to find a minimal merge path.
-    //
-    return new MergeSorter(rw, alreadyAccepted, CAN_MERGE).sort(
-        Collections.singleton(n)).contains(n);
-  }
-
-  private void writeCherryPickCommit(final Merger m, final CodeReviewCommit n)
-      throws IOException, OrmException {
-    rw.parseBody(n);
-
-    final List<FooterLine> footers = n.getFooterLines();
-    final StringBuilder msgbuf = new StringBuilder();
-    msgbuf.append(n.getFullMessage());
-
-    if (msgbuf.length() == 0) {
-      // WTF, an empty commit message?
-      msgbuf.append("<no commit message provided>");
-    }
-    if (msgbuf.charAt(msgbuf.length() - 1) != '\n') {
-      // Missing a trailing LF? Correct it (perhaps the editor was broken).
-      msgbuf.append('\n');
-    }
-    if (footers.isEmpty()) {
-      // Doesn't end in a "Signed-off-by: ..." style line? Add another line
-      // break to start a new paragraph for the reviewed-by tag lines.
-      //
-      msgbuf.append('\n');
-    }
-
-    if (!contains(footers, CHANGE_ID, n.change.getKey().get())) {
-      msgbuf.append(CHANGE_ID.getName());
-      msgbuf.append(": ");
-      msgbuf.append(n.change.getKey().get());
-      msgbuf.append('\n');
-    }
-
-    final String siteUrl = urlProvider.get();
-    if (siteUrl != null) {
-      final String url = siteUrl + n.patchsetId.getParentKey().get();
-      if (!contains(footers, REVIEWED_ON, url)) {
-        msgbuf.append(REVIEWED_ON.getName());
-        msgbuf.append(": ");
-        msgbuf.append(url);
-        msgbuf.append('\n');
-      }
-    }
-
-    PatchSetApproval submitAudit = null;
-    List<PatchSetApproval> approvalList = null;
-    try {
-      approvalList =
-          db.patchSetApprovals().byPatchSet(n.patchsetId).toList();
-      Collections.sort(approvalList, new Comparator<PatchSetApproval>() {
-        public int compare(final PatchSetApproval a, final PatchSetApproval b) {
-          return a.getGranted().compareTo(b.getGranted());
-        }
-      });
-
-      for (final PatchSetApproval a : approvalList) {
-        if (a.getValue() <= 0) {
-          // Negative votes aren't counted.
-          continue;
-        }
-
-        if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-          // Submit is treated specially, below (becomes committer)
-          //
-          if (submitAudit == null
-              || a.getGranted().compareTo(submitAudit.getGranted()) > 0) {
-            submitAudit = a;
-          }
-          continue;
-        }
-
-        final Account acc =
-            identifiedUserFactory.create(a.getAccountId()).getAccount();
-        final StringBuilder identbuf = new StringBuilder();
-        if (acc.getFullName() != null && acc.getFullName().length() > 0) {
-          if (identbuf.length() > 0) {
-            identbuf.append(' ');
-          }
-          identbuf.append(acc.getFullName());
-        }
-        if (acc.getPreferredEmail() != null
-            && acc.getPreferredEmail().length() > 0) {
-          if (isSignedOffBy(footers, acc.getPreferredEmail())) {
-            continue;
-          }
-          if (identbuf.length() > 0) {
-            identbuf.append(' ');
-          }
-          identbuf.append('<');
-          identbuf.append(acc.getPreferredEmail());
-          identbuf.append('>');
-        }
-        if (identbuf.length() == 0) {
-          // Nothing reasonable to describe them by? Ignore them.
-          continue;
-        }
-
-        final String tag;
-        if (CRVW.equals(a.getCategoryId())) {
-          tag = "Reviewed-by";
-        } else if (VRIF.equals(a.getCategoryId())) {
-          tag = "Tested-by";
-        } else {
-          final ApprovalType at =
-              approvalTypes.byId(a.getCategoryId());
-          if (at == null) {
-            // A deprecated/deleted approval type, ignore it.
-            continue;
-          }
-          tag = at.getCategory().getName().replace(' ', '-');
-        }
-
-        if (!contains(footers, new FooterKey(tag), identbuf.toString())) {
-          msgbuf.append(tag);
-          msgbuf.append(": ");
-          msgbuf.append(identbuf);
-          msgbuf.append('\n');
-        }
-      }
-    } catch (OrmException e) {
-      log.error("Can't read approval records for " + n.patchsetId, e);
-    }
-
-    final CommitBuilder mergeCommit = new CommitBuilder();
-    mergeCommit.setTreeId(m.getResultTreeId());
-    mergeCommit.setParentId(mergeTip);
-    mergeCommit.setAuthor(n.getAuthorIdent());
-    mergeCommit.setCommitter(toCommitterIdent(submitAudit));
-    mergeCommit.setMessage(msgbuf.toString());
-
-    final ObjectId id = commit(mergeCommit);
-    final CodeReviewCommit newCommit = (CodeReviewCommit) rw.parseCommit(id);
-    final Change oldChange = n.change;
-
-    n.change =
-        db.changes().atomicUpdate(n.change.getId(),
-            new AtomicUpdate<Change>() {
-              @Override
-              public Change update(Change change) {
-                change.nextPatchSetId();
-                return change;
-              }
-            });
-
-    final PatchSet ps = new PatchSet(n.change.currPatchSetId());
-    ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-    ps.setUploader(submitAudit.getAccountId());
-    ps.setRevision(new RevId(id.getName()));
-    insertAncestors(ps.getId(), newCommit);
-    db.patchSets().insert(Collections.singleton(ps));
-
-    n.change =
-        db.changes().atomicUpdate(n.change.getId(),
-            new AtomicUpdate<Change>() {
-              @Override
-              public Change update(Change change) {
-                change.setCurrentPatchSet(patchSetInfoFactory.get(newCommit,
-                    ps.getId()));
-                return change;
-              }
-            });
-
-    this.submitted.remove(oldChange);
-    this.submitted.add(n.change);
-
-    if (approvalList != null) {
-      for (PatchSetApproval a : approvalList) {
-        db.patchSetApprovals().insert(
-            Collections.singleton(new PatchSetApproval(ps.getId(), a)));
-      }
-    }
-
-    newCommit.copyFrom(n);
-    newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;
-    commits.put(newCommit.patchsetId.getParentKey(), newCommit);
-    mergeTip = newCommit;
-    setRefLogIdent(submitAudit);
-  }
-
-  private void insertAncestors(PatchSet.Id id, RevCommit src)
-      throws OrmException {
-    final int cnt = src.getParentCount();
-    List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);
-    for (int p = 0; p < cnt; p++) {
-      PatchSetAncestor a;
-
-      a = new PatchSetAncestor(new PatchSetAncestor.Id(id, p + 1));
-      a.setAncestorRevision(new RevId(src.getParent(p).getId().name()));
-      toInsert.add(a);
-    }
-    db.patchSetAncestors().insert(toInsert);
-  }
-
-  private ObjectId commit(CommitBuilder mergeCommit)
-      throws IOException, UnsupportedEncodingException {
-    ObjectId id = inserter.insert(mergeCommit);
-    inserter.flush();
-    return id;
-  }
-
-  private boolean contains(List<FooterLine> footers, FooterKey key, String val) {
-    for (final FooterLine line : footers) {
-      if (line.matches(key) && val.equals(line.getValue())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private boolean isSignedOffBy(List<FooterLine> footers, String email) {
-    for (final FooterLine line : footers) {
-      if (line.matches(FooterKey.SIGNED_OFF_BY)
-          && email.equals(line.getEmailAddress())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private PersonIdent toCommitterIdent(final PatchSetApproval audit) {
-    if (audit != null) {
-      return identifiedUserFactory.create(audit.getAccountId())
-          .newCommitterIdent(audit.getGranted(), myIdent.getTimeZone());
-    }
-    return myIdent;
-  }
-
-  private void updateBranch() throws MergeException {
+  private void updateBranch(final RefUpdate branchUpdate) throws MergeException {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
         try {
@@ -1044,6 +467,7 @@ public class MergeOp {
         }
       }
 
+      branchUpdate.setRefLogIdent(refLogIdent);
       branchUpdate.setForceUpdate(false);
       branchUpdate.setNewObjectId(mergeTip);
       branchUpdate.setRefLogMessage("merged", true);
@@ -1098,7 +522,7 @@ public class MergeOp {
     return isMergeable;
   }
 
-  private void updateChangeStatus() {
+  private void updateChangeStatus(final List<Change> submitted) {
     List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
 
     for (final Change c : submitted) {
@@ -1156,7 +580,8 @@ public class MergeOp {
     CreateCodeReviewNotes codeReviewNotes =
         codeReviewNotesFactory.create(db, repo);
     try {
-      codeReviewNotes.create(merged, computeAuthor(merged));
+      codeReviewNotes.create(merged,
+          computeAuthor(db, identifiedUserFactory, myIdent, rw, merged));
     } catch (CodeReviewNoteCreationException e) {
       log.error(e.getMessage());
     }
@@ -1164,7 +589,7 @@ public class MergeOp {
         GitRepositoryManager.REFS_NOTES_REVIEW);
   }
 
-  private void updateSubscriptions() {
+  private void updateSubscriptions(final List<Change> submitted) {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       SubmoduleOp subOp =
           subOpFactory.create(destBranch, mergeTip, rw, repo, destProject,
@@ -1326,29 +751,6 @@ public class MergeOp {
             c.currentPatchSetId());
     m.setMessage(body);
     return m;
-  }
-
-  private static PatchSetApproval getSubmitter(ReviewDb reviewDb,
-      PatchSet.Id c) {
-    if (c == null) {
-      return null;
-    }
-    PatchSetApproval submitter = null;
-    try {
-      final List<PatchSetApproval> approvals =
-          reviewDb.patchSetApprovals().byPatchSet(c).toList();
-      for (PatchSetApproval a : approvals) {
-        if (a.getValue() > 0
-            && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-          if (submitter == null
-              || a.getGranted().compareTo(submitter.getGranted()) > 0) {
-            submitter = a;
-          }
-        }
-      }
-    } catch (OrmException e) {
-    }
-    return submitter;
   }
 
   private void setMerged(final Change c, final ChangeMessage msg) {

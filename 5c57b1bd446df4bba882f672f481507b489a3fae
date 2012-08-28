@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI3X///RU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-28T01:26:28Z",
+      "side": 1,
+      "message": "Why create a local here?  It\u0027s only used in the next line, which could be changed to:\n\n if (e.getMessage().toLowerCase().indexOf(\"missing unknown\") \u003e\u003d 0",
+      "revId": "5c57b1bd446df4bba882f672f481507b489a3fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI3X///RY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-08-28T01:26:28Z",
+      "side": 1,
+      "message": "What\u0027s the advantage of using a random retry interval, rather than fixed?",
+      "revId": "5c57b1bd446df4bba882f672f481507b489a3fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -54,7 +54,7 @@ class MergeSorter {
       RevCommit c;
       final RevCommitList<RevCommit> contents = new RevCommitList<RevCommit>();
       while ((c = rw.next()) != null) {
-        if (!c.has(CAN_MERGE)) {
+        if (!c.has(CAN_MERGE) || !incoming.contains(c)) {
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.
           //

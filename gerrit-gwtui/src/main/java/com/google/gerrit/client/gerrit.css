@@ -37,7 +37,7 @@
 @def black #000000;
 @def white #ffffff;
 @def norm-font  Arial Unicode MS, Arial, sans-serif;
-@def mono-font 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+@def mono-font  monospace;
 
 @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
 @eval topMenuColor com.google.gerrit.client.Gerrit.getTheme().topMenuColor;

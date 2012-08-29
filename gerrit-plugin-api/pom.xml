@@ -66,8 +66,8 @@ limitations under the License.
               <exclude>com.google.gerrit:gerrit-patch-commonsnet</exclude>
               <exclude>com.google.gerrit:gerrit-patch-jgit</exclude>
               <exclude>com.google.gerrit:gerrit-util-ssl</exclude>
-              <exclude>com.google.gerrit:juniversalchardet</exclude>
 
+              <exclude>com.googlecode.juniversalchardet:juniversalchardet</exclude>
               <exclude>com.googlecode.prolog-cafe:PrologCafe</exclude>
               <exclude>org.slf4j:slf4j-log4j12</exclude>
               <exclude>log4j:log4j</exclude>

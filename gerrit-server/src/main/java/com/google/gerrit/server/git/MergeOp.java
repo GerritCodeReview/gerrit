@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -78,8 +79,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -123,7 +126,8 @@ public class MergeOp {
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
   private Project destProject;
-  private final List<CodeReviewCommit> toMerge;
+  private final Map<SubmitType, List<CodeReviewCommit>> toMerge;
+  private final List<CodeReviewCommit> potentiallyStillSubmittable;
   private final Map<Change.Id, CodeReviewCommit> commits;
   private ReviewDb db;
   private Repository repo;
@@ -181,7 +185,8 @@ public class MergeOp {
     this.requestScopePropagator = requestScopePropagator;
     this.myIdent = myIdent;
     destBranch = branch;
-    toMerge = new ArrayList<CodeReviewCommit>();
+    toMerge = new HashMap<SubmitType, List<CodeReviewCommit>>();
+    potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
     commits = new HashMap<Change.Id, CodeReviewCommit>();
   }
 
@@ -201,7 +206,9 @@ public class MergeOp {
         openSchema();
         openBranch();
         validateChangeList(Collections.singletonList(change));
-        preMerge();
+        final Entry<SubmitType, List<CodeReviewCommit>> entry =
+            toMerge.entrySet().iterator().next();
+        preMerge(entry.getKey(), entry.getValue());
 
         // update sha1 tested merge.
         if (destBranchRef != null) {
@@ -251,13 +258,52 @@ public class MergeOp {
     try {
       openSchema();
       openRepository();
-      final List<Change> submitted = db.changes().submitted(destBranch).toList();
-      final RefUpdate branchUpdate = openBranch();
-      validateChangeList(submitted);
-      preMerge();
-      updateBranch(branchUpdate);
-      updateChangeStatus(submitted);
-      updateSubscriptions(submitted);
+      openBranch();
+      final Map<SubmitType, List<Change>> toSubmit =
+          validateChangeList(db.changes().submitted(destBranch).toList());
+
+      final Map<SubmitType, List<CodeReviewCommit>> toMergeNextTurn =
+          new HashMap<SubmitType, List<CodeReviewCommit>>();
+      final List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
+          new ArrayList<CodeReviewCommit>();
+      while (!toMerge.isEmpty()) {
+        toMergeNextTurn.clear();
+        for (final Entry<SubmitType, List<CodeReviewCommit>> e : toMerge.entrySet()) {
+          final SubmitType submitType = e.getKey();
+          final RefUpdate branchUpdate = openBranch();
+          preMerge(submitType, e.getValue());
+          updateBranch(branchUpdate);
+          updateChangeStatus(toSubmit.get(submitType));
+          updateSubscriptions(toSubmit.get(submitType));
+
+          for (final Iterator<CodeReviewCommit> it =
+              potentiallyStillSubmittable.iterator(); it.hasNext();) {
+            final CodeReviewCommit commit = it.next();
+            if (containsMissingCommits(toMerge, commit)
+                || containsMissingCommits(toMergeNextTurn, commit)) {
+              // change has missing dependencies, but all commits which are
+              // missing are still attempted to be merged with another submit
+              // strategy, retry to merge this commit in the next turn
+              it.remove();
+              commit.statusCode = null;
+              commit.missing = null;
+              getList(submitType, toMergeNextTurn).add(commit);
+            }
+          }
+          potentiallyStillSubmittableOnNextRun.addAll(potentiallyStillSubmittable);
+          potentiallyStillSubmittable.clear();
+        }
+        toMerge.clear();
+        toMerge.putAll(toMergeNextTurn);
+      }
+
+      for (final CodeReviewCommit commit : potentiallyStillSubmittableOnNextRun) {
+        final Capable capable = isSubmitStillPossible(commit);
+        if (capable != Capable.OK) {
+          sendMergeFail(commit.change,
+              message(commit.change, capable.getMessage()), false);
+        }
+      }
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
     } finally {
@@ -276,16 +322,66 @@ public class MergeOp {
     }
   }
 
-  private void preMerge() throws MergeException {
-    final SubmitStrategy strategy = createStrategy();
+  private boolean containsMissingCommits(
+      final Map<SubmitType, List<CodeReviewCommit>> map,
+      final CodeReviewCommit commit) {
+    if (!isSubmitForMissingCommitsStillPossible(commit)) {
+      return false;
+    }
+
+    for (final CodeReviewCommit missingCommit : commit.missing) {
+      boolean found = false;
+      for (final List<CodeReviewCommit> list : map.values()) {
+        if (list.contains(missingCommit)) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private boolean isSubmitForMissingCommitsStillPossible(final CodeReviewCommit commit) {
+    if (commit.missing == null || commit.missing.isEmpty()) {
+      return false;
+    }
+
+    for (CodeReviewCommit missingCommit : commit.missing) {
+      loadChangeInfo(missingCommit);
+
+      if (missingCommit.patchsetId == null) {
+        // The commit doesn't have a patch set, so it cannot be
+        // submitted to the branch.
+        //
+        return false;
+      }
+
+      if (!missingCommit.change.currentPatchSetId().equals(
+          missingCommit.patchsetId)) {
+        // If the missing commit is not the current patch set,
+        // the change must be rebased to use the proper parent.
+        //
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  private void preMerge(final SubmitType submitType,
+      final List<CodeReviewCommit> toMerge) throws MergeException {
+    final SubmitStrategy strategy = createStrategy(submitType);
     mergeTip = strategy.run(branchTip, toMerge);
     refLogIdent = strategy.getRefLogIdent();
     commits.putAll(strategy.getNewCommits());
   }
 
-  private SubmitStrategy createStrategy() throws MergeException {
-    return submitStrategyFactory.create(destProject.getSubmitType(), db, repo,
-        rw, inserter, canMergeFlag, getAlreadyAccepted(branchTip), destBranch,
+  private SubmitStrategy createStrategy(final SubmitType submitType) throws MergeException {
+    return submitStrategyFactory.create(submitType, db, repo, rw, inserter,
+        canMergeFlag, getAlreadyAccepted(branchTip), destBranch,
         destProject.isUseContentMerge());
   }
 
@@ -371,8 +467,11 @@ public class MergeOp {
     return alreadyAccepted;
   }
 
-  private void validateChangeList(final List<Change> submitted)
-      throws MergeException {
+  private Map<SubmitType, List<Change>> validateChangeList(
+      final List<Change> submitted) throws MergeException {
+    final Map<SubmitType, List<Change>> toSubmit =
+        new HashMap<Project.SubmitType, List<Change>>();
+
     final Set<ObjectId> tips = new HashSet<ObjectId>();
     for (final Ref r : repo.getAllRefs().values()) {
       tips.add(r.getObjectId());
@@ -455,12 +554,39 @@ public class MergeOp {
         }
       }
 
+      final SubmitType submitType = getSubmitType(chg, ps);
+      if (submitType == null) {
+        commits.put(changeId,
+            CodeReviewCommit.error(CommitMergeStatus.NO_SUBMIT_TYPE));
+        continue;
+      }
+
       commit.add(canMergeFlag);
-      toMerge.add(commit);
+      getList(submitType, toMerge).add(commit);
+      getList(submitType, toSubmit).add(chg);
     }
+    return toSubmit;
+  }
+
+  private SubmitType getSubmitType(final Change change, final PatchSet ps) {
+    return destProject.getSubmitType();
+  }
+
+  private static <K, T> List<T> getList(final K key, final Map<K, List<T>> map) {
+    List<T> list = map.get(key);
+    if (list == null) {
+      list = new ArrayList<T>();
+      map.put(key, list);
+    }
+    return list;
   }
 
   private void updateBranch(final RefUpdate branchUpdate) throws MergeException {
+    if ((branchTip == null && mergeTip == null) || branchTip == mergeTip) {
+      // nothing to do
+      return;
+    }
+
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
         try {
@@ -570,10 +696,7 @@ public class MergeOp {
         }
 
         case MISSING_DEPENDENCY: {
-          final Capable capable = isSubmitStillPossible(commit);
-          if (capable != Capable.OK) {
-            sendMergeFail(c, message(c, capable.getMessage()), false);
-          }
+          potentiallyStillSubmittable.add(commit);
           break;
         }
 
@@ -615,32 +738,7 @@ public class MergeOp {
   private Capable isSubmitStillPossible(final CodeReviewCommit commit) {
     final Capable capable;
     final Change c = commit.change;
-    if (commit.missing == null) {
-      commit.missing = new ArrayList<CodeReviewCommit>();
-    }
-
-    boolean submitStillPossible = commit.missing.size() > 0;
-    for (CodeReviewCommit missingCommit : commit.missing) {
-      loadChangeInfo(missingCommit);
-
-      if (missingCommit.patchsetId == null) {
-        // The commit doesn't have a patch set, so it cannot be
-        // submitted to the branch.
-        //
-        submitStillPossible = false;
-        break;
-      }
-
-      if (!missingCommit.change.currentPatchSetId().equals(
-          missingCommit.patchsetId)) {
-        // If the missing commit is not the current patch set,
-        // the change must be rebased to use the proper parent.
-        //
-        submitStillPossible = false;
-        break;
-      }
-    }
-
+    final boolean submitStillPossible = isSubmitForMissingCommitsStillPossible(commit);
     final long now = System.currentTimeMillis();
     final long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
     if (submitStillPossible && now < waitUntil) {

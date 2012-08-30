@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAI5H///cE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-08-30T07:22:57Z",
+      "side": 1,
+      "message": "I would prefer if the submit action is shown above the change status.",
+      "revId": "5420e832c8e6a40ece3ca79712b853d0395007bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5n///2c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1

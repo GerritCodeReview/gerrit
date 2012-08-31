@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI1n///uM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-31T04:45:39Z",
+      "side": 1,
+      "message": "Isn\u0027t line.getLine() \u003d\u003d 0 already a boolean, why the ternary operator?",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///uE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-31T04:45:39Z",
+      "side": 1,
+      "message": "Perhaps lines 174 and 175 should be codified as a isFile() method (if that is indeed what they mean) instead of deducing that here from whether that link is null?",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///uA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchTableHeaderUnified.ui.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-31T04:45:39Z",
+      "side": 1,
+      "message": "No need to change this line?",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///t8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-31T04:45:39Z",
+      "side": 1,
+      "message": "These lines are very similar to the ones you copied, it seems like this could be refactored to consolidate the logic and not have copied lines.",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///t0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-08-31T04:45:39Z",
+      "side": 1,
+      "message": "Since it looks like you are only passing in true or falses for this new argument (you are not conditionally changing the value at any of the call sites), it would likely be clearer to just add a new openHeaderLine() function instead.  You should probably consider a similar approach for the functions below too if their call sites would be clearer (that might be a tough call).",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

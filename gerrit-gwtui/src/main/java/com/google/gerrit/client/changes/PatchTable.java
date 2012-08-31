@@ -22,6 +22,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch.Key;
@@ -45,7 +46,9 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PatchTable extends Composite {
   public interface PatchValidator {
@@ -77,6 +80,7 @@ public class PatchTable extends Composite {
   private String savePointerId;
   private PatchSet.Id base;
   private List<Patch> patchList;
+  private Set<String> changeFilesWithFileComment;
   private ListenableAccountDiffPreference listenablePrefs;
 
   private List<ClickHandler> clickHandlers;
@@ -105,7 +109,10 @@ public class PatchTable extends Composite {
   public void display(PatchSet.Id base, PatchSetDetail detail) {
     this.base = base;
     this.detail = detail;
-    this.patchList = detail.getPatches();
+    this.patchList =
+        getPatchesTopIn((ChangeCache
+            .get(detail.getPatchSet().getId().getParentKey())
+            .getChangeDetailCache().get().getChangeFileComments()));
     myTable = null;
 
     final DisplayCommand cmd = new DisplayCommand(patchList, base);
@@ -115,6 +122,44 @@ public class PatchTable extends Composite {
     } else {
       cmd.showTable();
     }
+  }
+
+  public List<Patch> getPatchesTopIn(Set<PatchLineComment> fcs) {
+    List<Patch> ps = detail.getPatches();
+    if (fcs.isEmpty()) {
+      return ps;
+    }
+    changeFilesWithFileComment = new HashSet<String>();
+    int currentPatchSetId = detail.getPatchSet().getPatchSetId();
+    for (PatchLineComment pc : fcs) {
+      if (pc.getKey().getParentKey().getParentKey().get() <= currentPatchSetId) {
+        changeFilesWithFileComment.add(PatchTable.getDisplayFileName(pc
+            .getKey().getParentKey()));
+      }
+    }
+
+    if (ps.size() < 25) {
+      return ps;
+    }
+
+    List<Patch> temp = new ArrayList<Patch>();
+    Set<Patch> patchesWithLineComment = new HashSet<Patch>();
+    for (Patch p : ps) {
+      if (changeFilesWithFileComment.contains(PatchTable.getDisplayFileName(p
+          .getKey()))) {
+        temp.add(p);
+      }
+      if (p.getCommentCount() > 0 || p.getDraftCount() > 0) {
+        patchesWithLineComment.add(p);
+      }
+    }
+    ps.removeAll(temp);
+    ps.removeAll(patchesWithLineComment);
+    patchesWithLineComment.removeAll(temp);
+
+    temp.addAll(new ArrayList<Patch>(patchesWithLineComment));
+    temp.addAll(ps);
+    return temp;
   }
 
   public PatchSet.Id getBase() {
@@ -412,6 +457,11 @@ public class PatchTable extends Composite {
         nameCol = cell;
       }
       table.setWidget(row, C_PATH, nameCol);
+      if (changeFilesWithFileComment != null
+          && changeFilesWithFileComment.contains(getDisplayFileName(patch))) {
+        table.getCellFormatter().addStyleName(row, C_PATH,
+            Gerrit.RESOURCES.css().changeFilePathHavingFileComment());
+      }
 
       int C_UNIFIED = C_SIDEBYSIDE + 1;
       table.setWidget(row, C_SIDEBYSIDE, new PatchLink.SideBySide(
@@ -801,7 +851,7 @@ public class PatchTable extends Composite {
   private int getNextPatchHelper(int currentIndex, boolean loopAround,
       int maxIndex, PatchValidator... validators) {
     for (int i = currentIndex + 1; i < maxIndex; i++) {
-      Patch patch = detail.getPatches().get(i);
+      Patch patch = patchList.get(i);
       if (patch != null && patchIsValid(patch, validators)) {
         return i;
       }
@@ -819,7 +869,7 @@ public class PatchTable extends Composite {
    */
   public int getPreviousPatch(int currentIndex, PatchValidator... validators) {
     for (int i = currentIndex - 1; i >= 0; i--) {
-      Patch patch = detail.getPatches().get(i);
+      Patch patch = patchList.get(i);
       if (patch != null && patchIsValid(patch, validators)) {
         return i;
       }

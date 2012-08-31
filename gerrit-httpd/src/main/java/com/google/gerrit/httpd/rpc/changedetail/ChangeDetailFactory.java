@@ -25,6 +25,7 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -160,8 +161,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       }
     }
     detail.setSubmitRecords(submitRecords);
-
     patchsetsById = new HashMap<PatchSet.Id, PatchSet>();
+    loadChangeFileComments();
     loadPatchSets();
     loadMessages();
     if (change.currentPatchSetId() != null) {
@@ -170,6 +171,28 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     load();
     detail.setAccounts(aic.create());
     return detail;
+  }
+
+  private void loadChangeFileComments() throws OrmException {
+    Set<PatchLineComment> result =
+        new HashSet<PatchLineComment>(db.patchComments()
+            .fileCommentsByChange(changeId).toList());
+
+    final CurrentUser user = control.getCurrentUser();
+    Set<PatchLineComment> notVisible = new HashSet<PatchLineComment>();
+    for (PatchLineComment c : result) {
+      if (c.getStatus() == PatchLineComment.Status.DRAFT) {
+        if (user instanceof IdentifiedUser) {
+          if (!c.getAuthor().equals(((IdentifiedUser) user).getAccountId())) {
+            notVisible.add(c);
+          }
+        } else {
+          notVisible.add(c);
+        }
+      }
+    }
+    result.removeAll(notVisible);
+    detail.setChangeFileComments(result);
   }
 
   private void loadPatchSets() throws OrmException {

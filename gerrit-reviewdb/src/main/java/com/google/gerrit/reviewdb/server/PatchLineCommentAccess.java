@@ -41,6 +41,10 @@ public interface PatchLineCommentAccess extends
   ResultSet<PatchLineComment> publishedByChangeFile(Change.Id id, String file)
       throws OrmException;
 
+  @Query("WHERE key.patchKey.patchSetId.changeId = ? AND lineNbr = 0")
+  ResultSet<PatchLineComment> fileCommentsByChange(Change.Id id)
+      throws OrmException;
+
   @Query("WHERE key.patchKey.patchSetId = ? AND status = '"
       + PatchLineComment.STATUS_PUBLISHED + "'")
   ResultSet<PatchLineComment> publishedByPatchSet(PatchSet.Id patchset)

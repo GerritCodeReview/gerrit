@@ -472,6 +472,12 @@
   font-size: 9pt;
 }
 
+.changeTable .changeFilePathHavingFileComment {
+  font-weight: bold;
+  font-size: 1em;
+  background: #D9B7FD;
+}
+
 .changeTable .diffLinkCell {
   white-space: nowrap;
 }

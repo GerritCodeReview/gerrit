@@ -38,6 +38,7 @@ import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -314,6 +315,11 @@ public class JettyServer {
   private ContextHandler makeContext(final String contextPath,
       final JettyEnv env) throws MalformedURLException, IOException {
     final ServletContextHandler app = new ServletContextHandler();
+
+    // This enables the use of sessions in Jetty, feature available
+    // for Gerrit plug-ins to enable user-level sessions.
+    //
+    app.setSessionHandler(new SessionHandler());
 
     // This is the path we are accessed by clients within our domain.
     //

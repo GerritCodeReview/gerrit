@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAAI5H///Hw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-03T12:32:35Z",
+      "side": 1,
+      "message": "Is this change related to supporting commit validation by plugins?",
+      "revId": "b93a531b5e6f39e9a373aa0cbc4f057c9de709c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH33//+v4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
         "patchSetId": 11

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI3X//+e4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-09-03T15:49:17Z",
+      "side": 1,
+      "message": "I will add a icon,  I think you are right now :)",
+      "parentUuid": "AAAI3X//+fI\u003d",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///Kc\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.java",
         "patchSetId": 4

@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI33//+oM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-09-03T14:53:54Z",
+      "side": 1,
+      "message": "I do think that file and line comments should have different colours. They very often provide different types of information and review data; comments on file level will more often be of the abstract kind or carry out a discussion on a more architectural level. I also think we will be more likely to find summaries placed as file comments. So I would prefer to have different colours - since I\u0027m expecting to find different type of content.\n\nI would also in the future like to be able to change colours of regular line comments depending on the type of information they provide (like nits/severe or even generated comments from static analysis tools). But that\u0027s another discussion.",
+      "parentUuid": "AAAI5H///KY\u003d",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///KU\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
         "patchSetId": 4

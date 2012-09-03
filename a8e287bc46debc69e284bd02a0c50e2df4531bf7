@@ -2,6 +2,108 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAI5H///IQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-03T11:17:05Z",
+      "side": 1,
+      "message": "[optional] I find it not very intuitve that double clicking on \u0027Patch Set\u0027 inserts a file comment. Maybe have an icon for this next to the download icon would be better?",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///Kc\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-03T11:17:05Z",
+      "side": 1,
+      "message": "If this is a message it should have a parameter. If this is just a constant it should be moved into the ChangeConstants class.",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///KY\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-03T11:17:05Z",
+      "side": 1,
+      "message": "All other colors in this file are given as hex value, maybe this color should be a hex value too?\n\nPersonally I find this color too bright, it distracts too much. All other colors are more pale and this one doesn\u0027t seem to fit. Is it actually really needed to have a different color for these comments? I think all comments are equally important and there is no need to highlight the file level comments. Having the same comment color would also make the coding easier.",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///KU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-03T11:17:05Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///KQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-03T11:17:05Z",
+      "side": 1,
+      "message": "nit: move \u0027{\u0027 to the end of the previous line",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///J4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-03T11:17:05Z",
+      "side": 1,
+      "message": "The only usages of the PatchScreen are:\n  1. get the patch screen type\n  2. get the patch set detail\n\nI think it would be cleaner to just pass these two information into this class rather than the whole PatchScreen.",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI1n///uM\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
         "patchSetId": 4
@@ -31,6 +133,24 @@
       "side": 1,
       "message": "oh, before this feature, the result of line.getLine()  is not 0 forever, but\nin this feature file comment will saved in DB and the value of its line number is 0, thus 0 from here start to have a special meaning used to distinguash line comment and file comment. seems I should make this clear in commit message.",
       "parentUuid": "AAAI1n///uM\u003d",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H///KI\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-03T11:17:05Z",
+      "side": 1,
+      "message": "I think what Martin meant is that this line should be written as:\n styleLastCommentCell(row, col, line.getLine() \u003d\u003d 0);\n\nThat should be the same, shouldn\u0027t it?",
+      "parentUuid": "AAAI33//+wk\u003d",
       "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

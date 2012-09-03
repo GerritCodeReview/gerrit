@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI3X//+fI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-09-03T15:39:23Z",
+      "side": 1,
+      "message": "current way comes from Sasa idea,  its simple and concise. but a bit intuitve.\n\nadd a icon would be intuitve. but not dry.\n\nhmm, I think for the long run , just as line comment we will be familiar with it without any icon. \nI am not sure which is better.  let me wait for a while to see if other core can come with new votes.:)",
+      "parentUuid": "AAAI5H///IQ\u003d",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///Kc\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-09-03T11:17:05Z",
       "side": 1,
       "message": "If this is a message it should have a parameter. If this is just a constant it should be moved into the ChangeConstants class.",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI3X//+fM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-09-03T15:39:23Z",
+      "side": 1,
+      "message": "agree ! I like this idea",
+      "parentUuid": "AAAI5H///Kc\u003d",
       "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -64,6 +100,24 @@
       "writtenOn": "2012-09-03T14:53:54Z",
       "side": 1,
       "message": "I do think that file and line comments should have different colours. They very often provide different types of information and review data; comments on file level will more often be of the abstract kind or carry out a discussion on a more architectural level. I also think we will be more likely to find summaries placed as file comments. So I would prefer to have different colours - since I\u0027m expecting to find different type of content.\n\nI would also in the future like to be able to change colours of regular line comments depending on the type of information they provide (like nits/severe or even generated comments from static analysis tools). But that\u0027s another discussion.",
+      "parentUuid": "AAAI5H///KY\u003d",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI3X//+fU\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-09-03T15:39:23Z",
+      "side": 1,
+      "message": "I will prepare a new pathset with \"D9B7FD\"  color , or a more pale one to make sure to be pale enough, not distracts too much, just easy enought to distinguish line comments and file comments.  :)",
       "parentUuid": "AAAI5H///KY\u003d",
       "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -122,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI3X//+fE\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-09-03T15:39:23Z",
+      "side": 1,
+      "message": "agree.  I like this Idea.",
+      "parentUuid": "AAAI5H///J4\u003d",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI1n///uM\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
         "patchSetId": 4
@@ -169,6 +241,24 @@
       "side": 1,
       "message": "I think what Martin meant is that this line should be written as:\n styleLastCommentCell(row, col, line.getLine() \u003d\u003d 0);\n\nThat should be the same, shouldn\u0027t it?",
       "parentUuid": "AAAI33//+wk\u003d",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI3X//+fA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-09-03T15:39:23Z",
+      "side": 1,
+      "message": "sorry, Just figure it out with your help!\nThanks a lot!",
+      "parentUuid": "AAAI5H///KI\u003d",
       "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

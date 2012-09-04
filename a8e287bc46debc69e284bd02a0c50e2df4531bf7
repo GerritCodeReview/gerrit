@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5H///CQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-04T05:51:30Z",
+      "side": 1,
+      "message": "Thanks, this new color looks much better :-)",
+      "parentUuid": "AAAI3X//+fU\u003d",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///KU\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
         "patchSetId": 4

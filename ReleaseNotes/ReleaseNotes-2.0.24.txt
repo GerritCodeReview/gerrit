@@ -67,7 +67,7 @@ requests back to the developers.
 * issue 300    Support SMTP over SSL/TLS
 +
 Encrypted SMTP is now supported natively within Gerrit, see
-[http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html#sendemail.smtpEncryption sendemail.smtpEncryption]
+link:http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html#sendemail.smtpEncryption[sendemail.smtpEncryption]
 
 Bug Fixes
 ---------

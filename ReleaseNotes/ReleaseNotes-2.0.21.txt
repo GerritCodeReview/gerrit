@@ -201,7 +201,7 @@ not appear under the original change notification thread.
 Gerrit no longer forges the From header in notification emails.
 To enable the prior forging behavior, set `sendemail.from`
 to `USER` in gerrit.config.  For more details see
-[http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html#sendemail.from sendemail.from]
+link:http://gerrit.googlecode.com/svn/documentation/2.0/config-gerrit.html#sendemail.from[sendemail.from]
 
 Bug Fixes
 ---------

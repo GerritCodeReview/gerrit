@@ -11,13 +11,14 @@ SYNOPSIS
 set-account [--full-name <FULLNAME>] [--active|--inactive] \
             [--add-email <EMAIL>] [--delete-email <EMAIL> | ALL] \
             [--add-ssh-key - | <KEY>] \
-            [--delete-ssh-key - | <KEY> | ALL] <USER>
+            [--delete-ssh-key - | <KEY> | ALL] \
+            [--http-password <PASSWORD>] <USER>
 
 DESCRIPTION
 -----------
 Modifies a given user's settings. This command can be useful to
-deactivate an account or add/delete ssh keys without going through
-the UI.
+deactivate an account, set HTTP password, add/delete ssh keys without
+going through the UI.
 
 It also allows managing email addresses, which bypasses the
 verification step we force within the UI.
@@ -78,6 +79,9 @@ This most likely requires double quoting the value, for example
     associated SSH keys are removed from this account.
     May be supplied more than once to delete multiple SSH
     keys in a single command execution.
+
+--http-password::
+    Set the HTTP password for the user account.
 
 EXAMPLES
 --------

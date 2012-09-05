@@ -179,6 +179,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n///A4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-09-05T02:04:25Z",
+      "side": 1,
+      "message": "Hi Edwin\n\nThanks a lot for your comments, I glad to find you are interested in \nthis feature！\nI ever think to make the file comments to be easy to pick out by \nothers than reviewer who give out that file comments, as the reviewer \nknow what he is doing and sometimes he will discard the draft before \npublished.\n\nI think your idea is fine , thus we can keep all status of file comments \nin same style. I will also apply the \"D9B7FD\" color to draft file \ncomments, thus to let  the \"D9B7FD\" color have a special meaning -  \nfile comments color :)\n\nThanks!\n\n/Bruce",
+      "parentUuid": "AAAI5H///CI\u003d",
+      "revId": "a8e287bc46debc69e284bd02a0c50e2df4531bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///KU\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
         "patchSetId": 4

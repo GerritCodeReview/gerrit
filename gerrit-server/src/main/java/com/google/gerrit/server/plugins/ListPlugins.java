@@ -94,7 +94,7 @@ public class ListPlugins {
       } else {
         stdout.format("%-30s %-10s %-8s\n", p.getName(),
             Strings.nullToEmpty(info.version),
-            p.isDisabled() ? "DISABLED" : "");
+            p.isDisabled() ? "DISABLED" : "ENABLED");
       }
     }
 

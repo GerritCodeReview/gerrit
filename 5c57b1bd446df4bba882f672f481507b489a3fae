@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5H//+rs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-09-05T21:42:56Z",
+      "side": 1,
+      "message": "Just for better readability ;-)\nIn terms of performance, the JVM will collapse everything together anyway.",
+      "parentUuid": "AAAI3X///RU\u003d",
+      "revId": "5c57b1bd446df4bba882f672f481507b489a3fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI3X///RY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-08-28T01:26:28Z",
       "side": 1,
       "message": "What\u0027s the advantage of using a random retry interval, rather than fixed?",
+      "revId": "5c57b1bd446df4bba882f672f481507b489a3fae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H//+ro\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VersionedMetaData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-09-05T21:42:56Z",
+      "side": 1,
+      "message": "Typically the retry cycles are made using random intervals in order to maximise the possibility of making them more effective.\n\ne.g. If you always wait for 5 secs ... in case of average failures between 6 and 7 secs you\u0027ll miss all of them. If you wait a random interval of 10 secs, you have more chances to catch the 6 and 7 secs as well.\n\nNote: here we don\u0027t know exactly how long to wait, random() just increases the chances to make the retry more effective.",
+      "parentUuid": "AAAI3X///RY\u003d",
       "revId": "5c57b1bd446df4bba882f672f481507b489a3fae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

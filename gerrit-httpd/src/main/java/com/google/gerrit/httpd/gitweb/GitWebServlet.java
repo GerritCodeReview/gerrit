@@ -370,7 +370,7 @@ class GitWebServlet extends HttpServlet {
     final ProjectControl project;
     try {
       project = projectControl.validateFor(nameKey);
-      if (!project.allRefsAreVisible()) {
+      if (!project.allRefsAreVisible() && !project.isOwner()) {
          // Pretend the project doesn't exist
         throw new NoSuchProjectException(nameKey);
       }

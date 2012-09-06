@@ -199,7 +199,9 @@ public class MergeOp {
         openSchema();
         openBranch();
         validateChangeList(Collections.singletonList(change));
-        preMerge();
+        final boolean isMergeable =
+            !toMerge.isEmpty() ? createStrategy().dryRun(branchTip,
+                toMerge.remove(0)) : false;
 
         // update sha1 tested merge.
         if (destBranchRef != null) {
@@ -208,7 +210,7 @@ public class MergeOp {
         } else {
           change.setLastSha1MergeTested(new RevId(""));
         }
-        change.setMergeable(isMergeable(change));
+        change.setMergeable(isMergeable);
         db.changes().update(Collections.singleton(change));
       }
     } catch (MergeException e) {
@@ -509,20 +511,6 @@ public class MergeOp {
         throw new MergeException("Cannot update " + branchUpdate.getName(), e);
       }
     }
-  }
-
-  private boolean isMergeable(Change c) {
-    final CodeReviewCommit commit = commits.get(c.getId());
-    final CommitMergeStatus s = commit != null ? commit.statusCode : null;
-    boolean isMergeable = false;
-    if (s != null
-        && (s.equals(CommitMergeStatus.CLEAN_MERGE)
-            || s.equals(CommitMergeStatus.CLEAN_PICK) || s
-            .equals(CommitMergeStatus.ALREADY_MERGED))) {
-      isMergeable = true;
-    }
-
-    return isMergeable;
   }
 
   private void updateChangeStatus(final List<Change> submitted) {

@@ -103,6 +103,22 @@ public abstract class SubmitStrategy {
       List<CodeReviewCommit> toMerge) throws MergeException;
 
   /**
+   * Checks whether the given commit can be merged.
+   *
+   * Subclasses must ensure that invoking this method does neither modify the
+   * git repository nor the Gerrit database.
+   *
+   * @param mergeTip the mergeTip
+   * @param toMerge the commit for which it should be checked whether it can be
+   *        merged or not
+   * @return <code>true</code> if the given commit can be merged, otherwise
+   *         <code>false</code>
+   * @throws MergeException
+   */
+  public abstract boolean dryRun(CodeReviewCommit mergeTip,
+      CodeReviewCommit toMerge) throws MergeException;
+
+  /**
    * Returns the PersonIdent that should be used for the ref log entries when
    * updating the destination branch. The ref log identity may be set after the
    * {@link #run(CodeReviewCommit, List)} method finished.

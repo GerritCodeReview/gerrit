@@ -85,6 +85,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
@@ -211,18 +212,25 @@ public class MergeOp {
         openSchema();
         openBranch();
         validateChangeList(Collections.singletonList(change));
-        final SubmitType submitType = toMerge.keySet().iterator().next();
-        preMerge(createStrategy(submitType), toMerge.get(submitType));
+        if (!toMerge.isEmpty()) {
+          final Entry<SubmitType, CodeReviewCommit> e =
+              toMerge.entries().iterator().next();
+          final boolean isMergeable =
+              createStrategy(e.getKey()).dryRun(branchTip, e.getValue());
 
-        // update sha1 tested merge.
-        if (destBranchRef != null) {
-          change.setLastSha1MergeTested(new RevId(destBranchRef
-              .getObjectId().getName()));
+          // update sha1 tested merge.
+          if (destBranchRef != null) {
+            change.setLastSha1MergeTested(new RevId(destBranchRef
+                .getObjectId().getName()));
+          } else {
+            change.setLastSha1MergeTested(new RevId(""));
+          }
+          change.setMergeable(isMergeable);
+          db.changes().update(Collections.singleton(change));
         } else {
-          change.setLastSha1MergeTested(new RevId(""));
+          log.error("Test merge attempt for change: " + change.getId()
+              + " failed");
         }
-        change.setMergeable(isMergeable(change));
-        db.changes().update(Collections.singleton(change));
       }
     } catch (MergeException e) {
       log.error("Test merge attempt for change: " + change.getId()
@@ -647,20 +655,6 @@ public class MergeOp {
         throw new MergeException("Cannot update " + branchUpdate.getName(), e);
       }
     }
-  }
-
-  private boolean isMergeable(Change c) {
-    final CodeReviewCommit commit = commits.get(c.getId());
-    final CommitMergeStatus s = commit != null ? commit.statusCode : null;
-    boolean isMergeable = false;
-    if (s != null
-        && (s.equals(CommitMergeStatus.CLEAN_MERGE)
-            || s.equals(CommitMergeStatus.CLEAN_PICK) || s
-            .equals(CommitMergeStatus.ALREADY_MERGED))) {
-      isMergeable = true;
-    }
-
-    return isMergeable;
   }
 
   private void updateChangeStatus(final List<Change> submitted) {

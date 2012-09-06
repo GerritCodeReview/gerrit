@@ -27,6 +27,7 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.MutableObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -37,10 +38,12 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PackParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -167,6 +170,40 @@ public class MergeUtil {
     return authorIdent;
   }
 
+  public static boolean canMerge(final MergeSorter mergeSorter,
+      final Repository repo, final boolean useContentMerge,
+      final CodeReviewCommit mergeTip, final CodeReviewCommit toMerge)
+      throws MergeException {
+    if (hasMissingDependencies(mergeSorter, toMerge)) {
+      return false;
+    }
+
+    final ThreeWayMerger m =
+        newThreeWayMerger(repo, createDryRunInserter(), useContentMerge);
+    try {
+      return m.merge(new AnyObjectId[] {mergeTip, toMerge});
+    } catch (IOException e) {
+      if (e.getMessage().startsWith("Multiple merge bases for")) {
+        return false;
+      }
+      throw new MergeException("Cannot merge " + toMerge.name(), e);
+    }
+  }
+
+  public static boolean canFastForward(final MergeSorter mergeSorter,
+      final CodeReviewCommit mergeTip, final RevWalk rw,
+      final CodeReviewCommit toMerge) throws MergeException {
+    if (hasMissingDependencies(mergeSorter, toMerge)) {
+      return false;
+    }
+
+    try {
+      return mergeTip == null || rw.isMergedInto(mergeTip, toMerge);
+    } catch (IOException e) {
+      throw new MergeException("Cannot fast-forward test during merge", e);
+    }
+  }
+
   public static boolean hasMissingDependencies(final MergeSorter mergeSorter,
       final CodeReviewCommit toMerge) throws MergeException {
     try {
@@ -174,6 +211,36 @@ public class MergeUtil {
     } catch (IOException e) {
       throw new MergeException("Branch head sorting failed", e);
     }
+  }
+
+  public static ObjectInserter createDryRunInserter() {
+    return new ObjectInserter() {
+      private final MutableObjectId buf = new MutableObjectId();
+      private final static int LAST_BYTE = Constants.OBJECT_ID_LENGTH - 1;
+
+      @Override
+      public ObjectId insert(int objectType, long length, InputStream in)
+          throws IOException {
+        // create non-existing dummy ID
+        buf.setByte(LAST_BYTE, buf.getByte(LAST_BYTE) + 1);
+        return buf.copy();
+      }
+
+      @Override
+      public PackParser newPackParser(InputStream in) throws IOException {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public void flush() throws IOException {
+        // Do nothing.
+      }
+
+      @Override
+      public void release() {
+        // Do nothing.
+      }
+    };
   }
 
   public static CodeReviewCommit mergeOneCommit(final ReviewDb reviewDb,

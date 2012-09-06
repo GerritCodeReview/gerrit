@@ -67,7 +67,7 @@ type:: "draft-published"
 
 change:: link:json.html#change[change attribute]
 
-patchset:: link:json.html#patchset[patchset attribute]
+patchset:: link:json.html#patchSet[patchset attribute]
 
 uploader:: link:json.html#account[account attribute]
 

@@ -124,7 +124,7 @@ SCHEMA
 ------
 The JSON messages consist of nested objects referencing the
 link:json.html#change[change],
-link:json.html#patchset[patchset],
+link:json.html#patchSet[patchset],
 link:json.html#[account]
 involved, and other attributes as appropriate.
 

@@ -16,6 +16,24 @@
       "revId": "4d43775657ff82644805e55bd116d298751b2014",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI6n//6fw\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-09-06T18:32:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI7H///vA\u003d",
+      "revId": "4d43775657ff82644805e55bd116d298751b2014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

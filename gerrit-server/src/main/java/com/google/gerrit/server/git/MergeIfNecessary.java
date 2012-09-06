@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.server.git.MergeUtil.canFastForward;
+import static com.google.gerrit.server.git.MergeUtil.canMerge;
 import static com.google.gerrit.server.git.MergeUtil.getFirstFastForward;
 import static com.google.gerrit.server.git.MergeUtil.mergeOneCommit;
 import static com.google.gerrit.server.git.MergeUtil.reduceToMinimalMerge;
@@ -59,5 +61,12 @@ public class MergeIfNecessary extends SubmitStrategy {
 
     markCleanMerges(newMergeTip);
     return newMergeTip;
+  }
+
+  @Override
+  public boolean dryRun(final CodeReviewCommit mergeTip,
+      final CodeReviewCommit toMerge) throws MergeException {
+    return canFastForward(mergeSorter, mergeTip, rw, toMerge)
+        || canMerge(mergeSorter, repo, useContentMerge, mergeTip, toMerge);
   }
 }

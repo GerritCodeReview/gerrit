@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAI4H///dg\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011547
+      },
+      "writtenOn": "2012-09-07T04:19:37Z",
+      "side": 1,
+      "message": "Should \"Instance\" be capitalized?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3s\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -122,6 +139,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI4H///dc\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011547
+      },
+      "writtenOn": "2012-09-07T04:19:37Z",
+      "side": 1,
+      "message": "I think the first one is not needed, but the second is.",
+      "parentUuid": "AAAIGn///3g\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3c\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -202,6 +237,23 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "gerrit -\u003e Gerrit",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI4H///dY\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011547
+      },
+      "writtenOn": "2012-09-07T04:19:37Z",
+      "side": 1,
+      "message": "\"Linux\" in a new line?",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -379,6 +431,23 @@
     },
     {
       "key": {
+        "uuid": "AAAI4H///dU\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1011547
+      },
+      "writtenOn": "2012-09-07T04:19:37Z",
+      "side": 1,
+      "message": "xml -\u003e XML?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///2w\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -390,6 +459,23 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "remove \"for\"",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI4H///dQ\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1011547
+      },
+      "writtenOn": "2012-09-07T04:19:37Z",
+      "side": 1,
+      "message": "Configure -\u003e configure",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -481,6 +567,40 @@
     },
     {
       "key": {
+        "uuid": "AAAI4H///dM\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1011547
+      },
+      "writtenOn": "2012-09-07T04:19:37Z",
+      "side": 1,
+      "message": "Can we change \"The first user to sign-in and register an account\" -\u003e \"The first account registered\" or so? I think you don\u0027t \"sign-in and register an account\", you just \"register an account\".",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI4H///dI\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1011547
+      },
+      "writtenOn": "2012-09-07T04:19:37Z",
+      "side": 1,
+      "message": "Goto -\u003e go to",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///2c\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -526,6 +646,23 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "Better to link to local index?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI4H///dE\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1011547
+      },
+      "writtenOn": "2012-09-07T04:19:37Z",
+      "side": 1,
+      "message": "Please change the sentence to remove the \"I recommend\".",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

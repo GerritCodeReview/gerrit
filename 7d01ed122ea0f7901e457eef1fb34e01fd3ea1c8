@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI8n///9E\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-07T03:54:53Z",
+      "side": 1,
+      "message": "Why not use the real value with $GERRIT_SITE?",
+      "revId": "7d01ed122ea0f7901e457eef1fb34e01fd3ea1c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

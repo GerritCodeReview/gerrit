@@ -37,6 +37,42 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n//+0A\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIdn///84\u003d",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+z8\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI1n///7Q\u003d",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAItH///9M\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 10
@@ -72,6 +108,42 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n//+z0\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI1n///7M\u003d",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+z4\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAItH///9M\u003d",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI1n///68\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 10
@@ -83,6 +155,24 @@
       "writtenOn": "2012-08-23T04:23:44Z",
       "side": 1,
       "message": "s/Prolog/the Prolog/",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+zw\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI1n///68\u003d",
       "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -106,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n//+zs\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIdn///80\u003d",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIdn///8w\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 10
@@ -117,6 +225,24 @@
       "writtenOn": "2012-08-15T18:01:43Z",
       "side": 1,
       "message": "s/for `submit_rule/1`/for a `submit_rule/1`/ ?",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+zo\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIdn///8w\u003d",
       "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -140,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n//+y0\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "I remember seeing this NPE earlier but couldn\u0027t reproduce\nit on the current master branch.\n\nThe \"Example 1\" below works without producing NPE although it returns \u0027ok(_)\u0027.\n\nThere must have been a change that fixed that issue but I couldn\u0027t find it right now.",
+      "parentUuid": "AAAIdn///8Y\u003d",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI1n///7I\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 10
@@ -151,6 +295,24 @@
       "writtenOn": "2012-08-23T04:23:44Z",
       "side": 1,
       "message": "s/let/let the/",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+zk\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI1n///7I\u003d",
       "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n//+zg\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIdn///8Q\u003d",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI1n///7E\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 10
@@ -185,6 +365,24 @@
       "writtenOn": "2012-08-23T04:23:44Z",
       "side": 1,
       "message": "s/mean/means/",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+zc\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI1n///7E\u003d",
       "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -208,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5n//+zU\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI1n///7A\u003d",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIH3///X8\u003d",
         "filename": "Documentation/prolog-cookbook.txt",
         "patchSetId": 10
@@ -219,6 +435,24 @@
       "writtenOn": "2012-08-08T07:05:22Z",
       "side": 1,
       "message": "s/from searching from/from searching for/",
+      "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+zQ\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-07T14:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIH3///X8\u003d",
       "revId": "63f9164ba14bc90e1d6d9ed27f6ad475041a858e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

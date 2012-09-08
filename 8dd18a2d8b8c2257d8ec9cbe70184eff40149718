@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI8n///5E\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "Maybe s/constant/current/?",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5M\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/Following/The following/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5I\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/ All terms / All the terms /  s/ in `gerrit`/ in the `gerrit`/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5A\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/given/the given/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///48\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/string/ the string/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///44\u003d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/given/the given/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5Q\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "Did you mean to fill in all the captions?",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5s\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/ change author to approve own change/ the ability for change authors to approve their own changes/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5o\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/with/to/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5k\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/submi/submit/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5g\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/Following/The following/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5c\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/ We also want that UI doesn\u0027t show/ We also want the UI to not show/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5Y\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/at/on/",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI8n///5U\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-08T18:46:46Z",
+      "side": 1,
+      "message": "s/ the example 7 and 8./ examples 7 and 8./",
+      "revId": "8dd18a2d8b8c2257d8ec9cbe70184eff40149718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

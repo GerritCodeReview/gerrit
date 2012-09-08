@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI33//+Ck\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-09-08T05:04:28Z",
+      "side": 1,
+      "message": "like the download icon, this new icon comes also from http://tango.freedesktop.org/Tango_Desktop_Project\n\n\nunder  /16x16/apps of http://tango.freedesktop.org/releases/tango-icon-theme-0.8.90.tar.gz",
+      "revId": "e203f16431dc71dc155d6b24cdc49ce66eb2dd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

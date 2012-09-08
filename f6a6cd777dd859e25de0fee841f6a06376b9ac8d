@@ -16,6 +16,24 @@
       "revId": "f6a6cd777dd859e25de0fee841f6a06376b9ac8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI9n//+3E\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-09-08T14:40:03Z",
+      "side": 1,
+      "message": "I was just going with what I saw elsewhere.  See L493.",
+      "parentUuid": "AAAI73///xE\u003d",
+      "revId": "f6a6cd777dd859e25de0fee841f6a06376b9ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

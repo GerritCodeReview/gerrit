@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI73///xE\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-09-08T12:17:02Z",
+      "side": 1,
+      "message": "Why not a single echo statement with line breaks, rather than 3 echos?",
+      "revId": "f6a6cd777dd859e25de0fee841f6a06376b9ac8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

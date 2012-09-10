@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
@@ -40,6 +41,7 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.Merger;
 import org.eclipse.jgit.merge.ThreeWayMerger;
@@ -74,21 +76,23 @@ public class CherryPick extends SubmitStrategy {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<String> urlProvider;
   private final ApprovalTypes approvalTypes;
+  private final GitReferenceUpdated replication;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
 
   CherryPick(final GenericFactory identifiedUserFactory,
       final PersonIdent myIdent, final PatchSetInfoFactory patchSetInfoFactory,
       final Provider<String> urlProvider, final ApprovalTypes approvalTypes,
-      final ReviewDb db, final Repository repo, final RevWalk rw,
-      final ObjectInserter inserter, final RevFlag canMergeFlag,
-      final Set<RevCommit> alreadyAccepted, final Branch.NameKey destBranch,
-      final boolean useContentMerge) {
+      final GitReferenceUpdated replication, final ReviewDb db,
+      final Repository repo, final RevWalk rw, final ObjectInserter inserter,
+      final RevFlag canMergeFlag, final Set<RevCommit> alreadyAccepted,
+      final Branch.NameKey destBranch, final boolean useContentMerge) {
     super(identifiedUserFactory, myIdent, db, repo, rw, inserter, canMergeFlag,
         alreadyAccepted, destBranch, useContentMerge);
 
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
+    this.replication = replication;
     this.newCommits = new HashMap<Change.Id, CodeReviewCommit>();
   }
 
@@ -315,6 +319,17 @@ public class CherryPick extends SubmitStrategy {
             Collections.singleton(new PatchSetApproval(ps.getId(), a)));
       }
     }
+
+    final RefUpdate ru = repo.updateRef(ps.getRefName());
+    ru.setExpectedOldObjectId(ObjectId.zeroId());
+    ru.setNewObjectId(newCommit);
+    ru.disableRefLog();
+    if (ru.update(rw) != RefUpdate.Result.NEW) {
+      throw new IOException(String.format(
+          "Failed to create ref %s in %s: %s", ps.getRefName(),
+          n.change.getDest().getParentKey().get(), ru.getResult()));
+    }
+    replication.fire(n.change.getProject(), ru.getName());
 
     newCommit.copyFrom(n);
     newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;

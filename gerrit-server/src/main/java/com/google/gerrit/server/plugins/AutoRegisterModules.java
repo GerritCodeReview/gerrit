@@ -299,7 +299,7 @@ class AutoRegisterModules {
     return data;
   }
 
-  private static class ClassData implements ClassVisitor {
+  private static class ClassData extends ClassVisitor {
     private static final String EXPORT = Type.getType(Export.class).getDescriptor();
     private static final String LISTEN = Type.getType(Listen.class).getDescriptor();
 
@@ -307,6 +307,10 @@ class AutoRegisterModules {
     int access;
     String exportedAsName;
     boolean listen;
+
+    ClassData() {
+      super(Opcodes.ASM4);
+    }
 
     boolean isConcrete() {
       return (access & Opcodes.ACC_ABSTRACT) == 0
@@ -370,8 +374,12 @@ class AutoRegisterModules {
     }
   }
 
-  private static abstract class AbstractAnnotationVisitor implements
+  private static abstract class AbstractAnnotationVisitor extends
       AnnotationVisitor {
+    AbstractAnnotationVisitor() {
+      super(Opcodes.ASM4);
+    }
+
     @Override
     public AnnotationVisitor visitAnnotation(String arg0, String arg1) {
       return null;

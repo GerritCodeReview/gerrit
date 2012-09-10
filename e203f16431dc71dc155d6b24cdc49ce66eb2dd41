@@ -16,6 +16,40 @@
       "revId": "e203f16431dc71dc155d6b24cdc49ce66eb2dd41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H//+Wc\u003d",
+        "filename": "Documentation/dev-design.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-10T05:51:09Z",
+      "side": 1,
+      "message": "s/file/File",
+      "revId": "e203f16431dc71dc155d6b24cdc49ce66eb2dd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H//+WY\u003d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-10T05:51:09Z",
+      "side": 1,
+      "message": "double click? Shouldn\u0027t be a single click on an icon be enough?",
+      "revId": "e203f16431dc71dc155d6b24cdc49ce66eb2dd41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

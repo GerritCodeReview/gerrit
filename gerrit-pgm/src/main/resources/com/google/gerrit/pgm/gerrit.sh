@@ -126,7 +126,7 @@ TMPJ=$TMP/j$$
 GERRIT_INSTALL_TRACE_FILE=etc/gerrit.config
 
 ##################################################
-# No git in PATH? Needed for gerrit.confg parsing
+# No git in PATH? Needed for gerrit.config parsing
 ##################################################
 if type git >/dev/null 2>&1 ; then
   : OK
@@ -140,7 +140,17 @@ fi
 ##################################################
 if test -z "$GERRIT_SITE" ; then
   GERRIT_SITE_1=`dirname "$0"`
+
+  ##################################################
+  # As last resort assume we started the script from
+  # the bin directory of the Gerrit installation
+  ##################################################
+  if [ "$GERRIT_SITE_1" = "." ]; then
+      GERRIT_SITE_1=`pwd`
+  fi
+
   GERRIT_SITE_1=`dirname "$GERRIT_SITE_1"`
+
   if test -f "${GERRIT_SITE_1}/${GERRIT_INSTALL_TRACE_FILE}" ; then 
     GERRIT_SITE=${GERRIT_SITE_1} 
   fi

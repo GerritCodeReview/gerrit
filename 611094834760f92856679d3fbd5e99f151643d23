@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI5n//+og\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-11T06:23:29Z",
+      "side": 1,
+      "message": "s/Functional users/Non-interactive users\n\ns/can\u0027t normally not/can normally not",
+      "revId": "611094834760f92856679d3fbd5e99f151643d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+oY\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-11T06:23:29Z",
+      "side": 1,
+      "message": "This new option should be documented in \u0027Documentation/cmd-create-account.txt\u0027.",
+      "revId": "611094834760f92856679d3fbd5e99f151643d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+oc\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/CreateAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-11T06:23:29Z",
+      "side": 1,
+      "message": "nit: no need to modify this line",
+      "revId": "611094834760f92856679d3fbd5e99f151643d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+oU\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-11T06:23:29Z",
+      "side": 1,
+      "message": "This new option should be documented in \u0027Documentation/cmd-set-account.txt\u0027.",
+      "revId": "611094834760f92856679d3fbd5e99f151643d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+oI\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-11T06:23:29Z",
+      "side": 1,
+      "message": "Hmm, setting accountUpdated to true causes an unnecessary call to the database. The setHttpPassword method is already taking care to update the external id in the database. The account itself is not modified, this is why there is no need to update it in line 179. However evicting the account from the cache should be still necessary.",
+      "revId": "611094834760f92856679d3fbd5e99f151643d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+oQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-11T06:23:29Z",
+      "side": 1,
+      "message": "I think the password should only be set for the external id that has the AccountExternalId.SCHEME_USERNAME scheme, shouldn\u0027t it?",
+      "revId": "611094834760f92856679d3fbd5e99f151643d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+oM\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-11T06:23:29Z",
+      "side": 1,
+      "message": "In case that the password really needs to be set for all external ids, there should be only one call to the database that updates all the modified external ids at once. Means this update should be outside the loop.",
+      "revId": "611094834760f92856679d3fbd5e99f151643d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

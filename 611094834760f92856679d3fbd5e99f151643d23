@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5H//+Gs\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-09-11T12:32:03Z",
+      "side": 1,
+      "message": "Thanks, missed that one. I\u0027ll update and send a new patch set.",
+      "parentUuid": "AAAI5n//+oI\u003d",
+      "revId": "611094834760f92856679d3fbd5e99f151643d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5n//+oQ\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 1
@@ -104,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "AAAI5H//+G0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-09-11T12:32:03Z",
+      "side": 1,
+      "message": "Yes, I wasn\u0027t sure so I was hoping for a good review suggestion.",
+      "parentUuid": "AAAI5n//+oQ\u003d",
+      "revId": "611094834760f92856679d3fbd5e99f151643d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5n//+oM\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 1
@@ -115,6 +151,24 @@
       "writtenOn": "2012-09-11T06:23:29Z",
       "side": 1,
       "message": "In case that the password really needs to be set for all external ids, there should be only one call to the database that updates all the modified external ids at once. Means this update should be outside the loop.",
+      "revId": "611094834760f92856679d3fbd5e99f151643d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5H//+Gw\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-09-11T12:32:03Z",
+      "side": 1,
+      "message": "I\u0027ll change to just update for the scheme mentioned above. Hopefully that will be enough.",
+      "parentUuid": "AAAI5n//+oM\u003d",
       "revId": "611094834760f92856679d3fbd5e99f151643d23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

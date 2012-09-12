@@ -16,6 +16,24 @@
       "revId": "40bc3582caf7e4717798b957ccf178e8fa4166ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI5n//+Yk\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-12T14:05:58Z",
+      "side": 1,
+      "message": "yes, the \"[TRIVIAL]\" would be a character class and brackets would need to be escaped. And the backslash itself may need to be escaped also as one level of it may be consumed by the prolog parser.\n\nHowever, it is not a purpose of this document to be a prolog language or regular expressions tutorial. Instead, it explains\nonly what is needed to understand the examples. Otherwise,\nit would be hard to draw the border and know where to stop.",
+      "parentUuid": "AAAI7H///O8\u003d",
+      "revId": "40bc3582caf7e4717798b957ccf178e8fa4166ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

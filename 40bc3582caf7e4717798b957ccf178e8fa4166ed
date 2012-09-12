@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI7H///O8\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2012-09-12T12:44:54Z",
+      "side": 1,
+      "message": "Maybe add something about escaping special characters:\nto match [TRIVIAL], you have to use \"^\\\\[TRIVIAL\\\\]\" (double slashes!)",
+      "revId": "40bc3582caf7e4717798b957ccf178e8fa4166ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

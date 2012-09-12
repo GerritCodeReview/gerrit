@@ -22,6 +22,9 @@ enum CommitMergeStatus {
   CLEAN_PICK("Change has been successfully cherry-picked"),
 
   /** */
+  CLEAN_REBASE("Change has been successfully rebased"),
+
+  /** */
   ALREADY_MERGED(""),
 
   /** */
@@ -47,6 +50,11 @@ enum CommitMergeStatus {
   CANNOT_CHERRY_PICK_ROOT("Cannot cherry-pick an initial commit onto an existing branch.\n"
                   + "\n"
                   + "Please merge the change locally and upload the merge commit for review."),
+
+  /** */
+  CANNOT_REBASE_ROOT("Cannot rebase an initial commit onto an existing branch.\n"
+                   + "\n"
+                   + "Please merge the change locally and upload the merge commit for review."),
 
   /** */
   NOT_FAST_FORWARD("Project policy requires all submissions to be a fast-forward.\n"

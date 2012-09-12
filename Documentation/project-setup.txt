@@ -99,6 +99,13 @@ cherry-pick mode. Submitters must remember to submit changes in
 the right order since inter-change dependencies will not be
 enforced for them.
 
+* Rebase If Necessary
++
+If the change being submitted is a strict superset of the destination
+branch, then the branch is fast-forwarded to the change.  If not,
+then the change is automatically rebased and then the branch is
+fast-forwarded to the change.
+
 When Gerrit tries to do a merge, by default the merge will only
 succeed if there is no path conflict. By selecting the checkbox
 `Automatically resolve conflicts` Gerrit will try do a content merge

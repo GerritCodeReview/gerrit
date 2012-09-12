@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 class ChangeManageServiceImpl implements ChangeManageService {
   private final SubmitAction.Factory submitAction;
   private final AbandonChangeHandler.Factory abandonChangeHandlerFactory;
-  private final RebaseChange.Factory rebaseChangeFactory;
+  private final RebaseChangeHandler.Factory rebaseChangeFactory;
   private final RestoreChangeHandler.Factory restoreChangeHandlerFactory;
   private final RevertChange.Factory revertChangeFactory;
   private final PublishAction.Factory publishAction;
@@ -33,7 +33,7 @@ class ChangeManageServiceImpl implements ChangeManageService {
   @Inject
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
       final AbandonChangeHandler.Factory abandonChangeHandlerFactory,
-      final RebaseChange.Factory rebaseChangeFactory,
+      final RebaseChangeHandler.Factory rebaseChangeFactory,
       final RestoreChangeHandler.Factory restoreChangeHandlerFactory,
       final RevertChange.Factory revertChangeFactory,
       final PublishAction.Factory publishAction,

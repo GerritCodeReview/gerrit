@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAI+3///p8\u003d",
+        "filename": "gerrit-pgm/src/main/resources/com/google/gerrit/pgm/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-12T04:14:26Z",
+      "side": 1,
+      "message": "Perhaps you should do this in two lines to avoid having to use $() since that may not be portable enough to some shells on certain platforms (ick, Solaris)?\n\nAlthough, you put this if after line 142, then you probably wouldn\u0027t need the two passes since line 143 could serve as your second pass?",
+      "revId": "99ff575a76abb2344c2f22503dc64083b17a2df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

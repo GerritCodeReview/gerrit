@@ -204,6 +204,48 @@ public class MergeUtil {
     }
   }
 
+  public static boolean canCherryPick(final MergeSorter mergeSorter,
+      final Repository repo, final boolean useContentMerge,
+      final CodeReviewCommit mergeTip, final RevWalk rw,
+      final CodeReviewCommit toMerge) throws MergeException {
+    if (mergeTip == null) {
+      // The branch is unborn. Fast-forward is possible.
+      //
+      return true;
+    }
+
+    if (toMerge.getParentCount() == 0) {
+      // Refuse to merge a root commit into an existing branch,
+      // we cannot obtain a delta for the cherry-pick to apply.
+      //
+      return false;
+    }
+
+    if (toMerge.getParentCount() == 1) {
+      // If there is only one parent, a cherry-pick can be done by
+      // taking the delta relative to that one parent and redoing
+      // that on the current merge tip.
+      //
+      try {
+        final ThreeWayMerger m =
+            newThreeWayMerger(repo, createDryRunInserter(), useContentMerge);
+        m.setBase(toMerge.getParent(0));
+        return m.merge(mergeTip, toMerge);
+      } catch (IOException e) {
+        throw new MergeException("Cannot merge " + toMerge.name(), e);
+      }
+    }
+
+    // There are multiple parents, so this is a merge commit. We
+    // don't want to cherry-pick the merge as clients can't easily
+    // rebase their history with that merge present and replaced
+    // by an equivalent merge with a different first parent. So
+    // instead behave as though MERGE_IF_NECESSARY was configured.
+    //
+    return canFastForward(mergeSorter, mergeTip, rw, toMerge)
+        || canMerge(mergeSorter, repo, useContentMerge, mergeTip, toMerge);
+  }
+
   public static boolean hasMissingDependencies(final MergeSorter mergeSorter,
       final CodeReviewCommit toMerge) throws MergeException {
     try {

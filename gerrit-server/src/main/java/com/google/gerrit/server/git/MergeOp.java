@@ -684,6 +684,7 @@ public class MergeOp {
           break;
         }
 
+        case CLEAN_REBASE:
         case CLEAN_PICK: {
           setMerged(c, message(c, txt + " as " + commit.name()));
           merged.add(commit);

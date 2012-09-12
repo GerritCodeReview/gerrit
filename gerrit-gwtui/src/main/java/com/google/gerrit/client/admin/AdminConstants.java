@@ -68,6 +68,7 @@ public interface AdminConstants extends Constants {
   String projectSubmitType_FAST_FORWARD_ONLY();
   String projectSubmitType_MERGE_ALWAYS();
   String projectSubmitType_MERGE_IF_NECESSARY();
+  String projectSubmitType_REBASE_IF_NECESSARY();
   String projectSubmitType_CHERRY_PICK();
 
   String projectState_ACTIVE();

@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -50,6 +51,7 @@ public class SubmitStrategyFactory {
   private final Provider<String> urlProvider;
   private final ApprovalTypes approvalTypes;
   private final GitReferenceUpdated replication;
+  private final RebaseChange.Factory rebaseChangeFactory;
 
   @Inject
   SubmitStrategyFactory(
@@ -57,13 +59,15 @@ public class SubmitStrategyFactory {
       @GerritPersonIdent final PersonIdent myIdent,
       final PatchSetInfoFactory patchSetInfoFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final ApprovalTypes approvalTypes, final GitReferenceUpdated replication) {
+      final ApprovalTypes approvalTypes, final GitReferenceUpdated replication,
+      final RebaseChange.Factory rebaseChangeFactory) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
     this.replication = replication;
+    this.rebaseChangeFactory = rebaseChangeFactory;
   }
 
   public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
@@ -85,6 +89,8 @@ public class SubmitStrategyFactory {
         return new MergeAlways(args);
       case MERGE_IF_NECESSARY:
         return new MergeIfNecessary(args);
+      case REBASE_IF_NECESSARY:
+        return new RebaseIfNecessary(args, rebaseChangeFactory);
       default:
         final String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);

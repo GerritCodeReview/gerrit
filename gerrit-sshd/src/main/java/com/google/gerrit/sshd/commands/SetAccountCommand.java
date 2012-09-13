@@ -72,6 +72,9 @@ final class SetAccountCommand extends BaseCommand {
   @Option(name = "--delete-ssh-key", multiValued = true, metaVar = "-|KEY", usage = "public keys to delete from the account")
   private List<String> deleteSshKeys = new ArrayList<String>();
 
+  @Option(name = "--http-password", metaVar = "PASSWORD", usage = "password for HTTP authentication for the account")
+  private String httpPassword;
+
   @Inject
   private IdentifiedUser currentUser;
 
@@ -145,6 +148,10 @@ final class SetAccountCommand extends BaseCommand {
       } else {
         throw new UnloggedFailure(1, "The realm doesn't allow editing names");
       }
+    }
+
+    if (httpPassword != null) {
+      setHttpPassword(id, httpPassword);
     }
 
     if (active) {
@@ -230,6 +237,18 @@ final class SetAccountCommand extends BaseCommand {
       AccountExternalId extId = db.accountExternalIds().get(key);
       if (extId != null) {
         unlink(id, mailAddress);
+      }
+    }
+  }
+
+  private void setHttpPassword(Account.Id id, final String httpPassword)
+      throws UnloggedFailure, OrmException {
+    ResultSet<AccountExternalId> ids = db.accountExternalIds().byAccount(id);
+    for (AccountExternalId extId: ids) {
+      if (extId.isScheme(AccountExternalId.SCHEME_USERNAME)) {
+        extId.setPassword(httpPassword);
+        db.accountExternalIds().update(Collections.singleton(extId));
+        byIdCache.evict(id);
       }
     }
   }

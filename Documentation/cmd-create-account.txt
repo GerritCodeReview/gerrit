@@ -13,6 +13,7 @@ SYNOPSIS
   [--full-name <FULLNAME>]
   [--email <EMAIL>]
   [--ssh-key - | <KEY>]
+  [--http-password <PASSWORD>]
   <USERNAME>
 
 DESCRIPTION
@@ -58,6 +59,9 @@ This most likely requires double quoting the value, for example
 
 --email::
 	Preferred email address for the user account.
+
+--http-password::
+    HTTP password for the user account.
 
 EXAMPLES
 --------

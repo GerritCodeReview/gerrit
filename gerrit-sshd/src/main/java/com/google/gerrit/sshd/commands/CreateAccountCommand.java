@@ -60,6 +60,9 @@ final class CreateAccountCommand extends SshCommand {
   @Option(name = "--ssh-key", metaVar = "-|KEY", usage = "public key for SSH authentication")
   private String sshKey;
 
+  @Option(name = "--http-password", metaVar = "PASSWORD", usage = "password for HTTP authentication")
+  private String httpPassword;
+
   @Argument(index = 0, required = true, metaVar = "USERNAME", usage = "name of the user account")
   private String username;
 
@@ -92,6 +95,10 @@ final class CreateAccountCommand extends SshCommand {
     AccountExternalId extUser =
         new AccountExternalId(id, new AccountExternalId.Key(
             AccountExternalId.SCHEME_USERNAME, username));
+
+    if (httpPassword != null) {
+      extUser.setPassword(httpPassword);
+    }
 
     if (db.accountExternalIds().get(extUser.getKey()) != null) {
       throw die("username '" + username + "' already exists");

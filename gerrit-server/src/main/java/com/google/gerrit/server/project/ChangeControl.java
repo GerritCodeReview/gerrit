@@ -284,7 +284,8 @@ public class ChangeControl {
 
       // The branch owner, project owner, site admin can remove anyone.
       //
-      if (getRefControl().isOwner() // branch owner
+      if (getRefControl().canRemoveReviewer() // has removal permissions
+          || getRefControl().isOwner() // branch owner
           || getProjectControl().isOwner() // project owner
           || getCurrentUser().getCapabilities().canAdministrateServer()) {
         return true;

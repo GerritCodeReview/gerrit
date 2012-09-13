@@ -322,6 +322,10 @@ public class RefControl {
     return canPerform(Permission.ABANDON);
   }
 
+  public boolean canRemoveReviewer() {
+    return canPerform(Permission.REMOVE_REVIEWER);
+  }
+
   /** All value ranges of any allowed label permission. */
   public List<PermissionRange> getLabelRanges() {
     List<PermissionRange> r = new ArrayList<PermissionRange>();

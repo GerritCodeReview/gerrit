@@ -125,7 +125,7 @@ public class RegisterScreen extends AccountScreen {
       agreementGroup.add(whyAgreement);
 
       choices.add(new InlineHyperlink(Util.C.newAgreement(),
-          PageLinks.SETTINGS_NEW_AGREEMENT + "," + nextToken));
+          PageLinks.SETTINGS_NEW_AGREEMENT));
       choices
           .add(new InlineHyperlink(Util.C.welcomeAgreementLater(), nextToken));
       formBody.add(agreementGroup);

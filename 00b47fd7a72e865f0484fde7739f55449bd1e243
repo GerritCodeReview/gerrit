@@ -70,6 +70,24 @@
       "revId": "00b47fd7a72e865f0484fde7739f55449bd1e243",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJDn///3U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-13T14:37:54Z",
+      "side": 1,
+      "message": "Martin, I\u0027ve now done a first attempt to implement what you suggested [1].\n\n[1] https://gerrit-review.googlesource.com/37791",
+      "parentUuid": "AAAITX///9o\u003d",
+      "revId": "00b47fd7a72e865f0484fde7739f55449bd1e243",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

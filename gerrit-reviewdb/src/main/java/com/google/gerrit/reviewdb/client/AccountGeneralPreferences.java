@@ -32,7 +32,7 @@ public final class AccountGeneralPreferences {
 
   /** Preferred method to download a change. */
   public static enum DownloadCommand {
-    REPO_DOWNLOAD, PULL, CHECKOUT, CHERRY_PICK, FORMAT_PATCH;
+    REPO_DOWNLOAD, PULL, CHECKOUT, CHERRY_PICK, FORMAT_PATCH, DEFAULT_DOWNLOADS;
   }
 
   public static enum DateFormat {

@@ -22,7 +22,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.DownloadSchemeConfig;
+import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
@@ -48,7 +48,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final Realm realm;
   private final Config cfg;
   private final AuthConfig authConfig;
-  private final DownloadSchemeConfig schemeConfig;
+  private final DownloadConfig downloadConfig;
   private final GitWebConfig gitWebConfig;
   private final AllProjectsName wildProject;
   private final SshInfo sshInfo;
@@ -63,12 +63,12 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
       final AuthConfig ac, final GitWebConfig gwc, final AllProjectsName wp,
       final SshInfo si, final ApprovalTypes at, final ContactStore cs,
-      final ServletContext sc, final DownloadSchemeConfig dc,
+      final ServletContext sc, final DownloadConfig dc,
       final @AnonymousCowardName String acn) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
-    schemeConfig = dc;
+    downloadConfig = dc;
     gitWebConfig = gwc;
     sshInfo = si;
     wildProject = wp;
@@ -111,7 +111,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
     config.setGitHttpUrl(cfg.getString("gerrit", null, "gitHttpUrl"));
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
-    config.setDownloadSchemes(schemeConfig.getDownloadScheme());
+    config.setDownloadSchemes(downloadConfig.getDownloadSchemes());
+    config.setDownloadCommands(downloadConfig.getDownloadCommands());
     config.setAuthType(authConfig.getAuthType());
     config.setWildProject(wildProject);
     config.setApprovalTypes(approvalTypes);

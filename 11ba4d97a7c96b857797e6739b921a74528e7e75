@@ -16,6 +16,24 @@
       "revId": "11ba4d97a7c96b857797e6739b921a74528e7e75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJG3///+g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011602
+      },
+      "writtenOn": "2012-09-14T11:52:51Z",
+      "side": 1,
+      "message": "Sorry, old habit using GNU ChangeLog standard formatting for commit messages. I\u0027ll upload an adjusted one forthwith.",
+      "parentUuid": "AAAJGn///98\u003d",
+      "revId": "11ba4d97a7c96b857797e6739b921a74528e7e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

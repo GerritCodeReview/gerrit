@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJGn///98\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-09-14T06:15:00Z",
+      "side": 1,
+      "message": "Do we need to mention which file has changed?  We can see that in the diff log.",
+      "revId": "11ba4d97a7c96b857797e6739b921a74528e7e75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

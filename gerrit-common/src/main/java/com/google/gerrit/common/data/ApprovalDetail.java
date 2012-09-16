@@ -42,6 +42,7 @@ public class ApprovalDetail {
   protected Account.Id account;
   protected List<PatchSetApproval> approvals;
   protected boolean canRemove;
+  private Set<String> votable;
 
   private transient Set<String> approved;
   private transient Set<String> rejected;
@@ -112,11 +113,22 @@ public class ApprovalDetail {
     rejected.add(label);
   }
 
+  public void votable(String label) {
+    if (votable == null) {
+      votable = new HashSet<String>();
+    }
+    votable.add(label);
+  }
+
   public boolean isApproved(String label) {
     return approved != null && approved.contains(label);
   }
 
   public boolean isRejected(String label) {
     return rejected != null && rejected.contains(label);
+  }
+
+  public boolean canVote(String label) {
+    return votable != null && votable.contains(label);
   }
 }

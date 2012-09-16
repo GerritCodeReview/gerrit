@@ -353,6 +353,7 @@ public class ChangeUtil {
         newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
         newPatchSet.setUploader(user.getAccountId());
         newPatchSet.setRevision(new RevId(rebasedCommit.name()));
+        newPatchSet.setDraft(originalPatchSet.isDraft());
 
         final PatchSetInfo info =
             patchSetInfoFactory.get(rebasedCommit, newPatchSet.getId());

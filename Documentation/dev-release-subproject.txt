@@ -1,96 +1,106 @@
 Making a Release of a Gerrit Subproject / Core Plugin
 =====================================================
 
-Preparing a New Snapshot for Publishing
----------------------------------------
+[[make-snapshot]]
+Make a Snapshot
+---------------
 
-* You will need to have the following in the `pom.xml` to make it
-  deployable to the `gerrit-maven` storage bucket:
+* Only for plugins:
+** In the `pom.xml` update the Gerrit version under `properties` >
+`Gerrit-ApiVersion` to the version of the new Gerrit
+release.
+** Make sure that the URL for the Maven repository with the id
+`gerrit-api-repository` in the `pom.xml` is correct.
++
+If `Gerrit-ApiVersion` references a released Gerrit version it must be
+`https://gerrit-api.commondatastorage.googleapis.com/release/`, if
+`Gerrit-ApiVersion` references a snapshot Gerrit version it must be
+`https://gerrit-api.commondatastorage.googleapis.com/snapshot/`.
 
-----
-  <distributionManagement>
-    <repository>
-      <id>gerrit-maven</id>
-      <name>gerrit Maven Repository</name>
-      <url>s3://gerrit-maven@commondatastorage.googleapis.com</url>
-      <uniqueVersion>true</uniqueVersion>
-    </repository>
-  </distributionManagement>
-----
+* Build the latest snapshot and install it into the local Maven
+repository:
++
+====
+  mvn clean install
+====
 
-
-* Add this to the `pom.xml` to enable the wagon provider:
-
-----
-  <build>
-    <extensions>
-      <extension>
-        <groupId>net.anzix.aws</groupId>
-        <artifactId>s3-maven-wagon</artifactId>
-        <version>3.2</version>
-      </extension>
-    </extensions>
-  </build>
-----
+* Test Gerrit with this snapshot locally
 
 
-* Add your username and password to your `~/.m2/settings.xml` file.
-  These need to come from the link:https://code.google.com/apis/console/[API Console].
+Publish Snapshot
+----------------
 
-----
-  <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-    <servers>
-      <server>
-        <id>gerrit-maven</id>
-        <username>GOOG..EXAMPLE.....EXAMPLE</username>
-        <password>EXAMPLE..EXAMPLE..EXAMPLE</password>
-      </server>
-    </servers>
-  </settings>
-----
+If a Snapshot for a Subproject was created that should be referenced by
+Gerrit while current Gerrit development is ongoing, this Snapshot needs
+to be published.
 
+* Make sure you have done the configuration needed for deployment:
+** link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
+Configuration in Maven `settings.xml`]
+** link:dev-release-deploy-config.html#deploy-configuration-subprojects[
+Configuration for Subprojects in `pom.xml`]
 
-Making a Snapshot
------------------
-
-* Only for plugins: in the `pom.xml` update the Gerrit version under
-`properties` > `Gerrit-ApiVersion` to the version of the new Gerrit
-release
-* First build and deploy the latest snapshot and ensure that Gerrit
-builds/runs with this snapshot
-
-* Deploy the snapshot:
-
+* Deploy the new snapshot:
++
 ====
   mvn deploy
 ====
 
+* Change the version in the Gerrit parent `pom.xml` for the Subproject
+to the `SNAPSHOT` version
++
+When Gerrit gets released, a release of the Subproject has to be done
+and Gerrit has to reference the released Subproject version.
 
-Making a Release
-----------------
 
-* First deploy (and test) the latest snapshot for the subproject/plugin
+[[prepare-release]]
+Prepare the Release
+-------------------
+
+* link:#make-snapshot[First create (and test) the latest snapshot for
+the subproject/plugin]
 
 * Update the top level `pom.xml` in the subproject/plugin to reflect
 the new project version (the exact value of the tag you will create
 below)
 
-* Commit the pom change and push to the project's repo
-`refs/for/<master/stable>`
-
-* Tag the version you just pushed (and push the tag)
-
+* Create the Release Tag
++
 ====
  git tag -a -m "prolog-cafe 1.3" v1.3
- git push gerrit-review refs/tags/v1.3:refs/tags/v1.3
 ====
+
+* Build and install into local Maven repository:
++
+====
+  mvn clean install
+====
+
+
+[[publish-release]]
+Publish the Release
+-------------------
+
+* Make sure you have done the configuration needed for deployment:
+** link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
+Configuration in Maven `settings.xml`]
+** Configuration in `pom.xml` for
+link:dev-release-deploy-config.html#deploy-configuration-subprojects[Subprojects] or
+link:dev-release-deploy-config.html#deploy-configuration-core-plugins[Core Plugins]
 
 * Deploy the new release:
-
++
 ====
- mvn deploy
+  mvn deploy
+====
+
+* Push the pom change(s) to the project's repository
+`refs/for/<master|stable>`
+
+* Push the Release Tag
++
+====
+  git push gerrit-review refs/tags/v1.3:refs/tags/v1.3
 ====
 
 

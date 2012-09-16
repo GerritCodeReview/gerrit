@@ -11,7 +11,7 @@ status to the Gerrit web site.
 
 To make a Gerrit release involves a great deal of complex
 tasks and it is easy to miss a step so this document should
-hopefuly serve as both a how to for those new to the process
+hopefully serve as both a how to for those new to the process
 and as a checklist for those already familiar with these
 tasks.
 
@@ -20,106 +20,181 @@ Gerrit Release Type
 -------------------
 
 Here are some guidelines on release approaches depending on the
-type of release you want to make (stable-fix, stable, RC0, RC1...).
+type of release you want to make (`stable-fix`, `stable`, `RC0`,
+`RC1`...).
 
 Stable
 ~~~~~~
 
-A stable release is generally built from the master branch and may need to
-undergo some stabilization before releasing the final release.
+A `stable` release is generally built from the `master` branch and may
+need to undergo some stabilization before releasing the final release.
 
 * Propose the release with any plans/objectives to the mailing list
 
-* Create a Gerrit RC0
+* Create a Gerrit `RC0`
 
-* If needed create a Gerrit RC1
+* If needed create a Gerrit `RC1`
 
 [NOTE]
 ========================================================================
 You may let in a few features to this release
 ========================================================================
 
-* If needed create a Gerrit RC2
+* If needed create a Gerrit `RC2`
 
 [NOTE]
 ========================================================================
 There should be no new features in this release, only bug fixes
 ========================================================================
 
-* Finally create the stable release (no RC)
+* Finally create the `stable` release (no `RC`)
 
 
 Stable-Fix
 ~~~~~~~~~~
 
-Stable-fix releases should likely only contain bug fixes and doc updates.
+`stable-fix` releases should likely only contain bug fixes and doc
+updates.
 
-* Propose the release with any plans/objectives to the mailing list
-
-* This type of release does not need any RCs, release when the objectives
-  are met
-
+* This type of release does not need any RCs, release when the
+objectives are met
 
 
 Create the Actual Release
 ---------------------------
 
-In the example commands below we assume that the last release was '2.4' and that
-we are preparing '2.5' release.
+To create a Gerrit release the following steps have to be done:
 
-Prepare the Subprojects
-~~~~~~~~~~~~~~~~~~~~~~~
+. link:#subproject[Release Subprojects]
+. link:#prepare-gerrit[Prepare the Gerrit Release]
+.. link:#prepare-war-and-plugin-api[Prepare the Gerrit WAR and the Plugin API Jar]
+.. link:#prepare-core-plugins[Prepare the Core Plugins]
+.. link:#prepare-war-with-plugins[Prepare Gerrit WAR with Core Plugins]
+. link:#publish-gerrit[Publish the Gerrit Release]
+.. link:#extension-and-plugin-api[Publish the Extension and Plugin API Jars]
+.. link:#publish-core-plugins[Publish the Core Plugins]
+.. link:#publish-gerrit-war[Publish the Gerrit WAR (with Core Plugins)]
+.. link:#push-stable[Push the Stable Branch]
+.. link:#push-tag[Push the Release Tag]
+.. link:#upload-documentation[Upload the Documentation]
+.. link:#update-issues[Update the Issues]
+.. link:#announce[Announce on Mailing List]
+. link:#increase-version[Increase Gerrit Version for Current Development]
+. link:#merge-stable[Merge `stable` into `master`]
 
-* Publish the latest snapshot for all subprojects
-* Freeze all subprojects and link:dev-release-subproject.html[publish]
-  them!
+
+[[subproject]]
+Release Subprojects
+~~~~~~~~~~~~~~~~~~~
+
+The subprojects to be released are:
+
+* `gwtexpui`
+* `gwtjsonrpc`
+* `gwtorm`
+* `prolog-cafe`
+
+For each subproject do:
+
+* Check the dependency to the Subproject in the Gerrit parent `pom.xml`:
++
+If a `SNAPSHOT` version of the subproject is referenced the subproject
+needs to be released so that Gerrit can reference a released version of
+the subproject.
+
+* link:dev-release-subproject.html#make-snapshot[Make a snapshot and test it]
+* link:dev-release-subproject.html#prepare-release[Prepare the Release]
+* link:dev-release-subproject.html#publish-release[Publish the Release]
+
+* Update the version of the Subproject in the Gerrit parent `pom.xml`
+to the released version
 
 
+[[prepare-gerrit]]
 Prepare Gerrit
 ~~~~~~~~~~~~~~
 
-* Create a `stable-2.5` branch for making the new release
+In all example commands it is assumed that the last release was `2.4`
+and that now the `2.5` release is prepared.
 
-* In the `master` branch: Update the poms for the Gerrit version, push for
-review, get merged
 
-====
- tools/version.sh --snapshot=2.5
-====
+[[prepare-war-and-plugin-api]]
+Prepare the Gerrit WAR and the Plugin API Jar
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Checkout the `stable-2.5` branch
-* Update the top level `pom.xml` in Gerrit to ensure that none of the
-Subprojects point to snapshot releases
+* Create locally a `stable-2.5` branch for making the new release
 
-* Tag
+* Check in the Gerrit parent `pom.xml` that no `SNAPSHOT` version of a
+Subproject is referenced
++
+If there is a dependency to a `SNAPSHOT` version,
+link:#subproject[release the subproject] first.
 
+* Create a tag for the Gerrit release
++
+For an `RC` release:
++
 ====
  git tag -a -m "gerrit 2.5-rc0" v2.5-rc0
+====
++
+For a final `stable` release:
++
+====
  git tag -a -m "gerrit 2.5" v2.5
 ====
 
-* Build (without plugins)
-
+* Build the Gerrit WAR (without plugins) and the Plugin API Jar
++
 ====
  ./tools/release.sh
 ====
++
+[WARNING]
+========================================================================
+Make sure you are compiling the release for all browsers. Check in your
+Maven `~/.m2/settings.xml` file that no Maven profile is active that
+limits the compilation to a certain browser.
+========================================================================
 
-[[plugin-api]]
-Publish the Plugin API JAR File
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Sanity check WAR
 
-* Push JAR to `commondatastorage.googleapis.com`
-** Run `tools/deploy_api.sh`
 
-Prepare the Core Plugins
-~~~~~~~~~~~~~~~~~~~~~~~~
-* link:dev-release-subproject.html[Release and publish] the core plugins
+[[prepare-core-plugins]]
+Prepare Core Plugins
+^^^^^^^^^^^^^^^^^^^^
+The core plugins to be prepared are:
 
-Package Gerrit with Plugins
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Ensure that the core plugins listed in `gerrit-package-plugins/pom.xml`
-point to the latest release version (no dependency to snapshot versions)
+* `plugins/replication`
+
+For each core plugin do:
+
+* link:dev-release-subproject.html#make-snapshot[Make a snapshot and test it]
+* link:dev-release-subproject.html#prepare-release[Prepare the Release]
+
+* Update the version of the Core Plugin in
+`gerrit-package-plugins/pom.xml` to the released version
+
+[WARNING]
+========================================================================
+Updating the plugin versions in `gerrit-package-plugins/pom.xml`
+invalidates the Gerrit Release Tag which was created before.
+
+If needed delete the tag and recreate it!
+========================================================================
+
+
+[[prepare-war-with-plugins]]
+Prepare Gerrit WAR with Core Plugins
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Ensure that the Core Plugins listed in `gerrit-package-plugins/pom.xml`
+point to the latest release version (no dependency to `SNAPSHOT` versions)
+
+* Ensure that the release tag points to the `HEAD` commit
+
 * Include core plugins into WAR
++
 ====
  $ ./tools/version.sh --release && mvn clean package -f gerrit-package-plugins/pom.xml
  $ ./tools/version.sh --reset
@@ -127,35 +202,91 @@ point to the latest release version (no dependency to snapshot versions)
 
 * Find WAR that includes the core plugins at
 `gerrit-package-plugins\target\gerrit-full-v2.5.war`
-* Sanity check WAR
 
-Publish to the Project Locations
---------------------------------
+* Compare `gerrit-package-plugins\target\gerrit-full-v2.5.war` with
+  `gerrit-war\target\gerrit-v2.5.war`
++
+The only difference should be the core plugins jars under
+`WEB-INF\plugins`.
 
-WAR File
-~~~~~~~~
+* Test the new Gerrit version
 
-* Upload WAR to code.google.com/p/gerrit (manual web browser)
+[[publish-gerrit]]
+Publish the Gerrit Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+[[extension-and-plugin-api]]
+Publish the Extension and Plugin API Jars
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* Make sure you have done the
+link:dev-release-deploy-config.html#deploy-configuration-settings-xml[
+configuration needed for deployment]
+
+* Push the Jars to `commondatastorage.googleapis.com`:
++
+----
+  ./tools/deploy_api.sh
+----
+
+
+[[publish-core-plugins]]
+Publish the Core Plugins
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+* link:dev-release-subproject.html#publish-release[Publish the Release]
+
+
+[[publish-gerrit-war]]
+Publish the Gerrit WAR (with Core Plugins)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* The WAR file to upload is `gerrit-package-plugins\target\gerrit-full-v2.5.war`
+* Upload WAR to `code.google.com/p/gerrit` (manual via web browser)
 ** Go to http://code.google.com/p/gerrit/downloads/list
-** Use the "New Download" button
+** Use the `New Download` button
 
 * Update labels:
-** new war: [release-candidate], featured...
-** old war: deprecated
+** new war: [`release-candidate`], `featured`...
+** old war: `deprecated`
 
-Tag
-~~~
 
-* Push the New Tag
+[[push-stable]]
+Push the Stable Branch
+^^^^^^^^^^^^^^^^^^^^^^
 
+* create the stable branch `stable-2.5` in the `gerrit` project
++
+Via the link:https://gerrit-review.googlesource.com/#/admin/projects/gerrit,branches[
+Gerrit WebUI] or by push.
+
+* Push the commits done on `stable-2.5` to `refs/for/stable-2.5` and
+get them merged
+
+
+[[push-tag]]
+Push the Release Tag
+^^^^^^^^^^^^^^^^^^^^
+
+* Push the new Release Tag
++
+For an `RC`:
++
 ====
  git push gerrit-review refs/tags/v2.5-rc0:refs/tags/v2.5-rc0
+====
++
+For a final `stable` release:
++
+====
  git push gerrit-review refs/tags/v2.5:refs/tags/v2.5
 ====
 
 
-Docs
-~~~~
+[[upload-documentation]]
+Upload the Documentation
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 ====
  make -C Documentation PRIOR=2.4 update
@@ -167,14 +298,14 @@ Docs
 * Update Google Code project links
 ** Go to http://code.google.com/p/gerrit/admin
 ** Point the main page to the new docs. The link to the documentation has to be
-updated at two places: in the project description and also in the Links
+updated at two places: in the project description and also in the `Links`
 section.
 ** Point the main page to the new release notes
 
 [NOTE]
 ========================================================================
-The docs makefile does an svn cp of the prior revision of the docs to branch
-the docs so you have less to upload on the new docs.
+The docs makefile does an `svn cp` of the prior revision of the docs to
+branch the docs so you have less to upload on the new docs.
 
 User and password from here:
 
@@ -188,30 +319,33 @@ somewhere under `~/.subversion/auth` folder.
 ========================================================================
 
 
-Issues
-~~~~~~
+[[update-issues]]
+Update the Issues
+^^^^^^^^^^^^^^^^^
 
 ====
  How do the issues get updated?  Do you run a script to do
- this?  When do you do it, after the final 2.2.2 is released?
+ this?  When do you do it, after the final 2.5 is released?
 ====
 
 By hand.
 
-Our current process is an issue should be updated to say Status =
-Submitted, FixedIn-2.2.2 once the change is submitted, but before the
+Our current process is an issue should be updated to say `Status =
+Submitted, FixedIn-2.5` once the change is submitted, but before the
 release.
 
 After the release is actually made, you can search in Google Code for
-``Status=Submitted FixedIn=2.2.2'' and then batch update these changes
-to say Status=Released. Make sure the pulldown says ``All Issues''
-because Status=Submitted is considered a closed issue.
+``Status=Submitted FixedIn=2.5'' and then batch update these changes
+to say `Status=Released`. Make sure the pulldown says ``All Issues''
+because `Status=Submitted` is considered a closed issue.
 
 
-Mailing List
-~~~~~~~~~~~~
+[[announce]]
+Announce on Mailing List
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Send an email to the mailing list to announce the release, consider including some or all of the following in the email:
+* Send an email to the mailing list to announce the release, consider
+including some or all of the following in the email:
 ** A link to the release and the release notes (if a final release)
 ** A link to the docs
 ** Describe the type of release (stable, bug fix, RC)
@@ -241,7 +375,7 @@ To read more about the bug fixes:
 -Martin
 ----
 
-* Add an entry to the NEWS section of the main Gerrit project web page
+* Add an entry to the `NEWS` section of the main Gerrit project web page
 ** Go to: http://code.google.com/p/gerrit/admin
 ** Add entry like:
 ----
@@ -252,18 +386,33 @@ To read more about the bug fixes:
 ** Go to: http://groups.google.com/group/repo-discuss/topics
 ** Click on the announcement thread
 ** Near the top right, click on options
-** Under options, cick the "Display this top first" checkbox
+** Under options, click the "Display this top first" checkbox
 ** and Save
 
 * Update the previous discussion group announcement to no longer be sticky
 ** See above (unclick checkbox)
 
 
-Merging Stable Fixes to master
-------------------------------
+[[increase-version]]
+Increase Gerrit Version for Current Development
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After every stable-fix release, stable should be merged to master to
-ensure that none of the fixes ever get lost.
+All new development that is done in the `master` branch will be
+included in the next Gerrit release. Update the Gerrit version in each
+`pom.xml` file to the next `SNAPSHOT`version. Push the change for
+review and get it merged.
+
+====
+ tools/version.sh --snapshot=2.6
+====
+
+
+[[merge-stable]]
+Merge `stable` into `master`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After every release, stable should be merged to master to ensure that
+none of the changes/fixes ever get lost.
 
 ====
  git config merge.summary true

@@ -837,7 +837,7 @@ public class ReceiveCommits {
       batch.addCommand(cmd);
     } else {
       errors.put(Error.CREATE, ctl.getRefName());
-      reject(cmd, "can not create new references");
+      reject(cmd);
     }
   }
 

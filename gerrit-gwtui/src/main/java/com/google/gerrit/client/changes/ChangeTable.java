@@ -191,7 +191,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
   }
 
-  private void populateChangeRow(final int row, final ChangeInfo c) {
+  private void populateChangeRow(final int row, final ChangeInfo c,
+      final ChangeRowFormatter changeRowFormatter) {
     ChangeCache cache = ChangeCache.get(c.getId());
     cache.getChangeInfoCache().set(c);
 
@@ -206,13 +207,12 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {
       s += " (" + c.getStatus().name() + ")";
     }
-    if (! c.isLatest()) {
-      s += " [OUTDATED]";
-      table.getRowFormatter().addStyleName(row, Gerrit.RESOURCES.css().outdated());
-    } else if (Change.Status.ABANDONED.equals(c.getStatus())) {
-      table.getRowFormatter().addStyleName(row, Gerrit.RESOURCES.css().outdated());
-    } else {
-      table.getRowFormatter().removeStyleName(row, Gerrit.RESOURCES.css().outdated());
+    if (changeRowFormatter != null) {
+      final String rowStyle = changeRowFormatter.getRowStyle(c);
+      if (rowStyle != null) {
+        table.getRowFormatter().addStyleName(row, rowStyle);
+      }
+      s = changeRowFormatter.getDisplayText(c, s);
     }
 
     table.setWidget(row, C_SUBJECT, new TableChangeLink(s, c));
@@ -222,6 +222,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setWidget(row, C_BRANCH, new BranchLink(c.getProject().getKey(), c
         .getStatus(), c.getBranch(), c.getTopic()));
     table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));
+
     setRowItem(row, c);
   }
 
@@ -418,6 +419,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     int dataBegin;
     int rows;
 
+    private ChangeRowFormatter changeRowFormatter;
+
     public Section() {
       this(null, ApprovalViewType.NONE, null);
     }
@@ -438,6 +441,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       if (titleRow >= 0) {
         parent.table.setText(titleRow, 0, titleText);
       }
+    }
+
+    public void setChangeRowFormatter(final ChangeRowFormatter changeRowFormatter) {
+      this.changeRowFormatter = changeRowFormatter;
     }
 
     public void display(final List<ChangeInfo> changeList) {
@@ -469,7 +476,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
         for (int i = 0; i < sz; i++) {
           ChangeInfo c = changeList.get(i);
-          parent.populateChangeRow(dataBegin + i, c);
+          parent.populateChangeRow(dataBegin + i, c, changeRowFormatter);
           cids.add(c.getId());
         }
 
@@ -487,5 +494,26 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         }
       }
     }
+  }
+
+  public static interface ChangeRowFormatter {
+    /**
+     * Returns the name of the CSS style that should be applied to the change
+     * row.
+     *
+     * @param c the change for which the styling should be returned
+     * @return the name of the CSS style that should be applied to the change
+     *         row
+     */
+    String getRowStyle(ChangeInfo c);
+
+    /**
+     * Returns the text that should be displayed for the change.
+     *
+     * @param c the change for which the display text should be returned
+     * @param displayText the current display text
+     * @return the new display text
+     */
+    String getDisplayText(ChangeInfo c, String displayText);
   }
 }

@@ -821,7 +821,7 @@ limitations under the License.
       </dependency>
 
       <dependency>
-        <groupId>com.google.gerrit</groupId>
+        <groupId>com.googlecode.juniversalchardet</groupId>
         <artifactId>juniversalchardet</artifactId>
         <version>1.0.3</version>
       </dependency>

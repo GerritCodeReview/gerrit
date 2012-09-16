@@ -35,8 +35,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwtorm.client.KeyUtil;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PatchSetSelectBox extends Composite {
   interface Binder extends UiBinder<HTMLPanel, PatchSetSelectBox> {
@@ -63,7 +63,7 @@ public class PatchSetSelectBox extends Composite {
   PatchSet.Id idActive;
   Side side;
   PatchScreen.Type screenType;
-  List<Anchor> links;
+  Map<Integer, Anchor> links;
 
   @UiField
   HTMLPanel linkPanel;
@@ -88,7 +88,7 @@ public class PatchSetSelectBox extends Composite {
     this.idSideA = idSideA;
     this.idSideB = idSideB;
     this.idActive = (side == Side.A) ? idSideA : idSideB;
-    this.links = new LinkedList<Anchor>();
+    this.links = new HashMap<Integer, Anchor>();
 
     linkPanel.clear();
 
@@ -105,7 +105,7 @@ public class PatchSetSelectBox extends Composite {
       baseLink = createLink(PatchUtil.C.patchBase(), null);
     }
 
-    links.add(baseLink);
+    links.put(0, baseLink);
     if (screenType == PatchScreen.Type.UNIFIED || side == Side.A) {
       linkPanel.add(baseLink);
     }
@@ -117,7 +117,7 @@ public class PatchSetSelectBox extends Composite {
     for (Patch patch : script.getHistory()) {
       PatchSet.Id psId = patch.getKey().getParentKey();
       Anchor anchor = createLink(Integer.toString(psId.get()), psId);
-      links.add(anchor);
+      links.put(psId.get(), anchor);
       linkPanel.add(anchor);
     }
 

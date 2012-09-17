@@ -1,0 +1,546 @@
+Gerrit Code Review - Prolog Submit Rules Cookbook
+=================================================
+
+Submit Rule
+-----------
+A 'Submit Rule' in Gerrit is logic that defines when a change is submittable.
+By default, a change is submittable when it gets at least one
+highest vote in each voting category and has no lowest vote (aka veto vote) in
+any category.  Typically, this means that a change needs 'Code-Review+2',
+'Verified+1' and has neither 'Code-Review-2' nor 'Verified-1' to become
+submittable.
+
+While this rule is a good default, there are projects which need more
+flexibility for defining when a change is submittable.  In Gerrit, it is
+possible to use Prolog based rules to provide project specific submit rules and
+replace the default submit rules. Using Prolog based rules, project owners can
+define a set of criteria which must be fulfilled for a change to become
+submittable. For a change that is not submittable, the set of needed criteria
+is displayed in the Gerrit UI.
+
+NOTE: Loading and executing Prolog submit rules may be disabled by setting
+`rules.enabled=false` in the Gerrit config file (see
+link:config-gerrit.html#_a_id_rules_a_section_rules[rules section])
+
+link:https://groups.google.com/d/topic/repo-discuss/wJxTGhlHZMM/discussion[This
+discussion thread] explains why Prolog was chosen for the purpose of writing
+project specific submit rules.
+link:http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/ReleaseNotes-2.2.2.html[Gerrit
+2.2.2 ReleaseNotes] introduces Prolog support in Gerrit.
+
+Prolog Language
+---------------
+This document is not a complete Prolog tutorial.
+link:http://en.wikipedia.org/wiki/Prolog[This Wikipedia page on Prolog] is a
+good starting point for learning the Prolog language. This document will only explain
+some elements of Prolog that are necessary to understand the provided examples.
+
+Prolog in Gerrit
+----------------
+Gerrit uses its own link:https://code.google.com/p/prolog-cafe/[fork] of the
+original link:http://kaminari.istc.kobe-u.ac.jp/PrologCafe/[prolog-cafe]
+project. Gerrit embeds the prolog-cafe library and can interpret Prolog programs at
+runtime.
+
+Interactive Prolog Cafe Shell
+-----------------------------
+For interactive testing and playing with Prolog, Gerrit provides the
+link:pgm-prolog-shell.html[prolog-shell] program which opens an interactive
+Prolog interpreter shell.
+
+NOTE: It is currently *not possible* to test a Prolog program which implements
+Gerrit submit rules using the link:pgm-prolog-shell.html[prolog-shell] program.
+The reason is that the Prolog environment that exposes facts about a change
+requires a lot of Gerrit server environment to be loaded and running.
+
+SWI-Prolog
+----------
+Instead of using the link:pgm-prolog-shell.html[prolog-shell] program one can
+also use the link:http://www.swi-prolog.org/[SWI-Prolog] environment. It
+provides a better shell interface and a graphical source-level debugger.
+
+The rules.pl file
+-----------------
+This section explains how to create and edit project specific submit rules. How
+to actually write the submit rules is explained in the next section.
+
+Project specific submit rules are stored in the `rules.pl` file in the
+`refs/meta/config` branch of that project.  Therefore, we need to fetch and
+checkout the `refs/meta/config` branch in order to create or edit the `rules.pl`
+file:
+
+====
+  $ git fetch origin refs/meta/config:config
+  $ git checkout config
+  ... edit or create the rules.pl file
+  $ git add rules.pl
+  $ git commit -m "My submit rules"
+  $ git push origin HEAD:refs/meta/config
+====
+
+How to write submit rules
+-------------------------
+Whenever Gerrit needs to evaluate submit rules for a change `C` from project `P` it
+will first initialize the embedded Prolog interpreter by:
+
+* consulting a set of facts about the change `C`
+* consulting the `rules.pl` from the project `P`
+
+Conceptually we can imagine that Gerrit adds a set of facts about the change
+`C` on top of the `rules.pl` file and then consults it. The set of facts about
+the change `C` will look like:
+
+====
+  :- package gerrit.                                                   <1>
+
+  commit_author(user(1000000), 'John Doe', 'john.doe@example.com').    <2>
+  commit_committer(user(1000000), 'John Doe', 'john.doe@example.com'). <3>
+  commit_message('Add plugin support to Gerrit').                      <4>
+  ...
+====
+
+<1> Gerrit will provide its facts in a package named `gerrit`. This means we
+have to use qualified names when writing our code and referencing these facts.
+For example: `gerrit:commit_author(ID, N, M)`
+<2> user ID, full name and email address of the commit author
+<3> user ID, full name and email address of the commit committer
+<4> commit message
+
+A complete set of facts which Gerrit provides about the change is listed in the
+link:prolog-change-facts.html[Prolog Facts for Gerrit Change].
+
+By default, Gerrit will search for a `submit_rule/1` predicate in the `rules.pl`
+file, evaluate the `submit_rule(X)` and then inspect the value of `X` in order
+to decide whether the change is submittable or not and also to find the set of
+needed criteria for the change to become submittable. This means that Gerrit has an
+expectation on the format and value of the result of the `submit_rule` predicate
+which is expected to be a `submit` term of the following format:
+
+====
+  submit(label(label-name, status) [, label(label-name, status)]*)
+====
+
+where `label-name` is usually `'Code-Review'` or `'Verified'` but could also
+be any other string (see examples below). The `status` is one of:
+
+* `ok(user(ID))` or just `ok(_)` if user info is not important. This status is
+   used to tell that this label/category has been met.
+* `need(_)` is used to tell that this label/category is needed for change to
+   become submittable
+* `reject(user(ID))` or just `reject(_)`. This status is used to tell that label/category
+   is blocking change submission
+* `impossible(_)` is used when the logic knows that the change cannot be submitted as-is.
+   Administrative intervention is probably required. This is meant for cases
+   where the logic requires members of "FooEng" to score "Code-Review +2" on a
+   change, but nobody is in group "FooEng". It is to hint at permissions
+   misconfigurations.
+* `may(_)` allows expression of approval categories that are optional, i.e.
+   could either be set or unset without ever influencing whether the change
+   could be submitted.
+
+NOTE: For a change to be submittable all `label` terms contained in the returned
+`submit` term must have either `ok` or `may` status.
+
+IMPORTANT: Gerrit will let the Prolog engine continue searching for solutions of
+the `submit_rule(X)` query until it finds the first one where all labels in the
+return result have either status `ok` or `may` or there are no more solutions.
+If a solution where all labels have status `ok` is found then all previously
+found solutions are ignored. Otherwise, all labels names with status `need`
+from all solutions will be displayed in the UI indicating the set of conditions
+needed for the change to become submittable.
+
+Here some examples of possible return values from the `submit_rule` predicate:
+
+====
+  submit(label('Code-Review', ok(_)))                               <1>
+  submit(label('Code-Review', ok(_)), label('Verified', reject(_))) <2>
+  submit(label('Author-is-John-Doe', need(_))                       <3>
+====
+
+<1> label `'Code-Review'` is met. As there are no other labels in the
+    return result, the change is submittable.
+<2> label `'Verified'` is rejected. Change is not submittable.
+<3> label `'Author-is-John-Doe'` is needed for the change to become submittable.
+    Note that this tells nothing about how this criteria will be met. It is up
+    to the implementor of the `submit_rule` to return `label('Author-is-John-Doe',
+    ok(_))` when this criteria is met.  Most likely, it will have to match
+    against `gerrit:commit_author` in order to check if this criteria is met.
+    This will become clear through the examples below.
+
+Of course, when implementing the `submit_rule` we will use the facts about the
+change that are already provided by Gerrit.
+
+Another aspect of the return result from the `submit_rule` predicate is that
+Gerrit uses it to decide which set of labels to display on the change review
+screen for voting. If the return result contains label `'ABC'` and if the label
+`'ABC'` is one of the (global) voting categories then voting for the label
+`'ABC'` will be displayed. Otherwise, it is not displayed. Note that we don't
+need a (global) voting category for each label contained in the result of
+`submit_rule` predicate.  For example, the decision whether `'Author-is-John-Doe'`
+label is met will probably not be made by explicit voting but, instead, by
+inspecting the facts about the change.
+
+Prolog vs Gerrit plugin for project specific submit rules
+---------------------------------------------------------
+Since version 2.5 Gerrit supports plugins and extension points. A plugin or an
+extension point could also be used as another means to provide custom submit
+rules. One could ask for a guideline when to use Prolog based submit rules and
+when to go for writing a new plugin. Writing a Prolog program is usually much
+faster than writing a Gerrit plugin. Prolog based submit rules can be pushed
+to a project by project owners while Gerrit plugins could only be installed by
+Gerrit administrators. In addition, Prolog based submit rules can be pushed
+for review by pushing to `refs/for/refs/meta/config` branch.
+
+On the other hand, Prolog based submit rules get a limited amount of facts about
+the change exposed to them. Gerrit plugins get full access to Gerrit internals
+and can potentially check more things than Prolog based rules.
+
+Examples
+--------
+The following examples should serve as a cookbook for developing own submit rules.
+Some of them are too trivial to be used in production and their only purpose is
+to provide step by step introduction and understanding.
+
+Example 1: Make every change submittable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Let's start with a most trivial example where we would make every change submittable
+regardless of the votes it has:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(label('Any-Label-Name', ok(_)))).
+====
+
+In this case we make no use of facts about the change. We don't need it as we are simply
+making every change submittable. Note that, in this case, the Gerrit UI will not show
+the UI for voting for the standard `'Code-Review'` and `'Verified'` categories as labels
+with these names are not part of the return result. The `'Any-Label-Name'` could really
+be any string.
+
+Example 2: Every change submittable and voting in the standard categories possible
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This is continuation of the previous example where, in addition, to making
+every change submittable we want to enable voting in the standard
+`'Code-Review'` and `'Verified'` categories.
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(label('Code-Review', ok(_)), label('Verified', ok(_)))).
+====
+
+Since for every change all label statuses are `'ok'` every change will be submittable.
+Voting in the standard labels will be shown in the UI as the standard label names are
+included in the return result.
+
+Example 3: Nothing is submittable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows how to make all changes non-submittable regardless of the
+votes they have.
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(label('Any-Label-Name', reject(_)))).
+====
+
+Since for any change we return only one label with status `reject`, no change
+will be submittable. The UI will, however, not indicate what is needed for a
+change to become submittable as we return no labels with status `need`.
+
+Example 4: Nothing is submittable but UI shows several 'Need ...' criteria
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In this example no change is submittable but here we show how to present 'Need
+<label>' information to the user in the UI.
+
+.rules.pl
+[caption=""]
+====
+  % In the UI this will show: Need Any-Label-Name
+  submit_rule(submit(label('Any-Label-Name', need(_)))).
+
+  % We could define more "need" labels by adding more rules
+  submit_rule(submit(label('Another-Label-Name', need(_)))).
+
+  % or by providing more than one need label in the same rule
+  submit_rule(submit(label('X-Label-Name', need(_)), label('Y-Label-Name', need(_)))).
+====
+
+In the UI this will show:
+****
+* Need Any-Label-Name
+* Need Another-Label-Name
+* Need X-Label-Name
+* Need Y-Label-Name
+****
+
+From the example above we can see a few more things:
+
+* comment in Prolog starts with the `%` character
+* there could be multiple `submit_rule` predicates. Since Prolog, by default, tries to find
+  all solutions for a query, the result will be union of all solutions.
+  Therefore, we see all 4 `need` labels in the UI.
+
+Example 5: The 'Need ...' labels not shown when change is submittable
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example shows that, when there is a solution for `submit_rule(X)` where all labels
+have status `ok` then Gerrit will not show any labels with the `need` status from
+any of the previous `submit_rule(X)` solutions.
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(label('Some-Condition', need(_))).
+  submit_rule(label('Another-Condition', ok(_))).
+====
+
+The 'Need Some-Condition' will not be show in the UI because of the result of
+the second rule.
+
+The same is valid if the two rules are swapped:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(label('Another-Condition', ok(_))).
+  submit_rule(label('Some-Condition', need(_))).
+====
+
+The result of the first rule will stop search for any further solutions.
+
+Example 6: Make change submittable if commit author is "John Doe"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This is the first example where we will use the Prolog facts about a change that
+are automatically exposed by Gerrit. Our goal is to make any change submittable
+when the commit author is named `'John Doe'`. In the very first
+step let's make sure Gerrit UI shows 'Need Author-is-John-Doe' in
+the UI to clearly indicate to the user what is needed for a change to become
+submittable:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(label('Author-is-John-Doe', need(_)))).
+====
+
+This will show:
+****
+* Need Author-is-John-Doe
+****
+
+in the UI but no change will be submittable yet. Let's add another rule:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(label('Author-is-John-Doe', need(_)))).
+  submit_rule(submit(label('Author-is-John-Doe', ok(_))))
+    :- gerrit:commit_author(_, 'John Doe', _).
+====
+
+In the second rule we return `ok` status for the `'Author-is-John-Doe'` label
+if there is a `commit_author` fact where the full name is `'John Doe'`. If
+author of a change is `'John Doe'` then the second rule will return a solution
+where all labels have `ok` status and the change will become submittable. If
+author of a change is not `'John Doe'` then only the first rule will produce a
+solution. The UI will show 'Need Author-is-John-Doe' but, as expected, the
+change will not be submittable.
+
+Instead of checking by full name we could also check by the email address:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(label('Author-is-John-Doe', need(_)))).
+  submit_rule(submit(label('Author-is-John-Doe', ok(_))))
+    :- gerrit:commit_author(_, _, 'john.doe@example.com').
+====
+
+or by user id (assuming it is 1000000):
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(label('Author-is-John-Doe', need(_)))).
+  submit_rule(submit(label('Author-is-John-Doe', ok(_))))
+    :- gerrit:commit_author(user(1000000), _, _).
+====
+
+or by a combination of these 3 attributes:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(label('Author-is-John-Doe', need(_)))).
+  submit_rule(submit(label('Author-is-John-Doe', ok(_))))
+    :- gerrit:commit_author(_, 'John Doe', 'john.doe@example.com').
+====
+
+Example 7: Make change submittable if commit message starts with "Trivial fix"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Besides showing how to make use of the commit message text the purpose of this
+example is also to show how to match only a part of a string symbol. Similarly
+like commit author the commit message is provided as a string symbol which is
+an atom in Prolog terms. When working with an atom we could only match against
+the whole value. To match only part of a string symbol we have, at least, two
+options:
+
+* convert the string symbol into a list of characters and then perform
+  the "classical" list matching
+* use the `regex_matches/2` or, even more convenient, the
+  `gerrit:commit_message_matches/1` predicate
+
+Let's implement both options:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(label('Commit-Message-starts-with-Trivial-Fix', need(_)))).
+  submit_rule(submit(label('Commit-Message-starts-with-Trivial-Fix', ok(_))))
+    :- gerrit:commit_message(M), name(M, L), starts_with(L, "Trivial Fix").
+
+  starts_with(L, []).
+  starts_with([H|T1], [H|T2]) :- starts_with(T1, T2).
+====
+
+NOTE: The `name/2` embedded predicate is used to convert a string symbol into a
+list of characters. A string `abc` is converted into a list of characters `[97,
+98, 99]`.  A double quoted string in Prolog is just a shortcut for creating a
+list of characters. `"abc"` is a shortcut for `[97, 98, 99]`. This is why we use
+double quotes for the `"Trivial Fix"` in the example above.
+
+The `starts_with` predicate is self explaining.
+
+Using the `gerrit:commit_message_matches` predicate is probably more efficient:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(submit(label('Commit-Message-starts-with-Trivial-Fix', need(_)))).
+  submit_rule(submit(label('Commit-Message-starts-with-Trivial-Fix', ok(_))))
+    :- gerrit:commit_message_matches('^Trivial Fix').
+====
+
+Reusing the default submit policy
+---------------------------------
+All examples until now concentrate on one particular aspect of change data.
+However, in real-life scenarios we would rather want to reuse Gerrit's default
+submit policy and extend/change it for our specific purpose. In other words, we
+would like to keep all the default policies (like the `Verified` category,
+vetoing change, etc...) and only extend/change an aspect of it. For example, we
+may want to disable the ability for change authors to approve their own changes
+but keep all other policies the same.
+
+To get results of Gerrits default submit policy we use the
+`gerrit:default_submit` predicate. This means that if we write a submit rule like:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(X) :- gerrit:default_submit(X).
+====
+
+then this is equivalent to not using `rules.pl` at all. We just delegate to
+default logic. However, once we invoke the `gerrit:default_submit(X)` we can
+perform further actions on the return result `X` and apply our specific
+logic. The following pattern illustrates this technique:
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(S) :- gerrit:default_submit(R), project_specific_policy(R, S).
+
+  project_specific_policy(R, S) :- ...
+====
+
+The following examples build on top of the default submit policy.
+
+Example 8: Make change submittable only if `Code-Review+2` is given by a non author
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In this example we introduce a new label `Non-Author-Code-Review` and make it
+satisfied if there is at least one `Code-Review+2` from a non author. All other
+default policies like the `Verified` category and vetoing changes still apply.
+
+First, we invoke `gerrit:default_submit` to compute the result for the default
+submit policy and then add the `Non-Author-Code-Review` label to it.  The
+`Non-Author-Code-Review` label is added with status `ok` if such an approval
+exists or with status `need` if it doesn't exist.
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(S) :-
+    gerrit:default_submit(X),
+    X =.. [submit | Ls],
+    add_non_author_approval(Ls, R),
+    S =.. [submit | R].
+
+  add_non_author_approval(S1, S2) :-
+    gerrit:commit_author(A), gerrit:commit_label(label('Code-Review', 2), R),
+    R \= A, !,
+    S2 = [label('Non-Author-Code-Review', ok(R)) | S1].
+  add_non_author_approval(S1, [label('Non-Author-Code-Review', need(_)) | S1]).
+====
+
+This example uses the `univ` operator `=..` to "unpack" the result of the
+default_submit, which is a structure of the form `submit(label('Code-Review',
+ok(_)), label('Verified', need(_)) ...)` into a list like `[submit,
+label('Code-Review', ok(_)), label('Verified', need(_)), ...]`.  Then we
+process the tail of the list (the list of labels) as a Prolog list, which is
+much easier than processing a structure. In the end we use the same `univ`
+operator to convert the resulting list of labels back into a `submit` structure
+which is expected as a return result. The `univ` operator works both ways.
+
+In `add_non_author_approval` we use the `cut` operator `!` to prevent Prolog
+from searching for more solutions once the `cut` point is reached. This is
+important because in the second `add_non_author_approval` rule we just add the
+`label('Non-Author-Code-Review', need(_))` without first checking that there
+is no non author `Code-Review+2`. The second rule will only be reached
+if the `cut` in the first rule is not reached and it only happens if a
+predicate before the `cut` fails.
+
+Example 9: Remove the `Verified` category
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A project has no build and test. It consists of only text files and needs only
+code review.  We want to remove the `Verified` category from this project so
+that `Code-Review+2` is the only criteria for a change to become submittable.
+We also want the UI to not show the `Verified` category in the table with
+votes and on the voting screen.
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(S) :-
+    gerrit:default_submit(X),
+    X =.. [submit | Ls],
+    remove_verified_category(Ls, R),
+    S =.. [submit | R].
+
+  remove_verified_category([], []).
+  remove_verified_category([label('Verified', _) | T], R) :- remove_verified_category(T, R), !.
+  remove_verified_category([H|T], [H|R]) :- remove_verified_category(T, R).
+====
+
+Example 10: Combine examples 8 and 9
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In this example we want to both remove the verified and have the four eyes
+principle.  This means we want a combination of examples 7 and 8.
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(S) :-
+    gerrit:default_submit(X),
+    X =.. [submit | Ls],
+    remove_verified_category(Ls, R1),
+    add_non_author_approval(R1, R),
+    S =.. [submit | R].
+====
+
+The `remove_verified_category` and `add_non_author_approval` predicates are the
+same as defined in the previous two examples.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

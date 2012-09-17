@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "AAAJKn///6I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-09-17T21:44:38Z",
+      "side": 1,
+      "message": "This isn\u0027t a link to MySQL.  I think most/all of these requirements are redundant and already covered in the general installation section?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJKn///6E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-09-17T21:44:38Z",
+      "side": 1,
+      "message": "(Only if using ldap...)",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI4H///dg\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -105,6 +139,57 @@
     },
     {
       "key": {
+        "uuid": "AAAJKn///6A\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-09-17T21:44:38Z",
+      "side": 1,
+      "message": "This is all already covered in the install guide.  It isn\u0027t a good idea to repeat it for tomcat-specific install.",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJKn///58\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-09-17T21:44:38Z",
+      "side": 1,
+      "message": "This is not necessary to install Gerrit.",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJKn///54\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-09-17T21:44:38Z",
+      "side": 1,
+      "message": "This is not necessary to install Gerrit.",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3k\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -151,6 +236,23 @@
       "side": 1,
       "message": "I think the first one is not needed, but the second is.",
       "parentUuid": "AAAIGn///3g\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJKn///50\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-09-17T21:44:38Z",
+      "side": 1,
+      "message": "This has nothing to do with installing Gerrit (and even less with setting up Tomcat).  It belongs in a different guide.",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -322,6 +424,23 @@
       "writtenOn": "2012-08-09T08:39:56Z",
       "side": 1,
       "message": "I\u0027ve said something about anonymizing output previously.\n\nSuggestion: s/Jason Huntley/User/",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJKn///5w\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-09-17T21:44:38Z",
+      "side": 1,
+      "message": "Probably don\u0027t want to include an installation error in the guide?",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -663,6 +782,23 @@
       "writtenOn": "2012-09-07T04:19:37Z",
       "side": 1,
       "message": "Please change the sentence to remove the \"I recommend\".",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJKn///5s\u003d",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/postgresql-ROOT.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-09-17T21:44:38Z",
+      "side": 1,
+      "message": "Is this necessary?  Gerrit already stores the db login info separately, and tomcat doesn\u0027t need access...?",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

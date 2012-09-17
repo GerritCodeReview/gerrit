@@ -182,8 +182,6 @@ final class SetAccountCommand extends BaseCommand {
     if (sshKeysUpdated) {
       sshKeyCache.evict(account.getUserName());
     }
-
-    db.close();
   }
 
   private void addSshKeys(final List<String> keys, final Account account)

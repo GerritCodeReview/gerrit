@@ -183,6 +183,23 @@ public class ChangeScreen extends Screen
       }
     };
     dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
+    dependsOn.setChangeRowFormatter(new ChangeTable.ChangeRowFormatter() {
+      @Override
+      public String getRowStyle(ChangeInfo c) {
+        if (! c.isLatest() || Change.Status.ABANDONED.equals(c.getStatus())) {
+          return Gerrit.RESOURCES.css().outdated();
+        }
+        return null;
+      }
+
+      @Override
+      public String getDisplayText(final ChangeInfo c, final String displayText) {
+        if (! c.isLatest()) {
+          return displayText + " [OUTDATED]";
+        }
+        return displayText;
+      }
+    });
     neededBy = new ChangeTable.Section(Util.C.changeScreenNeededBy());
     dependencies.addSection(dependsOn);
     dependencies.addSection(neededBy);
@@ -310,7 +327,8 @@ public class ChangeScreen extends Screen
     if (detail.getNeededBy() != null) {
       for (final ChangeInfo ci : detail.getNeededBy()) {
         if ((ci.getStatus() == Change.Status.NEW) ||
-            (ci.getStatus() == Change.Status.SUBMITTED)) {
+            (ci.getStatus() == Change.Status.SUBMITTED) ||
+            (ci.getStatus() == Change.Status.DRAFT)) {
           depsOpen = true;
         }
       }

@@ -209,6 +209,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     final DownloadCommandPanel commands = new DownloadCommandPanel();
     final DownloadUrlPanel urls = new DownloadUrlPanel(commands);
     final Set<DownloadScheme> allowedSchemes = Gerrit.getConfig().getDownloadSchemes();
+    final Set<DownloadCommand> allowedCommands = Gerrit.getConfig().getDownloadCommands();
 
     copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadLinkCopyLabel());
 
@@ -323,39 +324,52 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     }
 
     if (!urls.isEmpty()) {
-      commands.add(new DownloadCommandLink(DownloadCommand.CHECKOUT, "checkout") {
-        @Override
-        void setCurrentUrl(DownloadUrlLink link) {
-          urls.setVisible(true);
-          copyLabel.setText("git fetch " + link.urlData
-              + " && git checkout FETCH_HEAD");
-        }
-      });
-      commands.add(new DownloadCommandLink(DownloadCommand.PULL, "pull") {
-        @Override
-        void setCurrentUrl(DownloadUrlLink link) {
-          urls.setVisible(true);
-          copyLabel.setText("git pull " + link.urlData);
-        }
-      });
-      commands.add(new DownloadCommandLink(DownloadCommand.CHERRY_PICK,
-          "cherry-pick") {
-        @Override
-        void setCurrentUrl(DownloadUrlLink link) {
-          urls.setVisible(true);
-          copyLabel.setText("git fetch " + link.urlData
-              + " && git cherry-pick FETCH_HEAD");
-        }
-      });
-      commands.add(new DownloadCommandLink(DownloadCommand.FORMAT_PATCH,
-          "patch") {
-        @Override
-        void setCurrentUrl(DownloadUrlLink link) {
-          urls.setVisible(true);
-          copyLabel.setText("git fetch " + link.urlData
-              + " && git format-patch -1 --stdout FETCH_HEAD");
-        }
-      });
+      if (allowedCommands.contains(DownloadCommand.CHECKOUT)
+          || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
+        commands.add(new DownloadCommandLink(DownloadCommand.CHECKOUT,
+            "checkout") {
+          @Override
+          void setCurrentUrl(DownloadUrlLink link) {
+            urls.setVisible(true);
+            copyLabel.setText("git fetch " + link.urlData
+                + " && git checkout FETCH_HEAD");
+          }
+        });
+      }
+      if (allowedCommands.contains(DownloadCommand.PULL)
+          || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
+        commands.add(new DownloadCommandLink(DownloadCommand.PULL, "pull") {
+          @Override
+          void setCurrentUrl(DownloadUrlLink link) {
+            urls.setVisible(true);
+            copyLabel.setText("git pull " + link.urlData);
+          }
+        });
+      }
+      if (allowedCommands.contains(DownloadCommand.CHERRY_PICK)
+          || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
+        commands.add(new DownloadCommandLink(DownloadCommand.CHERRY_PICK,
+            "cherry-pick") {
+          @Override
+          void setCurrentUrl(DownloadUrlLink link) {
+            urls.setVisible(true);
+            copyLabel.setText("git fetch " + link.urlData
+                + " && git cherry-pick FETCH_HEAD");
+          }
+        });
+      }
+      if (allowedCommands.contains(DownloadCommand.FORMAT_PATCH)
+          || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
+        commands.add(new DownloadCommandLink(DownloadCommand.FORMAT_PATCH,
+            "patch") {
+          @Override
+          void setCurrentUrl(DownloadUrlLink link) {
+            urls.setVisible(true);
+            copyLabel.setText("git fetch " + link.urlData
+                + " && git format-patch -1 --stdout FETCH_HEAD");
+          }
+        });
+      }
     }
 
     final FlowPanel fp = new FlowPanel();

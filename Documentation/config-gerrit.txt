@@ -1012,6 +1012,10 @@ Default is `30 seconds`.
 
 ----
 [download]
+  command = checkout
+  command = cherry_pick
+  command = pull
+  command = format_patch
   scheme = ssh
   scheme = http
   scheme = anon_http
@@ -1020,6 +1024,34 @@ Default is `30 seconds`.
 ----
 
 The download section configures the allowed download methods.
+
+[[download.command]]download.command::
++
+Commands that should be offered to download changes.
++
+Multiple commands are supported:
++
+* `checkout`
++
+Command to fetch and checkout the patch set.
++
+* `cherry_pick`
++
+Command to fetch the patch set and to cherry-pick it onto the current
+commit.
++
+* `pull`
++
+Command to pull the patch set.
++
+* `format_patch`
++
+Command to fetch the patch set and to feed it into the `format-patch`
+command.
+
++
+If `download.command` is not specified, all download commands are
+offered.
 
 [[download.scheme]]download.scheme::
 +
@@ -1053,7 +1085,7 @@ generally worked on with the repo multi-repository tool.  This is
 not default, as not all instances will deploy repo.
 
 +
-If download.scheme is not specified, SSH, HTTP and Anonymous HTTP
+If `download.scheme` is not specified, SSH, HTTP and Anonymous HTTP
 downloads are allowed.
 
 [[gerrit]]Section gerrit

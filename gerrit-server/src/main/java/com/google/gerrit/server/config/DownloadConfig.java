@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.reviewdb.client.SystemConfig;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -28,22 +29,33 @@ import java.util.Set;
 
 /** Download protocol from {@code gerrit.config}. */
 @Singleton
-public class DownloadSchemeConfig {
+public class DownloadConfig {
   private final Set<DownloadScheme> downloadSchemes;
+  private final Set<DownloadCommand> downloadCommands;
 
   @Inject
-  DownloadSchemeConfig(@GerritServerConfig final Config cfg,
+  DownloadConfig(@GerritServerConfig final Config cfg,
       final SystemConfig s) {
-    List<DownloadScheme> all =
+    List<DownloadScheme> allSchemes =
         ConfigUtil.getEnumList(cfg, "download", null, "scheme",
             DownloadScheme.DEFAULT_DOWNLOADS);
-
     downloadSchemes =
-        Collections.unmodifiableSet(new HashSet<DownloadScheme>(all));
+        Collections.unmodifiableSet(new HashSet<DownloadScheme>(allSchemes));
+
+    List<DownloadCommand> allCommands =
+        ConfigUtil.getEnumList(cfg, "download", null, "command",
+            DownloadCommand.DEFAULT_DOWNLOADS);
+    downloadCommands =
+        Collections.unmodifiableSet(new HashSet<DownloadCommand>(allCommands));
   }
 
   /** Scheme used to download. */
-  public Set<DownloadScheme> getDownloadScheme() {
+  public Set<DownloadScheme> getDownloadSchemes() {
     return downloadSchemes;
+  }
+
+  /** Command used to download. */
+  public Set<DownloadCommand> getDownloadCommands() {
+    return downloadCommands;
   }
 }

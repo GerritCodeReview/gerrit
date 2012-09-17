@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Project;
@@ -38,6 +39,7 @@ public class GerritConfig implements Cloneable {
   protected boolean allowRegisterNewEmail;
   protected AuthType authType;
   protected Set<DownloadScheme> downloadSchemes;
+  protected Set<DownloadCommand> downloadCommands;
   protected String gitDaemonUrl;
   protected String gitHttpUrl;
   protected String sshdAddress;
@@ -112,6 +114,14 @@ public class GerritConfig implements Cloneable {
 
   public void setDownloadSchemes(final Set<DownloadScheme> s) {
     downloadSchemes = s;
+  }
+
+  public Set<DownloadCommand> getDownloadCommands() {
+    return downloadCommands;
+  }
+
+  public void setDownloadCommands(final Set<DownloadCommand> downloadCommands) {
+    this.downloadCommands = downloadCommands;
   }
 
   public GitwebConfig getGitwebLink() {

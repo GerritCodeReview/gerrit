@@ -27,7 +27,7 @@ This is called whenever a patchset is created (this includes new
 changes and drafts).
 
 ====
-  patchset-created --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
+  patchset-created --change <change id> --is-draft <boolean> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
 ====
 
 draft-published

@@ -25,8 +25,12 @@ public interface ChangeConstants extends Constants {
 
   String myDashboardTitle();
   String unknownDashboardTitle();
-  String incomingReviews();
-  String outgoingReviews();
+  String incomingReviews(String fullname);
+  String outgoingReviews(String fullname);
+  String myIncomingReviews();
+  String myOutgoingReviews();
+  String unknownIncomingReviews();
+  String unknownOutgoingReviews();
   String recentlyClosed();
 
   String starredHeading();

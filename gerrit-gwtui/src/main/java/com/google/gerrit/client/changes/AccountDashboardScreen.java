@@ -47,8 +47,6 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     incoming = new ChangeTable2.Section();
     closed = new ChangeTable2.Section();
 
-    outgoing.setTitleText(Util.C.outgoingReviews());
-    incoming.setTitleText(Util.C.incomingReviews());
     incoming.setHighlightUnreviewed(true);
     closed.setTitleText(Util.C.recentlyClosed());
 
@@ -96,6 +94,8 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
     if (mine) {
       setWindowTitle(Util.C.myDashboardTitle());
       setPageTitle(Util.C.myDashboardTitle());
+      outgoing.setTitleText(Util.C.myOutgoingReviews());
+      incoming.setTitleText(Util.C.myIncomingReviews());
     } else {
       // The server doesn't tell us who the dashboard is for. Try to guess
       // by looking at a change started by the owner and extract the name.
@@ -106,9 +106,13 @@ public class AccountDashboardScreen extends Screen implements ChangeListScreen {
       if (name != null) {
         setWindowTitle(name);
         setPageTitle(Util.M.accountDashboardTitle(name));
+        outgoing.setTitleText(Util.C.outgoingReviews(name));
+        incoming.setTitleText(Util.C.incomingReviews(name));
       } else {
         setWindowTitle(Util.C.unknownDashboardTitle());
         setWindowTitle(Util.C.unknownDashboardTitle());
+        outgoing.setTitleText(Util.C.unknownOutgoingReviews());
+        incoming.setTitleText(Util.C.unknownIncomingReviews());
       }
     }
 

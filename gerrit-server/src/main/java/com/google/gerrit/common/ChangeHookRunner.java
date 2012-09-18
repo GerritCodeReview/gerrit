@@ -236,6 +236,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
+        addArg(args, "--ref", event.patchSet.ref);
         addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
         addArg(args, "--commit", event.patchSet.revision);
         addArg(args, "--patchset", event.patchSet.number);
@@ -259,6 +260,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
+        addArg(args, "--ref", event.patchSet.ref);
         addArg(args, "--uploader", getDisplayName(uploader.getAccount()));
         addArg(args, "--commit", event.patchSet.revision);
         addArg(args, "--patchset", event.patchSet.number);
@@ -292,6 +294,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
+        addArg(args, "--ref", event.patchSet.ref);
         addArg(args, "--author", getDisplayName(account));
         addArg(args, "--commit", event.patchSet.revision);
         addArg(args, "--comment", comment == null ? "" : comment);
@@ -317,6 +320,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
+        addArg(args, "--ref", event.patchSet.ref);
         addArg(args, "--submitter", getDisplayName(account));
         addArg(args, "--commit", event.patchSet.revision);
 
@@ -338,6 +342,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
+        addArg(args, "--ref", event.patchSet.ref);
         addArg(args, "--abandoner", getDisplayName(account));
         addArg(args, "--reason", reason == null ? "" : reason);
 
@@ -359,6 +364,7 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--project", event.change.project);
         addArg(args, "--branch", event.change.branch);
         addArg(args, "--topic", event.change.topic);
+        addArg(args, "--ref", event.patchSet.ref);
         addArg(args, "--restorer", getDisplayName(account));
         addArg(args, "--reason", reason == null ? "" : reason);
 

@@ -27,7 +27,7 @@ This is called whenever a patchset is created (this includes new
 changes and drafts).
 
 ====
-  patchset-created --change <change id> --change-url <change url> --project <project name> --branch <branch> --uploader <uploader> --commit <sha1> --patchset <patchset id>
+  patchset-created --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
 ====
 
 draft-published
@@ -36,7 +36,7 @@ draft-published
 This is called whenever a draft change is published.
 
 ====
-  draft-published --change <change id> --change-url <change url> --project <project name> --branch <branch> --uploader <uploader> --commit <sha1> --patchset <patchset id>
+  draft-published --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --uploader <uploader> --commit <sha1> --patchset <patchset id>
 ====
 
 comment-added
@@ -45,7 +45,7 @@ comment-added
 This is called whenever a comment is added to a change.
 
 ====
-  comment-added --change <change id> --change-url <change url> --project <project name> --branch <branch> --author <comment author> --commit <commit> --comment <comment> [--<approval category id> <score> --<approval category id> <score> ...]
+  comment-added --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --author <comment author> --commit <commit> --comment <comment> [--<approval category id> <score> --<approval category id> <score> ...]
 ====
 
 change-merged
@@ -54,7 +54,7 @@ change-merged
 Called whenever a change has been merged.
 
 ====
-  change-merged --change <change id> --change-url <change url> --project <project name> --branch <branch> --submitter <submitter> --commit <sha1>
+  change-merged --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --submitter <submitter> --commit <sha1>
 ====
 
 change-abandoned
@@ -63,7 +63,7 @@ change-abandoned
 Called whenever a change has been abandoned.
 
 ====
-  change-abandoned --change <change id> --change-url <change url> --project <project name> --branch <branch> --abandoner <abandoner> --reason <reason>
+  change-abandoned --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --abandoner <abandoner> --reason <reason>
 ====
 
 change-restored
@@ -72,7 +72,7 @@ change-restored
 Called whenever a change has been restored.
 
 ====
-  change-restored --change <change id> --change-url <change url> --project <project name> --branch <branch> --restorer <restorer> --reason <reason>
+  change-restored --change <change id> --change-url <change url> --project <project name> --branch <branch> --topic <topic> --restorer <restorer> --reason <reason>
 ====
 
 ref-updated

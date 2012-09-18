@@ -340,6 +340,17 @@ filter_submit_results(Filter, [], Out, Out).
 call_submit_filter(P:X, R, S) :- !, F =.. [X, R, S], P:F.
 call_submit_filter(X, R, S) :- F =.. [X, R, S], F.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% filter_submit_type_results/3:
+%%
+%%   Executes the submit_type_filter against the result,
+%%   returns the filtered result.
+%%
+:- public filter_submit_type_results/3.
+%%
+filter_submit_type_results(Filter, In, Out) :- call_submit_filter(Filter, In, Out).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
@@ -359,6 +370,23 @@ locate_submit_filter(FilterName) :-
   FilterName = user:submit_filter
   .
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% locate_submit_type_filter/1:
+%%
+%%   Finds a submit_type_filter if available.
+%%
+:- public locate_submit_type_filter/1.
+%%
+locate_submit_type_filter(FilterName) :-
+  '$compiled_predicate'(user, submit_type_filter, 2),
+  !,
+  FilterName = user:submit_type_filter
+  .
+locate_submit_type_filter(FilterName) :-
+  clause(user:submit_type_filter(_,_), _),
+  FilterName = user:submit_type_filter
+  .
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%

@@ -15,14 +15,13 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.StoredValues;
@@ -549,6 +548,7 @@ public class ChangeControl {
           err);
     }
 
+    Term typeTerm;
     Term submitTypeRule;
     ProjectState projectState = getProjectControl().getProjectState();
     PrologEnvironment env;
@@ -588,14 +588,7 @@ public class ChangeControl {
               + " for change " + change.getId() + " of "
               + getProject().getName() + " has no solution");
         }
-        Term typeTerm = results.get(0)[1];
-        SubmitType type;
-        try {
-          type = Project.SubmitType.valueOf(typeTerm.name().toUpperCase());
-        } catch (IllegalArgumentException e) {
-          return logInvalidType(submitTypeRule, typeTerm);
-        }
-        return SubmitTypeRecord.OK(type);
+        typeTerm = results.get(0)[1];
       } catch (PrologException err) {
         return logTypeRuleError(
             "Exception calling submit_type_rule on change " + change.getId()
@@ -605,8 +598,57 @@ public class ChangeControl {
             "Exception calling submit_type_rule on change " + change.getId()
                 + " of " + getProject().getName(), err);
       }
+
+      ProjectState parentState = projectState.getParentState();
+      PrologEnvironment childEnv = env;
+      Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
+      projectsSeen.add(getProject().getNameKey());
+
+      while (parentState != null) {
+        if (!projectsSeen.add(parentState.getProject().getNameKey())) {
+          //parent has been seen before, stop walk up inheritance tree
+          break;
+        }
+        PrologEnvironment parentEnv;
+        try {
+          parentEnv = parentState.newPrologEnvironment();
+        } catch (CompileException err) {
+          return logTypeRuleError("Cannot consult rules.pl for "
+              + parentState.getProject().getName(), err);
+        }
+
+        parentEnv.copyStoredValues(childEnv);
+        Term typeFilterRule =
+            parentEnv.once("gerrit", "locate_submit_type_filter",
+                new VariableTerm());
+        if (typeFilterRule != null) {
+          try {
+            Term[] template = parentEnv.once(
+                "gerrit", "filter_submit_type_results",
+                typeFilterRule,
+                typeTerm,
+                new VariableTerm());
+            typeTerm = template[2];
+          } catch (PrologException err) {
+            return logTypeRuleError("Exception calling " + typeFilterRule
+                + " on change " + change.getId() + " of "
+                + parentState.getProject().getName(), err);
+          } catch (RuntimeException err) {
+            return logTypeRuleError("Exception calling " + typeFilterRule
+                + " on change " + change.getId() + " of "
+                + parentState.getProject().getName(), err);
+          }
+        }
+      }
     } finally {
       env.close();
+    }
+
+    try {
+      return SubmitTypeRecord.OK(Project.SubmitType.valueOf(
+          typeTerm.name().toUpperCase()));
+    } catch (IllegalArgumentException e) {
+      return logInvalidType(submitTypeRule, typeTerm);
     }
   }
 

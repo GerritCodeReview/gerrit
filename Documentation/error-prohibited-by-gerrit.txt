@@ -22,6 +22,9 @@ In particular this error occurs:
 5. if you push a tag with somebody else as tagger and you don't have the
    link:access-control.html#category_forge_committer['Forge Committer']
    access right for the reference name 'refs/tags/*'
+6. if you attempt to delete a branch or tag without
+   link:access-control.html#category_push_direct['Push'] access right
+7. if you attempt to delete the project configuration branch 'refs/meta/config'
 
 For new users it often happens that they accidentally try to bypass
 code review. The push then fails with the error message 'prohibited

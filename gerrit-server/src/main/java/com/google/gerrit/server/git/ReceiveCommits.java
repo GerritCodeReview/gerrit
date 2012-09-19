@@ -885,10 +885,10 @@ public class ReceiveCommits {
       batch.addCommand(cmd);
     } else {
       if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
-        reject(cmd, "cannot delete project configuration");
+        reject(cmd);
       } else {
         errors.put(Error.DELETE, ctl.getRefName());
-        reject(cmd, "can not delete references");
+        reject(cmd);
       }
     }
   }
@@ -987,7 +987,7 @@ public class ReceiveCommits {
     destBranchCtl = projectControl.controlForRef(destBranch);
     if (!destBranchCtl.canUpload()) {
       errors.put(Error.CODE_REVIEW, cmd.getRefName());
-      reject(cmd, "can not upload review");
+      reject(cmd);
       return;
     }
 

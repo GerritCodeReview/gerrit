@@ -230,6 +230,10 @@ because it was dynamically installed or reloaded by an administrator.
 * link:../Documentation/dev-plugins.html#getting-started[Maven
   archetype for creating gerrit plugin projects]
 
+* Enables the use of session management in Jetty
++
+This enables plugins to make use of servlet sessions.
+
 REST API
 ~~~~~~~~
 Gerrit now supports a REST like API available over HTTP. The API is
@@ -529,6 +533,9 @@ This makes users aware of open changes when deleting a branch.
 This allows to see the branches of the `All-Projects` project in the
 web UI.
 
+* Show for each project in the project list a link to the repository
+  browser (e.g. GitWeb).
+
 * Move the project listing menu items to a new top-level item
 +
 Finding the project listing was very opaque to end users. Nobody
@@ -651,6 +658,9 @@ SSH
   link:../Documentation/cmd-set-account.html[SSH command to manage
   accounts]
 
+* On link:../Documentation/cmd-create-account.html[account creation] a
+  password for HTTP can be specified.
+
 * link:../Documentation/cmd-set-project.html[SSH command to manage
   project settings]
 
@@ -748,6 +758,10 @@ The error messages `you are not committer ...` and `you are not
 author ...` were replaced with `invalid author` and `invalid
 committer`.
 
+* Describe that the `prohibited by Gerrit` error is returned if pushing
+  a tag fails because the tagger is somebody else and the `Forge
+  Committer` access right is not assigned.
+
 Dev
 ^^^
 
@@ -784,6 +798,12 @@ and how to release Gerrit subprojects.
 
 Other
 ^^^^^
+* Add link:../Documentation/prolog-cookbook.html[Cookbook for Prolog
+  submit rules]
++
+A new document providing a step by step introduction into implementing
+specific submit policies using Prolog based submit rules was added.
+
 * Describe link:../Documentation/refs-notes-review.html[
   `refs/notes/review` and its contents]
 
@@ -1006,6 +1026,15 @@ and any `project.config`.
 This made the LDAP group type obsolete and it was removed.
 
 * Abstract group systems into GroupBackend interface
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=548[issue 548]:
+  Make commands to download patch sets
+  link:../Documentation/config-gerrit.html#download.command[configurable]
++
+For patch sets on the ChangeScreen different commands for downloading
+the patch sets are offered. For some installations not all commands are
+needed. Allow Gerrit administrators to configure which download
+commands should be offered.
 
 * Add more link:../Documentation/config-gerrit.html#theme[theme color
   options]
@@ -1399,6 +1428,19 @@ In the change screen, the dependencies panel was showing draft changes
 in the "Depends On" and "Needed By" lists for all users, and when there
 was no user logged in.
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=1558[issue 1558]:
+  Create a draft patch set when a draft patch set is rebased
++
+Rebasing a draft patch set created a non-draft patch set. It was
+unexpected that rebasing a draft patch set published the modifications
+done in the draft patch set.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1176[issue 1176]:
+  Fix disappearance of download command in Firefox
++
+Clicking on the download command for a patch set in Firefox made the
+download command disappear.
+
 * Fix disappearance of action buttons when selecting the last patch set
 as `Old Version History`
 
@@ -1423,7 +1465,15 @@ specified, causing currentPatchSet to be unable to locate the
 correct data and return it. When this happens don't NPE, just
 claim the change is not reviewed.
 
-* Fix displaying of comments on deleted files
+* link:https://code.google.com/p/gerrit/issues/detail?id=1555[issue 1555]:
+  Fix displaying of file diff if draft patch has been deleted
++
+Displaying any file diff for a patch set failed if the change had any
+gaps in its patch set history. Patch sets can be missing, if they
+have been drafts and were deleted.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=856[issue 856]:
+  Fix displaying of comments on deleted files
 +
 Published and draft comments that are posted on deleted files were not
 loaded and displayed.
@@ -1518,6 +1568,22 @@ commit directly, Gerrit rejected this push with the error message
 confusing to the user since the push only failed due to missing
 access rights. Go back to the old message that says "prohibited
 by Gerrit".
+
+* Fix reject message if pushing tag is rejected because tagger is
+  somebody else
++
+Pushing a tag that has somebody else as tagger requires the `Forge
+Committer` access right. If this access right was missing Gerrit
+was rejecting the push with "can not create new references". This error
+message was misleading because the user may have thought that the
+`Create Reference` access right was missing which was actually assigned.
++
+The same reject message was also returned on push of an annotated tag
+if the `Push Annotated Tag` access right was missing. Also in this case
+the error message was not ideal.
++
+Go back to the old more generic message which says `prohibited by
+Gerrit`.
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=1437[issue 1437]:
   Send event to stream when draft change is published

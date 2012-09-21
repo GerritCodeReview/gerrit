@@ -16,6 +16,24 @@
       "revId": "57cab95b42dcd4cfad65be72ef6673180d28c7ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJV3////E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-09-21T06:08:07Z",
+      "side": 1,
+      "message": "Initially the intention was just to replace \"can not\" with \"cannot\", but then after discussion with Gustaf we decided it\u0027d be better to make it consistent.",
+      "parentUuid": "AAAJVH///+8\u003d",
+      "revId": "57cab95b42dcd4cfad65be72ef6673180d28c7ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -81,6 +81,11 @@ public final class DisabledChangeHooks implements ChangeHooks {
   }
 
   @Override
+  public void doReviewerAddedHook(Change change, Account account, PatchSet patchSet,
+      ReviewDb db) {
+  }
+
+  @Override
   public void removeChangeListener(ChangeListener listener) {
   }
 }

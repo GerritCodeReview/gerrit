@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewerResult;
@@ -66,6 +67,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
   private final Config cfg;
 
   private final Change.Id changeId;
+  private final ChangeHooks hooks;
   private final Collection<String> reviewers;
   private final boolean confirmed;
 
@@ -77,6 +79,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final IdentifiedUser currentUser, final ApprovalTypes approvalTypes,
       final @GerritServerConfig Config cfg, @Assisted final Change.Id changeId,
+      final ChangeHooks hooks,
       @Assisted final Collection<String> reviewers,
       @Assisted final boolean confirmed) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
@@ -94,6 +97,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
         allTypes.get(allTypes.size() - 1).getCategory().getId();
 
     this.changeId = changeId;
+    this.hooks = hooks;
     this.reviewers = reviewers;
     this.confirmed = confirmed;
   }
@@ -197,7 +201,8 @@ public class AddReviewer implements Callable<ReviewerResult> {
     //
     final Set<Account.Id> added = new HashSet<Account.Id>();
     final List<PatchSetApproval> toInsert = new ArrayList<PatchSetApproval>();
-    final PatchSet.Id psid = control.getChange().currentPatchSetId();
+    final Change change = control.getChange();
+    final PatchSet.Id psid = change.currentPatchSetId();
     for (final Account.Id reviewer : reviewerIds) {
       if (!exists(psid, reviewer)) {
         // This reviewer has not entered an approval for this change yet.
@@ -209,6 +214,14 @@ public class AddReviewer implements Callable<ReviewerResult> {
       }
     }
     db.patchSetApprovals().insert(toInsert);
+
+    // Execute hook for added reviewers
+    //
+    final PatchSet patchSet = db.patchSets().get(psid);
+    for (final Account.Id reviewer : added) {
+      final Account account = db.accounts().get(reviewer);
+      hooks.doReviewerAddedHook(change, account, patchSet, db);
+    }
 
     // Email the reviewers
     //

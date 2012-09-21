@@ -41,6 +41,7 @@ import com.google.gerrit.server.events.DraftPublishedEvent;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
+import com.google.gerrit.server.events.ReviewerAddedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectCache;
@@ -117,6 +118,9 @@ public class ChangeHookRunner implements ChangeHooks {
     /** Filename of the ref updated hook. */
     private final File refUpdatedHook;
 
+    /** Filename of the reviewer added hook. */
+    private final File reviewerAddedHook;
+
     /** Filename of the cla signed hook. */
     private final File claSignedHook;
 
@@ -173,6 +177,7 @@ public class ChangeHookRunner implements ChangeHooks {
         changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
         changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
         refUpdatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdatedHook", "ref-updated")).getPath());
+        reviewerAddedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "reviewerAddedHook", "reviewer-added")).getPath());
         claSignedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "claSignedHook", "cla-signed")).getPath());
     }
 
@@ -389,6 +394,25 @@ public class ChangeHookRunner implements ChangeHooks {
       }
 
       runHook(refName.getParentKey(), refUpdatedHook, args);
+    }
+
+    public void doReviewerAddedHook(final Change change, final Account account,
+        final PatchSet patchSet, final ReviewDb db) throws OrmException {
+      final ReviewerAddedEvent event = new ReviewerAddedEvent();
+
+      event.change = eventFactory.asChangeAttribute(change);
+      event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+      event.reviewer = eventFactory.asAccountAttribute(account);
+      fireEvent(change, event, db);
+
+      final List<String> args = new ArrayList<String>();
+      addArg(args, "--change", event.change.id);
+      addArg(args, "--change-url", event.change.url);
+      addArg(args, "--project", event.change.project);
+      addArg(args, "--branch", event.change.branch);
+      addArg(args, "--reviewer", getDisplayName(account));
+
+      runHook(change.getProject(), reviewerAddedHook, args);
     }
 
     public void doClaSignupHook(Account account, ContributorAgreement cla) {

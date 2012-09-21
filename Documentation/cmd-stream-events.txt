@@ -44,7 +44,7 @@ The JSON messages consist of nested objects referencing the *change*,
 *patchSet*, *account* involved, and other attributes as appropriate.
 The currently supported message types are *patchset-created*,
 *draft-published*, *change-abandoned*, *change-restored*,
-*change-merged*, *comment-added* and *ref-updated*.
+*change-merged*, *comment-added*, *ref-updated* and *reviewer-added*.
 
 Note that any field may be missing in the JSON messages, so consumers of
 this JSON stream should deal with that appropriately.
@@ -126,6 +126,16 @@ type:: "ref-updated"
 submitter:: link:json.html#account[account attribute]
 
 refUpdate:: link:json.html#refUpdate[refUpdate attribute]
+
+Reviewer Added
+^^^^^^^^^^^^^^
+type:: "reviewer-added"
+
+change:: link:json.html#change[change attribute]
+
+patchset:: link:json.html#patchSet[patchset attribute]
+
+reviewer:: link:json.html#account[account attribute]
 
 
 SEE ALSO

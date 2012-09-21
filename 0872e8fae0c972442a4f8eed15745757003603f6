@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJWH///4w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1005757
+      },
+      "writtenOn": "2012-09-21T19:52:38Z",
+      "side": 1,
+      "message": "This is a current bug (since changeMerge.test for mergeability was introduced), even in 2.5.  The problem is the code above looks for the approval for ApprovalCategory.SUBMIT, in order to set \"submitAudit.\"  But since it\u0027s only testing if it *can* merge, there\u0027s no submitter yet, so this is a NPE.\n\nBut more to the point, this is being called during verifyMergeability() and preMerge(), which is a Bad Thing, because it\u0027s making changes to the Change and PatchSets on every mergeability test.  This code should only run during a final submitted merge, not during mergeability.",
+      "revId": "0872e8fae0c972442a4f8eed15745757003603f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

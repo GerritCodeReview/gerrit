@@ -70,6 +70,24 @@
       "revId": "57cab95b42dcd4cfad65be72ef6673180d28c7ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJVH///9k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-21T15:37:00Z",
+      "side": 1,
+      "message": "I believe that was because the message was innacurate in that case, so the revert was an improvement.",
+      "parentUuid": "AAAJV3///+4\u003d",
+      "revId": "57cab95b42dcd4cfad65be72ef6673180d28c7ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

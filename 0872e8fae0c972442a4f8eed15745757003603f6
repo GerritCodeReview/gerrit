@@ -16,6 +16,24 @@
       "revId": "0872e8fae0c972442a4f8eed15745757003603f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJWH///4I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1005757
+      },
+      "writtenOn": "2012-09-21T20:41:13Z",
+      "side": 1,
+      "message": "Disregard.  Looks like this is already addressed from a more recent codebase, at I613f45e7d173b33db3e400fba461bb94c86320ec",
+      "parentUuid": "AAAJWH///4w\u003d",
+      "revId": "0872e8fae0c972442a4f8eed15745757003603f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

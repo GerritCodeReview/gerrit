@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJVH///+8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-21T05:54:07Z",
+      "side": 1,
+      "message": "I don\u0027t understand the motivation behind this, especially the config branch.  Are we just trying to be consistent, or is there something incorrect to the current behavior?",
+      "revId": "57cab95b42dcd4cfad65be72ef6673180d28c7ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

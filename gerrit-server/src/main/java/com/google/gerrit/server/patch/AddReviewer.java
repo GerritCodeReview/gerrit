@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewerResult;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -66,6 +68,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
   private final Config cfg;
 
   private final Change.Id changeId;
+  private final ChangeHooks hooks;
   private final Collection<String> reviewers;
   private final boolean confirmed;
 
@@ -76,7 +79,8 @@ public class AddReviewer implements Callable<ReviewerResult> {
       final ChangeControl.Factory changeControlFactory, final ReviewDb db,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final IdentifiedUser currentUser, final ApprovalTypes approvalTypes,
-      final @GerritServerConfig Config cfg, @Assisted final Change.Id changeId,
+      final @GerritServerConfig Config cfg, final ChangeHooks hooks,
+      @Assisted final Change.Id changeId,
       @Assisted final Collection<String> reviewers,
       @Assisted final boolean confirmed) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
@@ -88,6 +92,7 @@ public class AddReviewer implements Callable<ReviewerResult> {
     this.identifiedUserFactory = identifiedUserFactory;
     this.currentUser = currentUser;
     this.cfg = cfg;
+    this.hooks = hooks;
 
     final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
     addReviewerCategoryId =
@@ -197,7 +202,8 @@ public class AddReviewer implements Callable<ReviewerResult> {
     //
     final Set<Account.Id> added = new HashSet<Account.Id>();
     final List<PatchSetApproval> toInsert = new ArrayList<PatchSetApproval>();
-    final PatchSet.Id psid = control.getChange().currentPatchSetId();
+    final Change change = control.getChange();
+    final PatchSet.Id psid = change.currentPatchSetId();
     for (final Account.Id reviewer : reviewerIds) {
       if (!exists(psid, reviewer)) {
         // This reviewer has not entered an approval for this change yet.
@@ -209,6 +215,14 @@ public class AddReviewer implements Callable<ReviewerResult> {
       }
     }
     db.patchSetApprovals().insert(toInsert);
+
+    // Execute hook for added reviewers
+    //
+    final PatchSet patchSet = db.patchSets().get(psid);
+    final ResultSet<Account> accounts = db.accounts().get(added);
+    for (final Account account : accounts) {
+      hooks.doReviewerAddedHook(change, account, patchSet, db);
+    }
 
     // Email the reviewers
     //

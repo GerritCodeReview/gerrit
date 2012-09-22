@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJXH///64\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/CommitReceivedEvent.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-09-22T07:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH33//+wA\u003d",
+      "revId": "b93a531b5e6f39e9a373aa0cbc4f057c9de709c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH33//+v8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2012-07-30T04:42:01Z",
       "side": 1,
       "message": "Blank line added?",
+      "revId": "b93a531b5e6f39e9a373aa0cbc4f057c9de709c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJXH///60\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-09-22T07:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH33//+v8\u003d",
       "revId": "b93a531b5e6f39e9a373aa0cbc4f057c9de709c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJXH///6w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-09-22T07:30:13Z",
+      "side": 1,
+      "message": "I would say yes and no:\n- yes, because if a custom validation hook says \"please fail\" we should then really avoid executing the entire push and thus not keep on processing commands.\n- no, because this was a side-effect cause by other validations as well: even in case of failure by other reasons the processing continued until the end and was not blocked.\n\nI could separate anyway the patch in two:\n- Patch-1: abort the processing of ReceiveCommits when one of the validation fails.\n- Patch-2: custom validation.\n\nDoes it sound right to you ?",
+      "parentUuid": "AAAI5H///Hw\u003d",
+      "revId": "b93a531b5e6f39e9a373aa0cbc4f057c9de709c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAH33//+v4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
         "patchSetId": 11
@@ -64,6 +118,24 @@
       "writtenOn": "2012-07-30T04:42:01Z",
       "side": 1,
       "message": "Line is not terminated with a period.",
+      "revId": "b93a531b5e6f39e9a373aa0cbc4f057c9de709c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJXH///6s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-09-22T07:30:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAH33//+v4\u003d",
       "revId": "b93a531b5e6f39e9a373aa0cbc4f057c9de709c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

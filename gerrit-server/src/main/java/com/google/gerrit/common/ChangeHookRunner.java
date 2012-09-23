@@ -17,6 +17,7 @@ package com.google.gerrit.common;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
@@ -63,6 +64,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -79,6 +81,7 @@ public class ChangeHookRunner implements ChangeHooks {
       protected void configure() {
         bind(ChangeHookRunner.class);
         bind(ChangeHooks.class).to(ChangeHookRunner.class);
+        DynamicSet.setOf(binder(), ChangeListener.class);
       }
     }
 
@@ -95,6 +98,9 @@ public class ChangeHookRunner implements ChangeHooks {
     /** Listeners to receive changes as they happen. */
     private final Map<ChangeListener, ChangeListenerHolder> listeners =
       new ConcurrentHashMap<ChangeListener, ChangeListenerHolder>();
+
+    /** Dynamically registered event listeners. */
+    private DynamicSet<ChangeListener> dynamicListeners;
 
     /** Filename of the new patchset hook. */
     private final File patchsetCreatedHook;
@@ -154,7 +160,8 @@ public class ChangeHookRunner implements ChangeHooks {
       final @AnonymousCowardName String anonymousCowardName,
       final SitePaths sitePath, final ProjectCache projectCache,
       final AccountCache accountCache, final ApprovalTypes approvalTypes,
-      final EventFactory eventFactory, final SitePaths sitePaths) {
+      final EventFactory eventFactory, final SitePaths sitePaths,
+      DynamicSet<ChangeListener> dynamicListeners) {
         this.anonymousCowardName = anonymousCowardName;
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
@@ -163,6 +170,7 @@ public class ChangeHookRunner implements ChangeHooks {
         this.approvalTypes = approvalTypes;
         this.eventFactory = eventFactory;
         this.sitePaths = sitePath;
+        this.dynamicListeners = dynamicListeners;
 
         final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
 
@@ -401,6 +409,10 @@ public class ChangeHookRunner implements ChangeHooks {
               holder.listener.onChangeEvent(event);
           }
       }
+
+      for (ChangeListener listener : dynamicListeners) {
+        listener.onChangeEvent(event);
+      }
     }
 
     private void fireEvent(Branch.NameKey branchName, final ChangeEvent event) {
@@ -408,6 +420,10 @@ public class ChangeHookRunner implements ChangeHooks {
           if (isVisibleTo(branchName, holder.user)) {
               holder.listener.onChangeEvent(event);
           }
+      }
+
+      for (ChangeListener listener : dynamicListeners) {
+        listener.onChangeEvent(event);
       }
     }
 

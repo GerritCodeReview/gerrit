@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJUn///H4\u003d",
+        "filename": "Documentation/cmd-test-submit-rule.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-09-23T04:28:22Z",
+      "side": 1,
+      "message": "Why interactive use only? I could totally see a CI system using submit readiness to determine which changes to run on.",
+      "revId": "84974b916e45b6d7475e5a3c4a658e69b1133e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJUn///H0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-09-23T04:28:22Z",
+      "side": 1,
+      "message": "s/2009/2012/",
+      "revId": "84974b916e45b6d7475e5a3c4a658e69b1133e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

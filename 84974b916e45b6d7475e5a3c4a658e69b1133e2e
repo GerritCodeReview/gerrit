@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJW3///7g\u003d",
+        "filename": "Documentation/cmd-test-submit-rule.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-09-23T12:54:37Z",
+      "side": 1,
+      "message": "Done, changed documentation.\n\nIt\u0027s a good idea, it didn\u0027t occur to me. I was thinking that simply querying a change would give the same information, but that\u0027s not true.\nActually makes me think that this information maybe should also be included in the change-query api.\n\nAs it stands the format is easily parseable, but maybe adding JSON output would simplify it further, but I don\u0027t think it\u0027s needed for the initial iteration.",
+      "parentUuid": "AAAJUn///H4\u003d",
+      "revId": "84974b916e45b6d7475e5a3c4a658e69b1133e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJUn///H0\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-09-23T04:28:22Z",
       "side": 1,
       "message": "s/2009/2012/",
+      "revId": "84974b916e45b6d7475e5a3c4a658e69b1133e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJW3///7k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-09-23T12:54:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJUn///H0\u003d",
       "revId": "84974b916e45b6d7475e5a3c4a658e69b1133e2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

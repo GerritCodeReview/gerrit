@@ -140,7 +140,7 @@ public class Init extends SiteProgram {
         throw (Die) why;
       }
 
-      final StringBuilder buf = new StringBuilder();
+      final StringBuilder buf = new StringBuilder(ce.getLocalizedMessage());
       while (why != null) {
         buf.append(why.getMessage());
         why = why.getCause();

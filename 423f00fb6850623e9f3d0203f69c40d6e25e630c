@@ -16,6 +16,24 @@
       "revId": "423f00fb6850623e9f3d0203f69c40d6e25e630c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJXX///4U\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-09-24T16:54:18Z",
+      "side": 1,
+      "message": "That\u0027s right, it would be safer to add a trailing \u0027\\n\u0027 otherwise we would then concatenate the two messages in one line.\n\nMoreover I would use getMessage() for consistency with what the \"why\" is reason is doing.",
+      "parentUuid": "AAAJUX//+bU\u003d",
+      "revId": "423f00fb6850623e9f3d0203f69c40d6e25e630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

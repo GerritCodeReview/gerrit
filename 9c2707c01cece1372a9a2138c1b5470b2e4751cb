@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJV3///5M\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-09-24T09:32:52Z",
+      "side": 1,
+      "message": "\"has or can be\" -\u003e \"has been or can be\"",
+      "revId": "9c2707c01cece1372a9a2138c1b5470b2e4751cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJV3///5E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/SubmitLabelAttribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-09-24T09:32:52Z",
+      "side": 1,
+      "message": "Is 2010 needed?",
+      "revId": "9c2707c01cece1372a9a2138c1b5470b2e4751cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJV3///5I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/SubmitRecordAttribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-09-24T09:32:52Z",
+      "side": 1,
+      "message": "Is 2010 needed?",
+      "revId": "9c2707c01cece1372a9a2138c1b5470b2e4751cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

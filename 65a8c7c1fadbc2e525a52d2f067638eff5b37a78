@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJYn///74\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-24T15:19:59Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "65a8c7c1fadbc2e525a52d2f067638eff5b37a78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJYn///8M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-24T15:19:59Z",
+      "side": 1,
+      "message": "This is confusing and without reading the (big) comment above one would wonder why rules.pl play any role when reading prolog rules from the stdin. I propose to name the stream \"stdin\":\n\n SymbolTerm.intern(\"stdin\"),\n\nand to remove the comment above completely.",
+      "revId": "65a8c7c1fadbc2e525a52d2f067638eff5b37a78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJYn///8I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-24T15:19:59Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "65a8c7c1fadbc2e525a52d2f067638eff5b37a78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJYn///8E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-24T15:19:59Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "65a8c7c1fadbc2e525a52d2f067638eff5b37a78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJYn///8A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-24T15:19:59Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "65a8c7c1fadbc2e525a52d2f067638eff5b37a78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJYn///78\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-24T15:19:59Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "revId": "65a8c7c1fadbc2e525a52d2f067638eff5b37a78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

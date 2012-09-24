@@ -50,3 +50,8 @@ Gerrit-PatchSet: $patchSet.patchSetId
 Gerrit-Project: $projectName
 Gerrit-Branch: $branch.shortName
 Gerrit-Owner: $email.getNameEmailFor($change.owner)
+#if($email.hasInlineComments())
+Gerrit-HasInlineComments: Yes
+#else
+Gerrit-HasInlineComments: No
+#end

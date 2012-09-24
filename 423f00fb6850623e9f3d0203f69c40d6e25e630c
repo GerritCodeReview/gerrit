@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJUX//+bU\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-09-24T14:23:00Z",
+      "side": 1,
+      "message": "Does this string always end in whitespace? I am thinking about the loop below where we append the message with no delimiter.",
+      "revId": "423f00fb6850623e9f3d0203f69c40d6e25e630c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

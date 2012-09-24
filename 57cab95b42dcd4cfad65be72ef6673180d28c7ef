@@ -88,6 +88,24 @@
       "revId": "57cab95b42dcd4cfad65be72ef6673180d28c7ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJYn///+s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-24T12:41:18Z",
+      "side": 1,
+      "message": "Right, there were 2 cases [1] [2] where I changed a specific error message back to the generic error message. This was only because the specific error messages were wrong for some cases and then users got confused. It was also bad that the new error messages were not documented.\n\nIn general I believe that specific error messages are better, if they are acurate :-)\n\n  [1] https://gerrit-review.googlesource.com/37580\n  [2] https://gerrit-review.googlesource.com/37250",
+      "parentUuid": "AAAJVH///9k\u003d",
+      "revId": "57cab95b42dcd4cfad65be72ef6673180d28c7ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -32,10 +32,12 @@ password, create a database to store the metadata, and grant the user
 full rights on the newly created database:
 
 ----
-  createuser -A -D -P -E gerrit2
-  createdb -E UTF-8 -O gerrit2 reviewdb
+  $ createuser --username=postgres -A -D -P -E gerrit2
+  $ createdb --username=postgres -E UTF-8 -O gerrit2 reviewdb
 ----
 
+Visit PostgreSQL's link:http://www.postgresql.org/docs/9.1/interactive/index.html[documentation] for further information regarding
+using PostgreSQL.
 
 [[createdb_mysql]]
 MySQL
@@ -57,3 +59,5 @@ rights on it:
   GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
   FLUSH PRIVILEGES;
 ----
+
+Visit MySQL's link:http://dev.mysql.com/doc/[documentation] for further information using MySQL.

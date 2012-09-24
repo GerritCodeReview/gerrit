@@ -1,4 +1,4 @@
-## Copyright (C) 2010 The Android Open Source Project
+## Copyright (C) 2012 The Android Open Source Project
 ##
 ## Licensed under the Apache License, Version 2.0 (the "License");
 ## you may not use this file except in compliance with the License.
@@ -28,26 +28,13 @@
 ##
 ## This Template:
 ## --------------
-## The Comment.vm template will determine the contents of the email related to
-## a user submitting comments on changes.  It is a ChangeEmail: see
-## ChangeSubject.vm, ChangeFooter.vm and CommentFooter.vm.
+## The CommentFooter.vm template will determine the contents of the footer
+## text that will be appended to emails related to a user submitting comments
+## on changes.
 ##
-#if ($email.coverLetter || $email.hasInlineComments())
-$fromName has posted comments on this change.
-
-Change subject: $change.subject
-......................................................................
-
-
-#if ($email.coverLetter)
-$email.coverLetter
-
-#end
-##
-## It is possible to increase the span of the quoted lines by using the line
-## count parameter when calling $email.getInlineComments as a function.
-##
-## Example: #if($email.hasInlineComments())$email.getInlineComments(5)#end
-##
-#if($email.hasInlineComments())$email.inlineComments#end
+## See ChangeSubject.vm and ChangeFooter.vm.
+#if($email.hasInlineComments())
+Gerrit-HasInlineComments: Yes
+#else
+Gerrit-HasInlineComments: No
 #end

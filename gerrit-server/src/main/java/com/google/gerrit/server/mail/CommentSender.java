@@ -77,6 +77,11 @@ public class CommentSender extends ReplyToChangeSender {
     appendText(velocifyFile("Comment.vm"));
   }
 
+  @Override
+  public void formatFooter() throws EmailException {
+    appendText(velocifyFile("CommentFooter.vm"));
+  }
+
   public boolean hasInlineComments() {
     return !inlineComments.isEmpty();
   }

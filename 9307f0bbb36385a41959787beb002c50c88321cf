@@ -16,6 +16,24 @@
       "revId": "9307f0bbb36385a41959787beb002c50c88321cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJWn///3A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-09-24T12:40:24Z",
+      "side": 1,
+      "message": "I know with user links now pointing to owner: queries instead of the dashboard, it\u0027s pretty much impossible to find the dashboard in 2.5.x now (or is this site configured to not show them?)",
+      "parentUuid": "AAAJVH///1s\u003d",
+      "revId": "9307f0bbb36385a41959787beb002c50c88321cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

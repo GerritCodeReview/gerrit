@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJWn///vY\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "\u003eThis isn\u0027t a link to MySQL.\n\nDone.\n\n\u003eI think most/all of these requirements are redundant and already covered in the general installation section?\n\nThe JDK is, but tomcat isn\u0027t.",
+      "parentUuid": "AAAJKn///6I\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJKn///6E\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -47,6 +65,24 @@
       "writtenOn": "2012-09-17T21:44:38Z",
       "side": 1,
       "message": "(Only if using ldap...)",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJWn///vQ\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJKn///6E\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJWn///vU\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI4H///dg\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3s\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJWn///vM\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3s\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI33///RE\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -98,6 +170,24 @@
       "writtenOn": "2012-08-29T06:34:45Z",
       "side": 1,
       "message": "\"gerrit-X.X+\"  not good at least for me.\n\nhow about  \"+/usr/local/review_site/\u003cwar file of Gerrit\u003e\"",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJWn///vI\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "I keep deployments version specific so you can easily switch back to the previous and compare releases if needed, instead of deploying over top the old. If others request this enhancement, I\u0027ll gladly change.",
+      "parentUuid": "AAAI33///RE\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -139,6 +229,42 @@
     },
     {
       "key": {
+        "uuid": "AAAJWn///vA\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIFn///0Q\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJWn///vE\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3o\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJKn///6A\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -150,6 +276,24 @@
       "writtenOn": "2012-09-17T21:44:38Z",
       "side": 1,
       "message": "This is all already covered in the install guide.  It isn\u0027t a good idea to repeat it for tomcat-specific install.",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJWn///u8\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Not quite, the steps are a little different. The home directory is set to the gerrit base directory. We could consolidate this if needed, like previously for gitweb and database updates.",
+      "parentUuid": "AAAJKn///6A\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -173,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJWn///uk\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Git is necessary, or at least recommended, for updating your gerrit.config.",
+      "parentUuid": "AAAJKn///58\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJKn///54\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -190,6 +352,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn////4\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Not to install Gerrit, but it is required to use Gerrit.",
+      "parentUuid": "AAAJKn///54\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3k\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -201,6 +381,24 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "gerrit -\u003e Gerrit",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn////0\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3k\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -242,6 +440,42 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn////s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3g\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn////o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI4H///dc\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJKn///50\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -253,6 +487,24 @@
       "writtenOn": "2012-09-17T21:44:38Z",
       "side": 1,
       "message": "This has nothing to do with installing Gerrit (and even less with setting up Tomcat).  It belongs in a different guide.",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn////g\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "I\u0027m no doc expert, but I\u0027ve read plenty of install guides which provide working examples as part of the install process. It would be great if Gerrit came with examples preconfigured, much like the tomcat install does. However, I provide an example so users may have something to demonstrate features of Gerrit without assimilating an existing project. The sandbox also provides a test area to make sure all is set up correctly. This could possibly fall under a users guide, but we don\u0027t seem to have one, other than the quick intro guide.",
+      "parentUuid": "AAAJKn///50\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -276,6 +528,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn////c\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3c\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3Y\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -287,6 +557,24 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "till -\u003e until",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn////Y\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3Y\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -328,6 +616,42 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn////Q\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3U\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn////M\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "\u003eDid that make any sense?\nI\u0027m not sure which is best. You both make valid points. maybe I\u0027ll just leave as is. If more agree, I\u0027ll change?",
+      "parentUuid": "AAAIFn///0I\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3Q\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -362,6 +686,42 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn////I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3Q\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn////E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI4H///dY\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3M\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -373,6 +733,24 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "- \"process download\" -\u003e \"process to download\"\n\n- \"bouncy castles\" -\u003e \"Bouncy Castle\"",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///+8\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3M\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -396,6 +774,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///+4\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3I\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///3E\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -407,6 +803,24 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "Add a note to \"see below\" or a link to the BouncyCastle section?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///+k\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3E\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -430,6 +844,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///+0\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIFn///z8\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJKn///5w\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -441,6 +873,24 @@
       "writtenOn": "2012-09-17T21:44:38Z",
       "side": 1,
       "message": "Probably don\u0027t want to include an installation error in the guide?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///+g\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "I\u0027ll shorten the exception for now. Once this has been fixed in the install, we can come back and remove.",
+      "parentUuid": "AAAJKn///5w\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -464,6 +914,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///+c\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///3A\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///28\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -475,6 +943,24 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "ldap -\u003e LDAP",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///+Y\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///28\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -498,6 +984,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///+U\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///24\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI33///Qg\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -509,6 +1013,24 @@
       "writtenOn": "2012-08-29T06:34:45Z",
       "side": 1,
       "message": "\u0027ln   \u003cfull path to war file \u003e  ROOT.war\u0027  is simple than context file,  right?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///+I\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Probably better for a development environment. In a production environment, the context file let\u0027s you quickly roll back to the previous release war if there is a problem.",
+      "parentUuid": "AAAI33///Qg\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -550,6 +1072,42 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///+A\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIFn///z4\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///+E\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///20\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI4H///dU\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -561,6 +1119,24 @@
       "writtenOn": "2012-09-07T04:19:37Z",
       "side": 1,
       "message": "xml -\u003e XML?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///98\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI4H///dU\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -584,6 +1160,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///94\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///2w\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI4H///dQ\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -595,6 +1189,24 @@
       "writtenOn": "2012-09-07T04:19:37Z",
       "side": 1,
       "message": "Configure -\u003e configure",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///90\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI4H///dQ\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -618,6 +1230,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///9w\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///2s\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///2o\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -629,6 +1259,24 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "jvm -\u003e JVM",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///9s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///2o\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -652,6 +1300,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///64\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIFn///z0\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///2k\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -663,6 +1329,24 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "gerrit -\u003e Gerrit",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///9o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///2k\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -686,6 +1370,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///60\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///2g\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI4H///dM\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -697,6 +1399,24 @@
       "writtenOn": "2012-09-07T04:19:37Z",
       "side": 1,
       "message": "Can we change \"The first user to sign-in and register an account\" -\u003e \"The first account registered\" or so? I think you don\u0027t \"sign-in and register an account\", you just \"register an account\".",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///6s\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI4H///dM\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -720,6 +1440,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///6o\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI4H///dI\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///2c\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -731,6 +1469,24 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "setup -\u003e set up",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///6k\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///2c\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -754,6 +1510,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///6Y\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIFn///zk\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAIGn///2Y\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4
@@ -765,6 +1539,24 @@
       "writtenOn": "2012-08-09T01:15:43Z",
       "side": 1,
       "message": "Better to link to local index?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///6U\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///2Y\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -788,6 +1580,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///6Q\u003d",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAI4H///dE\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJKn///5s\u003d",
         "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/postgresql-ROOT.xml",
         "patchSetId": 4
@@ -799,6 +1609,24 @@
       "writtenOn": "2012-09-17T21:44:38Z",
       "side": 1,
       "message": "Is this necessary?  Gerrit already stores the db login info separately, and tomcat doesn\u0027t need access...?",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJZn///5E\u003d",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/postgresql-ROOT.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:04:29Z",
+      "side": 1,
+      "message": "I\u0027m not sure why, but I had to do this to get Gerrit a connection to the database under tomcat. If I placed, the config options in the gerrit.config, the tomcat service would fail to start and I would see this in the logs:\n\nSEVERE: Error listenerStart\nSep 25, 2012 11:35:59 AM org.apache.catalina.core.StandardContext start\nSEVERE: Context [] startup failed due to previous errors\nSep 25, 2012 11:35:59 AM org.apache.catalina.loader.WebappClassLoader clearReferencesJdbc\nSEVERE: The web application [] registered the JDBC driver [org.h2.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.\nSep 25, 2012 11:35:59 AM org.apache.catalina.loader.WebappClassLoader clearReferencesJdbc\nSEVERE: The web application [] registered the JDBC driver [org.postgresql.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.\nSep 25, 2012 11:35:59 AM org.apache.catalina.loader.WebappClassLoader clearReferencesThreads\nSEVERE: The web application [] appears to have started a thread named [com.google.inject.internal.util.$Finalizer] but has failed to stop it. This is very likely to create a memory leak.\nSep 25, 2012 11:35:59 AM org.apache.catalina.loader.WebappClassLoader clearThreadLocalMap\nSEVERE: The web application [] created a ThreadLocal with key of type [com.google.inject.internal.InjectorImpl$1] (value [com.google.inject.internal.InjectorImpl$1@9d686c1]) and a value of type [java.lang.Object[]] (value [[Ljava.lang.Object;@6328edf2]) but failed to remove it when the web application was stopped. This is very likely to create a memory leak.\n\nIn stdout:\n\n2012-09-25 11:44:06 Commons Daemon procrun stdout initialized\n[2012-09-25 11:44:07,707] ERROR com.google.gerrit.httpd.WebAppInitializer : Cannot create ReviewDb\n  caused by com.google.gwtorm.server.OrmException: Unable to determine SqlDialect\n  caused by org.apache.tomcat.dbcp.dbcp.SQLNestedException: Cannot create JDBC driver of class \u0027\u0027 for connect URL \u0027null\u0027\n  caused by java.lang.NullPointerException\n\nResolve above errors before continuing.\nComplete stack trace follows:\ncom.google.gwtorm.server.OrmException: Unable to determine SqlDialect\n\tat com.google.gwtorm.jdbc.Database.\u003cinit\u003e(Database.java:81)\n\tat com.google.gerrit.server.schema.ReviewDbDatabaseProvider.get(ReviewDbDatabaseProvider.java:39)\n\tat com.google.gerrit.server.schema.ReviewDbDatabaseProvider.get(ReviewDbDatabaseProvider.java:28)\n\tat com.google.inject.internal.BoundProviderFactory.get(BoundProviderFactory.java:55)\n\tat com.google.inject.internal.ProviderToInternalFactoryAdapter$1.call(ProviderToInternalFactoryAdapter.java:46)\n\tat com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1031)\n\tat com.google.inject.internal.ProviderToInternalFactoryAdapter.get(ProviderToInternalFactoryAdapter.java:40)\n\tat com.google.inject.Scopes$1$1.get(Scopes.java:65)\n\tat com.google.inject.internal.InternalFactoryToProviderAdapter.get(InternalFactoryToProviderAdapter.java:40)\n\tat com.google.inject.internal.FactoryProxy.get(FactoryProxy.java:54)\n\tat com.google.inject.internal.ProviderToInternalFactoryAdapter$1.call(ProviderToInternalFactoryAdapter.java:46)\n\tat com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1031)\n\tat com.google.inject.internal.ProviderToInternalFactoryAdapter.get(ProviderToInternalFactoryAdapter.java:40)\n\tat com.google.inject.Scopes$1$1.get(Scopes.java:65)\n\tat com.google.inject.internal.InternalFactoryToProviderAdapter.get(InternalFactoryToProviderAdapter.java:40)\n\tat com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:204)\n\tat com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:198)\n\tat com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1024)\n\tat com.google.inject.internal.InternalInjectorCreator.loadEagerSingletons(InternalInjectorCreator.java:198)\n\tat com.google.inject.internal.InternalInjectorCreator.injectDynamically(InternalInjectorCreator.java:179)\n\tat com.google.inject.internal.InternalInjectorCreator.build(InternalInjectorCreator.java:109)\n\tat com.google.inject.Guice.createInjector(Guice.java:95)\n\tat com.google.gerrit.httpd.WebAppInitializer.createDbInjector(WebAppInitializer.java:164)\n\tat com.google.gerrit.httpd.WebAppInitializer.init(WebAppInitializer.java:90)\n\tat com.google.gerrit.httpd.WebAppInitializer.getInjector(WebAppInitializer.java:235)\n\tat com.google.inject.servlet.GuiceServletContextListener.contextInitialized(GuiceServletContextListener.java:45)\n\tat com.google.gerrit.httpd.WebAppInitializer.contextInitialized(WebAppInitializer.java:241)\n\tat org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4206)\n\tat org.apache.catalina.core.StandardContext.start(StandardContext.java:4705)\n\tat org.apache.catalina.core.ContainerBase.start(ContainerBase.java:1057)\n\tat org.apache.catalina.core.StandardHost.start(StandardHost.java:840)\n\tat org.apache.catalina.core.ContainerBase.start(ContainerBase.java:1057)\n\tat org.apache.catalina.core.StandardEngine.start(StandardEngine.java:463)\n\tat org.apache.catalina.core.StandardService.start(StandardService.java:525)\n\tat org.apache.catalina.core.StandardServer.start(StandardServer.java:754)\n\tat org.apache.catalina.startup.Catalina.start(Catalina.java:595)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)\n\tat java.lang.reflect.Method.invoke(Method.java:597)\n\tat org.apache.catalina.startup.Bootstrap.start(Bootstrap.java:289)\n\tat org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:414)\nCaused by: org.apache.tomcat.dbcp.dbcp.SQLNestedException: Cannot create JDBC driver of class \u0027\u0027 for connect URL \u0027null\u0027\n\tat org.apache.tomcat.dbcp.dbcp.BasicDataSource.createConnectionFactory(BasicDataSource.java:1452)\n\tat org.apache.tomcat.dbcp.dbcp.BasicDataSource.createDataSource(BasicDataSource.java:1371)\n\tat org.apache.tomcat.dbcp.dbcp.BasicDataSource.getConnection(BasicDataSource.java:1044)\n\tat com.google.gwtorm.jdbc.Database.\u003cinit\u003e(Database.java:74)\n\t... 41 more\nCaused by: java.lang.NullPointerException\n\tat sun.jdbc.odbc.JdbcOdbcDriver.getProtocol(JdbcOdbcDriver.java:507)\n\tat sun.jdbc.odbc.JdbcOdbcDriver.knownURL(JdbcOdbcDriver.java:476)\n\tat sun.jdbc.odbc.JdbcOdbcDriver.acceptsURL(JdbcOdbcDriver.java:307)\n\tat java.sql.DriverManager.getDriver(DriverManager.java:253)\n\tat org.apache.tomcat.dbcp.dbcp.BasicDataSource.createConnectionFactory(BasicDataSource.java:1437)\n\t... 44 more",
+      "parentUuid": "AAAJKn///5s\u003d",
       "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

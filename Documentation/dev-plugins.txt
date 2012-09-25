@@ -176,6 +176,69 @@ reload::
 To reload/restart a plugin the link:cmd-plugin-reload.html[plugin reload]
 command can be used.
 
+[[init_step]]
+Init step
+~~~~~~~~~
+
+Plugins can contribute their own "init step" during the Gerrit init
+wizard. This is useful for guiding the Gerrit administrator through
+the settings needed by the plugin to work propertly.
+
+For instance plugins to integrate Jira issues to Gerrit changes may
+contribute their own "init step" to allow configuring the Jira URL,
+credentials and possibly verify connectivity to validate them.
+
+====
+  Gerrit-InitStep: tld.example.project.MyInitStep
+====
+
+MyInitStep needs to follow the standard Gerrit InitStep syntax
+and behaviour: writing to the console using the injected ConsoleUI
+and accessing / changing configuration settings using Section.Factory.
+
+In addition to the standard Gerrit init injections, plugins receive
+the @PluginName String injection containing their own plugin name.
+
+Bear in mind that the Plugin's InitStep class will be loaded but
+the standard Gerrit runtime environment is not available and the plugin's
+own Guice modules were not initialized.
+This means the InitStep for a plugin is not executed in the same way that
+the plugin executes within the server, and may mean a plugin author cannot
+trivially reuse runtime code during init.
+
+For instance a plugin that wants to verify connectivity may need to statically
+call the constructor of their connection class, passing in values obtained
+from the Section.Factory rather than from an injected Config object.
+
+Plugins InitStep are executing during the "Gerrit Plugin init" phase, after
+the extraction of the plugins embedded in Gerrit.war into $GERRIT_SITE/plugins
+and before the DB Schema initialization or upgrade.
+Plugins InitStep cannot refer to Gerrit DB Schema or any other Gerrit runtime
+objects injected at startup.
+
+====
+public class MyInitStep implements InitStep {
+  private final ConsoleUI ui;
+  private final Section.Factory sections;
+  private final String pluginName;
+
+  @Inject
+  public GitBlitInitStep(final ConsoleUI ui, Section.Factory sections, @PluginName String pluginName) {
+    this.ui = ui;
+    this.sections = sections;
+    this.pluginName = pluginName;
+  }
+
+  @Override
+  public void run() throws Exception {
+    ui.header("\nMy plugin");
+
+    Section mySection = getSection("myplugin", null);
+    mySection.string("Link name", "linkname", "MyLink");
+  }
+}
+====
+
 [[classpath]]
 Classpath
 ---------

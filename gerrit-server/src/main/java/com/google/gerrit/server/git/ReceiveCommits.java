@@ -888,7 +888,7 @@ public class ReceiveCommits {
         reject(cmd, "cannot delete project configuration");
       } else {
         errors.put(Error.DELETE, ctl.getRefName());
-        reject(cmd, "can not delete references");
+        reject(cmd, "cannot delete references");
       }
     }
   }
@@ -987,7 +987,7 @@ public class ReceiveCommits {
     destBranchCtl = projectControl.controlForRef(destBranch);
     if (!destBranchCtl.canUpload()) {
       errors.put(Error.CODE_REVIEW, cmd.getRefName());
-      reject(cmd, "can not upload review");
+      reject(cmd, "cannot upload review");
       return;
     }
 

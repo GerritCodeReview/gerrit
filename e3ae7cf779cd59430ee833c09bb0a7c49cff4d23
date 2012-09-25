@@ -16,6 +16,24 @@
       "revId": "e3ae7cf779cd59430ee833c09bb0a7c49cff4d23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcX////g\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-25T08:48:05Z",
+      "side": 1,
+      "message": "Yes, it would be cool if the RN helper script could create these issue links automatically. I\u0027ve had this on my todo list, but no time to look into it.\n\nHaving it as asciidoc macro would be even better, but I also don\u0027t know if this is possible.",
+      "parentUuid": "AAAJVH////E\u003d",
+      "revId": "e3ae7cf779cd59430ee833c09bb0a7c49cff4d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -127,16 +127,13 @@ public class MergeOp {
   private final Branch.NameKey destBranch;
   private Project destProject;
   private final List<CodeReviewCommit> toMerge;
-  private List<Change> submitted;
   private final Map<Change.Id, CodeReviewCommit> commits;
   private ReviewDb db;
   private Repository repo;
   private RevWalk rw;
-  private RevFlag CAN_MERGE;
+  private RevFlag canMergeFlag;
   private CodeReviewCommit branchTip;
   private CodeReviewCommit mergeTip;
-  private Set<RevCommit> alreadyAccepted;
-  private RefUpdate branchUpdate;
   private ObjectInserter inserter;
   private PersonIdent refLogIdent;
 
@@ -196,8 +193,6 @@ public class MergeOp {
       setDestProject();
       openRepository();
       final Ref destBranchRef = repo.getRef(destBranch.get());
-      submitted = new ArrayList<Change>();
-      submitted.add(change);
 
       // Test mergeability of the change if the last merged sha1
       // in the branch is different from the last sha1
@@ -207,6 +202,8 @@ public class MergeOp {
           || (destBranchRef != null && !destBranchRef.getObjectId().getName()
               .equals(change.getLastSha1MergeTested().get()))) {
         openSchema();
+        openBranch();
+        validateChangeList(Collections.singletonList(change));
         preMerge(createStrategy());
 
         // update sha1 tested merge.
@@ -257,12 +254,14 @@ public class MergeOp {
     try {
       openSchema();
       openRepository();
-      submitted = db.changes().submitted(destBranch).toList();
+      final List<Change> submitted = db.changes().submitted(destBranch).toList();
+      final RefUpdate branchUpdate = openBranch();
+      validateChangeList(submitted);
       final SubmitStrategy strategy = createStrategy();
       preMerge(strategy);
-      updateBranch(strategy);
-      updateChangeStatus();
-      updateSubscriptions();
+      updateBranch(strategy, branchUpdate);
+      updateChangeStatus(submitted);
+      updateSubscriptions(submitted);
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
     } finally {
@@ -282,8 +281,6 @@ public class MergeOp {
   }
 
   private void preMerge(final SubmitStrategy strategy) throws MergeException {
-    openBranch();
-    validateChangeList();
     mergeTip = strategy.run(branchTip, toMerge);
     refLogIdent = strategy.getRefLogIdent();
     commits.putAll(strategy.getNewCommits());
@@ -291,7 +288,7 @@ public class MergeOp {
 
   private SubmitStrategy createStrategy() throws MergeException {
     return submitStrategyFactory.create(destProject.getSubmitType(), db, repo,
-        rw, inserter, CAN_MERGE, alreadyAccepted, destBranch,
+        rw, inserter, canMergeFlag, getAlreadyAccepted(branchTip), destBranch,
         destProject.isUseContentMerge());
   }
 
@@ -315,20 +312,17 @@ public class MergeOp {
     };
     rw.sort(RevSort.TOPO);
     rw.sort(RevSort.COMMIT_TIME_DESC, true);
-    CAN_MERGE = rw.newFlag("CAN_MERGE");
+    canMergeFlag = rw.newFlag("CAN_MERGE");
 
     inserter = repo.newObjectInserter();
   }
 
-  private void openBranch() throws MergeException {
-    alreadyAccepted = new HashSet<RevCommit>();
-
+  private RefUpdate openBranch() throws MergeException {
     try {
-      branchUpdate = repo.updateRef(destBranch.get());
+      final RefUpdate branchUpdate = repo.updateRef(destBranch.get());
       if (branchUpdate.getOldObjectId() != null) {
         branchTip =
             (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
-        alreadyAccepted.add(branchTip);
       } else {
         branchTip = null;
       }
@@ -348,6 +342,21 @@ public class MergeOp {
             "Failed to check existence of destination branch", e);
       }
 
+      return branchUpdate;
+    } catch (IOException e) {
+      throw new MergeException("Cannot open branch", e);
+    }
+  }
+
+  private Set<RevCommit> getAlreadyAccepted(final CodeReviewCommit branchTip)
+      throws MergeException {
+    final Set<RevCommit> alreadyAccepted = new HashSet<RevCommit>();
+
+    if (branchTip != null) {
+      alreadyAccepted.add(branchTip);
+    }
+
+    try {
       for (final Ref r : repo.getAllRefs().values()) {
         if (r.getName().startsWith(Constants.R_HEADS)
             || r.getName().startsWith(Constants.R_TAGS)) {
@@ -359,11 +368,14 @@ public class MergeOp {
         }
       }
     } catch (IOException e) {
-      throw new MergeException("Cannot open branch", e);
+      throw new MergeException("Failed to determine already accepted commits.", e);
     }
+
+    return alreadyAccepted;
   }
 
-  private void validateChangeList() throws MergeException {
+  private void validateChangeList(final List<Change> submitted)
+      throws MergeException {
     final Set<ObjectId> tips = new HashSet<ObjectId>();
     for (final Ref r : repo.getAllRefs().values()) {
       tips.add(r.getObjectId());
@@ -433,7 +445,7 @@ public class MergeOp {
 
       if (branchTip != null) {
         // If this commit is already merged its a bug in the queuing code
-        // that we got back here. Just mark it complete and move on. Its
+        // that we got back here. Just mark it complete and move on. It's
         // merged and that is all that mattered to the requestor.
         //
         try {
@@ -446,13 +458,13 @@ public class MergeOp {
         }
       }
 
-      commit.add(CAN_MERGE);
+      commit.add(canMergeFlag);
       toMerge.add(commit);
     }
   }
 
-  private void updateBranch(final SubmitStrategy strategy)
-      throws MergeException {
+  private void updateBranch(final SubmitStrategy strategy,
+      final RefUpdate branchUpdate) throws MergeException {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
         try {
@@ -526,7 +538,7 @@ public class MergeOp {
     return isMergeable;
   }
 
-  private void updateChangeStatus() {
+  private void updateChangeStatus(final List<Change> submitted) {
     List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
 
     for (final Change c : submitted) {
@@ -595,7 +607,7 @@ public class MergeOp {
         GitRepositoryManager.REFS_NOTES_REVIEW);
   }
 
-  private void updateSubscriptions() {
+  private void updateSubscriptions(final List<Change> submitted) {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       SubmoduleOp subOp =
           subOpFactory.create(destBranch, mergeTip, rw, repo, destProject,

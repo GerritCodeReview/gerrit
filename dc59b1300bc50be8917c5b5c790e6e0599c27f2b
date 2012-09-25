@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJY3///zA\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-09-25T19:15:36Z",
+      "side": 1,
+      "message": "This seems like duplicate logic from our other plugin management code...",
+      "revId": "dc59b1300bc50be8917c5b5c790e6e0599c27f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

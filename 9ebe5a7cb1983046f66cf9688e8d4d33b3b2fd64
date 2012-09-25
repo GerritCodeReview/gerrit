@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJZn///4w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-09-25T16:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAIGn///30\u003d",
+      "revId": "9ebe5a7cb1983046f66cf9688e8d4d33b3b2fd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJKn///6I\u003d",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 4

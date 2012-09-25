@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -39,17 +40,24 @@ public class InitPlugins implements InitStep {
 
   private final ConsoleUI ui;
   private final SitePaths site;
+  private InitPluginStepsLoader pluginLoader;
 
   @Inject
-  InitPlugins(final ConsoleUI ui, final SitePaths site) {
+  InitPlugins(final ConsoleUI ui, final SitePaths site, InitPluginStepsLoader pluginLoader) {
     this.ui = ui;
     this.site = site;
+    this.pluginLoader = pluginLoader;
   }
 
   @Override
   public void run() throws Exception {
     ui.header("Plugins");
 
+    installPlugins();
+    initPlugins();
+  }
+
+  private void installPlugins() throws IOException {
     final File myWar;
     try {
       myWar = GerritLauncher.getDistributionArchive();
@@ -124,6 +132,13 @@ public class InitPlugins implements InitStep {
 
     if (!foundPlugin) {
       ui.message("No plugins found.");
+    }
+  }
+
+  private void initPlugins() throws Exception {
+    Collection<? extends InitStep> pluginsInitSteps = pluginLoader.getInitSteps();
+    for (InitStep initStep : pluginsInitSteps) {
+      initStep.run();
     }
   }
 

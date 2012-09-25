@@ -24,52 +24,58 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.annotation.Nullable;
+
 /** Helper to edit a section of the configuration files. */
-class Section {
-  interface Factory {
-    Section get(String name);
+public class Section {
+  public interface Factory {
+    Section get(@Assisted("section") String section,
+        @Assisted("subsection") String subsection);
   }
 
   private final InitFlags flags;
   private final SitePaths site;
   private final ConsoleUI ui;
   private final String section;
+  private final String subsection;
 
   @Inject
-  Section(final InitFlags flags, final SitePaths site, final ConsoleUI ui,
-      @Assisted final String section) {
+  public Section(final InitFlags flags, final SitePaths site,
+      final ConsoleUI ui, @Assisted("section") final String section,
+      @Assisted("subsection") @Nullable final String subsection) {
     this.flags = flags;
     this.site = site;
     this.ui = ui;
     this.section = section;
+    this.subsection = subsection;
   }
 
   String get(String name) {
     return flags.cfg.getString(section, null, name);
   }
 
-  void set(final String name, final String value) {
+  public void set(final String name, final String value) {
     final ArrayList<String> all = new ArrayList<String>();
-    all.addAll(Arrays.asList(flags.cfg.getStringList(section, null, name)));
+    all.addAll(Arrays.asList(flags.cfg.getStringList(section, subsection, name)));
 
     if (value != null) {
       if (all.size() == 0 || all.size() == 1) {
-        flags.cfg.setString(section, null, name, value);
+        flags.cfg.setString(section, subsection, name, value);
       } else {
         all.set(0, value);
-        flags.cfg.setStringList(section, null, name, all);
+        flags.cfg.setStringList(section, subsection, name, all);
       }
 
     } else if (all.size() == 0) {
     } else if (all.size() == 1) {
-      flags.cfg.unset(section, null, name);
+      flags.cfg.unset(section, subsection, name);
     } else {
       all.remove(0);
-      flags.cfg.setStringList(section, null, name, all);
+      flags.cfg.setStringList(section, subsection, name, all);
     }
   }
 
-  <T extends Enum<?>> void set(final String name, final T value) {
+  public <T extends Enum<?>> void set(final String name, final T value) {
     if (value != null) {
       set(name, value.name());
     } else {
@@ -77,15 +83,15 @@ class Section {
     }
   }
 
-  void unset(String name) {
+  public void unset(String name) {
     set(name, (String) null);
   }
 
-  String string(final String title, final String name, final String dv) {
+  public String string(final String title, final String name, final String dv) {
     return string(title, name, dv, false);
   }
 
-  String string(final String title, final String name, final String dv,
+  public String string(final String title, final String name, final String dv,
       final boolean nullIfDefault) {
     final String ov = get(name);
     String nv = ui.readString(ov != null ? ov : dv, "%s", title);
@@ -98,19 +104,19 @@ class Section {
     return nv;
   }
 
-  File path(final String title, final String name, final String defValue) {
+  public File path(final String title, final String name, final String defValue) {
     return site.resolve(string(title, name, defValue));
   }
 
-  <T extends Enum<?>> T select(final String title, final String name,
+  public <T extends Enum<?>> T select(final String title, final String name,
       final T defValue) {
     return select(title, name, defValue, false);
   }
 
-  <T extends Enum<?>> T select(final String title, final String name,
+  public <T extends Enum<?>> T select(final String title, final String name,
       final T defValue, final boolean nullIfDefault) {
     final boolean set = get(name) != null;
-    T oldValue = ConfigUtil.getEnum(flags.cfg, section, null, name, defValue);
+    T oldValue = ConfigUtil.getEnum(flags.cfg, section, subsection, name, defValue);
     T newValue = ui.readEnum(oldValue, "%s", title);
     if (nullIfDefault && newValue == defValue) {
       newValue = null;
@@ -125,16 +131,16 @@ class Section {
     return newValue;
   }
 
-  String password(final String username, final String password) {
+  public String password(final String username, final String password) {
     final String ov = getSecure(password);
 
-    String user = flags.sec.getString(section, null, username);
+    String user = flags.sec.getString(section, subsection, username);
     if (user == null) {
       user = get(username);
     }
 
     if (user == null) {
-      flags.sec.unset(section, null, password);
+      flags.sec.unset(section, subsection, password);
       return null;
     }
 
@@ -154,15 +160,15 @@ class Section {
     return nv;
   }
 
-  String getSecure(String name) {
-    return flags.sec.getString(section, null, name);
+  public String getSecure(String name) {
+    return flags.sec.getString(section, subsection, name);
   }
 
-  void setSecure(String name, String value) {
+  public void setSecure(String name, String value) {
     if (value != null) {
-      flags.sec.setString(section, null, name, value);
+      flags.sec.setString(section, subsection, name, value);
     } else {
-      flags.sec.unset(section, null, name);
+      flags.sec.unset(section, subsection, name);
     }
   }
 

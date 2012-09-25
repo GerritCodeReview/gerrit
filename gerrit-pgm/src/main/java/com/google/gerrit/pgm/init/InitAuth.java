@@ -32,8 +32,8 @@ class InitAuth implements InitStep {
   @Inject
   InitAuth(final ConsoleUI ui, final Section.Factory sections) {
     this.ui = ui;
-    this.auth = sections.get("auth");
-    this.ldap = sections.get("ldap");
+    this.auth = sections.get("auth", null);
+    this.ldap = sections.get("ldap", null);
   }
 
   public void run() {

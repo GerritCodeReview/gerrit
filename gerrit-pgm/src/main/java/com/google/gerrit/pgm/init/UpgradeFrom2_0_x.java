@@ -118,7 +118,7 @@ class UpgradeFrom2_0_x implements InitStep {
 
     final Properties oldprop = readGerritServerProperties();
     if (oldprop != null) {
-      final Section database = sections.get("database");
+      final Section database = sections.get("database", null);
 
       String url = oldprop.getProperty("url");
       if (url != null && !convertUrl(database, url)) {

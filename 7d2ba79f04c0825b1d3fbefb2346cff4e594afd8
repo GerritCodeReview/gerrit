@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJcH///4Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "This should be javadoc comment",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcH///4U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "unnecessary empty line, please remove",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcH///4M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "Looking at the couple of other ssh command classes it seems like we don\u0027t end the usage text with a dot. Please remove it.",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcH///4Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "I would remove the parentheses and rephrase the text as:\n\"Read prolog script from stdin instead of reading rules.pl from the refs/meta/config branch\"",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcH///4I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "remove the dot",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcH///4E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "although this is a legal Java syntax I would remove the last comma. Searching for String[] initializers in Gerrit code reveals that we don\u0027t use comma after the last array member.",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcH///4A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "The length of the lines in the comment above is fixed but the overall formatting is bad. Some lines are too short.\n\nThe last comment line should be removed and instead an issue should be created in the Gerrit issue tracking.",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcH///30\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "one empty line is enough",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcH///34\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "instead of just printing out the r.toString you may format it a bit nicer so that the output looks like:\n\n Code-Review: OK by 1000000\n Verified-2: OK by 1000000\n\n OK\n\nand instead of printing the account-ids it would be more helpful to print user-name or email (when available).",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcH///3w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "two unnecessary empty lines",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJcH///3o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:14Z",
+      "side": 1,
+      "message": "this method doesn\u0027t need to be public, make it private",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

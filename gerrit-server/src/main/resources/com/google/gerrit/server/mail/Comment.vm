@@ -32,7 +32,7 @@
 ## a user submitting comments on changes.  It is a ChangeEmail: see
 ## ChangeSubject.vm and ChangeFooter.vm.
 ##
-#if ($email.coverLetter || $email.inlineComments)
+#if ($email.coverLetter || $email.hasInlineComments())
 $fromName has posted comments on this change.
 
 Change subject: $change.subject
@@ -45,9 +45,9 @@ $email.coverLetter
 #end
 ##
 ## It is possible to increase the span of the quoted lines by using the line
-## count parameter when calling $email.inlineComments as a function.
+## count parameter when calling $email.getInlineComments as a function.
 ##
-## Example: #if($email.inlineComments)$email.getInlineComments(5)#end
+## Example: #if($email.hasInlineComments())$email.getInlineComments(5)#end
 ##
-#if($email.inlineComments)$email.inlineComments#end
+#if($email.hasInlineComments())$email.inlineComments#end
 #end

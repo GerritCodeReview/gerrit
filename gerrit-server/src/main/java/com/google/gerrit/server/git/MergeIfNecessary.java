@@ -40,8 +40,9 @@ public class MergeIfNecessary extends SubmitStrategy {
     while (!toMerge.isEmpty()) {
       newMergeTip =
           mergeOneCommit(args.db, args.identifiedUserFactory, args.myIdent,
-              args.repo, args.rw, args.inserter, args.useContentMerge,
-              args.destBranch, mergeTip, toMerge.remove(0));
+              args.repo, args.rw, args.inserter, args.canMergeFlag,
+              args.useContentMerge, args.destBranch, mergeTip,
+              toMerge.remove(0));
     }
 
     final PatchSetApproval submitApproval =

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJcH///38\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-25T18:11:23Z",
+      "side": 1,
+      "message": "optional: Now that this is an own method it would be nicer if the comment below becomes javadoc for this method.",
+      "revId": "89483db5e511d25c9be49f22e18b6eac9d701834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

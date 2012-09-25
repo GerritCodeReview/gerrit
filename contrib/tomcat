@@ -1,0 +1,87 @@
+#!/bin/bash
+# Tomcat auto-start
+#
+# description: Auto-starts tomcat
+# processname: tomcat
+# pidfile: /var/run/tomcat.pid
+RETVAL=$?
+TOMCAT_HOME=/usr/local/tomcat
+export JAVA_HOME=/usr/lib/jvm/default-java
+export CATALINA_OPTS="-Dfile.encoding=UTF-8 \
+  -Dnet.sf.ehcache.skipUpdateCheck=true \
+  -XX:+DoEscapeAnalysis \
+  -XX:+UseConcMarkSweepGC \
+  -XX:+CMSClassUnloadingEnabled \
+  -XX:+UseParNewGC \
+  -XX:MaxPermSize=256m \
+  -Xms512m -Xmx1024m"
+USERNAME=gerrit
+SHUTDOWN_WAIT=20
+
+tomcat_pid() {
+  echo `ps aux | grep org.apache.catalina.startup.Bootstrap | grep -v grep | awk '{ print $2 }'`
+}
+
+start() {
+        if [ -f $TOMCAT_HOME/bin/startup.sh ];
+        then
+            echo $"Starting Tomcat"
+            ulimit -n 100000
+            umask 007
+            /bin/su $USERNAME $TOMCAT_HOME/bin/startup.sh
+        fi
+        sleep 2
+
+}
+stop() {
+        pid=$(tomcat_pid)
+        if [ -n "$pid" ] && [ -f $TOMCAT_HOME/bin/shutdown.sh ]
+        then
+          echo "Stopping Tomcat"
+          /bin/su -p -s /bin/sh tomcat $TOMCAT_HOME/bin/shutdown.sh
+
+          let kwait=$SHUTDOWN_WAIT
+          count=0;
+          until [ `ps -p $pid | grep -c $pid` = '0' ] || [ $count -gt $kwait ]
+          do
+            echo -e "\nwaiting for processes to exit";
+            sleep 1
+            let count=$count+1;
+          done
+
+          if [ $count -gt $kwait ]; then
+            echo -e "\nkilling processes which didn't stop after $SHUTDOWN_WAIT seconds"
+            kill -9 $pid
+          fi
+        else
+          echo "Tomcat is not running"
+        fi
+
+        return 0
+}
+
+case $1 in
+start)
+       start
+       ;;
+stop)
+       stop
+       ;;
+restart)
+       start
+       stop
+       ;;
+status)
+       pid=$(tomcat_pid)
+       if [ -n "$pid" ]
+       then
+         echo "Tomcat is running with pid: $pid"
+       else
+         echo "Tomcat is not running"
+       fi
+;;
+*)
+        echo $"Usage: tomcat {start|stop|restart|status}"
+        exit
+esac
+exit $RETVAL

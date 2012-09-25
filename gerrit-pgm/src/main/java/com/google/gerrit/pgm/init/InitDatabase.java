@@ -47,7 +47,7 @@ class InitDatabase implements InitStep {
     this.ui = ui;
     this.site = site;
     this.libraries = libraries;
-    this.database = sections.get("database");
+    this.database = sections.get("database", null);
   }
 
   public void run() {

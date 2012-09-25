@@ -31,7 +31,7 @@ class InitCache implements InitStep {
   @Inject
   InitCache(final SitePaths site, final Section.Factory sections) {
     this.site = site;
-    this.cache = sections.get("cache");
+    this.cache = sections.get("cache", null);
   }
 
   public void run() {

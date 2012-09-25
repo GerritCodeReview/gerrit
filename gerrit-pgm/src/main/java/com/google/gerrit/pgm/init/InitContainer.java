@@ -44,7 +44,7 @@ class InitContainer implements InitStep {
       final Section.Factory sections) {
     this.ui = ui;
     this.site = site;
-    this.container = sections.get("container");
+    this.container = sections.get("container", null);
   }
 
   public void run() throws FileNotFoundException, IOException {

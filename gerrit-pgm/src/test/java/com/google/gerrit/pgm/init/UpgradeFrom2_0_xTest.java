@@ -72,8 +72,8 @@ public class UpgradeFrom2_0_xTest extends InitTestCase {
     final ConsoleUI ui = createStrictMock(ConsoleUI.class);
     Section.Factory sections = new Section.Factory() {
       @Override
-      public Section get(String name) {
-        return new Section(flags, site, ui, name);
+      public Section get(String name, String subsection) {
+        return new Section(flags, site, ui, name, subsection);
       }
     };
 

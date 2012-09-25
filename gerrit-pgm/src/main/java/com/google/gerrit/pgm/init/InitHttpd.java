@@ -48,8 +48,8 @@ class InitHttpd implements InitStep {
     this.ui = ui;
     this.site = site;
     this.flags = flags;
-    this.httpd = sections.get("httpd");
-    this.gerrit = sections.get("gerrit");
+    this.httpd = sections.get("httpd", null);
+    this.gerrit = sections.get("gerrit", null);
   }
 
   public void run() throws IOException, InterruptedException {

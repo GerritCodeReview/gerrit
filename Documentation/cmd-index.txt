@@ -81,6 +81,9 @@ link:cmd-review.html[gerrit review]::
 link:cmd-stream-events.html[gerrit stream-events]::
 	Monitor events occurring in real time.
 
+link:cmd-version.html[gerrit version]::
+	Show the currently executing version of Gerrit.
+
 git upload-pack::
 	Standard Git server side command for client side `git fetch`.
 

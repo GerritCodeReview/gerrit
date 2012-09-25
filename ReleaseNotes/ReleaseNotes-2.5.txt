@@ -593,7 +593,7 @@ The user's draft comments are now available under `My` >
 +
 If the user database is actually an external system users might need go
 to another server to edit their account data, and then re-import their
-account data by going through a login cycle. This is highly similiar to
+account data by going through a login cycle. This is highly similar to
 LDAP where the directory provides account data and its refreshed every
 time the user visits the `/login/` URL handler.
 +
@@ -807,6 +807,9 @@ specific submit policies using Prolog based submit rules was added.
 * Describe link:../Documentation/refs-notes-review.html[
   `refs/notes/review` and its contents]
 
+* link:../Documentation/config-mail.html[Document `RebasedPatchSet.vm`
+  and `Reverted.vm` mail templates]
+
 * Specify output file for curl commands in documentation
 +
 For downloading the `commit-msg` hook and the `gerrit-cherry-pick`
@@ -1011,8 +1014,19 @@ Example setting for link:../Documentation/config-gerrit.html#auth.type[
     gitBasicAuth = true
 ----
 +
-With this configuration Git over HTTP protocol will be authenticated using
-`HTTP-BasicAuth` and credentials checked on LDAP.
+With this configuration Git over HTTP protocol will be authenticated
+using `HTTP-BasicAuth` and credentials checked on LDAP.
+
+* Abstract group systems into GroupBackend interface
++
+Group backends are supposed to use unique prefixes to isolate the
+namespaces. E.g. the group backend for LDAP is using `ldap/` as prefix
+for the group names.
++
+This means to refer to an LDAP group in the WebUI the group name needs
+to be prefixed with the `ldap/` string. E.g. if there is a group in
+LDAP which is called "Developers", Gerrit will suggest this group when
+the user types `ldap/De`.
 
 [[migrate-ldap-groups]]
 * Migrate existing internal LDAP groups
@@ -1024,8 +1038,6 @@ prefix. Migrate all existing references to the UUID in ownerGroupUUID
 and any `project.config`.
 +
 This made the LDAP group type obsolete and it was removed.
-
-* Abstract group systems into GroupBackend interface
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=548[issue 548]:
   Make commands to download patch sets
@@ -1066,6 +1078,19 @@ The `sameGroupVisiblity` is needed to restrict the visibility of
 accounts when `accountVisibility` is `SAME_GROUP`. Namely, this is a
 way to make sure the `autoVerify` group in a `contributor-agreements`
 section is never suggested.
+
+* Add change topic in hook arguments
++
+It was not possible for hook scripts to include topic-specific
+behaviour because the topic name was not included in the arguments.
+
+* Add `--is-draft` argument on `patchset-created` hook
++
+The `--is-draft` argument will be passed with either `true` if
+the patchset is a draft, or `false` otherwise.
++
+This can be used by hooks that need to behave differently if the
+change is a draft.
 
 * Log sign in failures on info level
 +
@@ -1441,8 +1466,9 @@ done in the draft patch set.
 Clicking on the download command for a patch set in Firefox made the
 download command disappear.
 
-* Fix disappearance of action buttons when selecting the last patch set
-as `Old Version History`
+* link:http://code.google.com/p/gerrit/issues/detail?id=1587[issue 1587]:
+  Fix disappearance of action buttons when selecting the last patch set
+  as `Old Version History`
 
 * Fix updating patch list when `Old Version History` is changed
 +
@@ -1558,6 +1584,12 @@ message again after STARTTLS negotiation. The original code will hang
 until SMTP server kicks it off due to timeout and can't send email with
 STARTTLS enabled, aka. `sendemail.smtpEncryption = tls`.
 
+* Extract all mail templates during site init
++
+The example mail templates `RebasedPatchSet.vm`, `Restored.vm` and
+`Reverted.vm` were not extracted during the initialization of a new
+site.
+
 SSH
 ~~~
 * Fix reject message if bypassing code review is not allowed
@@ -1667,6 +1699,21 @@ Approval Categories
 ~~~~~~~~~~~~~~~~~~~
 
 * Make `NoBlock` and `NoOp` approval category functions work
++
+The approval category functions `NoBlock` and `NoOp` have not worked
+since the integration of Prolog.
++
+`MAY` was introduced as a new submit record status to complement `OK`,
+`REJECT`, `NEED`, and `IMPOSSIBLE`. This allows the expression of
+approval categories (labels) that are optional, i.e. could either be
+set or unset without ever influencing whether the change could be
+submitted. Previously there was no way to express this property in
+the submit record.
++
+This enables the `NoBlock` and `NoOp` approval category functions to
+work as they now emit may() terms from the Prolog rules. Previously
+they returned ok() terms lacking a nested user term, leading to
+exceptions in code that expected a user context if the label was `OK`.
 
 * Fix category block status without negative score
 +
@@ -1677,6 +1724,15 @@ maximum value respectively.
 +
 A check to ignore "No Score" values of 0 was added.
 
+* Don't remove dashes from approval category name
++
+If an approval category name contained a dash, it was removed by
+Gerrit. On the other side a space in an approval category name is
+converted to a dash. This was confusing for writing Prolog submit
+rules. If, for example, one defined a new category named `X-Y`, then in
+the Prolog code the proper name for that category would have been `XY`
+which was unintuitive.
+
 * Fix NPE in `PRED__load_commit_labels_1`
 +
 If a change query uses reviewer information and loads the approvals
@@ -1686,6 +1742,15 @@ an empty list.
 
 Other
 ~~~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1554[issue 1554]:
+  Fix cloning of new projects from slave servers
++
+If a new project is created in Gerrit the replication creates the
+repository for this new project directly in the filesystem of the slave
+server. The slave server was not discovering this new repository and as
+result any attempt to clone the corresponding project from the slave
+server failed.
 
 * Set link:../Documentation/config-gerrit.html#transfer.timeout[transfer
   timeout] for pushes through HTTP

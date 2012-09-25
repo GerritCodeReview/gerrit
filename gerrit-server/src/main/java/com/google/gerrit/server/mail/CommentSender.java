@@ -77,6 +77,10 @@ public class CommentSender extends ReplyToChangeSender {
     appendText(velocifyFile("Comment.vm"));
   }
 
+  public boolean hasInlineComments() {
+    return !inlineComments.isEmpty();
+  }
+
   public String getInlineComments() {
     return getInlineComments(1);
   }

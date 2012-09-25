@@ -53,7 +53,7 @@ public class MergeAlways extends SubmitStrategy {
     while (!toMerge.isEmpty()) {
       newMergeTip =
           mergeOneCommit(db, identifiedUserFactory, myIdent, repo, rw,
-              inserter, useContentMerge, destBranch, mergeTip,
+              inserter, canMergeFlag, useContentMerge, destBranch, mergeTip,
               toMerge.remove(0));
     }
 

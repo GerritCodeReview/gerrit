@@ -178,21 +178,23 @@ public class MergeUtil {
   public static CodeReviewCommit mergeOneCommit(final ReviewDb reviewDb,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final PersonIdent myIdent, final Repository repo, final RevWalk rw,
-      final ObjectInserter inserter, final boolean useContentMerge,
-      final Branch.NameKey destBranch, final CodeReviewCommit mergeTip,
-      final CodeReviewCommit n) throws MergeException {
+      final ObjectInserter inserter, final RevFlag canMergeFlag,
+      final boolean useContentMerge, final Branch.NameKey destBranch,
+      final CodeReviewCommit mergeTip, final CodeReviewCommit n)
+      throws MergeException {
     final ThreeWayMerger m = newThreeWayMerger(repo, inserter, useContentMerge);
     try {
       if (m.merge(new AnyObjectId[] {mergeTip, n})) {
         return writeMergeCommit(reviewDb, identifiedUserFactory, myIdent, rw,
-            inserter, destBranch, mergeTip, m.getResultTreeId(), n);
+            inserter, canMergeFlag, destBranch, mergeTip, m.getResultTreeId(), n);
       } else {
-        failed(rw, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
+        failed(rw, canMergeFlag, mergeTip, n, CommitMergeStatus.PATH_CONFLICT);
       }
     } catch (IOException e) {
       if (e.getMessage().startsWith("Multiple merge bases for")) {
         try {
-          failed(rw, mergeTip, n, CommitMergeStatus.CRISS_CROSS_MERGE);
+          failed(rw, canMergeFlag, mergeTip, n,
+              CommitMergeStatus.CRISS_CROSS_MERGE);
         } catch (IOException e2) {
           throw new MergeException("Cannot merge " + n.name(), e);
         }
@@ -204,10 +206,10 @@ public class MergeUtil {
   }
 
   private static CodeReviewCommit failed(final RevWalk rw,
-      final CodeReviewCommit mergeTip, final CodeReviewCommit n,
-      final CommitMergeStatus failure) throws MissingObjectException,
-      IncorrectObjectTypeException, IOException {
-    rw.reset();
+      final RevFlag canMergeFlag, final CodeReviewCommit mergeTip,
+      final CodeReviewCommit n, final CommitMergeStatus failure)
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+    rw.resetRetain(canMergeFlag);
     rw.markStart(n);
     rw.markUninteresting(mergeTip);
     CodeReviewCommit failed;
@@ -220,12 +222,12 @@ public class MergeUtil {
   public static CodeReviewCommit writeMergeCommit(final ReviewDb reviewDb,
       final IdentifiedUser.GenericFactory identifiedUserFactory,
       final PersonIdent myIdent, final RevWalk rw,
-      final ObjectInserter inserter, final Branch.NameKey destBranch,
-      final CodeReviewCommit mergeTip, final ObjectId treeId,
-      final CodeReviewCommit n) throws IOException, MissingObjectException,
-      IncorrectObjectTypeException {
+      final ObjectInserter inserter, final RevFlag canMergeFlag,
+      final Branch.NameKey destBranch, final CodeReviewCommit mergeTip,
+      final ObjectId treeId, final CodeReviewCommit n) throws IOException,
+      MissingObjectException, IncorrectObjectTypeException {
     final List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
-    rw.reset();
+    rw.resetRetain(canMergeFlag);
     rw.markStart(n);
     rw.markUninteresting(mergeTip);
     for (final RevCommit c : rw) {

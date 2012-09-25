@@ -140,7 +140,8 @@ public class CherryPick extends SubmitStrategy {
             } else {
               newMergeTip =
                   mergeOneCommit(db, identifiedUserFactory, myIdent, repo, rw,
-                      inserter, useContentMerge, destBranch, newMergeTip, n);
+                      inserter, canMergeFlag, useContentMerge, destBranch,
+                      newMergeTip, n);
             }
             final PatchSetApproval submitApproval =
                 markCleanMerges(db, rw, canMergeFlag, newMergeTip, alreadyAccepted);

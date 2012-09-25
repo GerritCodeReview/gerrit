@@ -302,8 +302,6 @@ a successor commit is pushed for one of the projects, the resulting
 successor change was wrongly listing both changes in the 'Depends On'
 section. Now only the predecessor change of the own project is listed.
 
-* Highlight dependencies to abandoned changes by red background
-
 * link:http://code.google.com/p/gerrit/issues/detail?id=1383[issue 1383]:
   Display the approval table on the PublishCommentsScreen.
 +
@@ -323,11 +321,6 @@ less than 1 year ago, display the time too. Display "May 2 17:37" rather
 than just "May 2".
 
 * Only show "Can Merge" when the change is new or draft
-
-* Disable submit button if merge will fail
-+
-Only if link:../Documentation/config-gerrit.html#changeMerge[
-`changeMerge.test = true`].
 
 * Allow auto suggesting reviewers to draft changes
 +
@@ -495,7 +488,8 @@ suggested when editing the access rights of the project.
 Other
 ^^^^^
 
-* Ask user to login if change is not found
+* link:http://code.google.com/p/gerrit/issues/detail?id=1592[issue 1592]:
+  Ask user to login if change is not found
 +
 Accessing a change URL was failing with 'Application Error - The page
 you requested was not found, or you do not have permission to view this
@@ -548,6 +542,11 @@ take you to the project listing.
 In addition the `Create new project` link from the top of that listing
 was moved to this new menu.
 
+* Move the Groups and Plugins menu items to the top level
++
+The top-level Admin menu is removed as it is now unnecessary after the
+Projects, Groups and Plugins menu items were moved to the top-level.
+
 * Move form for group creation to own screen
 +
 Move the form for the group creation from the GroupListScreen to an
@@ -593,7 +592,7 @@ The user's draft comments are now available under `My` >
 +
 If the user database is actually an external system users might need go
 to another server to edit their account data, and then re-import their
-account data by going through a login cycle. This is highly similiar to
+account data by going through a login cycle. This is highly similar to
 LDAP where the directory provides account data and its refreshed every
 time the user visits the `/login/` URL handler.
 +
@@ -664,6 +663,13 @@ SSH
 * link:../Documentation/cmd-set-project.html[SSH command to manage
   project settings]
 
+* link:../Documentation/cmd-test-submit-rule.html[SSH command to test
+  submit rules]
++
+The command creates a fresh Prolog environment and loads a Prolog
+script from stdin. `can_submit` is then queried and the results are
+returned to the user.
+
 * link:../Documentation/cmd-ban-commit.html[SSH command to ban
   commits]
 
@@ -673,6 +679,17 @@ SSH
 Site administrators can define aliases for SSH commands in the
 link:../Documentation/config-gerrit.html#ssh-alias[`ssh-alias` section]
 of the Gerrit configuration.
+
+* Add submit records to the output of the
+  link:../Documentation/cmd-query.html[query] SSH command:
++
+Add a command line option to the `query` SSH command to include submit
+records in the output.
++
+This facilitates the querying of information relating to the submit
+status from the command line and by API clients, including information
+such as whether the change can be submitted as-is, and whether the
+submission criteria for each review label has been met.
 
 * Support JSON output format for the
   link:../Documentation/cmd-ls-projects.html[ls-projects] SSH command
@@ -806,6 +823,9 @@ specific submit policies using Prolog based submit rules was added.
 
 * Describe link:../Documentation/refs-notes-review.html[
   `refs/notes/review` and its contents]
+
+* link:../Documentation/config-mail.html[Document `RebasedPatchSet.vm`
+  and `Reverted.vm` mail templates]
 
 * Specify output file for curl commands in documentation
 +
@@ -1011,8 +1031,19 @@ Example setting for link:../Documentation/config-gerrit.html#auth.type[
     gitBasicAuth = true
 ----
 +
-With this configuration Git over HTTP protocol will be authenticated using
-`HTTP-BasicAuth` and credentials checked on LDAP.
+With this configuration Git over HTTP protocol will be authenticated
+using `HTTP-BasicAuth` and credentials checked on LDAP.
+
+* Abstract group systems into GroupBackend interface
++
+Group backends are supposed to use unique prefixes to isolate the
+namespaces. E.g. the group backend for LDAP is using `ldap/` as prefix
+for the group names.
++
+This means that to refer to an LDAP group in the WebUI the group name
+needs to be prefixed with the `ldap/` string. E.g. if there is a group
+in LDAP which is called "Developers", Gerrit will suggest this group
+when the user types `ldap/De`.
 
 [[migrate-ldap-groups]]
 * Migrate existing internal LDAP groups
@@ -1024,8 +1055,6 @@ prefix. Migrate all existing references to the UUID in ownerGroupUUID
 and any `project.config`.
 +
 This made the LDAP group type obsolete and it was removed.
-
-* Abstract group systems into GroupBackend interface
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=548[issue 548]:
   Make commands to download patch sets
@@ -1066,6 +1095,19 @@ The `sameGroupVisiblity` is needed to restrict the visibility of
 accounts when `accountVisibility` is `SAME_GROUP`. Namely, this is a
 way to make sure the `autoVerify` group in a `contributor-agreements`
 section is never suggested.
+
+* Add change topic in hook arguments
++
+It was not possible for hook scripts to include topic-specific
+behaviour because the topic name was not included in the arguments.
+
+* Add `--is-draft` argument on `patchset-created` hook
++
+The `--is-draft` argument will be passed with either `true` if
+the patchset is a draft, or `false` otherwise.
++
+This can be used by hooks that need to behave differently if the
+change is a draft.
 
 * Log sign in failures on info level
 +
@@ -1164,6 +1206,10 @@ time or CPU, but it does prevent the packfile churn.  Depending on repo
 usage, however the dormant repo detection and avoidance can result in a
 very large time savings.
 
+* Automatically flush persistent H2 cache if the existing cache entries
+  are incompatible with the cache entry class and thus can't be
+  deserialized
+
 * Unpack JARs for running servers in `$site_path/tmp`
 +
 Instead of unpacking a running server into `~/.gerritcodereview/tmp`
@@ -1203,6 +1249,10 @@ reduced by using the more leightweight `AccountGroup` type instead of
 the `GroupDetail` type when showing the groups in a list format. As a
 consequence the `Owners` column that showed the name of the owner group
 had been dropped.
+
+* Add index for accessing change messages by patch set
++
+This improves the performance of loading the dashboards.
 
 * Add a fast path to avoid checking every commit on push
 +
@@ -1441,8 +1491,9 @@ done in the draft patch set.
 Clicking on the download command for a patch set in Firefox made the
 download command disappear.
 
-* Fix disappearance of action buttons when selecting the last patch set
-as `Old Version History`
+* link:http://code.google.com/p/gerrit/issues/detail?id=1587[issue 1587]:
+  Fix disappearance of action buttons when selecting the last patch set
+  as `Old Version History`
 
 * Fix updating patch list when `Old Version History` is changed
 +
@@ -1487,6 +1538,9 @@ one patch to the next/previous patch if the next/previous patch was a
 newly added binary file. The exception occurred if the user was not
 signed in or if the user was signed in and had `Syntax Coloring` in the
 preferences enabled.
+
+* link:https://code.google.com/p/gerrit/issues/detail?id=816[issue 816]:
+  Fix wrong file indention in Side-by-Sie diff viewer on right side
 
 * Only set reviewed attribute on open changes
 +
@@ -1557,6 +1611,12 @@ According to RFC 2847 section 5.2, SMTP server won't send the banner
 message again after STARTTLS negotiation. The original code will hang
 until SMTP server kicks it off due to timeout and can't send email with
 STARTTLS enabled, aka. `sendemail.smtpEncryption = tls`.
+
+* Extract all mail templates during site init
++
+The example mail templates `RebasedPatchSet.vm`, `Restored.vm` and
+`Reverted.vm` were not extracted during the initialization of a new
+site.
 
 SSH
 ~~~
@@ -1667,6 +1727,21 @@ Approval Categories
 ~~~~~~~~~~~~~~~~~~~
 
 * Make `NoBlock` and `NoOp` approval category functions work
++
+The approval category functions `NoBlock` and `NoOp` have not worked
+since the integration of Prolog.
++
+`MAY` was introduced as a new submit record status to complement `OK`,
+`REJECT`, `NEED`, and `IMPOSSIBLE`. This allows the expression of
+approval categories (labels) that are optional, i.e. could either be
+set or unset without ever influencing whether the change could be
+submitted. Previously there was no way to express this property in
+the submit record.
++
+This enables the `NoBlock` and `NoOp` approval category functions to
+work as they now emit may() terms from the Prolog rules. Previously
+they returned ok() terms lacking a nested user term, leading to
+exceptions in code that expected a user context if the label was `OK`.
 
 * Fix category block status without negative score
 +
@@ -1677,6 +1752,15 @@ maximum value respectively.
 +
 A check to ignore "No Score" values of 0 was added.
 
+* Don't remove dashes from approval category name
++
+If an approval category name contained a dash, it was removed by
+Gerrit. On the other side a space in an approval category name is
+converted to a dash. This was confusing for writing Prolog submit
+rules. If, for example, one defined a new category named `X-Y`, then in
+the Prolog code the proper name for that category would have been `XY`
+which was unintuitive.
+
 * Fix NPE in `PRED__load_commit_labels_1`
 +
 If a change query uses reviewer information and loads the approvals
@@ -1686,6 +1770,25 @@ an empty list.
 
 Other
 ~~~~~
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1554[issue 1554]:
+  Fix cloning of new projects from slave servers
++
+If a new project is created in Gerrit the replication creates the
+repository for this new project directly in the filesystem of the slave
+server. The slave server was not discovering this new repository and as
+result any attempt to clone the corresponding project from the slave
+server failed.
+
+* link:http://code.google.com/p/gerrit/issues/detail?id=1548[issue 1548]:
+  Create a ref for the patch set that is created when a change is
+  cherry-picked and trigger the replication for it:
++
+If Cherry Pick is chosen as submit type, on submit a new commit is
+created by the cherry-pick. For this commit a new patch set is created
+which is added to the change. Using any of the download commands to
+fetch this new patch set failed with 'Couldn't find remote ref' because
+no ref for the new patch set was created.
 
 * Set link:../Documentation/config-gerrit.html#transfer.timeout[transfer
   timeout] for pushes through HTTP
@@ -1792,3 +1895,5 @@ actions.
 +
 Set the GroupDetail.ownerGroup to the AccountGroup.ownerGroupUUID
 instead of the groupUUID.
+
+* Ensure that ObjectOutputStream in H2CacheImpl is closed

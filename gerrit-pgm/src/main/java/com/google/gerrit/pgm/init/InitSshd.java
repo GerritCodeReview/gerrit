@@ -45,7 +45,7 @@ class InitSshd implements InitStep {
     this.ui = ui;
     this.site = site;
     this.libraries = libraries;
-    this.sshd = sections.get("sshd");
+    this.sshd = sections.get("sshd", null);
   }
 
   public void run() throws Exception {

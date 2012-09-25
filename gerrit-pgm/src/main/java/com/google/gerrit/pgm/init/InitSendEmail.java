@@ -34,7 +34,7 @@ class InitSendEmail implements InitStep {
   InitSendEmail(final ConsoleUI ui, final SitePaths site,
       final Section.Factory sections) {
     this.ui = ui;
-    this.sendemail = sections.get("sendemail");
+    this.sendemail = sections.get("sendemail", null);
     this.site = site;
   }
 

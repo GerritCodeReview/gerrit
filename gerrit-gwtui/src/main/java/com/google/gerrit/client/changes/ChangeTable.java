@@ -54,6 +54,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.UIObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private AccountInfoCache accountCache = AccountInfoCache.empty();
   private final List<ApprovalType> approvalTypes;
   private final int columns;
+  private final Map<Integer, String> appliedRowStyles;
 
   public ChangeTable() {
     this(false);
@@ -85,6 +87,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     } else {
       columns = BASE_COLUMNS;
     }
+    appliedRowStyles = new HashMap<Integer, String>();
 
     keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.changeTablePrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.changeTableNext()));
@@ -207,10 +210,16 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {
       s += " (" + c.getStatus().name() + ")";
     }
+
+    final String oldRowStyle = appliedRowStyles.remove(row);
+    if (oldRowStyle != null) {
+      table.getRowFormatter().removeStyleName(row, oldRowStyle);
+    }
     if (changeRowFormatter != null) {
       final String rowStyle = changeRowFormatter.getRowStyle(c);
       if (rowStyle != null) {
         table.getRowFormatter().addStyleName(row, rowStyle);
+        appliedRowStyles.put(row, rowStyle);
       }
       s = changeRowFormatter.getDisplayText(c, s);
     }

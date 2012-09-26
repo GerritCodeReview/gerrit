@@ -36,6 +36,8 @@ abstract class LdapType {
 
   abstract String groupMemberPattern();
 
+  abstract String groupName();
+
   abstract String accountFullName();
 
   abstract String accountEmailAddress();
@@ -55,6 +57,11 @@ abstract class LdapType {
     @Override
     String groupMemberPattern() {
       return "(memberUid=${username})";
+    }
+
+    @Override
+    String groupName() {
+      return "cn";
     }
 
     @Override
@@ -98,6 +105,11 @@ abstract class LdapType {
     @Override
     String groupPattern() {
       return "(&(objectClass=group)(cn=${groupname}))";
+    }
+
+    @Override
+    String groupName() {
+      return "cn";
     }
 
     @Override

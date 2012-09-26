@@ -186,6 +186,9 @@ public class ChangeScreen extends Screen
     dependsOn.setChangeRowFormatter(new ChangeTable.ChangeRowFormatter() {
       @Override
       public String getRowStyle(ChangeInfo c) {
+        if (Change.Status.MERGED.equals(c.getStatus())) {
+          return Gerrit.RESOURCES.css().merged();
+        }
         if (! c.isLatest() || Change.Status.ABANDONED.equals(c.getStatus())) {
           return Gerrit.RESOURCES.css().outdated();
         }
@@ -201,6 +204,20 @@ public class ChangeScreen extends Screen
       }
     });
     neededBy = new ChangeTable.Section(Util.C.changeScreenNeededBy());
+    neededBy.setChangeRowFormatter(new ChangeTable.ChangeRowFormatter() {
+      @Override
+      public String getRowStyle(ChangeInfo c) {
+        if (Change.Status.MERGED.equals(c.getStatus())) {
+          return Gerrit.RESOURCES.css().merged();
+        }
+        return null;
+      }
+
+      @Override
+      public String getDisplayText(final ChangeInfo c, final String displayText) {
+        return displayText;
+      }
+    });
     dependencies.addSection(dependsOn);
     dependencies.addSection(neededBy);
 

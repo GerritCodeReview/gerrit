@@ -154,6 +154,7 @@ public interface GerritCss extends CssResource {
   String noLineLineNumber();
   String noborder();
   String outdated();
+  String merged();
   String parentsTable();
   String patchBrowserPopup();
   String patchBrowserPopupBody();

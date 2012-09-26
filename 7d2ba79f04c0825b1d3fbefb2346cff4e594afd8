@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAAJcH///0Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-26T11:32:29Z",
+      "side": 1,
+      "message": "optional: since the command itself is named test-submit-rule\nit may be unnecessary to repeat the \"submit\" inside this option name. I would name it \"--use-filters\" or just \"--filter\" and in both cases define a short option name \"-f\".",
+      "revId": "7d2ba79f04c0825b1d3fbefb2346cff4e594afd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJcH///4I\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
         "patchSetId": 7

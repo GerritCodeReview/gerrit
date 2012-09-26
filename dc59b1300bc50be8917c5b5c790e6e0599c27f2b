@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAJZn///18\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010828
+      },
+      "writtenOn": "2012-09-26T13:10:35Z",
+      "side": 1,
+      "message": "What if one wanted to write a plugin that provided the SitePaths/other configuration?",
+      "revId": "dc59b1300bc50be8917c5b5c790e6e0599c27f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJY3///zA\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
         "patchSetId": 1

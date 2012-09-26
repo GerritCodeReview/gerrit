@@ -167,7 +167,7 @@ class LdapRealm implements Realm {
     return !readOnlyAccountFields.contains(field);
   }
 
-  private static String apply(ParameterizedString p, LdapQuery.Result m)
+  static String apply(ParameterizedString p, LdapQuery.Result m)
       throws NamingException {
     if (p == null) {
       return null;

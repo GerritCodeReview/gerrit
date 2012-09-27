@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJbX///w4\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-09-27T00:34:18Z",
+      "side": 1,
+      "message": "It\u0027s not immediately obvious what \"apple-group-realname\" is.  \n\nMaybe add \" if LDAP is running on Apple MacOS X Server\" or something like that?",
+      "revId": "5780913a6df8c58f092f675d656610d0e1fc4876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

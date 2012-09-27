@@ -108,7 +108,6 @@ public interface AdminConstants extends Constants {
   String projectAdminTabAccess();
 
   String plugins();
-  String pluginTabInstalled();
   String pluginDisabled();
 
   String columnPluginName();

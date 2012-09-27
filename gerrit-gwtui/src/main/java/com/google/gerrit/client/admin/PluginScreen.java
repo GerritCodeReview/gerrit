@@ -14,16 +14,12 @@
 
 package com.google.gerrit.client.admin;
 
-import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
+import com.google.gerrit.client.ui.Screen;
 
-import com.google.gerrit.client.ui.MenuScreen;
-
-public abstract class PluginScreen extends MenuScreen {
+public abstract class PluginScreen extends Screen {
 
   public PluginScreen() {
     setRequiresSignIn(true);
-
-    link(Util.C.pluginTabInstalled(), ADMIN_PLUGINS);
   }
 
   @Override

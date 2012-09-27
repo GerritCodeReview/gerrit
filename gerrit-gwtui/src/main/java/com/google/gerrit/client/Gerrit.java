@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
@@ -610,17 +611,28 @@ public class Gerrit implements EntryPoint {
     menuLeft.add(projectsBar, C.menuProjects());
 
     if (signedIn) {
-      final LinkMenuBar menuBar = new LinkMenuBar();
-      addLink(menuBar, C.menuGroups(), PageLinks.ADMIN_GROUPS);
+      final LinkMenuBar groupsBar = new LinkMenuBar();
+      addLink(groupsBar, C.menuGroupsList(), PageLinks.ADMIN_GROUPS);
+      AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
+        @Override
+        public void onSuccess(AccountCapabilities result) {
+          if (result.canPerform(CREATE_GROUP)) {
+            addLink(groupsBar, C.menuGroupsCreate(), PageLinks.ADMIN_CREATE_GROUP);
+          }
+        }
+      }, CREATE_GROUP);
+      menuLeft.add(groupsBar, C.menuGroups());
+
+      final LinkMenuBar pluginsBar = new LinkMenuBar();
       AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
         @Override
         public void onSuccess(AccountCapabilities result) {
           if (result.canPerform(ADMINISTRATE_SERVER)) {
-            addLink(menuBar, C.menuPlugins(), PageLinks.ADMIN_PLUGINS);
+            addLink(pluginsBar, C.menuPluginsInstalled(), PageLinks.ADMIN_PLUGINS);
+            menuLeft.add(pluginsBar, C.menuPlugins());
           }
         }
       }, ADMINISTRATE_SERVER);
-      menuLeft.add(menuBar, C.menuAdmin());
     }
 
     if (getConfig().isDocumentationAvailable()) {

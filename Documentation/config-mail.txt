@@ -72,6 +72,13 @@ The `NewChange.vm` template will determine the contents of the email related
 to a user submitting a new change for review. It is a `ChangeEmail`: see
 `ChangeSubject.vm` and `ChangeFooter.vm`.
 
+RebasedPatchSet.vm
+~~~~~~~~~~~~~~~~~~
+
+The `RebasedPatchSet.vm` template will determine the contents of the email
+related to a user rebasing a patchset for a change through the Gerrit UI.
+It is a `ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
+
 RegisterNewEmail.vm
 ~~~~~~~~~~~~~~~~~~~
 
@@ -92,6 +99,12 @@ The `Restored.vm` template will determine the contents of the email related
 to a change being restored.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
 `ChangeFooter.vm`.
 
+Reverted.vm
+~~~~~~~~~~~
+
+The `Reverted.vm` template will determine the contents of the email related
+to a change being reverted.  It is a `ChangeEmail`: see `ChangeSubject.vm` and
+`ChangeFooter.vm`.
 
 
 Mail Variables and Methods

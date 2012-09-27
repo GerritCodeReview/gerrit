@@ -122,7 +122,15 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
     if (!names.contains(name)) {
-      throw new RepositoryNotFoundException(gitDirOf(name));
+      // The this.names list does not hold the project-name but it can still exist
+      // on disk; for instance when the project has been created directly on the
+      // file-system through replication.
+      //
+      if (FileKey.resolve(gitDirOf(name), FS.DETECTED) != null) {
+        onCreateProject(name);
+      } else {
+        throw new RepositoryNotFoundException(gitDirOf(name));
+      }
     }
     final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
     try {

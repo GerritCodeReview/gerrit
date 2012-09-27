@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJgH////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-27T05:02:09Z",
+      "side": 1,
+      "message": "Since we can get the style here based on a change, why not use getRowItem() to get the previous change and then from that the old style?  This would prevent us from having to store it just so that we can delete it.",
+      "revId": "6b9cc403fd43afc97532f2f007336e6ee0e56981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

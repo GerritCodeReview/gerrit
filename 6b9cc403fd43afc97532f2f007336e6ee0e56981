@@ -16,6 +16,24 @@
       "revId": "6b9cc403fd43afc97532f2f007336e6ee0e56981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJhX////w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-27T08:48:54Z",
+      "side": 1,
+      "message": "Good idea, I like this solution much more :-)\n\nDone.",
+      "parentUuid": "AAAJgH////g\u003d",
+      "revId": "6b9cc403fd43afc97532f2f007336e6ee0e56981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

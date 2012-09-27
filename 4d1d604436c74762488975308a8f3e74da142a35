@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJfn///xk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-09-27T16:14:12Z",
+      "side": 1,
+      "message": "nit: s/exists/exist/",
+      "revId": "4d1d604436c74762488975308a8f3e74da142a35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "4ea880481658c49186b7870c420917611a70fba0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJmX////s\u003d",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-09-28T06:39:25Z",
+      "side": 1,
+      "message": "Ah, good catch.  Thanks.",
+      "parentUuid": "AAAJkX///+I\u003d",
+      "revId": "4ea880481658c49186b7870c420917611a70fba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

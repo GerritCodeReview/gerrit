@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJkX///3g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "or it loads it from the rules.pl, depending on options used",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///3c\u003d",
+        "filename": "Documentation/cmd-index.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "maybe: Test submit rules from rules.pl or stdin\n\nor just: Test prolog submit rules\nwithout being specific about all available options",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///24\u003d",
+        "filename": "Documentation/cmd-test-submit-rule.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "shouldn\u0027t it be names CHANGE instead of CHANGESET?\n\nI propose to make this parameter an argument of the command instead of it being an option. change-id is mandatory and it is more comfortable to provide it without having to type \"-c\".",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///28\u003d",
+        "filename": "Documentation/cmd-test-submit-rule.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "please use spaces for indentation\nalso in several lines below",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///2s\u003d",
+        "filename": "Documentation/cmd-test-submit-rule.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "remove -c once you make the change-id an argument",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///2g\u003d",
+        "filename": "Documentation/cmd-test-submit-rule.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "I don\u0027t like the output format. Discussed it with Edwin also and \nwe propose the following:\n\n Non-Author-Code-Review: NOT_READY\n Verified: NOT_READY\n Code-Review: NOT_READY by Anonymous Coward \u003cjbjoerk@gmail.com\u003e\n\n NOT_READY\n\nMeans: no indentation, first details and (at the end) overall status after one empty line.",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///14\u003d",
+        "filename": "Documentation/cmd-test-submit-rule.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "I think this structure should be as similar as possible to the \"approval\" record described in our docs:\n\nhttps://gerrit-review.googlesource.com/Documentation/json.html\n\nIf you introduce a new json data structure, please try to describe it in this document.",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///1w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "make this comment one liner javadoc:\n\n /** Command that allows testing of prolog submit-rules in a live instance */\n\nor use the standard multi-line javadoc comment style:\n\n /**\n  * Command that allows testing of prolog submit-rules in a live instance\n  */",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///10\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "As suggested in a comment on the cmd-test-submit-rule.txt, please make changeId an argument.",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///1I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "I am not sure if it is a good idea to simply pass a SubmitRecord instance to the \"toJson\" method here. One may add a new field or rename an existing field in that class and not be aware that it will change the JSON output format of this command and potentially break every client relying on this command.",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///1g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "Please print the status at the end, after all details are printed.\n\nI don\u0027t think you need to prepend the empty string. The:\n\n outWriter.println(r.status);\n\nshould work. Or?",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///1c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T14:31:19Z",
+      "side": 1,
+      "message": "This will print the same status (r.status) for all labels, so:\ns/r.status/l.status/\n\nalso, remove the TAB from the beginning",
+      "revId": "dadcf96b42efe4cdf8a9fc8a857c82595b231811",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

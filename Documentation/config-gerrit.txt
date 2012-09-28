@@ -1275,6 +1275,11 @@ Optional filename for the comment added hook, if not specified then
 Optional filename for the change merged hook, if not specified then
 `change-merged` will be used.
 
+[[hooks.mergeFailedHook]]hooks.mergeFailedHook::
++
+Optional filename for the merge failed hook, if not specified then
+`merge-failed` will be used.
+
 [[hooks.changeAbandonedHook]]hooks.changeAbandonedHook::
 +
 Optional filename for the change abandoned hook, if not specified then

@@ -1053,17 +1053,23 @@ public class MergeOp {
       }
     }
 
+    PatchSetApproval submitter = null;
+    try {
+      submitter = getSubmitter(db, c.currentPatchSetId());
+    } catch (Exception e) {
+      log.error("Cannot get submitter", e);
+    }
+
+    final PatchSetApproval from = submitter;
     workQueue.getDefaultQueue()
         .submit(requestScopePropagator.wrap(new Runnable() {
       @Override
       public void run() {
         PatchSet patchSet;
-        PatchSetApproval submitter;
         try {
           ReviewDb reviewDb = schemaFactory.open();
           try {
             patchSet = reviewDb.patchSets().get(c.currentPatchSetId());
-            submitter = getSubmitter(reviewDb, c.currentPatchSetId());
           } finally {
             reviewDb.close();
           }
@@ -1074,8 +1080,8 @@ public class MergeOp {
 
         try {
           final MergeFailSender cm = mergeFailSenderFactory.create(c);
-          if (submitter != null) {
-            cm.setFrom(submitter.getAccountId());
+          if (from != null) {
+            cm.setFrom(from.getAccountId());
           }
           cm.setPatchSet(patchSet);
           cm.setChangeMessage(msg);
@@ -1090,5 +1096,15 @@ public class MergeOp {
         return "send-email merge-failed";
       }
     }));
+
+    if (submitter != null) {
+      try {
+        hooks.doMergeFailedHook(c,
+            accountCache.get(submitter.getAccountId()).getAccount(),
+            db.patchSets().get(c.currentPatchSetId()), msg.getMessage(), db);
+      } catch (OrmException ex) {
+        log.error("Cannot run hook for merge failed " + c.getId(), ex);
+      }
+    }
   }
 }

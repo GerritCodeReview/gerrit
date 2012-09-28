@@ -39,6 +39,7 @@ import com.google.gerrit.server.events.ChangeRestoredEvent;
 import com.google.gerrit.server.events.CommentAddedEvent;
 import com.google.gerrit.server.events.DraftPublishedEvent;
 import com.google.gerrit.server.events.EventFactory;
+import com.google.gerrit.server.events.MergeFailedEvent;
 import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerAddedEvent;
@@ -109,6 +110,9 @@ public class ChangeHookRunner implements ChangeHooks {
     /** Filename of the change merged hook. */
     private final File changeMergedHook;
 
+    /** Filename of the merge failed hook. */
+    private final File mergeFailedHook;
+
     /** Filename of the change abandoned hook. */
     private final File changeAbandonedHook;
 
@@ -174,6 +178,7 @@ public class ChangeHookRunner implements ChangeHooks {
         draftPublishedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "draftPublishedHook", "draft-published")).getPath());
         commentAddedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "commentAddedHook", "comment-added")).getPath());
         changeMergedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeMergedHook", "change-merged")).getPath());
+        mergeFailedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "mergeFailed", "merge-failed")).getPath());
         changeAbandonedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeAbandonedHook", "change-abandoned")).getPath());
         changeRestoredHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "changeRestoredHook", "change-restored")).getPath());
         refUpdatedHook = sitePath.resolve(new File(hooksPath, getValue(config, "hooks", "refUpdatedHook", "ref-updated")).getPath());
@@ -327,6 +332,30 @@ public class ChangeHookRunner implements ChangeHooks {
         addArg(args, "--commit", event.patchSet.revision);
 
         runHook(change.getProject(), changeMergedHook, args);
+    }
+
+    public void doMergeFailedHook(final Change change, final Account account,
+          final PatchSet patchSet, final String reason,
+          final ReviewDb db) throws OrmException {
+        final MergeFailedEvent event = new MergeFailedEvent();
+
+        event.change = eventFactory.asChangeAttribute(change);
+        event.submitter = eventFactory.asAccountAttribute(account);
+        event.patchSet = eventFactory.asPatchSetAttribute(patchSet);
+        event.reason = reason;
+        fireEvent(change, event, db);
+
+        final List<String> args = new ArrayList<String>();
+        addArg(args, "--change", event.change.id);
+        addArg(args, "--change-url", event.change.url);
+        addArg(args, "--project", event.change.project);
+        addArg(args, "--branch", event.change.branch);
+        addArg(args, "--topic", event.change.topic);
+        addArg(args, "--submitter", getDisplayName(account));
+        addArg(args, "--commit", event.patchSet.revision);
+        addArg(args, "--reason",  reason == null ? "" : reason);
+
+        runHook(change.getProject(), mergeFailedHook, args);
     }
 
     public void doChangeAbandonedHook(final Change change, final Account account,

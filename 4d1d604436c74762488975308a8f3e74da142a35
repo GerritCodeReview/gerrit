@@ -16,6 +16,23 @@
       "revId": "4d1d604436c74762488975308a8f3e74da142a35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkX///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-09-28T06:05:50Z",
+      "side": 1,
+      "message": "Could we simplify the 2 lines above as\n  if (FileKey.resolve(gitDirOf(name), fs) !\u003d null) {",
+      "revId": "4d1d604436c74762488975308a8f3e74da142a35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

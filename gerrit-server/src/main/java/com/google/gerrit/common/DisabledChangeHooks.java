@@ -46,6 +46,11 @@ public final class DisabledChangeHooks implements ChangeHooks {
   }
 
   @Override
+  public void doMergeFailedHook(Change change, Account account,
+      PatchSet patchSet, String reason, ReviewDb db) {
+  }
+
+  @Override
   public void doChangeRestoredHook(Change change, Account account,
       String reason, ReviewDb db) {
   }

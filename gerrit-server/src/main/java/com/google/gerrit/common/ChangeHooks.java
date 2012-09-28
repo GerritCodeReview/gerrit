@@ -83,6 +83,18 @@ public interface ChangeHooks {
       PatchSet patchSet, ReviewDb db) throws OrmException;
 
   /**
+   * Fire the Merge Failed Hook.
+   *
+   * @param change The change itself.
+   * @param account The gerrit user who attempted to submit the change.
+   * @param patchSet The patchset that failed to merge.
+   * @param reason The reason that the change failed to merge.
+   * @throws OrmException
+   */
+  public void doMergeFailedHook(Change change, Account account,
+      PatchSet patchSet, String reason, ReviewDb db) throws OrmException;
+
+  /**
    * Fire the Change Abandoned Hook.
    *
    * @param change The change itself.

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJk3///7w\u003d",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-09-28T20:07:06Z",
+      "side": 1,
+      "message": "It can probably have the state MAY as well?",
+      "revId": "cc879618bcda321b178cffb09b173c4ab0a0afd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJk3///7s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-09-28T20:07:06Z",
+      "side": 1,
+      "message": "I think you need MAY here as well. (Introduced fairly recently)",
+      "revId": "cc879618bcda321b178cffb09b173c4ab0a0afd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

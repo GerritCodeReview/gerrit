@@ -50,6 +50,23 @@
       "revId": "9c2707c01cece1372a9a2138c1b5470b2e4751cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJkH///80\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-09-28T13:36:54Z",
+      "side": 1,
+      "message": "Pass the PatchSet, not the PatchSet.Id. canSubmit() expects the former and this fails to compile.",
+      "revId": "9c2707c01cece1372a9a2138c1b5470b2e4751cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

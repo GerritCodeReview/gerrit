@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJkX///3o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-09-28T13:35:19Z",
+      "side": 1,
+      "message": "Multiline javadoc comments leaves the first line text free:\n\n /**\n  * Convert the results ...\n  *\n  * ...\n  */",
+      "revId": "6d51bf523aabec12ba33a9cb94631853ba7bfd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

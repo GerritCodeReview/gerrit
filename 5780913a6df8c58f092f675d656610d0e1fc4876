@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAJjn///vA\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-29T03:33:37Z",
+      "side": 1,
+      "message": "Should this perhaps be built up from your new parameter unless it is explicitly overridden?",
+      "revId": "5780913a6df8c58f092f675d656610d0e1fc4876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJbX///w4\u003d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2

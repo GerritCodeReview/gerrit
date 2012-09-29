@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJjn///vY\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.5.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-29T02:57:52Z",
+      "side": 1,
+      "message": "This means ++that++",
+      "revId": "6a44a0be877a605862901c9ed94a7e86a834ba66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

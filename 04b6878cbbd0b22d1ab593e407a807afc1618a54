@@ -69,6 +69,24 @@
       "revId": "04b6878cbbd0b22d1ab593e407a807afc1618a54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJjn///ts\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AddReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-30T16:09:07Z",
+      "side": 1,
+      "message": "Right, but you are in a for loop here.  I believe that there is now a gwtorm convention for doing a get() with mutiple keys in a single call so that the lookup could be done before the loop.",
+      "parentUuid": "AAAJkn///0E\u003d",
+      "revId": "04b6878cbbd0b22d1ab593e407a807afc1618a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

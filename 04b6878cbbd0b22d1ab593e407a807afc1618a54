@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJjn///uQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AddReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-30T02:50:05Z",
+      "side": 1,
+      "message": "Style: This needs to go before the assisted entries.",
+      "revId": "04b6878cbbd0b22d1ab593e407a807afc1618a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJjn///uM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AddReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-09-30T02:50:05Z",
+      "side": 1,
+      "message": "I think there is a way to query for all the reviewers at once to minimize latencies.",
+      "revId": "04b6878cbbd0b22d1ab593e407a807afc1618a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

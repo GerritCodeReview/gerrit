@@ -87,6 +87,24 @@
       "revId": "04b6878cbbd0b22d1ab593e407a807afc1618a54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJmH///2A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AddReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-01T05:08:30Z",
+      "side": 1,
+      "message": "OK, I see what you mean.  It looks like I can do it like this:\n\n final ResultSet\u003cAccount\u003e accounts \u003d db.accounts().get(added);\n for (final Account account : accounts) {\n   hooks.doReviewerAddedHook(change, account, patchSet, db);\n }",
+      "parentUuid": "AAAJjn///ts\u003d",
+      "revId": "04b6878cbbd0b22d1ab593e407a807afc1618a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

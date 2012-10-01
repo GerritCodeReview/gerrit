@@ -168,6 +168,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
       });
     }
     modules.add(new DatabaseModule());
+    modules.add(new LocalDiskRepositoryManager.Module());
     return Guice.createInjector(PRODUCTION, modules);
   }
 
@@ -188,7 +189,6 @@ public class WebAppInitializer extends GuiceServletContextListener {
       modules.add(new GerritServerConfigModule());
     }
     modules.add(new SchemaModule());
-    modules.add(new LocalDiskRepositoryManager.Module());
     modules.add(SchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJt3///Po\u003d",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-01T21:28:08Z",
+      "side": 1,
+      "message": "Under most WAR containers we enter this else clause as sitePath wasn\u0027t defined. This leaves it unbound when the LocalDiskRepositoryManager wants to load gerrit.config and resolve gerrit.basePath through it.\n\nSo I\u0027m not convinced this would always fix the problem.",
+      "revId": "252a1f0b3b139d02016d4cc02a371c681b0e2164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

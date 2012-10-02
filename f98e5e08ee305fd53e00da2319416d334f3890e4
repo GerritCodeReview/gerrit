@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJz3////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AddReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-02T05:59:08Z",
+      "side": 1,
+      "message": "Would it make sense to get the AccountCache injected and retrieve the accounts from the cache? This would avoid one call to the db.",
+      "revId": "f98e5e08ee305fd53e00da2319416d334f3890e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJz3///+Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-02T14:52:32Z",
+      "side": 1,
+      "message": "I think it makes sense to include the account attribute here, something like:\n\n ...\n label: Verified\t20\n status: OK\n by:\n   name: John Doe\n   email: john.doe@example.com\n   username: johnd\n\nThis would then also make the SubmitRecordAttribute and the SubmitLabelAttribute directly (re)usable for the purpose of the new test-submit-rule command [1].\nKeep in mind that the SubmitRecord.appliedBy may also be null.\n\n[1] https://gerrit-review.googlesource.com/37171",
+      "revId": "f64a19b1b8c7d56286c2fd6d706627a5ff8a43ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJz3///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-02T14:52:32Z",
+      "side": 1,
+      "message": "Please include the label attributes also for the OK status.",
+      "revId": "f64a19b1b8c7d56286c2fd6d706627a5ff8a43ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJz3///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-02T14:52:32Z",
+      "side": 1,
+      "message": "Please include the label attributes also for the CLOSED status.",
+      "revId": "f64a19b1b8c7d56286c2fd6d706627a5ff8a43ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJz3///88\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-02T14:52:32Z",
+      "side": 1,
+      "message": "this will become unnecessary, see comments below",
+      "revId": "f64a19b1b8c7d56286c2fd6d706627a5ff8a43ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJz3///9M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-02T14:52:32Z",
+      "side": 1,
+      "message": "I think this is not necessary as the \"queryChanges\" from line 267 should have already filtered out the changes which are not visible to this user.\nAnyway, it looks strange to perform this check only for the includeSubmitRecords case.\n\nYou can get ChangeControl from the \"d.changeControl()\". I would just inline d.changeControl() in the next line and remove the \"control\" variable.",
+      "revId": "f64a19b1b8c7d56286c2fd6d706627a5ff8a43ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJz3///9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-02T14:52:32Z",
+      "side": 1,
+      "message": "This kind of source code formatting is not compatible with the Gerrit source code formatting rules. Look around for some examples how this should be done.\n\nGerrit provides \"tools/GoogleFormat.xml\" for developers using Eclipse to make it easier to format source code according to our rules.",
+      "revId": "f64a19b1b8c7d56286c2fd6d706627a5ff8a43ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJz3///9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-02T14:52:32Z",
+      "side": 1,
+      "message": "If we ignore this exception here then someone who gets unexpected results from the \"query\" command will have no way to find out what caused it. Or?\nPlease remove this empty catch block.\nThe OrmException is already handled in the outer try/catch block and it will produce an error output to the user.",
+      "revId": "f64a19b1b8c7d56286c2fd6d706627a5ff8a43ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJz3///9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-02T14:52:32Z",
+      "side": 1,
+      "message": "Handling of the NoSuchChangeException becomes obsolete once the call to validateFor (line 279) is removed.",
+      "revId": "f64a19b1b8c7d56286c2fd6d706627a5ff8a43ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

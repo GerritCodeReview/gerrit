@@ -34,6 +34,24 @@
       "revId": "f98e5e08ee305fd53e00da2319416d334f3890e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJz3///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AddReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-02T10:29:27Z",
+      "side": 1,
+      "message": "This code looks good to me.\n\nIf the account is not in the cache the accountCache takes care to load it from the database.\n\nEven if the account cannot be loaded from the database the accountCache will create and return a valid AccountState object.",
+      "parentUuid": "AAAJzX////g\u003d",
+      "revId": "f98e5e08ee305fd53e00da2319416d334f3890e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

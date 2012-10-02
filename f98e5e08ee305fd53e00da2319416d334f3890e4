@@ -16,6 +16,24 @@
       "revId": "f98e5e08ee305fd53e00da2319416d334f3890e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJzX////g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/AddReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-02T09:06:27Z",
+      "side": 1,
+      "message": "Like this?\n\n for (final Account.Id id : added) {\n   final Account account \u003d accountCache.get(id).getAccount();\n   hooks.doReviewerAddedHook(change, account, patchSet, db);\n }\n\nIs it possible that the account is not in the cache?",
+      "parentUuid": "AAAJz3////8\u003d",
+      "revId": "f98e5e08ee305fd53e00da2319416d334f3890e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

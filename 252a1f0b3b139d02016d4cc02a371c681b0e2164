@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAJzX////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-02T05:42:36Z",
+      "side": 1,
+      "message": "Gerring -\u003e Gerrit",
+      "revId": "252a1f0b3b139d02016d4cc02a371c681b0e2164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJt3///Po\u003d",
         "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
         "patchSetId": 1

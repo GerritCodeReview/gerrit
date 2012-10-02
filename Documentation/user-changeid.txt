@@ -54,6 +54,10 @@ of the local Git repository:
 
   $ curl -o .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
 
+Then ensure that the execute bit is set on the hook script:
+
+  $ chmod u+x .git/hooks/commit-msg
+
 For more details, see link:cmd-hook-commit-msg.html[commit-msg].
 
 Change Upload

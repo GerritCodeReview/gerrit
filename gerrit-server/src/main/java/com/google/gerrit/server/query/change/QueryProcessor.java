@@ -108,6 +108,7 @@ public class QueryProcessor {
 
   private OutputStream outputStream = DisabledOutputStream.INSTANCE;
   private PrintWriter out;
+  private boolean moreResults;
 
   @Inject
   QueryProcessor(EventFactory eventFactory,
@@ -122,6 +123,7 @@ public class QueryProcessor {
     this.maxLimit = currentUser.getCapabilities()
       .getRange(GlobalCapability.QUERY_LIMIT)
       .getMax();
+    this.moreResults = false;
   }
 
   int getLimit() {
@@ -189,6 +191,14 @@ public class QueryProcessor {
     this.outputFormat = fmt;
   }
 
+  public boolean hasMoreResults() {
+    return moreResults;
+  }
+
+  public void setMoreResults(boolean moreResults) {
+    this.moreResults = moreResults;
+  }
+
   /**
    * Query for changes that match the query string.
    * <p>
@@ -228,6 +238,9 @@ public class QueryProcessor {
 
     Collections.sort(results, sortkeyAfter != null ? cmpAfter : cmpBefore);
     int limit = limit(s);
+    if(results.size() > maxLimit){
+      setMoreResults(true);
+    }
     if (limit < results.size()) {
       results = results.subList(0, limit);
     }
@@ -254,8 +267,9 @@ public class QueryProcessor {
         stats.runTimeMilliseconds = System.currentTimeMillis();
 
         List<ChangeData> results = queryChanges(queryString);
+        ChangeAttribute c = null;
         for (ChangeData d : results) {
-          ChangeAttribute c = eventFactory.asChangeAttribute(d.getChange());
+          c = eventFactory.asChangeAttribute(d.getChange());
           eventFactory.extend(c, d.getChange());
           eventFactory.addTrackingIds(c, d.trackingIds(db));
 
@@ -305,6 +319,9 @@ public class QueryProcessor {
         }
 
         stats.rowCount = results.size();
+        if(hasMoreResults()){
+          stats.resumeSortKey = c.sortKey;
+        }
         stats.runTimeMilliseconds =
             System.currentTimeMillis() - stats.runTimeMilliseconds;
         show(stats);

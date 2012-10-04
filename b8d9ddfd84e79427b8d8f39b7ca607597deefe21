@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJ53///9Y\u003d",
+        "filename": "Documentation/cmd-query.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-04T13:35:07Z",
+      "side": 1,
+      "message": "For the OK status we don\u0027t know if the change has already been submitted. However, this option also doesn\u0027t pretend to provide this information. I would remove that part and reword it like:\n\nShow submit record information about the change, which includes the overall submit status and the status for each review label.",
+      "revId": "b8d9ddfd84e79427b8d8f39b7ca607597deefe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ53///94\u003d",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-04T13:35:07Z",
+      "side": 1,
+      "message": "I would delete the seconds sentence completely. You only need it to explain the diff from your previos patch-set..\n\nThere is nothing strange when, for a closed change, we get the OK submit status.",
+      "revId": "b8d9ddfd84e79427b8d8f39b7ca607597deefe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ53///90\u003d",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-04T13:35:07Z",
+      "side": 1,
+      "message": "Here you may append: \"or already submitted.\"",
+      "revId": "b8d9ddfd84e79427b8d8f39b7ca607597deefe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ53///9s\u003d",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-04T13:35:07Z",
+      "side": 1,
+      "message": "Now we do that also for the OK status. I suggest rewording it like:\n\nThis describes the state of each code review \u003c\u003clabel, ...\u003e\u003e unless the submit status of the change is RULE_ERROR",
+      "revId": "b8d9ddfd84e79427b8d8f39b7ca607597deefe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ53///9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-04T13:35:07Z",
+      "side": 1,
+      "message": "remove the throws IllegalStateException once the changes suggested below are applied",
+      "revId": "b8d9ddfd84e79427b8d8f39b7ca607597deefe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ53///9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-04T13:35:07Z",
+      "side": 1,
+      "message": "nit: The open curly bracket should be at the end of the previous line.",
+      "revId": "b8d9ddfd84e79427b8d8f39b7ca607597deefe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ53///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-04T13:35:07Z",
+      "side": 1,
+      "message": "There is too much repetition in this switch statement. The OK and NOT_READY cases are almost identical.\n\nI don\u0027t see any benefit from the \"default:\" case as all SubmitRecord.Status constants must be legal.\n\nSuggestion: replace the switch statement with:\n\n sa.status \u003d submitRecord.status.name();\n if (submitRecord.status !\u003d SubmitRecord.Status.RULE_ERROR) {\n   addSubmitRecordLabels(submitRecord, sa);\n}",
+      "revId": "b8d9ddfd84e79427b8d8f39b7ca607597deefe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ53///84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-04T13:35:07Z",
+      "side": 1,
+      "message": "remove the throws IllegalStateException once the changes suggested below are applied",
+      "revId": "b8d9ddfd84e79427b8d8f39b7ca607597deefe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ53///88\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-04T13:35:07Z",
+      "side": 1,
+      "message": "nit: The open curly bracket should be at the end of the previous line.",
+      "revId": "b8d9ddfd84e79427b8d8f39b7ca607597deefe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ53///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-04T13:35:07Z",
+      "side": 1,
+      "message": "similarly like above I would suggest replacing the switch statement with just one line:\n\n la.status \u003d lbl.status.name()",
+      "revId": "b8d9ddfd84e79427b8d8f39b7ca607597deefe21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

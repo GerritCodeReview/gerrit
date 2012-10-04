@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ23///f0\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-10-04T04:55:58Z",
+      "side": 1,
+      "message": "Only if the ancestor change has a ChangeId, it could be a commit that isn\u0027t a patchset on a change.",
+      "parentUuid": "AAAI5H///0c\u003d",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///1E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/DependencyUtil.java",
         "patchSetId": 1

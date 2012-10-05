@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJ7H///n0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PredicateClassLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-05T22:37:25Z",
+      "side": 1,
+      "message": "Multimap\u003cString, ClassLoader\u003e \u003d LinkedHashMultimap.create();",
+      "revId": "3e77fa8a6adac94259ffc64e642e2b6734bca970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ7H///ms\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PredicateClassLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-05T22:37:25Z",
+      "side": 1,
+      "message": "Multimap returns an empty collection if the key is not found, which will simplify this code by removing the !\u003d null test.",
+      "revId": "3e77fa8a6adac94259ffc64e642e2b6734bca970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ7H///l0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/PredicateProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-05T22:37:25Z",
+      "side": 1,
+      "message": "ImmutableSet? Plugins providing these are linked against so much of Gerrit internals anyway that making them use Guava to get the nice clean type of ImmutableSet is completely reasonable.",
+      "revId": "3e77fa8a6adac94259ffc64e642e2b6734bca970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ7H///oY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-05T22:37:25Z",
+      "side": 1,
+      "message": "Since we link to Guava:  ImmutableList.of(Prolog.BUILTIN, \"gerrit\");",
+      "revId": "3e77fa8a6adac94259ffc64e642e2b6734bca970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ7H///oU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/rules/RulesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-05T22:37:25Z",
+      "side": 1,
+      "message": "Lists.newArrayList();\npackages.addAll(PACKAGE_LIST);\n\nLinkedList is almost never faster than ArrayList. Or more memory efficient. Its a double linked list so LinkedList is something like 4x the memory usage per entry of ArrayList. In general its best to use ArrayList unless you are doing frequent insertion or removal in the middle of the list via an Iterator.",
+      "revId": "3e77fa8a6adac94259ffc64e642e2b6734bca970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

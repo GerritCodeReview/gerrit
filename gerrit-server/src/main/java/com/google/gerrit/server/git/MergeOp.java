@@ -1470,13 +1470,14 @@ public class MergeOp {
       }
     }));
 
-
-    try {
-      hooks.doChangeMergedHook(c, //
-          accountCache.get(submitter.getAccountId()).getAccount(), //
-          db.patchSets().get(c.currentPatchSetId()), db);
-    } catch (OrmException ex) {
-      log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
+    if (submitter != null) {
+      try {
+        hooks.doChangeMergedHook(c,
+            accountCache.get(submitter.getAccountId()).getAccount(),
+            db.patchSets().get(c.currentPatchSetId()), db);
+      } catch (OrmException ex) {
+        log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
+      }
     }
   }
 

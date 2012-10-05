@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ5H///5M\u003d",
+        "filename": "Documentation/cmd-test-submit-rule.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done + Fixed formatting of docs.",
+      "parentUuid": "AAAJ8n///9U\u003d",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ8n///8k\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-05T14:35:49Z",
       "side": 1,
       "message": "Don\u0027t import Label, use SubmitRecord.Label below.\nBelow, there are too many class names with \"submit\" \"record\" \"label\" words in their names and it is sometimes hard to read such code.",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ5H///6A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///8k\u003d",
       "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ5H///58\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///9M\u003d",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ8n///9I\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
         "patchSetId": 11
@@ -64,6 +118,24 @@
       "writtenOn": "2012-10-05T14:35:49Z",
       "side": 1,
       "message": "Remove the \" of the specified change.\" as it gives impression that changes have parent projects... where it is the project containing the change that has a parent project.",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ5H///54\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///9I\u003d",
       "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ5H///50\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///8M\u003d",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ8n///8U\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
         "patchSetId": 11
@@ -98,6 +188,24 @@
       "writtenOn": "2012-10-05T14:35:49Z",
       "side": 1,
       "message": "this is not needed as the base class (SshCommand) already provides stdout and stderr and they are of PrintWriter type. Reuse the stdout.",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ5H///5w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///8U\u003d",
       "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ5H///5s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///8E\u003d",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ8n///8s\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
         "patchSetId": 11
@@ -132,6 +258,24 @@
       "writtenOn": "2012-10-05T14:35:49Z",
       "side": 1,
       "message": "Use the .name() instead of .toString() here.\n\nThe Enum.name is final (cannot be overridden) and it is well defined what it returns. On the other side, adding a toString() method to the SubmitRecord.Status can, unexpectedly, break the output format of this command.",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ5H///5o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///8s\u003d",
       "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ5H///5k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///8g\u003d",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ8n///9A\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
         "patchSetId": 11
@@ -166,6 +328,24 @@
       "writtenOn": "2012-10-05T14:35:49Z",
       "side": 1,
       "message": "accountAttribute ls even longer name than using label.by.\nSuggestion:\n\n label.by \u003d new AccountAttribute();\n label.by.email \u003d a.getPreferredEmail();\n ...",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ5H///5g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///9A\u003d",
       "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ5H///5c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///8c\u003d",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ8n///8Q\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
         "patchSetId": 11
@@ -200,6 +398,24 @@
       "writtenOn": "2012-10-05T14:35:49Z",
       "side": 1,
       "message": "This is taken care of in the base class if you use the stdout",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ5H///5Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///8Q\u003d",
       "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ5H///5U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///8I\u003d",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ8n///8Y\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
         "patchSetId": 11
@@ -234,6 +468,24 @@
       "writtenOn": "2012-10-05T14:35:49Z",
       "side": 1,
       "message": "I don\u0027t think this will be useful for anything. Probably, you should either log this exception or just write a comment and ignore it.",
+      "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ5H///5Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/TestSubmitRule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-05T15:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ8n///8Y\u003d",
       "revId": "be44d22a2fe93b90de9188aa5ff23826557656d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

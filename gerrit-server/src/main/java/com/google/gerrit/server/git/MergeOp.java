@@ -976,6 +976,17 @@ public class MergeOp {
       }
     }
 
+    final RefUpdate ru = repo.updateRef(ps.getRefName());
+    ru.setExpectedOldObjectId(ObjectId.zeroId());
+    ru.setNewObjectId(newCommit);
+    ru.disableRefLog();
+    if (ru.update(rw) != RefUpdate.Result.NEW) {
+      throw new IOException(String.format(
+          "Failed to create ref %s in %s: %s", ps.getRefName(),
+          n.change.getDest().getParentKey().get(), ru.getResult()));
+    }
+    replication.fire(n.change.getProject(), ru.getName());
+
     newCommit.copyFrom(n);
     newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;
     commits.put(newCommit.patchsetId.getParentKey(), newCommit);

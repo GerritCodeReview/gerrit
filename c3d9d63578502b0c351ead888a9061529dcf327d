@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJ8n////M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-05T08:47:22Z",
+      "side": 1,
+      "message": "What are the conditions under which the submitter is null? Is this only when verifying if a change is mergeable? If yes, this problem will be fixed by [1], won\u0027t it?\n\n[1] https://gerrit-review.googlesource.com/37755",
+      "revId": "c3d9d63578502b0c351ead888a9061529dcf327d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

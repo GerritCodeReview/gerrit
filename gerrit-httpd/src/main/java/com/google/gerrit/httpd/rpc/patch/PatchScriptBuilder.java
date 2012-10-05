@@ -147,7 +147,8 @@ class PatchScriptBuilder {
     } else if (diffPrefs.isIntralineDifference()) {
       IntraLineDiff d =
           patchListCache.getIntraLineDiff(new IntraLineDiffKey(a.id, a.src,
-              b.id, b.src, edits, projectKey, bId, b.path));
+              b.id, b.src, edits, projectKey, bId, b.path,
+              diffPrefs.getIgnoreWhitespace() != Whitespace.IGNORE_NONE));
       if (d != null) {
         switch (d.getStatus()) {
           case EDIT_LIST:

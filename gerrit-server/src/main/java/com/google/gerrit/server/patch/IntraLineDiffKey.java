@@ -29,7 +29,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class IntraLineDiffKey implements Serializable {
-  static final long serialVersionUID = 3L;
+  static final long serialVersionUID = 4L;
 
   private transient ObjectId aId;
   private transient ObjectId bId;
@@ -44,8 +44,11 @@ public class IntraLineDiffKey implements Serializable {
   private transient ObjectId commit;
   private transient String path;
 
+  private transient Boolean ignoreWhitespace;
+
   public IntraLineDiffKey(ObjectId aId, Text aText, ObjectId bId, Text bText,
-      List<Edit> edits, Project.NameKey projectKey, ObjectId commit, String path) {
+      List<Edit> edits, Project.NameKey projectKey, ObjectId commit, String path,
+      Boolean ignoreWhitespace) {
     this.aId = aId;
     this.bId = bId;
 
@@ -56,6 +59,8 @@ public class IntraLineDiffKey implements Serializable {
     this.projectKey = projectKey;
     this.commit = commit;
     this.path = path;
+
+    this.ignoreWhitespace = ignoreWhitespace;
   }
 
   Text getTextA() {
@@ -90,12 +95,17 @@ public class IntraLineDiffKey implements Serializable {
     return path;
   }
 
+  boolean isIgnoreWhitespace() {
+    return ignoreWhitespace;
+  }
+
   @Override
   public int hashCode() {
     int h = 0;
 
     h = h * 31 + aId.hashCode();
     h = h * 31 + bId.hashCode();
+    h = h * 31 + ignoreWhitespace.hashCode();
 
     return h;
   }
@@ -105,7 +115,8 @@ public class IntraLineDiffKey implements Serializable {
     if (o instanceof IntraLineDiffKey) {
       final IntraLineDiffKey k = (IntraLineDiffKey) o;
       return aId.equals(k.aId) //
-          && bId.equals(k.bId);
+          && bId.equals(k.bId) //
+          && ignoreWhitespace.equals(k.ignoreWhitespace);
     }
     return false;
   }
@@ -127,10 +138,12 @@ public class IntraLineDiffKey implements Serializable {
   private void writeObject(final ObjectOutputStream out) throws IOException {
     writeNotNull(out, aId);
     writeNotNull(out, bId);
+    out.writeBoolean(ignoreWhitespace);
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
     aId = readNotNull(in);
     bId = readNotNull(in);
+    ignoreWhitespace = in.readBoolean();
   }
 }

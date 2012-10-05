@@ -1283,6 +1283,11 @@ Optional filename for the change restored hook, if not specified then
 Optional filename for the ref updated hook, if not specified then
 `ref-updated` will be used.
 
+[[hooks.reviewerAddedHook]]hooks.reviewerAddedHook::
++
+Optional filename for the reviewer added hook, if not specified then
+`reviewer-added` will be used.
+
 [[hooks.claSignedHook]]hooks.claSignedHook::
 +
 Optional filename for the CLA signed hook, if not specified then

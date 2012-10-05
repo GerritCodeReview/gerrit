@@ -50,7 +50,7 @@ public interface ChangeHooks {
    * Fire the Draft Published Hook.
    *
    * @param change The change itself.
-   * @param patchSet The Patchset that was created.
+   * @param patchSet The Patchset that was published.
    * @throws OrmException
    */
   public void doDraftPublishedHook(Change change, PatchSet patchSet,
@@ -124,6 +124,16 @@ public interface ChangeHooks {
    */
   public void doRefUpdatedHook(Branch.NameKey refName, ObjectId oldId,
       ObjectId newId, Account account);
+
+  /**
+   * Fire the Reviewer Added Hook
+   *
+   * @param change The change itself.
+   * @param patchSet The patchset that the reviewer was added on.
+   * @param account The gerrit user who was added as reviewer.
+   */
+  public void doReviewerAddedHook(Change change, Account account,
+      PatchSet patchSet, ReviewDb db) throws OrmException;
 
   public void doClaSignupHook(Account account, ContributorAgreement cla);
 }

@@ -84,6 +84,15 @@ Called whenever a ref has been updated.
   ref-updated --oldrev <old rev> --newrev <new rev> --refname <ref name> --project <project name> --submitter <submitter>
 ====
 
+reviewer-added
+~~~~~~~~~~~~~~
+
+Called whenever a reviewer is added to a change.
+
+====
+  reviewer-added --change <change id> --change-url <change url> --project <project name> --branch <branch> --reviewer <reviewer>
+====
+
 cla-signed
 ~~~~~~~~~~
 
@@ -104,8 +113,8 @@ Gerrit will use the value of hooks.path for the hooks directory.
 
 For the hook filenames, Gerrit will use the values of hooks.patchsetCreatedHook,
 hooks.draftPublishedHook, hooks.commentAddedHook, hooks.changeMergedHook,
-hooks.changeAbandonedHook, hooks.changeRestoredHook, hooks.refUpdatedHook and
-hooks.claSignedHook.
+hooks.changeAbandonedHook, hooks.changeRestoredHook, hooks.refUpdatedHook,
+hooks.reviewerAddedHook and hooks.claSignedHook.
 
 Missing Change URLs
 -------------------

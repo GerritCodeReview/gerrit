@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ8n///6w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmitStrategy.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-06T08:25:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ7H///dc\u003d",
+      "revId": "2c1700fb9817f636d47d6168e3a4b5c5fb774d53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ7H///eg\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmitStrategyFactory.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-05T23:29:04Z",
       "side": 1,
       "message": "IdentifiedUser.GenericFactory. GenericFactory is too generic.",
+      "revId": "2c1700fb9817f636d47d6168e3a4b5c5fb774d53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ8n///6s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmitStrategyFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-06T08:25:34Z",
+      "side": 1,
+      "message": "Indeed.\n\nDone.",
+      "parentUuid": "AAAJ7H///eg\u003d",
       "revId": "2c1700fb9817f636d47d6168e3a4b5c5fb774d53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

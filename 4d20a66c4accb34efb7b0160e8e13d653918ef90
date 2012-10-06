@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJ7H///Wo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-06T00:40:20Z",
+      "side": 1,
+      "message": "There must be code you can share with the submit rule version of this same thing. The locate_submit_type_filter and filter_submit_type_results predicate names are different, but the rest of this huge block of code is identical.",
+      "revId": "4d20a66c4accb34efb7b0160e8e13d653918ef90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ7H///Wc\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-06T00:40:20Z",
+      "side": 1,
+      "message": "We didn\u0027t do this with submit_rule, but I wonder if we should just define a no-op default filter to bind In to Out and thus avoid the mess in Java where the filter isn\u0027t defined, and then we can reuse the locate block refactoring that I suggested in the parent change.",
+      "revId": "4d20a66c4accb34efb7b0160e8e13d653918ef90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

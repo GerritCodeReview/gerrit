@@ -105,7 +105,8 @@ public final class ApprovalCategory {
         char c = name.charAt(i);
         if (('0' <= c && c <= '9') //
             || ('a' <= c && c <= 'z') //
-            || ('A' <= c && c <= 'Z')) {
+            || ('A' <= c && c <= 'Z') //
+            || (c == '-')) {
           r.append(c);
         } else if (c == ' ') {
           r.append('-');

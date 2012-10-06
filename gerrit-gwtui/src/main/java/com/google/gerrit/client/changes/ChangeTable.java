@@ -208,6 +208,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       s += " (" + c.getStatus().name() + ")";
     }
     if (changeRowFormatter != null) {
+      removeChangeStyle(row, changeRowFormatter);
       final String rowStyle = changeRowFormatter.getRowStyle(c);
       if (rowStyle != null) {
         table.getRowFormatter().addStyleName(row, rowStyle);
@@ -224,6 +225,19 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));
 
     setRowItem(row, c);
+  }
+
+  private void removeChangeStyle(int row,
+      final ChangeRowFormatter changeRowFormatter) {
+    final ChangeInfo oldChange = getRowItem(row);
+    if (oldChange == null) {
+      return;
+    }
+
+    final String oldRowStyle = changeRowFormatter.getRowStyle(oldChange);
+    if (oldRowStyle != null) {
+      table.getRowFormatter().removeStyleName(row, oldRowStyle);
+    }
   }
 
   private AccountLink link(final Account.Id id) {

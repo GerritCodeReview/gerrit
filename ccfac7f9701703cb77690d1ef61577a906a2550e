@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJ8n///5E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-08T09:05:34Z",
+      "side": 1,
+      "message": "Here, as I understand it, the intention is to rebase the patch-set before submitting and fail if rebase create any conflicts.\nThis means that this new submit strategy is actually another \"Fast Forward Only\" strategy.\n\nDoes it make more sense to add an additional option (\"Rebase If Necessary\" or \"Try Rebase\" ) to the existing \"Fast Forward\" submit strategy instead of introducing a new \"Rebase If Necessary\" submit strategy? I think it would be easier to understand this feature if it would be an option of the \"Fast Forward Only\".",
+      "revId": "ccfac7f9701703cb77690d1ef61577a906a2550e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

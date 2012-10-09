@@ -93,6 +93,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -130,6 +131,8 @@ public class MergeOp {
   /** Amount of time to wait between submit and checking for missing deps. */
   private static final long DEPENDENCY_DELAY =
       MILLISECONDS.convert(15, MINUTES);
+
+  private static final Random random = new Random();
 
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -1088,9 +1091,24 @@ public class MergeOp {
             hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
             break;
 
-          default:
-            throw new IOException(branchUpdate.getResult().name());
+          case LOCK_FAILURE:
+            switch (destProject.getSubmitType()) {
+              case CHERRY_PICK:
+              case MERGE_ALWAYS:
+              case MERGE_IF_NECESSARY:
+                mergeQueue.recheckAfter(destBranch, random.nextInt(1000), MILLISECONDS);
+                break;
+
+              case FAST_FORWARD_ONLY:
+                break; // Not mergeable, no need to recheck.
+              default:
+                log.warn("Lock failure in project with unknown merge type "
+                    + destProject.getSubmitType());
+                break;
+            }
+            break;
         }
+        throw new IOException(branchUpdate.getResult().name());
       } catch (IOException e) {
         throw new MergeException("Cannot update " + branchUpdate.getName(), e);
       }

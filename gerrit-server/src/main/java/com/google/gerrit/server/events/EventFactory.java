@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
@@ -33,6 +34,8 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -45,6 +48,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -57,17 +61,20 @@ public class EventFactory {
   private final ApprovalTypes approvalTypes;
   private final PatchListCache patchListCache;
   private final SchemaFactory<ReviewDb> schema;
+  private final PatchSetInfoFactory psInfoFactory;
 
   @Inject
   EventFactory(AccountCache accountCache,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       ApprovalTypes approvalTypes,
+      final PatchSetInfoFactory psif,
       PatchListCache patchListCache, SchemaFactory<ReviewDb> schema) {
     this.accountCache = accountCache;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
     this.patchListCache = patchListCache;
     this.schema = schema;
+    this.psInfoFactory=psif;
   }
 
   /**
@@ -243,6 +250,8 @@ public class EventFactory {
         PatchAttribute p = new PatchAttribute();
         p.file = patch.getNewName();
         p.type = patch.getChangeType();
+        p.deletions -= patch.getDeletions();
+        p.insertions = patch.getInsertions();
         patchSetAttribute.files.add(p);
       }
     } catch (PatchListNotAvailableException e) {
@@ -288,11 +297,32 @@ public class EventFactory {
             patchSet.getId())) {
           p.parents.add(a.getAncestorRevision().get());
         }
+
+        p.author =
+            asAccountAttribute(psInfoFactory.get(db, patchSet.getId())
+                .getAuthor().getAccount());
+
+        Change change = db.changes().get(patchSet.getId().getParentKey());
+        List<Patch> list =
+            patchListCache.get(change, patchSet).toPatchList(patchSet.getId());
+        for (Patch pe : list) {
+          if (!Patch.COMMIT_MSG.equals(pe.getFileName())) {
+            p.sizeDeletions -= pe.getDeletions();
+            p.sizeInsertions += pe.getInsertions();
+          }
+        }
       } finally {
         db.close();
       }
     } catch (OrmException e) {
       log.error("Cannot load patch set data for " + patchSet.getId(), e);
+    } catch (PatchSetInfoNotAvailableException e) {
+      log.error(
+          String.format("Cannot get authorEmail for %s ", patchSet.getId()), e);
+    } catch (PatchListNotAvailableException e) {
+      log.error(
+          String.format("Cannot get deletions and insertions for %s ",
+              patchSet.getId()), e);
     }
     return p;
   }

@@ -107,6 +107,8 @@ for the containing change.
 
 uploader:: Uploader of the patch set in <<account,account attribute>>.
 
+author:: Author of this patchset in <<account,account attribute>>.
+
 createdOn:: Time in seconds since the UNIX epoch when this patchset
 was created.
 
@@ -115,6 +117,10 @@ approvals:: The <<approval,approval attribute>> granted.
 comments:: All inline comments for this patchset in <<patchsetcomment,patchsetComment attributes>>.
 
 files:: All changed files in this patchset in <<patch,patch attributes>>.
+
+sizeInsertions:: Size information of insertions of this patchset.
+
+sizeDeletions:: Size information of deletions of this patchset.
 
 [[approval]]
 approval
@@ -257,6 +263,9 @@ type:: The type of change.
 
   REWRITE;; Sufficient amount of content changed to claim the file was rewritten.
 
+insertions:: number of insertions of this patch.
+
+deletions::  number of deletions of this patch.
 
 SEE ALSO
 --------

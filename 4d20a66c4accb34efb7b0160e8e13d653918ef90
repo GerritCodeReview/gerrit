@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ8n///rU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-09T14:33:47Z",
+      "side": 1,
+      "message": "Hmm.. there is actually an open change from Magnus Bäck [1] which tries to abstract the process of evaluating submit_* rule/filters. It reuses a larger block of code than just iterating through parent projects and running filters. It needs to get rebased and reworked a bit (return List\u003cTerm\u003e instead of returning List\u003cSubmitRecord\u003e and also it needs to throw exception(s) instead of converting them into return values) but is a good starting point.\n\nI will try fixing it and then rebasing my two changes on it. \n\n[1] https://gerrit-review.googlesource.com/35252",
+      "parentUuid": "AAAJ7H///Wo\u003d",
+      "revId": "4d20a66c4accb34efb7b0160e8e13d653918ef90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ7H///Wc\u003d",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-06T00:40:20Z",
       "side": 1,
       "message": "We didn\u0027t do this with submit_rule, but I wonder if we should just define a no-op default filter to bind In to Out and thus avoid the mess in Java where the filter isn\u0027t defined, and then we can reuse the locate block refactoring that I suggested in the parent change.",
+      "revId": "4d20a66c4accb34efb7b0160e8e13d653918ef90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ8n///rE\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-09T14:33:47Z",
+      "side": 1,
+      "message": "Makes sense. I\u0027ll do that.",
+      "parentUuid": "AAAJ7H///Wc\u003d",
       "revId": "4d20a66c4accb34efb7b0160e8e13d653918ef90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

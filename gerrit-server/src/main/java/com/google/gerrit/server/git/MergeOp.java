@@ -93,6 +93,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -151,6 +152,7 @@ public class MergeOp {
   private final List<CodeReviewCommit> toMerge;
   private List<Change> submitted;
   private final Map<Change.Id, CodeReviewCommit> commits;
+  private final Random random;
   private ReviewDb db;
   private Repository repo;
   private RevWalk rw;
@@ -209,6 +211,7 @@ public class MergeOp {
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
     commits = new HashMap<Change.Id, CodeReviewCommit>();
+    random = new Random();
   }
 
   public void verifyMergeability(Change change) {
@@ -1088,9 +1091,21 @@ public class MergeOp {
             hooks.doRefUpdatedHook(destBranch, branchUpdate, account);
             break;
 
-          default:
-            throw new IOException(branchUpdate.getResult().name());
+          case LOCK_FAILURE:
+            switch (destProject.getSubmitType()) {
+              case CHERRY_PICK:
+              case MERGE_ALWAYS:
+              case MERGE_IF_NECESSARY:
+                mergeQueue.recheckAfter(destBranch, random.nextInt(1000), MILLISECONDS);
+                break;
+
+              case FAST_FORWARD_ONLY:
+              default:
+                break; // Not mergeable, no need to recheck.
+            }
+            break;
         }
+        throw new IOException(branchUpdate.getResult().name());
       } catch (IOException e) {
         throw new MergeException("Cannot update " + branchUpdate.getName(), e);
       }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKC3///60\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-10T19:50:43Z",
+      "side": 0,
+      "message": "Is removal of this block accidental?",
+      "revId": "6df683b09a20f47203ebcf0b3c0ae6fdc35cfb6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

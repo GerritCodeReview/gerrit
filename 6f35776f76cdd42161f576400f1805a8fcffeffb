@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKCX////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-10T03:08:52Z",
+      "side": 1,
+      "message": "Is it necessary to explicitly include these three cases, if they\u0027re handled the same as default?",
+      "revId": "6f35776f76cdd42161f576400f1805a8fcffeffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-10T03:08:52Z",
+      "side": 1,
+      "message": "Or, looking at it another way, do we really want to retry for all merge types?  What if a new type is added later that can\u0027t be retried?",
+      "revId": "6f35776f76cdd42161f576400f1805a8fcffeffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

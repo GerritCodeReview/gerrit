@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ/3///Vw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-10-10T19:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKC3///64\u003d",
+      "revId": "a31ec6aaa275f103240f46bb7651f25f169d2931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKC3///6w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-10T19:50:43Z",
       "side": 1,
       "message": "nit: I think we use two indentation levels when wrapping a line",
+      "revId": "a31ec6aaa275f103240f46bb7651f25f169d2931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3///VU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-10-10T19:56:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKC3///6w\u003d",
       "revId": "a31ec6aaa275f103240f46bb7651f25f169d2931",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "6df683b09a20f47203ebcf0b3c0ae6fdc35cfb6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3///VY\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-10-10T19:56:20Z",
+      "side": 0,
+      "message": "Yes. The other examples in this file of block text with example configuration are in introductory paragraphs. Since this section previously only had one option, the whole thing kind of read as an introductory paragraph.\n\nNow, there are multiple options, and IMHO an introductory paragraph isn\u0027t necessary for such a small section, so I got rid of the example config as it wasn\u0027t adding much.",
+      "parentUuid": "AAAKC3///60\u003d",
+      "revId": "6df683b09a20f47203ebcf0b3c0ae6fdc35cfb6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

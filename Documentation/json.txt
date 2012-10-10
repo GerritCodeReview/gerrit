@@ -30,6 +30,9 @@ url:: Canonical URL to reach this change.
 
 commitMessage:: The full commit message for the change.
 
+createdOn:: Time in seconds since the UNIX epoch when this change
+was created.
+
 lastUpdated:: Time in seconds since the UNIX epoch when this change
 was last updated.
 
@@ -48,14 +51,20 @@ status:: Current state of this change.
 
   ABANDONED;; Change was abandoned by its owner or administrator.
 
+comments:: All comments for this change in <<message,message attributes>>.
+
 trackingIds:: Issue tracking system links in
-<<trackingid,trackingid attribute>>, scraped out of the commit
+<<trackingid,trackingid attributes>>, scraped out of the commit
 message based on the server's
 link:config-gerrit.html#trackingid[trackingid] sections.
 
 currentPatchSet:: Current <<patchSet,patchSet attribute>>.
 
-patchSets:: All <<patchSet,patchSet attribute>> for this change.
+patchSets:: All <<patchSet,patchSet attributes>> for this change.
+
+dependsOn:: List of changes that this change depends on in <<dependency,dependency attributes>>.
+
+neededBy:: List of changes that depend on this change in <<dependency,dependency attributes>>.
 
 submitRecords:: The <<submitRecord,submitRecord attribute>> contains
 information about whether this change has been or can be submitted.
@@ -90,13 +99,22 @@ number:: The patchset number.
 
 revision:: Git commit for this patchset.
 
+parents:: List of parent revisions.
+
 ref:: Git reference pointing at the revision.  This reference is
 available through the Gerrit Code Review server's Git interface
 for the containing change.
 
 uploader:: Uploader of the patch set in <<account,account attribute>>.
 
+createdOn:: Time in seconds since the UNIX epoch when this patchset
+was created.
+
 approvals:: The <<approval,approval attribute>> granted.
+
+comments:: All inline comments for this patchset in <<patchsetcomment,patchsetComment attributes>>.
+
+files:: All changed files in this patchset in <<patch,patch attributes>>.
 
 [[approval]]
 approval
@@ -123,9 +141,9 @@ oldRev:: The old value of the ref, prior to the update.
 
 newRev:: The new value the ref was updated to.
 
-project:: Project path in Gerrit.
-
 refName:: Ref name within project.
+
+project:: Project path in Gerrit.
 
 [[queryLimit]]
 queryLimit
@@ -177,6 +195,68 @@ status:: The status of the label.
   correctly by the project owner or site administrator.
 
 by:: The <<account,account>> that applied the label.
+
+[[dependency]]
+dependency
+----------
+Information about a change or patchset dependency.
+
+id:: Change identifier.
+
+number:: Change number.
+
+revision:: Patchset revision.
+
+ref:: Ref name.
+
+isCurrentPatchSet:: If the revision is the current patchset of the change.
+
+[[message]]
+message
+-------
+Comment added on a change by a reviewer.
+
+timestamp:: Time in seconds since the UNIX epoch when this comment
+was added.
+
+reviewer:: The <<account,account>> that added the comment.
+
+message:: The comment text.
+
+[[patchsetcomment]]
+patchsetComment
+---------------
+Comment added inline on a patchset by a reviewer.
+
+file:: The name of the file on which the comment was added.
+
+line:: The line number at which the comment was added.
+
+reviewer:: The <<account,account>> that added the comment.
+
+message:: The comment text.
+
+[[patch]]
+patch
+-----
+Information about a patch on a file.
+
+file:: The name of the file.
+
+type:: The type of change.
+
+  ADDED;; The file is being created/introduced by this patch.
+
+  MODIFIED;; The file already exists, and has updated content.
+
+  DELETED;; The file existed, but is being removed by this patch.
+
+  RENAMED;; The file is renamed.
+
+  COPIED;; The file is copied from another file.
+
+  REWRITE;; Sufficient amount of content changed to claim the file was rewritten.
+
 
 SEE ALSO
 --------

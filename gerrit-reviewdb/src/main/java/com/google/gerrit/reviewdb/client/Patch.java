@@ -84,7 +84,7 @@ public final class Patch {
     /** Path was copied from {@link Patch#getSourceFileName()}. */
     COPIED('C'),
 
-    /** Sufficient amount of content changed to claim the file was written. */
+    /** Sufficient amount of content changed to claim the file was rewritten. */
     REWRITE('W');
 
     private final char code;

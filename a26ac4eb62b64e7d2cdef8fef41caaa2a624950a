@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKDH///5Y\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-10T13:16:41Z",
+      "side": 1,
+      "message": "Should be in this format:\n  Bug: issue 1602\n\nThen the Gerrit WebUI will render it as link to the issue.",
+      "revId": "a26ac4eb62b64e7d2cdef8fef41caaa2a624950a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKDH///6A\u003d",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 858,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-10T13:16:41Z",
+      "side": 1,
+      "message": "In this case \u0027*\u0027 doesn\u0027t need to be escaped and as result the \u0027\\\u0027 will show up in the final documentation. Please remove the \u0027\\\u0027. Looks like only if there are 2 \u0027*\u0027 in a line, the first \u0027*\u0027 in the line needs to be escaped (because otherwise the text will be bold).\n\nAll the modified lines below have the same issue.",
+      "revId": "a26ac4eb62b64e7d2cdef8fef41caaa2a624950a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

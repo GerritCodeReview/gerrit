@@ -20,6 +20,7 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 public class PluginModule extends LifecycleModule {
   @Override
   protected void configure() {
+    install(new WebUiPluginModule());
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
 

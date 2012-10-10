@@ -21,6 +21,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -74,13 +75,16 @@ public class PluginLoader implements LifecycleListener {
   private final ConcurrentMap<CleanupHandle, Boolean> cleanupHandles;
   private final Provider<PluginCleanerTask> cleaner;
   private final PluginScannerThread scanner;
+  private final DynamicSet<RegisteredWebUiPlugin> registeredWebUiPlugins;
 
   @Inject
   public PluginLoader(SitePaths sitePaths,
       PluginGuiceEnvironment pe,
       ServerInformationImpl sii,
       Provider<PluginCleanerTask> pct,
-      @GerritServerConfig Config cfg) {
+      @GerritServerConfig Config cfg,
+      DynamicSet<RegisteredWebUiPlugin> webUiPlugins) {
+    registeredWebUiPlugins = webUiPlugins;
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
     tmpDir = sitePaths.tmp_dir;
@@ -349,6 +353,11 @@ public class PluginLoader implements LifecycleListener {
         running.put(name, newPlugin);
       } else {
         disabled.put(name, newPlugin);
+      }
+      if (newPlugin.hasWebUiPlugin()) {
+        RegisteredWebUiPlugin registerdPlugin =
+            new RegisteredWebUiPlugin(name, newPlugin.getWebUiPlugin());
+        registeredWebUiPlugins.add(registerdPlugin);
       }
       broken.remove(name);
       return newPlugin;

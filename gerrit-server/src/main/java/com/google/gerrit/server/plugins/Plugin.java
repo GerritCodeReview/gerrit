@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.inject.AbstractModule;
+import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
@@ -97,6 +98,7 @@ public class Plugin {
   private Injector sysInjector;
   private Injector sshInjector;
   private Injector httpInjector;
+  private WebUiPlugin webModule;
   private LifecycleManager manager;
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
@@ -163,6 +165,10 @@ public class Plugin {
     }
   }
 
+  public boolean hasWebUiPlugin() {
+    return webModule != null;
+  }
+
   boolean isModified(File jar) {
     return snapshot.lastModified() != jar.lastModified();
   }
@@ -189,6 +195,13 @@ public class Plugin {
       manager.add(sysInjector);
     } else {
       sysInjector = root;
+    }
+    try {
+      webModule = sysInjector.getInstance(WebUiPlugin.class);
+    } catch (ConfigurationException e) {
+      // ignore
+    } catch (ProvisionException e) {
+      // ignore
     }
 
     if (env.hasSshModule()) {
@@ -297,6 +310,10 @@ public class Plugin {
   @Nullable
   public Injector getHttpInjector() {
     return httpInjector;
+  }
+
+  public WebUiPlugin getWebUiPlugin() {
+    return webModule;
   }
 
   public void add(RegistrationHandle handle) {

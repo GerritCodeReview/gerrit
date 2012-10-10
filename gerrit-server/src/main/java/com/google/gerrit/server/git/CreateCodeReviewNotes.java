@@ -117,6 +117,7 @@ public class CreateCodeReviewNotes {
       NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(db);
       notesBranchUtil.commitAllNotes(notes, REFS_NOTES_REVIEW, author,
           message.toString());
+      inserter.flush();
     } catch (IOException e) {
       throw new CodeReviewNoteCreationException(e);
     } catch (ConcurrentRefUpdateException e) {
@@ -151,6 +152,7 @@ public class CreateCodeReviewNotes {
       NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(db);
       notesBranchUtil.commitAllNotes(notes, REFS_NOTES_REVIEW, author,
           commitMessage);
+      inserter.flush();
     } catch (ConcurrentRefUpdateException e) {
       throw new CodeReviewNoteCreationException(e);
     } finally {

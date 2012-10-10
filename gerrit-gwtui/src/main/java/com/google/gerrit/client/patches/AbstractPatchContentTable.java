@@ -436,12 +436,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
             return ((CommentEditorPanel) w);
 
           } else if (w instanceof CommentPanel) {
-            if (newComment != null && newComment.getParentUuid() != null) {
-              // If we are a reply, we were given the exact row to insert
-              // ourselves at. We should be before this panel so break.
-              //
-              break FIND_ROW;
-            }
             row++;
             cell--;
           } else {

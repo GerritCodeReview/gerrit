@@ -155,6 +155,21 @@ is_all_ok(_) :- fail.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
+%% locate_helper
+%%
+%%   Returns user:Func if it exists otherwise returns gerrit:Default
+
+locate_helper(Func, Default, Arity, user:Func) :-
+    '$compiled_predicate'(user, Func, Arity), !.
+locate_helper(Func, Default, Arity, user:Func) :-
+    listN(Arity, P), C =.. [Func | P], clause(user:C, _), !.
+locate_helper(Func, Default, _, gerrit:Default).
+
+listN(0, []).
+listN(N, [_|T]) :- N > 0, N1 is N - 1, listN(N1, T).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
 %% locate_submit_rule/1:
 %%
 %%   Finds a submit_rule depending on what rules are available.
@@ -164,17 +179,7 @@ is_all_ok(_) :- fail.
 %%
 
 locate_submit_rule(RuleName) :-
-  '$compiled_predicate'(user, submit_rule, 1),
-  !,
-  RuleName = user:submit_rule
-  .
-locate_submit_rule(RuleName) :-
-  clause(user:submit_rule(_), _),
-  !,
-  RuleName = user:submit_rule
-  .
-locate_submit_rule(RuleName) :-
-  RuleName = gerrit:default_submit.
+  locate_helper(submit_rule, default_submit, 1, RuleName).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -316,14 +321,15 @@ call_submit_filter(X, R, S) :- F =.. [X, R, S], F.
 :- public locate_submit_filter/1.
 %%
 locate_submit_filter(FilterName) :-
-  '$compiled_predicate'(user, submit_filter, 2),
-  !,
-  FilterName = user:submit_filter
-  .
-locate_submit_filter(FilterName) :-
-  clause(user:submit_filter(_,_), _),
-  FilterName = user:submit_filter
-  .
+  locate_helper(submit_filter, noop_filter, 2, FilterName).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% noop_filter/2:
+%%
+:- public noop_filter/2.
+%%
+noop_filter(In, In).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,0 +1,1 @@
+alert("Greeting from JavaScript Gerrit plugin!");

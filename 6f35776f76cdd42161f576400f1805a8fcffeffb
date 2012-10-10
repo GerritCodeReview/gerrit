@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ/n///kg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-10-10T15:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKCX////w\u003d",
+      "revId": "6f35776f76cdd42161f576400f1805a8fcffeffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKCX////s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Yeah, I favor this. Putting default with FAST_FORWARD_ONLY seems safer from a maint perspective.",
       "parentUuid": "AAAKCX////s\u003d",
+      "revId": "6f35776f76cdd42161f576400f1805a8fcffeffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/n///kc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-10-10T15:22:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH///oc\u003d",
       "revId": "6f35776f76cdd42161f576400f1805a8fcffeffb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

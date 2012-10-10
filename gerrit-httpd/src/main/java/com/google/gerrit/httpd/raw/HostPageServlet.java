@@ -16,16 +16,20 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
+import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.server.plugins.PluginLoader;
+import com.google.gerrit.server.plugins.RegisteredWebUiPlugin;
 import com.google.gwtexpui.linker.server.Permutation;
 import com.google.gwtexpui.linker.server.PermutationSelector;
 import com.google.gwtjsonrpc.server.JsonServlet;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -45,7 +49,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -74,16 +80,19 @@ public class HostPageServlet extends HttpServlet {
   private final PermutationSelector selector;
   private final boolean refreshHeaderFooter;
   private volatile Page page;
+  private final PluginLoader pluginLoader;
 
   @Inject
   HostPageServlet(final Provider<CurrentUser> cu, final Provider<WebSession> w,
       final SitePaths sp, final ThemeFactory themeFactory,
       final GerritConfig gc, final ServletContext servletContext,
-      @GerritServerConfig final Config cfg)
+      @GerritServerConfig final Config cfg,
+      final PluginLoader pluginLoader)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
     config = gc;
+    this.pluginLoader = pluginLoader;
     signedOutTheme = themeFactory.getSignedOutTheme();
     signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
@@ -163,11 +172,10 @@ public class HostPageServlet extends HttpServlet {
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     final Page.Content page = get().get(select(req));
-    final byte[] raw;
 
     final CurrentUser user = currentUser.get();
+    final StringWriter w = new StringWriter();
     if (user instanceof IdentifiedUser) {
-      final StringWriter w = new StringWriter();
       w.write(HPD_ID + ".account=");
       json(((IdentifiedUser) user).getAccount(), w);
       w.write(";");
@@ -183,17 +191,23 @@ public class HostPageServlet extends HttpServlet {
       w.write(HPD_ID + ".theme=");
       json(signedInTheme, w);
       w.write(";");
-
-      final byte[] userData = w.toString().getBytes("UTF-8");
-      raw = concat(page.part1, userData, page.part2);
     } else {
-      raw = page.full;
+      w.write(HPD_ID + ".theme=");
+      json(signedOutTheme, w);
+      w.write(";");
     }
+
+    w.write(HPD_ID + ".pluginUrls=");
+    json(getPluginUrls(), w);
+    w.write(";");
+
+    final byte[] userData = w.toString().getBytes("UTF-8");
+    final byte[] raw = concat(page.part1, userData, page.part2);
 
     final byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");
-      tosend = raw == page.full ? page.full_gz : HtmlDomUtil.compress(raw);
+      tosend = HtmlDomUtil.compress(raw);
     } else {
       tosend = raw;
     }
@@ -221,6 +235,18 @@ public class HostPageServlet extends HttpServlet {
       return null;
     }
     return selector.select(req);
+  }
+
+  private String[] getPluginUrls() {
+    final List<String> webUiPluginUrls = new ArrayList<String>();
+    Iterable<Plugin> plugins = pluginLoader.getPlugins(true);
+    for (Plugin plugin : plugins) {
+      if (plugin.hasWebUiPlugin()) {
+        String path  = "plugins/" + plugin.getName() + "/" + plugin.getWebUiPlugin().getPath();
+        webUiPluginUrls.add(path);
+      }
+    }
+    return webUiPluginUrls.toArray(new String[webUiPluginUrls.size()]);
   }
 
   private static byte[] concat(byte[] p1, byte[] p2, byte[] p3) {
@@ -265,6 +291,7 @@ public class HostPageServlet extends HttpServlet {
       footer = injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
 
       final HostPageData pageData = new HostPageData();
+      pageData.pluginUrls = getPluginUrls();
       pageData.config = config;
 
       final StringWriter w = new StringWriter();
@@ -313,8 +340,6 @@ public class HostPageServlet extends HttpServlet {
     class Content {
       final byte[] part1;
       final byte[] part2;
-      final byte[] full;
-      final byte[] full_gz;
 
       Content(Document hostDoc) throws IOException {
         final String raw = HtmlDomUtil.toString(hostDoc);
@@ -324,15 +349,6 @@ public class HostPageServlet extends HttpServlet {
         }
         part1 = raw.substring(0, p).getBytes("UTF-8");
         part2 = raw.substring(raw.indexOf('>', p) + 1).getBytes("UTF-8");
-
-        final StringWriter w = new StringWriter();
-        w.write(HPD_ID + ".theme=");
-        json(signedOutTheme, w);
-        w.write(";");
-
-        final byte[] themeData = w.toString().getBytes("UTF-8");
-        full = concat(part1, themeData, part2);
-        full_gz = HtmlDomUtil.compress(full);
       }
     }
 

@@ -116,10 +116,6 @@ public class SubmitRuleEvaluator {
       env.set(StoredValues.CHANGE_CONTROL, changeControl);
 
       submitRule = env.once("gerrit", userRuleLocatorName, new VariableTerm());
-      if (submitRule == null) {
-        throw new RuleEvalException(userRuleLocatorName + " returned null");
-      }
-
       if (fastEvalLabels) {
         env.once("gerrit", "assume_range_from_label");
       }
@@ -160,30 +156,28 @@ public class SubmitRuleEvaluator {
         parentEnv.copyStoredValues(childEnv);
         Term filterRule =
             parentEnv.once("gerrit", filterRuleLocatorName, new VariableTerm());
-        if (filterRule != null) {
-          try {
-            if (fastEvalLabels) {
-              env.once("gerrit", "assume_range_from_label");
-            }
-
-            Term resultsTerm = toListTerm(results);
-            results.clear();
-            Term[] template =
-                parentEnv.once("gerrit", filterRuleWrapperName, filterRule,
-                    resultsTerm, new VariableTerm());
-            @SuppressWarnings("unchecked")
-            final List<? extends Term> termList =
-                ((ListTerm) template[2]).toJava();
-            results.addAll(termList);
-          } catch (PrologException err) {
-            throw new RuleEvalException("Exception calling " + filterRule
-                + " on change " + change.getId() + " of "
-                + parentState.getProject().getName(), err);
-          } catch (RuntimeException err) {
-            throw new RuleEvalException("Exception calling " + filterRule
-                + " on change " + change.getId() + " of "
-                + parentState.getProject().getName(), err);
+        try {
+          if (fastEvalLabels) {
+            env.once("gerrit", "assume_range_from_label");
           }
+
+          Term resultsTerm = toListTerm(results);
+          results.clear();
+          Term[] template =
+              parentEnv.once("gerrit", filterRuleWrapperName, filterRule,
+                  resultsTerm, new VariableTerm());
+          @SuppressWarnings("unchecked")
+          final List<? extends Term> termList =
+              ((ListTerm) template[2]).toJava();
+          results.addAll(termList);
+        } catch (PrologException err) {
+          throw new RuleEvalException("Exception calling " + filterRule
+              + " on change " + change.getId() + " of "
+              + parentState.getProject().getName(), err);
+        } catch (RuntimeException err) {
+          throw new RuleEvalException("Exception calling " + filterRule
+              + " on change " + change.getId() + " of "
+              + parentState.getProject().getName(), err);
         }
 
         parentState = parentState.getParentState();

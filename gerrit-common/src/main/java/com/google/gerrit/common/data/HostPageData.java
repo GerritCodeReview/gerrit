@@ -24,6 +24,7 @@ public class HostPageData {
   public String xsrfToken;
   public GerritConfig config;
   public Theme theme;
+  public String[] plugnisUrls;
 
   public static class Theme {
     public String backgroundColor;

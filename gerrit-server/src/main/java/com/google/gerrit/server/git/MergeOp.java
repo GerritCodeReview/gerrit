@@ -487,6 +487,7 @@ public class MergeOp {
     toMerge.clear();
     toMerge.addAll(heads);
     Collections.sort(toMerge, new Comparator<CodeReviewCommit>() {
+      @Override
       public int compare(final CodeReviewCommit a, final CodeReviewCommit b) {
         return a.originalOrder - b.originalOrder;
       }
@@ -854,6 +855,7 @@ public class MergeOp {
       approvalList =
           db.patchSetApprovals().byPatchSet(n.patchsetId).toList();
       Collections.sort(approvalList, new Comparator<PatchSetApproval>() {
+        @Override
         public int compare(final PatchSetApproval a, final PatchSetApproval b) {
           return a.getGranted().compareTo(b.getGranted());
         }

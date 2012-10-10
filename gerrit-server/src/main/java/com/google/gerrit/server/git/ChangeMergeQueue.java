@@ -89,6 +89,7 @@ public class ChangeMergeQueue implements MergeQueue {
         });
       }
 
+      @SuppressWarnings("unused")
       @Provides
       public PerThreadRequestScope.Scoper provideScoper(
           final PerThreadRequestScope.Propagator propagator) {
@@ -243,6 +244,7 @@ public class ChangeMergeQueue implements MergeQueue {
       dest = d;
     }
 
+    @Override
     public void run() {
       unschedule(this);
       mergeImpl(dest);

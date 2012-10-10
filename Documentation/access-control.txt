@@ -855,8 +855,8 @@ any changes.
 Suggested access rights to grant:
 
 * <<category_read,`Read`>> on 'refs/heads/\*' and 'refs/tags/*'
-* <<category_push,`Push`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
-* <<category_label-Code-Review,`Code review`>> with range '-1' to '+1'
+* <<category_push,`Push`>> to 'refs/for/refs/heads/*'
+* <<category_label-Code-Review,`Code review`>> with range '-1' to '+1' for 'refs/heads/*'
 
 
 [[examples_developer]]
@@ -879,11 +879,11 @@ exclusively.
 Suggested access rights to grant:
 
 * <<category_read,`Read`>> on 'refs/heads/\*' and 'refs/tags/*'
-* <<category_push,`Push`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
-* <<category_push_merge,`Push merge commit`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
-* <<category_forge_author,`Forge Author Identity`>>
-* <<category_label-Code-Review,`Label: Code review`>> with range '-2' to '+2'
-* <<category_label-Verified,`Label: Verify`>> with range '-1' to '+1'
+* <<category_push,`Push`>> to 'refs/for/refs/heads/*'
+* <<category_push_merge,`Push merge commit`>> to 'refs/for/refs/heads/*'
+* <<category_forge_author,`Forge Author Identity`>> to 'refs/heads/*'
+* <<category_label-Code-Review,`Label: Code review`>> with range '-2' to '+2' for 'refs/heads/*'
+* <<category_label-Verified,`Label: Verify`>> with range '-1' to '+1' for 'refs/heads/*'
 * <<category_submit,`Submit`>>
 
 If the project is small or the developers are seasoned it might make
@@ -935,13 +935,13 @@ and so the push right can be found under the optional section.
 Suggested access rights to grant, that won't block changes:
 
 * <<category_read,`Read`>> on 'refs/heads/\*' and 'refs/tags/*'
-* <<category_label-Code-Review,`Label: Code review`>> with range '-1' to '0'
-* <<category_label-Verified,`Label: Verify`>> with range '0' to '+1'
+* <<category_label-Code-Review,`Label: Code review`>> with range '-1' to '0' for 'refs/heads/*'
+* <<category_label-Verified,`Label: Verify`>> with range '0' to '+1' for 'refs/heads/*'
 
 Optional access rights to grant:
 
-* <<category_label-Code-Review,`Label: Code review`>> with range '-1' to '+1'
-* <<category_push,`Push`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
+* <<category_label-Code-Review,`Label: Code review`>> with range '-1' to '+1' for 'refs/heads/*'
+* <<category_push,`Push`>> to 'refs/for/refs/heads/*'
 
 
 [[examples_integrator]]
@@ -958,7 +958,7 @@ Suggested access rights to grant:
 * <<examples_developer,Developer rights>>
 * <<category_push,`Push`>> to 'refs/heads/*'
 * <<category_push_merge,`Push merge commit`>> to 'refs/heads/*'
-* <<category_forge_committer,`Forge Committer Identity`>> to 'refs/for/refs/heads/\*' and 'refs/changes/*'
+* <<category_forge_committer,`Forge Committer Identity`>> to 'refs/for/refs/heads/*'
 * <<category_create,`Create Reference`>> to 'refs/heads/*'
 * <<category_push_annotated,`Push Annotated Tag`>> to 'refs/tags/*'
 

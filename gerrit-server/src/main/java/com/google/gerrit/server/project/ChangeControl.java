@@ -571,7 +571,7 @@ public class ChangeControl {
         && who.arg(0).isInteger();
   }
 
-  private static Term toListTerm(List<Term> terms) {
+  public static Term toListTerm(List<Term> terms) {
     Term list = Prolog.Nil;
     for (int i = terms.size() - 1; i >= 0; i--) {
       list = new ListTerm(terms.get(i), list);

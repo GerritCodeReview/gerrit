@@ -114,7 +114,8 @@ public class CreateCodeReviewNotes {
         message.append("* ").append(c.getShortMessage()).append("\n");
       }
 
-      NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(db);
+      NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(db,
+          inserter);
       notesBranchUtil.commitAllNotes(notes, REFS_NOTES_REVIEW, author,
           message.toString());
       inserter.flush();
@@ -149,7 +150,8 @@ public class CreateCodeReviewNotes {
         notes.set(commitId, createNoteContent(c, commitId));
       }
 
-      NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(db);
+      NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(db,
+          inserter);
       notesBranchUtil.commitAllNotes(notes, REFS_NOTES_REVIEW, author,
           commitMessage);
       inserter.flush();

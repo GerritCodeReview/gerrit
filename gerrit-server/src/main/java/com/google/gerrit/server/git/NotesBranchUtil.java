@@ -47,7 +47,7 @@ import java.io.IOException;
  */
 public class NotesBranchUtil {
   public interface Factory {
-    NotesBranchUtil create(Repository db);
+    NotesBranchUtil create(Repository db, ObjectInserter inserter);
   }
 
   private static final int MAX_LOCK_FAILURE_CALLS = 10;
@@ -55,6 +55,7 @@ public class NotesBranchUtil {
 
   private PersonIdent gerritIdent;
   private final Repository db;
+  private final ObjectInserter inserter;
 
   private RevCommit baseCommit;
   private NoteMap base;
@@ -63,7 +64,6 @@ public class NotesBranchUtil {
   private NoteMap ours;
 
   private RevWalk revWalk;
-  private ObjectInserter inserter;
   private ObjectReader reader;
   private boolean overwrite;
 
@@ -71,9 +71,11 @@ public class NotesBranchUtil {
 
   @Inject
   public NotesBranchUtil(@GerritPersonIdent final PersonIdent gerritIdent,
-      @Assisted Repository db) {
+      @Assisted Repository db,
+      @Assisted ObjectInserter inserter) {
     this.gerritIdent = gerritIdent;
     this.db = db;
+    this.inserter = inserter;
   }
 
   /**
@@ -128,7 +130,6 @@ public class NotesBranchUtil {
       ConcurrentRefUpdateException {
     try {
       revWalk = new RevWalk(db);
-      inserter = db.newObjectInserter();
       reader = db.newObjectReader();
       loadBase(notesBranch);
       if (overwrite) {
@@ -144,7 +145,6 @@ public class NotesBranchUtil {
       updateRef(notesBranch);
     } finally {
       revWalk.release();
-      inserter.release();
       reader.release();
     }
   }

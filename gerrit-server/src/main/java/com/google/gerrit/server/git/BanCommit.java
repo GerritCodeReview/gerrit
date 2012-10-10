@@ -92,7 +92,8 @@ public class BanCommit {
           banCommitNotes.set(commitToBan, createNoteContent(reason, inserter));
         }
         inserter.flush();
-        NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(repo);
+        NotesBranchUtil notesBranchUtil = notesBranchUtilFactory.create(repo,
+            inserter);
         NoteMap newlyCreated =
             notesBranchUtil.commitNewNotes(banCommitNotes, REF_REJECT_COMMITS,
                 createPersonIdent(), buildCommitMessage(commitsToBan, reason));

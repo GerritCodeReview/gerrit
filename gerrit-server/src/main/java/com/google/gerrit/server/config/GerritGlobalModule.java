@@ -54,7 +54,6 @@ import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
-import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
@@ -129,6 +128,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new GitModule());
     install(new PrologModule());
     install(ThreadLocalRequestContext.module());
+    install(new ChangeMergeQueue.Module());
 
     factory(AccountInfoCacheFactory.Factory.class);
     factory(CapabilityControl.Factory.class);
@@ -153,8 +153,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(EventFactory.class);
     bind(TransferConfig.class);
 
-    bind(ChangeMergeQueue.class).in(SINGLETON);
-    bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
     factory(ReloadSubmitQueueOp.Factory.class);
 
     bind(RuntimeInstance.class)

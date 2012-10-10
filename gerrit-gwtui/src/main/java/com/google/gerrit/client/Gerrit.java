@@ -42,9 +42,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -68,9 +70,12 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
+import com.google.gwtjsonrpc.client.CallbackHandle;
 import com.google.gwtjsonrpc.client.JsonDefTarget;
 import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.gwtjsonrpc.client.XsrfManager;
+import com.google.gwtjsonrpc.client.impl.ResultDeserializer;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
@@ -371,6 +376,7 @@ public class Gerrit implements EntryPoint {
 
     final HostPageDataService hpd = GWT.create(HostPageDataService.class);
     hpd.load(new GerritCallback<HostPageData>() {
+      @Override
       public void onSuccess(final HostPageData result) {
         Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
         myConfig = result.config;
@@ -383,7 +389,7 @@ public class Gerrit implements EntryPoint {
           myAccountDiffPref = result.accountDiffPref;
           applyUserPreferences();
         }
-        onModuleLoad2();
+        onModuleLoad2(result);
       }
     });
   }
@@ -465,7 +471,7 @@ public class Gerrit implements EntryPoint {
     btmmenu.add(poweredBy);
   }
 
-  private void onModuleLoad2() {
+  private void onModuleLoad2(HostPageData hpd) {
     RESOURCES.gwt_override().ensureInjected();
     RESOURCES.css().ensureInjected();
 
@@ -543,6 +549,7 @@ public class Gerrit implements EntryPoint {
     refreshMenuBar();
 
     History.addValueChangeHandler(new ValueChangeHandler<String>() {
+      @Override
       public void onValueChange(final ValueChangeEvent<String> event) {
         display(event.getValue());
       }
@@ -558,7 +565,50 @@ public class Gerrit implements EntryPoint {
     if (signInAnchor != null) {
       signInAnchor.setHref(loginRedirect(token));
     }
-    display(token);
+    loadPlugins(hpd, token);
+  }
+
+  private void loadPlugins(HostPageData hpd, final String token) {
+    if (hpd.plugins != null) {
+      for (final String url : hpd.plugins) {
+        ScriptInjector.fromUrl(url)
+            .setWindow(ScriptInjector.TOP_WINDOW)
+            .setCallback(new Callback<Void, Exception>() {
+              @Override
+              public void onSuccess(Void result) {
+              }
+
+              @Override
+              public void onFailure(Exception reason) {
+                ErrorDialog d = new ErrorDialog(reason);
+                d.setTitle(M.pluginFailed(url));
+                d.center();
+              }
+            }).inject();
+      }
+    }
+
+    CallbackHandle<Void> cb = new CallbackHandle<Void>(
+        new ResultDeserializer<Void>() {
+          @Override
+          public Void fromResult(JavaScriptObject responseObject) {
+            return null;
+          }
+        },
+        new AsyncCallback<Void>() {
+          @Override
+          public void onFailure(Throwable caught) {
+          }
+
+          @Override
+          public void onSuccess(Void result) {
+            display(token);
+          }
+        });
+    cb.install();
+    ScriptInjector.fromString(cb.getFunctionName() + "();")
+        .setWindow(ScriptInjector.TOP_WINDOW)
+        .inject();
   }
 
   public static void refreshMenuBar() {

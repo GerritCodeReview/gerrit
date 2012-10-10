@@ -17,6 +17,8 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 
+import java.util.List;
+
 /** Data sent as part of the host page, to bootstrap the UI. */
 public class HostPageData {
   public Account account;
@@ -24,6 +26,7 @@ public class HostPageData {
   public String xsrfToken;
   public GerritConfig config;
   public Theme theme;
+  public List<String> plugins;
 
   public static class Theme {
     public String backgroundColor;

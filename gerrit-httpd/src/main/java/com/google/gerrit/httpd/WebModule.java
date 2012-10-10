@@ -18,6 +18,8 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
 import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
@@ -130,6 +132,7 @@ public class WebModule extends FactoryModule {
         SINGLETON);
     bind(GerritConfigProvider.class);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
+    DynamicSet.setOf(binder(), WebUiPlugin.class);
 
     bind(AccountManager.class);
     bind(ChangeUserName.CurrentUser.class);

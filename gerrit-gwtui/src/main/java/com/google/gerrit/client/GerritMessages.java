@@ -22,7 +22,6 @@ public interface GerritMessages extends Messages {
   String poweredBy(String version);
 
   String noSuchAccountMessage(String who);
-
   String noSuchGroupMessage(String who);
 
   String branchCreationFailed(String branchName, String error);
@@ -31,4 +30,6 @@ public interface GerritMessages extends Messages {
   String branchCreationNotAllowedUnderRefnamePrefix(String refnamePrefix);
   String branchAlreadyExists(String branchName);
   String branchCreationConflict(String branchName, String existingBranchName);
+
+  String pluginFailed(String scriptPath);
 }

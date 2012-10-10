@@ -501,6 +501,10 @@ class HttpPluginServlet extends HttpServlet
     }
     if (contentType == null) {
       contentType = mimeUtil.getMimeType(entry.getName(), data).toString();
+      if ("application/octet-stream".equals(contentType)
+          && entry.getName().endsWith(".js")) {
+        contentType = "application/javascript";
+      }
     }
 
     long time = entry.getTime();

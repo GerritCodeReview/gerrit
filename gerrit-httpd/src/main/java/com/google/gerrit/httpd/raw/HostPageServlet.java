@@ -16,8 +16,12 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.common.collect.Lists;
+import com.google.common.primitives.Bytes;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
@@ -45,6 +49,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -65,6 +70,7 @@ public class HostPageServlet extends HttpServlet {
   private final Provider<CurrentUser> currentUser;
   private final Provider<WebSession> session;
   private final GerritConfig config;
+  private final DynamicSet<WebUiPlugin> plugins;
   private final HostPageData.Theme signedOutTheme;
   private final HostPageData.Theme signedInTheme;
   private final SitePaths site;
@@ -78,11 +84,13 @@ public class HostPageServlet extends HttpServlet {
   HostPageServlet(final Provider<CurrentUser> cu, final Provider<WebSession> w,
       final SitePaths sp, final ThemeFactory themeFactory,
       final GerritConfig gc, final ServletContext servletContext,
+      final DynamicSet<WebUiPlugin> webUiPlugins,
       @GerritServerConfig final Config cfg)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
     config = gc;
+    plugins = webUiPlugins;
     signedOutTheme = themeFactory.getSignedOutTheme();
     signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
@@ -163,11 +171,9 @@ public class HostPageServlet extends HttpServlet {
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     final Page.Content page = get().get(select(req));
-    final byte[] raw;
-
+    final StringWriter w = new StringWriter();
     final CurrentUser user = currentUser.get();
     if (user instanceof IdentifiedUser) {
-      final StringWriter w = new StringWriter();
       w.write(HPD_ID + ".account=");
       json(((IdentifiedUser) user).getAccount(), w);
       w.write(";");
@@ -183,17 +189,19 @@ public class HostPageServlet extends HttpServlet {
       w.write(HPD_ID + ".theme=");
       json(signedInTheme, w);
       w.write(";");
-
-      final byte[] userData = w.toString().getBytes("UTF-8");
-      raw = concat(page.part1, userData, page.part2);
     } else {
-      raw = page.full;
+      w.write(HPD_ID + ".theme=");
+      json(signedOutTheme, w);
+      w.write(";");
     }
+    plugins(w);
 
+    final byte[] hpd = w.toString().getBytes("UTF-8");
+    final byte[] raw = Bytes.concat(page.part1, hpd, page.part2);
     final byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");
-      tosend = raw == page.full ? page.full_gz : HtmlDomUtil.compress(raw);
+      tosend = HtmlDomUtil.compress(raw);
     } else {
       tosend = raw;
     }
@@ -212,6 +220,20 @@ public class HostPageServlet extends HttpServlet {
     }
   }
 
+  private void plugins(StringWriter w) {
+    List<String> urls = Lists.newArrayList();
+    for (WebUiPlugin u : plugins) {
+      urls.add(String.format("plugins/%s/%s",
+          u.getPluginName(),
+          u.getJavaScriptResourcePath()));
+    }
+    if (!urls.isEmpty()) {
+      w.write(HPD_ID + ".plugins=");
+      json(urls, w);
+      w.write(";");
+    }
+  }
+
   private Permutation select(final HttpServletRequest req) {
     if ("0".equals(req.getParameter("s"))) {
       // If s=0 is used in the URL, the user has explicitly asked us
@@ -221,20 +243,6 @@ public class HostPageServlet extends HttpServlet {
       return null;
     }
     return selector.select(req);
-  }
-
-  private static byte[] concat(byte[] p1, byte[] p2, byte[] p3) {
-    final byte[] r = new byte[p1.length + p2.length + p3.length];
-    int p = 0;
-    p = append(p1, r, p);
-    p = append(p2, r, p);
-    p = append(p3, r, p);
-    return r;
-  }
-
-  private static int append(byte[] src, final byte[] dst, int p) {
-    System.arraycopy(src, 0, dst, p, src.length);
-    return p + src.length;
   }
 
   private static class FileInfo {
@@ -313,8 +321,6 @@ public class HostPageServlet extends HttpServlet {
     class Content {
       final byte[] part1;
       final byte[] part2;
-      final byte[] full;
-      final byte[] full_gz;
 
       Content(Document hostDoc) throws IOException {
         final String raw = HtmlDomUtil.toString(hostDoc);
@@ -324,15 +330,6 @@ public class HostPageServlet extends HttpServlet {
         }
         part1 = raw.substring(0, p).getBytes("UTF-8");
         part2 = raw.substring(raw.indexOf('>', p) + 1).getBytes("UTF-8");
-
-        final StringWriter w = new StringWriter();
-        w.write(HPD_ID + ".theme=");
-        json(signedOutTheme, w);
-        w.write(";");
-
-        final byte[] themeData = w.toString().getBytes("UTF-8");
-        full = concat(part1, themeData, part2);
-        full_gz = HtmlDomUtil.compress(full);
       }
     }
 

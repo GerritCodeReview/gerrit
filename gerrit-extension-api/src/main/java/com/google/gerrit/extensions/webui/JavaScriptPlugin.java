@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client;
+package com.google.gerrit.extensions.webui;
 
-import com.google.gwt.i18n.client.Messages;
+/** Configures a web UI plugin written using JavaScript. */
+public class JavaScriptPlugin extends WebUiPlugin {
+  private final String fileName;
 
-public interface GerritMessages extends Messages {
-  String windowTitle1(String hostname);
-  String windowTitle2(String section, String hostname);
-  String poweredBy(String version);
+  /**
+   * @param fileName of JavaScript source file under {@code static/}
+   *        subdirectory within the plugin's JAR.
+   */
+  public JavaScriptPlugin(String fileName) {
+    this.fileName = fileName;
+  }
 
-  String noSuchAccountMessage(String who);
-  String noSuchGroupMessage(String who);
-  String pluginFailed(String scriptPath);
+  @Override
+  public String getJavaScriptResourcePath() {
+    return "static/" + fileName;
+  }
 }

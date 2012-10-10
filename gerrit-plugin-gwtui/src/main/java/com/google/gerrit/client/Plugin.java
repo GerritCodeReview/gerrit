@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,16 @@
 
 package com.google.gerrit.client;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.core.client.EntryPoint;
 
-public interface GerritMessages extends Messages {
-  String windowTitle1(String hostname);
-  String windowTitle2(String section, String hostname);
-  String poweredBy(String version);
-
-  String noSuchAccountMessage(String who);
-  String noSuchGroupMessage(String who);
-  String pluginFailed(String scriptPath);
+/**
+ * Base class for writing Gerrit Web UI plugins
+ *
+ * Writing a plugin:
+ * <ol>
+ * <li>Declare subtype of Plugin</li>
+ * <li>Bind WebUiPlugin to GwtPlugin implementation in Gerrit-Module</li>
+ * </ol>
+ */
+public abstract class Plugin implements EntryPoint {
 }

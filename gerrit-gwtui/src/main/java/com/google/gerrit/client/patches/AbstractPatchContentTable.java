@@ -427,7 +427,9 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         spans[col] = table.getFlexCellFormatter().getRowSpan(row, cell);
         if (col == column) {
           final Widget w = table.getWidget(row, cell);
-          if (w instanceof CommentEditorPanel) {
+          if (w instanceof CommentEditorPanel
+              && ((CommentEditorPanel) w).getComment().getKey().getParentKey()
+                  .equals(newComment.getKey().getParentKey())) {
             // Don't insert two editors on the same position, it doesn't make
             // any sense to the user.
             //
@@ -809,10 +811,10 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     }
 
     private void cannedReply(String message) {
-      CommentEditorPanel p = createEditor(null);
+      final PatchLineComment newComment = newComment();
+      newComment.setMessage(message);
+      CommentEditorPanel p = createEditor(newComment);
       if (p == null) {
-        final PatchLineComment newComment = newComment();
-        newComment.setMessage(message);
 
         enableButtons(false);
         PatchUtil.DETAIL_SVC.saveDraft(newComment,

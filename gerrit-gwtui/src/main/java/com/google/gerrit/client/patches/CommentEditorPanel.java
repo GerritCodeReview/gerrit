@@ -198,6 +198,10 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     return comment.getKey().get() == null;
   }
 
+  public PatchLineComment getComment() {
+    return comment;
+  }
+
   @Override
   public void onDoubleClick(final DoubleClickEvent event) {
     edit();

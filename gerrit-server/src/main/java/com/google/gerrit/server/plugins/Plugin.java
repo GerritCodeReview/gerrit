@@ -16,6 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.data.WebUiPlugin;
 import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -23,18 +24,25 @@ import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.inject.AbstractModule;
+import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
+import org.apache.log4j.lf5.util.StreamUtils;
 import org.eclipse.jgit.storage.file.FileSnapshot;
+import org.eclipse.jgit.util.FileUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.Attributes;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
@@ -94,9 +102,11 @@ public class Plugin {
   private Class<? extends Module> sshModule;
   private Class<? extends Module> httpModule;
 
+  private File webPluginDir;
   private Injector sysInjector;
   private Injector sshInjector;
   private Injector httpInjector;
+  private WebUiPlugin webModule;
   private LifecycleManager manager;
   private List<ReloadableRegistrationHandle<?>> reloadableHandles;
 
@@ -163,6 +173,10 @@ public class Plugin {
     }
   }
 
+  public boolean hasWebUiPlugin() {
+    return webModule != null;
+  }
+
   boolean isModified(File jar) {
     return snapshot.lastModified() != jar.lastModified();
   }
@@ -171,7 +185,7 @@ public class Plugin {
     return disabled;
   }
 
-  public void start(PluginGuiceEnvironment env) throws Exception {
+  public void start(PluginGuiceEnvironment env, File staticDir) throws Exception {
     Injector root = newRootInjector(env);
     manager = new LifecycleManager();
 
@@ -189,6 +203,13 @@ public class Plugin {
       manager.add(sysInjector);
     } else {
       sysInjector = root;
+    }
+    try {
+      webModule = sysInjector.getInstance(WebUiPlugin.class);
+    } catch (ConfigurationException e) {
+      // ignore
+    } catch (ProvisionException e) {
+      // ignore
     }
 
     if (env.hasSshModule()) {
@@ -278,6 +299,13 @@ public class Plugin {
       sysInjector = null;
       sshInjector = null;
       httpInjector = null;
+      if (webPluginDir != null) {
+        try {
+          FileUtils.delete(webPluginDir, FileUtils.RECURSIVE);
+        } catch (IOException e) {
+          // ignore (?)
+        }
+      }
     }
   }
 
@@ -297,6 +325,10 @@ public class Plugin {
   @Nullable
   public Injector getHttpInjector() {
     return httpInjector;
+  }
+
+  public WebUiPlugin getWebUiPlugin() {
+    return webModule;
   }
 
   public void add(RegistrationHandle handle) {

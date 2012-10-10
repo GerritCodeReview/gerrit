@@ -41,9 +41,11 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -381,6 +383,7 @@ public class Gerrit implements EntryPoint {
           applyUserPreferences();
         }
         onModuleLoad2();
+        loadPlugins(result.plugnis);
       }
     });
   }
@@ -556,6 +559,23 @@ public class Gerrit implements EntryPoint {
       signInAnchor.setHref(loginRedirect(token));
     }
     display(token);
+  }
+
+  private void loadPlugins(String[] pluginsUrls) {
+    for (final String url : pluginsUrls) {
+      ScriptInjector.fromUrl(url)
+          .setWindow(ScriptInjector.TOP_WINDOW)
+          .setCallback(new Callback<Void, Exception>() {
+            @Override
+            public void onSuccess(Void result) {
+              // does nothing
+            }
+            @Override
+            public void onFailure(Exception reason) {
+              Window.alert("Failed load pluing: " + url);
+            }
+          }).inject();
+    }
   }
 
   public static void refreshMenuBar() {

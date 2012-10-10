@@ -16,16 +16,18 @@ package com.google.gerrit.httpd.raw;
 
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
+import com.google.gerrit.common.data.RegisteredWebUiPlugin;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.gwtexpui.linker.server.Permutation;
 import com.google.gwtexpui.linker.server.PermutationSelector;
 import com.google.gwtjsonrpc.server.JsonServlet;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -45,7 +47,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -74,16 +78,19 @@ public class HostPageServlet extends HttpServlet {
   private final PermutationSelector selector;
   private final boolean refreshHeaderFooter;
   private volatile Page page;
+  private final Provider<DynamicSet<RegisteredWebUiPlugin>> webUiPlugins;
 
   @Inject
   HostPageServlet(final Provider<CurrentUser> cu, final Provider<WebSession> w,
       final SitePaths sp, final ThemeFactory themeFactory,
       final GerritConfig gc, final ServletContext servletContext,
-      @GerritServerConfig final Config cfg)
+      @GerritServerConfig final Config cfg,
+      final Provider<DynamicSet<RegisteredWebUiPlugin>> webUiPlugins)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
     config = gc;
+    this.webUiPlugins = webUiPlugins;
     signedOutTheme = themeFactory.getSignedOutTheme();
     signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
@@ -265,6 +272,11 @@ public class HostPageServlet extends HttpServlet {
       footer = injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
 
       final HostPageData pageData = new HostPageData();
+      final List<String> webUiPluginUrls = new ArrayList<String>();
+      for (RegisteredWebUiPlugin plugin : webUiPlugins.get()) {
+        webUiPluginUrls.add(plugin.getFullPath());
+      }
+      pageData.plugnis = webUiPluginUrls.toArray(new String[webUiPluginUrls.size()]);
       pageData.config = config;
 
       final StringWriter w = new StringWriter();

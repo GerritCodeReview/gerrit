@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.gerrit.common.data.RegisteredWebUiPlugin;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleModule;
 
 public class PluginModule extends LifecycleModule {
   @Override
   protected void configure() {
+    DynamicSet.setOf(binder(), RegisteredWebUiPlugin.class);
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
 

@@ -19,8 +19,10 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.RegisteredWebUiPlugin;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -65,6 +67,7 @@ public class PluginLoader implements LifecycleListener {
   private final File pluginsDir;
   private final File dataDir;
   private final File tmpDir;
+  private final File staticDir;
   private final PluginGuiceEnvironment env;
   private final ServerInformationImpl srvInfoImpl;
   private final ConcurrentMap<String, Plugin> running;
@@ -74,16 +77,20 @@ public class PluginLoader implements LifecycleListener {
   private final ConcurrentMap<CleanupHandle, Boolean> cleanupHandles;
   private final Provider<PluginCleanerTask> cleaner;
   private final PluginScannerThread scanner;
+  private final DynamicSet<RegisteredWebUiPlugin> registeredWebUiPlugins;
 
   @Inject
   public PluginLoader(SitePaths sitePaths,
       PluginGuiceEnvironment pe,
       ServerInformationImpl sii,
       Provider<PluginCleanerTask> pct,
-      @GerritServerConfig Config cfg) {
+      @GerritServerConfig Config cfg,
+      DynamicSet<RegisteredWebUiPlugin> webUiPlugins) {
+    registeredWebUiPlugins = webUiPlugins;
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
     tmpDir = sitePaths.tmp_dir;
+    staticDir = sitePaths.static_dir;
     env = pe;
     srvInfoImpl = sii;
     running = Maps.newConcurrentMap();
@@ -337,7 +344,7 @@ public class PluginLoader implements LifecycleListener {
         running.remove(name);
       }
       if (!newPlugin.isDisabled()) {
-        newPlugin.start(env);
+        newPlugin.start(env, staticDir);
       }
       if (reload) {
         env.onReloadPlugin(oldPlugin, newPlugin);
@@ -349,6 +356,11 @@ public class PluginLoader implements LifecycleListener {
         running.put(name, newPlugin);
       } else {
         disabled.put(name, newPlugin);
+      }
+      if (newPlugin.hasWebUiPlugin()) {
+        RegisteredWebUiPlugin registerdPlugin =
+            new RegisteredWebUiPlugin(name, newPlugin.getWebUiPlugin());
+        registeredWebUiPlugins.add(registerdPlugin);
       }
       broken.remove(name);
       return newPlugin;
@@ -427,6 +439,7 @@ public class PluginLoader implements LifecycleListener {
       String sysName = main.getValue("Gerrit-Module");
       String sshName = main.getValue("Gerrit-SshModule");
       String httpName = main.getValue("Gerrit-HttpModule");
+      String webName = main.getValue("Web-HttpModule");
 
       if (!Strings.isNullOrEmpty(sshName) && type != Plugin.ApiType.PLUGIN) {
         throw new InvalidPluginException(String.format(

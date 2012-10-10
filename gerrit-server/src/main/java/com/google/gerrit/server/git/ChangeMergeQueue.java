@@ -14,17 +14,30 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
+import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -36,6 +49,7 @@ import com.google.inject.servlet.RequestScoped;
 
 import com.jcraft.jsch.HostKey;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +63,43 @@ import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class ChangeMergeQueue implements MergeQueue {
+  public static class Lifecycle implements LifecycleListener {
+    private final ChangeMergeQueue mergeQueue;
+    private final WorkQueue workQueue;
+    private final long delay;
+
+    @Inject
+    Lifecycle(ChangeMergeQueue mergeQueue, WorkQueue workQueue,
+        @GerritServerConfig Config config) {
+      this.mergeQueue = mergeQueue;
+      this.workQueue = workQueue;
+      delay = ConfigUtil.getTimeUnit(config,
+          "changeMerge", null, "checkFrequency",
+          MILLISECONDS.convert(5, MINUTES), MILLISECONDS);
+    }
+
+    @Override
+    public void start() {
+      if (delay > 0) {
+        workQueue.getDefaultQueue().scheduleWithFixedDelay(
+            new RecheckAllJob(mergeQueue), 0, delay, MILLISECONDS);
+      }
+    }
+
+    @Override
+    public void stop() {
+    }
+  }
+
+  public static class Module extends LifecycleModule {
+    @Override
+    protected void configure() {
+      bind(ChangeMergeQueue.class).in(SINGLETON);
+      bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
+      listener().to(Lifecycle.class);
+    }
+  }
+
   private static final Logger log =
       LoggerFactory.getLogger(ChangeMergeQueue.class);
 
@@ -58,12 +109,19 @@ public class ChangeMergeQueue implements MergeQueue {
       new HashMap<Branch.NameKey, RecheckJob>();
 
   private final WorkQueue workQueue;
+  private final SchemaFactory<ReviewDb> schemaFactory;
+  private final ProjectCache projectCache;
   private final Provider<MergeOp.Factory> bgFactory;
   private final PerThreadRequestScope.Scoper threadScoper;
 
   @Inject
-  ChangeMergeQueue(final WorkQueue wq, Injector parent) {
+  ChangeMergeQueue(WorkQueue wq,
+      SchemaFactory<ReviewDb> sf,
+      ProjectCache pc,
+      Injector parent) {
     workQueue = wq;
+    schemaFactory = sf;
+    projectCache = pc;
 
     Injector child = parent.createChildInjector(new AbstractModule() {
       @Override
@@ -235,6 +293,39 @@ public class ChangeMergeQueue implements MergeQueue {
     }
   }
 
+  private void recheckAll() {
+    try {
+      threadScoper.scope(new Callable<Void>() {
+        @Override
+        public Void call() throws Exception {
+          ReviewDb db = schemaFactory.open();
+          SetMultimap<Project.NameKey, Branch.NameKey> toRecheck =
+              HashMultimap.create();
+          for (Change c : db.changes().allSubmitted()) {
+            toRecheck.put(c.getProject(), c.getDest());
+          }
+          log.info("Rechecking " + toRecheck.size() + " changes in " + toRecheck.keySet().size() + " projects");
+          for (Project.NameKey name : toRecheck.keySet()) {
+            ProjectState pe = projectCache.get(name);
+            if (pe == null) {
+              log.error("No such project while rechecking for pending merges: "
+                + name);
+              continue;
+            }
+            // Retry regardless of submit type; even with FAST_FORWARD_ONLY, a
+            // change may have become stuck without the branch advancing.
+            for (Branch.NameKey branch : toRecheck.get(name)) {
+              schedule(branch);
+            }
+          }
+          return null;
+        }
+      }).call();
+    } catch (Throwable e) {
+      log.error("Rechecking for pending merges failed", e);
+    }
+  }
+
   private class MergeEntry implements Runnable {
     final Branch.NameKey dest;
     boolean needMerge;
@@ -274,6 +365,24 @@ public class ChangeMergeQueue implements MergeQueue {
     public String toString() {
       final Project.NameKey project = dest.getParentKey();
       return "recheck " + project.get() + " " + dest.getShortName();
+    }
+  }
+
+  private static class RecheckAllJob implements Runnable {
+    private final ChangeMergeQueue mergeQueue;
+
+    private RecheckAllJob(ChangeMergeQueue mergeQueue) {
+      this.mergeQueue = mergeQueue;
+    }
+
+    @Override
+    public void run() {
+      mergeQueue.recheckAll();
+    }
+
+    @Override
+    public String toString() {
+      return "recheck all";
     }
   }
 }

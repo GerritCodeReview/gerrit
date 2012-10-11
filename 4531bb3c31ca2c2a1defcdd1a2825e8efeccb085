@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKGH///4c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T23:33:29Z",
+      "side": 1,
+      "message": "I\u0027m a little concerned about this particular block. The intent is to delay switching to the first requested screen until after all plugins have had a chance to download their JavaScript and initialize. This permits them to (one day) hook into events that may be fired by the main UI and make sure they can react to the initial page load.\n\nFor a normal JS plugin this probably is fine. This script block is behind the plugin\u0027s block, and will not run until the plugin script executes.\n\nFor a GWT plugin this is a problem. The nocache.js usually loads an \u003ciframe\u003e that waits for the content to download and then executes the rest of the code\u0027s init deferred. So the transfer to display the first screen will happen before the GWT plugin can finish initialization.\n\nWe can\u0027t rely on the onSuccess method above in the Callback because onSuccess and onFailure do not work on all browsers. Safari and IE are notable exceptions where these don\u0027t always get fired by the browser. At least that is what the GWT docs tell me.",
+      "revId": "4531bb3c31ca2c2a1defcdd1a2825e8efeccb085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

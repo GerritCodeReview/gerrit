@@ -33,6 +33,24 @@
       "revId": "5968382c0d613146f81b09c69825b7c93a9efcf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+YU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2012-10-11T16:24:15Z",
+      "side": 1,
+      "message": "Whoops, completely missed ReloadSubmitQueueOp, will abandon this change.",
+      "parentUuid": "AAAKAH//+VY\u003d",
+      "revId": "5968382c0d613146f81b09c69825b7c93a9efcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

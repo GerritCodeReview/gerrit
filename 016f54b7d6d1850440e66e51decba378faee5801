@@ -1,0 +1,480 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKAH//+wY\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "s/Pluing/Plugin/, s/theirs/their/",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+wM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "dependency",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+wE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "contents",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+wA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "s/becaude/because/",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+v0\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "s/pliugin/plugin/\n\nNeeding a restart is a bug in your change. :-)",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+uk\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/HostPageData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "pluginUrls",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+u0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/JavaScriptWebUiPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "please document this is relative to the static/ directory of the plugin\u0027s JAR.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+us\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RegisteredWebUiPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "This needs to be relative to the application, not the server. I\u0027m not sure we should have it lead off with /.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+uc\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/WebUiPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "Please put these into com.google.gerrit.common.plugins. But I\u0027m not sure why you need this in the common package, aren\u0027t these specific to the server?",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+vc\u003d",
+        "filename": "gerrit-gwtui-plugin/.gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "Please ignore:\n\n  /target\n  /.classpath\n  /.project\n  /.settings/org.maven.ide.eclipse.prefs\n  /.settings/org.eclipse.m2e.core.prefs\n  /gerrit-gwtui-plugin.iml",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+vo\u003d",
+        "filename": "gerrit-gwtui-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+vg\u003d",
+        "filename": "gerrit-gwtui-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "unnecessary blank line",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+vQ\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/client/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "We have thus far used a standard header that says generically the Android Open Source Project as copyright tends to be shared among many others once a file starts to exist in the project and we all contribute to it.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+vU\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/client/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "header is mangled",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+vE\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/client/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "Writing",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+uY\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/linker/computeUrlForPluginResource.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "This isn\u0027t strictly a java file. It should be in the src/main/resources directory.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+uU\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/rebind/PluginGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "If this is based on the gwt-gadgets generator you may not be able to safely claim Copyright 2012 CollabNet without also declaring the copyright notice of the authors that this was derived from.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+uQ\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "This should be a translated message. And instead of Window.alert use our ErrorDialog type.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+qI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be a Provider, you can just use DynamicSet here.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+o0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "Use a pattern like this to populate the plugin array in HostPageData dynamically on each request. That means we will always be writing some portion fo HostPageData dynamically, so you may want to refactor this entire block a little bit and forget the page.full block in the else here and always use concat to build the 3 sections of the page up.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+pQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "Don\u0027t populate the data here, its too early. As you noticed it doesn\u0027t allow you to respond to changes in the plugins when they are dynamically loaded or reloaded.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+os\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "Do not link to log4j directly.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+og\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "This is not necessary. Do not add the parameter.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+oY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "Don\u0027t do this. Instead let the plugin register its instance(s) with the DynamicSet.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+oU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "Not necessary, remove this.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+oM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "No, this isn\u0027t necessary here. Let the plugin register the binding itself. You only need DynamicSet in HostPageServlet.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+oA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "Not necessary. The web plugin should be bound in the Gerrit-HttpModule.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+ng\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T04:16:10Z",
+      "side": 1,
+      "message": "This should be declared in another location, e.g. WebModule. We always need this set declared but not every server binds PluginModule. In particular the server that powers gerit-review doesn\u0027t bind PluginModule. :-)",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

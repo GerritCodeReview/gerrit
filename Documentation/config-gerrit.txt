@@ -648,16 +648,23 @@ Default is 5 minutes.
 [[changeMerge]]Section changeMerge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+changeMerge.checkFrequency::
++
+How often the database should be rescanned for changes that have been
+submitted but not merged due to transient errors. Values can be
+specified using standard time unit abbreviations ('ms', 'sec', 'min',
+etc.). Set to 0 to disable periodic rescanning, only scanning once on
+master node startup.
++
+Default is 300 seconds (5 minutes).
+
+changeMerge.test::
++
 Controls whether or not the mergeability test of changes is
 enabled.  If enabled, when the change page is loaded, the test is
 triggered. The submit button will be enabled or disabled according to
 the result.
-
-----
-[changeMerge]
-  test = true
-----
-
++
 By default this is false (test is not enabled).
 
 [[commentlink]]Section commentlink

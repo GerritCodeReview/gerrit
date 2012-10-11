@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKAH//+UE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T09:20:56Z",
+      "side": 1,
+      "message": "boolean not Boolean. But declare this at line 34 above the // Transient data comment.",
+      "revId": "aa95c2c040c3ff5276e358a207970577ab32c99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+UA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T09:20:56Z",
+      "side": 1,
+      "message": "h \u003d h * 31 + (ignoreWhitespace ? 1 : 0)",
+      "revId": "aa95c2c040c3ff5276e358a207970577ab32c99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+T8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T09:20:56Z",
+      "side": 1,
+      "message": "\u0026\u0026 ignoreWhitespace \u003d\u003d k.ignoreWhitespace",
+      "revId": "aa95c2c040c3ff5276e358a207970577ab32c99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

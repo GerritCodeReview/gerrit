@@ -1107,8 +1107,9 @@ public class MergeOp {
                 break;
             }
             break;
+          default:
+            throw new IOException(branchUpdate.getResult().name());
         }
-        throw new IOException(branchUpdate.getResult().name());
       } catch (IOException e) {
         throw new MergeException("Cannot update " + branchUpdate.getName(), e);
       }

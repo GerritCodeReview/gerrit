@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+unset GREP_OPTIONS
+
 CHANGE_ID_AFTER="Bug|Issue"
 MSG="$1"
 

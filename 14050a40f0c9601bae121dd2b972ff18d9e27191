@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKCX///6I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T11:39:23Z",
+      "side": 1,
+      "message": "s/direcotry/directory",
+      "revId": "14050a40f0c9601bae121dd2b972ff18d9e27191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX///6E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T11:39:23Z",
+      "side": 1,
+      "message": "s/is/are",
+      "revId": "14050a40f0c9601bae121dd2b972ff18d9e27191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX///6A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T11:39:23Z",
+      "side": 1,
+      "message": "s/separete/separate",
+      "revId": "14050a40f0c9601bae121dd2b972ff18d9e27191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX///6M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T11:39:23Z",
+      "side": 1,
+      "message": "s/contants/contents",
+      "revId": "14050a40f0c9601bae121dd2b972ff18d9e27191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX///5o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/HostPageData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T11:39:23Z",
+      "side": 1,
+      "message": "s/plugnisUrls/pluginUrls",
+      "revId": "14050a40f0c9601bae121dd2b972ff18d9e27191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX///54\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/client/Plugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T11:39:23Z",
+      "side": 1,
+      "message": "s/writting/writing",
+      "revId": "14050a40f0c9601bae121dd2b972ff18d9e27191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX///5g\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/rebind/PluginGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T11:39:23Z",
+      "side": 1,
+      "message": "Why are there two copyright notices?",
+      "revId": "14050a40f0c9601bae121dd2b972ff18d9e27191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX///50\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T11:39:23Z",
+      "side": 1,
+      "message": "\"Failed load pluing\" -\u003e \"Failed to load plugin\"",
+      "revId": "14050a40f0c9601bae121dd2b972ff18d9e27191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX///5w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T11:39:23Z",
+      "side": 1,
+      "message": "s/plugnisUrls/pluginUrls",
+      "revId": "14050a40f0c9601bae121dd2b972ff18d9e27191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX///5s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T11:39:23Z",
+      "side": 1,
+      "message": "- s/plugnisUrls/pluginUrls\n- missing space after \u003d",
+      "revId": "14050a40f0c9601bae121dd2b972ff18d9e27191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

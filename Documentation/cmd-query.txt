@@ -65,7 +65,8 @@ OPTIONS
 
 --files::
 	Support for listing files with patch sets and their
-	attributes (ADDED, MODIFIED, DELETED, RENAMED, COPIED).
+	attributes (ADDED, MODIFIED, DELETED, RENAMED, COPIED)
+	and size information (number of insertions and deletions).
 	Note that this option requires either the --current-patch-set
 	or the --patch-sets option in order to give any file information.
 

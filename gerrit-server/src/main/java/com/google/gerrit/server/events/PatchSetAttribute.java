@@ -23,8 +23,11 @@ public class PatchSetAttribute {
   public String ref;
   public AccountAttribute uploader;
   public Long createdOn;
+  public AccountAttribute author;
 
   public List<ApprovalAttribute> approvals;
   public List<PatchSetCommentAttribute> comments;
   public List<PatchAttribute> files;
+  public int sizeInsertions;
+  public int sizeDeletions;
 }

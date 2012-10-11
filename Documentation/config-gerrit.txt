@@ -1707,6 +1707,18 @@ Attributes such as `${dn}` or `${uidNumber}` may be useful.
 Default is `(memberUid=${username})` for RFC 2307,
 and unset (disabled) for Active Directory.
 
+[[ldap.groupName]]ldap.groupName::
++
+_(Optional)_ Name of an attribute on the group object which contains
+the value for the group name in Gerrit.
+Typically this is the `cn` property in LDAP, but could also be
+`apple-group-realname`.
++
+Attribute values may be concatenated with literal strings. For example
+to join group name and group id, use the pattern `${cn} (${gidNumber})`.
++
+Default is `cn` for RFC 2307 servers and Active Directory.
+
 [[ldap.localUsernameToLowerCase]]ldap.localUsernameToLowerCase::
 +
 Converts the local username, that is used to login into the Gerrit

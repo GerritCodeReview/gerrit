@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -81,11 +82,11 @@ public class LdapGroupBackend implements GroupBackend {
     return uuid.get().startsWith(LDAP_UUID);
   }
 
-  private static GroupReference groupReference(LdapQuery.Result res)
-      throws NamingException {
+  private static GroupReference groupReference(ParameterizedString p,
+      LdapQuery.Result res) throws NamingException {
     return new GroupReference(
         new AccountGroup.UUID(LDAP_UUID + res.getDN()),
-        LDAP_NAME + cnFor(res.getDN()));
+        LDAP_NAME + LdapRealm.apply(p, res));
   }
 
   private static String cnFor(String dn) {
@@ -203,13 +204,14 @@ public class LdapGroupBackend implements GroupBackend {
         LdapSchema schema = helper.getSchema(ctx);
         ParameterizedString filter = ParameterizedString.asis(
             schema.groupPattern.replace(GROUPNAME, name).toString());
-        Set<String> returnAttrs = Collections.<String>emptySet();
+        Set<String> returnAttrs =
+            new HashSet<String>(schema.groupName.getParameterNames());
         Map<String, String> params = Collections.emptyMap();
         for (String groupBase : schema.groupBases) {
           LdapQuery query = new LdapQuery(
               groupBase, schema.groupScope, filter, returnAttrs);
           for (LdapQuery.Result res : query.query(ctx, params)) {
-            out.add(groupReference(res));
+            out.add(groupReference(schema.groupName, res));
           }
         }
       } finally {

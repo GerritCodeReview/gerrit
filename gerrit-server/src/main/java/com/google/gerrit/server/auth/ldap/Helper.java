@@ -242,6 +242,7 @@ import javax.net.ssl.SSLSocketFactory;
     final List<String> groupBases;
     final SearchScope groupScope;
     final ParameterizedString groupPattern;
+    final ParameterizedString groupName;
     final List<LdapQuery> groupMemberQueryList;
 
     LdapSchema(final DirContext ctx) {
@@ -257,6 +258,7 @@ import javax.net.ssl.SSLSocketFactory;
       groupBases = LdapRealm.optionalList(config, "groupBase");
       groupScope = LdapRealm.scope(config, "groupScope");
       groupPattern = LdapRealm.paramString(config, "groupPattern", type.groupPattern());
+      groupName = LdapRealm.paramString(config, "groupName", type.groupName());
       final String groupMemberPattern =
           LdapRealm.optdef(config, "groupMemberPattern", type.groupMemberPattern());
 

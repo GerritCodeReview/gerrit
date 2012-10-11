@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ8n///4w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/SubmitTypeRecord.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-11T15:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ7H///Zw\u003d",
+      "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ7H///ZE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-06T00:37:13Z",
       "side": 1,
       "message": "env.once might be more useful if you only want the first solution.\n\nYou cannot call interpreted Prolog code directly from Java easily. The user supplied function is probably interpreted. So the call will fail without a level of indirection. From Java we can only invoke predicates that are builtins (implemented by hand in Java) or that were compiled by the Prolog-\u003eJava compiler and compiled as bytecode.\n\nits probably easiest to just do what you are doing here, but I think you might also be able to use the call predicate to start the interpreter. I may have had trouble with that before and just punted and used a precompiled trampoline function... aka get_submit_type.",
+      "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ8n///3U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-11T15:14:06Z",
+      "side": 1,
+      "message": "Since this is now based on [1] this whole code block will disappear. Since [1] uses env.all I would keep the cut until we support multiple return values for submit_type.\n\n[1] https://gerrit-review.googlesource.com/35252",
+      "parentUuid": "AAAJ7H///ZE\u003d",
       "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ8n///30\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_default_submit_type_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-11T15:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ7H///Yo\u003d",
+      "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ7H///XA\u003d",
         "filename": "gerrit-server/src/main/java/gerrit/PRED_default_submit_type_1.java",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-10-06T00:37:13Z",
       "side": 1,
       "message": "project_default_submit_type/1? Its the project configuration submit type. I wonder if we shouldn\u0027t be explicitly clear about that in its name.",
+      "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKDH///1c\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_default_submit_type_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-11T15:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ7H///XA\u003d",
       "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ8n///24\u003d",
+        "filename": "gerrit-server/src/main/java/gerrit/PRED_default_submit_type_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-11T15:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ7H///YA\u003d",
+      "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ7H///X8\u003d",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2012-10-06T00:37:13Z",
       "side": 1,
       "message": "We appear to put a blank line before the public decl so:\n\n  %%   Executes the ...\n  %%\n  :- public ...",
+      "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ8n///3Y\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-11T15:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAJ7H///X8\u003d",
       "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ8n///3M\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-11T15:14:06Z",
+      "side": 1,
+      "message": "See my comment in ChangeControl wrt to using env.all and the cut here. Once we support multiple solutions for submit_type I will remove the cut.",
+      "parentUuid": "AAAJ7H///Xs\u003d",
+      "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ7H///XU\u003d",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 5
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "AAAJ8n///3A\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-11T15:14:06Z",
+      "side": 1,
+      "message": "Done in a predecessor change [1]. To make it really reusable I also had to introduce the Arity parameter as submit_rule has arity 1 and submit_filter has arity 2.\n\n[1] https://gerrit-review.googlesource.com/38303",
+      "parentUuid": "AAAJ7H///XU\u003d",
+      "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJ7H///Xk\u003d",
         "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
         "patchSetId": 5
@@ -149,6 +293,24 @@
       "writtenOn": "2012-10-06T00:37:13Z",
       "side": 1,
       "message": "I think this should be just submit_type, not submit_type_rule.",
+      "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ8n///28\u003d",
+        "filename": "gerrit-server/src/main/prolog/gerrit_common.pl",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-11T15:14:06Z",
+      "side": 1,
+      "message": "Yes, submit_rule + submit_type in rules.pl is nicer than submit_rule + submit_type_rule",
+      "parentUuid": "AAAJ7H///Xk\u003d",
       "revId": "e69193118e4a8e78169d4ed69e1111fd154d2330",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

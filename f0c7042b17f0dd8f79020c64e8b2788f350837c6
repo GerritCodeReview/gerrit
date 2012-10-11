@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKAH//+BI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:54:20Z",
+      "side": 1,
+      "message": "This is nice, but you can\u0027t query for LDAP groups because you need a UUID instead of an Id.",
+      "revId": "f0c7042b17f0dd8f79020c64e8b2788f350837c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

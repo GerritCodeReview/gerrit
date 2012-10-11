@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///4E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+wY\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+wM\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "dependency",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///4A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+wM\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///30\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+wE\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+wA\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "s/becaude/because/",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///38\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+wA\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///34\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done\n\nBug fixed, therefore I also remove this sentence",
+      "parentUuid": "AAAKAH//+v0\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+uk\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/HostPageData.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "pluginUrls",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///58\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/HostPageData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+uk\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///6A\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/JavaScriptWebUiPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+u0\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+us\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RegisteredWebUiPlugin.java",
         "patchSetId": 1
@@ -132,6 +258,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "This needs to be relative to the application, not the server. I\u0027m not sure we should have it lead off with /.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///6E\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/RegisteredWebUiPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "True, forgot about this use case.\n\nDone.",
+      "parentUuid": "AAAKAH//+us\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///54\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/WebUiPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Moved to com.google.gerrit.server.plugins",
+      "parentUuid": "AAAKAH//+uc\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+vc\u003d",
         "filename": "gerrit-gwtui-plugin/.gitignore",
         "patchSetId": 1
@@ -166,6 +328,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "Please ignore:\n\n  /target\n  /.classpath\n  /.project\n  /.settings/org.maven.ide.eclipse.prefs\n  /.settings/org.eclipse.m2e.core.prefs\n  /gerrit-gwtui-plugin.iml",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///50\u003d",
+        "filename": "gerrit-gwtui-plugin/.gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+vc\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///5w\u003d",
+        "filename": "gerrit-gwtui-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+vo\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+vg\u003d",
         "filename": "gerrit-gwtui-plugin/pom.xml",
         "patchSetId": 1
@@ -200,6 +398,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "unnecessary blank line",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///5s\u003d",
+        "filename": "gerrit-gwtui-plugin/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+vg\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -240,6 +456,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///5k\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/client/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+vU\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+vE\u003d",
         "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/client/Plugin.java",
         "patchSetId": 1
@@ -251,6 +485,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "Writing",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///5o\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/client/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+vE\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -274,6 +526,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///5g\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/linker/computeUrlForPluginResource.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+uY\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+uU\u003d",
         "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/rebind/PluginGenerator.java",
         "patchSetId": 1
@@ -285,6 +555,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "If this is based on the gwt-gadgets generator you may not be able to safely claim Copyright 2012 CollabNet without also declaring the copyright notice of the authors that this was derived from.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///4I\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/rebind/PluginGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+uU\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -308,6 +596,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///5c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+uQ\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+qI\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
         "patchSetId": 1
@@ -319,6 +625,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "This doesn\u0027t need to be a Provider, you can just use DynamicSet here.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///5Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+qI\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -342,6 +666,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///5E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+o0\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+pQ\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
         "patchSetId": 1
@@ -353,6 +695,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "Don\u0027t populate the data here, its too early. As you noticed it doesn\u0027t allow you to respond to changes in the plugins when they are dynamically loaded or reloaded.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///5Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+pQ\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -376,6 +736,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///5A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+os\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+og\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
         "patchSetId": 1
@@ -387,6 +765,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "This is not necessary. Do not add the parameter.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///48\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+og\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -410,6 +806,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///4o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "I cannot obtain last added element from DynamicSet to bind it with plugin name in PluginLoader. Therefore I need this instance here and as far as I can see it cannot be automatically bind/registered",
+      "parentUuid": "AAAKAH//+oY\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+oU\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
         "patchSetId": 1
@@ -421,6 +835,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "Not necessary, remove this.",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///44\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+oU\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -444,6 +876,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///4s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Here we concat custom plugin name given in `ssh plugin install --name` with path to plugin init script. I\u0027m afraid that this cannot be done automatically during plugin registration, wee need to do this manually. If we don\u0027t do that the plugin won\u0027t load because of wrong path to js file.",
+      "parentUuid": "AAAKAH//+oM\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+oA\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 1
@@ -461,6 +911,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///4w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+oA\u003d",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+ng\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginModule.java",
         "patchSetId": 1
@@ -472,6 +940,24 @@
       "writtenOn": "2012-10-11T04:16:10Z",
       "side": 1,
       "message": "This should be declared in another location, e.g. WebModule. We always need this set declared but not every server binds PluginModule. In particular the server that powers gerit-review doesn\u0027t bind PluginModule. :-)",
+      "revId": "016f54b7d6d1850440e66e51decba378faee5801",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///4k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/PluginModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T09:41:46Z",
+      "side": 1,
+      "message": "Moving this to WebModule/UrlModule/WebAppInitializer.sysInjector won\u0027t work, so I just created WebUiPluginModule and install it here, it can be also installed in different places",
+      "parentUuid": "AAAKAH//+ng\u003d",
       "revId": "016f54b7d6d1850440e66e51decba378faee5801",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

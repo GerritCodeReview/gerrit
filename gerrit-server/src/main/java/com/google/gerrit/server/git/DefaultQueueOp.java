@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public abstract class DefaultQueueOp implements Runnable {
@@ -23,7 +24,12 @@ public abstract class DefaultQueueOp implements Runnable {
     workQueue = wq;
   }
 
-  public void start(final int delay, final TimeUnit unit) {
-    workQueue.getDefaultQueue().schedule(this, delay, unit);
+  public ScheduledFuture<?> start(long delay, TimeUnit unit) {
+    return workQueue.getDefaultQueue().schedule(this, delay, unit);
+  }
+
+  public ScheduledFuture<?> startWithFixedDelay(long delay, TimeUnit unit) {
+    return workQueue.getDefaultQueue()
+        .scheduleWithFixedDelay(this, delay, delay, unit);
   }
 }

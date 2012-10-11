@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKC3///1g\u003d",
+        "filename": "gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/src/main/java/HelloPlugins.gwt.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T12:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKCX///5M\u003d",
+      "revId": "3b59043950a8992ecb7083441c26e2670094d30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKCX///5E\u003d",
         "filename": "pom.xml",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-11T11:43:12Z",
       "side": 1,
       "message": "Tabs",
+      "revId": "3b59043950a8992ecb7083441c26e2670094d30c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKC3///1c\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-11T12:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKCX///5E\u003d",
       "revId": "3b59043950a8992ecb7083441c26e2670094d30c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

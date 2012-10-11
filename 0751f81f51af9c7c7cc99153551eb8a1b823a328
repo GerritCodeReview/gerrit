@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKAH//+Ss\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2012-10-11T15:18:42Z",
+      "side": 1,
+      "message": "Is there a plan for how to go about replacing it? I was looking at the REST api docs and noticed it already has an idea like this where it sets \"_more_changes: true\" when there are more results. I\u0027m assuming that\u0027s the new format you\u0027re referring to.",
+      "parentUuid": "AAAKAH//+UM\u003d",
+      "revId": "0751f81f51af9c7c7cc99153551eb8a1b823a328",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+Uo\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/QueryStats.java",
         "patchSetId": 1

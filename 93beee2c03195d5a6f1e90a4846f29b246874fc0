@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJ/3//+LQ\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/HostPageData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "List\u003cString\u003e is preferred. Its an array in JSON and about as cheap to work with as String[] but a little easier to code with in the server where we prefer a java.util.Collection type over a bare array.",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+LI\u003d",
+        "filename": "gerrit-gwtui-plugin/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "The Android Open Source Project ?",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+LE\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/Plugin.gwt.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "The Android Open Source Project?",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+LA\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/client/Plugin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "The Android Open Source Project?",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+Kw\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/client/Plugin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "Please make this exactly match the header in other Java files. We use // style comments and the text is flowed differently into paragraphs.",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+Kk\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/linker/GerritPluginLinker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "fix header",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+KU\u003d",
+        "filename": "gerrit-gwtui-plugin/src/main/java/com/google/gerrit/rebind/PluginGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "Use our existing // style Apache header, and but make the first two lines:\n\n  // Copyright (C) 2008 The Android Open Source Project\n  // Copyright 2008 Google Inc.\n\nThe text is the same for the remainder of the block.",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+Kg\u003d",
+        "filename": "gerrit-gwtui-plugin/src/test/resources/com/google/gerrit/linker/computeUrlForPluginResource.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "Please match the Java copyright header format. Its also legal in JavaScript.",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+Kc\u003d",
+        "filename": "gerrit-gwtui-plugin/src/test/resources/com/google/gerrit/linker/computeUrlForPluginResource.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "You put this into test/resources. Is it not required in the final packaged JAR?",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+KM\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "Does reason contain anything useful? ErrorDialog can show a few lines of text so maybe use one of the forms that would allow reason.getMessage() to also be presented?",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+Jo\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "Unnecessary edit at this point, you can drop this file out of the change.",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+Jk\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "Do not reference the PluginLoader. Use a DynamicSet.",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+Jc\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "Use a DynamicSet, not the pluginLoader.",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+Jg\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "Drop this assignment. Its always formatted above so it would be in the output twice.",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+JM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "Use a DynamicSet. Plugin shouldn\u0027t know this level of detail.",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+JI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/WebUiPlugin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "These should be in gerrit-extension-api under com.google.gerrit.extensions.webui",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+JY\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:48:51Z",
+      "side": 1,
+      "message": "Since this is something the user\u0027s plugin links with, maybe gerrit-plugin-gwtui? Then we have the convention that gerrit-plugin-* is the collection of stuff to support user plugins?",
+      "revId": "93beee2c03195d5a6f1e90a4846f29b246874fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

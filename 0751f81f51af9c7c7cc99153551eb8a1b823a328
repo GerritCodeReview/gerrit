@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKFn///uE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/QueryStats.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011672
+      },
+      "writtenOn": "2012-10-11T22:34:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+Uo\u003d",
+      "revId": "0751f81f51af9c7c7cc99153551eb8a1b823a328",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+UQ\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
         "patchSetId": 1
@@ -83,6 +101,24 @@
       "writtenOn": "2012-10-11T09:15:37Z",
       "side": 1,
       "message": "This getter/setter pair isn\u0027t necessary",
+      "revId": "0751f81f51af9c7c7cc99153551eb8a1b823a328",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKFn///vw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011672
+      },
+      "writtenOn": "2012-10-11T22:34:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+UQ\u003d",
       "revId": "0751f81f51af9c7c7cc99153551eb8a1b823a328",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -106,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKFn///vk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011672
+      },
+      "writtenOn": "2012-10-11T22:34:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+Uk\u003d",
+      "revId": "0751f81f51af9c7c7cc99153551eb8a1b823a328",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+Ug\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
         "patchSetId": 1
@@ -123,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKFn///vg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011672
+      },
+      "writtenOn": "2012-10-11T22:34:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+Ug\u003d",
+      "revId": "0751f81f51af9c7c7cc99153551eb8a1b823a328",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+UY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
         "patchSetId": 1
@@ -134,6 +206,24 @@
       "writtenOn": "2012-10-11T09:15:37Z",
       "side": 1,
       "message": "Two problems with this line:\n\n- space after if before (\n- use moreResults rather than hasMoreResults() method",
+      "revId": "0751f81f51af9c7c7cc99153551eb8a1b823a328",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKFn///uM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011672
+      },
+      "writtenOn": "2012-10-11T22:34:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+UY\u003d",
       "revId": "0751f81f51af9c7c7cc99153551eb8a1b823a328",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

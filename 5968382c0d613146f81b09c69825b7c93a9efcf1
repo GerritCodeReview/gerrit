@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKAH//+Vc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T09:02:21Z",
+      "side": 1,
+      "message": "We can\u0027t run this in our environment. There will be many jobs scheduled in the shared WorkQueue and there is no way for them to stop running. It might work to get some sort of handle back here and cancel it in stop, but these code paths are less well tested for periodic actions.\n\nI\u0027m also not entirely sure this is going to solve the bug you were looking at. Doesn\u0027t MergeOp already reschedule a branch a few seconds after the last failed attempt? Stock Gerrit usually waits 15 minutes and then redoes the MergeOp on a branch. Making this check unnecessary. And your parent commit tries to do that even more aggressively on LOCK_FAILURE.",
+      "revId": "5968382c0d613146f81b09c69825b7c93a9efcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+VY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeMergeQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T09:02:21Z",
+      "side": 1,
+      "message": "We already have this on server startup. ReloadSubmitQueueOp. Its just that our environment doesn\u0027t run this on startup.",
+      "revId": "5968382c0d613146f81b09c69825b7c93a9efcf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

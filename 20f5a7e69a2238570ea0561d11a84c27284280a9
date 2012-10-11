@@ -192,6 +192,24 @@
       "revId": "20f5a7e69a2238570ea0561d11a84c27284280a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKCX///7I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/PatchSetAttribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-11T09:56:48Z",
+      "side": 1,
+      "message": "Patch mentioned in my previous comment is uploaded [1]\n\n[1] https://gerrit-review.googlesource.com/#/c/38292/",
+      "parentUuid": "AAAKCX///7g\u003d",
+      "revId": "20f5a7e69a2238570ea0561d11a84c27284280a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

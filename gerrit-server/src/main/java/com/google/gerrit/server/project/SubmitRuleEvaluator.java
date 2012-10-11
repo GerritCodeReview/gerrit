@@ -96,7 +96,7 @@ public class SubmitRuleEvaluator {
    * @return List of {@link Term} objects returned from the evaluated rules.
    * @throws RuleEvalException
    */
-  List<Term> evaluate() throws RuleEvalException {
+  ListTerm evaluate() throws RuleEvalException {
     List<Term> results = new ArrayList<Term>();
     ProjectState projectState = projectControl.getProjectState();
     PrologEnvironment env;
@@ -140,6 +140,7 @@ public class SubmitRuleEvaluator {
       Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
       projectsSeen.add(projectState.getProject().getNameKey());
 
+      Term resultsTerm = toListTerm(results);
       while (parentState != null) {
         if (!projectsSeen.add(parentState.getProject().getNameKey())) {
           // parent has been seen before, stop walk up inheritance tree
@@ -161,15 +162,10 @@ public class SubmitRuleEvaluator {
             env.once("gerrit", "assume_range_from_label");
           }
 
-          Term resultsTerm = toListTerm(results);
-          results.clear();
           Term[] template =
               parentEnv.once("gerrit", filterRuleWrapperName, filterRule,
                   resultsTerm, new VariableTerm());
-          @SuppressWarnings("unchecked")
-          final List<? extends Term> termList =
-              ((ListTerm) template[2]).toJava();
-          results.addAll(termList);
+          resultsTerm = template[2];
         } catch (PrologException err) {
           throw new RuleEvalException("Exception calling " + filterRule
               + " on change " + change.getId() + " of "
@@ -183,11 +179,11 @@ public class SubmitRuleEvaluator {
         parentState = parentState.getParentState();
         childEnv = parentEnv;
       }
+
+      return (ListTerm) resultsTerm;
     } finally {
       env.close();
     }
-
-    return results;
   }
 
   private static Term toListTerm(List<Term> terms) {

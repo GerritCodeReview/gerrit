@@ -297,6 +297,7 @@ public class ChangeControl {
     return canSubmit(db, patchSet, null, false, false);
   }
 
+ @SuppressWarnings("unchecked")
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed) {
     if (!allowClosed && change.getStatus().isClosed()) {
@@ -337,7 +338,7 @@ public class ChangeControl {
           fastEvalLabels,
           "locate_submit_rule", "can_submit",
           "locate_submit_filter", "filter_submit_results");
-      results = evaluator.evaluate();
+      results = evaluator.evaluate().toJava();
     } catch (RuleEvalException e) {
       return logRuleError(e.getMessage(), e);
     }

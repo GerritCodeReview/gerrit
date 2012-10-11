@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAJ/3//+MY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/MasterNodeStartup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:28:29Z",
+      "side": 1,
+      "message": "volatile",
+      "revId": "0c3804714137f08838559bbaf3d306f2f793e414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+Ms\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/MasterNodeStartup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:28:29Z",
+      "side": 1,
+      "message": "Documentation says this is 5 minutes, but here its 15 seconds. Please make the code and docs agree.\n\nFYI, cache.projects.checkFrequency uses minutes as the default unit. I think you should match that. This does mean you can\u0027t check more often than once per minute. Or maybe this should be seconds. Milliseconds seems a bit small.",
+      "revId": "0c3804714137f08838559bbaf3d306f2f793e414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+MU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/MasterNodeStartup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:28:29Z",
+      "side": 1,
+      "message": "There is a different method available to start with one delay of 15 seconds, and another period for all future runs. I think that is what you want here.",
+      "revId": "0c3804714137f08838559bbaf3d306f2f793e414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAJ/3//+Mc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/MasterNodeStartup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T18:28:29Z",
+      "side": 1,
+      "message": "Check for null here:\n\n  ScheduledFuture\u003c?\u003e f \u003d handle;\n  if (f !\u003d null) {\n    handle \u003d null;\n    f.cancel(true);\n  }",
+      "revId": "0c3804714137f08838559bbaf3d306f2f793e414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

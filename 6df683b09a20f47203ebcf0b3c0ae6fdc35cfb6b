@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAKAH//+Vo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T08:55:29Z",
+      "side": 1,
+      "message": "Why a new random per MergeOp? Why not make a single static final Random and reuse that RNG for all of the backoff?",
+      "revId": "6df683b09a20f47203ebcf0b3c0ae6fdc35cfb6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKCX///+U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 3
@@ -13,6 +30,24 @@
       "writtenOn": "2012-10-11T00:30:48Z",
       "side": 1,
       "message": "I feel this still has potential to cause maintenance headaches.\n\nIf a new submit type is added, that *can* be retried, it will fall into the default unless explicitly added as a case on the preceding block.  This could easily be overlooked.\n\nHow about adding a `log.warn` in the default block?  That would make it easier to track down, if someone forgets to add it.",
+      "revId": "6df683b09a20f47203ebcf0b3c0ae6fdc35cfb6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+Vk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T08:55:29Z",
+      "side": 1,
+      "message": "log.warn in default block is a good idea, but we should have case FAST_FORWARD_ONLY break without logging.",
+      "parentUuid": "AAAKCX///+U\u003d",
       "revId": "6df683b09a20f47203ebcf0b3c0ae6fdc35cfb6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

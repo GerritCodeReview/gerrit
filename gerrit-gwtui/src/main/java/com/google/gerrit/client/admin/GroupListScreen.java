@@ -14,16 +14,12 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.GroupList;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class GroupListScreen extends AccountScreen {
-  private VerticalPanel createGroupLinkPanel;
   private GroupTable groups;
 
   @Override
@@ -33,7 +29,6 @@ public class GroupListScreen extends AccountScreen {
         .visibleGroups(new ScreenLoadCallback<GroupList>(this) {
           @Override
           protected void preDisplay(GroupList result) {
-            createGroupLinkPanel.setVisible(result.isCanCreateGroup());
             groups.display(result.getGroups());
             groups.finishDisplay();
           }
@@ -44,12 +39,6 @@ public class GroupListScreen extends AccountScreen {
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.C.groupListTitle());
-
-    createGroupLinkPanel = new VerticalPanel();
-    createGroupLinkPanel.setStyleName(Gerrit.RESOURCES.css().createGroupLink());
-    createGroupLinkPanel.add(new Hyperlink(Util.C.headingCreateGroup(),
-        PageLinks.ADMIN_CREATE_GROUP));
-    add(createGroupLinkPanel);
 
     groups = new GroupTable(true /* hyperlink to admin */, PageLinks.ADMIN_GROUPS);
     add(groups);

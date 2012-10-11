@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKAH//+Uw\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T09:11:19Z",
+      "side": 1,
+      "message": "This is only used on the deprecated query output. I would consider doing this in the more recent /query/ format and making that available over SSH since we will eventually get rid of this particular query method.",
+      "revId": "20f5a7e69a2238570ea0561d11a84c27284280a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+VA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T09:11:19Z",
+      "side": 1,
+      "message": "nit: spaces around \u003d",
+      "revId": "20f5a7e69a2238570ea0561d11a84c27284280a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+U8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T09:11:19Z",
+      "side": 1,
+      "message": "trailing space at end of the template string.",
+      "revId": "20f5a7e69a2238570ea0561d11a84c27284280a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+U4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T09:11:19Z",
+      "side": 1,
+      "message": "trailing space at end of template string",
+      "revId": "20f5a7e69a2238570ea0561d11a84c27284280a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKAH//+U0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/PatchSetAttribute.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-11T09:11:19Z",
+      "side": 1,
+      "message": "don\u0027t we document this JSON message in some documentation file?",
+      "revId": "20f5a7e69a2238570ea0561d11a84c27284280a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

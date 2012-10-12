@@ -82,6 +82,10 @@ public class IntraLineDiffKey implements Serializable {
     return bId;
   }
 
+  public boolean isIgnoreWhitespace() {
+    return ignoreWhitespace;
+  }
+
   Project.NameKey getProject() {
     return projectKey;
   }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKHH///54\u003d",
+        "filename": "gerrit-plugin-js-archetype/src/main/resources/META-INF/maven/archetype-metadata.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-12T14:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKGH///pc\u003d",
+      "revId": "8596134b43d7ff25aa3788f8a6d387832cd12181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKGH///po\u003d",
         "filename": "gerrit-plugin-js-archetype/src/main/resources/archetype-resources/pom.xml",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-12T14:21:21Z",
       "side": 1,
       "message": "trailing whitespace",
+      "revId": "8596134b43d7ff25aa3788f8a6d387832cd12181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKHH///5w\u003d",
+        "filename": "gerrit-plugin-js-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-12T14:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKGH///po\u003d",
       "revId": "8596134b43d7ff25aa3788f8a6d387832cd12181",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKHH///5s\u003d",
+        "filename": "gerrit-plugin-js-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-12T14:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKGH///pk\u003d",
+      "revId": "8596134b43d7ff25aa3788f8a6d387832cd12181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKGH///pg\u003d",
         "filename": "gerrit-plugin-js-archetype/src/main/resources/archetype-resources/pom.xml",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2012-10-12T14:21:21Z",
       "side": 1,
       "message": "trailing whitespace",
+      "revId": "8596134b43d7ff25aa3788f8a6d387832cd12181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKHH///5o\u003d",
+        "filename": "gerrit-plugin-js-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-12T14:46:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKGH///pg\u003d",
       "revId": "8596134b43d7ff25aa3788f8a6d387832cd12181",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKHH///5k\u003d",
+        "filename": "gerrit-plugin-js-archetype/src/main/resources/archetype-resources/src/main/resources/Documentation/cmd-start.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-12T14:46:54Z",
+      "side": 1,
+      "message": "This is an copy-pase error, fixed",
+      "parentUuid": "AAAKGH///pY\u003d",
+      "revId": "8596134b43d7ff25aa3788f8a6d387832cd12181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKGH///pU\u003d",
         "filename": "gerrit-plugin-js-archetype/src/main/resources/archetype-resources/src/main/resources/Documentation/config.md",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2012-10-12T14:21:21Z",
       "side": 1,
       "message": "Not sure JS plugins need config documentation?",
+      "revId": "8596134b43d7ff25aa3788f8a6d387832cd12181",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKHH///5g\u003d",
+        "filename": "gerrit-plugin-js-archetype/src/main/resources/archetype-resources/src/main/resources/Documentation/config.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-12T14:46:54Z",
+      "side": 1,
+      "message": "this is an copy-pase error, fixed",
+      "parentUuid": "AAAKGH///pU\u003d",
       "revId": "8596134b43d7ff25aa3788f8a6d387832cd12181",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

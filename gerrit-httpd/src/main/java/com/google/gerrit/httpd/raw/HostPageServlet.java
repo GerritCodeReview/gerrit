@@ -61,7 +61,7 @@ public class HostPageServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(HostPageServlet.class);
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
-  private static final String HPD_ID = "gerrit_hostpagedata";
+  private static final String HPD_ID = "_hpd";
 
   private final Provider<CurrentUser> currentUser;
   private final Provider<WebSession> session;
@@ -288,6 +288,7 @@ public class HostPageServlet extends HttpServlet {
 
       Element nocache = HtmlDomUtil.find(hostDoc, "gerrit_module");
       asScript(nocache);
+      nocache.removeAttribute("id");
       nocache.setAttribute("src", noCacheName);
       permutations.put(null, new Content(hostDoc));
     }
@@ -305,7 +306,6 @@ public class HostPageServlet extends HttpServlet {
     }
 
     private void asScript(final Element scriptNode) {
-      scriptNode.removeAttribute("id");
       scriptNode.setAttribute("type", "text/javascript");
       scriptNode.setAttribute("language", "javascript");
     }

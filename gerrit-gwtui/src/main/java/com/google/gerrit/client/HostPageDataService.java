@@ -23,6 +23,6 @@ import com.google.gwtjsonrpc.common.RpcImpl.Version;
 
 @RpcImpl(version = Version.V2_0)
 interface HostPageDataService extends RemoteJsonService {
-  @HostPageCache(name = "gerrit_hostpagedata", once = true)
+  @HostPageCache(name = "_hpd", once = true)
   void load(AsyncCallback<HostPageData> callback);
 }

@@ -1716,15 +1716,18 @@ and unset (disabled) for Active Directory.
 
 [[ldap.groupName]]ldap.groupName::
 +
-_(Optional)_ Name of an attribute on the group object which contains
-the value for the group name in Gerrit.
-Typically this is the `cn` property in LDAP, but could also be
-`apple-group-realname`.
+_(Optional)_ Name of the attribute on the group object which contains
+the value to use as the group name in Gerrit.
 +
-Attribute values may be concatenated with literal strings. For example
-to join group name and group id, use the pattern `${cn} (${gidNumber})`.
+Typically the attribute name is `cn` for RFC 2307 and Active Directory
+servers.  For other servers the attribute name may differ, for example
+`apple-group-realname` on Apple MacOS X Server.
 +
-Default is `cn` for RFC 2307 servers and Active Directory.
+It is also possible to specify a literal string containing a pattern of
+attribute values.  For example to create a Gerrit group name consisting of
+LDAP group name and group ID, use the pattern `${cn} (${gidNumber})`.
++
+Default is `cn`.
 
 [[ldap.localUsernameToLowerCase]]ldap.localUsernameToLowerCase::
 +

@@ -16,6 +16,24 @@
       "revId": "f0c7042b17f0dd8f79020c64e8b2788f350837c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKJH////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-12T05:13:19Z",
+      "side": 1,
+      "message": "Is this [1] sufficient to make it work for LDAP groups?\n\n[1] https://gerrit-review.googlesource.com/38390",
+      "parentUuid": "AAAKAH//+BI\u003d",
+      "revId": "f0c7042b17f0dd8f79020c64e8b2788f350837c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

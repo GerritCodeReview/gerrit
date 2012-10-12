@@ -228,7 +228,7 @@ public class ConfigUtil {
    */
   public static long getTimeUnit(final String valueString, long defaultValue,
       TimeUnit wantUnit) {
-    Matcher m = Pattern.compile("^([1-9][0-9]*)\\s*(.*)$").matcher(valueString);
+    Matcher m = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$").matcher(valueString);
     if (!m.matches()) {
       return defaultValue;
     }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKIH///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-10-12T08:17:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKAH//+AQ\u003d",
+      "revId": "c43bdde6e6fa7fbad9ba2cf65459e0b21552654b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKAH//+AI\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-11T19:04:53Z",
       "side": 1,
       "message": "if nobody calls this, why declare it?",
+      "revId": "c43bdde6e6fa7fbad9ba2cf65459e0b21552654b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKIH///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-10-12T08:17:46Z",
+      "side": 1,
+      "message": "Forgot to remove it. It was used early in development. Done.",
+      "parentUuid": "AAAKAH//+AI\u003d",
       "revId": "c43bdde6e6fa7fbad9ba2cf65459e0b21552654b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

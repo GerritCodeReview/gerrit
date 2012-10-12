@@ -124,7 +124,7 @@ public class ListProjects {
 
   @Option(name = "--has-acl-for", metaVar = "GROUP", usage =
       "displays only projects on which access rights for this group are directly assigned")
-  private AccountGroup.Id groupId;
+  private AccountGroup.UUID groupUuid;
 
   @Inject
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
@@ -190,16 +190,16 @@ public class ListProjects {
         }
 
         final ProjectControl pctl = e.controlFor(currentUser);
-        if (groupId != null) {
+        if (groupUuid != null) {
           try {
-            if (!groupControlFactory.controlFor(groupId).isVisible()) {
+            if (!groupControlFactory.controlFor(groupUuid).isVisible()) {
               break;
             }
           } catch (NoSuchGroupException ex) {
             break;
           }
           if (!pctl.getLocalGroups().contains(
-              GroupReference.forGroup(groupCache.get(groupId)))) {
+              GroupReference.forGroup(groupCache.get(groupUuid)))) {
             continue;
           }
         }

@@ -26,9 +26,11 @@ import java.util.concurrent.TimeUnit;
 
 public class ConfigUtilTest extends TestCase {
   public void testTimeUnit() {
+    assertEquals(ms(0, MILLISECONDS), parse("0"));
     assertEquals(ms(2, MILLISECONDS), parse("2ms"));
     assertEquals(ms(200, MILLISECONDS), parse("200 milliseconds"));
 
+    assertEquals(ms(0, SECONDS), parse("0s"));
     assertEquals(ms(2, SECONDS), parse("2s"));
     assertEquals(ms(231, SECONDS), parse("231sec"));
     assertEquals(ms(1, SECONDS), parse("1second"));

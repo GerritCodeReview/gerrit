@@ -288,6 +288,7 @@ public class HostPageServlet extends HttpServlet {
 
       Element nocache = HtmlDomUtil.find(hostDoc, "gerrit_module");
       asScript(nocache);
+      nocache.removeAttribute("id");
       nocache.setAttribute("src", noCacheName);
       permutations.put(null, new Content(hostDoc));
     }
@@ -305,7 +306,6 @@ public class HostPageServlet extends HttpServlet {
     }
 
     private void asScript(final Element scriptNode) {
-      scriptNode.removeAttribute("id");
       scriptNode.setAttribute("type", "text/javascript");
       scriptNode.setAttribute("language", "javascript");
     }

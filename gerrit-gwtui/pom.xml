@@ -232,7 +232,7 @@ limitations under the License.
             <configuration>
               <target>
                 <property name="dst" location="${project.build.directory}/${project.build.finalName}"/>
-                <property name="app" location="${dst}/gerrit"/>
+                <property name="app" location="${dst}/gerrit_ui"/>
 
                 <mkdir dir="${app}"/>
                 <apply executable="gzip" addsourcefile="false">
@@ -257,7 +257,7 @@ limitations under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <packagingExcludes>WEB-INF/classes/**,WEB-INF/lib/**</packagingExcludes>
+          <packagingExcludes>WEB-INF/classes/**,WEB-INF/deploy/**,WEB-INF/lib/**</packagingExcludes>
           <attachClasses>true</attachClasses>
           <archive>
             <addMavenDescriptor>false</addMavenDescriptor>

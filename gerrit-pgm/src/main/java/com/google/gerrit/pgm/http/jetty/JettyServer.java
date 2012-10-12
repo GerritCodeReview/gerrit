@@ -491,7 +491,7 @@ public class JettyServer {
     for (File e : entries) {
       if (e.isDirectory() /* must be a directory */
           && e.getName().startsWith("gerrit-gwtui-")
-          && new File(e, "gerrit/gerrit.nocache.js").isFile()) {
+          && new File(e, "gerrit_ui/gerrit_ui.nocache.js").isFile()) {
         return Resource.newResource(e.toURI());
       }
     }

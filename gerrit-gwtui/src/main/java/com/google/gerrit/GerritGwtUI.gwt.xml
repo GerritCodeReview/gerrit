@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<module rename-to="gerrit">
+<module rename-to="gerrit_ui">
   <inherits name='com.google.gwt.editor.Editor'/>
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='com.google.gwt.resources.Resources'/>

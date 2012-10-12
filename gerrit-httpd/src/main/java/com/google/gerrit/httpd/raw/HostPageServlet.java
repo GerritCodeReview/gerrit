@@ -102,7 +102,7 @@ public class HostPageServlet extends HttpServlet {
       throw new ServletException("No " + HPD_ID + " in " + pageName);
     }
 
-    String src = "gerrit/gerrit.nocache.js";
+    String src = "gerrit_ui/gerrit_ui.nocache.js";
     if (!IS_DEV) {
       Element devmode = HtmlDomUtil.find(template, "gwtdevmode");
       if (devmode != null) {
@@ -132,7 +132,7 @@ public class HostPageServlet extends HttpServlet {
     }
 
     noCacheName = src;
-    selector = new PermutationSelector("gerrit");
+    selector = new PermutationSelector("gerrit_ui");
     if (checkUserAgent && !IS_DEV) {
       selector.init(servletContext);
     }

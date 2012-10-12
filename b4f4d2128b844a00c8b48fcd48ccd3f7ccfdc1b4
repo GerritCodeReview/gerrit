@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKIH///+g\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-12T09:50:47Z",
+      "side": 1,
+      "message": "Whitespace",
+      "revId": "b4f4d2128b844a00c8b48fcd48ccd3f7ccfdc1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKIH///+k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-12T09:50:47Z",
+      "side": 1,
+      "message": "Wrong message?",
+      "revId": "b4f4d2128b844a00c8b48fcd48ccd3f7ccfdc1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKIH///+o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-12T09:50:47Z",
+      "side": 1,
+      "message": "Wrong message?",
+      "revId": "b4f4d2128b844a00c8b48fcd48ccd3f7ccfdc1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

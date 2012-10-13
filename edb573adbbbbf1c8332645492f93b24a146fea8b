@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKKH///ko\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-13T00:24:01Z",
+      "side": 1,
+      "message": "In the future use a ListMultimap from Guava. :-)",
+      "revId": "edb573adbbbbf1c8332645492f93b24a146fea8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

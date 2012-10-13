@@ -16,6 +16,24 @@
       "revId": "085101a4970402d1498ae953e0a842d6aa373967",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKKH///iM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-13T00:44:18Z",
+      "side": 1,
+      "message": "Alternatively, if you want an ObjectId that doesn\u0027t exist, use a sequence:\n\n  private final MutableObjectId buf \u003d new MutableObjectid();\n\n  public Objectid insert(...) {\n    buf.setLastByte(buf.getLastByte()+1));\n    return buf.copy();\n  }\n\nthat way its really really obvious if you see an object not found exception with a huge prefix string of 0s, and then 01 or 04 in the last position. You know the odds of that happening are slim to none at random, so now you can start poking around for the bizarre thing that is going on.",
+      "parentUuid": "AAAKKH///ik\u003d",
+      "revId": "085101a4970402d1498ae953e0a842d6aa373967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

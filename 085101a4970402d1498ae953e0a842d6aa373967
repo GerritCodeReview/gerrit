@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKKH///ik\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-13T00:42:29Z",
+      "side": 1,
+      "message": "random? really? I would have used idFor().\n\n  public ObjectId insert(int objectType, byte[] data) {\n    return idFor(type, data);\n  }\n\n  public ObjectId insert(int type, long len, InputStream in) {\n    return idFor(type, len, in);\n  }\n\nor something like that. I forget which of the insert methods is the \"bottom\" of the call stack before punting to the InputStream version that is required, but I would implement both in terms of idFor and return the actual SHA-1.",
+      "revId": "085101a4970402d1498ae953e0a842d6aa373967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

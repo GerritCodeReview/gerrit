@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKO3///3Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-14T20:30:03Z",
+      "side": 1,
+      "message": "final? I would also declare this after sslVerify before ldapSchema since that is roughly where you initialize it in the constructor.",
+      "revId": "20e4293d8d3d3a38e63e3da67fa38bf1e18c771a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKO3///3M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-14T20:30:03Z",
+      "side": 1,
+      "message": "Use this instead of the two if blocks:\n\n  Throwables.propagateIfPossible(e.getException(), NamingException.class);",
+      "revId": "20e4293d8d3d3a38e63e3da67fa38bf1e18c771a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

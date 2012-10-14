@@ -133,7 +133,8 @@ is not involved in the user authentication process.
 The actual username used in the LDAP simple bind request is the
 account's full DN, which is discovered by first querying the
 directory using either an anonymous request, or the configured
-<<ldap.username>> identity.
+<<ldap.username,ldap.username>> identity. Gerrit can also use kerberos if
+<<ldap.authentication,ldap.authentication>> is set to `GSSAPI`.
 
 * `LDAP_BIND`
 +
@@ -144,7 +145,7 @@ is not involved in the user authentication process.
 +
 Unlike LDAP above, the username used to perform the LDAP simple bind
 request is the exact string supplied by in the dialog by the user.
-The configured <<ldap.username>> identity is not used to obtain
+The configured <<ldap.username,ldap.username>> identity is not used to obtain
 account information.
 +
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
@@ -1300,13 +1301,13 @@ should be `http://`'hostname'`:`'port'.
 [[http.proxyUsername]]http.proxyUsername::
 +
 Optional username to authenticate to the HTTP proxy with.
-This property is honored only if the username does not 
+This property is honored only if the username does not
 appear in the http.proxy property above.
 
 [[http.proxyPassword]]http.proxyPassword::
 +
 Optional password to authenticate to the HTTP proxy with.
-This property is honored only if the password does not 
+This property is honored only if the password does not
 appear in the http.proxy property above.
 
 
@@ -1720,6 +1721,38 @@ case can't be undone. For newly created accounts the local username
 will be directly stored in lower case.
 +
 By default, unset/false.
+
+[[ldap.authentication]]ldap.authentication::
++
+Defines how Gerrit authenticates with the server. When set to `GSSAPI`
+Gerrit will use Kerberos. To use kerberos the
+`java.security.auth.login.config` system property must point to a
+login to a JAAS configuration file and, if Java 6 is used, the system
+property `java.security.krb5.conf` must point to the appropriate
+krb5.ini file with references to the KDC.
+
+Typical jaas.conf.
+
+----
+KerberosLogin {
+    com.sun.security.auth.module.Krb5LoginModule
+            required
+            useTicketCache=true
+            doNotPrompt=true
+            renewTGT=true;
+};
+----
+
+See Java documentation on how to create the krb5.ini file.
+
+Note the `renewTGT` property to make sure the TGT does not expire,
+and `useTicketCache` to use the TGT supplied by the operating system. As
+the whole point of using GSSAPI is to have passwordless authentication
+to the LDAP service, this option does not aquire a new TGT on its own.
+
+On Windows servers the registry key `HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Lsa\Kerberos\Parameters`
+must have the DWORD value `allowtgtsessionkey` set to 1 and the account must not
+have local administrator privileges.
 
 [[mimetype]]Section mimetype
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

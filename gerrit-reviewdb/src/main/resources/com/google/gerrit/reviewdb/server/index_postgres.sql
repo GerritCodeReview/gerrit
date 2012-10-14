@@ -203,6 +203,9 @@ WHERE change_open = 'N';
 -- ChangeMessageAccess
 --    @PrimaryKey covers: byChange
 
+--    covers:             byPatchSet
+CREATE INDEX change_messages_byPatchset
+ON change_messages (patchset_change_id, patchset_patch_set_id);
 
 -- *********************************************************************
 -- PatchLineCommentAccess

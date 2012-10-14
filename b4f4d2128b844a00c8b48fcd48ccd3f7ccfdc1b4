@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKLn////c\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 1011682
+      },
+      "writtenOn": "2012-10-14T12:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKIH///+g\u003d",
+      "revId": "b4f4d2128b844a00c8b48fcd48ccd3f7ccfdc1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKGH///qQ\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
         "patchSetId": 1
@@ -30,6 +48,41 @@
       "writtenOn": "2012-10-12T14:11:03Z",
       "side": 1,
       "message": "final String?",
+      "revId": "b4f4d2128b844a00c8b48fcd48ccd3f7ccfdc1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKLn////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011682
+      },
+      "writtenOn": "2012-10-14T12:01:40Z",
+      "side": 1,
+      "message": "Thanks.\nDone",
+      "parentUuid": "AAAKGH///qQ\u003d",
+      "revId": "b4f4d2128b844a00c8b48fcd48ccd3f7ccfdc1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKLn///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011682
+      },
+      "writtenOn": "2012-10-14T12:01:40Z",
+      "side": 1,
+      "message": "Fix indentation. \nDone.",
       "revId": "b4f4d2128b844a00c8b48fcd48ccd3f7ccfdc1b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -71,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKLn///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapGroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1011682
+      },
+      "writtenOn": "2012-10-14T12:01:40Z",
+      "side": 1,
+      "message": "I\u0027ll rely on Shawn here.",
+      "parentUuid": "AAAKGH///qM\u003d",
+      "revId": "b4f4d2128b844a00c8b48fcd48ccd3f7ccfdc1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKIH///+o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
         "patchSetId": 1
@@ -100,6 +171,24 @@
       "side": 1,
       "message": "I\u0027m OK with this message, we can\u0027t query for the account and the cause is logged.",
       "parentUuid": "AAAKIH///+o\u003d",
+      "revId": "b4f4d2128b844a00c8b48fcd48ccd3f7ccfdc1b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKLn///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1011682
+      },
+      "writtenOn": "2012-10-14T12:01:40Z",
+      "side": 1,
+      "message": "I\u0027ll rely on Shawn here.",
+      "parentUuid": "AAAKGH///qI\u003d",
       "revId": "b4f4d2128b844a00c8b48fcd48ccd3f7ccfdc1b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

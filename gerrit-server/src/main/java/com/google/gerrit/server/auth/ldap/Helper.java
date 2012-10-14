@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
+import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.ParameterizedString;
@@ -28,6 +29,8 @@ import com.google.inject.name.Named;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,6 +50,9 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.net.ssl.SSLSocketFactory;
+import javax.security.auth.Subject;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
 
 @Singleton class Helper {
   static final String LDAP_UUID = "ldap:";
@@ -58,6 +64,7 @@ import javax.net.ssl.SSLSocketFactory;
   private final String password;
   private final String referral;
   private final boolean sslVerify;
+  private final String authentication;
   private volatile LdapSchema ldapSchema;
   private final String readTimeOutMillis;
 
@@ -71,6 +78,7 @@ import javax.net.ssl.SSLSocketFactory;
     this.password = LdapRealm.optional(config, "password");
     this.referral = LdapRealm.optional(config, "referral");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
+    this.authentication = LdapRealm.optional(config, "authentication");
     String timeout = LdapRealm.optional(config, "readTimeout");
     if (timeout != null) {
       readTimeOutMillis =
@@ -96,15 +104,39 @@ import javax.net.ssl.SSLSocketFactory;
     return env;
   }
 
-  DirContext open() throws NamingException {
+  DirContext open() throws NamingException, LoginException {
     final Properties env = createContextProperties();
-    if (username != null) {
-      env.put(Context.SECURITY_AUTHENTICATION, "simple");
-      env.put(Context.SECURITY_PRINCIPAL, username);
-      env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
-      env.put(Context.REFERRAL, referral != null ? referral : "ignore");
+    env.put(Context.SECURITY_AUTHENTICATION, authentication != null ? authentication : "simple");
+    env.put(Context.REFERRAL, referral != null ? referral : "ignore");
+    if ("GSSAPI".equals(authentication)) {
+      return kerberosOpen(env);
+    } else {
+       env.put(Context.SECURITY_PRINCIPAL, username);
+       env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
+       return new InitialDirContext(env);
     }
-    return new InitialDirContext(env);
+  }
+
+  private DirContext kerberosOpen(final Properties env) throws LoginException,
+      NamingException {
+    LoginContext ctx = new LoginContext("KerberosLogin");
+    ctx.login();
+    Subject subject = ctx.getSubject();
+    try {
+      return Subject.doAs(subject, new PrivilegedExceptionAction<DirContext>() {
+          @Override
+          public DirContext run() throws NamingException {
+            return new InitialDirContext(env);
+          }
+        });
+    } catch (PrivilegedActionException e) {
+      Throwables.propagateIfPossible(e.getException(), NamingException.class);
+      Throwables.propagateIfPossible(e.getException(), RuntimeException.class);
+      LdapRealm.log.warn("Internal error", e.getException());
+      return null;
+    } finally {
+      ctx.logout();
+    }
   }
 
   DirContext authenticate(String dn, String password) throws AccountException {

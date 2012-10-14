@@ -51,6 +51,7 @@ import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
+import javax.security.auth.login.LoginException;
 
 /**
  * Implementation of GroupBackend for the LDAP group system.
@@ -222,6 +223,8 @@ public class LdapGroupBackend implements GroupBackend {
         }
       }
     } catch (NamingException e) {
+      log.warn("Cannot query LDAP for groups matching requested name", e);
+    } catch (LoginException e) {
       log.warn("Cannot query LDAP for groups matching requested name", e);
     }
     return out;

@@ -1,7 +1,7 @@
 Gerrit Code Review - Searching Changes
 ======================================
 
-Default Searches 
+Default Searches
 ----------------
 
 Most basic searches can be viewed by clicking on a link along the top

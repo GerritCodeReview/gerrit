@@ -56,6 +56,7 @@ import javax.naming.CompositeName;
 import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
+import javax.security.auth.login.LoginException;
 
 @Singleton
 class LdapRealm implements Realm {
@@ -239,6 +240,9 @@ class LdapRealm implements Realm {
       }
     } catch (NamingException e) {
       log.error("Cannot query LDAP to autenticate user", e);
+      throw new AuthenticationUnavailableException("Cannot query LDAP for account", e);
+    } catch (LoginException e) {
+      log.error("Cannot authenticate server via JAAS", e);
       throw new AuthenticationUnavailableException("Cannot query LDAP for account", e);
     }
   }

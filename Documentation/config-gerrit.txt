@@ -145,7 +145,7 @@ is not involved in the user authentication process.
 +
 Unlike LDAP above, the username used to perform the LDAP simple bind
 request is the exact string supplied by in the dialog by the user.
-The configured <<ldap.username>> identity is not used to obtain
+The configured <<ldap.username,ldap.username>> identity is not used to obtain
 account information.
 +
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
@@ -1322,13 +1322,13 @@ should be `http://`'hostname'`:`'port'.
 [[http.proxyUsername]]http.proxyUsername::
 +
 Optional username to authenticate to the HTTP proxy with.
-This property is honored only if the username does not 
+This property is honored only if the username does not
 appear in the http.proxy property above.
 
 [[http.proxyPassword]]http.proxyPassword::
 +
 Optional password to authenticate to the HTTP proxy with.
-This property is honored only if the password does not 
+This property is honored only if the password does not
 appear in the http.proxy property above.
 
 

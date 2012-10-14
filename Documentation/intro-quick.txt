@@ -138,10 +138,10 @@ Delta compression using up to 8 threads.
 Compressing objects: 100% (2/2), done.
 Writing objects: 100% (3/3), 542 bytes, done.
 Total 3 (delta 0), reused 0 (delta 0)
-remote: 
+remote:
 remote: New Changes:
 remote:   http://gerrithost:8080/68
-remote: 
+remote:
 To ssh://gerrithost:29418/RecipeBook.git
  * [new branch]      HEAD -> refs/for/master
 ----

@@ -585,7 +585,7 @@ Direct Push
 ^^^^^^^^^^^
 
 Any existing branch can be fast-forwarded to a new commit.
-Creation of new branches is controlled by the 
+Creation of new branches is controlled by the
 link:access-control.html#category_create['Create Reference']
 category.  Deletion of existing branches is rejected.  This is the
 safest mode as commits cannot be discarded.

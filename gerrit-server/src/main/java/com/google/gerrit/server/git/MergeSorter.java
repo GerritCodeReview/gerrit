@@ -28,14 +28,14 @@ import java.util.Set;
 
 class MergeSorter {
   private final RevWalk rw;
-  private final RevFlag CAN_MERGE;
+  private final RevFlag canMergeFlag;
   private final Set<RevCommit> accepted;
 
-  MergeSorter(final RevWalk walk, final Set<RevCommit> alreadyAccepted,
-      final RevFlag flagCAN_MERGE) {
-    rw = walk;
-    CAN_MERGE = flagCAN_MERGE;
-    accepted = alreadyAccepted;
+  MergeSorter(final RevWalk rw, final Set<RevCommit> alreadyAccepted,
+      final RevFlag canMergeFlag) {
+    this.rw = rw;
+    this.canMergeFlag = canMergeFlag;
+    this.accepted = alreadyAccepted;
   }
 
   Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> incoming)
@@ -45,7 +45,7 @@ class MergeSorter {
     while (!sort.isEmpty()) {
       final CodeReviewCommit n = removeOne(sort);
 
-      rw.resetRetain(CAN_MERGE);
+      rw.resetRetain(canMergeFlag);
       rw.markStart(n);
       for (RevCommit c : accepted) {
         rw.markUninteresting(c);
@@ -54,7 +54,7 @@ class MergeSorter {
       RevCommit c;
       final RevCommitList<RevCommit> contents = new RevCommitList<RevCommit>();
       while ((c = rw.next()) != null) {
-        if (!c.has(CAN_MERGE)) {
+        if (!c.has(canMergeFlag) || !incoming.contains(c)) {
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.
           //

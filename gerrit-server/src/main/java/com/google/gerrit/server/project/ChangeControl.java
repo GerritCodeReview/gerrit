@@ -16,14 +16,13 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.rules.PrologEnvironment;
-import com.google.gerrit.rules.StoredValues;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -32,23 +31,18 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
 
-import com.googlecode.prolog_cafe.compiler.CompileException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
-import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.Term;
-import com.googlecode.prolog_cafe.lang.VariableTerm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -303,6 +297,7 @@ public class ChangeControl {
     return canSubmit(db, patchSet, null, false, false);
   }
 
+ @SuppressWarnings("unchecked")
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd, boolean fastEvalLabels, boolean allowClosed) {
     if (!allowClosed && change.getStatus().isClosed()) {
@@ -334,103 +329,18 @@ public class ChangeControl {
       return logRuleError("Cannot read patch set " + patchSet.getId(), err);
     }
 
-    List<Term> results = new ArrayList<Term>();
-    Term submitRule;
-    ProjectState projectState = getProjectControl().getProjectState();
-    PrologEnvironment env;
-
+    List<Term> results;
+    SubmitRuleEvaluator evaluator;
     try {
-      env = projectState.newPrologEnvironment();
-    } catch (CompileException err) {
-      return logRuleError("Cannot consult rules.pl for "
-          + getProject().getName(), err);
-    }
-
-    try {
-      env.set(StoredValues.REVIEW_DB, db);
-      env.set(StoredValues.CHANGE, change);
-      env.set(StoredValues.CHANGE_DATA, cd);
-      env.set(StoredValues.PATCH_SET, patchSet);
-      env.set(StoredValues.CHANGE_CONTROL, this);
-
-      submitRule = env.once(
-        "gerrit", "locate_submit_rule",
-        new VariableTerm());
-      if (submitRule == null) {
-        return logRuleError("No user:submit_rule found for "
-            + getProject().getName());
-      }
-
-      if (fastEvalLabels) {
-        env.once("gerrit", "assume_range_from_label");
-      }
-
-      try {
-        for (Term[] template : env.all(
-            "gerrit", "can_submit",
-            submitRule,
-            new VariableTerm())) {
-          results.add(template[1]);
-        }
-      } catch (PrologException err) {
-        return logRuleError("Exception calling " + submitRule + " on change "
-            + change.getId() + " of " + getProject().getName(), err);
-      } catch (RuntimeException err) {
-        return logRuleError("Exception calling " + submitRule + " on change "
-            + change.getId() + " of " + getProject().getName(), err);
-      }
-
-      ProjectState parentState = projectState.getParentState();
-      PrologEnvironment childEnv = env;
-      Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
-      projectsSeen.add(getProject().getNameKey());
-
-      while (parentState != null) {
-        if (!projectsSeen.add(parentState.getProject().getNameKey())) {
-          //parent has been seen before, stop walk up inheritance tree
-          break;
-        }
-        PrologEnvironment parentEnv;
-        try {
-          parentEnv = parentState.newPrologEnvironment();
-        } catch (CompileException err) {
-          return logRuleError("Cannot consult rules.pl for "
-              + parentState.getProject().getName(), err);
-        }
-
-        parentEnv.copyStoredValues(childEnv);
-        Term filterRule =
-            parentEnv.once("gerrit", "locate_submit_filter", new VariableTerm());
-        if (filterRule != null) {
-          try {
-            if (fastEvalLabels) {
-              env.once("gerrit", "assume_range_from_label");
-            }
-
-            Term resultsTerm = toListTerm(results);
-            results.clear();
-            Term[] template = parentEnv.once(
-                "gerrit", "filter_submit_results",
-                filterRule,
-                resultsTerm,
-                new VariableTerm());
-            @SuppressWarnings("unchecked")
-            final List<? extends Term> termList = ((ListTerm) template[2]).toJava();
-            results.addAll(termList);
-          } catch (PrologException err) {
-            return logRuleError("Exception calling " + filterRule + " on change "
-                + change.getId() + " of " + parentState.getProject().getName(), err);
-          } catch (RuntimeException err) {
-            return logRuleError("Exception calling " + filterRule + " on change "
-                + change.getId() + " of " + parentState.getProject().getName(), err);
-          }
-        }
-
-        parentState = parentState.getParentState();
-        childEnv = parentEnv;
-      }
-    } finally {
-      env.close();
+      evaluator = new SubmitRuleEvaluator(db, patchSet,
+          getProjectControl(),
+          this, change, cd,
+          fastEvalLabels,
+          "locate_submit_rule", "can_submit",
+          "locate_submit_filter", "filter_submit_results");
+      results = evaluator.evaluate().toJava();
+    } catch (RuleEvalException e) {
+      return logRuleError(e.getMessage(), e);
     }
 
     if (results.isEmpty()) {
@@ -438,12 +348,13 @@ public class ChangeControl {
       // at least one result informing the caller of the labels that are
       // required for this change to be submittable. Each label will indicate
       // whether or not that is actually possible given the permissions.
-      log.error("Submit rule " + submitRule + " for change " + change.getId()
-          + " of " + getProject().getName() + " has no solution.");
+      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
+          + change.getId() + " of " + getProject().getName()
+          + " has no solution.");
       return ruleError("Project submit rule has no solution");
     }
 
-    return resultsToSubmitRecord(submitRule, results);
+    return resultsToSubmitRecord(evaluator.getSubmitRule(), results);
   }
 
   /**
@@ -528,6 +439,65 @@ public class ChangeControl {
     return out;
   }
 
+  public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet) {
+    return getSubmitTypeRecord(db, patchSet, null);
+  }
+
+  @SuppressWarnings("unchecked")
+  public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet,
+      @Nullable ChangeData cd) {
+    if (!patchSet.getId().equals(change.currentPatchSetId())) {
+      return typeRuleError("Patch set " + patchSet.getPatchSetId()
+          + " is not current");
+    }
+
+    try {
+      if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
+        return typeRuleError("Patch set " + patchSet.getPatchSetId()
+            + " not found");
+      }
+      if (patchSet.isDraft() && !isDraftVisible(db, cd)) {
+        return typeRuleError("Patch set " + patchSet.getPatchSetId()
+            + " not found");
+      }
+    } catch (OrmException err) {
+      return logTypeRuleError("Cannot read patch set " + patchSet.getId(),
+          err);
+    }
+
+    List<String> results;
+    SubmitRuleEvaluator evaluator;
+    try {
+      evaluator = new SubmitRuleEvaluator(db, patchSet,
+          getProjectControl(), this, change, cd,
+          false,
+          "locate_submit_type", "get_submit_type",
+          "locate_submit_type_filter", "filter_submit_type_results");
+      results = evaluator.evaluate().toJava();
+    } catch (RuleEvalException e) {
+      return logTypeRuleError(e.getMessage(), e);
+    }
+
+    if (results.isEmpty()) {
+      // Should never occur for a well written rule
+      log.error("Submit rule '" + evaluator.getSubmitRule() + "' for change "
+          + change.getId() + " of " + getProject().getName()
+          + " has no solution.");
+      return typeRuleError("Project submit rule has no solution");
+    }
+
+    // Take only the first result and convert it to SubmitTypeRecord
+    // This logic will need to change once we support multiple submit types
+    // in the UI
+    String typeName = results.get(0);
+    try {
+      return SubmitTypeRecord.OK(
+          Project.SubmitType.valueOf(typeName.toUpperCase()));
+    } catch (IllegalArgumentException e) {
+      return logInvalidType(evaluator.getSubmitRule(), typeName);
+    }
+  }
+
   private List<SubmitRecord> logInvalidResult(Term rule, Term record) {
     return logRuleError("Submit rule " + rule + " for change " + change.getId()
         + " of " + getProject().getName() + " output invalid result: " + record);
@@ -548,6 +518,29 @@ public class ChangeControl {
     rec.status = SubmitRecord.Status.RULE_ERROR;
     rec.errorMessage = err;
     return Collections.singletonList(rec);
+  }
+
+  private SubmitTypeRecord logInvalidType(Term rule, String record) {
+    return logTypeRuleError("Submit type rule " + rule + " for change "
+        + change.getId() + " of " + getProject().getName()
+        + " output invalid result: " + record);
+  }
+
+  private SubmitTypeRecord logTypeRuleError(String err, Exception e) {
+    log.error(err, e);
+    return typeRuleError("Error evaluating project type rules, check server log");
+  }
+
+  private SubmitTypeRecord logTypeRuleError(String err) {
+    log.error(err);
+    return typeRuleError("Error evaluating project type rules, check server log");
+  }
+
+  private SubmitTypeRecord typeRuleError(String err) {
+    SubmitTypeRecord rec = new SubmitTypeRecord();
+    rec.status = SubmitTypeRecord.Status.RULE_ERROR;
+    rec.errorMessage = err;
+    return rec;
   }
 
   private void appliedBy(SubmitRecord.Label label, Term status) {

@@ -186,6 +186,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       detail.setSubmitRecords(submitRecords);
     }
 
+    detail.setSubmitTypeRecord(control.getSubmitTypeRecord(db, patchSet));
+
     detail.setLabels(allowed);
     detail.setGiven(given);
     loadApprovals(detail, control);

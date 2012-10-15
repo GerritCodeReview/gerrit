@@ -433,7 +433,12 @@ public class RefControl {
 
   public static String shortestExample(String pattern) {
     if (isRE(pattern)) {
-      return toRegExp(pattern).toAutomaton().getShortestExample(true);
+      // Since Brics will substitute dot [.] with \0 when generating
+      // shortest example, any usage of dot will fail in
+      // Repository.isValidRefName() if not combined with star [*].
+      // To get around this, we substitute the \0 with an arbitrary
+      // accepted character.
+      return toRegExp(pattern).toAutomaton().getShortestExample(true).replace('\0', '-');
     } else if (pattern.endsWith("/*")) {
       return pattern.substring(0, pattern.length() - 1) + '1';
     } else {

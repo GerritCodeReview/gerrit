@@ -19,6 +19,8 @@ import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
@@ -84,7 +86,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -130,7 +131,7 @@ public class MergeOp {
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
   private Project destProject;
-  private final Map<SubmitType, List<CodeReviewCommit>> toMerge;
+  private final ListMultimap<SubmitType, CodeReviewCommit> toMerge;
   private final List<CodeReviewCommit> potentiallyStillSubmittable;
   private final Map<Change.Id, CodeReviewCommit> commits;
   private ReviewDb db;
@@ -189,7 +190,7 @@ public class MergeOp {
     this.requestScopePropagator = requestScopePropagator;
     this.myIdent = myIdent;
     destBranch = branch;
-    toMerge = new HashMap<SubmitType, List<CodeReviewCommit>>();
+    toMerge = ArrayListMultimap.create();
     potentiallyStillSubmittable = new ArrayList<CodeReviewCommit>();
     commits = new HashMap<Change.Id, CodeReviewCommit>();
   }
@@ -210,9 +211,8 @@ public class MergeOp {
         openSchema();
         openBranch();
         validateChangeList(Collections.singletonList(change));
-        final Entry<SubmitType, List<CodeReviewCommit>> entry =
-            toMerge.entrySet().iterator().next();
-        preMerge(createStrategy(entry.getKey()), entry.getValue());
+        final SubmitType submitType = toMerge.keySet().iterator().next();
+        preMerge(createStrategy(submitType), toMerge.get(submitType));
 
         // update sha1 tested merge.
         if (destBranchRef != null) {
@@ -263,20 +263,21 @@ public class MergeOp {
       openSchema();
       openRepository();
       openBranch();
-      final Map<SubmitType, List<Change>> toSubmit =
+      final ListMultimap<SubmitType, Change> toSubmit =
           validateChangeList(db.changes().submitted(destBranch).toList());
 
-      final Map<SubmitType, List<CodeReviewCommit>> toMergeNextTurn =
-          new HashMap<SubmitType, List<CodeReviewCommit>>();
+      final ListMultimap<SubmitType, CodeReviewCommit> toMergeNextTurn =
+          ArrayListMultimap.create();
       final List<CodeReviewCommit> potentiallyStillSubmittableOnNextRun =
           new ArrayList<CodeReviewCommit>();
       while (!toMerge.isEmpty()) {
         toMergeNextTurn.clear();
-        for (final Entry<SubmitType, List<CodeReviewCommit>> e : toMerge.entrySet()) {
-          final SubmitType submitType = e.getKey();
+        final Set<SubmitType> submitTypes =
+            new HashSet<Project.SubmitType>(toMerge.keySet());
+        for (final SubmitType submitType : submitTypes) {
           final RefUpdate branchUpdate = openBranch();
           final SubmitStrategy strategy = createStrategy(submitType);
-          preMerge(strategy, e.getValue());
+          preMerge(strategy, toMerge.get(submitType));
           updateBranch(strategy, branchUpdate);
           updateChangeStatus(toSubmit.get(submitType));
           updateSubscriptions(toSubmit.get(submitType));
@@ -292,7 +293,7 @@ public class MergeOp {
               it.remove();
               commit.statusCode = null;
               commit.missing = null;
-              getList(submitType, toMergeNextTurn).add(commit);
+              toMergeNextTurn.put(submitType, commit);
             }
           }
           potentiallyStillSubmittableOnNextRun.addAll(potentiallyStillSubmittable);
@@ -328,21 +329,14 @@ public class MergeOp {
   }
 
   private boolean containsMissingCommits(
-      final Map<SubmitType, List<CodeReviewCommit>> map,
+      final ListMultimap<SubmitType, CodeReviewCommit> map,
       final CodeReviewCommit commit) {
     if (!isSubmitForMissingCommitsStillPossible(commit)) {
       return false;
     }
 
     for (final CodeReviewCommit missingCommit : commit.missing) {
-      boolean found = false;
-      for (final List<CodeReviewCommit> list : map.values()) {
-        if (list.contains(missingCommit)) {
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
+      if (!map.containsValue(missingCommit)) {
         return false;
       }
     }
@@ -471,10 +465,10 @@ public class MergeOp {
     return alreadyAccepted;
   }
 
-  private Map<SubmitType, List<Change>> validateChangeList(
+  private ListMultimap<SubmitType, Change> validateChangeList(
       final List<Change> submitted) throws MergeException {
-    final Map<SubmitType, List<Change>> toSubmit =
-        new HashMap<Project.SubmitType, List<Change>>();
+    final ListMultimap<SubmitType, Change> toSubmit =
+        ArrayListMultimap.create();
 
     final Set<ObjectId> tips = new HashSet<ObjectId>();
     for (final Ref r : repo.getAllRefs().values()) {
@@ -566,8 +560,8 @@ public class MergeOp {
       }
 
       commit.add(canMergeFlag);
-      getList(submitType, toMerge).add(commit);
-      getList(submitType, toSubmit).add(chg);
+      toMerge.put(submitType, commit);
+      toSubmit.put(submitType, chg);
     }
     return toSubmit;
   }
@@ -587,15 +581,6 @@ public class MergeOp {
       log.error("Failed to get submit type for " + change.getKey(), e);
       return null;
     }
-  }
-
-  private static <K, T> List<T> getList(final K key, final Map<K, List<T>> map) {
-    List<T> list = map.get(key);
-    if (list == null) {
-      list = new ArrayList<T>();
-      map.put(key, list);
-    }
-    return list;
   }
 
   private void updateBranch(final SubmitStrategy strategy,

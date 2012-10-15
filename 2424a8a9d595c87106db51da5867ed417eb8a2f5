@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKMH///4s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-15T14:46:04Z",
+      "side": 1,
+      "message": "Since the serial versionUUID was changed, Gerrit now fails on startup to load entries from the diff_intraline cache.\n\nFlushing the diff_intraline cache fixes the issue, but it would be bad if every admin has to do this. Maybe we can have a migration that flushes the cache?\n\n[2012-10-15 16:34:26,885] WARN  com.google.gerrit.server.cache.h2.H2CacheImpl : Cannot build BloomFilter for jdbc:h2:file:/C:/src/gerrit/test_site/cache/diff_intraline\norg.h2.jdbc.JdbcSQLException: De-Serialisierung fehlgeschlagen, Grund: {1}\nDeserialization failed, cause: \"java.io.InvalidClassException: com.google.gerrit.server.patch.IntraLineDiffKey; local class incompatible: stream classdesc serialVersionUID \u003d 3, local class serialVersionUID \u003d 4\" [90027-168]\n\tat org.h2.message.DbException.getJdbcSQLException(DbException.java:329)\n\tat org.h2.message.DbException.get(DbException.java:158)\n\tat org.h2.util.Utils.deserialize(Utils.java:291)\n\tat org.h2.jdbc.JdbcConnection.convertToDefaultObject(JdbcConnection.java:1758)\n\tat org.h2.jdbc.JdbcResultSet.getObject(JdbcResultSet.java:473)\n\tat com.google.gerrit.server.cache.h2.H2CacheImpl$KeyType.get(H2CacheImpl.java:264)\n\tat com.google.gerrit.server.cache.h2.H2CacheImpl$SqlStore.buildBloomFilter(H2CacheImpl.java:391)\n\tat com.google.gerrit.server.cache.h2.H2CacheImpl$SqlStore.open(H2CacheImpl.java:346)\n\tat com.google.gerrit.server.cache.h2.H2CacheImpl.start(H2CacheImpl.java:160)\n\tat com.google.gerrit.server.cache.h2.H2CacheFactory$1.run(H2CacheFactory.java:109)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.runTask(Unknown Source)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)\n\tat java.lang.Thread.run(Unknown Source)\nCaused by: java.io.InvalidClassException: com.google.gerrit.server.patch.IntraLineDiffKey; local class incompatible: stream classdesc serialVersionUID \u003d 3, local class serialVersionUID \u003d 4\n\tat java.io.ObjectStreamClass.initNonProxy(Unknown Source)\n\tat java.io.ObjectInputStream.readNonProxyDesc(Unknown Source)\n\tat java.io.ObjectInputStream.readClassDesc(Unknown Source)\n\tat java.io.ObjectInputStream.readOrdinaryObject(Unknown Source)\n\tat java.io.ObjectInputStream.readObject0(Unknown Source)\n\tat java.io.ObjectInputStream.readObject(Unknown Source)\n\tat org.h2.util.Utils.deserialize(Utils.java:289)\n\t... 10 more",
+      "revId": "2424a8a9d595c87106db51da5867ed417eb8a2f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

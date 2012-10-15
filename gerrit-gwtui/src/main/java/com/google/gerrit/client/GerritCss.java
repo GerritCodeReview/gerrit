@@ -43,7 +43,6 @@ public interface GerritCss extends CssResource {
   String cAPPROVAL();
   String cID();
   String cLastUpdate();
-  String cPROJECT();
   String cSUBJECT();
   String changeComments();
   String changeInfoBlock();

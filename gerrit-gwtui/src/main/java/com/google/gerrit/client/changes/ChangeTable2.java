@@ -141,8 +141,6 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
     fmt.addStyleName(row, C_ID, Gerrit.RESOURCES.css().cID());
     fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
-    fmt.addStyleName(row, C_PROJECT, Gerrit.RESOURCES.css().cPROJECT());
-    fmt.addStyleName(row, C_BRANCH, Gerrit.RESOURCES.css().cPROJECT());
     fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
     for (int i = BASE_COLUMNS; i < columns; i++) {
       fmt.addStyleName(row, i, Gerrit.RESOURCES.css().cAPPROVAL());

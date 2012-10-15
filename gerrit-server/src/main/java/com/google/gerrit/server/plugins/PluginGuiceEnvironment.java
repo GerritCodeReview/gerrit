@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -372,7 +373,7 @@ public class PluginGuiceEnvironment {
     return src.findBindingsByType(type);
   }
 
-  private static Module copy(Injector src) {
+  private Module copy(Injector src) {
     Set<TypeLiteral<?>> dynamicTypes = Sets.newHashSet();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
@@ -399,6 +400,10 @@ public class PluginGuiceEnvironment {
     }
     bindings.remove(Key.get(Injector.class));
     bindings.remove(Key.get(java.util.logging.Logger.class));
+    Set<Key<?>> keys = Guice.createInjector(copyConfigModule).getAllBindings().keySet();
+    for (Key<?> k : keys) {
+      bindings.remove(k);
+    }
 
     return new AbstractModule() {
       @SuppressWarnings("unchecked")

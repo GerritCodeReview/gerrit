@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKMH///4Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-15T15:02:46Z",
+      "side": 1,
+      "message": "Getting a ConcurrentModificationException here... need to investigate.\n\njava.util.ConcurrentModificationException\n\tat java.util.AbstractList$Itr.checkForComodification(Unknown Source)\n\tat java.util.AbstractList$Itr.next(Unknown Source)\n\tat com.google.common.collect.AbstractMultimap$EntryIterator.next(AbstractMultimap.java:1168)\n\tat com.google.common.collect.AbstractMultimap$EntryIterator.next(AbstractMultimap.java:1136)\n\tat com.google.common.collect.TransformedIterator.next(TransformedIterator.java:48)\n\tat com.google.gerrit.server.git.MergeOp.merge(MergeOp.java:283)\n\tat com.google.gerrit.server.git.ChangeMergeQueue.mergeImpl(ChangeMergeQueue.java:197)\n\tat com.google.gerrit.server.git.ChangeMergeQueue.merge(ChangeMergeQueue.java:117)\n...",
+      "revId": "c272c46f576e29d8cf8e9b269535c77fef49d9fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

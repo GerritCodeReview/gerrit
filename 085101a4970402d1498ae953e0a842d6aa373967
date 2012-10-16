@@ -34,6 +34,24 @@
       "revId": "085101a4970402d1498ae953e0a842d6aa373967",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///+s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-16T08:41:24Z",
+      "side": 1,
+      "message": "I like this idea, it really makes it more obvious.\n\nDone.",
+      "parentUuid": "AAAKKH///iM\u003d",
+      "revId": "085101a4970402d1498ae953e0a842d6aa373967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKX3////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2062,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-16T05:56:12Z",
+      "side": 1,
+      "message": "This block (2062-2071) is copy and pasted almost verbatim from IdentifiedUser.java\n\nIt might be better to put it in a common module, but I wasn\u0027t sure which one.  Any suggestions?",
+      "revId": "36ed1d594844be2c5cc0e8436b1e80c2a821ee70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKX3////A\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-16T07:04:40Z",
+      "side": 1,
+      "message": "Might be better to put this in Iba07e4d00df4465c92349e18bafda6b16bb45c5c and then this change will only be whitespace cleanup and doesn\u0027t need to be a dependent.",
+      "revId": "e70575d53330d67e9dc37a3dedeabb18625a5b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -277,8 +277,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
           try {
             ObjectOutputStream ser =
                 new ObjectOutputStream(new SinkOutputStream(into));
-            ser.writeObject(from);
-            ser.flush();
+            try {
+              ser.writeObject(from);
+              ser.flush();
+            } finally {
+              ser.close();
+            }
           } catch (IOException err) {
             throw new RuntimeException("Cannot hash as Serializable", err);
           }

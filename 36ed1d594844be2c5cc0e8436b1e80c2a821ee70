@@ -16,6 +16,24 @@
       "revId": "36ed1d594844be2c5cc0e8436b1e80c2a821ee70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3////4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2062,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-16T06:11:48Z",
+      "side": 1,
+      "message": "I also don\u0027t see any suitable util class.\n\nOne option would be to introduce a new annotation similar to \u0027CanonicalWebUrl\u0027, e.g. \u0027GerritHost\u0027 and bind it in Guice to a provider which encapsulates this code below.\n\n  bind(String.class).annotatedWith(GerritHost.class)\n        .toProvider(GerritHostProvider.class);\n\nwith\n\n  GerritHostProvider implements Provider\u003cString\u003e \n\nThen we could just get GerritHost injected here and in IdentifiedUser.\n\nBut I\u0027m not sure if this wouldn\u0027t be overkill. Maybe copying this piece of code is just ok.",
+      "parentUuid": "AAAKX3////w\u003d",
+      "revId": "36ed1d594844be2c5cc0e8436b1e80c2a821ee70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

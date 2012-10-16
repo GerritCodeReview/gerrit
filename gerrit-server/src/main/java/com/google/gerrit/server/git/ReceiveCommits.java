@@ -68,6 +68,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -77,6 +78,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import com.jcraft.jsch.HostKey;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -100,10 +102,13 @@ import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -250,6 +255,7 @@ public class ReceiveCommits {
   private final WorkQueue workQueue;
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
+  private final SshInfo sshInfo;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -302,6 +308,7 @@ public class ReceiveCommits {
       final WorkQueue workQueue,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
+      final SshInfo sshInfo,
 
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
@@ -326,6 +333,7 @@ public class ReceiveCommits {
     this.workQueue = workQueue;
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
+    this.sshInfo = sshInfo;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -2022,6 +2030,64 @@ public class ReceiveCommits {
     return true;
   }
 
+  private String getGerritHost() {
+    // Return the hostname from the canonical URL if it is configured,
+    // otherwise fall back to whatever the OS says the hostname is.
+    String host;
+    if (canonicalWebUrl != null) {
+      try {
+        host = new URL(canonicalWebUrl).getHost();
+      } catch (MalformedURLException e) {
+        host = SystemReader.getInstance().getHostname();
+      }
+    } else {
+      host = SystemReader.getInstance().getHostname();
+    }
+    return host;
+  }
+
+  private String getGerritUrl() {
+    // Return the canonical URL if it is configured, otherwise
+    // fall back to http://hostname
+    if (canonicalWebUrl != null) {
+      // Strip off any trailing slash
+      if (canonicalWebUrl.endsWith("/")) {
+        return canonicalWebUrl.substring(0, canonicalWebUrl.lastIndexOf("/"));
+      }
+      return canonicalWebUrl;
+    } else {
+      return "http://" + getGerritHost();
+    }
+  }
+
+  private String getCommitMessageHookInstallationHint() {
+    final List<HostKey> hostKeys = sshInfo.getHostKeys();
+
+    // If there are no SSH keys, the commit-msg hook must be installed via HTTP(S)
+    if (hostKeys.isEmpty()) {
+      return "$ curl -o .git/hooks/commit-msg " + getGerritUrl() + "/tools/hooks/commit-msg\n"
+          + "$ chmod +x .git/hooks/commit-msg";
+    }
+
+    String sshHost;
+    int sshPort;
+    String host = hostKeys.get(0).getHost();
+    int c = host.lastIndexOf(':');
+    if (0 <= c) {
+      if (host.startsWith("*:")) {
+        sshHost = getGerritHost();
+      } else {
+        sshHost = host.substring(0, c);
+      }
+      sshPort = Integer.parseInt(host.substring(c+1));
+    } else {
+      sshHost = host;
+      sshPort = 22;
+    }
+
+    return "$ scp -p -P " + sshPort + " " + currentUser.getUserName() + "@" + sshHost + ":hooks/commit-msg .git/hooks/";
+  }
+
   private String getFixedCommitMsgWithChangeId(String errMsg, RevCommit c) {
     // We handle 3 cases:
     // 1. No change id in the commit message at all.
@@ -2056,6 +2122,9 @@ public class ReceiveCommits {
         sb.append("\nHint: A potential Change-Id was found, but it was not in the footer of the commit message.");
       }
     }
+    sb.append("\n");
+    sb.append("Hint: To automatically add a Change-Id to commit messages, install the commit-msg hook:\n");
+    sb.append(getCommitMessageHookInstallationHint());
 
     return sb.toString();
   }

@@ -629,7 +629,8 @@ public class Gerrit implements EntryPoint {
         public void onSuccess(AccountCapabilities result) {
           if (result.canPerform(ADMINISTRATE_SERVER)) {
             addLink(pluginsBar, C.menuPluginsInstalled(), PageLinks.ADMIN_PLUGINS);
-            menuLeft.add(pluginsBar, C.menuPlugins());
+            menuLeft.insert(pluginsBar, C.menuPlugins(),
+                menuLeft.getWidgetIndex(groupsBar) + 1);
           }
         }
       }, ADMINISTRATE_SERVER);

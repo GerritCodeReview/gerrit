@@ -34,6 +34,23 @@
       "revId": "36ed1d594844be2c5cc0e8436b1e80c2a821ee70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKX3///7U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2074,
+      "author": {
+        "id": 1011727
+      },
+      "writtenOn": "2012-10-16T16:32:18Z",
+      "side": 1,
+      "message": "I\u0027m not familiar with how googlesource.com\u0027s Gerrit servers differ from standard Gerrit servers, but this doesn\u0027t seem to work with (e.g.) gerrit.googlesource.com since it uses HTTPS transport instead of SSH.\n\nIs there a way to instead suggest\n\n    $ curl -o .git/hooks/commit-msg https://${host}/tools/hooks/commit-msg\n    $ chmod +x .git/hooks/commit-msg\n\nif SSH transport is disabled?",
+      "revId": "36ed1d594844be2c5cc0e8436b1e80c2a821ee70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

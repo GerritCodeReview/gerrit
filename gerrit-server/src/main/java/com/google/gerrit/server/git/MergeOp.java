@@ -650,11 +650,15 @@ public class MergeOp {
             break;
 
           case LOCK_FAILURE:
+            String msg;
             if (strategy.retryOnLockFailure()) {
               mergeQueue.recheckAfter(destBranch, random.nextInt(1000),
                   MILLISECONDS);
+              msg = "will retry";
+            } else {
+              msg = "will not retry";
             }
-            break;
+            throw new IOException(branchUpdate.getResult().name() + ", " + msg);
           default:
             throw new IOException(branchUpdate.getResult().name());
         }

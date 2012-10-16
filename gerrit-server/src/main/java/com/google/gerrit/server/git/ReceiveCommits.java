@@ -100,10 +100,13 @@ import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -2056,6 +2059,19 @@ public class ReceiveCommits {
         sb.append("\nHint: A potential Change-Id was found, but it was not in the footer of the commit message.");
       }
     }
+    String host;
+    if (canonicalWebUrl != null) {
+      try {
+        host = new URL(canonicalWebUrl).getHost();
+      } catch (MalformedURLException e) {
+        host = SystemReader.getInstance().getHostname();
+      }
+    } else {
+      host = SystemReader.getInstance().getHostname();
+    }
+    sb.append("\n");
+    sb.append("Hint: To automatically add a Change-Id to commit messages, install the commit-msg hook:\n");
+    sb.append("      $ scp -p -P 29418 " + currentUser.getUserName() + "@" + host + ":hooks/commit-msg .git/hooks/");
 
     return sb.toString();
   }

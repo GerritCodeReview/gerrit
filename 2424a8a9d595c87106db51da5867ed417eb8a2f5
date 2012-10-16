@@ -52,6 +52,24 @@
       "revId": "2424a8a9d595c87106db51da5867ed417eb8a2f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-16T07:06:50Z",
+      "side": 1,
+      "message": "\u003e Could we empty the disk-caches when running init?\n\nWe could but we probably should not if not necessary.\n\n\u003e Or does people depend on having the disk-cache intact (if possible) between upgrades?\n\nNot really depending but it is desirable to keep the caches if possible.",
+      "parentUuid": "AAAKY3////s\u003d",
+      "revId": "2424a8a9d595c87106db51da5867ed417eb8a2f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

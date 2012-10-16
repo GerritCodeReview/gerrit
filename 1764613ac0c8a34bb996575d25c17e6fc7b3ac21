@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKY3///8k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-16T14:55:38Z",
+      "side": 1,
+      "message": "I don\u0027t understand what do you think is wrong?\n\nIf I am answering to the \"published comment B\" in the \"editor comment\" and, at the same time, I want to answer to the \"published comment A\", then creation of a new editor just below \"published comment A\" and above \"published comment B\" seems expected to me.",
+      "revId": "1764613ac0c8a34bb996575d25c17e6fc7b3ac21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

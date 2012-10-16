@@ -88,6 +88,24 @@
       "revId": "2424a8a9d595c87106db51da5867ed417eb8a2f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///8Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2012-10-16T15:00:26Z",
+      "side": 1,
+      "message": "Looks great. Thanks for fixing it, Edwin.",
+      "parentUuid": "AAAKY3///8s\u003d",
+      "revId": "2424a8a9d595c87106db51da5867ed417eb8a2f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

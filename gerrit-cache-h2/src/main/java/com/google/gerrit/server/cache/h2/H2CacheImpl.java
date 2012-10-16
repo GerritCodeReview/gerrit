@@ -13,10 +13,12 @@ import com.google.common.hash.Funnels;
 import com.google.common.hash.PrimitiveSink;
 import com.google.inject.TypeLiteral;
 
+import org.h2.jdbc.JdbcSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
@@ -389,6 +391,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> {
           try {
             while (r.next()) {
               b.put(keyType.get(r, 1));
+            }
+          } catch (JdbcSQLException e) {
+            if (e.getCause() instanceof InvalidClassException) {
+              log.warn("Entries cached for " + url
+                  + " have an incompatible class and can't be deserialized. "
+                  + "Cache is flushed.");
+              invalidateAll();
+            } else {
+              throw e;
             }
           } finally {
             r.close();

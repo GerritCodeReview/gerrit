@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.inject.AbstractModule;
 import com.google.inject.Binding;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -62,6 +63,7 @@ public class PluginGuiceEnvironment {
   private final Injector sysInjector;
   private final ServerInformation srvInfo;
   private final CopyConfigModule copyConfigModule;
+  private final Set<Key<?>> copyConfigKeys;
   private final List<StartPluginListener> onStart;
   private final List<ReloadPluginListener> onReload;
 
@@ -88,6 +90,7 @@ public class PluginGuiceEnvironment {
     this.sysInjector = sysInjector;
     this.srvInfo = srvInfo;
     this.copyConfigModule = ccm;
+    this.copyConfigKeys = Guice.createInjector(ccm).getAllBindings().keySet();
 
     onStart = new CopyOnWriteArrayList<StartPluginListener>();
     onStart.addAll(listeners(sysInjector, StartPluginListener.class));
@@ -372,7 +375,7 @@ public class PluginGuiceEnvironment {
     return src.findBindingsByType(type);
   }
 
-  private static Module copy(Injector src) {
+  private Module copy(Injector src) {
     Set<TypeLiteral<?>> dynamicTypes = Sets.newHashSet();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
@@ -413,7 +416,10 @@ public class PluginGuiceEnvironment {
     };
   }
 
-  private static boolean shouldCopy(Key<?> key) {
+  private boolean shouldCopy(Key<?> key) {
+    if (copyConfigKeys.contains(key)) {
+      return false;
+    }
     Class<?> type = key.getTypeLiteral().getRawType();
     if (LifecycleListener.class.isAssignableFrom(type)) {
       return false;

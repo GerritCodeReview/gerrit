@@ -2056,6 +2056,9 @@ public class ReceiveCommits {
         sb.append("\nHint: A potential Change-Id was found, but it was not in the footer of the commit message.");
       }
     }
+    sb.append("\n");
+    sb.append("Hint: To automatically add a Change-Id to commit messages, install the commit-msg hook:\n");
+    sb.append("      $ scp -p -P 29418 review.example.com:hooks/commit-msg .git/hooks/");
 
     return sb.toString();
   }

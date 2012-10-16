@@ -34,6 +34,24 @@
       "revId": "2424a8a9d595c87106db51da5867ed417eb8a2f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineDiffKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-16T06:33:39Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this, but I tend to think that if possible we should leave the disk-caches intact when running init. At least for the diff cache rebuilding the entries is expensive [1].\n\nFor this case now, I would probably add an artifical schema migration which just flushes this cache. But it would be good to also get an opinion from Shawn.\n\n[1] http://code.google.com/p/gerrit/issues/detail?id\u003d1547#c4",
+      "parentUuid": "AAAKLH///6U\u003d",
+      "revId": "2424a8a9d595c87106db51da5867ed417eb8a2f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

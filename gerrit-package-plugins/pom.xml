@@ -43,7 +43,7 @@ limitations under the License.
     <dependency>
       <groupId>com.googlesource.gerrit.plugins.replication</groupId>
       <artifactId>replication</artifactId>
-      <version>1.0-rc0</version>
+      <version>1.0-rc1</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKZX///so\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-10-17T19:06:51Z",
+      "side": 1,
+      "message": "Drop the \"at?\"",
+      "revId": "dad5135c905f09dddc744ea0a7a5092f63507480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

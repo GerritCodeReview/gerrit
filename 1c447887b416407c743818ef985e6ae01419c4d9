@@ -16,6 +16,24 @@
       "revId": "1c447887b416407c743818ef985e6ae01419c4d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKaH///3A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1011752
+      },
+      "writtenOn": "2012-10-17T18:06:28Z",
+      "side": 1,
+      "message": "Done. I was looking at the other use of RevWalk in this file (in readTree() ) and it doesn\u0027t release anything, but I guess it is eventually done by the RevTree returned by parseTree().",
+      "parentUuid": "AAAKY3///yQ\u003d",
+      "revId": "1c447887b416407c743818ef985e6ae01419c4d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

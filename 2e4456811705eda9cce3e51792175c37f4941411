@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKY3///4A\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "Actually this and the other two (requried, port) methods are not used at all. I removed them.",
+      "parentUuid": "AAAKY3///4g\u003d",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///40\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-17T07:21:14Z",
       "side": 1,
       "message": "You might want to use a constant ScriptRunner.NOP instead.",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///3w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/BaseDataSourceType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKY3///40\u003d",
       "revId": "2e4456811705eda9cce3e51792175c37f4941411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKY3///zw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "I moved these static methods to better places but didn\u0027t provide a URLBuilder or JdbcUrlBuilder. It seemed unnecessary to me.",
+      "parentUuid": "AAAKY3///5k\u003d",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///5s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2012-10-17T07:21:14Z",
       "side": 1,
       "message": "Please check if a appendHost(StringBuilder url, String host) would be more useful.\n\nI think the host can also be specified as an IP address so you might want to rename the param to \"host\".",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///1Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "I moved this and the next method into the new JdbcUtil class.\nDidn\u0027t see a benefit of wrapping the call to StringBuilder.append inside this method.\n\ngit grep \"String hostname\" shows that we use the name \"hostname\" at many places in Gerrit when it could be an IP address. I dont\u0027 see a benefit of naming it differently here.",
+      "parentUuid": "AAAKY3///5s\u003d",
       "revId": "2e4456811705eda9cce3e51792175c37f4941411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKY3///1M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "Moved to the JdbcUtil class, same like the hostname method.",
+      "parentUuid": "AAAKY3///5o\u003d",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///6I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceType.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2012-10-17T07:21:14Z",
       "side": 1,
       "message": "s/Must not/Does not",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///1I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "This javadoc is more intended for the implementors of this interface than it is for the users of it. In that context \"Must not\" sounds better to me as it clearly tells what is expected from an implementation of this method.",
+      "parentUuid": "AAAKY3///6I\u003d",
       "revId": "2e4456811705eda9cce3e51792175c37f4941411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKY3///1E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/DataSourceType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "same like above.",
+      "parentUuid": "AAAKY3///6E\u003d",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///5Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
         "patchSetId": 3
@@ -132,6 +258,24 @@
       "writtenOn": "2012-10-17T07:21:14Z",
       "side": 1,
       "message": "You might want to name this class H2Type to distinguish more clearly from the H2Initializer",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///04\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/H2.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "I prefer to keep this name like it is.",
+      "parentUuid": "AAAKY3///5Y\u003d",
       "revId": "2e4456811705eda9cce3e51792175c37f4941411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKY3///00\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JDBC.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "I prefer to keep this name like it is.",
+      "parentUuid": "AAAKY3///5U\u003d",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///5Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MySql.java",
         "patchSetId": 3
@@ -166,6 +328,24 @@
       "writtenOn": "2012-10-17T07:21:14Z",
       "side": 1,
       "message": "You might want to name this class MySQLType to distinguish more clearly from the MySqlInitializer",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///0w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MySql.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "I prefer to keep this name like it is.",
+      "parentUuid": "AAAKY3///5Q\u003d",
       "revId": "2e4456811705eda9cce3e51792175c37f4941411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKY3///0o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MySql.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "It would probably be JdbcUrlBuilder instead of a generic URLBuilder. It looks like an overdesign to build a hierarchy of JdbcUrlBuilders (base interface plus one implementation for each supported database).",
+      "parentUuid": "AAAKY3///5c\u003d",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///5M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PostgreSQL.java",
         "patchSetId": 3
@@ -200,6 +398,24 @@
       "writtenOn": "2012-10-17T07:21:14Z",
       "side": 1,
       "message": "You might want to name this class PostgreSQLType to distinguish more clearly from the PostgreSQLInitializer",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///0k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PostgreSQL.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "I prefer to keep the name as it is.",
+      "parentUuid": "AAAKY3///5M\u003d",
       "revId": "2e4456811705eda9cce3e51792175c37f4941411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKY3///0g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PostgreSQL.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "see the answer in MySql.java",
+      "parentUuid": "AAAKY3///5g\u003d",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///48\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ScriptRunner.java",
         "patchSetId": 3
@@ -234,6 +468,24 @@
       "writtenOn": "2012-10-17T07:21:14Z",
       "side": 1,
       "message": "Alternatively to this constructor you could provide a constant \n\n  static ScriptRunner NOP \u003d new ScriptRunner() {\n        run(){}\n   }",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///34\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ScriptRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "Done, but named it NOOP instead of NOP. We already use the NOOP name in several other places.\nAlso removed the no-arg constructor as the NOOP instance could use the 2-arg constructor with nulls as parameters.",
+      "parentUuid": "AAAKY3///48\u003d",
       "revId": "2e4456811705eda9cce3e51792175c37f4941411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +509,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKY3///38\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/ScriptRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKY3///44\u003d",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///5I\u003d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryH2Type.java",
         "patchSetId": 3
@@ -268,6 +538,24 @@
       "writtenOn": "2012-10-17T07:21:14Z",
       "side": 1,
       "message": "If this is not used you might want to throw an UnsupportedOperationException",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///0c\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryH2Type.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-17T14:52:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKY3///5I\u003d",
       "revId": "2e4456811705eda9cce3e51792175c37f4941411",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

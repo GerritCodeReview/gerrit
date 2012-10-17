@@ -119,7 +119,7 @@ public class SubmoduleOp {
       schema = schemaFactory.open();
 
       updateSubmoduleSubscriptions();
-      updateSuperProjects(destBranch, mergeTip.getId().toObjectId(), null);
+      updateSuperProjects(destBranch, rw, mergeTip.getId().toObjectId(), null);
     } catch (OrmException e) {
       throw new SubmoduleException("Cannot open database", e);
     } finally {
@@ -193,7 +193,7 @@ public class SubmoduleOp {
     }
   }
 
-  private void updateSuperProjects(final Branch.NameKey updatedBranch,
+  private void updateSuperProjects(final Branch.NameKey updatedBranch, RevWalk myRw,
       final ObjectId mergedCommit, final String msg) throws SubmoduleException {
     try {
       final List<SubmoduleSubscription> subscribers =
@@ -240,7 +240,7 @@ public class SubmoduleOp {
             paths.put(updatedBranch, s.getPath());
 
             try {
-              updateGitlinks(s.getSuperProject(), modules, paths, msgbuf);
+              updateGitlinks(s.getSuperProject(), myRw, modules, paths, msgbuf);
             } catch (SubmoduleException e) {
               throw e;
             }
@@ -252,7 +252,7 @@ public class SubmoduleOp {
     }
   }
 
-  private void updateGitlinks(final Branch.NameKey subscriber,
+  private void updateGitlinks(final Branch.NameKey subscriber, RevWalk myRw,
       final Map<Branch.NameKey, ObjectId> modules,
       final Map<Branch.NameKey, String> paths, final String msg)
       throws SubmoduleException {
@@ -261,12 +261,13 @@ public class SubmoduleOp {
     final StringBuilder msgbuf = new StringBuilder();
     msgbuf.append("Updated " + subscriber.getParentKey().get());
     Repository pdb = null;
+    RevWalk recRw = null;
 
     try {
       boolean sameAuthorForAll = true;
 
       for (final Map.Entry<Branch.NameKey, ObjectId> me : modules.entrySet()) {
-        RevCommit c = rw.parseCommit(me.getValue());
+        RevCommit c = myRw.parseCommit(me.getValue());
 
         msgbuf.append("\nProject: ");
         msgbuf.append(me.getKey().getParentKey().get());
@@ -344,12 +345,17 @@ public class SubmoduleOp {
           throw new IOException(rfu.getResult().name());
       }
 
+      recRw = new RevWalk(pdb);
+
       // Recursive call: update subscribers of the subscriber
-      updateSuperProjects(subscriber, commitId, msgbuf.toString());
+      updateSuperProjects(subscriber, recRw, commitId, msgbuf.toString());
     } catch (IOException e) {
       logAndThrowSubmoduleException("Cannot update gitlinks for "
           + subscriber.get(), e);
     } finally {
+      if (recRw != null) {
+        recRw.release();
+      }
       if (pdb != null) {
         pdb.close();
       }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKY3///6Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2035,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-17T05:59:56Z",
+      "side": 1,
+      "message": "Can you make this comment to be a JavaDoc comment on the method.",
+      "revId": "009aa171e2f55b36a41cdcbe033e5efc28db9311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///6U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2051,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-17T05:59:56Z",
+      "side": 1,
+      "message": "Can you make this comment to be a JavaDoc comment on the method.",
+      "revId": "009aa171e2f55b36a41cdcbe033e5efc28db9311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

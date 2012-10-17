@@ -3,7 +3,7 @@ Release notes for Gerrit 2.5
 
 Gerrit 2.5 is now available:
 
-link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-2.5.war]
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.5.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.5.war]
 
 Gerrit 2.5 includes the bug fixes done with
 link:ReleaseNotes-2.4.1.html[Gerrit 2.4.1] and

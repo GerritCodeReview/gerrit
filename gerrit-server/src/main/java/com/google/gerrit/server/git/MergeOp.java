@@ -18,6 +18,7 @@ import static com.google.gerrit.server.git.MergeUtil.computeMergeCommitAuthor;
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.data.ApprovalType;
@@ -83,7 +84,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -112,7 +112,8 @@ public class MergeOp {
   private static final long DEPENDENCY_DELAY =
       MILLISECONDS.convert(15, MINUTES);
 
-  private static final Random random = new Random();
+  private static final long LOCK_FAILURE_RETRY_DELAY =
+      MILLISECONDS.convert(15, SECONDS);
 
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -652,7 +653,7 @@ public class MergeOp {
           case LOCK_FAILURE:
             String msg;
             if (strategy.retryOnLockFailure()) {
-              mergeQueue.recheckAfter(destBranch, random.nextInt(1000),
+              mergeQueue.recheckAfter(destBranch, LOCK_FAILURE_RETRY_DELAY,
                   MILLISECONDS);
               msg = "will retry";
             } else {

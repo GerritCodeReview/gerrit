@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKY3///yE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/ConfigSection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-17T17:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKY3///yc\u003d",
+      "revId": "1df259cfccde6fec16ba1b041dfffb43420ec798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///yY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcUtil.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-17T17:19:46Z",
       "side": 1,
       "message": "licence header is missing",
+      "revId": "1df259cfccde6fec16ba1b041dfffb43420ec798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///yI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-17T17:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKY3///yY\u003d",
       "revId": "1df259cfccde6fec16ba1b041dfffb43420ec798",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKbX////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2035,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-17T06:24:22Z",
+      "side": 1,
+      "message": "Done.\n\nI deliberately didn\u0027t do them in JavaDoc style to be consistent with the style for example on `getFixedCommitMsgWithChangeId`.",
+      "parentUuid": "AAAKY3///6Y\u003d",
+      "revId": "009aa171e2f55b36a41cdcbe033e5efc28db9311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///6U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-17T05:59:56Z",
       "side": 1,
       "message": "Can you make this comment to be a JavaDoc comment on the method.",
+      "revId": "009aa171e2f55b36a41cdcbe033e5efc28db9311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKbX////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2051,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-17T06:24:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAKY3///6U\u003d",
       "revId": "009aa171e2f55b36a41cdcbe033e5efc28db9311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

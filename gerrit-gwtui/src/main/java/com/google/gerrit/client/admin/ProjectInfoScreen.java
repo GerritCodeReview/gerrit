@@ -21,13 +21,16 @@ import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -37,14 +40,14 @@ public class ProjectInfoScreen extends ProjectScreen {
   private Project project;
 
   private Panel projectOptionsPanel;
-  private CheckBox requireChangeID;
+  private ListBox requireChangeID;
   private ListBox submitType;
   private ListBox state;
-  private CheckBox useContentMerge;
+  private ListBox contentMerge;
 
   private Panel agreementsPanel;
-  private CheckBox useContributorAgreements;
-  private CheckBox useSignedOffBy;
+  private ListBox contributorAgreements;
+  private ListBox signedOffBy;
 
   private NpTextArea descTxt;
   private Button saveProject;
@@ -96,10 +99,10 @@ public class ProjectInfoScreen extends ProjectScreen {
       final boolean canModifyState) {
     submitType.setEnabled(canModifyMergeType);
     state.setEnabled(canModifyState);
-    useContentMerge.setEnabled(canModifyMergeType);
+    contentMerge.setEnabled(canModifyMergeType);
     descTxt.setEnabled(canModifyDescription);
-    useContributorAgreements.setEnabled(canModifyAgreements);
-    useSignedOffBy.setEnabled(canModifyAgreements);
+    contributorAgreements.setEnabled(canModifyAgreements);
+    signedOffBy.setEnabled(canModifyAgreements);
     requireChangeID.setEnabled(canModifyMergeType);
   }
 
@@ -142,19 +145,33 @@ public class ProjectInfoScreen extends ProjectScreen {
     saveEnabler.listenTo(state);
     projectOptionsPanel.add(state);
 
-    useContentMerge = new CheckBox(Util.C.useContentMerge(), true);
-    saveEnabler.listenTo(useContentMerge);
-    projectOptionsPanel.add(useContentMerge);
+    contentMerge = newInheritedBooleanBox();
+    FlowPanel fp = new FlowPanel();
+    fp.add(contentMerge);
+    fp.add(new InlineLabel(Util.C.useContentMerge()));
+    saveEnabler.listenTo(contentMerge);
+    projectOptionsPanel.add(fp);
 
-    requireChangeID = new CheckBox(Util.C.requireChangeID(), true);
+    requireChangeID = newInheritedBooleanBox();
+    fp = new FlowPanel();
+    fp.add(requireChangeID);
+    fp.add(new InlineHTML(Util.C.requireChangeID()));
     saveEnabler.listenTo(requireChangeID);
-    projectOptionsPanel.add(requireChangeID);
+    projectOptionsPanel.add(fp);
 
     add(projectOptionsPanel);
   }
 
+  private static ListBox newInheritedBooleanBox() {
+    ListBox box = new ListBox();
+    for (InheritedBoolean b : InheritedBoolean.values()) {
+      box.addItem(b.name(), b.name());
+    }
+    return box;
+  }
+
   /**
-   * Enables the {@link #useContentMerge} checkbox if the selected submit type
+   * Enables the {@link #contentMerge} checkbox if the selected submit type
    * allows the usage of content merge.
    * If the submit type (currently only 'Fast Forward Only') does not allow
    * content merge the useContentMerge checkbox gets disabled.
@@ -162,10 +179,10 @@ public class ProjectInfoScreen extends ProjectScreen {
   private void setEnabledForUseContentMerge() {
     if (SubmitType.FAST_FORWARD_ONLY.equals(Project.SubmitType
         .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
-      useContentMerge.setEnabled(false);
-      useContentMerge.setValue(false);
+      contentMerge.setEnabled(false);
+      setBool(contentMerge, InheritedBoolean.FALSE);
     } else {
-      useContentMerge.setEnabled(submitType.isEnabled());
+      contentMerge.setEnabled(submitType.isEnabled());
     }
   }
 
@@ -173,13 +190,21 @@ public class ProjectInfoScreen extends ProjectScreen {
     agreementsPanel = new VerticalPanel();
     agreementsPanel.add(new SmallHeading(Util.C.headingAgreements()));
 
-    useContributorAgreements = new CheckBox(Util.C.useContributorAgreements());
-    saveEnabler.listenTo(useContributorAgreements);
-    agreementsPanel.add(useContributorAgreements);
+    contributorAgreements = newInheritedBooleanBox();
+    if (Gerrit.getConfig().isUseContributorAgreements()) {
+      FlowPanel fp = new FlowPanel();
+      fp.add(contributorAgreements);
+      fp.add(new InlineLabel(Util.C.useContributorAgreements()));
+      saveEnabler.listenTo(contributorAgreements);
+      agreementsPanel.add(fp);
+    }
 
-    useSignedOffBy = new CheckBox(Util.C.useSignedOffBy(), true);
-    saveEnabler.listenTo(useSignedOffBy);
-    agreementsPanel.add(useSignedOffBy);
+    signedOffBy = newInheritedBooleanBox();
+    FlowPanel fp = new FlowPanel();
+    fp.add(signedOffBy);
+    fp.add(new InlineHTML(Util.C.useSignedOffBy()));
+    saveEnabler.listenTo(signedOffBy);
+    agreementsPanel.add(fp);
 
     add(agreementsPanel);
   }
@@ -209,21 +234,33 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
   }
 
+  private static void setBool(ListBox box, InheritedBoolean val) {
+    if (box != null) {
+      for (int i = 0; i < box.getItemCount(); i++) {
+        if (val.name().equals(box.getValue(i))) {
+          box.setSelectedIndex(i);
+          break;
+        }
+      }
+    }
+  }
+
+  private static InheritedBoolean getBool(ListBox box) {
+    int i = box.getSelectedIndex();
+    if (i >= 0) {
+      return InheritedBoolean.valueOf(box.getValue(i));
+    }
+    return InheritedBoolean.INHERIT;
+  }
+
   void display(final ProjectDetail result) {
     project = result.project;
 
-    final boolean isall =
-        Gerrit.getConfig().getWildProject().equals(project.getNameKey());
-    projectOptionsPanel.setVisible(!isall);
-    agreementsPanel.setVisible(!isall);
-    useContributorAgreements.setVisible(Gerrit.getConfig()
-        .isUseContributorAgreements());
-
     descTxt.setText(project.getDescription());
-    useContributorAgreements.setValue(project.isUseContributorAgreements());
-    useSignedOffBy.setValue(project.isUseSignedOffBy());
-    useContentMerge.setValue(project.isUseContentMerge());
-    requireChangeID.setValue(project.isRequireChangeID());
+    setBool(contributorAgreements, project.getUseContributorAgreements());
+    setBool(signedOffBy, project.getUseSignedOffBy());
+    setBool(contentMerge, project.getUseContentMerge());
+    setBool(requireChangeID, project.getRequireChangeID());
     setSubmitType(project.getSubmitType());
     setState(project.getState());
 
@@ -232,10 +269,10 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private void doSave() {
     project.setDescription(descTxt.getText().trim());
-    project.setUseContributorAgreements(useContributorAgreements.getValue());
-    project.setUseSignedOffBy(useSignedOffBy.getValue());
-    project.setUseContentMerge(useContentMerge.getValue());
-    project.setRequireChangeID(requireChangeID.getValue());
+    project.setUseContributorAgreements(getBool(contributorAgreements));
+    project.setUseSignedOffBy(getBool(signedOffBy));
+    project.setUseContentMerge(getBool(contentMerge));
+    project.setRequireChangeID(getBool(requireChangeID));
     if (submitType.getSelectedIndex() >= 0) {
       project.setSubmitType(Project.SubmitType.valueOf(submitType
           .getValue(submitType.getSelectedIndex())));

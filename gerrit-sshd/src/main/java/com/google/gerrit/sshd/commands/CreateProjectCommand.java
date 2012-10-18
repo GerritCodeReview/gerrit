@@ -19,6 +19,7 @@ import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
@@ -64,17 +65,37 @@ final class CreateProjectCommand extends SshCommand {
       + "(default: MERGE_IF_NECESSARY)")
   private SubmitType submitType = SubmitType.MERGE_IF_NECESSARY;
 
+  @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
+  private InheritedBoolean contributorAgreements;
+
+  @Option(name = "--signed-off-by", usage = "if signed-off-by is required")
+  private InheritedBoolean signedOffBy = InheritedBoolean.INHERIT;
+
+  @Option(name = "--content-merge", usage = "allow automatic conflict resolving within files")
+  private InheritedBoolean contentMerge = InheritedBoolean.INHERIT;
+
+  @Option(name = "--change-id", usage = "if change-id is required")
+  private InheritedBoolean requireChangeID = InheritedBoolean.INHERIT;
+
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
-  private boolean contributorAgreements;
+  void setUseContributorArgreements(boolean on) {
+    contributorAgreements = InheritedBoolean.TRUE;
+  }
 
   @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
-  private boolean signedOffBy;
+  void setUseSignedOffBy(boolean on) {
+    signedOffBy = InheritedBoolean.TRUE;
+  }
 
   @Option(name = "--use-content-merge", usage = "allow automatic conflict resolving within files")
-  private boolean contentMerge;
+  void setUseContentMerge(boolean on) {
+    contentMerge = InheritedBoolean.TRUE;
+  }
 
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
-  private boolean requireChangeID;
+  void setRequireChangeId(boolean on) {
+    requireChangeID = InheritedBoolean.TRUE;
+  }
 
   @Option(name = "--branch", aliases = {"-b"}, metaVar = "BRANCH", usage = "initial branch name\n"
       + "(default: master)")

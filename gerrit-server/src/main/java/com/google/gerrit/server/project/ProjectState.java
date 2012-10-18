@@ -14,13 +14,16 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.CurrentUser;
@@ -294,5 +297,64 @@ public class ProjectState {
 
   public boolean isAllProjects() {
     return isAllProjects;
+  }
+
+  public boolean isUseContributorAgreements() {
+    return getInheritedBoolean(new Function<Project, InheritedBoolean>() {
+      @Override
+      public InheritedBoolean apply(Project input) {
+        return input.getUseContributorAgreements();
+      }
+    });
+  }
+
+  public boolean isUseContentMerge() {
+    return getInheritedBoolean(new Function<Project, InheritedBoolean>() {
+      @Override
+      public InheritedBoolean apply(Project input) {
+        return input.getUseContentMerge();
+      }
+    });
+  }
+
+  public boolean isUseSignedOffBy() {
+    return getInheritedBoolean(new Function<Project, InheritedBoolean>() {
+      @Override
+      public InheritedBoolean apply(Project input) {
+        return input.getUseSignedOffBy();
+      }
+    });
+  }
+
+  public boolean isRequireChangeID() {
+    return getInheritedBoolean(new Function<Project, InheritedBoolean>() {
+      @Override
+      public InheritedBoolean apply(Project input) {
+        return input.getRequireChangeID();
+      }
+    });
+  }
+
+  private boolean getInheritedBoolean(Function<Project, InheritedBoolean> func) {
+    Set<Project.NameKey> seen = Sets.newHashSet();
+    seen.add(getProject().getNameKey());
+    ProjectState s = this;
+    do {
+      switch (func.apply(s.getProject())) {
+        case TRUE:
+          return true;
+        case FALSE:
+          return false;
+        case INHERIT:
+        default:
+          Project.NameKey parent = s.getProject().getParent(allProjectsName);
+          if (parent != null && seen.add(parent)) {
+            s = projectCache.get(parent);
+          } else {
+            s = null;
+          }
+      }
+    } while (s != null);
+    return false;
   }
 }

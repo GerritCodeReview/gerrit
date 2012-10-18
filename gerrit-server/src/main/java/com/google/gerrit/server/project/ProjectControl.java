@@ -232,8 +232,7 @@ public class ProjectControl {
       String pName = state.getProject().getName();
       return new Capable("Upload denied for project '" + pName + "'");
     }
-    Project project = state.getProject();
-    if (project.isUseContributorAgreements()) {
+    if (state.isUseContributorAgreements()) {
       return verifyActiveContributorAgreement();
     }
     return Capable.OK;

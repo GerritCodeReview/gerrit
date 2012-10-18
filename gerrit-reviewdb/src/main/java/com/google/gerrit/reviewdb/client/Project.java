@@ -85,13 +85,19 @@ public final class Project {
     HIDDEN;
   }
 
+  public static enum InheritedBoolean {
+    TRUE,
+    FALSE,
+    INHERIT;
+  }
+
   protected NameKey name;
 
   protected String description;
 
-  protected boolean useContributorAgreements;
+  protected InheritedBoolean useContributorAgreements;
 
-  protected boolean useSignedOffBy;
+  protected InheritedBoolean useSignedOffBy;
 
   protected SubmitType submitType;
 
@@ -99,9 +105,9 @@ public final class Project {
 
   protected NameKey parent;
 
-  protected boolean requireChangeID;
+  protected InheritedBoolean requireChangeID;
 
-  protected boolean useContentMerge;
+  protected InheritedBoolean useContentMerge;
 
   protected Project() {
   }
@@ -110,6 +116,10 @@ public final class Project {
     name = nameKey;
     submitType = SubmitType.MERGE_IF_NECESSARY;
     state = State.ACTIVE;
+    useContributorAgreements = InheritedBoolean.INHERIT;
+    useSignedOffBy = InheritedBoolean.INHERIT;
+    requireChangeID = InheritedBoolean.INHERIT;
+    useContentMerge = InheritedBoolean.INHERIT;
   }
 
   public Project.NameKey getNameKey() {
@@ -128,35 +138,35 @@ public final class Project {
     description = d;
   }
 
-  public boolean isUseContributorAgreements() {
+  public InheritedBoolean getUseContributorAgreements() {
     return useContributorAgreements;
   }
 
-  public void setUseContributorAgreements(final boolean u) {
-    useContributorAgreements = u;
-  }
-
-  public boolean isUseSignedOffBy() {
+  public InheritedBoolean getUseSignedOffBy() {
     return useSignedOffBy;
   }
 
-  public boolean isUseContentMerge() {
+  public InheritedBoolean getUseContentMerge() {
     return useContentMerge;
   }
 
-  public boolean isRequireChangeID() {
+  public InheritedBoolean getRequireChangeID() {
     return requireChangeID;
   }
 
-  public void setUseSignedOffBy(final boolean sbo) {
+  public void setUseContributorAgreements(final InheritedBoolean u) {
+    useContributorAgreements = u;
+  }
+
+  public void setUseSignedOffBy(final InheritedBoolean sbo) {
     useSignedOffBy = sbo;
   }
 
-  public void setUseContentMerge(final boolean cm) {
+  public void setUseContentMerge(final InheritedBoolean cm) {
     useContentMerge = cm;
   }
 
-  public void setRequireChangeID(final boolean cid) {
+  public void setRequireChangeID(final InheritedBoolean cid) {
     requireChangeID = cid;
   }
 

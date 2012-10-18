@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -50,29 +51,57 @@ final class SetProjectCommand extends SshCommand {
       + "(default: MERGE_IF_NECESSARY)")
   private SubmitType submitType;
 
+  @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
+  private InheritedBoolean contributorAgreements;
+
+  @Option(name = "--signed-off-by", usage = "if signed-off-by is required")
+  private InheritedBoolean signedOffBy;
+
+  @Option(name = "--content-merge", usage = "allow automatic conflict resolving within files")
+  private InheritedBoolean contentMerge;
+
+  @Option(name = "--change-id", usage = "if change-id is required")
+  private InheritedBoolean requireChangeID;
+
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
-  private Boolean contributorAgreements;
+  void setUseContributorArgreements(boolean on) {
+    contributorAgreements = InheritedBoolean.TRUE;
+  }
 
   @Option(name = "--no-contributor-agreements", aliases = {"--nca"}, usage = "if contributor agreement is not required")
-  private Boolean noContributorAgreements;
+  void setNoContributorArgreements(boolean on) {
+    contributorAgreements = InheritedBoolean.FALSE;
+  }
 
   @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
-  private Boolean signedOffBy;
+  void setUseSignedOffBy(boolean on) {
+    signedOffBy = InheritedBoolean.TRUE;
+  }
 
   @Option(name = "--no-signed-off-by", aliases = {"--nso"}, usage = "if signed-off-by is not required")
-  private Boolean noSignedOffBy;
+  void setNoSignedOffBy(boolean on) {
+    signedOffBy = InheritedBoolean.FALSE;
+  }
 
   @Option(name = "--use-content-merge", usage = "allow automatic conflict resolving within files")
-  private Boolean contentMerge;
+  void setUseContentMerge(boolean on) {
+    contentMerge = InheritedBoolean.TRUE;
+  }
 
   @Option(name = "--no-content-merge", usage = "don't allow automatic conflict resolving within files")
-  private Boolean noContentMerge;
+  void setNoContentMerge(boolean on) {
+    contentMerge = InheritedBoolean.FALSE;
+  }
 
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
-  private Boolean requireChangeID;
+  void setRequireChangeId(boolean on) {
+    requireChangeID = InheritedBoolean.TRUE;
+  }
 
   @Option(name = "--no-change-id", aliases = {"--nid"}, usage = "if change-id is not required")
-  private Boolean noRequireChangeID;
+  void setNoChangeId(boolean on) {
+    requireChangeID = InheritedBoolean.FALSE;
+  }
 
   @Option(name = "--project-state", aliases = {"--ps"}, usage = "project's visibility state")
   private State state;
@@ -85,7 +114,6 @@ final class SetProjectCommand extends SshCommand {
 
   @Override
   protected void run() throws Failure {
-    validate();
     Project ctlProject = projectControl.getProject();
     Project.NameKey nameKey = ctlProject.getNameKey();
     String name = ctlProject.getName();
@@ -97,38 +125,27 @@ final class SetProjectCommand extends SshCommand {
         ProjectConfig config = ProjectConfig.read(md);
         Project project = config.getProject();
 
-        project.setRequireChangeID(requireChangeID != null ? requireChangeID
-            : project.isRequireChangeID());
-
-        project.setRequireChangeID(noRequireChangeID != null
-            ? !noRequireChangeID : project.isRequireChangeID());
-
-        project.setSubmitType(submitType != null ? submitType : project
-            .getSubmitType());
-
-        project.setUseContentMerge(contentMerge != null ? contentMerge
-            : project.isUseContentMerge());
-
-        project.setUseContentMerge(noContentMerge != null ? !noContentMerge
-            : project.isUseContentMerge());
-
-        project.setUseContributorAgreements(contributorAgreements != null
-            ? contributorAgreements : project.isUseContributorAgreements());
-
-        project.setUseContributorAgreements(noContributorAgreements != null
-            ? !noContributorAgreements : project.isUseContributorAgreements());
-
-        project.setUseSignedOffBy(signedOffBy != null ? signedOffBy : project
-            .isUseSignedOffBy());
-
-        project.setUseContentMerge(noSignedOffBy != null ? !noSignedOffBy
-            : project.isUseContentMerge());
-
-        project.setDescription(projectDescription != null ? projectDescription
-            : project.getDescription());
-
-        project.setState(state != null ? state : project.getState());
-
+        if (requireChangeID != null) {
+          project.setRequireChangeID(requireChangeID);
+        }
+        if (submitType != null) {
+          project.setSubmitType(submitType);
+        }
+        if (contentMerge != null) {
+          project.setUseContentMerge(contentMerge);
+        }
+        if (contributorAgreements != null) {
+          project.setUseContributorAgreements(contributorAgreements);
+        }
+        if (signedOffBy != null) {
+          project.setUseSignedOffBy(signedOffBy);
+        }
+        if (projectDescription != null) {
+          project.setDescription(projectDescription);
+        }
+        if (state != null) {
+          project.setState(state);
+        }
         md.setMessage("Project settings updated");
         config.commit(md);
       } finally {
@@ -153,19 +170,5 @@ final class SetProjectCommand extends SshCommand {
       }
       throw new UnloggedFailure(1, err.toString());
     }
-  }
-
-  private void validate() throws UnloggedFailure {
-    checkExclusivity(contentMerge, "--use-content-merge",
-        noContentMerge, "--no-content-merge");
-
-    checkExclusivity(contributorAgreements, "--use-contributor-agreements",
-        noContributorAgreements, "--no-contributor-agreements");
-
-    checkExclusivity(signedOffBy, "--use-signed-off-by",
-        noSignedOffBy, "--no-signed-off-by");
-
-    checkExclusivity(requireChangeID, "--require-change-id",
-        noRequireChangeID, "--no-change-id");
   }
 }

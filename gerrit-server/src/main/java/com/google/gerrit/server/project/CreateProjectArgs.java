@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 
 import java.util.List;
@@ -27,12 +28,12 @@ public class CreateProjectArgs {
   public ProjectControl newParent;
   public String projectDescription;
   public SubmitType submitType;
-  public boolean contributorAgreements;
-  public boolean signedOffBy;
+  public InheritedBoolean contributorAgreements;
+  public InheritedBoolean signedOffBy;
   public boolean permissionsOnly;
   public List<String> branch;
-  public boolean contentMerge;
-  public boolean changeIdRequired;
+  public InheritedBoolean contentMerge;
+  public InheritedBoolean changeIdRequired;
   public boolean createEmptyCommit;
 
   public CreateProjectArgs() {

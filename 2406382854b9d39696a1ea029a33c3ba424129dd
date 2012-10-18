@@ -16,6 +16,24 @@
       "revId": "2406382854b9d39696a1ea029a33c3ba424129dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKbX///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersionCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-18T08:14:44Z",
+      "side": 1,
+      "message": "OK.  But I think that\u0027s beyond the scope of what I was trying to do here.  I\u0027ll put that in a separate change and then rebase this one on top of it.",
+      "parentUuid": "AAAKY3///uI\u003d",
+      "revId": "2406382854b9d39696a1ea029a33c3ba424129dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

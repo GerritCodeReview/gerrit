@@ -52,17 +52,21 @@ public class SchemaVersionCheck implements LifecycleListener {
     try {
       final ReviewDb db = schema.open();
       try {
-        final CurrentSchemaVersion sVer = getSchemaVersion(db);
-        final int eVer = version.get().getVersionNbr();
+        final CurrentSchemaVersion currentVer = getSchemaVersion(db);
+        final int expectedVer = version.get().getVersionNbr();
 
-        if (sVer == null) {
+        if (currentVer == null) {
           throw new ProvisionException("Schema not yet initialized."
               + "  Run init to initialize the schema.");
         }
-        if (sVer.versionNbr != eVer) {
+        if (currentVer.versionNbr < expectedVer) {
           throw new ProvisionException("Unsupported schema version "
-              + sVer.versionNbr + "; expected schema version " + eVer
+              + currentVer.versionNbr + "; expected schema version " + expectedVer
               + ".  Run init to upgrade.");
+        } else if (currentVer.versionNbr > expectedVer) {
+          throw new ProvisionException("Unsupported schema version "
+              + currentVer.versionNbr + "; expected schema version " + expectedVer
+              + ". Downgrade is not supported.");
         }
       } finally {
         db.close();

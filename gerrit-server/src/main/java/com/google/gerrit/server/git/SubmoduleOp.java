@@ -365,14 +365,17 @@ public class SubmoduleOp {
   private static DirCache readTree(final Repository pdb, final Ref branch)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
     final RevWalk rw = new RevWalk(pdb);
-
-    final DirCache dc = DirCache.newInCore();
-    final DirCacheBuilder b = dc.builder();
-    b.addTree(new byte[0], // no prefix path
-        DirCacheEntry.STAGE_0, // standard stage
-        pdb.newObjectReader(), rw.parseTree(branch.getObjectId()));
-    b.finish();
-    return dc;
+    try {
+      final DirCache dc = DirCache.newInCore();
+      final DirCacheBuilder b = dc.builder();
+      b.addTree(new byte[0], // no prefix path
+          DirCacheEntry.STAGE_0, // standard stage
+          pdb.newObjectReader(), rw.parseTree(branch.getObjectId()));
+      b.finish();
+      return dc;
+    } finally {
+      rw.release();
+    }
   }
 
   private static void logAndThrowSubmoduleException(final String errorMsg,

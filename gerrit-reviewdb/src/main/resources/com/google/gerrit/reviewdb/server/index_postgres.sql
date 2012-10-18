@@ -47,30 +47,6 @@ SELECT
 
 DROP FUNCTION make_plpgsql();
 
--- Define our schema upgrade support function.
---
-
-delimiter //
-
-CREATE OR REPLACE FUNCTION
-check_schema_version (exp INT)
-RETURNS VARCHAR(255)
-AS $$
-DECLARE
-  l_act INT;
-BEGIN
-  SELECT version_nbr INTO l_act
-  FROM schema_version;
-
-  IF l_act <> exp
-  THEN
-    RAISE EXCEPTION 'expected schema %, found %', exp, l_act;
-  END IF;
-  RETURN 'OK';
-END;
-$$ LANGUAGE plpgsql;
-//
-
 delimiter ;
 
 -- Indexes to support @Query

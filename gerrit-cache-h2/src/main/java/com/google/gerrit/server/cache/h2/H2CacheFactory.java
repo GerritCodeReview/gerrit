@@ -146,7 +146,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     }
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes", "cast"})
+  @SuppressWarnings({"unchecked", "cast"})
   @Override
   public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
     Preconditions.checkState(!started, "cache must be built before start");

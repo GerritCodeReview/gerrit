@@ -132,7 +132,7 @@ public class MergeOp {
 
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
-  private Project destProject;
+  private ProjectState destProject;
   private final ListMultimap<SubmitType, CodeReviewCommit> toMerge;
   private final List<CodeReviewCommit> potentiallyStillSubmittable;
   private final Map<Change.Id, CodeReviewCommit> commits;
@@ -253,11 +253,10 @@ public class MergeOp {
   }
 
   private void setDestProject() throws MergeException {
-    final ProjectState pe = projectCache.get(destBranch.getParentKey());
-    if (pe == null) {
+    destProject = projectCache.get(destBranch.getParentKey());
+    if (destProject == null) {
       throw new MergeException("No such project: " + destBranch.getParentKey());
     }
-    destProject = pe.getProject();
   }
 
   private void openSchema() throws OrmException {
@@ -602,12 +601,13 @@ public class MergeOp {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
         try {
-          ProjectConfig cfg = new ProjectConfig(destProject.getNameKey());
+          ProjectConfig cfg =
+              new ProjectConfig(destProject.getProject().getNameKey());
           cfg.load(repo, mergeTip);
         } catch (Exception e) {
           throw new MergeException("Submit would store invalid"
               + " project configuration " + mergeTip.name() + " for "
-              + destProject.getName(), e);
+              + destProject.getProject().getName(), e);
         }
       }
 
@@ -627,10 +627,11 @@ public class MergeOp {
             }
 
             if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
-              projectCache.evict(destProject);
-              ProjectState ps = projectCache.get(destProject.getNameKey());
-              repoManager.setProjectDescription(destProject.getNameKey(), //
-                  ps.getProject().getDescription());
+              projectCache.evict(destProject.getProject());
+              destProject = projectCache.get(destProject.getProject().getNameKey());
+              repoManager.setProjectDescription(
+                  destProject.getProject().getNameKey(),
+                  destProject.getProject().getDescription());
             }
 
             replication.fire(destBranch.getParentKey(), branchUpdate.getName());
@@ -732,8 +733,8 @@ public class MergeOp {
   private void updateSubscriptions(final List<Change> submitted) {
     if (mergeTip != null && (branchTip == null || branchTip != mergeTip)) {
       SubmoduleOp subOp =
-          subOpFactory.create(destBranch, mergeTip, rw, repo, destProject,
-              submitted, commits);
+          subOpFactory.create(destBranch, mergeTip, rw, repo,
+              destProject.getProject(), submitted, commits);
       try {
         subOp.update();
       } catch (SubmoduleException e) {

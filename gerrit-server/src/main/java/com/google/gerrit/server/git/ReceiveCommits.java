@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
@@ -79,6 +79,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import com.jcraft.jsch.HostKey;
+
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
@@ -1868,7 +1869,7 @@ public class ReceiveCommits {
         && ctl.canForgeCommitter()
         && ctl.canForgeGerritServerIdentity()
         && ctl.canUploadMerges()
-        && !project.isUseSignedOffBy()
+        && !projectControl.getProjectState().isUseSignedOffBy()
         && Iterables.isEmpty(rejectCommits)
         && !GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
@@ -1954,7 +1955,7 @@ public class ReceiveCommits {
       return false;
     }
 
-    if (project.isUseSignedOffBy()) {
+    if (projectControl.getProjectState().isUseSignedOffBy()) {
       // If the project wants Signed-off-by / Acked-by lines, verify we
       // have them for the blamable parties involved on this change.
       //
@@ -1978,7 +1979,7 @@ public class ReceiveCommits {
     final List<String> idList = c.getFooterLines(CHANGE_ID);
     if (MagicBranch.isMagicBranch(cmd.getRefName()) || NEW_PATCHSET.matcher(cmd.getRefName()).matches()) {
       if (idList.isEmpty()) {
-        if (project.isRequireChangeID()) {
+        if (projectControl.getProjectState().isRequireChangeID()) {
           String errMsg = "missing Change-Id in commit message";
           reject(cmd, errMsg);
           addMessage(getFixedCommitMsgWithChangeId(errMsg, c));

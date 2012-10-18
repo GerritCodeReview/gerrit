@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
@@ -294,5 +295,93 @@ public class ProjectState {
 
   public boolean isAllProjects() {
     return isAllProjects;
+  }
+
+  public boolean isUseContributorAgreements() {
+    Set<Project.NameKey> seen = Sets.newHashSet();
+    seen.add(getProject().getNameKey());
+    ProjectState s = this;
+    do {
+      switch (s.getProject().getUseContributorAgreements()) {
+        case TRUE:
+          return true;
+        case FALSE:
+          return false;
+        case INHERIT:
+        default:
+          Project.NameKey parent = s.getProject().getParent();
+          if (parent == null || !seen.add(parent)) {
+            break;
+          }
+          s = projectCache.get(parent);
+      }
+    } while (s != null);
+    return false;
+  }
+
+  public boolean isUseContentMerge() {
+    Set<Project.NameKey> seen = Sets.newHashSet();
+    seen.add(getProject().getNameKey());
+    ProjectState s = this;
+    do {
+      switch (s.getProject().getUseContentMerge()) {
+        case TRUE:
+          return true;
+        case FALSE:
+          return false;
+        case INHERIT:
+        default:
+          Project.NameKey parent = s.getProject().getParent();
+          if (parent == null || !seen.add(parent)) {
+            break;
+          }
+          s = projectCache.get(parent);
+      }
+    } while (s != null);
+    return false;
+  }
+
+  public boolean isUseSignedOffBy() {
+    Set<Project.NameKey> seen = Sets.newHashSet();
+    seen.add(getProject().getNameKey());
+    ProjectState s = this;
+    do {
+      switch (s.getProject().getUseSignedOffBy()) {
+        case TRUE:
+          return true;
+        case FALSE:
+          return false;
+        case INHERIT:
+        default:
+          Project.NameKey parent = s.getProject().getParent();
+          if (parent == null || !seen.add(parent)) {
+            break;
+          }
+          s = projectCache.get(parent);
+      }
+    } while (s != null);
+    return false;
+  }
+
+  public boolean isRequireChangeID() {
+    Set<Project.NameKey> seen = Sets.newHashSet();
+    seen.add(getProject().getNameKey());
+    ProjectState s = this;
+    do {
+      switch (s.getProject().getRequireChangeID()) {
+        case TRUE:
+          return true;
+        case FALSE:
+          return false;
+        case INHERIT:
+        default:
+          Project.NameKey parent = s.getProject().getParent();
+          if (parent == null || !seen.add(parent)) {
+            break;
+          }
+          s = projectCache.get(parent);
+      }
+    } while (s != null);
+    return false;
   }
 }

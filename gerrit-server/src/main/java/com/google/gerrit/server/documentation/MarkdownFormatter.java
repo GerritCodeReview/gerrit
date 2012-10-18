@@ -136,8 +136,12 @@ public class MarkdownFormatter {
     InputStream in = url.openStream();
     try {
       TemporaryBuffer.Heap tmp = new TemporaryBuffer.Heap(128 * 1024);
-      tmp.copy(in);
-      return new String(tmp.toByteArray(), "UTF-8");
+      try {
+        tmp.copy(in);
+        return new String(tmp.toByteArray(), "UTF-8");
+      } finally {
+        tmp.close();
+      }
     } finally {
       in.close();
     }

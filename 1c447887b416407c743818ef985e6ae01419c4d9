@@ -34,6 +34,24 @@
       "revId": "1c447887b416407c743818ef985e6ae01419c4d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///sU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-18T10:35:49Z",
+      "side": 1,
+      "message": "I think that this is a bug in readTree(). I\u0027ve pushed a fix for review [1].\n\n[1] https://gerrit-review.googlesource.com/38540",
+      "parentUuid": "AAAKaH///3A\u003d",
+      "revId": "1c447887b416407c743818ef985e6ae01419c4d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

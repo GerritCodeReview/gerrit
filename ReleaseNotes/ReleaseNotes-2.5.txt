@@ -1277,6 +1277,11 @@ the `GroupDetail` type when showing the groups in a list format. As a
 consequence the `Owners` column that showed the name of the owner group
 had been dropped.
 
+* Add LDAP-cache to minimize number of queries when unnesting groups
++
+A new cache named "ldap_groups_byinclude" is introduced to help lessen
+the number of queries needed to resolve nested LDAP-groups.
+
 * Add index for accessing change messages by patch set
 +
 This improves the performance of loading the dashboards.
@@ -1694,6 +1699,14 @@ When using cherry-pick as merge strategy, the wrong ref was set in the
 The issue stems from Gerrit would not acknowledge the resulting new
 pachset (the actual cherry-pick).
 
+* Fix NullPointerException in `query` SSH command
++
+Running the `query` SSH command with the options `--comments` and
+`--format=JSON` failed with a NullPointerException if a change had a
+message without author. Change messages have no author if they were
+created by Gerrit. For such messages now the Gerrit Server identity is
+returned as author.
+
 * Fix the `export-review-notes` command's Guice bindings
 +
 The `export-review-notes` command was broken becasue of the CachePool
@@ -1817,6 +1830,9 @@ which is added to the change. Using any of the download commands to
 fetch this new patch set failed with 'Couldn't find remote ref' because
 no ref for the new patch set was created.
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=1491[issue 1491]:
+  Fix nested submodule updates
+
 * Set link:../Documentation/config-gerrit.html#transfer.timeout[transfer
   timeout] for pushes through HTTP
 +
@@ -1924,3 +1940,5 @@ Set the GroupDetail.ownerGroup to the AccountGroup.ownerGroupUUID
 instead of the groupUUID.
 
 * Ensure that ObjectOutputStream in H2CacheImpl is closed
+
+* Ensure that RevWalk in SubmoduleOp is released

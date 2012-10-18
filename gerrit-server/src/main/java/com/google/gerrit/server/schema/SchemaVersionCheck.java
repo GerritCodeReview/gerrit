@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -37,14 +38,17 @@ public class SchemaVersionCheck implements LifecycleListener {
   }
 
   private final SchemaFactory<ReviewDb> schema;
+  private final SitePaths site;
 
   @Current
   private final Provider<SchemaVersion> version;
 
   @Inject
   public SchemaVersionCheck(SchemaFactory<ReviewDb> schemaFactory,
+      final SitePaths site,
       @Current Provider<SchemaVersion> version) {
     this.schema = schemaFactory;
+    this.site = site;
     this.version = version;
   }
 
@@ -57,12 +61,16 @@ public class SchemaVersionCheck implements LifecycleListener {
 
         if (currentVer == null) {
           throw new ProvisionException("Schema not yet initialized."
-              + "  Run init to initialize the schema.");
+              + "  Run init to initialize the schema:\n"
+              + "$ java -jar gerrit.war init -d "
+              + site.site_path.getAbsolutePath());
         }
         if (currentVer.versionNbr < expectedVer) {
           throw new ProvisionException("Unsupported schema version "
               + currentVer.versionNbr + "; expected schema version " + expectedVer
-              + ".  Run init to upgrade.");
+              + ".  Run init to upgrade:\n"
+              + "$ java -jar gerrit.war init -d "
+              + site.site_path.getAbsolutePath());
         } else if (currentVer.versionNbr > expectedVer) {
           throw new ProvisionException("Unsupported schema version "
               + currentVer.versionNbr + "; expected schema version " + expectedVer

@@ -83,6 +83,11 @@ public abstract class SchemaVersion {
       throws OrmException, SQLException {
     final JdbcSchema s = (JdbcSchema) db;
 
+    if (curr.versionNbr > versionNbr) {
+      throw new OrmException("Cannot downgrade database schema from version " + curr.versionNbr
+          + " to " + versionNbr + ".");
+    }
+
     prior.get().check(ui, curr, db, false);
 
     ui.message("Upgrading database schema from version " + curr.versionNbr

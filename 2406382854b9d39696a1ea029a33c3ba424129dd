@@ -34,6 +34,24 @@
       "revId": "2406382854b9d39696a1ea029a33c3ba424129dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKY3///t8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersionCheck.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-18T08:15:55Z",
+      "side": 1,
+      "message": "Sounds good :-)",
+      "parentUuid": "AAAKbX///+A\u003d",
+      "revId": "2406382854b9d39696a1ea029a33c3ba424129dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

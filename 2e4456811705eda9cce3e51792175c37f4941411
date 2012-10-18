@@ -387,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKY3///u8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/MySql.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011027
+      },
+      "writtenOn": "2012-10-18T07:00:02Z",
+      "side": 1,
+      "message": "Actually, I was mor thinking along these lines:\r\n\r\npublic class JDBCUrlBuilder {\r\n\r\n  private final StringBuilder builder;\r\n  private final Context ctx;\r\n\r\n  public JDBCUrlBuilder(Context ctx, String base) {\r\n    this.ctx \u003d ctx;\r\n    this.builder \u003d new StringBuilder(base);\r\n  }\r\n\r\n  public String build() {\r\n    return builder.toString();\r\n  }\r\n\r\n  public void append(String text) {\r\n    builder.append(text);\r\n  }\r\n\r\n  public void appendOptionalHost() {\r\n    final String hostname \u003d optional(\"hostname\");\r\n    if (hostname \u003d\u003d null || hostname.isEmpty()) {  \r\n      builder.append(\"localhost\");\r\n    } else if (hostname.contains(\":\") \u0026\u0026 !hostname.startsWith(\"[\")) { \r\n      builder.append(\"[\");\r\n      builer.append(hostname);\r\n      builder.append(\"]\");\r\n    }\r\n  }\r\n\r\n  public void appendOptionalPort() {\r\n    final String port \u003d optional(\"port\");\r\n    if (port !\u003d null \u0026\u0026 !port.isEmpty()) {\r\n      builder.append(\":\");\r\n      builder.append(port);\r\n    }\r\n  }\r\n  \r\n  public void appendRequiredDatabase() {\r\n    builder.append(required(\"database\"));\r\n  }\r\n\r\n  private String optional(final String name) {  \r\n    return cfg.getString(\"database\", null, name);  \r\n  }  \r\n\r\n  private String required(final String name) {  \r\n    final String v \u003d optional(cfg, name);  \r\n    if (v \u003d\u003d null || \"\".equals(v)) {  \r\n      throw new IllegalArgumentException(\"No database.\" + name + \" configured\");  \r\n    }  \r\n    return v;  \r\n  }\r\n}\r\n\r\nUsage (e.g. MySQL):\r\n\r\n    final JDBCUrlBuilder b \u003d new JDBCUrlBuilder (cfg, \"jdbc:mysql://\"); \r\n    b.appendOptionalHostname();\r\n    b.appendOptionalPort(); \r\n    b.append(\"/\");  45 \r\n    b.appendRequiredDatabase(); \r\n    return b.build();  \r\n\r\nFor H2, you\u0027d likely have to expose the \"optional\" method.",
+      "parentUuid": "AAAKY3///0o\u003d",
+      "revId": "2e4456811705eda9cce3e51792175c37f4941411",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKY3///5M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/PostgreSQL.java",
         "patchSetId": 3

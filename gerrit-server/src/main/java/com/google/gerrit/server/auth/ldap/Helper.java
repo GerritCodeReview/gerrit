@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
+import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
@@ -22,6 +23,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -48,6 +50,7 @@ import javax.net.ssl.SSLSocketFactory;
 @Singleton class Helper {
   static final String LDAP_UUID = "ldap:";
 
+  private final Cache<String, Set<String>> groupsByInclude;
   private final Config config;
   private final String server;
   private final String username;
@@ -58,7 +61,8 @@ import javax.net.ssl.SSLSocketFactory;
   private final String readTimeOutMillis;
 
   @Inject
-  Helper(@GerritServerConfig final Config config) {
+  Helper(@GerritServerConfig final Config config,
+      @Named(LdapModule.GROUPS_BY_INCLUDED) final Cache<String, Set<String>> groupsByInclude) {
     this.config = config;
     this.server = LdapRealm.required(config, "server");
     this.username = LdapRealm.optional(config, "username");
@@ -73,6 +77,7 @@ import javax.net.ssl.SSLSocketFactory;
     } else {
       readTimeOutMillis = null;
     }
+    this.groupsByInclude = groupsByInclude;
   }
 
   private Properties createContextProperties() {
@@ -207,24 +212,34 @@ import javax.net.ssl.SSLSocketFactory;
   private void recursivelyExpandGroups(final Set<String> groupDNs,
       final LdapSchema schema, final DirContext ctx, final String groupDN) {
     if (groupDNs.add(groupDN) && schema.accountMemberField != null) {
-      // Recursively identify the groups it is a member of.
-      //
-      try {
-        final Name compositeGroupName = new CompositeName().add(groupDN);
-        final Attribute in =
-            ctx.getAttributes(compositeGroupName).get(schema.accountMemberField);
-        if (in != null) {
-          final NamingEnumeration<?> groups = in.getAll();
-          try {
-            while (groups.hasMore()) {
-              final String nextDN = (String) groups.next();
-              recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
-            }
-          } catch (PartialResultException e) {
-          }
+      Set<String> cachedGroupDNs = groupsByInclude.getIfPresent(groupDN);
+      if (cachedGroupDNs != null) {
+        for (String cachedGroupDN : cachedGroupDNs) {
+          recursivelyExpandGroups(groupDNs, schema, ctx, cachedGroupDN);
         }
-      } catch (NamingException e) {
-        LdapRealm.log.warn("Could not find group " + groupDN, e);
+      } else {
+        // Recursively identify the groups it is a member of.
+        //
+        try {
+          final Name compositeGroupName = new CompositeName().add(groupDN);
+          final Attribute in =
+              ctx.getAttributes(compositeGroupName).get(schema.accountMemberField);
+          cachedGroupDNs = new HashSet<String>();
+          if (in != null) {
+            final NamingEnumeration<?> groups = in.getAll();
+            try {
+              while (groups.hasMore()) {
+                final String nextDN = (String) groups.next();
+                cachedGroupDNs.add(nextDN);
+                recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
+              }
+            } catch (PartialResultException e) {
+            }
+          }
+          groupsByInclude.put(groupDN, cachedGroupDNs);
+        } catch (NamingException e) {
+          LdapRealm.log.warn("Could not find group " + groupDN, e);
+        }
       }
     }
   }

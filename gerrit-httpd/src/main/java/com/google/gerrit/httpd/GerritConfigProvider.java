@@ -121,6 +121,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setTestChangeMerge(cfg.getBoolean("changeMerge",
         "test", false));
     config.setAnonymousCowardName(anonymousCowardName);
+    config.setSuggestFrom(cfg.getInt("suggest", "from", 0));
 
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     if (config.getReportBugUrl() == null) {

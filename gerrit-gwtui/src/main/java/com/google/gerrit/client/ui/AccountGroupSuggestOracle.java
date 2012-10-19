@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,14 +27,14 @@ import java.util.List;
 import java.util.Map;
 
 /** Suggestion Oracle for AccountGroup entities. */
-public class AccountGroupSuggestOracle extends HighlightSuggestOracle {
+public class AccountGroupSuggestOracle extends SuggestAfterTypingNCharsOracle {
   private Map<String, AccountGroup.UUID> priorResults =
       new HashMap<String, AccountGroup.UUID>();
 
   private Project.NameKey projectName;
 
   @Override
-  public void onRequestSuggestions(final Request req, final Callback callback) {
+  public void _onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
       public void run() {
         SuggestUtil.SVC.suggestAccountGroupForProject(

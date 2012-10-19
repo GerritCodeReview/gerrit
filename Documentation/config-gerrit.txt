@@ -530,6 +530,10 @@ configured on this server.  This cache should be configured with a
 low maxAge setting, to ensure LDAP modifications are picked up in
 a timely fashion.
 
+cache `"ldap_groups_byinclude"`::
++
+Caches the hierarchical structure of LDAP groups.
+
 cache `"ldap_usernames"`::
 +
 Caches a mapping of LDAP username to Gerrit account identity.  The

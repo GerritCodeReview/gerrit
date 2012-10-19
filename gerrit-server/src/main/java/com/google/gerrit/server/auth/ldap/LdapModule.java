@@ -17,6 +17,7 @@ package com.google.gerrit.server.auth.ldap;
 import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -32,6 +33,7 @@ public class LdapModule extends CacheModule {
   static final String USERNAME_CACHE = "ldap_usernames";
   static final String GROUP_CACHE = "ldap_groups";
   static final String GROUP_EXIST_CACHE = "ldap_group_existence";
+  static final String GROUPS_BYINCLUDE_CACHE = "ldap_groups_byinclude";
 
 
   @Override
@@ -52,6 +54,11 @@ public class LdapModule extends CacheModule {
         new TypeLiteral<Boolean>() {})
       .expireAfterWrite(1, HOURS)
       .loader(LdapRealm.ExistenceLoader.class);
+
+    cache(GROUPS_BYINCLUDE_CACHE,
+        String.class,
+        new TypeLiteral<ImmutableSet<String>>() {})
+      .expireAfterWrite(1, HOURS);
 
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
     bind(Helper.class);

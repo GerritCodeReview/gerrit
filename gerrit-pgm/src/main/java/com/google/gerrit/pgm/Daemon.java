@@ -25,7 +25,6 @@ import com.google.gerrit.httpd.RequestContextFilter;
 import com.google.gerrit.httpd.SignedTokenRestTokenVerifier;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.httpd.WebSshGlueModule;
-import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.http.jetty.GetUserFilter;
@@ -36,10 +35,8 @@ import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
@@ -370,11 +367,6 @@ public class Daemon extends SiteProgram {
       modules.add(new NoSshModule());
     }
 
-    AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
-    if (authConfig.getAuthType() == AuthType.OPENID ||
-        authConfig.getAuthType() == AuthType.OPENID_SSO) {
-      modules.add(new OpenIdModule());
-    }
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
 
     return sysInjector.createChildInjector(modules);

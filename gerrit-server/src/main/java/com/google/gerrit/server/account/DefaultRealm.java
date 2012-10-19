@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.inject.Inject;
@@ -25,7 +26,7 @@ public class DefaultRealm implements Realm {
   private final AccountByEmailCache byEmail;
 
   @Inject
-  DefaultRealm(final EmailExpander emailExpander,
+  public DefaultRealm(final EmailExpander emailExpander,
       final AccountByEmailCache byEmail) {
     this.emailExpander = emailExpander;
     this.byEmail = byEmail;
@@ -68,5 +69,9 @@ public class DefaultRealm implements Realm {
       }
     }
     return null;
+  }
+
+  @Override
+  public void setAdditionalConfiguraction(GerritConfig config) {
   }
 }

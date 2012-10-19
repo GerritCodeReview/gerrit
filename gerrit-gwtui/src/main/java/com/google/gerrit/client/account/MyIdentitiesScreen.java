@@ -59,20 +59,17 @@ public class MyIdentitiesScreen extends SettingsScreen {
     });
     add(deleteIdentity);
 
-    switch (Gerrit.getConfig().getAuthType()) {
-      case OPENID: {
-        final Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
-        linkIdentity.addClickHandler(new ClickHandler() {
-          @Override
-          public void onClick(final ClickEvent event) {
-            final String to = History.getToken();
-            new OpenIdSignInDialog(SignInMode.LINK_IDENTIY, to, null).center();
-          }
-        });
-        add(linkIdentity);
-        break;
-      }
-    }
+    if ("OPENID".equalsIgnoreCase(Gerrit.getConfig().getAuthType())) {
+      final Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
+      linkIdentity.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          final String to = History.getToken();
+          new OpenIdSignInDialog(SignInMode.LINK_IDENTIY, to, null).center();
+        }
+      });
+      add(linkIdentity);
+     }
   }
 
   @Override

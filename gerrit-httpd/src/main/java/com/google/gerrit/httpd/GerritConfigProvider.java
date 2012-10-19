@@ -85,27 +85,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   private GerritConfig create() throws MalformedURLException {
     final GerritConfig config = new GerritConfig();
-    switch (authConfig.getAuthType()) {
-      case OPENID:
-        config.setAllowedOpenIDs(authConfig.getAllowedOpenIDs());
-        break;
-
-      case OPENID_SSO:
-        config.setOpenIdSsoUrl(authConfig.getOpenIdSsoUrl());
-        break;
-
-      case LDAP:
-      case LDAP_BIND:
-        config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
-        config.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));
-        break;
-
-      case CUSTOM_EXTENSION:
-        config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
-        config.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));
-        config.setHttpPasswordUrl(cfg.getString("auth", null, "httpPasswordUrl"));
-        break;
-    }
+    realm.setAdditionalConfiguraction(config);
     config.setUseContributorAgreements(cfg.getBoolean("auth",
         "contributoragreements", false));
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));

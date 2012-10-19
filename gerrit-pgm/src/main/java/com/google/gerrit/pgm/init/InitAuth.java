@@ -14,10 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.pgm.init.InitUtil.dnOf;
-
 import com.google.gerrit.pgm.util.ConsoleUI;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,8 +35,8 @@ class InitAuth implements InitStep {
 
   public void run() {
     ui.header("User Authentication");
-
-    final AuthType auth_type =
+// move to Realm.init() metehod
+/*    final AuthType auth_type =
         auth.select("Authentication method", "type", AuthType.OPENID);
 
     switch (auth_type) {
@@ -80,7 +77,7 @@ class InitAuth implements InitStep {
         ldap.string("Group BaseDN", "groupBase", aBase);
         break;
       }
-    }
+    } */
 
     if (auth.getSecure("registerEmailPrivateKey") == null) {
       auth.setSecure("registerEmailPrivateKey", SignedToken.generateRandomKey());

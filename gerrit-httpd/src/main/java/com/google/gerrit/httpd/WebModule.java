@@ -14,14 +14,10 @@
 
 package com.google.gerrit.httpd;
 
-import static com.google.inject.Scopes.SINGLETON;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.GerritConfig;
-import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
-import com.google.gerrit.httpd.auth.container.HttpAuthModule;
-import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
-import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -31,10 +27,10 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.ClearPassword;
 import com.google.gerrit.server.account.GeneratePassword;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.RealmWebModule;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
@@ -42,7 +38,6 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
 
@@ -51,18 +46,18 @@ import java.net.SocketAddress;
 import javax.annotation.Nullable;
 
 public class WebModule extends FactoryModule {
-  private final AuthConfig authConfig;
   private final UrlModule.UrlConfig urlConfig;
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
+  private final ServletModule realmWebModule;
 
   @Inject
-  WebModule(final AuthConfig authConfig,
-      final UrlModule.UrlConfig urlConfig,
+  WebModule(final UrlModule.UrlConfig urlConfig,
       @CanonicalWebUrl @Nullable final String canonicalUrl,
-      final Injector creatingInjector) {
-    this.authConfig = authConfig;
+      final Injector creatingInjector,
+      @RealmWebModule ServletModule realmWebModule) {
     this.urlConfig = urlConfig;
+    this.realmWebModule = realmWebModule;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
 
     this.gitWebConfig =
@@ -82,39 +77,7 @@ public class WebModule extends FactoryModule {
     if (wantSSL) {
       install(new RequireSslFilter.Module());
     }
-
-    switch (authConfig.getAuthType()) {
-      case HTTP:
-      case HTTP_LDAP:
-        install(new HttpAuthModule());
-        break;
-
-      case CLIENT_SSL_CERT_LDAP:
-        install(new HttpsClientSslCertModule());
-        break;
-
-      case LDAP:
-      case LDAP_BIND:
-        install(new LdapAuthModule());
-        break;
-
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        install(new ServletModule() {
-          @Override
-          protected void configureServlets() {
-            serve("/become").with(BecomeAnyAccountLoginServlet.class);
-          }
-        });
-        break;
-
-      case OPENID:
-      case OPENID_SSO:
-        // OpenID support is bound in WebAppInitializer and Daemon.
-      case CUSTOM_EXTENSION:
-        break;
-      default:
-        throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
-    }
+    install(realmWebModule);
 
     install(new UrlModule(urlConfig));
     install(new UiRpcModule());

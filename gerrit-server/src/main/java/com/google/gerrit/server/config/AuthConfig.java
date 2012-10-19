@@ -16,7 +16,6 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
@@ -33,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
 public class AuthConfig {
-  private final AuthType authType;
+  private final String authType;
   private final String httpHeader;
   private final boolean trustContainerAuth;
   private final boolean userNameToLowerCase;
@@ -52,7 +51,7 @@ public class AuthConfig {
   @Inject
   AuthConfig(@GerritServerConfig final Config cfg)
       throws XsrfException {
-    authType = toType(cfg);
+    authType = cfg.getString("auth", null, "type");
     httpHeader = cfg.getString("auth", null, "httpheader");
     logoutUrl = cfg.getString("auth", null, "logouturl");
     openIdSsoUrl = cfg.getString("auth", null, "openidssourl");
@@ -85,7 +84,7 @@ public class AuthConfig {
       restToken = null;
     }
 
-    if (authType == AuthType.OPENID) {
+    if (authType.equalsIgnoreCase("OpenId")) {
       allowGoogleAccountUpgrade =
           cfg.getBoolean("auth", "allowgoogleaccountupgrade", false);
     } else {
@@ -106,12 +105,8 @@ public class AuthConfig {
     return Collections.unmodifiableList(r);
   }
 
-  private static AuthType toType(final Config cfg) {
-    return ConfigUtil.getEnum(cfg, "auth", null, "type", AuthType.OPENID);
-  }
-
   /** Type of user authentication used by this Gerrit server. */
-  public AuthType getAuthType() {
+  public String getAuthType() {
     return authType;
   }
 
@@ -168,7 +163,8 @@ public class AuthConfig {
   }
 
   public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {
-    switch (getAuthType()) {
+    return true;
+/*    switch (getAuthType()) {
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
       case HTTP:
       case HTTP_LDAP:
@@ -199,7 +195,7 @@ public class AuthConfig {
         // Assume not, we don't understand the login format.
         //
         return false;
-    }
+    }*/
   }
 
   private boolean isTrusted(final AccountExternalId id) {

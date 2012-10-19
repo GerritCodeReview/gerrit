@@ -68,7 +68,6 @@ public class IdentifiedUser extends CurrentUser {
     private final AuthConfig authConfig;
     private final String anonymousCowardName;
     private final Provider<String> canonicalUrl;
-    private final Realm realm;
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
 
@@ -78,13 +77,12 @@ public class IdentifiedUser extends CurrentUser {
         final AuthConfig authConfig,
         final @AnonymousCowardName String anonymousCowardName,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
-        final Realm realm, final AccountCache accountCache,
+        final AccountCache accountCache,
         final GroupBackend groupBackend) {
       this.capabilityControlFactory = capabilityControlFactory;
       this.authConfig = authConfig;
       this.anonymousCowardName = anonymousCowardName;
       this.canonicalUrl = canonicalUrl;
-      this.realm = realm;
       this.accountCache = accountCache;
       this.groupBackend = groupBackend;
     }
@@ -95,14 +93,14 @@ public class IdentifiedUser extends CurrentUser {
 
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, AccessPath.UNKNOWN,
-          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          authConfig, anonymousCowardName, canonicalUrl, accountCache,
           groupBackend, null, db, id);
     }
 
     public IdentifiedUser create(AccessPath accessPath,
         Provider<SocketAddress> remotePeerProvider, Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, accessPath,
-          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          authConfig, anonymousCowardName, canonicalUrl, accountCache,
           groupBackend, remotePeerProvider, null, id);
     }
   }
@@ -119,7 +117,7 @@ public class IdentifiedUser extends CurrentUser {
     private final AuthConfig authConfig;
     private final String anonymousCowardName;
     private final Provider<String> canonicalUrl;
-    private final Realm realm;
+    private final Provider<Realm> realm;
     private final AccountCache accountCache;
     private final GroupBackend groupBackend;
 
@@ -132,7 +130,7 @@ public class IdentifiedUser extends CurrentUser {
         final AuthConfig authConfig,
         final @AnonymousCowardName String anonymousCowardName,
         final @CanonicalWebUrl Provider<String> canonicalUrl,
-        final Realm realm, final AccountCache accountCache,
+        final Provider<Realm> realm, final AccountCache accountCache,
         final GroupBackend groupBackend,
 
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
@@ -152,7 +150,7 @@ public class IdentifiedUser extends CurrentUser {
     public IdentifiedUser create(final AccessPath accessPath,
         final Account.Id id) {
       return new IdentifiedUser(capabilityControlFactory, accessPath,
-          authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
+          authConfig, anonymousCowardName, canonicalUrl, accountCache,
           groupBackend, remotePeerProvider, dbProvider, id);
     }
   }
@@ -191,7 +189,7 @@ public class IdentifiedUser extends CurrentUser {
       final AuthConfig authConfig,
       final String anonymousCowardName,
       final Provider<String> canonicalUrl,
-      final Realm realm, final AccountCache accountCache,
+      final AccountCache accountCache,
       final GroupBackend groupBackend,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {

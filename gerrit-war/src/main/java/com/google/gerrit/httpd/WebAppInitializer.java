@@ -18,13 +18,10 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
@@ -232,11 +229,6 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(new HttpPluginModule());
-
-    AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
-    if (authConfig.getAuthType() == AuthType.OPENID) {
-      modules.add(new OpenIdModule());
-    }
 
     return sysInjector.createChildInjector(modules);
   }

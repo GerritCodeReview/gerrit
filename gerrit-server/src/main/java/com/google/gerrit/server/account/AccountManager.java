@@ -42,6 +42,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.inject.Provider;
+
 /** Tracks authentication related details for user accounts. */
 @Singleton
 public class AccountManager {
@@ -52,7 +54,7 @@ public class AccountManager {
   private final AccountCache byIdCache;
   private final AccountByEmailCache byEmailCache;
   private final AuthConfig authConfig;
-  private final Realm realm;
+  private final Provider<Realm> realmProvider;
   private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeUserName.Factory changeUserNameFactory;
   private final ProjectCache projectCache;
@@ -61,7 +63,7 @@ public class AccountManager {
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
       final AccountCache byIdCache, final AccountByEmailCache byEmailCache,
-      final AuthConfig authConfig, final Realm accountMapper,
+      final AuthConfig authConfig, final Provider<Realm> accountMapper,
       final IdentifiedUser.GenericFactory userFactory,
       final ChangeUserName.Factory changeUserNameFactory,
       final ProjectCache projectCache) throws OrmException {
@@ -69,7 +71,7 @@ public class AccountManager {
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
     this.authConfig = authConfig;
-    this.realm = accountMapper;
+    this.realmProvider = accountMapper;
     this.userFactory = userFactory;
     this.changeUserNameFactory = changeUserNameFactory;
     this.projectCache = projectCache;
@@ -110,7 +112,7 @@ public class AccountManager {
    *         or exists, but cannot be located, or is inactive.
    */
   public AuthResult authenticate(AuthRequest who) throws AccountException {
-    who = realm.authenticate(who);
+    who = realmProvider.get().authenticate(who);
     try {
       final ReviewDb db = schema.open();
       try {
@@ -162,6 +164,7 @@ public class AccountManager {
       db.accountExternalIds().update(Collections.singleton(extId));
     }
 
+    Realm realm = realmProvider.get();
     if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
         && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
       toUpdate = load(toUpdate, user.getAccountId(), db);
@@ -320,7 +323,7 @@ public class AccountManager {
     }
 
     byEmailCache.evict(account.getPreferredEmail());
-    realm.onCreateAccount(who, account);
+    realmProvider.get().onCreateAccount(who, account);
     return new AuthResult(newId, extId.getKey(), true);
   }
 
@@ -352,7 +355,7 @@ public class AccountManager {
     } else {
       log.error(errorMessage);
     }
-    if (!realm.allowsEdit(Account.FieldName.USER_NAME)) {
+    if (!realmProvider.get().allowsEdit(Account.FieldName.USER_NAME)) {
       // setting the given user name has failed, but the realm does not
       // allow the user to manually set a user name,
       // this means we would end with an account without user name
@@ -387,7 +390,7 @@ public class AccountManager {
     try {
       final ReviewDb db = schema.open();
       try {
-        who = realm.link(db, to, who);
+        who = realmProvider.get().link(db, to, who);
 
         final AccountExternalId.Key key = id(who);
         AccountExternalId extId = db.accountExternalIds().get(key);
@@ -440,7 +443,7 @@ public class AccountManager {
     try {
       final ReviewDb db = schema.open();
       try {
-        who = realm.unlink(db, from, who);
+        who = realmProvider.get().unlink(db, from, who);
 
         final AccountExternalId.Key key = id(who);
         AccountExternalId extId = db.accountExternalIds().get(key);

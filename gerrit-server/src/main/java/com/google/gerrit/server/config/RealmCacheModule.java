@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.userpass;
+package com.google.gerrit.server.config;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gerrit.server.cache.CacheModule;
 
-public interface UserPassMessages extends Messages {
-  String signInAt(String hostname);
-  String authenticationUnavailable(String authType);
+public abstract class RealmCacheModule extends CacheModule {
 }

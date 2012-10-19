@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.userpass;
+package com.google.gerrit.server.config;
 
-import com.google.gwt.i18n.client.Messages;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-public interface UserPassMessages extends Messages {
-  String signInAt(String hostname);
-  String authenticationUnavailable(String authType);
+import com.google.inject.BindingAnnotation;
+
+import java.lang.annotation.Retention;
+
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface RealmWebModule {
 }

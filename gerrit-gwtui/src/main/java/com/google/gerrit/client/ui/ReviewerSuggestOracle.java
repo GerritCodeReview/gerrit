@@ -22,18 +22,17 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.ReviewerInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /** Suggestion Oracle for reviewers. */
-public class ReviewerSuggestOracle extends HighlightSuggestOracle {
+public class ReviewerSuggestOracle extends SuggestAfterTypingNCharsOracle {
 
   private Change.Id changeId;
 
   @Override
-  protected void onRequestSuggestions(final Request req, final Callback callback) {
+  protected void _onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
       public void run() {
         SuggestUtil.SVC.suggestChangeReviewer(changeId, req.getQuery(),

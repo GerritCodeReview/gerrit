@@ -51,6 +51,7 @@ public class GerritConfig implements Cloneable {
   protected boolean documentationAvailable;
   protected boolean testChangeMerge;
   protected String anonymousCowardName;
+  protected int suggestFrom;
 
   public String getRegisterUrl() {
     return registerUrl;
@@ -236,6 +237,14 @@ public class GerritConfig implements Cloneable {
 
   public void setAnonymousCowardName(final String anonymousCowardName) {
     this.anonymousCowardName = anonymousCowardName;
+  }
+
+  public int getSuggestFrom() {
+    return suggestFrom;
+  }
+
+  public void setSuggestFrom(final int suggestFrom) {
+    this.suggestFrom = suggestFrom;
   }
 
   public boolean siteHasUsernames() {

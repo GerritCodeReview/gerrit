@@ -16,6 +16,24 @@
       "revId": "1764613ac0c8a34bb996575d25c17e6fc7b3ac21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///Sc\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T23:41:32Z",
+      "side": 1,
+      "message": "What Saša said. This was intended behavior... when we still thought we were going to thread the discussions. Internally the server keeps track of the threads, but this has never been shown in the UI. I\u0027m not sure it matters anymore.",
+      "parentUuid": "AAAKY3///8k\u003d",
+      "revId": "1764613ac0c8a34bb996575d25c17e6fc7b3ac21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

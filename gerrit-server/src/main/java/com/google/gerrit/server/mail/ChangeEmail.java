@@ -121,10 +121,15 @@ public abstract class ChangeEmail extends OutgoingEmail {
       }
     } catch (OrmException e) {
     }
+    formatFooter();
   }
 
   /** Format the message body by calling {@link #appendText(String)}. */
   protected abstract void formatChange() throws EmailException;
+
+  /** Format the message footer by calling {@link #appendText(String)}. */
+  protected void formatFooter() throws EmailException {
+  }
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() throws EmailException {

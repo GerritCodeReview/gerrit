@@ -163,6 +163,8 @@ public class RebaseChange {
       cm.send();
 
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
+    } catch (PathConflictException e) {
+      throw new IOException(e.getMessage());
     } finally {
       if (inserter != null) {
         inserter.release();
@@ -271,7 +273,8 @@ public class RebaseChange {
       final ObjectInserter inserter, final PatchSet.Id patchSetId,
       final Change chg, final Account.Id uploader, final RevCommit baseCommit,
       final boolean useContentMerge) throws NoSuchChangeException,
-      OrmException, IOException, InvalidChangeOperationException {
+      OrmException, IOException, InvalidChangeOperationException,
+      PathConflictException {
     Change change = chg;
     final ChangeControl changeControl =
         changeControlFactory.validateFor(change);
@@ -394,7 +397,8 @@ public class RebaseChange {
   private static ObjectId rebaseCommit(final Repository git,
       final ObjectInserter inserter, final RevCommit original,
       final RevCommit base, final boolean useContentMerge,
-      final PersonIdent committerIdent) throws IOException {
+      final PersonIdent committerIdent) throws IOException,
+      PathConflictException {
     if (original.getParentCount() == 0) {
       throw new IOException(
           "Commits with no parents cannot be rebased (is this the initial commit?).");
@@ -417,7 +421,7 @@ public class RebaseChange {
     merger.merge(original, base);
 
     if (merger.getResultTreeId() == null) {
-      throw new IOException(
+      throw new PathConflictException(
           "The rebase failed since conflicts occured during the merge.");
     }
 

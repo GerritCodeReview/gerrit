@@ -441,6 +441,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
               break FIND_ROW;
             }
             row++;
+            cell--;
           } else {
             break FIND_ROW;
           }

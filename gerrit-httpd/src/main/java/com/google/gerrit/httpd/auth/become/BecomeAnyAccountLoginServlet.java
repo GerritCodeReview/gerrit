@@ -152,7 +152,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       throw new FileNotFoundException("No " + pageName + " in webapp");
     }
     if (!IS_DEV) {
-      final Element devmode = HtmlDomUtil.find(doc, "gerrit_gwtdevmode");
+      final Element devmode = HtmlDomUtil.find(doc, "gwtdevmode");
       if (devmode != null) {
         devmode.getParentNode().removeChild(devmode);
       }

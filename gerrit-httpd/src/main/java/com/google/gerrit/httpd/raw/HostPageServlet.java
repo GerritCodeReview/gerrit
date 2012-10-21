@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.raw;
 
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.httpd.HtmlDomUtil;
@@ -22,17 +24,15 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.gwtexpui.linker.server.Permutation;
 import com.google.gwtexpui.linker.server.PermutationSelector;
 import com.google.gwtjsonrpc.server.JsonServlet;
+import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -44,7 +44,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,6 +87,7 @@ public class HostPageServlet extends HttpServlet {
     signedInTheme = themeFactory.getSignedInTheme();
     site = sp;
     refreshHeaderFooter = cfg.getBoolean("site", "refreshHeaderFooter", true);
+    boolean checkUserAgent = cfg.getBoolean("site", "checkUserAgent", true);
 
     final String pageName = "HostPage.html";
     template = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -102,40 +102,40 @@ public class HostPageServlet extends HttpServlet {
       throw new ServletException("No " + HPD_ID + " in " + pageName);
     }
 
-    final String src = "gerrit/gerrit.nocache.js";
-    selector = new PermutationSelector("gerrit");
-    if (IS_DEV || !cfg.getBoolean("site", "checkUserAgent", true)) {
-      noCacheName = src;
-    } else {
-      final Element devmode = HtmlDomUtil.find(template, "gerrit_gwtdevmode");
+    String src = "gerrit/gerrit.nocache.js";
+    if (!IS_DEV) {
+      Element devmode = HtmlDomUtil.find(template, "gwtdevmode");
       if (devmode != null) {
         devmode.getParentNode().removeChild(devmode);
       }
 
       InputStream in = servletContext.getResourceAsStream("/" + src);
-      if (in == null) {
-        throw new IOException("No " + src + " in webapp root");
-      }
-
-      final MessageDigest md = Constants.newMessageDigest();
-      try {
+      if (in != null) {
+        Hasher md = Hashing.md5().newHasher();
         try {
-          final byte[] buf = new byte[1024];
-          int n;
-          while ((n = in.read(buf)) > 0) {
-            md.update(buf, 0, n);
+          try {
+            final byte[] buf = new byte[1024];
+            int n;
+            while ((n = in.read(buf)) > 0) {
+              md.putBytes(buf, 0, n);
+            }
+          } finally {
+            in.close();
           }
-        } finally {
-          in.close();
+        } catch (IOException e) {
+          throw new IOException("Failed reading " + src, e);
         }
-      } catch (IOException e) {
-        throw new IOException("Failed reading " + src, e);
+        src += "?content=" + md.hash().toString();
+      } else {
+        log.debug("No " + src + " in webapp root; keeping noncache.js URL");
       }
-      final String id = ObjectId.fromRaw(md.digest()).name();
-      noCacheName = src + "?content=" + id;
-      selector.init(servletContext);
     }
 
+    noCacheName = src;
+    selector = new PermutationSelector("gerrit");
+    if (checkUserAgent && !IS_DEV) {
+      selector.init(servletContext);
+    }
     page = new Page();
   }
 

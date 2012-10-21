@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKgn///YQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T16:51:47Z",
+      "side": 1,
+      "message": "This should just use a loader format.",
+      "revId": "4fec51c5a39396dd607f14ef28c0f2d351c86654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///YY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T16:51:47Z",
+      "side": 1,
+      "message": "This loop is common with the loop below, they should be refactored to use the same loop.",
+      "revId": "4fec51c5a39396dd607f14ef28c0f2d351c86654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///YU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T16:51:47Z",
+      "side": 1,
+      "message": "The set you store into the cache should be ImmutableSet to prevent the set from being changed.",
+      "revId": "4fec51c5a39396dd607f14ef28c0f2d351c86654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

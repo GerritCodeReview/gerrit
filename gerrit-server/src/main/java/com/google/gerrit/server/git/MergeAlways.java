@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.markCleanMerges;
+import static com.google.gerrit.server.git.MergeUtil.canMerge;
 import static com.google.gerrit.server.git.MergeUtil.mergeOneCommit;
 import static com.google.gerrit.server.git.MergeUtil.reduceToMinimalMerge;
 
@@ -48,5 +49,12 @@ public class MergeAlways extends SubmitStrategy {
     setRefLogIdent(submitApproval);
 
     return newMergeTip;
+  }
+
+  @Override
+  public boolean dryRun(final CodeReviewCommit mergeTip,
+      final CodeReviewCommit toMerge) throws MergeException {
+    return canMerge(args.mergeSorter, args.repo, args.useContentMerge,
+        mergeTip, toMerge);
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.server.git.MergeUtil.canFastForward;
 import static com.google.gerrit.server.git.MergeUtil.getFirstFastForward;
 import static com.google.gerrit.server.git.MergeUtil.markCleanMerges;
 import static com.google.gerrit.server.git.MergeUtil.reduceToMinimalMerge;
@@ -51,5 +52,10 @@ public class FastForwardOnly extends SubmitStrategy {
   @Override
   public boolean retryOnLockFailure() {
     return false;
+  }
+
+  public boolean dryRun(final CodeReviewCommit mergeTip,
+      final CodeReviewCommit toMerge) throws MergeException {
+    return canFastForward(args.mergeSorter, mergeTip, args.rw, toMerge);
   }
 }

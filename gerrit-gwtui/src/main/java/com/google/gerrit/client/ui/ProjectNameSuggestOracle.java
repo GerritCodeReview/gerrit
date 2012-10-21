@@ -17,12 +17,11 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
 /** Suggestion Oracle for Project.NameKey entities. */
-public class ProjectNameSuggestOracle extends HighlightSuggestOracle {
+public class ProjectNameSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
-  public void onRequestSuggestions(final Request req, final Callback callback) {
+  public void _onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
       @Override
       public void run() {

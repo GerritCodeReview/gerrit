@@ -2288,6 +2288,13 @@ otherwise, this value applies to both `suggest.accounts` and
 New configurations should prefer the boolean value for this field
 and an enum value for `accounts.visibility`.
 
+[[suggest.from]]suggest.from::
++
+The number of characters that a user must have typed before suggestions
+are provided. If set to 0, suggestions are always provided.
++
+By default 0.
+
 [[theme]] Section theme
 ~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -19,15 +19,14 @@ import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.data.AccountInfo;
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /** Suggestion Oracle for Account entities. */
-public class AccountSuggestOracle extends HighlightSuggestOracle {
+public class AccountSuggestOracle extends SuggestAfterTypingNCharsOracle {
   @Override
-  public void onRequestSuggestions(final Request req, final Callback callback) {
+  public void _onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
       public void run() {
         SuggestUtil.SVC.suggestAccount(req.getQuery(), Boolean.TRUE,

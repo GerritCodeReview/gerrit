@@ -46,6 +46,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.AnchorElement;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.URL;
@@ -371,6 +372,7 @@ public class Gerrit implements EntryPoint {
     final HostPageDataService hpd = GWT.create(HostPageDataService.class);
     hpd.load(new GerritCallback<HostPageData>() {
       public void onSuccess(final HostPageData result) {
+        Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
         myConfig = result.config;
         myTheme = result.theme;
         if (result.account != null) {

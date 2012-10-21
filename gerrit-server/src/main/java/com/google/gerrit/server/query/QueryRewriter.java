@@ -478,28 +478,6 @@ public abstract class QueryRewriter<T> {
     return r;
   }
 
-  private static <T> void expand(final List<Predicate<T>> out,
-      final List<Predicate<T>> allOR, final List<Predicate<T>> tmp,
-      final List<Predicate<T>> nonOR) {
-    if (tmp.size() == allOR.size()) {
-      final int sz = nonOR.size() + tmp.size();
-      final List<Predicate<T>> newList = new ArrayList<Predicate<T>>(sz);
-      newList.addAll(nonOR);
-      newList.addAll(tmp);
-      out.add(Predicate.and(newList));
-
-    } else {
-      for (final Predicate<T> c : allOR.get(tmp.size()).getChildren()) {
-        try {
-          tmp.add(c);
-          expand(out, allOR, tmp, nonOR);
-        } finally {
-          tmp.remove(tmp.size() - 1);
-        }
-      }
-    }
-  }
-
   private static <T> boolean isAND(final Predicate<T> p) {
     return p instanceof AndPredicate;
   }

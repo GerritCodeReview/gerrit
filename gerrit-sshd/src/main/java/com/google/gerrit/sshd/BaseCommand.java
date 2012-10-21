@@ -62,7 +62,6 @@ public abstract class BaseCommand implements Command {
   static final int STATUS_NOT_FOUND = PRIVATE_STATUS | 2;
   public static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
 
-  @SuppressWarnings("unused")
   @Option(name = "--", usage = "end of options", handler = EndOfOptionsHandler.class)
   private boolean endOfOptions;
 

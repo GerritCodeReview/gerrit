@@ -89,7 +89,6 @@ public class ChangeMergeQueue implements MergeQueue {
         });
       }
 
-      @SuppressWarnings("unused")
       @Provides
       public PerThreadRequestScope.Scoper provideScoper(
           final PerThreadRequestScope.Propagator propagator) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAKjn///vw\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-10-21T00:43:08Z",
+      "side": 1,
+      "message": "mmm ... don\u0027t think we would like PlugIns to change / add directories to the Gerrit site structure ;-)\n\nAnyway here the purpose is only loading plugins and not changing the SitePaths structure ... or have I misunderstood your point ?",
+      "parentUuid": "AAAJZn///18\u003d",
+      "revId": "dc59b1300bc50be8917c5b5c790e6e0599c27f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAJY3///zA\u003d",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-09-25T19:15:36Z",
       "side": 1,
       "message": "This seems like duplicate logic from our other plugin management code...",
+      "revId": "dc59b1300bc50be8917c5b5c790e6e0599c27f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKjn///vs\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-10-21T00:43:08Z",
+      "side": 1,
+      "message": "Actually it is for some parts of it. I tried to reuse the main PlugIn loader but the problem is that it assumes and use the main Gerrit injectors: the Gerrit \u0027init\u0027 step is running with a more limited set of objects injected and thus it has been impossible for me to reuse the same code :-(\n\nDo you see a better way of doing it without any duplication ?",
+      "parentUuid": "AAAJY3///zA\u003d",
       "revId": "dc59b1300bc50be8917c5b5c790e6e0599c27f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

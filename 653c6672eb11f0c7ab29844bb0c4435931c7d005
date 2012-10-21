@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKgn///Xk\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "s/his own/their own/",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///Xg\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "s/by plugin/by the plugin/",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///Xc\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "s/his/their/",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///XY\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "In addition to the standard Gerrit init injections,",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///XU\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "s/its/their/",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///XQ\u003d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "It is worth mentioning the plugin is not fully activated. The classes are loaded, but the standard Gerrit runtime environment is not available and the plugin\u0027s own Guice modules were not initialized. This means the InitStep for a plugin is not executed in the same way that the plugin executes within the server, and may mean a plugin author cannot trivially reuse runtime code during init.\n\nA plugin that wants to verify connectivity may need to statically call the constructor of their connection class, passing in values obtained from the Section.Factory rather than from an injected Config object.\n\nWe should also describe plugin init steps are run after the main server configuration steps, but before schema upgrades are applied.",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///X8\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "We don\u0027t use the logger during init.",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///Xs\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "ConsoleUI not log",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///Xo\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "ConsoleUI not log",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///X0\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "We shouldn\u0027t be processing disabled plugins during init.",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///X4\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "This should be using ConsoleUI, not log.",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///Xw\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPluginStepsLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "Sort this list of matches by something consistent like the plugin JAR name. That way the order of init is predictable to the admin, rather than directory entry order as defined by the filesystem.",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///YA\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitPlugins.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T17:27:25Z",
+      "side": 1,
+      "message": "It would have been shorter to inline this variable and not have it in scope. :-)",
+      "revId": "653c6672eb11f0c7ab29844bb0c4435931c7d005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

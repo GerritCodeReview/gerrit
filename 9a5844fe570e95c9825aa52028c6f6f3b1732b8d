@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKgn///Tw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T23:13:58Z",
+      "side": 1,
+      "message": "Don\u0027t import NameKey",
+      "revId": "9a5844fe570e95c9825aa52028c6f6f3b1732b8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///Ts\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T23:13:58Z",
+      "side": 1,
+      "message": "Please document this cache tracks all changes in a project, and that the cache size unit is in terms of projects. Given its name most admins would assume its in terms of changes.",
+      "revId": "9a5844fe570e95c9825aa52028c6f6f3b1732b8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///To\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T23:13:58Z",
+      "side": 1,
+      "message": "Unfortunately my cluster installation doesn\u0027t broadcast these events to every server. That will cause problems for us unless we force the cache to be disabled by setting its size to 0. Which maybe is the way we deal with it for now.",
+      "revId": "9a5844fe570e95c9825aa52028c6f6f3b1732b8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///T0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ChangeCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-21T23:13:58Z",
+      "side": 1,
+      "message": "Project.NameKey",
+      "revId": "9a5844fe570e95c9825aa52028c6f6f3b1732b8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,17 +14,24 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.pgm.init.InitUtil.die;
-import static com.google.gerrit.pgm.init.InitUtil.username;
-import static com.google.gerrit.server.schema.DataSourceProvider.Type.H2;
+import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.schema.DataSourceProvider;
+import com.google.inject.Binding;
+import com.google.inject.Guice;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 
-import java.io.File;
+import java.lang.annotation.Annotation;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /** Initialize the {@code database} configuration section. */
 @Singleton
@@ -46,59 +53,28 @@ class InitDatabase implements InitStep {
   public void run() {
     ui.header("SQL Database");
 
-    final DataSourceProvider.Type db_type =
-        database.select("Database server type", "type", H2);
+    Set<String> allowedValues = new TreeSet<String>();
+    Injector i = Guice.createInjector(PRODUCTION, new DatabaseConfigModule(site));
+    List<Binding<DatabaseConfigInitializer>> dbConfigBindings =
+        i.findBindingsByType(new TypeLiteral<DatabaseConfigInitializer>() {});
+    for (Binding<DatabaseConfigInitializer> binding : dbConfigBindings) {
+      Annotation annotation = binding.getKey().getAnnotation();
+      if (annotation instanceof Named) {
+        allowedValues.add(((Named) annotation).value());
+      }
+    }
 
-    switch (db_type) {
-      case MYSQL:
+    String dbType =
+        database.select("Database server type", "type", "h2", allowedValues);
+
+    DatabaseConfigInitializer dci =
+        i.getInstance(Key.get(DatabaseConfigInitializer.class,
+            Names.named(dbType.toLowerCase())));
+
+    if (dci instanceof MySqlInitializer) {
         libraries.mysqlDriver.downloadRequired();
-        break;
     }
 
-    final boolean userPassAuth;
-    switch (db_type) {
-      case H2: {
-        userPassAuth = false;
-        String path = database.get("database");
-        if (path == null) {
-          path = "db/ReviewDB";
-          database.set("database", path);
-        }
-        File db = site.resolve(path);
-        if (db == null) {
-          throw die("database.database must be supplied for H2");
-        }
-        db = db.getParentFile();
-        if (!db.exists() && !db.mkdirs()) {
-          throw die("cannot create database.database " + db.getAbsolutePath());
-        }
-        break;
-      }
-
-      case JDBC: {
-        userPassAuth = true;
-        database.string("Driver class name", "driver", null);
-        database.string("URL", "url", null);
-        break;
-      }
-
-      case POSTGRESQL:
-      case MYSQL: {
-        userPassAuth = true;
-        final String defPort = "(" + db_type.toString() + " default)";
-        database.string("Server hostname", "hostname", "localhost");
-        database.string("Server port", "port", defPort, true);
-        database.string("Database name", "database", "reviewdb");
-        break;
-      }
-
-      default:
-        throw die("internal bug, database " + db_type + " not supported");
-    }
-
-    if (userPassAuth) {
-      database.string("Database username", "username", username());
-      database.password("username", "password");
-    }
+    dci.initConfig(database);
   }
 }

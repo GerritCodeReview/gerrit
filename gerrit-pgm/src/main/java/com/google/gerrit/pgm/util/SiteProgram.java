@@ -18,10 +18,13 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
+import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gwtorm.server.OrmException;
@@ -34,6 +37,7 @@ import com.google.inject.Module;
 import com.google.inject.name.Names;
 import com.google.inject.spi.Message;
 
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
@@ -147,12 +151,15 @@ public abstract class SiteProgram extends AbstractProgram {
 
     final File sitePath = getSitePath();
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new AbstractModule() {
+
+    Module sitePathModule = new AbstractModule() {
       @Override
       protected void configure() {
         bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
       }
-    });
+    };
+    modules.add(sitePathModule);
+
     modules.add(new LifecycleModule() {
       @Override
       protected void configure() {
@@ -162,7 +169,21 @@ public abstract class SiteProgram extends AbstractProgram {
         listener().to(DataSourceProvider.class);
       }
     });
-    modules.add(new GerritServerConfigModule());
+    Module configModule = new GerritServerConfigModule();
+    modules.add(configModule);
+    Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
+    Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    String dbType = cfg.getString("database", null, "type");
+
+    final DataSourceType dst = Guice.createInjector(new DataSourceModule(), configModule,
+            sitePathModule).getInstance(
+            Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
+
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(DataSourceType.class).toInstance(dst);
+      }});
     modules.add(new DatabaseModule());
     modules.add(new SchemaModule());
     modules.add(new LocalDiskRepositoryManager.Module());

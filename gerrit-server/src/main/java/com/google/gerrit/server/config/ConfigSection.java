@@ -32,6 +32,6 @@ public class ConfigSection {
   }
 
   public String required(String name) {
-    return ConfigUtil.getRequired(cfg, null, name);
+    return ConfigUtil.getRequired(cfg, section, name);
   }
 }

@@ -29,7 +29,8 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -37,8 +38,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.UserIdentity;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -400,7 +399,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
 
   private static boolean siteReliesOnHttp() {
     return Gerrit.getConfig().getGitHttpUrl() != null
-        && Gerrit.getConfig().getAuthType() == AuthType.CUSTOM_EXTENSION
+        && "CUSTOM_EXTENSION".equalsIgnoreCase(Gerrit.getConfig().getAuthType())
         && !Gerrit.getConfig().siteHasUsernames();
   }
 

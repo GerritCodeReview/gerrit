@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+
+import java.util.Collection;
 
 public interface Realm {
   /** Can the end-user modify this field of their own account? */
@@ -40,4 +44,8 @@ public interface Realm {
    * user by that email address.
    */
   public Account.Id lookup(String accountName);
+
+  public void setAdditionalConfiguraction(GerritConfig config);
+
+  public boolean isTrustable(Collection<AccountExternalId> ids);
 }

@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.auth.ldap;
 import com.google.gerrit.common.auth.userpass.LoginResult;
 import com.google.gerrit.common.auth.userpass.UserPassAuthService;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountUserNameException;
@@ -36,7 +35,7 @@ import org.slf4j.LoggerFactory;
 class UserPassAuthServiceImpl implements UserPassAuthService {
   private final Provider<WebSession> webSession;
   private final AccountManager accountManager;
-  private final AuthType authType;
+  private final String authType;
 
   private static final Logger log = LoggerFactory
       .getLogger(UserPassAuthServiceImpl.class);

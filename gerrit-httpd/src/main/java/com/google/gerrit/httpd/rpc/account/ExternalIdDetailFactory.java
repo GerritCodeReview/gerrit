@@ -21,7 +21,7 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.account.Realm;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -35,16 +35,16 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
 
   private final ReviewDb db;
   private final IdentifiedUser user;
-  private final AuthConfig authConfig;
   private final WebSession session;
+  private final Realm realm;
 
   @Inject
   ExternalIdDetailFactory(final ReviewDb db, final IdentifiedUser user,
-      final AuthConfig authConfig, final WebSession session) {
+      final WebSession session, final Realm realm) {
     this.db = db;
     this.user = user;
-    this.authConfig = authConfig;
     this.session = session;
+    this.realm = realm;
   }
 
   @Override
@@ -54,7 +54,7 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
         db.accountExternalIds().byAccount(user.getAccountId()).toList();
 
     for (final AccountExternalId e : ids) {
-      e.setTrusted(authConfig.isIdentityTrustable(Collections.singleton(e)));
+      e.setTrusted(realm.isTrustable(Collections.singleton(e)));
 
       // The identity can be deleted only if its not the one used to
       // establish this web session, and if only if an identity was

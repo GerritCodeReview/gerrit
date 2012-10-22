@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -311,7 +310,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   public void registerEmail(final String address,
       final AsyncCallback<Account> cb) {
-    if (authConfig.getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+    if ("DEVELOPMENT_BECOME_ANY_ACCOUNT".equalsIgnoreCase(authConfig.getAuthType())) {
       try {
         accountManager.link(user.get().getAccountId(),
             AuthRequest.forEmail(address));

@@ -14,7 +14,12 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.pgm.util.ConsoleUI;
+import com.google.gerrit.server.account.RealmExtension;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -23,6 +28,8 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.annotation.Nullable;
 
 /** Helper to edit a section of the configuration files. */
 class Section {
@@ -123,6 +130,32 @@ class Section {
       }
     }
     return newValue;
+  }
+
+  <T extends RealmExtension> T select(final String title, final String name,
+      final DynamicSet<T> realmExtensions) {
+    final boolean set = get(name) != null;
+    Optional<T> realmOption = Optional.absent();
+    final String oldValue = flags.cfg.getString(section, null, name);
+    do {
+      final String newValue = ui.readString(oldValue, "%s", title);
+      realmOption =
+          Iterables.tryFind(realmExtensions, new Predicate<RealmExtension>() {
+            @Override
+            public boolean apply(@Nullable RealmExtension input) {
+              return input != null
+                  && newValue.equalsIgnoreCase(input.getName());
+            }
+          });
+      if (!set || oldValue != newValue) {
+        if (newValue != null) {
+          set(name, newValue);
+        } else {
+          unset(name);
+        }
+      }
+    } while (!realmOption.isPresent());
+    return realmOption.get();
   }
 
   String password(final String username, final String password) {

@@ -20,11 +20,11 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthRequest;
@@ -44,6 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -71,15 +72,18 @@ class LdapRealm implements Realm {
   private final Config config;
 
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
+  private Config cfg;
 
   @Inject
   LdapRealm(
       final Helper helper,
       final AuthConfig authConfig,
       final EmailExpander emailExpander,
+      @GerritServerConfig final Config gsc,
       @Named(LdapModule.GROUP_CACHE) final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(LdapModule.USERNAME_CACHE) final LoadingCache<String, Optional<Account.Id>> usernameCache,
       @GerritServerConfig final Config config) {
+    this.cfg = gsc;
     this.helper = helper;
     this.authConfig = authConfig;
     this.emailExpander = emailExpander;
@@ -192,7 +196,7 @@ class LdapRealm implements Realm {
     final String username = who.getLocalUser();
     try {
       final DirContext ctx;
-      if (authConfig.getAuthType() == AuthType.LDAP_BIND) {
+      if (authConfig.getAuthType().equalsIgnoreCase("LDAP_BIND")) {
         ctx = helper.authenticate(username, who.getPassword());
       } else {
         ctx = helper.open();
@@ -201,7 +205,7 @@ class LdapRealm implements Realm {
         final Helper.LdapSchema schema = helper.getSchema(ctx);
         final LdapQuery.Result m = helper.findAccount(schema, ctx, username);
 
-        if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {
+        if (authConfig.getAuthType().equalsIgnoreCase("LDAP") && !who.isSkipAuthentication()) {
           // We found the user account, but we need to verify
           // the password matches it before we can continue.
           //
@@ -270,6 +274,19 @@ class LdapRealm implements Realm {
       log.warn(String.format("Cannot lookup account %s in LDAP", accountName), e);
       return null;
     }
+  }
+
+  @Override
+  public void setAdditionalConfiguraction(GerritConfig gerritConfig) {
+//    case LDAP:
+//    case LDAP_BIND:
+      gerritConfig.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
+      gerritConfig.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));
+  }
+
+  @Override
+  public boolean isTrustable(Collection<AccountExternalId> ids) {
+    return true;
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.args4j;
 
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
@@ -35,7 +34,7 @@ import org.kohsuke.args4j.spi.Setter;
 public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
-  private final AuthType authType;
+  private final String authType;
 
   @Inject
   public AccountIdHandler(final AccountResolver accountResolver,
@@ -59,14 +58,10 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
       if (a != null) {
         accountId = a.getId();
       } else {
-        switch (authType) {
-          case HTTP_LDAP:
-          case CLIENT_SSL_CERT_LDAP:
-          case LDAP:
-            accountId = createAccountByLdap(token);
-            break;
-          default:
-            throw new CmdLineException(owner, "user \"" + token + "\" not found");
+        if (authType.contains("ldap") || authType.contains("LDAP")) {
+          accountId = createAccountByLdap(token);
+        } else {
+          throw new CmdLineException(owner, "user \"" + token + "\" not found");
         }
       }
     } catch (OrmException e) {

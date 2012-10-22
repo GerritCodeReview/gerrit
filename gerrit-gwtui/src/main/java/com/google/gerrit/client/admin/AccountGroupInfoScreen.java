@@ -240,23 +240,18 @@ public class AccountGroupInfoScreen extends AccountGroupScreen {
       }
     });
 
-    switch (Gerrit.getConfig().getAuthType()) {
-      case HTTP_LDAP:
-      case LDAP:
-      case LDAP_BIND:
-      case CLIENT_SSL_CERT_LDAP:
-        break;
-      default:
-        return;
+    String authType = Gerrit.getConfig().getAuthType();
+    if ("HTTP_LDAP".equals(authType) || "LDAP".equalsIgnoreCase(authType)
+        || "LDAP_BIND".equalsIgnoreCase(authType)
+        || "CLIENT_SSL_CERT_LDAP".equalsIgnoreCase(authType)) {
+      final VerticalPanel fp = new VerticalPanel();
+      fp.setStyleName(Gerrit.RESOURCES.css().groupTypePanel());
+      fp.add(new SmallHeading(Util.C.headingGroupType()));
+      fp.add(typeSystem);
+      fp.add(typeSelect);
+      fp.add(saveType);
+      add(fp);
     }
-
-    final VerticalPanel fp = new VerticalPanel();
-    fp.setStyleName(Gerrit.RESOURCES.css().groupTypePanel());
-    fp.add(new SmallHeading(Util.C.headingGroupType()));
-    fp.add(typeSystem);
-    fp.add(typeSelect);
-    fp.add(saveType);
-    add(fp);
   }
 
   private void setType(final AccountGroup.Type newType) {

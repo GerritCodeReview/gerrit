@@ -22,13 +22,13 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.RealmCacheModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 
 import java.util.Set;
 
-public class LdapModule extends CacheModule {
+public class LdapModule extends RealmCacheModule {
   static final String USERNAME_CACHE = "ldap_usernames";
   static final String GROUP_CACHE = "ldap_groups";
   static final String GROUP_EXIST_CACHE = "ldap_group_existence";

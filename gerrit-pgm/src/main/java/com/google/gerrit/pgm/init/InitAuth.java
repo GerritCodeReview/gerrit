@@ -14,33 +14,36 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.pgm.init.InitUtil.dnOf;
-
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.pgm.util.ConsoleUI;
-import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.server.account.RealmExtension;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import javax.inject.Provider;
 
 /** Initialize the {@code auth} configuration section. */
 @Singleton
 class InitAuth implements InitStep {
   private final ConsoleUI ui;
   private final Section auth;
-  private final Section ldap;
+  private DynamicSet<RealmExtension> realmExtensions;
 
   @Inject
-  InitAuth(final ConsoleUI ui, final Section.Factory sections) {
+  InitAuth(final ConsoleUI ui, final Section.Factory sections,
+      final DynamicSet<RealmExtension> realmExtensions) {
     this.ui = ui;
     this.auth = sections.get("auth");
-    this.ldap = sections.get("ldap");
+    this.realmExtensions = realmExtensions;
   }
 
   public void run() {
     ui.header("User Authentication");
-
-    final AuthType auth_type =
-        auth.select("Authentication method", "type", AuthType.OPENID);
+    RealmExtension realmExtension = auth.select("Authentication method", "type", realmExtensions);
+//    realmExtension.init(ui, auth);
+// move to Realm.init() metehod
+/*
 
     switch (auth_type) {
       case HTTP:
@@ -60,6 +63,7 @@ class InitAuth implements InitStep {
       case LDAP:
       case LDAP_BIND:
       case HTTP_LDAP: {
+        Section ldap = sections.get("ldap");
         String server =
             ldap.string("LDAP server", "server", "ldap://localhost");
         if (server != null //
@@ -80,7 +84,7 @@ class InitAuth implements InitStep {
         ldap.string("Group BaseDN", "groupBase", aBase);
         break;
       }
-    }
+    } */
 
     if (auth.getSecure("registerEmailPrivateKey") == null) {
       auth.setSecure("registerEmailPrivateKey", SignedToken.generateRandomKey());

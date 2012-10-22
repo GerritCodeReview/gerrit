@@ -15,8 +15,8 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
@@ -41,7 +41,6 @@ import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -249,34 +248,31 @@ public class Gerrit implements EntryPoint {
 
   /** Sign the user into the application. */
   public static void doSignIn(String token) {
-    switch (myConfig.getAuthType()) {
-      case HTTP:
-      case HTTP_LDAP:
-      case CLIENT_SSL_CERT_LDAP:
-      case CUSTOM_EXTENSION:
-        Location.assign(loginRedirect(token));
-        break;
+    String authType = myConfig.getAuthType();
+    if ("HTTP".equalsIgnoreCase(authType) ||
+        "HTTP_LDAP".equalsIgnoreCase(authType) ||
+        "CLIENT_SSL_CERT_LDAP".equalsIgnoreCase(authType) ||
+        "CUSTOM_EXTENSION".equalsIgnoreCase(authType)) {
 
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        Location.assign(selfRedirect("/become"));
-        break;
+      Location.assign(loginRedirect(token));
+    } else if ("DEVELOPMENT_BECOME_ANY_ACCOUNT".equalsIgnoreCase(authType)) {
 
-      case OPENID_SSO:
-        final RootPanel gBody = RootPanel.get("gerrit_body");
-        OpenIdSsoPanel singleSignOnPanel = new OpenIdSsoPanel();
-        gBody.add(singleSignOnPanel);
-        singleSignOnPanel.authenticate(SignInMode.SIGN_IN, token);
-        break;
+      Location.assign(selfRedirect("/become"));
+    } else if ("OPENID_SSO".equalsIgnoreCase(authType)) {
 
-      case OPENID:
-        new OpenIdSignInDialog(SignInMode.SIGN_IN, token, null).center();
-        break;
+      final RootPanel gBody = RootPanel.get("gerrit_body");
+      OpenIdSsoPanel singleSignOnPanel = new OpenIdSsoPanel();
+      gBody.add(singleSignOnPanel);
+      singleSignOnPanel.authenticate(SignInMode.SIGN_IN, token);
+    } else if ("OPENID".equalsIgnoreCase(authType)) {
 
-      case LDAP:
-      case LDAP_BIND:
-        new UserPassSignInDialog(token, null).center();
-        break;
+      new OpenIdSignInDialog(SignInMode.SIGN_IN, token, null).center();
+    } else if ("LDAP".equalsIgnoreCase(authType) ||
+        "LDAP_BIND".equalsIgnoreCase(authType)) {
+
+      new UserPassSignInDialog(token, null).center();
     }
+
   }
 
   public static String loginRedirect(String token) {
@@ -645,57 +641,45 @@ public class Gerrit implements EntryPoint {
       menuLeft.add(m, C.menuDocumentation());
     }
 
+    final String authType = cfg.getAuthType();
     if (signedIn) {
       whoAmI();
       addLink(menuRight, C.menuSettings(), PageLinks.SETTINGS);
-      if (cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP) {
+      if (!authType.equalsIgnoreCase("CLIENT_SSL_CERT_LDAP")) {
         menuRight.add(anchor(C.menuSignOut(), selfRedirect("/logout")));
       }
     } else {
-      switch (cfg.getAuthType()) {
-        case HTTP:
-        case HTTP_LDAP:
-        case CLIENT_SSL_CERT_LDAP:
-          break;
-
-        case OPENID:
-          menuRight.addItem(C.menuRegister(), new Command() {
-            public void execute() {
-              final String to = History.getToken();
-              new OpenIdSignInDialog(SignInMode.REGISTER, to, null).center();
-            }
-          });
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
-          break;
-
-        case OPENID_SSO:
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
-          break;
-
-        case LDAP:
-        case LDAP_BIND:
-        case CUSTOM_EXTENSION:
-          if (cfg.getRegisterUrl() != null) {
-            menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
+      if ("OPENID".equalsIgnoreCase(authType)) {
+        menuRight.addItem(C.menuRegister(), new Command() {
+          public void execute() {
+            final String to = History.getToken();
+            new OpenIdSignInDialog(SignInMode.REGISTER, to, null).center();
           }
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
-          break;
-
-        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-          menuRight.add(anchor("Become", selfRedirect("/become")));
-          break;
+        });
+        menuRight.addItem(C.menuSignIn(), new Command() {
+          public void execute() {
+            doSignIn(History.getToken());
+          }
+        });
+      } else if ("OPENID_SSO".equalsIgnoreCase(authType)) {
+        menuRight.addItem(C.menuSignIn(), new Command() {
+          public void execute() {
+            doSignIn(History.getToken());
+          }
+        });
+      } else if ("LDAP".equalsIgnoreCase(authType)
+          || "LDAP_BIND".equalsIgnoreCase(authType)
+          || "CUSTOM_EXTENSION".equalsIgnoreCase(authType)) {
+        if (cfg.getRegisterUrl() != null) {
+          menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
+        }
+        menuRight.addItem(C.menuSignIn(), new Command() {
+          public void execute() {
+            doSignIn(History.getToken());
+          }
+        });
+      } else if ("DEVELOPMENT_BECOME_ANY_ACCOUNT".equalsIgnoreCase(authType)) {
+        menuRight.add(anchor("Become", selfRedirect("/become")));
       }
     }
   }

@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtexpui.safehtml.client.RegexFindReplace;
 
@@ -37,7 +36,7 @@ public class GerritConfig implements Cloneable {
   protected boolean useContributorAgreements;
   protected boolean useContactInfo;
   protected boolean allowRegisterNewEmail;
-  protected AuthType authType;
+  protected String authType;
   protected Set<DownloadScheme> downloadSchemes;
   protected Set<DownloadCommand> downloadCommands;
   protected String gitDaemonUrl;
@@ -100,11 +99,11 @@ public class GerritConfig implements Cloneable {
     allowedOpenIDs = l;
   }
 
-  public AuthType getAuthType() {
+  public String getAuthType() {
     return authType;
   }
 
-  public void setAuthType(final AuthType t) {
+  public void setAuthType(final String t) {
     authType = t;
   }
 
@@ -239,8 +238,7 @@ public class GerritConfig implements Cloneable {
   }
 
   public boolean siteHasUsernames() {
-    if (getAuthType() == AuthType.CUSTOM_EXTENSION
-        && getHttpPasswordUrl() != null
+    if (getHttpPasswordUrl() != null
         && !canEdit(FieldName.USER_NAME)) {
       return false;
     }

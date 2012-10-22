@@ -16,6 +16,24 @@
       "revId": "f55ec8008d1a0472efa599ca08c27ed0302d339a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKmH////8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/RpcServletModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-22T17:34:50Z",
+      "side": 1,
+      "message": "Damn, this explains why this wasn\u0027t fixing the NOT FOUND issue... :-(\n\nNow it works!",
+      "parentUuid": "AAAKl3////8\u003d",
+      "revId": "f55ec8008d1a0472efa599ca08c27ed0302d339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

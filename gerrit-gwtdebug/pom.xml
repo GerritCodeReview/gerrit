@@ -73,14 +73,12 @@ limitations under the License.
     <dependency>
       <groupId>bouncycastle</groupId>
       <artifactId>bcprov-jdk15</artifactId>
-      <version>140</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>bouncycastle</groupId>
       <artifactId>bcpg-jdk15</artifactId>
-      <version>140</version>
       <scope>provided</scope>
     </dependency>
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKl3////8\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/RpcServletModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-22T16:53:18Z",
+      "side": 1,
+      "message": "-ui? The code is named _ui elsewhere. Why -ui and not _ui?",
+      "revId": "f55ec8008d1a0472efa599ca08c27ed0302d339a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKgn///SA\u003d",
+        "filename": "gerrit-plugin-js-archetype/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-22T00:01:26Z",
+      "side": 1,
+      "message": "AOSP?",
+      "revId": "effb63460f225d3e7e322e71696e6d1be6b85a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///R8\u003d",
+        "filename": "gerrit-plugin-js-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-22T00:01:26Z",
+      "side": 1,
+      "message": "We should encourage these to be extension types, not plugin.",
+      "revId": "effb63460f225d3e7e322e71696e6d1be6b85a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

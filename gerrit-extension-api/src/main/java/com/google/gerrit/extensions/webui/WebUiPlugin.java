@@ -14,15 +14,30 @@
 
 package com.google.gerrit.extensions.webui;
 
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 
 /**
  * Specifies JavaScript to dynamically load into the web UI.
+ * <p>
+ * To automatically register (instead of writing a Guice module), declare the
+ * intention with {@code @Listen}, extend the correct class and define a
+ * constructor to configure the correct resource:
+ *
+ * <pre>
+ * &#064;Listen
+ * class MyJs extends JavaScriptPlugin {
+ *   MyJs() {
+ *     super(&quot;hello.js&quot;);
+ *   }
+ * }
+ * </pre>
  *
  * @see GwtPlugin
  * @see JavaScriptPlugin
  */
+@ExtensionPoint
 public abstract class WebUiPlugin {
   public static final GwtPlugin gwt(String moduleName) {
     return new GwtPlugin(moduleName);

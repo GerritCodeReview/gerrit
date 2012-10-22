@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKgn///Rw\u003d",
+        "filename": "gerrit-plugin-gwt-archetype/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-22T00:04:31Z",
+      "side": 1,
+      "message": "AOSP?",
+      "revId": "36703f6de10d0b3d41de664c8afae857299a918a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///R0\u003d",
+        "filename": "gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/pom.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-22T00:04:31Z",
+      "side": 1,
+      "message": "Encourage these to be extension type, not plugin.",
+      "revId": "36703f6de10d0b3d41de664c8afae857299a918a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///Rs\u003d",
+        "filename": "gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/src/main/java/HelloPlugins.gwt.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-22T00:04:31Z",
+      "side": 1,
+      "message": "Wrong style, see GerritGwtUI.gwt.xml:\n\n  \u003c!--\n   Copyright (C) 2008 The Android Open Source Project\n\n   Licensed under the Apache License, Version 2.0 (the \"License\");",
+      "revId": "36703f6de10d0b3d41de664c8afae857299a918a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKgn///Ro\u003d",
+        "filename": "gerrit-plugin-gwt-archetype/src/main/resources/archetype-resources/src/main/java/client/HelloPlugins.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-22T00:04:31Z",
+      "side": 1,
+      "message": "Google owns this from 2008? Hmmph. Please reformat the header to match the project standards but cite Google rather than AOSP.",
+      "revId": "36703f6de10d0b3d41de664c8afae857299a918a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

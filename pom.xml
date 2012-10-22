@@ -54,7 +54,7 @@ limitations under the License.
     <bouncyCastleVersion>140</bouncyCastleVersion>
     <slf4jVersion>1.6.1</slf4jVersion>
     <guiceVersion>3.0</guiceVersion>
-    <jettyVersion>7.2.1.v20101111</jettyVersion>
+    <jettyVersion>8.1.7.v20120910</jettyVersion>
 
     <gwt.compileReport>false</gwt.compileReport>
 
@@ -786,8 +786,8 @@ limitations under the License.
         <exclusions>
           <exclusion>
             <!-- use Apache javax.servlet not CDDL -->
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
+            <groupId>org.eclipse.jetty.orbit</groupId>
+            <artifactId>javax.servlet</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -802,6 +802,12 @@ limitations under the License.
         <groupId>org.apache.tomcat</groupId>
         <artifactId>servlet-api</artifactId>
         <version>6.0.29</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-servlet-api</artifactId>
+        <version>7.0.32</version>
       </dependency>
 
       <dependency>

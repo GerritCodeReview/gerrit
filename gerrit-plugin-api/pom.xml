@@ -46,6 +46,18 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-pgm</artifactId>
+      <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-servlet</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>servlet-api</artifactId>
     </dependency>

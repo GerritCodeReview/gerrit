@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKl3////k\u003d",
+        "filename": "gerrit-plugin-api/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-22T17:01:00Z",
+      "side": 1,
+      "message": "This is going to cause Jetty to be exposed to plugins. We should exclude it in the shade-plugin below.",
+      "revId": "249169dee3fcc05a73b986e920a1bd314e1a4170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -101,6 +101,7 @@ limitations under the License.
         <module>gerrit-plugin-archetype</module>
         <module>gerrit-plugin-gwtui</module>
         <module>gerrit-plugin-js-archetype</module>
+        <module>gerrit-plugin-gwt-archetype</module>
      </modules>
     </profile>
     <profile>

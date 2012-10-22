@@ -28,6 +28,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.SitePath;
@@ -39,7 +40,9 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
+import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
+import com.google.gerrit.server.schema.DataSourceType;
 import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.schema.SchemaVersionCheck;
@@ -56,6 +59,7 @@ import com.google.inject.name.Names;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,10 +148,35 @@ public class WebAppInitializer extends GuiceServletContextListener {
   private Injector createDbInjector() {
     final List<Module> modules = new ArrayList<Module>();
     if (sitePath != null) {
-      modules.add(new LifecycleModule() {
+      Module sitePathModule = new AbstractModule() {
         @Override
         protected void configure() {
           bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        }
+      };
+      modules.add(sitePathModule);
+
+      Module configModule = new GerritServerConfigModule();
+      modules.add(configModule);
+
+      Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
+      Config cfg = cfgInjector.getInstance(Key.get(Config.class,
+          GerritServerConfig.class));
+      String dbType = cfg.getString("database", null, "type");
+
+      final DataSourceType dst = Guice.createInjector(new DataSourceModule(),
+          configModule, sitePathModule).getInstance(
+            Key.get(DataSourceType.class, Names.named(dbType.toLowerCase())));
+      modules.add(new AbstractModule() {
+        @Override
+        protected void configure() {
+          bind(DataSourceType.class).toInstance(dst);
+        }
+      });
+
+      modules.add(new LifecycleModule() {
+        @Override
+        protected void configure() {
           bind(DataSourceProvider.Context.class).toInstance(
               DataSourceProvider.Context.MULTI_USER);
           bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
@@ -155,7 +184,6 @@ public class WebAppInitializer extends GuiceServletContextListener {
           listener().to(DataSourceProvider.class);
         }
       });
-      modules.add(new GerritServerConfigModule());
 
     } else {
       modules.add(new LifecycleModule() {

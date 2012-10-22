@@ -70,6 +70,24 @@
       "revId": "1764613ac0c8a34bb996575d25c17e6fc7b3ac21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKjH///5A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-10-22T02:54:14Z",
+      "side": 1,
+      "message": "Hi ,  Shawn and Sasa\n\nAfter Second thought , apply the rule  \u0027don\u0027t insert 2 editors\nfor one patch at the same positon.\u0027 here is not perfact.\n\nAs Shawn pointed out there is a showing issue here, so the \nright way is to apply the rule \u0027don\u0027t insert 2 editors for ONE \nTHREAD  at the same positon of same patch .\u0027  in \ndisplaying  logic especially when refreshing the page with \neditors or showing the page with  published comments. \n\nI think that would be what we expected.\n\nI will carry it out later.\n\n/Bruce",
+      "parentUuid": "AAAKjn///vU\u003d",
+      "revId": "1764613ac0c8a34bb996575d25c17e6fc7b3ac21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

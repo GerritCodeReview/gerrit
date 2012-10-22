@@ -34,6 +34,42 @@
       "revId": "1764613ac0c8a34bb996575d25c17e6fc7b3ac21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKjn///vQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-10-22T02:22:01Z",
+      "side": 1,
+      "message": "Hi Sasa\n\nbut after refresh the page, we will  see the result: \nhttp://i.imgur.com/PrsWw.png\n\nthere are 2 editors now , I think one editor is enough for one patch at the same position for each feedback, so I think the intended behavior still should be \u0027don\u0027t insert 2 editors for one patch at the same posit.\"\n\n/Bruce",
+      "parentUuid": "AAAKY3///8k\u003d",
+      "revId": "1764613ac0c8a34bb996575d25c17e6fc7b3ac21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKjn///vU\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-10-22T02:22:01Z",
+      "side": 1,
+      "message": "Hi Shawn:\n\nI think the intended behavior should be \u0027don\u0027t insert 2 editors for one \npatch at the same positon.\u0027\n\nThis page now is a good case, I feedback to you now by click the \n\"Reply\" button of your published comment.  \nthis one is the \u0027editor comment\u0027 in my case.\n\nthen I feedback to Sasa now , you can see : \nhttp://i.imgur.com/QL8hl.png\n\n\n/Bruce",
+      "parentUuid": "AAAKgn///Sc\u003d",
+      "revId": "1764613ac0c8a34bb996575d25c17e6fc7b3ac21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -37,8 +37,7 @@ limitations under the License.
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>servlet-api</artifactId>
-      <!-- compile, not provided. our embedded Jetty needs this -->
-      <scope>compile</scope>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>

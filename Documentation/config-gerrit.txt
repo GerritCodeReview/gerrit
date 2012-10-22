@@ -476,6 +476,15 @@ for the client to use as potential delta bases.  Push over smart HTTP
 requires two HTTP requests, and this cache tries to carry state from
 the first request into the second to ensure it can complete.
 
+cache `"changes"`::
++
+Each item caches all changes tied to one project. Default size
+is 1024, which means all changes for up to 1024 projects can be held
+in the cache. This cache should probably be disabled in a multi-master
+setup where change updates are not communicated between servers. The
+cache should be flushed whenever the database changes table is modified
+outside of gerrit.
+
 cache `"diff"`::
 +
 Each item caches the differences between two commits, at both the

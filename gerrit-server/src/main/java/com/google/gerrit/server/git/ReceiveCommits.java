@@ -252,6 +252,7 @@ public class ReceiveCommits {
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
+  private final ChangeCache changeCache;
   private final WorkQueue workQueue;
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
@@ -302,6 +303,7 @@ public class ReceiveCommits {
       final ProjectCache projectCache,
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
+      final ChangeCache changeCache,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
@@ -330,6 +332,7 @@ public class ReceiveCommits {
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
+    this.changeCache = changeCache;
     this.workQueue = workQueue;
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
@@ -352,7 +355,7 @@ public class ReceiveCommits {
 
     if (!projectControl.allRefsAreVisible()) {
       rp.setCheckReferencedObjectsAreReachable(true);
-      rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, repo, projectControl, db, false));
+      rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db, false));
     }
     List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(2);
     advHooks.add(rp.getAdvertiseRefsHook());

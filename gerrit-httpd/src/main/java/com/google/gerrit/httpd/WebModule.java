@@ -101,12 +101,8 @@ public class WebModule extends FactoryModule {
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        install(new ServletModule() {
-          @Override
-          protected void configureServlets() {
-            serve("/become").with(BecomeAnyAccountLoginServlet.class);
-          }
-        });
+// temporary commented out to bypass circular dependency
+//        install(new DevelopmentRealmServletModule());
         break;
 
       case OPENID:

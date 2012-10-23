@@ -137,8 +137,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
             p = p.getParent();
           }
 
-          if (Gerrit.RESOURCES.css().commentHolder().equals(
-              table.getCellFormatter().getStyleName(row - 1, cell))) {
+          if (table.getCellFormatter().getStyleName(row - 1, cell)
+              .contains(Gerrit.RESOURCES.css().commentHolder())) {
             table.getCellFormatter().addStyleName(row - 1, cell,
                 Gerrit.RESOURCES.css().commentPanelLast());
           }
@@ -560,13 +560,22 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         }
       }
       table.removeRow(row);
-    } else if (span != 1) {
-      table.getFlexCellFormatter().setRowSpan(row, col, 1);
-      for (int r = row + 1; r < row + span; r++) {
-        table.insertCell(r, col + 1);
+    } else {
+      table.getFlexCellFormatter().setStyleName(//
+          row, col, Gerrit.RESOURCES.css().diffText());
+
+      if (span != 1) {
+        table.getFlexCellFormatter().setRowSpan(row, col, 1);
+        for (int r = row + 1; r < row + span; r++) {
+          table.insertCell(r, col);
+
+          table.getFlexCellFormatter().setStyleName(//
+              r, col, Gerrit.RESOURCES.css().diffText());
+        }
       }
     }
   }
+
 
   protected void bindComment(final int row, final int col,
       final PatchLineComment line, final boolean isLast, boolean expandComment) {

@@ -189,6 +189,7 @@ public interface GerritCss extends CssResource {
   String sectionHeader();
   String sideBySideScreenLinkTable();
   String sideBySideScreenSideBySideTable();
+  String unifiedTable();
   String singleLine();
   String skipLine();
   String smallHeading();

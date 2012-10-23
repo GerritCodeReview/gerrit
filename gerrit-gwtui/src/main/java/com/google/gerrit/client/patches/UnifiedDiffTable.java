@@ -274,6 +274,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     padLineNumberForSideB(m);
 
     m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().fileLine());
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
     m.addStyleName(Gerrit.RESOURCES.css().diffTextFileHeader());
     m.append(line);
@@ -287,6 +288,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     padLineNumberForSideB(m);
 
     m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().fileLine());
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
     m.addStyleName(Gerrit.RESOURCES.css().diffTextHunkHeader());
     m.append("@@ -");
@@ -325,6 +327,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     final SafeHtml text = src.getSafeHtmlLine(i);
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
+    m.setStyleName(Gerrit.RESOURCES.css().fileLine());
     switch (type) {
       case CONTEXT:
         m.addStyleName(Gerrit.RESOURCES.css().diffTextCONTEXT());

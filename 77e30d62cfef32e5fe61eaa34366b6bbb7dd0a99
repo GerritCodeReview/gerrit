@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKr3////A\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-23T11:45:25Z",
+      "side": 1,
+      "message": "I think you also need to add  this module in WebAppInitializer.\n\nThere are two different ways in which Gerrit can be started. The Daemon class handles the startup through the daemon command. WebAppInitializer is used when Gerrit is hosted on e.g. Tomcat or when it is started in gwtDebug mode. You need to make sure that this module is also available when running in hosted mode or gwtDebug mode.",
+      "revId": "77e30d62cfef32e5fe61eaa34366b6bbb7dd0a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKr3///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SshdListenAddressProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-23T11:45:25Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "77e30d62cfef32e5fe61eaa34366b6bbb7dd0a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKr3///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-23T11:45:25Z",
+      "side": 1,
+      "message": "nit: unneeded blank line",
+      "revId": "77e30d62cfef32e5fe61eaa34366b6bbb7dd0a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKr3///+w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-23T11:45:25Z",
+      "side": 1,
+      "message": "Can sshProvider be null? At least in the constructor it is declared as Nullable.",
+      "revId": "77e30d62cfef32e5fe61eaa34366b6bbb7dd0a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKr3///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-23T11:45:25Z",
+      "side": 1,
+      "message": "Is this true? Looking at the Daemon class it looks like the sshProvider will not be available when ssh is disabled.",
+      "revId": "77e30d62cfef32e5fe61eaa34366b6bbb7dd0a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKr3///+s\u003d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-23T11:45:25Z",
+      "side": 1,
+      "message": "Personally I don\u0027t like such strict tests. Checking that urlProvider.get() is exactly invoked two times doesn\u0027t add much value. What if we optimze the coding so that urlProvider.get() is invoked only once? This wouldn\u0027t break the functionality and hence the test should not fail.",
+      "revId": "77e30d62cfef32e5fe61eaa34366b6bbb7dd0a99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

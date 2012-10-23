@@ -50,7 +50,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   @Override
   protected void onCellDoubleClick(final int row, final int column) {
-    if (getRowItem(row) instanceof PatchLine) {
+    if (column > C_ARROW && getRowItem(row) instanceof PatchLine) {
       final PatchLine pl = (PatchLine) getRowItem(row);
       switch (pl.getType()) {
         case DELETE:

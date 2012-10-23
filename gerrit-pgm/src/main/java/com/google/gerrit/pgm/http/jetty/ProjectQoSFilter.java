@@ -14,14 +14,14 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
-import static com.google.gerrit.server.config.ConfigUtil.getTimeUnit;
+import static com.google.gerrit.realm.config.ConfigUtil.getTimeUnit;
 import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;

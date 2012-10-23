@@ -16,7 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.realm.cache.CacheModule;
 import com.google.gerrit.server.util.MostSpecificComparator;
 import com.google.inject.Inject;
 import com.google.inject.Module;

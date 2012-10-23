@@ -15,6 +15,8 @@
 package com.google.gerrit.server.account;
 
 import com.google.common.collect.Sets;
+import com.google.gerrit.realm.Realm;
+import com.google.gerrit.realm.account.AccountByEmailCache;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;

@@ -16,8 +16,8 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.cache.CacheLoader;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.realm.config.ConfigUtil;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.diff.Edit;

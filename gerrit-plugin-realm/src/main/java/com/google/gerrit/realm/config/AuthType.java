@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.realm.config;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 
-/**
- * Marker on {@link org.eclipse.jgit.lib.Config} holding {@code gerrit.config} .
- * <p>
- * The {@code gerrit.config} file contains almost all site-wide configuration
- * settings for the Gerrit Code Review server.
- */
+import com.google.inject.BindingAnnotation;
+
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface GerritServerConfig {
+public @interface AuthType {
+
 }

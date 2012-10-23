@@ -17,7 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;

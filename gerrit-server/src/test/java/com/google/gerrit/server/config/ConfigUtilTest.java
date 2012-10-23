@@ -20,6 +20,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.gerrit.realm.config.ConfigUtil;
+
 import junit.framework.TestCase;
 
 import java.util.concurrent.TimeUnit;

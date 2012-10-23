@@ -17,13 +17,13 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
+import com.google.gerrit.realm.Realm;
+import com.google.gerrit.realm.config.AuthConfig;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadConfig;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -85,15 +85,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   private GerritConfig create() throws MalformedURLException {
     final GerritConfig config = new GerritConfig();
+    realm.customizeGerritConfig(config);
     switch (authConfig.getAuthType()) {
-      case OPENID:
-        config.setAllowedOpenIDs(authConfig.getAllowedOpenIDs());
-        break;
-
-      case OPENID_SSO:
-        config.setOpenIdSsoUrl(authConfig.getOpenIdSsoUrl());
-        break;
-
       case LDAP:
       case LDAP_BIND:
         config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));

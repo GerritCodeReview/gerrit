@@ -150,6 +150,12 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-plugin-realm</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>test</scope>

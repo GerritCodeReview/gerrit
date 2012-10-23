@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.TrackingFooters;

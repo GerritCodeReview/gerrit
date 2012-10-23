@@ -12,12 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.realm;
 
-import com.google.common.cache.RemovalNotification;
+public interface RealmConfigurationInitializer {
 
-public interface CacheRemovalListener<K,V> {
-  public void onRemoval(String pluginName,
-    String cacheName,
-    RemovalNotification<K, V> notification);
+  void init();
 }

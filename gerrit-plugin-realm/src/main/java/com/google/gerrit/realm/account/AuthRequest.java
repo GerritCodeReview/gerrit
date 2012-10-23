@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.realm.account;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_MAILTO;

@@ -12,16 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.realm;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.inject.servlet.ServletModule;
 
-public interface MemoryCacheFactory {
-  <K, V> Cache<K, V> build(CacheBinding<K, V> def);
+/**
+ * Makrup class for realm servlet module
+ */
+public class RealmServletModule extends ServletModule {
 
-  <K, V> LoadingCache<K, V> build(
-      CacheBinding<K, V> def,
-      CacheLoader<K, V> loader);
 }

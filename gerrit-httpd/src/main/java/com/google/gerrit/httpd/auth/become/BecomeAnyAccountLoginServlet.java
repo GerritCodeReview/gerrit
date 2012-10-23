@@ -19,13 +19,13 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAM
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.realm.account.AccountException;
+import com.google.gerrit.realm.account.AuthRequest;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthMethod;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;

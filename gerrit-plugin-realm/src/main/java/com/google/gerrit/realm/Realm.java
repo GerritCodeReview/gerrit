@@ -12,9 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.realm;
 
+import java.util.Collection;
+
+import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.realm.account.AccountException;
+import com.google.gerrit.realm.account.AuthRequest;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 
 public interface Realm {
@@ -40,4 +46,8 @@ public interface Realm {
    * user by that email address.
    */
   public Account.Id lookup(String accountName);
+
+  public boolean isIdentityTrustable(Collection<AccountExternalId> ids);
+
+  public void customizeGerritConfig(GerritConfig gerritConfig);
 }

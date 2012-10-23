@@ -16,11 +16,11 @@ package com.google.gerrit.server.mail;
 
 import com.google.common.base.Charsets;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

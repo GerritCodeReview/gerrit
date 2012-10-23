@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.common.data.GitWebType;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 

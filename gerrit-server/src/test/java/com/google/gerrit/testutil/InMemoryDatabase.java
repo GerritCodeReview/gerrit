@@ -14,6 +14,7 @@
 
 package com.google.gerrit.testutil;
 
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -22,7 +23,6 @@ import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;

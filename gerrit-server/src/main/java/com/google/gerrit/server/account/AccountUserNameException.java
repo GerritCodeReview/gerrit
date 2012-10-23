@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.realm.account.AccountException;
+
 /**
  * Thrown by {@link AccountManager} if the user name for a newly created account
  * could not be set and the realm does not allow the user to set a user name

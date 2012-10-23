@@ -21,8 +21,8 @@ import static com.google.gerrit.pgm.init.InitUtil.isAnyAddress;
 import static com.google.gerrit.pgm.init.InitUtil.toURI;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
+import com.google.gerrit.realm.config.ConfigUtil;
 import com.google.gerrit.reviewdb.client.AuthType;
-import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;

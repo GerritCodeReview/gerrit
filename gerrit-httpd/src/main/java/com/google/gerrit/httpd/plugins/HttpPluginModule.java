@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
-import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.realm.cache.CacheModule;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.Inject;

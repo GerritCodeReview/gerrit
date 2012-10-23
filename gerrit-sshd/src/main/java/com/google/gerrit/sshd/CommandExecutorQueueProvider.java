@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;

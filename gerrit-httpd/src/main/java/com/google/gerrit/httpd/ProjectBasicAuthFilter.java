@@ -18,14 +18,14 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.gerrit.realm.account.AccountException;
+import com.google.gerrit.realm.account.AuthRequest;
+import com.google.gerrit.realm.config.AuthConfig;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthMethod;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

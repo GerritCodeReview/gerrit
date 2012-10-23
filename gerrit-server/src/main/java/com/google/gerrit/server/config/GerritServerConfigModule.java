@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
 
 import org.eclipse.jgit.lib.Config;

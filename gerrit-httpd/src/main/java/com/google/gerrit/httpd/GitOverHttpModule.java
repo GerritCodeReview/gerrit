@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.realm.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
 

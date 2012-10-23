@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.realm.config.ConfigUtil;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.SystemConfig;

@@ -18,10 +18,11 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAM
 
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.realm.Realm;
+import com.google.gerrit.realm.config.AuthConfig;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -35,15 +36,15 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
 
   private final ReviewDb db;
   private final IdentifiedUser user;
-  private final AuthConfig authConfig;
+  private final Realm realm;
   private final WebSession session;
 
   @Inject
   ExternalIdDetailFactory(final ReviewDb db, final IdentifiedUser user,
-      final AuthConfig authConfig, final WebSession session) {
+      final Realm realm, final WebSession session) {
     this.db = db;
     this.user = user;
-    this.authConfig = authConfig;
+    this.realm = realm;
     this.session = session;
   }
 
@@ -54,7 +55,7 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
         db.accountExternalIds().byAccount(user.getAccountId()).toList();
 
     for (final AccountExternalId e : ids) {
-      e.setTrusted(authConfig.isIdentityTrustable(Collections.singleton(e)));
+      e.setTrusted(realm.isIdentityTrustable(Collections.singleton(e)));
 
       // The identity can be deleted only if its not the one used to
       // establish this web session, and if only if an identity was

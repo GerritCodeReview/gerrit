@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.realm.config.ConfigUtil;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.util.RequestScopePropagator;

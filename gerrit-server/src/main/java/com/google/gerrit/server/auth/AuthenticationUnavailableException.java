@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth;
 
-import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.realm.account.AccountException;
 
 /** A query to the authentication server failed */
 public class AuthenticationUnavailableException extends AccountException {

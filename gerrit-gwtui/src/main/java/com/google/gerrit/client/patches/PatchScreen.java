@@ -330,8 +330,13 @@ public abstract class PatchScreen extends Screen implements
 
     add(topNav);
     contentPanel = new FlowPanel();
-    contentPanel.setStyleName(Gerrit.RESOURCES.css()
-        .sideBySideScreenSideBySideTable());
+    if (getPatchScreenType() == PatchScreen.Type.SIDE_BY_SIDE) {
+      contentPanel.setStyleName(//
+          Gerrit.RESOURCES.css().sideBySideScreenSideBySideTable());
+    } else {
+      contentPanel.setStyleName(Gerrit.RESOURCES.css().unifiedTable());
+    }
+
     contentPanel.add(header);
     contentPanel.add(noDifference);
     contentPanel.add(contentTable);

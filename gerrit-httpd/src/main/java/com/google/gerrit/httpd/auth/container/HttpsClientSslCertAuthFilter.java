@@ -15,10 +15,10 @@
 package com.google.gerrit.httpd.auth.container;
 
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.realm.account.AccountException;
+import com.google.gerrit.realm.account.AuthRequest;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthMethod;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

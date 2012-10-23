@@ -16,12 +16,12 @@ package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.realm.cache.CacheModule;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.GitRepositoryManager;

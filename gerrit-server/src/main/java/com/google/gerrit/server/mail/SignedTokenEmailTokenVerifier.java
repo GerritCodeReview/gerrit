@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.realm.config.AuthConfig;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;

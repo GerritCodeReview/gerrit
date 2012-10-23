@@ -19,11 +19,11 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.realm.Realm;
+import com.google.gerrit.realm.cache.CacheModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 

@@ -16,12 +16,12 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.cache.LoadingCache;
+import com.google.gerrit.realm.cache.CacheModule;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;

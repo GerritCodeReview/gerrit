@@ -19,10 +19,10 @@ import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAM
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.realm.cache.CacheModule;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;

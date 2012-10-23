@@ -79,7 +79,6 @@ limitations under the License.
     <module>gerrit-httpd</module>
     <module>gerrit-launcher</module>
     <module>gerrit-main</module>
-    <module>gerrit-openid</module>
     <module>gerrit-pgm</module>
     <module>gerrit-prettify</module>
     <module>gerrit-reviewdb</module>
@@ -91,6 +90,7 @@ limitations under the License.
     <module>gerrit-extension-api</module>
 
     <module>gerrit-gwtui</module>
+    <module>gerrit-plugin-realm</module>
   </modules>
 
   <profiles>
@@ -869,6 +869,12 @@ limitations under the License.
         <groupId>org.parboiled</groupId>
         <artifactId>parboiled-java</artifactId>
         <version>1.1</version>
+      </dependency>
+
+      <dependency>
+	<groupId>org.reflections</groupId>
+	<artifactId>reflections</artifactId>
+	<version>0.9.8</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

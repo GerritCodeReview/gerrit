@@ -12,16 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.realm.guice;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public interface PersistentCacheFactory {
-  <K, V> Cache<K, V> build(CacheBinding<K, V> def);
+import com.google.gerrit.realm.RealmProvider;
+import com.google.gerrit.realm.RealmServletModule;
+import com.google.inject.Provider;
 
-  <K, V> LoadingCache<K, V> build(
-      CacheBinding<K, V> def,
-      CacheLoader<K, V> loader);
+@Singleton
+class RealmServletModuleProvider implements Provider<RealmServletModule> {
+  private final RealmProvider realmProvider;
+
+  @Inject
+  RealmServletModuleProvider(RealmProvider realmProvider) {
+    this.realmProvider = realmProvider;
+  }
+
+  @Override
+  public RealmServletModule get() {
+    return realmProvider.getServletModule();
+  }
+
 }

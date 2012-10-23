@@ -27,13 +27,13 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.realm.config.ConfigUtil;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.mail.Address;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;

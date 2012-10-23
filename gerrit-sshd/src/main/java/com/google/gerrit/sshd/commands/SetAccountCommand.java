@@ -16,6 +16,9 @@ package com.google.gerrit.sshd.commands;
 
 
 import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.realm.Realm;
+import com.google.gerrit.realm.account.AccountException;
+import com.google.gerrit.realm.account.AuthRequest;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -23,10 +26,7 @@ import com.google.gerrit.reviewdb.client.AccountSshKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.server.OrmException;

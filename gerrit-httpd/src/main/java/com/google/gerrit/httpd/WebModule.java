@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd;
 
-import static com.google.inject.Scopes.SINGLETON;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -27,13 +27,13 @@ import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.realm.config.AuthConfig;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.ClearPassword;
 import com.google.gerrit.server.account.GeneratePassword;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;

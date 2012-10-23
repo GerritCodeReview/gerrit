@@ -15,7 +15,8 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.server.account.EmailExpander;
+import com.google.gerrit.realm.account.EmailExpander;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

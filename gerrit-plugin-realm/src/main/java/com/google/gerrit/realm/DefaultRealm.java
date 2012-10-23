@@ -12,20 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.realm;
 
+import java.util.Collection;
+import java.util.Set;
+
+import com.google.gerrit.common.data.GerritConfig;
+import com.google.gerrit.realm.account.AccountByEmailCache;
+import com.google.gerrit.realm.account.AuthRequest;
+import com.google.gerrit.realm.account.EmailExpander;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.inject.Inject;
-
-import java.util.Set;
 
 public class DefaultRealm implements Realm {
   private final EmailExpander emailExpander;
   private final AccountByEmailCache byEmail;
 
   @Inject
-  DefaultRealm(final EmailExpander emailExpander,
+  protected DefaultRealm(final EmailExpander emailExpander,
       final AccountByEmailCache byEmail) {
     this.emailExpander = emailExpander;
     this.byEmail = byEmail;
@@ -68,5 +74,14 @@ public class DefaultRealm implements Realm {
       }
     }
     return null;
+  }
+
+  @Override
+  public boolean isIdentityTrustable(Collection<AccountExternalId> ids) {
+    return true;
+  };
+
+  @Override
+  public void customizeGerritConfig(GerritConfig gerritConfig) {
   }
 }

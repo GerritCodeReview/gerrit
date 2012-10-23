@@ -19,6 +19,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.realm.config.ConfigUtil;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

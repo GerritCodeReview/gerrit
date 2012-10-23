@@ -19,9 +19,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.launcher.GerritLauncher;
+import com.google.gerrit.realm.config.ConfigUtil;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.AuthType;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Injector;

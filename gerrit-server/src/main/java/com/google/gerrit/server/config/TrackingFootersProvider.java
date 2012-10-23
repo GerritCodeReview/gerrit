@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

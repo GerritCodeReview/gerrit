@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.registration.PrivateInternals_Dynamic
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
@@ -26,7 +27,6 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.plugins.ModuleGenerator;

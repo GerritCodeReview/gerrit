@@ -15,7 +15,7 @@
 package com.google.gerrit.rules;
 
 import com.google.gerrit.common.Version;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;

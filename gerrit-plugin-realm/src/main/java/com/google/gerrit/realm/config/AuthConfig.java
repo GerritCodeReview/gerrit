@@ -12,23 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.realm.config;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.eclipse.jgit.lib.Config;
 
 import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.eclipse.jgit.lib.Config;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
@@ -167,76 +165,7 @@ public class AuthConfig {
     return gitBasicAuth;
   }
 
-  public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {
-    switch (getAuthType()) {
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-      case HTTP:
-      case HTTP_LDAP:
-      case LDAP:
-      case LDAP_BIND:
-      case CLIENT_SSL_CERT_LDAP:
-      case CUSTOM_EXTENSION:
-        // Its safe to assume yes for an HTTP authentication type, as the
-        // only way in is through some external system that the admin trusts
-        //
-        return true;
-
-      case OPENID_SSO:
-        // There's only one provider in SSO mode, so it must be okay.
-        return true;
-
-      case OPENID:
-        // All identities must be trusted in order to trust the account.
-        //
-        for (final AccountExternalId e : ids) {
-          if (!isTrusted(e)) {
-            return false;
-          }
-        }
-        return true;
-
-      default:
-        // Assume not, we don't understand the login format.
-        //
-        return false;
-    }
-  }
-
-  private boolean isTrusted(final AccountExternalId id) {
-    if (id.isScheme(AccountExternalId.LEGACY_GAE)) {
-      // Assume this is a trusted token, its a legacy import from
-      // a fairly well respected provider and only takes effect if
-      // the administrator has the import still enabled
-      //
-      return isAllowGoogleAccountUpgrade();
-    }
-
-    if (id.isScheme(AccountExternalId.SCHEME_MAILTO)) {
-      // mailto identities are created by sending a unique validation
-      // token to the address and asking them to come back to the site
-      // with that token.
-      //
-      return true;
-    }
-
-    if (id.isScheme(AccountExternalId.SCHEME_UUID)) {
-      // UUID identities are absolutely meaningless and cannot be
-      // constructed through any normal login process we use.
-      //
-      return true;
-    }
-
-    if (id.isScheme(AccountExternalId.SCHEME_USERNAME)) {
-      // We can trust their username, its local to our server only.
-      //
-      return true;
-    }
-
-    for (final OpenIdProviderPattern p : trustedOpenIDs) {
-      if (p.matches(id)) {
-        return true;
-      }
-    }
-    return false;
+  public List<OpenIdProviderPattern> getTrustedOpenIDs() {
+    return trustedOpenIDs;
   }
 }

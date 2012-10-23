@@ -20,20 +20,21 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.realm.Realm;
+import com.google.gerrit.realm.account.AccountException;
+import com.google.gerrit.realm.account.AuthRequest;
+import com.google.gerrit.realm.account.EmailExpander;
+import com.google.gerrit.realm.config.AuthConfig;
+import com.google.gerrit.realm.config.ConfigUtil;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.EmailExpander;
-import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -44,6 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -274,6 +276,15 @@ class LdapRealm implements Realm {
       log.warn(String.format("Cannot lookup account %s in LDAP", accountName), e);
       return null;
     }
+  }
+
+  @Override
+  public boolean isIdentityTrustable(Collection<AccountExternalId> ids) {
+    return true;
+  }
+
+  @Override
+  public void customizeGerritConfig(GerritConfig gerritConfig) {
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {

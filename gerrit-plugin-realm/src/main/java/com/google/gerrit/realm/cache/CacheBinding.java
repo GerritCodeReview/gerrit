@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.realm.cache;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;

@@ -16,7 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;

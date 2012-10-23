@@ -92,6 +92,12 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-realm-openid</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-servlet</artifactId>
     </dependency>

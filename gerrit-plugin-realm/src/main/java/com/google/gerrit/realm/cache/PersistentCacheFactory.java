@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.realm.cache;
 
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 
-import java.util.Set;
+public interface PersistentCacheFactory {
+  <K, V> Cache<K, V> build(CacheBinding<K, V> def);
 
-/** Translates an email address to a set of matching accounts. */
-public interface AccountByEmailCache {
-  public Set<Account.Id> get(String email);
-
-  public void evict(String email);
+  <K, V> LoadingCache<K, V> build(
+      CacheBinding<K, V> def,
+      CacheLoader<K, V> loader);
 }

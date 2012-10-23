@@ -21,10 +21,10 @@ import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.common.auth.openid.OpenIdService;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.realm.account.AccountException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
-import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.config.AuthConfig;
@@ -332,8 +332,8 @@ class OpenIdServiceImpl implements OpenIdService {
       }
     }
 
-    final com.google.gerrit.server.account.AuthRequest areq =
-        new com.google.gerrit.server.account.AuthRequest(openidIdentifier);
+    final com.google.gerrit.realm.account.AuthRequest areq =
+        new com.google.gerrit.realm.account.AuthRequest(openidIdentifier);
 
     if (sregRsp != null) {
       areq.setDisplayName(sregRsp.getAttributeValue("fullname"));
@@ -383,8 +383,8 @@ class OpenIdServiceImpl implements OpenIdService {
         // Older account, the actual was already created but the claimed
         // was missing due to a bug in Gerrit. Link the claimed.
         //
-        final com.google.gerrit.server.account.AuthRequest linkReq =
-            new com.google.gerrit.server.account.AuthRequest(claimedIdentifier);
+        final com.google.gerrit.realm.account.AuthRequest linkReq =
+            new com.google.gerrit.realm.account.AuthRequest(claimedIdentifier);
         linkReq.setDisplayName(areq.getDisplayName());
         linkReq.setEmailAddress(areq.getEmailAddress());
         accountManager.link(actualId, linkReq);
@@ -419,8 +419,8 @@ class OpenIdServiceImpl implements OpenIdService {
           rsp.addCookie(lastId);
           webSession.get().login(arsp, AuthMethod.COOKIE, remember);
           if (arsp.isNew() && claimedIdentifier != null) {
-            final com.google.gerrit.server.account.AuthRequest linkReq =
-                new com.google.gerrit.server.account.AuthRequest(
+            final com.google.gerrit.realm.account.AuthRequest linkReq =
+                new com.google.gerrit.realm.account.AuthRequest(
                     claimedIdentifier);
             linkReq.setDisplayName(areq.getDisplayName());
             linkReq.setEmailAddress(areq.getEmailAddress());

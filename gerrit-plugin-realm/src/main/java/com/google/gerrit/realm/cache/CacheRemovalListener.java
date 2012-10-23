@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,17 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.realm.cache;
 
-/** An account processing error thrown by {@link AccountManager}. */
-public class AccountException extends Exception {
-  private static final long serialVersionUID = 1L;
+import com.google.common.cache.RemovalNotification;
 
-  public AccountException(final String message) {
-    super(message);
-  }
-
-  public AccountException(final String message, final Throwable why) {
-    super(message, why);
-  }
+public interface CacheRemovalListener<K,V> {
+  public void onRemoval(String pluginName,
+    String cacheName,
+    RemovalNotification<K, V> notification);
 }

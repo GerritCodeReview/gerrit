@@ -19,6 +19,8 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
+import com.google.gerrit.realm.cache.CacheModule;
+import com.google.gerrit.realm.config.AuthConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.AccessPath;
@@ -27,8 +29,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;

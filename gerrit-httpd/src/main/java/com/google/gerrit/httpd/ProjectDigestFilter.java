@@ -20,11 +20,11 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;

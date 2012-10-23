@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKrH////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-23T07:37:53Z",
+      "side": 1,
+      "message": "Is it possible for the commit message validation plugin to be able to override these checks?\n\nNot every company has a limit of 65/70 characters for message subject and body lines.  If a plugin is implemented that checks for a different length, its output will conflict with the warnings here.",
+      "revId": "f614be4a0bd159f1d992904661947919ac978ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

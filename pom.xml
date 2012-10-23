@@ -91,6 +91,8 @@ limitations under the License.
 
     <module>gerrit-gwtui</module>
     <module>gerrit-plugin-realm</module>
+    <module>gerrit-realm-development</module>
+    <module>gerrit-realm-openid</module>
   </modules>
 
   <profiles>

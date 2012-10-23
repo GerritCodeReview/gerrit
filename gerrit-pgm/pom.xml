@@ -75,12 +75,6 @@ limitations under the License.
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-openid</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-sshd</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -88,12 +82,6 @@ limitations under the License.
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-httpd</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-realm-openid</artifactId>
       <version>${project.version}</version>
     </dependency>
 

@@ -35,10 +35,7 @@ import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.realm.config.AuthConfig;
 import com.google.gerrit.realm.config.GerritServerConfig;
-import com.google.gerrit.realm.openid.httpd.OpenIdModule;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AuthConfigModule;
@@ -370,11 +367,12 @@ public class Daemon extends SiteProgram {
       modules.add(new NoSshModule());
     }
 
-    AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
-    if (authConfig.getAuthType() == AuthType.OPENID ||
-        authConfig.getAuthType() == AuthType.OPENID_SSO) {
-      modules.add(new OpenIdModule());
-    }
+    // temporary commented out to bypass circular dependency
+    // AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
+    // if (authConfig.getAuthType() == AuthType.OPENID ||
+    // authConfig.getAuthType() == AuthType.OPENID_SSO) {
+    // modules.add(new OpenIdModule());
+    // }
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));
 
     return sysInjector.createChildInjector(modules);

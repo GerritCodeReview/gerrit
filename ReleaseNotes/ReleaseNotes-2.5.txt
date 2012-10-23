@@ -1071,6 +1071,9 @@ This means that to refer to an LDAP group in the WebUI the group name
 needs to be prefixed with the `ldap/` string. E.g. if there is a group
 in LDAP which is called "Developers", Gerrit will suggest this group
 when the user types `ldap/De`.
++
+WARNING: External groups are not anymore allowed to be members of
+internal groups.
 
 [[migrate-ldap-groups]]
 * Migrate existing internal LDAP groups

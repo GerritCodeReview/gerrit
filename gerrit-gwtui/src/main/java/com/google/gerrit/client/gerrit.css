@@ -1048,6 +1048,13 @@ a:hover.downloadLink {
   padding-left: 0px;
 }
 
+/** UnifiedScreen **/
+.unifiedTable {
+  width: 100%;
+  border: 1px solid #B0BDCC;
+  display: table;
+}
+
 /** SideBySideScreen **/
 .sideBySideScreenSideBySideTable {
   width: 100%;

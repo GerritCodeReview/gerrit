@@ -242,6 +242,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     fmt.addStyleName(row, A, Gerrit.RESOURCES.css().diffText());
     fmt.addStyleName(row, B, Gerrit.RESOURCES.css().diffText());
     fmt.addStyleName(row, B + 1, Gerrit.RESOURCES.css().lineNumber());
+    fmt.addStyleName(row, B + 1, Gerrit.RESOURCES.css().rightmost());
   }
 
   private int finish(final Iterator<PatchLineComment> i, int row, final int col, boolean expandComment) {
@@ -312,7 +313,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     for (int i = 0 + offset; i < loopTo + offset; i++) {
       // The overridden version of insertRow adds some css classes we don't
       // want.
-      super.insertRow(row + i);
+      insertRow(row + i);
       table.getRowFormatter().setVerticalAlign(row + i,
           HasVerticalAlignment.ALIGN_TOP);
       int lineA = line.getStartA() + i;

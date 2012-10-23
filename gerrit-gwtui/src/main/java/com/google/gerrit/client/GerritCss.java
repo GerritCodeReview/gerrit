@@ -178,6 +178,7 @@ public interface GerritCss extends CssResource {
   String registerScreenNextLinks();
   String registerScreenSection();
   String rightmost();
+  String rightBorder();
   String rpcStatus();
   String rpcStatusLoading();
   String rpcStatusPanel();

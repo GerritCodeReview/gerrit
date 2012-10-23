@@ -149,8 +149,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
           openLine(nc);
-          appendLineNumber(nc, hunk.getCurA());
-          appendLineNumber(nc, hunk.getCurB());
+          appendLineNumberForSideA(nc, hunk.getCurA());
+          appendLineNumberForSideB(nc, hunk.getCurB());
           appendLineText(nc, false, CONTEXT, a, hunk.getCurA());
           closeLine(nc);
           hunk.incBoth();
@@ -158,8 +158,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
         } else if (hunk.isDeletedA()) {
           openLine(nc);
-          appendLineNumber(nc, hunk.getCurA());
-          padLineNumber(nc);
+          appendLineNumberForSideA(nc, hunk.getCurA());
+          padLineNumberForSideB(nc);
           appendLineText(nc, syntaxHighlighting, DELETE, a, hunk.getCurA());
           closeLine(nc);
           hunk.incA();
@@ -171,8 +171,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
         } else if (hunk.isInsertedB()) {
           openLine(nc);
-          padLineNumber(nc);
-          appendLineNumber(nc, hunk.getCurB());
+          padLineNumberForSideA(nc);
+          appendLineNumberForSideB(nc, hunk.getCurB());
           appendLineText(nc, syntaxHighlighting, INSERT, b, hunk.getCurB());
           closeLine(nc);
           hunk.incB();
@@ -253,6 +253,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     super.insertRow(row);
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, PC - 2, Gerrit.RESOURCES.css().lineNumber());
+    fmt.addStyleName(row, PC - 2, Gerrit.RESOURCES.css().rightBorder());
     fmt.addStyleName(row, PC - 1, Gerrit.RESOURCES.css().lineNumber());
     fmt.addStyleName(row, PC, Gerrit.RESOURCES.css().diffText());
   }
@@ -269,8 +270,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void appendFileHeader(final SafeHtmlBuilder m, final String line) {
     openLine(m);
-    padLineNumber(m);
-    padLineNumber(m);
+    padLineNumberForSideA(m);
+    padLineNumberForSideB(m);
 
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
@@ -282,8 +283,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void appendHunkHeader(final SafeHtmlBuilder m, final Hunk hunk) {
     openLine(m);
-    padLineNumber(m);
-    padLineNumber(m);
+    padLineNumberForSideA(m);
+    padLineNumberForSideB(m);
 
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
@@ -352,8 +353,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void appendNoLF(final SafeHtmlBuilder m) {
     openLine(m);
-    padLineNumber(m);
-    padLineNumber(m);
+    padLineNumberForSideA(m);
+    padLineNumberForSideB(m);
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
     m.addStyleName(Gerrit.RESOURCES.css().diffTextNoLF());
@@ -374,15 +375,30 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.closeTr();
   }
 
-  private void padLineNumber(final SafeHtmlBuilder m) {
+  private void padLineNumberForSideB(final SafeHtmlBuilder m) {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.closeTd();
   }
 
-  private void appendLineNumber(final SafeHtmlBuilder m, final int idx) {
+  private void padLineNumberForSideA(final SafeHtmlBuilder m) {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().rightBorder());
+    m.closeTd();
+  }
+
+  private void appendLineNumberForSideB(final SafeHtmlBuilder m, final int idx) {
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.append(SafeHtml.asis("<a href=\"javascript:void(0)\">"+ (idx + 1) + "</a>"));
+    m.closeTd();
+  }
+
+  private void appendLineNumberForSideA(final SafeHtmlBuilder m, final int idx) {
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().rightBorder());
     m.append(SafeHtml.asis("<a href=\"javascript:void(0)\">"+ (idx + 1) + "</a>"));
     m.closeTd();
   }

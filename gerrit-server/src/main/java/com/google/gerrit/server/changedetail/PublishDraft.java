@@ -74,47 +74,29 @@ public class PublishDraft implements Callable<ReviewResult> {
       result.addError(new ReviewResult.Error(
           ReviewResult.Error.Type.PUBLISH_NOT_PERMITTED));
     } else {
-      boolean published = false;
       final PatchSet updatedPatch = db.patchSets().atomicUpdate(patchSetId,
           new AtomicUpdate<PatchSet>() {
         @Override
         public PatchSet update(PatchSet patchset) {
-          if (patchset.isDraft()) {
-            patchset.setDraft(false);
-            return patchset;
-          }
-          return null;
+          patchset.setDraft(false);
+          return patchset;
         }
       });
 
-      if ((updatedPatch != null) && (!updatedPatch.isDraft())) {
-        published = true;
-      }
-
-      final Change change = db.changes().get(changeId);
-      if (change.getStatus() == Change.Status.DRAFT) {
-        final Change updatedChange = db.changes().atomicUpdate(changeId,
-            new AtomicUpdate<Change>() {
-          @Override
-          public Change update(Change change) {
-            if (change.getStatus() == Change.Status.DRAFT) {
-              change.setStatus(Change.Status.NEW);
-              ChangeUtil.updated(change);
-              return change;
-            } else {
-              return null;
-            }
+      final Change updatedChange = db.changes().atomicUpdate(changeId,
+          new AtomicUpdate<Change>() {
+        @Override
+        public Change update(Change change) {
+          if (change.getStatus() == Change.Status.DRAFT) {
+            change.setStatus(Change.Status.NEW);
+            ChangeUtil.updated(change);
           }
-        });
-
-        if ((updatedChange != null) &&
-            (updatedChange.getStatus() == Change.Status.NEW)) {
-          published = true;
+          return change;
         }
-      }
+      });
 
-      if (published) {
-        hooks.doDraftPublishedHook(change, patch, db);
+      if (!updatedPatch.isDraft() || updatedChange.getStatus() == Change.Status.NEW) {
+        hooks.doDraftPublishedHook(updatedChange, updatedPatch, db);
       }
     }
 

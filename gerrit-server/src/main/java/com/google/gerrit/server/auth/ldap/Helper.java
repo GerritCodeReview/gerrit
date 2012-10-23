@@ -111,9 +111,11 @@ import javax.security.auth.login.LoginException;
     if ("GSSAPI".equals(authentication)) {
       return kerberosOpen(env);
     } else {
-       env.put(Context.SECURITY_PRINCIPAL, username);
-       env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
-       return new InitialDirContext(env);
+      if (username != null) {
+        env.put(Context.SECURITY_PRINCIPAL, username);
+        env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
+      }
+      return new InitialDirContext(env);
     }
   }
 

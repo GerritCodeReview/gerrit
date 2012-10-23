@@ -1,4 +1,4 @@
-package com.google.gerrit.httpd.auth.openid;
+package com.google.gerrit.realm.openid.httpd;
 
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;

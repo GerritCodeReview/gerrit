@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.openid;
+package com.google.gerrit.realm.openid.httpd;
 
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;

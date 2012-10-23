@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.openid;
+package com.google.gerrit.realm.openid.httpd;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
@@ -22,15 +22,15 @@ import com.google.gerrit.common.auth.openid.OpenIdService;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.realm.account.AccountException;
+import com.google.gerrit.realm.config.AuthConfig;
+import com.google.gerrit.realm.config.ConfigUtil;
+import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthMethod;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.inject.Inject;

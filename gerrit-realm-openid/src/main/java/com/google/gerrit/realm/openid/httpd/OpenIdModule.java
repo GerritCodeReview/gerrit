@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.openid;
+package com.google.gerrit.realm.openid.httpd;
 
 import com.google.gerrit.httpd.rpc.RpcServletModule;
-import com.google.inject.servlet.ServletModule;
+import com.google.gerrit.realm.RealmServletModule;
 
 /** Servlets and RPC support related to OpenID authentication. */
-public class OpenIdModule extends ServletModule {
+public class OpenIdModule extends RealmServletModule {
   @Override
   protected void configureServlets() {
     serve("/" + OpenIdServiceImpl.RETURN_URL).with(OpenIdLoginServlet.class);

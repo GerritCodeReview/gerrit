@@ -37,7 +37,7 @@ Ignore warning and proceed with schema upgrade [y/N]?
 ----
 
 This migration is creating an index for the
-link:../Documentation/user-submodules.html[submodule feature] in
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/user-submodules.html[submodule feature] in
 Gerrit. When the submodule feature was introduced the index was only
 created when a new site was initialized, but not when Gerrit was
 upgraded. This migration tries to create the index, but it will only
@@ -107,25 +107,25 @@ Plugins
 The Gerrit server functionality can be extended by installing plugins.
 Depending on how tightly the extension code is coupled with the Gerrit
 server code, there is a distinction between
-link:../Documentation/dev-plugins.html#plugin[plugins] and
-link:../Documentation/dev-plugins.html#extension[extensions].
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#plugin[plugins] and
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#extension[extensions].
 
 * link:#replication[Move replication logic to replication plugin]
 +
 This splits all of the replication code out of the core server
 and moves it into a standard plugin.
 
-* link:../Documentation/dev-plugins.html[Documentation about
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html[Documentation about
   plugin development] including instructions for:
-** link:../Documentation/dev-plugins.html#getting-started[how to get
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#getting-started[how to get
    started with plugin development]
-** link:../Documentation/dev-plugins.html#deployment[plugin
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#deployment[plugin
    deployment/installation]
 
-* link:../Documentation/dev-plugins.html#API[API for plugins and
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#API[API for plugins and
   extensions]
 
-* Support for link:../Documentation/dev-plugins.html#ssh[SSH command
+* Support for link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#ssh[SSH command
   plugins]
 +
 Allows plugin developers to declare additional SSH commands.
@@ -140,7 +140,7 @@ resolved dynamically at invocation time to the currently loaded
 version of the plugin. If the plugin is not loaded, or does not
 define the command, "not found" is returned to the user.
 
-* Support for link:../Documentation/dev-plugins.html#http[HTTP
+* Support for link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#http[HTTP
   plugins]
 +
 Plugins may contribute to the /plugins/NAME/ URL space.
@@ -154,13 +154,13 @@ these concrete classes.
 +
 For any non-abstract command that extends SshCommand, plugins may
 declare the command with `@Export("name")` to
-link:../Documentation/dev-plugins.html#ssh[bind the implementation
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#ssh[bind the implementation
 as that SSH command].
 +
-Likewise link:../Documentation/dev-plugins.html#http[HTTP servlets
+Likewise link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#http[HTTP servlets
 can also be bound to URLs].
 
-* link:../Documentation/dev-plugins.html#data-directory[Support a data
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#data-directory[Support a data
   directory for plugins on demand]
 
 * Support serving static/ and Documentation/ from plugins
@@ -171,17 +171,17 @@ other HTTP handlers. This permits a plugin to supply icons or other
 graphics for the web UI, or documentation content to help users learn
 how to use the plugin.
 
-* link:../Documentation/dev-plugins.html#documentation[Auto-formatting
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#documentation[Auto-formatting
   of plugin HTTP pages from Markdown files]
 +
 If Gerrit detects that a requested plugin resource does not exist, but
 instead a file with a `.md` extension does exist, Gerrit opens the
 `.md` file and reformats it as html.
 
-* Support of link:../Documentation/dev-plugins.html#macros[macros in
+* Support of link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#macros[macros in
   Markdown plugin documentation]
 
-* link:../Documentation/dev-plugins.html#auto-index[Automatic
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#auto-index[Automatic
   generation of an index for the plugin documentation]
 
 * Support for audit plugins
@@ -213,12 +213,12 @@ Administrators can retrieve plugin information from a REST interface
 by loading `<server-url>/a/plugins/`.
 
 * Support SSH commands to
-** link:../Documentation/cmd-plugin-ls.html[list the installed
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-plugin-ls.html[list the installed
    plugins]
-** link:../Documentation/cmd-plugin-install.html[install plugins]
-** link:../Documentation/cmd-plugin-enable.html[enable plugins]
-** link:../Documentation/cmd-plugin-remove.html[disable plugins]
-** link:../Documentation/cmd-plugin-reload.html[reload plugins]
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-plugin-install.html[install plugins]
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-plugin-enable.html[enable plugins]
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-plugin-remove.html[disable plugins]
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-plugin-reload.html[reload plugins]
 
 * Support installation of core plugin on site initialization
 
@@ -229,11 +229,11 @@ newly created plugins, unloads any deleted plugins, and reloads any
 plugins that have been modified.
 +
 The check frequency can be configured by setting
-link:../Documentation/config-gerrit.html#plugins.checkFrequency[
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#plugins.checkFrequency[
 plugins.checkFrequency] in the Gerrit config file. By configuration
 the scanner can also be disabled.
 
-* link:../Documentation/dev-plugins.html#classpath[Loading of plugins
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#classpath[Loading of plugins
   in own ClassLoader]
 
 * Plugin cleanup in the background
@@ -254,7 +254,7 @@ server state during their own LifecycleListener. This enables a
 plugin to determine if it is loading as part of server startup, or
 because it was dynamically installed or reloaded by an administrator.
 
-* link:../Documentation/dev-plugins.html#getting-started[Maven
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-plugins.html#getting-started[Maven
   archetype for creating gerrit plugin projects]
 
 * Enables the use of session management in Jetty
@@ -267,20 +267,20 @@ Gerrit now supports a REST like API available over HTTP. The API is
 suitable for automated tools to build upon, as well as supporting some
 ad-hoc scripting use cases.
 
-* link:../Documentation/rest-api.html[Documentation of the REST API]
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html[Documentation of the REST API]
 
 * Support REST endpoints to
-** link:../Documentation/rest-api.html#changes[query changes]
-** link:../Documentation/rest-api.html#projects[list projects]
-** link:../Documentation/rest-api.html#suggest-projects[suggest
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#changes[query changes]
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#projects[list projects]
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#suggest-projects[suggest
    projects]
-** link:../Documentation/rest-api.html#accounts_self_capabilities[query
+** link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#accounts_self_capabilities[query
    the global capabilities of the calling user]
 
-* Support link:../Documentation/rest-api.html#authentication[anonymous
+* Support link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#authentication[anonymous
   and authenticated access] to the REST endpoints
 
-* Support link:../Documentation/rest-api.html#output[JSON output
+* Support link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#output[JSON output
   format] for the REST endpoints
 
 The new REST API is used from the Gerrit WebUI.
@@ -298,7 +298,7 @@ completely replaced by the new REST API and got deleted:
 [[query-deprecation]]
 In addition the `/query` API has been deprecated. By default it is
 still available but server administrators may disable it by setting
-the link:../Documentation/config-gerrit.html#site.enableDeprecatedQuery[
+the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#site.enableDeprecatedQuery[
 `site.enableDeprecatedQuery`] parameter in the Gerrit config file. This
 allows to enforce tools to move to the new API.
 
@@ -449,7 +449,7 @@ patch ('M').
 
 User Dashboard
 ^^^^^^^^^^^^^^
-* Support for link:../Documentation/user-custom-dashboards.html[custom
+* Support for link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/user-custom-dashboards.html[custom
   dashboards]
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=1407[issue 1407]:
@@ -531,7 +531,7 @@ the NotFoundScreen after sign in.
 Instead of linking from a user name to the user's dashboards, link to
 a search for changes owned by that user.
 
-* link:../Documentation/config-gerrit.html#gerrit.reportBugUrl[Allow
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#gerrit.reportBugUrl[Allow
   configuring the `Report Bug` URL]
 +
 Let site administrators direct users to their own ticket queue, as for
@@ -632,11 +632,11 @@ Access Rights
 * Restrict rebasing of a change in the web UI to the change owner and
   the submitter
 
-* Add a new link:../Documentation/access-control.html#category_rebase[
+* Add a new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/access-control.html#category_rebase[
   access right to permit rebasing changes in the web UI]
 
 * link:http://code.google.com/p/gerrit/issues/detail?id=930[issue 930]:
-  Add new link:../Documentation/access-control.html#category_abandon[
+  Add new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/access-control.html#category_abandon[
   access right for abandoning changes]
 
 * Check if user can upload in order to restore
@@ -681,34 +681,34 @@ query operator.
 SSH
 ~~~
 * link:http://code.google.com/p/gerrit/issues/detail?id=1095[issue 1095]
-  link:../Documentation/cmd-set-account.html[SSH command to manage
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-set-account.html[SSH command to manage
   accounts]
 
-* On link:../Documentation/cmd-create-account.html[account creation] a
+* On link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-create-account.html[account creation] a
   password for HTTP can be specified.
 
-* link:../Documentation/cmd-set-project.html[SSH command to manage
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-set-project.html[SSH command to manage
   project settings]
 
-* link:../Documentation/cmd-test-submit-rule.html[SSH command to test
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-test-submit-rule.html[SSH command to test
   submit rules]
 +
 The command creates a fresh Prolog environment and loads a Prolog
 script from stdin. `can_submit` is then queried and the results are
 returned to the user.
 
-* link:../Documentation/cmd-ban-commit.html[SSH command to ban
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-ban-commit.html[SSH command to ban
   commits]
 
 [[ssh-alias]]
 * Enable aliases for SSH commands
 +
 Site administrators can define aliases for SSH commands in the
-link:../Documentation/config-gerrit.html#ssh-alias[`ssh-alias` section]
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#ssh-alias[`ssh-alias` section]
 of the Gerrit configuration.
 
 * Add submit records to the output of the
-  link:../Documentation/cmd-query.html[query] SSH command:
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-query.html[query] SSH command:
 +
 Add a command line option to the `query` SSH command to include submit
 records in the output.
@@ -719,10 +719,10 @@ such as whether the change can be submitted as-is, and whether the
 submission criteria for each review label has been met.
 
 * Support JSON output format for the
-  link:../Documentation/cmd-ls-projects.html[ls-projects] SSH command
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-ls-projects.html[ls-projects] SSH command
 
 * Support creation of multiple branches in
-  link:../Documentation/cmd-create-project.html[create-project] SSH
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-create-project.html[create-project] SSH
   command
 +
 In case if a project has some kind of waterfall automerging
@@ -732,7 +732,7 @@ project creation time.
 e.g. '.. gerrit create-project -b master -b foo -b bar ...'
 
 * Add verbose output option to
-  link:../Documentation/cmd-ls-groups.html[ls-groups] command
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-ls-groups.html[ls-groups] command
 +
 The verbose mode enabled by the new option makes the ls-groups
 command output a tab-separated table containing all available
@@ -744,12 +744,12 @@ Documentation
 Commands
 ^^^^^^^^
 
-* document for the link:../documentation/cmd-create-group.html[`create-group`]
+* document for the link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-create-group.html[`create-group`]
   command that for unknown users an account is automatically created if
   the LDAP authentication succeeds
 
 * Update documentation and help text for the
-  link:../documentation/cmd-review.html[`review`] SSH command
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-review.html[`review`] SSH command
 +
 The review command can be applied to multiple changes, but the
 help text was written in singular tense.
@@ -762,7 +762,7 @@ fails because the user is not permitted to change the label.
 
 * Update the list of unsupported slave commands
 
-* Fix link:../Documentation/cmd-stream-events.html[`stream-events`]
+* Fix link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/cmd-stream-events.html[`stream-events`]
   documentation
 +
 Some attributes contained in the events were not described, for a few
@@ -774,7 +774,7 @@ Access Control
 ^^^^^^^^^^^^^^
 
 * Clarify the ref format for
-  link:../Documentation/access-control.html#category_push_merge[`Push
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/access-control.html#category_push_merge[`Push
   Merge Commit`]
 +
 Elaborate on the required format of the ref used for `Push Merge Commit`
@@ -782,12 +782,12 @@ access right entries to avoid user confusion when granting access to
 `refs/heads/*` still doesn't allow them to push any merge commits.
 
 * Document the
-  link:../Documentation/access-control.html#capability_emailReviewers[
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/access-control.html#capability_emailReviewers[
   `emailReviewers`] capability
 
 Error
 ^^^^^
-* Improve documentation of link:../Documentation/error-change-closed.html[
+* Improve documentation of link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/error-change-closed.html[
   `change closed` error]
 +
 The `change closed` error can also occur when trying to submit a
@@ -813,7 +813,7 @@ Dev
 +
 Pushes are now accepted at the same address as clone/fetch/pull.
 
-* Update link:../Documentation/dev-contributing.html[contributor
+* Update link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-contributing.html[contributor
   document]
 +
 We now prefer to use Guava (previously known as Google Collections).
@@ -823,18 +823,18 @@ We now prefer to use Guava (previously known as Google Collections).
 Updated the documentation source code links to point to:
 http://code.google.com/p/gerrit/source/checkout
 
-* State link:../Documentation/dev-eclipse.html#known-problems[known issues]
+* State link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-eclipse.html#known-problems[known issues]
   when debugging Gerrit with Eclipse
 
 * Improved the section on
-  link:../Documentation/dev-eclipse.html#hosted-mode[hosted mode
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-eclipse.html#hosted-mode[hosted mode
   debugging]
 +
 The existing section on hosted mode debugging left out a couple of
 steps, and the requirement to use `DEVELOPMENT_BECOME_ANY_ACCOUNT`
 instead of `OpenID` was not mentioned anywhere.
 
-* Add a link:../Documentation/dev-release.html[release preparation
+* Add a link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-release.html[release preparation
   document]
 +
 Document what it takes to make a Gerrit stable or stable-fix release,
@@ -842,16 +842,16 @@ and how to release Gerrit subprojects.
 
 Other
 ^^^^^
-* Add link:../Documentation/prolog-cookbook.html[Cookbook for Prolog
+* Add link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/prolog-cookbook.html[Cookbook for Prolog
   submit rules]
 +
 A new document providing a step by step introduction into implementing
 specific submit policies using Prolog based submit rules was added.
 
-* Describe link:../Documentation/refs-notes-review.html[
+* Describe link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/refs-notes-review.html[
   `refs/notes/review` and its contents]
 
-* link:../Documentation/config-mail.html[Document `RebasedPatchSet.vm`
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-mail.html[Document `RebasedPatchSet.vm`
   and `Reverted.vm` mail templates]
 
 * Specify output file for curl commands in documentation
@@ -865,10 +865,10 @@ command.
   hook
 
 * Add some clarifications to the
-  link:../Documentation/install-quick.html[quick installation guide]
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/install-quick.html[quick installation guide]
 
 * Add missing documentation about
-  link:../Documentation/config-gerrit.html#hooks[hook configuration]
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#hooks[hook configuration]
 +
 Add documentation of hook config for `change-restored`, `ref-updated`
 and `cla-signed` hooks.
@@ -886,7 +886,7 @@ Correct typos, spelling mistakes, and grammatical errors.
 
 Dev
 ~~~
-* Add link:../Documentation/dev-release.html#plugin-api[script for
+* Add link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/dev-release.html#plugin-api[script for
   releasing plugin API jars]
 
 * Pushes are now accepted at the same address as clone/fetch/pull
@@ -956,14 +956,14 @@ Mail
 Add `$email.UnifiedDiff` as new macro to the `NewChange.vm` mail
 template. This macro is expanded to a unified diff of the patch.
 
-* link:../Documentation/config-gerrit.html#sendemail.includeDiff[
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#sendemail.includeDiff[
   sendemail.includeDiff]: Enable `$email.UnifiedDiff` in `NewChange.vm`
 +
 Instead of making site administrators hack the email template, allow
 admins to enable the diff feature by setting a configuration variable
 in `gerrit.config`.
 
-* link:../Documentation/config-gerrit.html#sendemail.maximumDiffSize[
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#sendemail.maximumDiffSize[
   sendemail.maximumDiffSize]: Limit the size of diffs sent by email
 +
 If a unified diff included in an email will exceed the limit configured
@@ -1037,7 +1037,7 @@ accessed is the last time the record was moved from disk to memory.
 * Add OpenID SSO support.
 +
 Setting `OPENID_SSO` for
-link:../Documentation/config-gerrit.html#auth.type[`auth.type`] in the
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#auth.type[`auth.type`] in the
 `gerrit.config` will allow the admin to specify an SSO entry point URL
 so that users clicking on "Sign In" are sent directly to that URL.
 
@@ -1048,8 +1048,8 @@ authentication scheme used for Git over HTTP BasicAuth, as alternative
 of the default DigestAuth scheme against the random generated password
 on Gerrit DB.
 +
-Example setting for link:../Documentation/config-gerrit.html#auth.type[
-`auth.type`] and link:../Documentation/config-gerrit.html#auth.gitBasicAuth[
+Example setting for link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#auth.type[
+`auth.type`] and link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#auth.gitBasicAuth[
 `auth.gitBasicAuth`]:
 +
 ----
@@ -1071,6 +1071,9 @@ This means that to refer to an LDAP group in the WebUI the group name
 needs to be prefixed with the `ldap/` string. E.g. if there is a group
 in LDAP which is called "Developers", Gerrit will suggest this group
 when the user types `ldap/De`.
++
+WARNING: External groups are not anymore allowed to be members of
+internal groups.
 
 [[migrate-ldap-groups]]
 * Migrate existing internal LDAP groups
@@ -1085,21 +1088,21 @@ This made the LDAP group type obsolete and it was removed.
 
 * link:https://code.google.com/p/gerrit/issues/detail?id=548[issue 548]:
   Make commands to download patch sets
-  link:../Documentation/config-gerrit.html#download.command[configurable]
+  link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#download.command[configurable]
 +
 For patch sets on the ChangeScreen different commands for downloading
 the patch sets are offered. For some installations not all commands are
 needed. Allow Gerrit administrators to configure which download
 commands should be offered.
 
-* Add more link:../Documentation/config-gerrit.html#theme[theme color
+* Add more link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#theme[theme color
   options]
 +
 ** Add a theme option to change outdated background color
 ** Add odd/even row background color for tables such as list of open
 reviews.  This makes them more visible without clicking on them.
 
-* link:../Documentation/user-notify.html[Add `notify` section in
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/user-notify.html[Add `notify` section in
   `project.config`]
 +
 The notify section allows project owners to include emails to users
@@ -1176,7 +1179,7 @@ startup.
 +
 Since this is a potentially dangerous operation, by default it will not
 be performed. The configuration parameter
-link:../Documentation/config-gerrit.html#site.upgradeSchemaOnStartup[
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#site.upgradeSchemaOnStartup[
 site.upgradeSchemaOnStartup] is used to switch on automatic schema
 upgrade.
 
@@ -1277,6 +1280,11 @@ the `GroupDetail` type when showing the groups in a list format. As a
 consequence the `Owners` column that showed the name of the owner group
 had been dropped.
 
+* Add LDAP-cache to minimize number of queries when unnesting groups
++
+A new cache named "ldap_groups_byinclude" is introduced to help lessen
+the number of queries needed to resolve nested LDAP-groups.
+
 * Add index for accessing change messages by patch set
 +
 This improves the performance of loading the dashboards.
@@ -1327,7 +1335,7 @@ database servers that are running on a different machine from the
 Gerrit server itself, e.g. gerrit.googlesource.com.
 +
 The new thread pool is
-link:../Documentation/config-gerrit.html#receive.changeUpdateThreads[
+link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#receive.changeUpdateThreads[
 disabled by default], limiting the overhead to servers that have good
 latency with their database, such as using in-process H2 database, or
 a MySQL or PostgreSQL on the same host.
@@ -1368,7 +1376,7 @@ read every other reference in the repository.
 * Avoid second remote call to lookup approvals when loading change
   results
 +
-By using the new link:../Documentation/rest-api.html#changes[`/changes/`]
+By using the new link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/rest-api.html#changes[`/changes/`]
 REST endpoint the web UI client now obtains the label information
 during the query and avoids a second round trip to lookup the current
 approvals for each displayed change. For most users this should improve
@@ -1694,6 +1702,14 @@ When using cherry-pick as merge strategy, the wrong ref was set in the
 The issue stems from Gerrit would not acknowledge the resulting new
 pachset (the actual cherry-pick).
 
+* Fix NullPointerException in `query` SSH command
++
+Running the `query` SSH command with the options `--comments` and
+`--format=JSON` failed with a NullPointerException if a change had a
+message without author. Change messages have no author if they were
+created by Gerrit. For such messages now the Gerrit Server identity is
+returned as author.
+
 * Fix the `export-review-notes` command's Guice bindings
 +
 The `export-review-notes` command was broken becasue of the CachePool
@@ -1817,12 +1833,15 @@ which is added to the change. Using any of the download commands to
 fetch this new patch set failed with 'Couldn't find remote ref' because
 no ref for the new patch set was created.
 
-* Set link:../Documentation/config-gerrit.html#transfer.timeout[transfer
+* link:http://code.google.com/p/gerrit/issues/detail?id=1491[issue 1491]:
+  Fix nested submodule updates
+
+* Set link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#transfer.timeout[transfer
   timeout] for pushes through HTTP
 +
 The transfer timeout was only set when pushing via SSH.
 
-* link:../Documentation/config-gerrit.html#receive.maxObjectSizeLimit[
+* link:http://gerrit-documentation.googlecode.com/svn/Documentation/2.5/config-gerrit.html#receive.maxObjectSizeLimit[
   Limit maximum Git object size] when pushing through HTTP
 +
 The limit for the maximum object size was only set when pushing via SSH.
@@ -1924,3 +1943,5 @@ Set the GroupDetail.ownerGroup to the AccountGroup.ownerGroupUUID
 instead of the groupUUID.
 
 * Ensure that ObjectOutputStream in H2CacheImpl is closed
+
+* Ensure that RevWalk in SubmoduleOp is released

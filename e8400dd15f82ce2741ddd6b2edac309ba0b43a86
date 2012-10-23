@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKrH////I\u003d",
+        "filename": "gerrit-commit-validation-plugin/src/main/java/com/googlesource/gerrit/plugins/validators/HelloWorldValidator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-23T07:38:09Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "e8400dd15f82ce2741ddd6b2edac309ba0b43a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -682,14 +682,17 @@
 .lineNumber {
   padding-left: 0.2em;
   white-space: pre;
-  width: 3.5em;
-  text-align: right;
+  width: 1.5em;
+  text-align: center;
   padding-right: 0.2em;
   background: white;
   border-bottom: 1px solid white;
 }
 .lineNumber.rightmost {
   border-left: thin solid #b0bdcc;
+}
+.lineNumber.rightBorder {
+  border-right: thin solid #b0bdcc;
 }
 .lineNumber a {
   color: #888;

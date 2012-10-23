@@ -92,9 +92,8 @@ public class PluginListScreen extends PluginScreen {
                 + plugin.name() + "/")));
       }
       table.setText(row, 2, plugin.version());
-      if (plugin.isDisabled()) {
-        table.setText(row, 3, Util.C.pluginDisabled());
-      }
+      table.setText(row, 3, plugin.isDisabled() ? Util.C.pluginDisabled()
+          : Util.C.pluginEnabled());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());

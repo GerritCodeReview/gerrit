@@ -51,6 +51,7 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 import java.io.InputStreamReader;
+import java.io.PushbackReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -102,7 +103,7 @@ final class TestSubmitRule extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure {
-    InputStreamReader inReader = new InputStreamReader(in);
+    PushbackReader inReader = new PushbackReader(new InputStreamReader(in));
 
     try {
       PrologEnvironment pcl;

@@ -23,6 +23,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.FileMode;
+import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -75,7 +76,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   @Override
-  protected void render(final PatchScript script) {
+  protected void render(final PatchScript script, final PatchSetDetail detail) {
     a = getSparseHtmlFileA(script);
     b = getSparseHtmlFileB(script);
     final ArrayList<Object> lines = new ArrayList<Object>();
@@ -83,6 +84,9 @@ public class SideBySideTable extends AbstractPatchContentTable {
     final boolean intraline =
         script.getDiffPrefs().isIntralineDifference()
             && script.hasIntralineDifference();
+
+    allocateTableHeader(script, nc);
+    lines.add(null);
 
     if (script.getFileModeA() != FileMode.FILE
         || script.getFileModeB() != FileMode.FILE) {
@@ -168,6 +172,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
       lines.add(new SkippedLine(lastA, lastB, b.size() - lastB));
     }
     resetHtml(nc);
+    populateTableHeader(script, detail);
     initScript(script);
 
     for (int row = 0; row < lines.size(); row++) {
@@ -176,6 +181,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
         createSkipLine(row, (SkippedLine) lines.get(row));
       }
     }
+  }
+
+  private void populateTableHeader(final PatchScript script,
+      final PatchSetDetail detail) {
+    prepareHeaderWidgets(script, detail);
+    table.setWidget(R_HEAD, A, psListOfHeaderA);
+    table.setWidget(R_HEAD, B, psListOfHeaderB);
   }
 
   private void appendModeLine(final SafeHtmlBuilder nc, final FileMode mode) {
@@ -199,6 +211,16 @@ public class SideBySideTable extends AbstractPatchContentTable {
         break;
     }
     nc.closeTd();
+  }
+
+  @Override
+  protected void initPatchSetListForTableHeader() {
+    psListOfHeaderA =
+        new PatchSetSelectBox(PatchSetSelectBox.Side.A,
+            PatchScreen.Type.SIDE_BY_SIDE);
+    psListOfHeaderB =
+        new PatchSetSelectBox(PatchSetSelectBox.Side.B,
+            PatchScreen.Type.SIDE_BY_SIDE);
   }
 
   @Override
@@ -253,6 +275,39 @@ public class SideBySideTable extends AbstractPatchContentTable {
       row++;
     }
     return row;
+  }
+
+  private void allocateTableHeader(PatchScript script, final SafeHtmlBuilder m) {
+    m.openTr();
+
+    m.openTd();
+    m.addStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.nbsp();
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().fileLine());
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().fileLine());
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().rightmost());
+    m.closeTd();
+
+    m.closeTr();
   }
 
   private void appendSkipLine(final SafeHtmlBuilder m, final int skipCnt) {

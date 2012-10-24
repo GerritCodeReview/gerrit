@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKr3///84\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-24T14:16:26Z",
+      "side": 1,
+      "message": "This sometimes (or always) fails with [1].\nAny ideas?\n\n[1]\n[2012-10-24 16:01:28,115] WARN  org.apache.mina.util.DefaultExceptionMonitor : Unexpected exception.\ncom.google.inject.ProvisionException: Guice provision errors:\n\n1) Error in custom provider, com.google.inject.OutOfScopeException: Not in command/request\n  while locating com.google.gerrit.sshd.SshScope$ContextProvider\n  while locating com.google.gerrit.sshd.SshScope$Context\n\n1 error\n        at com.google.inject.internal.InjectorImpl$4.get(InjectorImpl.java:987)\n        at com.google.gerrit.sshd.SshLog.audit(SshLog.java:419)\n        at com.google.gerrit.sshd.SshLog.onAuthFail(SshLog.java:130)\n        at com.google.gerrit.sshd.SshDaemon$1$1.operationComplete(SshDaemon.java:197)\n        at org.apache.mina.core.future.DefaultIoFuture.notifyListener(DefaultIoFuture.java:377)\n        at org.apache.mina.core.future.DefaultIoFuture.notifyListeners(DefaultIoFuture.java:367)\n        at org.apache.mina.core.future.DefaultIoFuture.setValue(DefaultIoFuture.java:290)\n        at org.apache.mina.core.future.DefaultCloseFuture.setClosed(DefaultCloseFuture.java:47)\n        at org.apache.mina.core.filterchain.DefaultIoFilterChain.fireSessionClosed(DefaultIoFilterChain.java:381)\n        at org.apache.mina.core.service.IoServiceListenerSupport.fireSessionDestroyed(IoServiceListenerSupport.java:24\n        at org.apache.mina.core.polling.AbstractPollingIoProcessor.removeNow(AbstractPollingIoProcessor.java:580)\n        at org.apache.mina.core.polling.AbstractPollingIoProcessor.removeSessions(AbstractPollingIoProcessor.java:540)\n        at org.apache.mina.core.polling.AbstractPollingIoProcessor.access$600(AbstractPollingIoProcessor.java:67)\n        at org.apache.mina.core.polling.AbstractPollingIoProcessor$Processor.run(AbstractPollingIoProcessor.java:1087)\n        at org.apache.mina.util.NamePreservingRunnable.run(NamePreservingRunnable.java:64)\n        at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)\n        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)\n        at java.lang.Thread.run(Thread.java:722)\nCaused by: com.google.inject.OutOfScopeException: Not in command/request\n        at com.google.gerrit.sshd.SshScope.requireContext(SshScope.java:136)\n        at com.google.gerrit.sshd.SshScope.access$200(SshScope.java:33)\n        at com.google.gerrit.sshd.SshScope$ContextProvider.get(SshScope.java:102)\n        at com.google.gerrit.sshd.SshScope$ContextProvider.get(SshScope.java:99)\n        at com.google.inject.internal.BoundProviderFactory.get(BoundProviderFactory.java:55)\n        at com.google.inject.internal.InjectorImpl$4$1.call(InjectorImpl.java:978)\n        at com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1024)\n        at com.google.inject.internal.InjectorImpl$4.get(InjectorImpl.java:974)\n        ... 17 more",
+      "revId": "27ba2ac5e6cfd21307bafa77f721372ad4613ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

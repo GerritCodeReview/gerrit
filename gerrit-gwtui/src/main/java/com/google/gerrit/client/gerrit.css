@@ -693,6 +693,9 @@
   font-weight: bold;
   text-align: center;
 }
+.patchContentTable td.fileColumnHeader.unifiedTableHeader {
+  text-align: left;
+}
 .lineNumber.fileColumnHeader {
   border-bottom: 1px solid trimColor;
 }

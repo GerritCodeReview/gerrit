@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.ldap;
+package com.google.gerrit.realm.ldap.httpd;
 
 import com.google.gerrit.httpd.rpc.RpcServletModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
-import com.google.inject.servlet.ServletModule;
+import com.google.gerrit.realm.RealmServletModule;
 
 /** RPC support related to username/password LDAP authentication. */
-public class LdapAuthModule extends ServletModule {
+public class LdapAuthModule extends RealmServletModule {
   @Override
   protected void configureServlets() {
     serve("/login/*").with(LoginRedirectServlet.class);

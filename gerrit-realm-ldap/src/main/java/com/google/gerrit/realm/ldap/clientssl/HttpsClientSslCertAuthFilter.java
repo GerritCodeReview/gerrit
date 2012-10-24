@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.container;
+package com.google.gerrit.realm.ldap.clientssl;
 
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.realm.account.AccountException;

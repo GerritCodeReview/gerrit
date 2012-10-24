@@ -87,12 +87,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     final GerritConfig config = new GerritConfig();
     realm.customizeGerritConfig(config);
     switch (authConfig.getAuthType()) {
-      case LDAP:
-      case LDAP_BIND:
-        config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
-        config.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));
-        break;
-
       case CUSTOM_EXTENSION:
         config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
         config.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));

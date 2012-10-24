@@ -12,32 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.auth.ldap;
+package com.google.gerrit.realm.ldap;
 
+import static com.google.gerrit.realm.ldap.Helper.LDAP_UUID;
+import static com.google.gerrit.realm.ldap.LdapModule.GROUP_CACHE;
+import static com.google.gerrit.realm.ldap.LdapModule.GROUP_EXIST_CACHE;
 import static com.google.gerrit.server.account.GroupBackends.GROUP_REF_NAME_COMPARATOR;
-import static com.google.gerrit.server.auth.ldap.Helper.LDAP_UUID;
-import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_CACHE;
-import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
-
-import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Sets;
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.data.ParameterizedString;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.GroupMembership;
-import com.google.gerrit.server.account.ListGroupMembership;
-import com.google.gerrit.server.auth.ldap.Helper.LdapSchema;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.name.Named;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -52,6 +32,26 @@ import javax.naming.directory.DirContext;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
 import javax.security.auth.login.LoginException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Sets;
+import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.realm.ldap.Helper.LdapSchema;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.name.Named;
 
 /**
  * Implementation of GroupBackend for the LDAP group system.

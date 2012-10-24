@@ -51,7 +51,6 @@ import com.google.gerrit.server.account.GroupInfoCacheFactory;
 import com.google.gerrit.server.account.IncludingGroupMembership;
 import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.UniversalGroupBackend;
-import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.ChangeCache;
@@ -102,7 +101,8 @@ public class GerritGlobalModule extends FactoryModule {
       case LDAP:
       case LDAP_BIND:
       case CLIENT_SSL_CERT_LDAP:
-        install(new LdapModule());
+        // commented out due to maven circular dependency
+        // install(new LdapModule());
         break;
 
       case CUSTOM_EXTENSION:

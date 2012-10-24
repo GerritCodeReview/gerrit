@@ -51,7 +51,9 @@ Prolog interpreter shell.
 NOTE: It is currently *not possible* to test a Prolog program which implements
 Gerrit submit rules using the link:pgm-prolog-shell.html[prolog-shell] program.
 The reason is that the Prolog environment that exposes facts about a change
-requires a lot of Gerrit server environment to be loaded and running.
+requires a lot of Gerrit server environment to be loaded and running. The easiest
+way to test your submit rule is to connect to a live-server and use
+link:cmd-test-submit-rule.html[test-submit-rule].
 
 SWI-Prolog
 ----------

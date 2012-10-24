@@ -94,6 +94,7 @@ limitations under the License.
     <module>gerrit-realm-development</module>
     <module>gerrit-realm-openid</module>
     <module>gerrit-realm-http</module>
+    <module>gerrit-realm-ldap</module>
   </modules>
 
   <profiles>

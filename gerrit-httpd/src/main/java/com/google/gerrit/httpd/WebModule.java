@@ -20,8 +20,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
-import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
-import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -90,12 +88,14 @@ public class WebModule extends FactoryModule {
         break;
 
       case CLIENT_SSL_CERT_LDAP:
-        install(new HttpsClientSslCertModule());
+// temporary commented out to bypass circular dependency
+//        install(new HttpsClientSslCertModule());
         break;
 
       case LDAP:
       case LDAP_BIND:
-        install(new LdapAuthModule());
+// temporary commented out to bypass circular dependency
+//        install(new LdapAuthModule());
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:

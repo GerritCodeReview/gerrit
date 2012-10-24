@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.container;
+package com.google.gerrit.realm.ldap;
 
-import com.google.inject.servlet.ServletModule;
+import com.google.gerrit.realm.RealmServletModule;
+import com.google.gerrit.realm.ldap.clientssl.HttpsClientSslCertModule;
 
-/** Servlets and support related to CLIENT_SSL_CERT_LDAP authentication. */
-public class HttpsClientSslCertModule extends ServletModule {
+public class ClientSslCertLdapRealmProvider extends LdapRealmProvider {
+
+  public static final String NAME = "CLIENT_SSL_CERT_LDAP";
+
   @Override
-  protected void configureServlets() {
-    filter("/").through(HttpsClientSslCertAuthFilter.class);
-    serve("/login/*").with(HttpsClientSslCertLoginServlet.class);
+  public String getName() {
+    return NAME;
+  }
+
+  @Override
+  public RealmServletModule getServletModule() {
+    return new HttpsClientSslCertModule();
   }
 }

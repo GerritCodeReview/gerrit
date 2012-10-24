@@ -12,22 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.auth.ldap;
-
-import com.google.common.base.Throwables;
-import com.google.common.cache.Cache;
-import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.data.ParameterizedString;
-import com.google.gerrit.realm.account.AccountException;
-import com.google.gerrit.realm.config.ConfigUtil;
-import com.google.gerrit.realm.config.GerritServerConfig;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
-
-import org.eclipse.jgit.lib.Config;
+package com.google.gerrit.realm.ldap;
 
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
@@ -53,6 +38,22 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
+
+import org.eclipse.jgit.lib.Config;
+
+import com.google.common.base.Throwables;
+import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.realm.account.AccountException;
+import com.google.gerrit.realm.config.ConfigUtil;
+import com.google.gerrit.realm.config.GerritServerConfig;
+import com.google.gerrit.realm.ldap.LdapQuery.Result;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 @Singleton class Helper {
   static final String LDAP_UUID = "ldap:";
@@ -165,7 +166,7 @@ import javax.security.auth.login.LoginException;
     return ldapSchema;
   }
 
-  LdapQuery.Result findAccount(final Helper.LdapSchema schema,
+  Result findAccount(final Helper.LdapSchema schema,
       final DirContext ctx, final String username) throws NamingException,
       AccountException {
     final HashMap<String, String> params = new HashMap<String, String>();

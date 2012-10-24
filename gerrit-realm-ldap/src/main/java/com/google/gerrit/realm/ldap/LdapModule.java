@@ -12,24 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.auth.ldap;
+package com.google.gerrit.realm.ldap;
 
 import static java.util.concurrent.TimeUnit.HOURS;
+
+import java.util.Set;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.realm.Realm;
-import com.google.gerrit.realm.cache.CacheModule;
+import com.google.gerrit.realm.cache.RealmCacheModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 
-import java.util.Set;
-
-public class LdapModule extends CacheModule {
+public class LdapModule extends RealmCacheModule {
   static final String USERNAME_CACHE = "ldap_usernames";
   static final String GROUP_CACHE = "ldap_groups";
   static final String GROUP_EXIST_CACHE = "ldap_group_existence";

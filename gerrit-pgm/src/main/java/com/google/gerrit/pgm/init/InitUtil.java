@@ -128,24 +128,6 @@ class InitUtil {
     }
   }
 
-  static String dnOf(String name) {
-    if (name != null) {
-      int p = name.indexOf("://");
-      if (0 < p) {
-        name = name.substring(p + 3);
-      }
-
-      p = name.indexOf(".");
-      if (0 < p) {
-        name = name.substring(p + 1);
-        name = "DC=" + name.replaceAll("\\.", ",DC=");
-      } else {
-        name = null;
-      }
-    }
-    return name;
-  }
-
   static String domainOf(String name) {
     if (name != null) {
       int p = name.indexOf("://");

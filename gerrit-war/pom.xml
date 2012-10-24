@@ -130,6 +130,12 @@ limitations under the License.
       <artifactId>jetty-servlet</artifactId>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-realm-ldap</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <build>

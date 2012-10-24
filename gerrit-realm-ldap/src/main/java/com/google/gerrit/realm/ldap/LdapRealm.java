@@ -12,9 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.auth.ldap;
+package com.google.gerrit.realm.ldap;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_GERRIT;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+
+import javax.naming.CompositeName;
+import javax.naming.Name;
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
+import javax.security.auth.login.LoginException;
+
+import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
@@ -39,26 +59,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
-
-import javax.naming.CompositeName;
-import javax.naming.Name;
-import javax.naming.NamingException;
-import javax.naming.directory.DirContext;
-import javax.security.auth.login.LoginException;
 
 @Singleton
 class LdapRealm implements Realm {
@@ -284,7 +284,11 @@ class LdapRealm implements Realm {
   }
 
   @Override
-  public void customizeGerritConfig(GerritConfig gerritConfig) {
+  public void customizeGerritConfig(GerritConfig cfg) {
+    // case LDAP:
+    // case LDAP_BIND:
+    cfg.setRegisterUrl(config.getString("auth", null, "registerurl"));
+    cfg.setEditFullNameUrl(config.getString("auth", null, "editFullNameUrl"));
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {

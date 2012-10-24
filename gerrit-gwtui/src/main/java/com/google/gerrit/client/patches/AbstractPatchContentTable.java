@@ -51,6 +51,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -63,6 +64,8 @@ import java.util.List;
 public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     implements CommentEditorContainer, FocusHandler, BlurHandler {
   public static final int R_HEAD = 0;
+  static final short FILE_SIDE_A = (short) 0;
+  static final short FILE_SIDE_B = (short) 1;
   protected PatchTable fileList;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
@@ -71,6 +74,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected boolean onlyOneHunk;
   protected PatchSetSelectBox psListOfHeaderA;
   protected PatchSetSelectBox psListOfHeaderB;
+  protected Image iconA;
+  protected Image iconB;
 
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
@@ -109,12 +114,33 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     table.setStyleName(Gerrit.RESOURCES.css().patchContentTable());
   }
 
+  abstract void createFileCommentEditorOnSideA();
+
+  abstract void createFileCommentEditorOnSideB();
+
   abstract void initPatchSetListForTableHeader();
 
   protected void prepareHeaderWidgets(PatchScript script, PatchSetDetail detail) {
     initPatchSetListForTableHeader();
     psListOfHeaderA.display(detail, script, patchKey, idSideA, idSideB);
     psListOfHeaderB.display(detail, script, patchKey, idSideA, idSideB);
+
+    iconA = new Image(Gerrit.RESOURCES.addFileComment());
+    iconA.setTitle(PatchUtil.C.addFileComment());
+    iconA.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        createFileCommentEditorOnSideA();
+      }
+    });
+    iconB = new Image(Gerrit.RESOURCES.addFileComment());
+    iconB.setTitle(PatchUtil.C.addFileComment());
+    iconB.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        createFileCommentEditorOnSideB();
+      }
+    });
   }
 
   public void notifyDraftDelta(final int delta) {
@@ -391,7 +417,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected void createCommentEditor(final int suggestRow, final int column,
       final int line, final short file) {
     if (Gerrit.isSignedIn()) {
-      if (1 <= line) {
+      if (R_HEAD <= line) {
         final Patch.Key parentKey;
         final short side;
         switch (file) {
@@ -424,6 +450,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       Gerrit.doSignIn(History.getToken());
     }
   }
+
+  abstract void insertFileCommentRow(final int row);
 
   private CommentEditorPanel createCommentEditor(final int suggestRow,
       final int column, final PatchLineComment newComment) {
@@ -484,7 +512,11 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       }
     }
     if (needInsert || !isCommentRow) {
-      insertRow(row);
+      if (newComment.getLine() == R_HEAD) {
+        insertFileCommentRow(row);
+      } else {
+        insertRow(row);
+      }
       styleCommentRow(row);
     }
     table.setWidget(row, column, ed);
@@ -693,6 +725,9 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
           // Find out which cell was actually clicked.
           Element td = getEventTargetCell(event);
           if (td == null) {
+            return;
+          }
+          if (rowOf(td) == R_HEAD) {
             return;
           }
           onCellDoubleClick(rowOf(td), columnOf(td));

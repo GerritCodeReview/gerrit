@@ -206,27 +206,10 @@ public final class GerritLauncher {
           final ZipEntry ze = e.nextElement();
           if (ze.isDirectory()) {
             continue;
-          }
-
-          if (ze.getName().startsWith("WEB-INF/lib/")) {
-            String name = ze.getName().substring("WEB-INF/lib/".length());
-            final File tmp = createTempFile(safeName(ze), ".jar");
-            final FileOutputStream out = new FileOutputStream(tmp);
-            try {
-              final InputStream in = zf.getInputStream(ze);
-              try {
-                final byte[] buf = new byte[4096];
-                int n;
-                while ((n = in.read(buf, 0, buf.length)) > 0) {
-                  out.write(buf, 0, n);
-                }
-              } finally {
-                in.close();
-              }
-            } finally {
-              out.close();
-            }
-            jars.put(name, tmp.toURI().toURL());
+          } else if (ze.getName().startsWith("WEB-INF/lib/")) {
+            extractJar(zf, ze, jars);
+          } else if (ze.getName().startsWith("WEB-INF/pgm-lib/")) {
+            extractJar(zf, ze, jars);
           }
         }
       } finally {
@@ -259,6 +242,31 @@ public final class GerritLauncher {
     return new URLClassLoader(
         jars.values().toArray(new URL[jars.size()]),
         parent);
+  }
+
+  private static void extractJar(ZipFile zf, ZipEntry ze,
+      SortedMap<String, URL> jars) throws IOException {
+    File tmp = createTempFile(safeName(ze), ".jar");
+    FileOutputStream out = new FileOutputStream(tmp);
+    try {
+      InputStream in = zf.getInputStream(ze);
+      try {
+        byte[] buf = new byte[4096];
+        int n;
+        while ((n = in.read(buf, 0, buf.length)) > 0) {
+          out.write(buf, 0, n);
+        }
+      } finally {
+        in.close();
+      }
+    } finally {
+      out.close();
+    }
+
+    String name = ze.getName();
+    jars.put(
+        name.substring(name.lastIndexOf('/'), name.length()),
+        tmp.toURI().toURL());
   }
 
   private static void move(SortedMap<String, URL> jars,

@@ -41,6 +41,12 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-gwtui</artifactId>
       <version>${project.version}</version>
@@ -99,6 +105,18 @@ limitations under the License.
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-pgm</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-servlet</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
@@ -135,8 +153,45 @@ limitations under the License.
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-servlet-api</id>
+            <configuration>
+              <includeGroupIds>org.apache.tomcat,org.eclipse.jetty</includeGroupIds>
+              <excludeArtifactIds>servlet-api</excludeArtifactIds>
+            </configuration>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
+          <execution>
+            <id>copy-servlet-api</id>
+            <phase>process-classes</phase>
+            <configuration>
+              <target>
+                <property name="src" location="${project.build.directory}/dependency" />
+                <property name="dst" location="${project.build.directory}/${project.build.finalName}/WEB-INF/pgm-lib" />
+
+                <mkdir dir="${dst}" />
+                <copy overwrite="true" todir="${dst}">
+                  <fileset dir="${src}">
+                    <include name="*.jar" />
+                  </fileset>
+                </copy>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
           <execution>
             <id>copy-license</id>
             <phase>process-classes</phase>

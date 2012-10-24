@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.container;
+package com.google.gerrit.realm.http.server;
 
-import com.google.inject.servlet.ServletModule;
+import com.google.gerrit.realm.RealmServletModule;
 
 /** Servlets and support related to HTTP authentication. */
-public class HttpAuthModule extends ServletModule {
+public class HttpAuthModule extends RealmServletModule {
   @Override
   protected void configureServlets() {
     filter("/").through(HttpAuthFilter.class);

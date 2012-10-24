@@ -28,6 +28,7 @@ import com.google.gerrit.prettify.common.EditList.Hunk;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -49,6 +50,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         }
       };
 
+  // Cursor
   protected int rowOfTableHeaderB;
 
   @Override
@@ -68,11 +70,60 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   @Override
+  protected void updateCursor(final PatchLineComment newComment) {
+    if (newComment.getLine() == R_HEAD) {
+      final PatchSet.Id psId =
+          newComment.getKey().getParentKey().getParentKey();
+      switch (newComment.getSide()) {
+        case FILE_SIDE_A:
+          if (idSideA == null && idSideB.equals(psId)) {
+            rowOfTableHeaderB++;
+            return;
+          }
+          break;
+        case FILE_SIDE_B:
+          if (idSideA != null && idSideA.equals(psId)) {
+            rowOfTableHeaderB++;
+            return;
+          }
+          if (idSideB.equals(psId)) {
+            return;
+          }
+      }
+    }
+  }
+
+  @Override
   protected void onCellSingleClick(int row, int column) {
     super.onCellSingleClick(row, column);
     if (column == 1 || column == 2) {
       if (!"".equals(table.getText(row, column))) {
         onCellDoubleClick(row, column);
+      }
+    }
+  }
+
+  @Override
+  public void remove(CommentEditorPanel panel) {
+    super.remove(panel);
+    if (panel.getComment().getLine() == AbstractPatchContentTable.R_HEAD) {
+      final PatchSet.Id psId =
+          panel.getComment().getKey().getParentKey().getParentKey();
+      switch (panel.getComment().getSide()) {
+        case FILE_SIDE_A:
+          if (idSideA == null && idSideB.equals(psId)) {
+            rowOfTableHeaderB--;
+            return;
+          }
+          break;
+        case FILE_SIDE_B:
+          if (idSideA != null && idSideA.equals(psId)) {
+            rowOfTableHeaderB--;
+            return;
+          }
+          if (idSideB.equals(psId)) {
+            return;
+          }
       }
     }
   }
@@ -97,6 +148,15 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     nc.closeElement("img");
   }
 
+  protected void createFileCommentEditorOnSideA() {
+    createCommentEditor(R_HEAD + 1, PC, R_HEAD, FILE_SIDE_A);
+    return;
+  }
+
+  protected void createFileCommentEditorOnSideB() {
+    createCommentEditor(rowOfTableHeaderB + 1, PC, R_HEAD, FILE_SIDE_B);
+  }
+
   private void populateTableHeader(final PatchScript script,
       final PatchSetDetail detail) {
     initHeaders(script, detail);
@@ -106,6 +166,14 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         Gerrit.RESOURCES.css().unifiedTableHeader());
     table.getFlexCellFormatter().addStyleName(rowOfTableHeaderB, PC,
         Gerrit.RESOURCES.css().unifiedTableHeader());
+
+    // Add icons to lineNumber column header
+    if (headerSideA.isFile) {
+      table.setWidget(R_HEAD, 1, iconA);
+    }
+    if (headerSideB.isFile) {
+      table.setWidget(rowOfTableHeaderB, 2, iconB);
+    }
   }
 
   private void allocateTableHeader(SafeHtmlBuilder nc) {
@@ -193,7 +261,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           appendLineText(nc, syntaxHighlighting, DELETE, a, hunk.getCurA());
           closeLine(nc);
           hunk.incA();
-          lines.add(new PatchLine(DELETE, hunk.getCurA(), 0));
+          lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
           if (a.size() == hunk.getCurA()
               && script.getA().isMissingNewlineAtEnd()) {
             appendNoLF(nc);
@@ -206,7 +274,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           appendLineText(nc, syntaxHighlighting, INSERT, b, hunk.getCurB());
           closeLine(nc);
           hunk.incB();
-          lines.add(new PatchLine(INSERT, 0, hunk.getCurB()));
+          lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
           if (b.size() == hunk.getCurB()
               && script.getB().isMissingNewlineAtEnd()) {
             appendNoLF(nc);
@@ -253,10 +321,25 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
     final ArrayList<PatchLineComment> all = new ArrayList<PatchLineComment>();
     for (int row = 0; row < table.getRowCount();) {
-      if (getRowItem(row) instanceof PatchLine) {
+      final List<PatchLineComment> fora;
+      final List<PatchLineComment> forb;
+      if (row == R_HEAD) {
+        fora = cd.getForA(R_HEAD);
+        forb = cd.getForB(R_HEAD);
+        row++;
+
+        if (!fora.isEmpty()) {
+          row = insert(fora, row, expandComments);
+        }
+        rowOfTableHeaderB = row;
+        if (!forb.isEmpty()) {
+          row++;// Skip the Header of sideB.
+          row = insert(forb, row, expandComments);
+        }
+      } else if (getRowItem(row) instanceof PatchLine) {
         final PatchLine pLine = (PatchLine) getRowItem(row);
-        final List<PatchLineComment> fora = cd.getForA(pLine.getLineA());
-        final List<PatchLineComment> forb = cd.getForB(pLine.getLineB());
+        fora = cd.getForA(pLine.getLineA());
+        forb = cd.getForB(pLine.getLineB());
         row++;
 
         if (!fora.isEmpty() && !forb.isEmpty()) {
@@ -274,19 +357,23 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         }
       } else {
         row++;
+        continue;
       }
     }
   }
 
+  private void defaultStyle(final int row, final CellFormatter fmt) {
+    fmt.addStyleName(row, PC - 2, Gerrit.RESOURCES.css().lineNumber());
+    fmt.addStyleName(row, PC - 2, Gerrit.RESOURCES.css().rightBorder());
+    fmt.addStyleName(row, PC - 1, Gerrit.RESOURCES.css().lineNumber());
+    fmt.addStyleName(row, PC, Gerrit.RESOURCES.css().diffText());
+  }
 
   @Override
   protected void insertRow(final int row) {
     super.insertRow(row);
     final CellFormatter fmt = table.getCellFormatter();
-    fmt.addStyleName(row, PC - 2, Gerrit.RESOURCES.css().lineNumber());
-    fmt.addStyleName(row, PC - 2, Gerrit.RESOURCES.css().rightBorder());
-    fmt.addStyleName(row, PC - 1, Gerrit.RESOURCES.css().lineNumber());
-    fmt.addStyleName(row, PC, Gerrit.RESOURCES.css().diffText());
+    defaultStyle(row, fmt);
   }
 
   @Override
@@ -297,11 +384,32 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   private int insert(final List<PatchLineComment> in, int row, boolean expandComment) {
     for (Iterator<PatchLineComment> ci = in.iterator(); ci.hasNext();) {
       final PatchLineComment c = ci.next();
-      insertRow(row);
+      if (c.getLine() == R_HEAD) {
+        insertFileCommentRow(row);
+      } else {
+        insertRow(row);
+      }
       bindComment(row, PC, c, !ci.hasNext(), expandComment);
       row++;
     }
     return row;
+  }
+
+  @Override
+  protected void insertFileCommentRow(final int row) {
+    table.insertRow(row);
+    final CellFormatter fmt = table.getCellFormatter();
+
+    fmt.addStyleName(row, C_ARROW, //
+        Gerrit.RESOURCES.css().iconCellOfFileCommentRow());
+    defaultStyle(row, fmt);
+
+    fmt.addStyleName(row, C_ARROW, //
+        Gerrit.RESOURCES.css().cellsNextToFileComment());
+    fmt.addStyleName(row, PC - 2, //
+        Gerrit.RESOURCES.css().cellsNextToFileComment());
+    fmt.addStyleName(row, PC - 1, //
+        Gerrit.RESOURCES.css().cellsNextToFileComment());
   }
 
   private void appendFileHeader(final SafeHtmlBuilder m, final String line) {
@@ -463,17 +571,5 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.addStyleName(Gerrit.RESOURCES.css().rightBorder());
     m.closeTd();
-  }
-
-  @Override
-  void createFileCommentEditorOnSideA() {
-  }
-
-  @Override
-  void createFileCommentEditorOnSideB() {
-  }
-
-  @Override
-  void insertFileCommentRow(int row) {
   }
 }

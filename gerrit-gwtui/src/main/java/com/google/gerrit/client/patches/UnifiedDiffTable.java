@@ -22,6 +22,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
+import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.EditList.Hunk;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
@@ -47,6 +48,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           return o1.getWrittenOn().compareTo(o2.getWrittenOn());
         }
       };
+
+  protected int rowOfTableHeaderB;
 
   @Override
   protected void onCellDoubleClick(final int row, final int column) {
@@ -93,11 +96,37 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     nc.closeElement("img");
   }
 
+  private void populateTableHeader(final PatchScript script,
+      final PatchSetDetail detail) {
+    prepareHeaderWidgets(script, detail);
+    table.setWidget(R_HEAD, PC, psListOfHeaderA);
+    table.setWidget(rowOfTableHeaderB, PC, psListOfHeaderB);
+    table.getFlexCellFormatter().addStyleName(R_HEAD, PC,
+        Gerrit.RESOURCES.css().unifiedTableHeader());
+    table.getFlexCellFormatter().addStyleName(rowOfTableHeaderB, PC,
+        Gerrit.RESOURCES.css().unifiedTableHeader());
+  }
+
+  private void allocateTableHeader(SafeHtmlBuilder nc) {
+    rowOfTableHeaderB = 1;
+    for (int i = R_HEAD; i <= rowOfTableHeaderB; i++) {
+      openTableHeaderLine(nc);
+      padLineNumberOnTableHeaderForSideA(nc);
+      padLineNumberOnTableHeaderForSideB(nc);
+      nc.openTd();
+      nc.setStyleName(Gerrit.RESOURCES.css().fileLine());
+      nc.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+      nc.closeTd();
+      closeLine(nc);
+    }
+  }
+
   @Override
-  protected void render(final PatchScript script) {
+  protected void render(final PatchScript script, final PatchSetDetail detail) {
     final SparseHtmlFile a = getSparseHtmlFileA(script);
     final SparseHtmlFile b = getSparseHtmlFileB(script);
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
+    allocateTableHeader(nc);
 
     // Display the patch header
     for (final String line : script.getPatchHeader()) {
@@ -185,6 +214,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       }
     }
     resetHtml(nc);
+    populateTableHeader(script, detail);
     initScript(script);
 
     int row = script.getPatchHeader().size();
@@ -256,6 +286,16 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     fmt.addStyleName(row, PC - 2, Gerrit.RESOURCES.css().rightBorder());
     fmt.addStyleName(row, PC - 1, Gerrit.RESOURCES.css().lineNumber());
     fmt.addStyleName(row, PC, Gerrit.RESOURCES.css().diffText());
+  }
+
+  @Override
+  protected void initPatchSetListForTableHeader() {
+    psListOfHeaderA =
+        new PatchSetSelectBox(PatchSetSelectBox.Side.A,
+            PatchScreen.Type.UNIFIED);
+    psListOfHeaderB =
+        new PatchSetSelectBox(PatchSetSelectBox.Side.B,
+            PatchScreen.Type.UNIFIED);
   }
 
   private int insert(final List<PatchLineComment> in, int row, boolean expandComment) {
@@ -374,6 +414,14 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.closeTd();
   }
 
+  private void openTableHeaderLine(final SafeHtmlBuilder m) {
+    m.openTr();
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.closeTd();
+  }
+
   private void closeLine(final SafeHtmlBuilder m) {
     m.closeTr();
   }
@@ -403,6 +451,21 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.addStyleName(Gerrit.RESOURCES.css().rightBorder());
     m.append(SafeHtml.asis("<a href=\"javascript:void(0)\">"+ (idx + 1) + "</a>"));
+    m.closeTd();
+  }
+
+  private void padLineNumberOnTableHeaderForSideB(final SafeHtmlBuilder m) {
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.closeTd();
+  }
+
+  private void padLineNumberOnTableHeaderForSideA(final SafeHtmlBuilder m) {
+    m.openTd();
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().rightBorder());
     m.closeTd();
   }
 }

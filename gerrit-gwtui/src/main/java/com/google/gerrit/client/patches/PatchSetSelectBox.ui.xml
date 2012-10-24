@@ -17,60 +17,37 @@ limitations under the License.
 
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
     xmlns:g='urn:import:com.google.gwt.user.client.ui'>
-
-
   <ui:with field='res' type='com.google.gerrit.client.GerritResources'/>
-  <ui:with field='cons' type='com.google.gerrit.client.patches.PatchConstants'/>
   <ui:style type='com.google.gerrit.client.patches.PatchSetSelectBox.BoxStyle'>
     @eval selectionColor com.google.gerrit.client.Gerrit.getTheme().selectionColor;
-    @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
     @eval backgroundColor com.google.gerrit.client.Gerrit.getTheme().backgroundColor;
 
-    .wrapper {
-      width: 100%;
-      text-align: center;
-      font-size: 0; /* inline-block spacing fix */
-    }
-
     .linkPanel {
-      display: inline-block;
+      font-size: 12px;
+      white-space: normal;
     }
 
     .linkPanel > div {
+      padding-left: 3px;
+      padding-right: 3px;
+      vertical-align: middle;
       display: inline-block;
-      float: left;
-    }
-
-    .linkPanel {
-      overflow: hidden; /* div clear fix */
-      font-size: 12px;
-    }
-
-    .linkPanel > a {
-      padding: 3px;
-      display: inline-block;
-      text-decoration: none;
-      float: left;
     }
 
     .patchSetLabel {
       font-weight: bold;
-      float: left;
-      padding: 3px;
     }
 
     .sideMarker {
-      padding: 3px;
+      font-family: monospace;
     }
 
-    .downloadLink {
-      float: left;
-      padding: 1px !important;
-      margin-left: 3px;
-    }
-
-    .downloadLink > a {
-      text-size: 0;
+    .linkPanel > a {
+      padding-left: 3px;
+      padding-right: 3px;
+      text-decoration: none;
+      vertical-align: middle;
+      display: inline-block;
     }
 
     .selected {
@@ -78,21 +55,13 @@ limitations under the License.
       background-color: selectionColor;
     }
 
-    .sideMarker {
-      font-family: monospace;
-      float: left;
-    }
-
     .hidden {
       visibility: hidden;
     }
   </ui:style>
 
-  <g:HTMLPanel styleName='wrapper'>
-    <g:HTMLPanel styleName='{style.linkPanel}' ui:field='linkPanel'>
-      <div class='{style.patchSetLabel}'><ui:text from="{cons.patchSet}" /></div>
-      <div class='{style.sideMarker}' ui:field='sideMarker'></div>
-    </g:HTMLPanel>
+  <g:HTMLPanel>
+    <g:HTMLPanel styleName='{style.linkPanel}' ui:field='linkPanel'/>
   </g:HTMLPanel>
 </ui:UiBinder>
 

@@ -48,4 +48,7 @@ public interface GerritResources extends ClientBundle {
 
   @Source("queryProjectLink.png")
   public ImageResource queryProjectLink();
+
+  @Source("addFileComment.png")
+  public ImageResource addFileComment();
 }

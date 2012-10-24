@@ -40,7 +40,6 @@ import org.eclipse.jgit.diff.Edit;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class SideBySideTable extends AbstractPatchContentTable {
   private static final int A = 2;
@@ -49,6 +48,16 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   private SparseHtmlFile a;
   private SparseHtmlFile b;
+
+  protected void createFileCommentEditorOnSideA() {
+    createCommentEditor(R_HEAD + 1, A, R_HEAD, FILE_SIDE_A);
+    return;
+  }
+
+  protected void createFileCommentEditorOnSideB() {
+    createCommentEditor(R_HEAD + 1, B, R_HEAD, FILE_SIDE_B);
+    return;
+  }
 
   @Override
   protected void onCellDoubleClick(final int row, int column) {
@@ -159,9 +168,9 @@ public class SideBySideTable extends AbstractPatchContentTable {
           if (del && ins) {
             lines.add(new PatchLine(REPLACE, hunk.getCurA(), hunk.getCurB()));
           } else if (del) {
-            lines.add(new PatchLine(DELETE, hunk.getCurA(), 0));
+            lines.add(new PatchLine(DELETE, hunk.getCurA(), -1));
           } else if (ins) {
-            lines.add(new PatchLine(INSERT, 0, hunk.getCurB()));
+            lines.add(new PatchLine(INSERT, -1, hunk.getCurB()));
           }
         }
       }
@@ -189,6 +198,14 @@ public class SideBySideTable extends AbstractPatchContentTable {
     initHeaders(script, detail);
     table.setWidget(R_HEAD, A, headerSideA);
     table.setWidget(R_HEAD, B, headerSideB);
+
+    // Populate icons to lineNumber column header.
+    if (headerSideA.isFile()) {
+      table.setWidget(R_HEAD, A - 1, iconA);
+    }
+    if (headerSideB.isFile()) {
+      table.setWidget(R_HEAD, B + 1, iconB);
+    }
   }
 
   private void appendModeLine(final SafeHtmlBuilder nc, final FileMode mode) {
@@ -227,35 +244,41 @@ public class SideBySideTable extends AbstractPatchContentTable {
     setAccountInfoCache(cd.getAccounts());
 
     for (int row = 0; row < table.getRowCount();) {
-      if (getRowItem(row) instanceof PatchLine) {
+      final Iterator<PatchLineComment> ai;
+      final Iterator<PatchLineComment> bi;
+
+      if (row == R_HEAD) {
+        ai = cd.getForA(R_HEAD).iterator();
+        bi = cd.getForB(R_HEAD).iterator();
+      } else if (getRowItem(row) instanceof PatchLine) {
         final PatchLine pLine = (PatchLine) getRowItem(row);
-        final List<PatchLineComment> fora = cd.getForA(pLine.getLineA());
-        final List<PatchLineComment> forb = cd.getForB(pLine.getLineB());
-        row++;
-
-        final Iterator<PatchLineComment> ai = fora.iterator();
-        final Iterator<PatchLineComment> bi = forb.iterator();
-        while (ai.hasNext() && bi.hasNext()) {
-          final PatchLineComment ac = ai.next();
-          final PatchLineComment bc = bi.next();
-          insertRow(row);
-          bindComment(row, A, ac, !ai.hasNext(), expandComments);
-          bindComment(row, B, bc, !bi.hasNext(), expandComments);
-          row++;
-        }
-
-        row = finish(ai, row, A, expandComments);
-        row = finish(bi, row, B, expandComments);
+        ai = cd.getForA(pLine.getLineA()).iterator();
+        bi = cd.getForB(pLine.getLineB()).iterator();
       } else {
         row++;
+        continue;
       }
+
+      row++;
+      while (ai.hasNext() && bi.hasNext()) {
+        final PatchLineComment ac = ai.next();
+        final PatchLineComment bc = bi.next();
+        if (ac.getLine() == R_HEAD) {
+          insertFileCommentRow(row);
+        } else {
+          insertRow(row);
+        }
+        bindComment(row, A, ac, !ai.hasNext(), expandComments);
+        bindComment(row, B, bc, !bi.hasNext(), expandComments);
+        row++;
+      }
+
+      row = finish(ai, row, A, expandComments);
+      row = finish(bi, row, B, expandComments);
     }
   }
 
-  @Override
-  protected void insertRow(final int row) {
-    super.insertRow(row);
-    final CellFormatter fmt = table.getCellFormatter();
+  private void defaultStyle(final int row, final CellFormatter fmt) {
     fmt.addStyleName(row, A - 1, Gerrit.RESOURCES.css().lineNumber());
     fmt.addStyleName(row, A, Gerrit.RESOURCES.css().diffText());
     fmt.addStyleName(row, B, Gerrit.RESOURCES.css().diffText());
@@ -263,10 +286,36 @@ public class SideBySideTable extends AbstractPatchContentTable {
     fmt.addStyleName(row, B + 1, Gerrit.RESOURCES.css().rightmost());
   }
 
+  @Override
+  protected void insertRow(final int row) {
+    super.insertRow(row);
+    final CellFormatter fmt = table.getCellFormatter();
+    defaultStyle(row, fmt);
+  }
+
+  @Override
+  protected void insertFileCommentRow(final int row) {
+    table.insertRow(row);
+    final CellFormatter fmt = table.getCellFormatter();
+    fmt.addStyleName(row, C_ARROW, Gerrit.RESOURCES.css().iconCellOfFileCommentRow());
+    defaultStyle(row, fmt);
+
+    fmt.addStyleName(row, C_ARROW, //
+        Gerrit.RESOURCES.css().cellsNextToFileComment());
+    fmt.addStyleName(row, A - 1, //
+        Gerrit.RESOURCES.css().cellsNextToFileComment());
+    fmt.addStyleName(row, B + 1, //
+        Gerrit.RESOURCES.css().cellsNextToFileComment());
+  }
+
   private int finish(final Iterator<PatchLineComment> i, int row, final int col, boolean expandComment) {
     while (i.hasNext()) {
       final PatchLineComment c = i.next();
-      insertRow(row);
+      if (c.getLine() == R_HEAD) {
+        insertFileCommentRow(row);
+      } else {
+        insertRow(row);
+      }
       bindComment(row, col, c, !i.hasNext(), expandComment);
       row++;
     }

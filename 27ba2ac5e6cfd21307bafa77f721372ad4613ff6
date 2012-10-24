@@ -16,6 +16,24 @@
       "revId": "27ba2ac5e6cfd21307bafa77f721372ad4613ff6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKr3///8o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-10-24T14:49:53Z",
+      "side": 1,
+      "message": "[SshScope]\n133 private static Context requireContext() { \n134 final Context ctx \u003d current.get(); \n135 if (ctx \u003d\u003d null) { \n136 throw new OutOfScopeException(\"Not in command/request\"); \n137 } \n138 return ctx; \n139 }\n\nThink the problem is when stale SSH sessions are closed as \"unauthenticated\" but outside a real SSH session.\nAs SSH *has* to be authenticated using PubKey ... how this is possible to happen ? ... network timeout ?",
+      "parentUuid": "AAAKr3///84\u003d",
+      "revId": "27ba2ac5e6cfd21307bafa77f721372ad4613ff6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

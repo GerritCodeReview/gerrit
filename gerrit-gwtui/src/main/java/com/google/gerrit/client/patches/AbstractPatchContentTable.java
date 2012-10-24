@@ -26,6 +26,7 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
+import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.PrettyFormatter;
 import com.google.gerrit.prettify.common.SparseFileContent;
@@ -61,12 +62,15 @@ import java.util.List;
 
 public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     implements CommentEditorContainer, FocusHandler, BlurHandler {
+  public static final int R_HEAD = 0;
   protected PatchTable fileList;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
   protected PatchSet.Id idSideA;
   protected PatchSet.Id idSideB;
   protected boolean onlyOneHunk;
+  protected PatchSetSelectBox psListOfHeaderA;
+  protected PatchSetSelectBox psListOfHeaderB;
 
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
@@ -103,6 +107,14 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     }
 
     table.setStyleName(Gerrit.RESOURCES.css().patchContentTable());
+  }
+
+  abstract void initPatchSetListForTableHeader();
+
+  protected void prepareHeaderWidgets(PatchScript script, PatchSetDetail detail) {
+    initPatchSetListForTableHeader();
+    psListOfHeaderA.display(detail, script, patchKey, idSideA, idSideB);
+    psListOfHeaderB.display(detail, script, patchKey, idSideA, idSideB);
   }
 
   public void notifyDraftDelta(final int delta) {
@@ -167,12 +179,12 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   public void display(final Patch.Key k, final PatchSet.Id a,
-      final PatchSet.Id b, final PatchScript s) {
+      final PatchSet.Id b, final PatchScript s, final PatchSetDetail d) {
     patchKey = k;
     idSideA = a;
     idSideB = b;
 
-    render(s);
+    render(s, d);
   }
 
   protected SparseHtmlFile getSparseHtmlFileA(PatchScript s) {
@@ -205,7 +217,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     return f;
   }
 
-  protected abstract void render(PatchScript script);
+  protected abstract void render(PatchScript script, final PatchSetDetail detail);
 
   protected abstract void onInsertComment(PatchLine pl);
 

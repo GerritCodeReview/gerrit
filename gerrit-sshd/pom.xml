@@ -44,6 +44,11 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>org.apache.mina</groupId>
+      <artifactId>mina-core</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd-core</artifactId>
     </dependency>

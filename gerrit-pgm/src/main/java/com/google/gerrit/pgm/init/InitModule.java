@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.realm.guice.RealmProvidersModule;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.binder.LinkedBindingBuilder;
@@ -23,8 +24,10 @@ import java.lang.annotation.Annotation;
 
 /** Injection configuration for the site initialization process. */
 public class InitModule extends FactoryModule {
+
   @Override
   protected void configure() {
+    install(new RealmProvidersModule());
     bind(SitePaths.class);
     bind(InitFlags.class);
     bind(Libraries.class);

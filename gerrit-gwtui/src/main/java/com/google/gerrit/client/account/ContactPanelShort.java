@@ -22,7 +22,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.FieldName;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.ContactInformation;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -285,7 +284,8 @@ class ContactPanelShort extends Composite {
         Util.ACCOUNT_SEC.registerEmail(addr, new GerritCallback<Account>() {
           public void onSuccess(Account currentUser) {
             box.hide();
-            if (Gerrit.getConfig().getAuthType() == AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+            if ("DEVELOPMENT_BECOME_ANY_ACCOUNT".equalsIgnoreCase(Gerrit
+                .getConfig().getAuthType())) {
               currentEmail = addr;
               if (emailPick.getItemCount() == 0) {
                 onSaveSuccess(currentUser);
@@ -325,7 +325,8 @@ class ContactPanelShort extends Composite {
     buttons.add(register);
     buttons.add(cancel);
 
-    if (Gerrit.getConfig().getAuthType() != AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT) {
+    if ("DEVELOPMENT_BECOME_ANY_ACCOUNT".equalsIgnoreCase(Gerrit.getConfig()
+        .getAuthType())) {
       body.add(new HTML(Util.C.descRegisterNewEmail()));
     }
     body.add(inEmail);

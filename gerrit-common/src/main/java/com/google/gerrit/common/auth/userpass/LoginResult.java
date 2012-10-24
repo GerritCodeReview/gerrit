@@ -14,23 +14,22 @@
 
 package com.google.gerrit.common.auth.userpass;
 
-import com.google.gerrit.reviewdb.client.AuthType;
 
 public class LoginResult {
   public boolean success;
   public boolean isNew;
 
-  protected AuthType authType;
+  protected String authType;
   protected Error error;
 
   protected LoginResult() {
   }
 
-  public LoginResult(final AuthType authType) {
+  public LoginResult(final String authType) {
     this.authType = authType;
   }
 
-  public AuthType getAuthType() {
+  public String getAuthType() {
     return authType;
   }
 

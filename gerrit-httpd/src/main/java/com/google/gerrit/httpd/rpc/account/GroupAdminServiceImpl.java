@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupInclude;
 import com.google.gerrit.reviewdb.client.AccountGroupIncludeAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -60,7 +59,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   private final AccountCache accountCache;
   private final AccountResolver accountResolver;
   private final AccountManager accountManager;
-  private final AuthType authType;
+  private final String authType;
   private final GroupCache groupCache;
   private final GroupBackend groupBackend;
   private final GroupIncludeCache groupIncludeCache;
@@ -379,13 +378,10 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       Failure {
     Account r = accountResolver.find(nameOrEmail);
     if (r == null) {
-      switch (authType) {
-        case HTTP_LDAP:
-        case CLIENT_SSL_CERT_LDAP:
-        case LDAP:
-          r = createAccountByLdap(nameOrEmail);
-          break;
-        default:
+      if ("HTTP_LDAP".equalsIgnoreCase(authType)
+          || "CLIENT_SSL_CERT_LDAP".equalsIgnoreCase(authType)
+          || "LDAP".equalsIgnoreCase(authType)) {
+        r = createAccountByLdap(nameOrEmail);
       }
       if (r == null) {
         throw new Failure(new NoSuchAccountException(nameOrEmail));

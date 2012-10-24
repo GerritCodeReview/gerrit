@@ -56,6 +56,7 @@ public interface GerritCss extends CssResource {
   String changeTypeCell();
   String changeid();
   String closedstate();
+  String cellsNextToFileComment();
   String commentedActionDialog();
   String commentedActionMessage();
   String commentCell();
@@ -134,6 +135,7 @@ public interface GerritCss extends CssResource {
   String header();
   String hyperlink();
   String iconCell();
+  String iconCellOfFileCommentRow();
   String iconHeader();
   String identityUntrustedExternalId();
   String infoBlock();

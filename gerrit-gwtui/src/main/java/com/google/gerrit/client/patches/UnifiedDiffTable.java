@@ -464,4 +464,16 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.addStyleName(Gerrit.RESOURCES.css().rightBorder());
     m.closeTd();
   }
+
+  @Override
+  void createFileCommentEditorOnSideA() {
+  }
+
+  @Override
+  void createFileCommentEditorOnSideB() {
+  }
+
+  @Override
+  void insertFileCommentRow(int row) {
+  }
 }

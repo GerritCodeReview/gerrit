@@ -21,8 +21,6 @@ import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.CssResource;
@@ -33,6 +31,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.HashMap;
@@ -49,7 +48,9 @@ public class PatchSetSelectBox extends Composite {
 
     String hidden();
 
-    String downloadLink();
+    String sideMarker();
+
+    String patchSetLabel();
   }
 
   public enum Side {
@@ -71,9 +72,6 @@ public class PatchSetSelectBox extends Composite {
   @UiField
   BoxStyle style;
 
-  @UiField
-  DivElement sideMarker;
-
   public PatchSetSelectBox(Side side, final PatchScreen.Type type) {
     this.side = side;
     this.screenType = type;
@@ -92,10 +90,14 @@ public class PatchSetSelectBox extends Composite {
 
     linkPanel.clear();
 
+    Label patchSet = new Label(PatchUtil.C.patchSet());
+    patchSet.addStyleName(style.patchSetLabel());
+    linkPanel.add(patchSet);
+
     if (screenType == PatchScreen.Type.UNIFIED) {
-      sideMarker.setInnerText((side == Side.A) ? "(-)" : "(+)");
-    } else {
-      sideMarker.getStyle().setDisplay(Display.NONE);
+      Label sideMarker = new Label((side == Side.A) ? "(-)" : "(+)");
+      sideMarker.addStyleName(style.sideMarker());
+      linkPanel.add(sideMarker);
     }
 
     Anchor baseLink = null;
@@ -161,11 +163,15 @@ public class PatchSetSelectBox extends Composite {
     return anchor;
   }
 
-  private Anchor createDownloadLink() {
+  private boolean isFile() {
     boolean isCommitMessage = Patch.COMMIT_MSG.equals(script.getNewName());
+    return !(isCommitMessage || //
+        (side == Side.A && 0 >= script.getA().size()) || //
+    (side == Side.B && 0 >= script.getB().size()));
+  }
 
-    if (isCommitMessage || (side == Side.A && 0 >= script.getA().size())
-        || (side == Side.B && 0 >= script.getB().size())) {
+  private Anchor createDownloadLink() {
+    if (!isFile()) {
       return null;
     }
 
@@ -180,7 +186,6 @@ public class PatchSetSelectBox extends Composite {
     final Anchor anchor = new Anchor();
     anchor.setHref(base + KeyUtil.encode(key.toString()) + "^" + sideURL);
     anchor.setTitle(PatchUtil.C.download());
-    anchor.setStyleName(style.downloadLink());
     DOM.insertBefore(anchor.getElement(), image.getElement(),
         DOM.getFirstChild(anchor.getElement()));
 

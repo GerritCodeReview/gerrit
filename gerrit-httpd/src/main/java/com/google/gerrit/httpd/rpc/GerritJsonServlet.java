@@ -125,13 +125,17 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   private void audit() {
     try {
       GerritCall call = currentCall.get();
-      Audit note = (Audit) call.getMethod().getAnnotation(Audit.class);
+      MethodHandle method = call.getMethod();
+      if (method == null) {
+        return;
+      }
+      Audit note = (Audit) method.getAnnotation(Audit.class);
       if (note != null) {
         final String sid = call.getWebSession().getToken();
         final CurrentUser username = call.getWebSession().getCurrentUser();
         final List<Object> args =
             extractParams(note, call);
-        final String what = extractWhat(note, call.getMethod().getName());
+        final String what = extractWhat(note, method.getName());
         final Object result = call.getResult();
 
         audit.dispatch(new AuditEvent(sid, username, what, call.getWhen(), args,

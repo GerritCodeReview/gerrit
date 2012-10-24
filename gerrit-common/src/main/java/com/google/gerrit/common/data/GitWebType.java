@@ -36,10 +36,10 @@ public class GitWebType {
     } else if (name.equalsIgnoreCase("cgit")) {
       type = new GitWebType();
       type.setLinkName("cgit");
-      type.setProject("${project}/summary");
-      type.setRevision("${project}/commit/?id=${commit}");
-      type.setBranch("${project}/log/?h=${branch}");
-      type.setFileHistory("${project}/log/${file}?h=${branch}");
+      type.setProject("${project}.git/summary");
+      type.setRevision("${project}.git/commit/?id=${commit}");
+      type.setBranch("${project}.git/log/?h=${branch}");
+      type.setFileHistory("${project}.git/log/${file}?h=${branch}");
 
     } else if (name.equalsIgnoreCase("custom")) {
       type = new GitWebType();

@@ -651,6 +651,9 @@
 .patchContentTable tr.commentHolder .iconCell {
   background: white;
 }
+.patchContentTable tr.commentHolder .iconCellOfFileCommentRow {
+  background: trimColor;
+}
 .patchContentTable td.commentHolder {
   padding-left: 0;
   padding-right: 0;
@@ -774,6 +777,11 @@
   text-decoration: underline;
 }
 
+.patchContentTable td.cellsNextToFileComment {
+  background: trimColor;
+  border-top: trimColor;
+  border-bottom: trimColor;
+}
 .patchContentTable .activeRow .iconCell,
 .patchContentTable .activeRow .lineNumber {
   background: selectionColor;

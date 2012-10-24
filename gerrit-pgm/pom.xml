@@ -65,6 +65,12 @@ limitations under the License.
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-server</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.tomcat</groupId>
+          <artifactId>servlet-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -92,7 +98,7 @@ limitations under the License.
 
     <dependency>
       <groupId>org.apache.tomcat</groupId>
-      <artifactId>servlet-api</artifactId>
+      <artifactId>tomcat-servlet-api</artifactId>
     </dependency>
 
     <dependency>

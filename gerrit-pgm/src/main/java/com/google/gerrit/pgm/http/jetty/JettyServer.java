@@ -42,10 +42,10 @@ import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.FilterMapping;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
@@ -60,12 +60,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import javax.servlet.DispatcherType;
 
 @Singleton
 public class JettyServer {
@@ -161,23 +164,23 @@ public class JettyServer {
         defaultPort = 80;
         c = new SelectChannelConnector();
       } else if ("https".equals(u.getScheme())) {
-        final SslSelectChannelConnector ssl = new SslSelectChannelConnector();
+        SslContextFactory ssl = new SslContextFactory();
         final File keystore = getFile(cfg, "sslkeystore", "etc/keystore");
         String password = cfg.getString("httpd", null, "sslkeypassword");
         if (password == null) {
           password = "gerrit";
         }
-        ssl.setKeystore(keystore.getAbsolutePath());
-        ssl.setTruststore(keystore.getAbsolutePath());
-        ssl.setKeyPassword(password);
-        ssl.setTrustPassword(password);
+        ssl.setKeyStorePath(keystore.getAbsolutePath());
+        ssl.setTrustStore(keystore.getAbsolutePath());
+        ssl.setKeyStorePassword(password);
+        ssl.setTrustStorePassword(password);
 
         if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType)) {
           ssl.setNeedClientAuth(true);
         }
 
         defaultPort = 443;
-        c = ssl;
+        c = new SslSelectChannelConnector(ssl);
 
       } else if ("proxy-http".equals(u.getScheme())) {
         defaultPort = 8080;
@@ -336,7 +339,9 @@ public class JettyServer {
     // already have built.
     //
     GuiceFilter filter = env.webInjector.getInstance(GuiceFilter.class);
-    app.addFilter(new FilterHolder(filter), "/*", FilterMapping.DEFAULT);
+    app.addFilter(new FilterHolder(filter), "/*", EnumSet.of(
+        DispatcherType.REQUEST,
+        DispatcherType.ASYNC));
     app.addEventListener(new GuiceServletContextListener() {
       @Override
       protected Injector getInjector() {

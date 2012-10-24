@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.realm.config.AuthConfig;
+import com.google.gerrit.realm.RealmServletModule;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;
@@ -40,7 +40,6 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 
 import java.net.SocketAddress;
@@ -48,18 +47,18 @@ import java.net.SocketAddress;
 import javax.annotation.Nullable;
 
 public class WebModule extends FactoryModule {
-  private final AuthConfig authConfig;
   private final UrlModule.UrlConfig urlConfig;
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
+  private RealmServletModule realmServletModule;
 
   @Inject
-  WebModule(final AuthConfig authConfig,
-      final UrlModule.UrlConfig urlConfig,
+  WebModule(final UrlModule.UrlConfig urlConfig,
       @CanonicalWebUrl @Nullable final String canonicalUrl,
-      final Injector creatingInjector) {
-    this.authConfig = authConfig;
+      final Injector creatingInjector,
+      RealmServletModule realmServletModule) {
     this.urlConfig = urlConfig;
+    this.realmServletModule = realmServletModule;
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
 
     this.gitWebConfig =
@@ -80,38 +79,7 @@ public class WebModule extends FactoryModule {
       install(new RequireSslFilter.Module());
     }
 
-    switch (authConfig.getAuthType()) {
-      case HTTP:
-      case HTTP_LDAP:
-// temporary commented out to bypass circular dependency
-//        install(new HttpAuthModule());
-        break;
-
-      case CLIENT_SSL_CERT_LDAP:
-// temporary commented out to bypass circular dependency
-//        install(new HttpsClientSslCertModule());
-        break;
-
-      case LDAP:
-      case LDAP_BIND:
-// temporary commented out to bypass circular dependency
-//        install(new LdapAuthModule());
-        break;
-
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-// temporary commented out to bypass circular dependency
-//        install(new DevelopmentRealmServletModule());
-        break;
-
-      case OPENID:
-      case OPENID_SSO:
-        // OpenID support is bound in WebAppInitializer and Daemon.
-      case CUSTOM_EXTENSION:
-        break;
-      default:
-        throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
-    }
-
+    install(realmServletModule);
     install(new UrlModule(urlConfig));
     install(new UiRpcModule());
     install(new GerritRequestModule());

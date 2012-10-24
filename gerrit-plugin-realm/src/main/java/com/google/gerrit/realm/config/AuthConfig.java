@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
@@ -31,7 +30,7 @@ import com.google.inject.Singleton;
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
 public class AuthConfig {
-  private final AuthType authType;
+  private final String authType;
   private final String httpHeader;
   private final boolean trustContainerAuth;
   private final boolean userNameToLowerCase;
@@ -50,7 +49,7 @@ public class AuthConfig {
   @Inject
   AuthConfig(@GerritServerConfig final Config cfg)
       throws XsrfException {
-    authType = toType(cfg);
+    authType = cfg.getString("auth", null, "type");
     httpHeader = cfg.getString("auth", null, "httpheader");
     logoutUrl = cfg.getString("auth", null, "logouturl");
     openIdSsoUrl = cfg.getString("auth", null, "openidssourl");
@@ -83,7 +82,7 @@ public class AuthConfig {
       restToken = null;
     }
 
-    if (authType == AuthType.OPENID) {
+    if ("OPENID".equalsIgnoreCase(authType)) {
       allowGoogleAccountUpgrade =
           cfg.getBoolean("auth", "allowgoogleaccountupgrade", false);
     } else {
@@ -104,12 +103,8 @@ public class AuthConfig {
     return Collections.unmodifiableList(r);
   }
 
-  private static AuthType toType(final Config cfg) {
-    return ConfigUtil.getEnum(cfg, "auth", null, "type", AuthType.OPENID);
-  }
-
   /** Type of user authentication used by this Gerrit server. */
-  public AuthType getAuthType() {
+  public String getAuthType() {
     return authType;
   }
 

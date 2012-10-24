@@ -52,7 +52,6 @@ import com.google.gerrit.realm.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -195,7 +194,8 @@ class LdapRealm implements Realm {
     final String username = who.getLocalUser();
     try {
       final DirContext ctx;
-      if (authConfig.getAuthType() == AuthType.LDAP_BIND) {
+      String authType = authConfig.getAuthType();
+	if ("LDAP_BIND".equalsIgnoreCase(authType)) {
         ctx = helper.authenticate(username, who.getPassword());
       } else {
         ctx = helper.open();
@@ -204,7 +204,7 @@ class LdapRealm implements Realm {
         final Helper.LdapSchema schema = helper.getSchema(ctx);
         final LdapQuery.Result m = helper.findAccount(schema, ctx, username);
 
-        if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {
+        if ("LDAP".equalsIgnoreCase(authType) && !who.isSkipAuthentication()) {
           // We found the user account, but we need to verify
           // the password matches it before we can continue.
           //

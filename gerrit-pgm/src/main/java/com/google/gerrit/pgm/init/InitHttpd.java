@@ -21,8 +21,6 @@ import static com.google.gerrit.pgm.init.InitUtil.isAnyAddress;
 import static com.google.gerrit.pgm.init.InitUtil.toURI;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
-import com.google.gerrit.realm.config.ConfigUtil;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
@@ -123,7 +121,7 @@ class InitHttpd implements InitStep {
     }
     if (gerrit.get("canonicalWebUrl") != null //
         || (!proxy && ssl) //
-        || getAuthType() == AuthType.OPENID) {
+        || "OPENID".equalsIgnoreCase(getAuthType())) {
       gerrit.string("Canonical URL", "canonicalWebUrl", uri.toString());
     }
 
@@ -197,7 +195,7 @@ class InitHttpd implements InitStep {
     }
   }
 
-  private AuthType getAuthType() {
-    return ConfigUtil.getEnum(flags.cfg, "auth", null, "type", AuthType.OPENID);
+  private String getAuthType() {
+    return flags.cfg.getString("auth", null, "type");
   }
 }

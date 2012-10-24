@@ -19,9 +19,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.launcher.GerritLauncher;
-import com.google.gerrit.realm.config.ConfigUtil;
 import com.google.gerrit.realm.config.GerritServerConfig;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -144,7 +142,7 @@ public class JettyServer {
     final URI[] listenUrls = listenURLs(cfg);
     final boolean reuseAddress = cfg.getBoolean("httpd", "reuseaddress", true);
     final int acceptors = cfg.getInt("httpd", "acceptorThreads", 2);
-    final AuthType authType = ConfigUtil.getEnum(cfg, "auth", null, "type", AuthType.OPENID);
+    final String authType = cfg.getString("auth", null, "type");
 
     reverseProxy = isReverseProxied(listenUrls);
     final Connector[] connectors = new Connector[listenUrls.length];
@@ -153,11 +151,11 @@ public class JettyServer {
       final int defaultPort;
       final SelectChannelConnector c;
 
-      if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && ! "https".equals(u.getScheme())) {
+      if ("CLIENT_SSL_CERT_LDAP".equalsIgnoreCase(authType)
+          && !"https".equals(u.getScheme())) {
         throw new IllegalArgumentException("Protocol '" + u.getScheme()
             + "' " + " not supported in httpd.listenurl '" + u
-            + "' when auth.type = '" + AuthType.CLIENT_SSL_CERT_LDAP.name()
-            + "'; only 'https' is supported");
+            + "' when auth.type = 'CLIENT_SSL_CERT_LDAP'; only 'https' is supported");
       }
 
       if ("http".equals(u.getScheme())) {
@@ -175,7 +173,7 @@ public class JettyServer {
         ssl.setKeyStorePassword(password);
         ssl.setTrustStorePassword(password);
 
-        if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType)) {
+        if ("CLIENT_SSL_CERT_LDAP".equalsIgnoreCase(authType)) {
           ssl.setNeedClientAuth(true);
         }
 

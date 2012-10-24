@@ -23,14 +23,10 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.realm.DefaultRealm;
-import com.google.gerrit.realm.Realm;
 import com.google.gerrit.realm.account.AccountByEmailCacheImpl;
 import com.google.gerrit.realm.account.EmailExpander;
 import com.google.gerrit.realm.cache.CacheRemovalListener;
-import com.google.gerrit.realm.config.AuthConfig;
-import com.google.gerrit.realm.config.GerritServerConfig;
-import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.realm.guice.RealmExtensionsModule;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AnonymousUser;
@@ -77,41 +73,17 @@ import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.workflow.FunctionState;
-import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 
 import org.apache.velocity.runtime.RuntimeInstance;
-import org.eclipse.jgit.lib.Config;
 
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
-  private final AuthType loginType;
-
-  @Inject
-  GerritGlobalModule(final AuthConfig authConfig,
-      @GerritServerConfig final Config config) {
-    loginType = authConfig.getAuthType();
-  }
 
   @Override
   protected void configure() {
-    switch (loginType) {
-      case HTTP_LDAP:
-      case LDAP:
-      case LDAP_BIND:
-      case CLIENT_SSL_CERT_LDAP:
-        // commented out due to maven circular dependency
-        // install(new LdapModule());
-        break;
-
-      case CUSTOM_EXTENSION:
-        break;
-
-      default:
-        bind(Realm.class).to(DefaultRealm.class);
-        break;
-    }
+    install(new RealmExtensionsModule());
 
     bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
         SINGLETON);

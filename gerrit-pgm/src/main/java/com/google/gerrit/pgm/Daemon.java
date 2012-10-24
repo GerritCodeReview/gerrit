@@ -288,7 +288,7 @@ public class Daemon extends SiteProgram {
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());
-    modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new GerritGlobalModule());
     modules.add(new DefaultCacheFactory.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());

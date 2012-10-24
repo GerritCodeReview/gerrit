@@ -14,10 +14,9 @@
 
 package com.google.gerrit.client.auth.userpass;
 
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gwt.i18n.client.Messages;
 
 public interface UserPassMessages extends Messages {
   String signInAt(String hostname);
-  String authenticationUnavailable(AuthType authType);
+  String authenticationUnavailable(String authType);
 }

@@ -577,16 +577,14 @@ public class Dispatcher {
           final SignInMode mode = SignInMode.valueOf(args[0]);
           final String msg = KeyUtil.decode(args[1]);
           final String to = MINE;
-          switch (Gerrit.getConfig().getAuthType()) {
-            case OPENID:
-              new OpenIdSignInDialog(mode, to, msg).center();
-              break;
-            case LDAP:
-            case LDAP_BIND:
-              new UserPassSignInDialog(to, msg).center();
-              break;
-            default:
-              return null;
+          String authType = Gerrit.getConfig().getAuthType();
+          if ("OPENID".equalsIgnoreCase(authType)) {
+            new OpenIdSignInDialog(mode, to, msg).center();
+          } else if ("LDAP".equalsIgnoreCase(authType)
+              || "LDAP_BIND".equalsIgnoreCase(authType)) {
+            new UserPassSignInDialog(to, msg).center();
+          } else {
+            return null;
           }
           switch (mode) {
             case SIGN_IN:

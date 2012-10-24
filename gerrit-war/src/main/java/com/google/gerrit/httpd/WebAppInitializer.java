@@ -21,10 +21,7 @@ import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.realm.config.AuthConfig;
 import com.google.gerrit.realm.config.GerritServerConfig;
-import com.google.gerrit.realm.openid.httpd.OpenIdModule;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
@@ -227,7 +224,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new WorkQueue.Module());
     modules.add(new ChangeHookRunner.Module());
     modules.add(new ReceiveCommitsExecutorModule());
-    modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new GerritGlobalModule());
     modules.add(new DefaultCacheFactory.Module());
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
@@ -260,11 +257,6 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(CacheBasedWebSession.module());
     modules.add(HttpContactStoreConnection.module());
     modules.add(new HttpPluginModule());
-
-    AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
-    if (authConfig.getAuthType() == AuthType.OPENID) {
-      modules.add(new OpenIdModule());
-    }
 
     return sysInjector.createChildInjector(modules);
   }

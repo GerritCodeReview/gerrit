@@ -37,7 +37,7 @@ class SelectedRealmProvider implements Provider<RealmProvider> {
   SelectedRealmProvider(DynamicSet<RealmProvider> realmProviders,
       @GerritServerConfig Config config) {
     this.realmProviders = realmProviders;
-    this.authType = config.getString("auth", null, "authType");
+    this.authType = config.getString("auth", null, "type");
   }
 
   @Override

@@ -93,6 +93,7 @@ limitations under the License.
     <module>gerrit-plugin-realm</module>
     <module>gerrit-realm-development</module>
     <module>gerrit-realm-openid</module>
+    <module>gerrit-realm-http</module>
   </modules>
 
   <profiles>

@@ -20,8 +20,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
-import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
-import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
@@ -46,7 +44,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
-import com.google.inject.servlet.ServletModule;
 
 import java.net.SocketAddress;
 
@@ -88,7 +85,8 @@ public class WebModule extends FactoryModule {
     switch (authConfig.getAuthType()) {
       case HTTP:
       case HTTP_LDAP:
-        install(new HttpAuthModule());
+// temporary commented out to bypass circular dependency
+//        install(new HttpAuthModule());
         break;
 
       case CLIENT_SSL_CERT_LDAP:

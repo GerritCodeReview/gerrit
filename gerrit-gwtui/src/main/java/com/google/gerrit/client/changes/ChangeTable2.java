@@ -212,7 +212,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
     }
 
     table.setWidget(row, C_OWNER, new InlineHyperlink(owner,
-        PageLinks.toAccountQuery(owner)));
+        PageLinks.toAccountQuery(owner, c.status())));
 
     table.setWidget(
         row, C_PROJECT, new ProjectLink(c.project_name_key(), c.status()));

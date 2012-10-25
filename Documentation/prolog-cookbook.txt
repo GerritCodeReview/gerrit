@@ -48,10 +48,8 @@ For interactive testing and playing with Prolog, Gerrit provides the
 link:pgm-prolog-shell.html[prolog-shell] program which opens an interactive
 Prolog interpreter shell.
 
-NOTE: It is currently *not possible* to test a Prolog program which implements
-Gerrit submit rules using the link:pgm-prolog-shell.html[prolog-shell] program.
-The reason is that the Prolog environment that exposes facts about a change
-requires a lot of Gerrit server environment to be loaded and running.
+NOTE: The interactive shell is just a prolog shell, it does not load
+a gerrit server environment and thus is not intended for xref:TestingSubmitRules[testing submit rules].
 
 SWI-Prolog
 ----------
@@ -249,6 +247,18 @@ NOTE: If `MyProject` doesn't define its own `submit_rule` Gerrit will invoke the
 default implementation of submit rule that is named `gerrit:default_submit` and
 its result will be filtered as described above.
 
+[[TestingSubmitRules]]
+Testing submit rules
+--------------------
+The prolog environment running the `submit_rule` is loaded with state describing the
+change that is being evaluated. The easiest way to load this state is to test your
+`submit_rule` against a real change on a running gerrit instance. The command
+link:cmd-test-submit-rule.html[test-submit-rule] loads a specific change and executes
+the `submit_rule`. It optionally reads the rule from from `stdin` to facilitate easy testing.
+
+====
+  cat rules.pl | ssh gerrit_srv gerrit test-submit-rule I45e080b105a50a625cc8e1fb5b357c0bfabe6d68 -s
+====
 
 Prolog vs Gerrit plugin for project specific submit rules
 ---------------------------------------------------------
@@ -636,6 +646,42 @@ we have to do that in the `rules.pl` of the `All-Projects` project.
   remove_verified_category([label('Verified', _) | T], R) :-
     remove_verified_category(T, R), !.
   remove_verified_category([H|T], [H|R]) :- remove_verified_category(T, R).
+====
+
+Example 12: 1+1=2 Code-Review
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In this example we introduce accumulative voting to determine if a change is
+submittable or not. We modify the standard Code-Review to be accumulative, and make the
+change submittable if the total score is 2 or higher.
+
+The code in this example is very similar to Example 8, with the addition of findall/3
+and gerrit:remove_label.
+The findall/3 embedded predicate is used to form a list of all objects that satisfy a
+specified Goal. In this example it is used to get a list of all the 'Code-Review' scores.
+gerrit:remove_label is a built-in helper that is implemented similarly to the
+'remove_verified_category' as seen in the previous example.
+
+.rules.pl
+[caption=""]
+====
+  sum_list([], 0).
+  sum_list([H | Rest], Sum) :- sum_list(Rest,Tmp), Sum is H + Tmp.
+
+  add_category_min_score(In, Category, Min,  P) :-
+    findall(X, gerrit:commit_label(label(Category,X),R),Z),
+    sum_list(Z, Sum),
+    Sum >= Min, !,
+    P = [label(Category,ok(R)) | In].
+
+  add_category_min_score(In, Category,Min,P) :-
+    P = [label(Category,need(Min)) | In].
+
+  submit_rule(S) :-
+    gerrit:default_submit(X),
+    X =.. [submit | Ls],
+    gerrit:remove_label(Ls,label('Code-Review',_),NoCR),
+    add_category_min_score(NoCR,'Code-Review', 2, Labels),
+    S =.. [submit | Labels].
 ====
 
 GERRIT

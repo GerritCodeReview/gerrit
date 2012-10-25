@@ -101,7 +101,7 @@ class SshLog implements LifecycleListener {
 
   void onLogin() {
     async.append(log("LOGIN FROM " + session.get().getRemoteAddressAsString()));
-    audit("0", "LOGIN", new String[] {});
+    audit(context.get(), "0", "LOGIN", new String[] {});
   }
 
   void onAuthFail(final SshSession sd) {
@@ -127,7 +127,7 @@ class SshLog implements LifecycleListener {
     }
 
     async.append(event);
-    audit("FAIL", "AUTH", new String[] {sd.getRemoteAddressAsString()});
+    audit(null, "FAIL", "AUTH", new String[] {sd.getRemoteAddressAsString()});
   }
 
   void onExecute(int exitValue) {
@@ -165,7 +165,8 @@ class SshLog implements LifecycleListener {
     event.setProperty(P_STATUS, status);
 
     async.append(event);
-    audit(status, getCommand(commandLine), CommandFactoryProvider.split(commandLine));
+    audit(context.get(), status, getCommand(commandLine),
+        CommandFactoryProvider.split(commandLine));
   }
 
   private String getCommand(String commandLine) {
@@ -176,7 +177,7 @@ class SshLog implements LifecycleListener {
 
   void onLogout() {
     async.append(log("LOGOUT"));
-    audit("0", "LOGOUT", new String[] {});
+    audit(context.get(), "0", "LOGOUT", new String[] {});
   }
 
   private LoggingEvent log(final String msg) {
@@ -415,8 +416,7 @@ class SshLog implements LifecycleListener {
     }
   }
 
-  void audit(Object result, String commandName, String[] args) {
-    final Context ctx = context.get();
+  void audit(Context ctx, Object result, String commandName, String[] args) {
     final String sid = extractSessionId(ctx);
     final long created = extractCreated(ctx);
     final String what = extractWhat(commandName, args);

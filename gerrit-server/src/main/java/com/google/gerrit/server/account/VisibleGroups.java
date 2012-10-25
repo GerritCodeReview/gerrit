@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupList;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -24,10 +26,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class VisibleGroups {
 
@@ -65,8 +67,7 @@ public class VisibleGroups {
 
   public GroupList get(final Collection<ProjectControl> projects)
       throws NoSuchGroupException {
-    final Set<AccountGroup> groups =
-        new TreeSet<AccountGroup>(new GroupComparator());
+    Map<AccountGroup.UUID, AccountGroup> groups = Maps.newHashMap();
     for (final ProjectControl projectControl : projects) {
       final Set<GroupReference> groupsRefs = projectControl.getAllGroups();
       for (final GroupReference groupRef : groupsRefs) {
@@ -74,10 +75,10 @@ public class VisibleGroups {
         if (group == null) {
           throw new NoSuchGroupException(groupRef.getUUID());
         }
-        groups.add(group);
+        groups.put(group.getGroupUUID(), group);
       }
     }
-    return createGroupList(filterGroups(groups));
+    return createGroupList(filterGroups(groups.values()));
   }
 
   /**
@@ -89,17 +90,15 @@ public class VisibleGroups {
   public GroupList get(final IdentifiedUser user) throws NoSuchGroupException {
     if (identifiedUser.get().getAccountId().equals(user.getAccountId())
         || identifiedUser.get().getCapabilities().canAdministrateServer()) {
-      final Set<AccountGroup.UUID> effective =
-          user.getEffectiveGroups().getKnownGroups();
-      final Set<AccountGroup> groups =
-          new TreeSet<AccountGroup>(new GroupComparator());
-      for (final AccountGroup.UUID groupId : effective) {
+      Set<AccountGroup.UUID> mine = user.getEffectiveGroups().getKnownGroups();
+      Map<AccountGroup.UUID, AccountGroup> groups = Maps.newHashMap();
+      for (final AccountGroup.UUID groupId : mine) {
         AccountGroup group = groupCache.get(groupId);
         if (group != null) {
-          groups.add(group);
+          groups.put(groupId, group);
         }
       }
-      return createGroupList(filterGroups(groups));
+      return createGroupList(filterGroups(groups.values()));
     } else {
       throw new NoSuchGroupException("Groups of user '" + user.getAccountId()
           + "' are not visible.");
@@ -107,7 +106,7 @@ public class VisibleGroups {
   }
 
   private List<AccountGroup> filterGroups(final Iterable<AccountGroup> groups) {
-    final List<AccountGroup> filteredGroups = new LinkedList<AccountGroup>();
+    final List<AccountGroup> filteredGroups = Lists.newArrayList();
     final boolean isAdmin =
         identifiedUser.get().getCapabilities().canAdministrateServer();
     for (final AccountGroup group : groups) {
@@ -123,6 +122,7 @@ public class VisibleGroups {
       }
       filteredGroups.add(group);
     }
+    Collections.sort(filteredGroups, new GroupComparator());
     return filteredGroups;
   }
 

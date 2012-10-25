@@ -28,6 +28,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,7 +117,9 @@ public class ProjectCacheImpl implements ProjectCache {
       }
       return state;
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot read project %s", projectName.get()), e);
+      if (!(e.getCause() instanceof RepositoryNotFoundException)) {
+        log.warn(String.format("Cannot read project %s", projectName.get()), e);
+      }
       return null;
     }
   }

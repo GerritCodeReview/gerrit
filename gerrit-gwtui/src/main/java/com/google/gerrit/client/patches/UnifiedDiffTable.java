@@ -30,6 +30,9 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -50,8 +53,9 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         }
       };
 
-  // Cursor
+  // Cursors.
   protected int rowOfTableHeaderB;
+  protected int borderRowOfFileComment;
 
   @Override
   protected void onCellDoubleClick(final int row, final int column) {
@@ -78,15 +82,18 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         case FILE_SIDE_A:
           if (idSideA == null && idSideB.equals(psId)) {
             rowOfTableHeaderB++;
+            borderRowOfFileComment++;
             return;
           }
           break;
         case FILE_SIDE_B:
           if (idSideA != null && idSideA.equals(psId)) {
             rowOfTableHeaderB++;
+            borderRowOfFileComment++;
             return;
           }
           if (idSideB.equals(psId)) {
+            borderRowOfFileComment++;
             return;
           }
       }
@@ -104,6 +111,15 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   @Override
+  protected void destroyCommentRow(final int row) {
+    super.destroyCommentRow(row);
+    if (this.rowOfTableHeaderB + 1 == row && row + 1 == borderRowOfFileComment) {
+      table.removeRow(row);
+      isFileCommentBorderRowExist = false;
+    }
+  }
+
+  @Override
   public void remove(CommentEditorPanel panel) {
     super.remove(panel);
     if (panel.getComment().getLine() == AbstractPatchContentTable.R_HEAD) {
@@ -113,15 +129,18 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         case FILE_SIDE_A:
           if (idSideA == null && idSideB.equals(psId)) {
             rowOfTableHeaderB--;
+            borderRowOfFileComment--;
             return;
           }
           break;
         case FILE_SIDE_B:
           if (idSideA != null && idSideA.equals(psId)) {
             rowOfTableHeaderB--;
+            borderRowOfFileComment--;
             return;
           }
           if (idSideB.equals(psId)) {
+            borderRowOfFileComment--;
             return;
           }
       }
@@ -155,6 +174,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   protected void createFileCommentEditorOnSideB() {
     createCommentEditor(rowOfTableHeaderB + 1, PC, R_HEAD, FILE_SIDE_B);
+    createFileCommentBorderRow();
   }
 
   private void populateTableHeader(final PatchScript script,
@@ -178,7 +198,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void allocateTableHeader(SafeHtmlBuilder nc) {
     rowOfTableHeaderB = 1;
-    for (int i = R_HEAD; i <= rowOfTableHeaderB; i++) {
+    borderRowOfFileComment = 2;
+    for (int i = 0; i < borderRowOfFileComment; i++) {
       openTableHeaderLine(nc);
       padLineNumberOnTableHeaderForSideA(nc);
       padLineNumberOnTableHeaderForSideB(nc);
@@ -332,9 +353,12 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           row = insert(fora, row, expandComments);
         }
         rowOfTableHeaderB = row;
+        borderRowOfFileComment = row + 1;
         if (!forb.isEmpty()) {
           row++;// Skip the Header of sideB.
           row = insert(forb, row, expandComments);
+          borderRowOfFileComment = row;
+          createFileCommentBorderRow();
         }
       } else if (getRowItem(row) instanceof PatchLine) {
         final PatchLine pLine = (PatchLine) getRowItem(row);
@@ -410,6 +434,22 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         Gerrit.RESOURCES.css().cellsNextToFileComment());
     fmt.addStyleName(row, PC - 1, //
         Gerrit.RESOURCES.css().cellsNextToFileComment());
+  }
+
+  private void createFileCommentBorderRow() {
+    if (!isFileCommentBorderRowExist) {
+      isFileCommentBorderRowExist = true;
+      table.insertRow(borderRowOfFileComment);
+      final CellFormatter fmt = table.getCellFormatter();
+      fmt.addStyleName(borderRowOfFileComment, C_ARROW, //
+          Gerrit.RESOURCES.css().iconCellOfFileCommentRow());
+      defaultStyle(borderRowOfFileComment, fmt);
+
+      final Element iconCell =
+          fmt.getElement(borderRowOfFileComment, C_ARROW);
+      UIObject.setStyleName(DOM.getParent(iconCell), //
+          Gerrit.RESOURCES.css().fileCommentBorder(), true);
+    }
   }
 
   private void appendFileHeader(final SafeHtmlBuilder m, final String line) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAK6H////4\u003d",
+        "filename": "gerrit-plugin-realm/src/main/java/com/google/gerrit/realm/cache/CacheBinding.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-25T22:38:03Z",
+      "side": 1,
+      "message": "Why did this class move? It is not realm specific. It shouldn\u0027t have moved. I think a lot of that may be true of this particular change.",
+      "revId": "13f4f94af0717aa249b1f306ecf5fe575e035b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

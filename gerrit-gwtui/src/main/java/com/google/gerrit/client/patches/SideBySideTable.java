@@ -29,11 +29,14 @@ import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import org.eclipse.jgit.diff.Edit;
@@ -48,6 +51,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   private SparseHtmlFile a;
   private SparseHtmlFile b;
+  protected boolean isFileCommentBorderRowExist;
 
   protected void createFileCommentEditorOnSideA() {
     createCommentEditor(R_HEAD + 1, A, R_HEAD, FILE_SIDE_A);
@@ -306,6 +310,24 @@ public class SideBySideTable extends AbstractPatchContentTable {
         Gerrit.RESOURCES.css().cellsNextToFileComment());
     fmt.addStyleName(row, B + 1, //
         Gerrit.RESOURCES.css().cellsNextToFileComment());
+    createFileCommentBorderRow(row);
+  }
+
+  private void createFileCommentBorderRow(final int row) {
+    if (row == 1 && !isFileCommentBorderRowExist) {
+      isFileCommentBorderRowExist = true;
+      table.insertRow(R_HEAD + 2);
+
+      final CellFormatter fmt = table.getCellFormatter();
+
+      fmt.addStyleName(R_HEAD + 2, C_ARROW, //
+          Gerrit.RESOURCES.css().iconCellOfFileCommentRow());
+      defaultStyle(R_HEAD + 2, fmt);
+
+      final Element iconCell = fmt.getElement(R_HEAD + 2, C_ARROW);
+      UIObject.setStyleName(DOM.getParent(iconCell), Gerrit.RESOURCES.css()
+          .fileCommentBorder(), true);
+    }
   }
 
   private int finish(final Iterator<PatchLineComment> i, int row, final int col, boolean expandComment) {
@@ -561,5 +583,14 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   private void closeLine(final SafeHtmlBuilder m) {
     m.closeTr();
+  }
+
+  @Override
+  protected void destroyCommentRow(final int row) {
+    super.destroyCommentRow(row);
+    if (row == R_HEAD + 1) {
+      table.removeRow(row);
+      isFileCommentBorderRowExist = false;
+    }
   }
 }

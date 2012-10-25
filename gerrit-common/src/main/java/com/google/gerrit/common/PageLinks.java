@@ -60,8 +60,11 @@ public class PageLinks {
   }
 
   public static String toAccountQuery(final String fullname) {
-    String query = op("owner", fullname) + " status:open";
-    return toChangeQuery(query, TOP);
+    return toAccountQuery(fullname, Status.NEW);
+  }
+
+  public static String toAccountQuery(String fullname, Status status) {
+    return toChangeQuery(op("owner", fullname) + " " + status(status), TOP);
   }
 
   public static String toChangeQuery(final String query) {
@@ -73,17 +76,19 @@ public class PageLinks {
   }
 
   public static String projectQuery(Project.NameKey proj, Status status) {
+      return status(status) + " " + op("project", proj.get());
+  }
+
+  private static String status(Status status) {
     switch (status) {
       case ABANDONED:
-        return "status:abandoned " + op("project", proj.get());
-
+        return "status:abandoned";
       case MERGED:
-        return "status:merged " + op("project", proj.get());
-
+        return "status:merged";
       case NEW:
       case SUBMITTED:
       default:
-        return "status:open " + op("project", proj.get());
+        return "status:open";
     }
   }
 

@@ -79,6 +79,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected PatchSetSelectBox psListOfHeaderB;
   protected Anchor iconA;
   protected Anchor iconB;
+  protected boolean isFileCommentBorderRowExist;
 
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
@@ -608,6 +609,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     accountCache = aic;
   }
 
+  abstract void removeFileCommentBorderRow(final int row, final int col);
+
   private void destroyEditor(final int row, final int col) {
     table.clearCell(row, col);
     final int span = table.getFlexCellFormatter().getRowSpan(row, col);
@@ -634,6 +637,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         }
       }
       table.removeRow(row);
+      removeFileCommentBorderRow(row, col);
     } else {
       table.getFlexCellFormatter().setStyleName(//
           row, col, Gerrit.RESOURCES.css().diffText());

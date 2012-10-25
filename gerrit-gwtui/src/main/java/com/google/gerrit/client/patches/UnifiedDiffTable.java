@@ -576,4 +576,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.addStyleName(Gerrit.RESOURCES.css().rightBorder());
     m.closeTd();
   }
+
+  @Override
+  void removeFileCommentBorderRow(int row, int col) {
+  }
 }

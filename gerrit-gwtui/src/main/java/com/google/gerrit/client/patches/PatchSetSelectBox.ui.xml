@@ -61,7 +61,9 @@ limitations under the License.
   </ui:style>
 
   <g:HTMLPanel>
+   <g:FocusPanel  ui:field='doubleClickPanel'>
     <g:HTMLPanel styleName='{style.linkPanel}' ui:field='linkPanel'/>
+   </g:FocusPanel>
   </g:HTMLPanel>
 </ui:UiBinder>
 

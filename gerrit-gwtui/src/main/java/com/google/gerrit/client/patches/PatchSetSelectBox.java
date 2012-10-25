@@ -23,12 +23,14 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -68,6 +70,9 @@ public class PatchSetSelectBox extends Composite {
   Map<Integer, Anchor> links;
 
   @UiField
+  FocusPanel doubleClickPanel;
+
+  @UiField
   HTMLPanel linkPanel;
 
   @UiField
@@ -80,8 +85,9 @@ public class PatchSetSelectBox extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  public void display(final PatchSetDetail detail, final PatchScript script, Patch.Key key,
-      PatchSet.Id idSideA, PatchSet.Id idSideB) {
+  public void display(final PatchSetDetail detail, final PatchScript script,
+      Patch.Key key, PatchSet.Id idSideA, PatchSet.Id idSideB,
+      DoubleClickHandler handler) {
     this.script = script;
     this.patchKey = key;
     this.idSideA = idSideA;
@@ -92,8 +98,14 @@ public class PatchSetSelectBox extends Composite {
     isFile = isFile();
     linkPanel.clear();
 
+    doubleClickPanel.addDoubleClickHandler(handler);
+    if (isFile) {
+      doubleClickPanel.setTitle(PatchUtil.C.addFileCommentByDoubleClick());
+    }
+
     Label patchSet = new Label(PatchUtil.C.patchSet());
     patchSet.addStyleName(style.patchSetLabel());
+    patchSet.addDoubleClickHandler(handler);
     linkPanel.add(patchSet);
 
     if (screenType == PatchScreen.Type.UNIFIED) {

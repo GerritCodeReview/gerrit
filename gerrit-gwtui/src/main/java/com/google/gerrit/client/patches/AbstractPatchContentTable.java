@@ -39,6 +39,8 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -123,9 +125,26 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
   protected void prepareHeaderWidgets(PatchScript script, PatchSetDetail detail) {
     initPatchSetListForTableHeader();
-    psListOfHeaderA.display(detail, script, patchKey, idSideA, idSideB);
-    psListOfHeaderB.display(detail, script, patchKey, idSideA, idSideB);
+    psListOfHeaderA.display(detail, script, patchKey, idSideA, idSideB,
+        new DoubleClickHandler() {
+          @Override
+          public void onDoubleClick(DoubleClickEvent event) {
+            if (psListOfHeaderA.isFile) {
+              createFileCommentEditorOnSideA();
+            }
+          }
+        });
+    psListOfHeaderB.display(detail, script, patchKey, idSideA, idSideB,
+        new DoubleClickHandler() {
+          @Override
+          public void onDoubleClick(DoubleClickEvent event) {
+            if (psListOfHeaderB.isFile) {
+              createFileCommentEditorOnSideB();
+            }
+          }
+        });
 
+    //Prepare icons.
     iconA = new Anchor();
     iconA.setTitle(PatchUtil.C.addFileComment());
     DOM.insertBefore(iconA.getElement(),

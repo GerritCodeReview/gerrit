@@ -523,6 +523,10 @@
   white-space: nowrap;
 }
 
+.changeTable .cOWNER {
+  white-space: nowrap;
+}
+
 .changeTable .cLastUpdate {
   white-space: nowrap;
   text-align: right;

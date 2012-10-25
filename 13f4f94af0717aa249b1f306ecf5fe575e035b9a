@@ -16,6 +16,40 @@
       "revId": "13f4f94af0717aa249b1f306ecf5fe575e035b9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H////g\u003d",
+        "filename": "gerrit-plugin-realm/src/main/java/com/google/gerrit/realm/guice/RealmExtensionsModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-25T22:57:42Z",
+      "side": 1,
+      "message": "This sort of binding should be done by the plugin, not by a layer of indirection through a common module with common providers that are hiding the real binding from Guice.",
+      "revId": "13f4f94af0717aa249b1f306ecf5fe575e035b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H////c\u003d",
+        "filename": "gerrit-plugin-realm/src/main/java/com/google/gerrit/realm/guice/RealmImplProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-25T22:57:42Z",
+      "side": 1,
+      "message": "Despite using Injector in many places, we should try to avoid using it like this. Guice should know what the correct Realm type is based on the binding and supply it.",
+      "revId": "13f4f94af0717aa249b1f306ecf5fe575e035b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

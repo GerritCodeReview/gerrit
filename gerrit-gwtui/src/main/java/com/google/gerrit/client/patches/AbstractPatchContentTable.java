@@ -406,7 +406,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         newComment.setSide(side);
         newComment.setMessage("");
 
-        createCommentEditor(suggestRow, column, newComment).setFocus(true);
+        createCommentEditor(suggestRow, column, newComment, true)
+            .setFocus(true);
       }
     } else {
       Gerrit.doSignIn(History.getToken());
@@ -414,7 +415,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   private CommentEditorPanel createCommentEditor(final int suggestRow,
-      final int column, final PatchLineComment newComment) {
+      final int column, final PatchLineComment newComment,
+      final boolean create) {
     int row = suggestRow;
     int spans[] = new int[column + 1];
     FIND_ROW: while (row < table.getRowCount()) {
@@ -451,7 +453,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       }
     }
 
-    if (newComment == null) {
+    if (newComment == null || !create) {
       return null;
     }
 
@@ -819,22 +821,20 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     private void createReplyEditor() {
       final PatchLineComment newComment = newComment();
       newComment.setMessage("");
-      createEditor(newComment).setFocus(true);
+      createEditor(newComment, true).setFocus(true);
     }
 
     private void cannedReply(String message) {
       final PatchLineComment newComment = newComment();
       newComment.setMessage(message);
-      CommentEditorPanel p = createEditor(newComment);
+      CommentEditorPanel p = createEditor(newComment, false);
       if (p == null) {
-
-        enableButtons(false);
         PatchUtil.DETAIL_SVC.saveDraft(newComment,
             new GerritCallback<PatchLineComment>() {
               public void onSuccess(final PatchLineComment result) {
                 enableButtons(true);
                 notifyDraftDelta(1);
-                createEditor(result).setOpen(false);
+                createEditor(result, true).setOpen(false);
               }
 
               @Override
@@ -851,10 +851,11 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       }
     }
 
-    private CommentEditorPanel createEditor(final PatchLineComment newComment) {
+    private CommentEditorPanel createEditor(PatchLineComment newComment,
+        boolean create) {
       int row = rowOf(getElement());
       int column = columnOf(getElement());
-      return createCommentEditor(row + 1, column, newComment);
+      return createCommentEditor(row + 1, column, newComment, create);
     }
 
     private PatchLineComment newComment() {

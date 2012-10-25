@@ -684,6 +684,43 @@ gerrit:remove_label is a built-in helper that is implemented similarly to the
     S =.. [submit | Labels].
 ====
 
+Example 13: Master and apprentice
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The master and apprentice example allow you to specify a user (the `master`)
+that must approve all changes done by another user (the `apprentice`).
+
+The code first checks if the commit author is in the apprentice database.
+If the commit is done by an apprentice, it will check if there is a +2
+review by the associated `master`.
+
+.rules.pl
+[caption=""]
+====
+  % master_apprentice(Master, Apprentice).
+  % Extend this with appropriate user-id's for your master/apprentice setup.
+  master_apprentice(user(1000064), user(1000000)).
+
+  submit_rule(S) :-
+    gerrit:default_submit(In),
+    In =.. [submit | Ls],
+    add_apprentice_master(Ls, R),
+    S =.. [submit | R].
+
+  check_master_approval(S1, S2, Master) :-
+    gerrit:commit_label(label('Code-Review', 2), R),
+    R = Master, !,
+    S2 = [label('Master-Approval', ok(R)) | S1].
+  check_master_approval(S1, [label('Master-Approval', need(_)) | S1], _).
+
+  add_apprentice_master(S1, S2) :-
+    gerrit:commit_author(Id),
+    master_apprentice(Master, Id),
+    !,
+    check_master_approval(S1, S2, Master).
+
+  add_apprentice_master(S, S).
+====
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

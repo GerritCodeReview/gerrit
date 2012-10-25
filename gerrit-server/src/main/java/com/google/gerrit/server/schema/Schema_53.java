@@ -33,6 +33,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -200,8 +201,7 @@ class Schema_53 extends SchemaVersion {
   private void loadProject(ResultSet rs, Project project) throws SQLException,
       OrmException {
     project.setDescription(rs.getString("description"));
-    project.setUseContributorAgreements("Y".equals(rs
-        .getString("use_contributor_agreements")));
+    project.setUseContributorAgreements(asInheritedBoolean(rs, "use_contributor_agreements"));
 
     switch (rs.getString("submit_type").charAt(0)) {
       case 'F':
@@ -221,10 +221,17 @@ class Schema_53 extends SchemaVersion {
             + rs.getString("submit_type") + " on project " + project.getName());
     }
 
-    project.setUseSignedOffBy("Y".equals(rs.getString("use_signed_off_by")));
-    project.setRequireChangeID("Y".equals(rs.getString("require_change_id")));
-    project.setUseContentMerge("Y".equals(rs.getString("use_content_merge")));
+    project.setUseSignedOffBy(asInheritedBoolean(rs, "use_signed_off_by"));
+    project.setRequireChangeID(asInheritedBoolean(rs, "require_change_id"));
+    project.setUseContentMerge(asInheritedBoolean(rs, "use_content_merge"));
     project.setParentName(rs.getString("parent_name"));
+  }
+
+  private static InheritedBoolean asInheritedBoolean(ResultSet rs, String col)
+      throws SQLException {
+    return "Y".equals(rs.getString(col))
+        ? Project.InheritedBoolean.TRUE
+        : Project.InheritedBoolean.INHERIT;
   }
 
   private void readOldRefRights(ReviewDb db) throws SQLException {

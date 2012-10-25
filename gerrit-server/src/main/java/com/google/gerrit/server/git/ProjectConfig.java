@@ -282,12 +282,12 @@ public class ProjectConfig extends VersionedMetaData {
     }
     p.setParentName(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
 
-    p.setUseContributorAgreements(getBoolean(rc, RECEIVE, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, false));
-    p.setUseSignedOffBy(getBoolean(rc, RECEIVE, KEY_REQUIRE_SIGNED_OFF_BY, false));
-    p.setRequireChangeID(getBoolean(rc, RECEIVE, KEY_REQUIRE_CHANGE_ID, false));
+    p.setUseContributorAgreements(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, Project.InheritedBoolean.INHERIT));
+    p.setUseSignedOffBy(getEnum(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, Project.InheritedBoolean.INHERIT));
+    p.setRequireChangeID(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, Project.InheritedBoolean.INHERIT));
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
-    p.setUseContentMerge(getBoolean(rc, SUBMIT, KEY_MERGE_CONTENT, false));
+    p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, Project.InheritedBoolean.INHERIT));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
 
     loadAccountsSection(rc, groupsByName);
@@ -525,12 +525,12 @@ public class ProjectConfig extends VersionedMetaData {
     }
     set(rc, ACCESS, null, KEY_INHERIT_FROM, p.getParentName());
 
-    set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.isUseContributorAgreements());
-    set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.isUseSignedOffBy());
-    set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.isRequireChangeID());
+    set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.getUseContributorAgreements(), Project.InheritedBoolean.INHERIT);
+    set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.getUseSignedOffBy(), Project.InheritedBoolean.INHERIT);
+    set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.getRequireChangeID(), Project.InheritedBoolean.INHERIT);
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
-    set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.isUseContentMerge());
+    set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), Project.InheritedBoolean.INHERIT);
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), null);
 
@@ -732,16 +732,6 @@ public class ProjectConfig extends VersionedMetaData {
       }
     }
     saveUTF8(GROUP_LIST, buf.toString());
-  }
-
-  private boolean getBoolean(Config rc, String section, String name,
-      boolean defaultValue) {
-    try {
-      return rc.getBoolean(section, name, defaultValue);
-    } catch (IllegalArgumentException err) {
-      error(new ValidationError(PROJECT_CONFIG, err.getMessage()));
-      return defaultValue;
-    }
   }
 
   private <E extends Enum<?>> E getEnum(Config rc, String section,

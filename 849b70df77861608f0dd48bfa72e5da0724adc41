@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKzn////A\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-25T07:11:51Z",
+      "side": 1,
+      "message": "This paragraph looks a bit strange as we first claim that it is not possible to test the Gerrit submit rules and then in the last sentence the test-submit-rule command is introduced.\n\nI think that the test-submit-rule command deserves own section.\n\nThis NOTE should be shortened and only say that the interactive prolog shell is not intended for testing the submit rules and that one should use the test-submit-rule command.",
+      "revId": "849b70df77861608f0dd48bfa72e5da0724adc41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

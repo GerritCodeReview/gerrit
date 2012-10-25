@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAKzn///8s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-25T13:52:08Z",
+      "side": 1,
+      "message": "When running the RefControlTest during mvn build I\u0027m getting stuck here in an endless loop.\n\nStacktrace:\n\"main\" prio\u003d6 tid\u003d0x00000000003bb800 nid\u003d0x1c20 runnable [0x000000000276e000]\n   java.lang.Thread.State: RUNNABLE\n  at com.google.gerrit.server.project.ProjectState.isUseContributorAgreements(ProjectState.java:318)\n  at com.google.gerrit.server.project.ProjectControl.canPushToAtLeastOneRef(ProjectControl.java:235)\n  at com.google.gerrit.server.project.RefControlTest.testInheritRead_SingleBranchDeniesUpload(RefControlTest.java:123)\n  ...",
+      "revId": "6dedd01b28230a637a3bbe99a3f20bf0e41d0777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

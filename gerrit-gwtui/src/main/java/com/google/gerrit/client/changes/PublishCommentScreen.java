@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.patches.AbstractPatchContentTable;
 import com.google.gerrit.client.patches.CommentEditorContainer;
 import com.google.gerrit.client.patches.CommentEditorPanel;
 import com.google.gerrit.client.patches.PatchUtil;
@@ -313,7 +314,11 @@ public class PublishCommentScreen extends AccountScreen implements
         }
 
         final CommentEditorPanel editor = new CommentEditorPanel(c);
-        editor.setAuthorNameText(Util.M.lineHeader(c.getLine()));
+        if (c.getLine() == AbstractPatchContentTable.R_HEAD) {
+          editor.setAuthorNameText(Util.C.fileComment());
+        } else {
+          editor.setAuthorNameText(Util.M.lineHeader(c.getLine()));
+        }
         editor.setOpen(true);
         commentEditors.add(editor);
         panel.add(editor);

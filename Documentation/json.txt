@@ -51,7 +51,7 @@ status:: Current state of this change.
 
   ABANDONED;; Change was abandoned by its owner or administrator.
 
-comments:: All comments for this change in <<message,message attributes>>.
+comments:: All inline/file comments for this change in <<message,message attributes>>.
 
 trackingIds:: Issue tracking system links in
 <<trackingid,trackingid attributes>>, scraped out of the commit
@@ -114,7 +114,7 @@ was created.
 
 approvals:: The <<approval,approval attribute>> granted.
 
-comments:: All inline comments for this patchset in <<patchsetcomment,patchsetComment attributes>>.
+comments:: All comments for this patchset in <<patchsetcomment,patchsetComment attributes>>.
 
 files:: All changed files in this patchset in <<patch,patch attributes>>.
 
@@ -232,7 +232,7 @@ message:: The comment text.
 [[patchsetcomment]]
 patchsetComment
 ---------------
-Comment added inline on a patchset by a reviewer.
+Comment added on a patchset by a reviewer.
 
 file:: The name of the file on which the comment was added.
 

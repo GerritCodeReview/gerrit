@@ -638,6 +638,42 @@ we have to do that in the `rules.pl` of the `All-Projects` project.
   remove_verified_category([H|T], [H|R]) :- remove_verified_category(T, R).
 ====
 
+Example 12: 1+1=2 Code-Review
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In this example we introduce accumulative voting to determine if a change is
+submittable or not. We modify the standard Code-Review to be accumulative, and make the
+change submittable if the total score is 2 or higher.
+
+The code in this example is very similar to Example 8, with the addition of findall/3
+and gerrit:remove_label.
+The findall/3 embedded predicate is used to form a list of all objects that satisfy a
+specified Goal. In this example it is used to get a list of all the 'Code-Review' scores.
+gerrit:remove_label is a built-in helper that is implemented similarly to the
+'remove_verified_category' as seen in the previous example.
+
+.rules.pl
+[caption=""]
+====
+  sum_list([], 0).
+  sum_list([H | Rest], Sum) :- sum_list(Rest,Tmp), Sum is H + Tmp.
+
+  add_category_min_score(In, Category, Min,  P) :-
+    findall(X, gerrit:commit_label(label(Category,X),R),Z),
+    sum_list(Z, Sum),
+    Sum >= Min, !,
+    P = [label(Category,ok(R)) | In].
+
+  add_category_min_score(In, Category,Min,P) :-
+    P = [label(Category,need(Min)) | In].
+
+  submit_rule(S) :-
+    gerrit:default_submit(X),
+    X =.. [submit | Ls],
+    gerrit:remove_label(Ls,label('Code-Review',_),NoCR),
+    add_category_min_score(NoCR,'Code-Review', 2, Labels),
+    S =.. [submit | Labels].
+====
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

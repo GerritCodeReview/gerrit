@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAKzn///8k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-25T14:24:56Z",
+      "side": 1,
+      "message": "Can box be null? If yes, it should probably also be checked in getBool(ListBox)",
+      "revId": "6dedd01b28230a637a3bbe99a3f20bf0e41d0777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAKzn///8g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-25T14:24:56Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be\n  Project.NameKey parent \u003d s.getProject().getParent(allProjectsName);\n?\n\ns.getProject().getParent() may return null if the project is a child of the All-Projects project.",
+      "revId": "6dedd01b28230a637a3bbe99a3f20bf0e41d0777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKzn///8s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 2

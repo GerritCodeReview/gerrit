@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAKzn///8U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-25T14:34:47Z",
+      "side": 1,
+      "message": "This and the following 3 methods are identical except the getter call in the switch line. Does it make sense to factor out the logic of computing the inherited value (into an inner class) and make use of it in these 4 methods:\n\n  private abstract class InheritedValue {\n    Set\u003cProject.NameKey\u003e seen \u003d Sets.newHashSet();\n\n    abstract InheritedBoolean getValue(Project p);\n\n    boolean compute() {\n      seen.add(getProject().getNameKey());\n      ProjectState s \u003d ProjectState.this;\n      do {\n        switch (getValue(s.getProject())) {\n          case TRUE:\n            return true;\n          case FALSE:\n            return false;\n          case INHERIT:\n          default:\n            Project.NameKey parent \u003d s.getProject().getParent();\n            if (parent \u003d\u003d null || !seen.add(parent)) {\n              break;\n            }\n            s \u003d projectCache.get(parent);\n        }\n      } while (s !\u003d null);\n      return false;\n    }\n  }\n\n  public boolean isUseContributorAgreements() {\n    return new InheritedValue() {\n      InheritedBoolean getValue(Project p) {\n        return p.getUseContributorAgreements();\n      };\n    }.compute();\n  }",
+      "revId": "6dedd01b28230a637a3bbe99a3f20bf0e41d0777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAKzn///8g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 2

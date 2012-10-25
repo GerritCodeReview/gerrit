@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAK6H////U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-25T22:58:43Z",
+      "side": 1,
+      "message": "This unfortunately just makes removing these sorts of cases even harder. At least with AuthType we could search for who was still relying on the enum. Now we have magic strings. :-(",
+      "revId": "1fee756e5c33a30ac8068e3d7baf670c1a8ff86f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

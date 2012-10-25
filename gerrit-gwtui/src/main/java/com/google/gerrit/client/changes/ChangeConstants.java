@@ -64,6 +64,7 @@ public interface ChangeConstants extends Constants {
   String patchTableDownloadPreImage();
   String patchTableDownloadPostImage();
   String commitMessage();
+  String fileComment();
 
   String patchTablePrev();
   String patchTableNext();

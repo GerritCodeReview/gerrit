@@ -33,6 +33,24 @@
       "revId": "ee0db4123b4658c823096025c8afe81dfcf6cc30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK/H////0\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1011292
+      },
+      "writtenOn": "2012-10-26T13:23:02Z",
+      "side": 1,
+      "message": "I think it\u0027s possible using current_user/2. My original idea was to do that, but determined that it seemed a bit hacky. I\u0027ll give it a try and let you know.\n\nThat\u0027s the reason I was passing Category in the first place, so I could calculate the proper Category name in one place.",
+      "parentUuid": "AAAK+H////A\u003d",
+      "revId": "ee0db4123b4658c823096025c8afe81dfcf6cc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

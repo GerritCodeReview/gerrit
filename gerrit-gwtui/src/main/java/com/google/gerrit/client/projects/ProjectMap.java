@@ -29,6 +29,15 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .send(NativeMap.copyKeysIntoChildren(callback));
   }
 
+  public static void recent(AsyncCallback<ProjectMap> callback) {
+    new RestApi("/projects/")
+        .addParameterRaw("type", "ALL")
+        .addParameterTrue("all")
+        .addParameterTrue("recent")
+        .addParameterTrue("d") // description
+        .send(NativeMap.copyKeysIntoChildren(callback));
+  }
+
   public static void permissions(AsyncCallback<ProjectMap> callback) {
     new RestApi("/projects/")
         .addParameterRaw("type", "PERMISSIONS")

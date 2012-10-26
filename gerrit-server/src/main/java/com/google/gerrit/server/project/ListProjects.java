@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.StringUtil;
 import com.google.gerrit.server.account.GroupCache;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
@@ -95,6 +97,8 @@ public class ListProjects {
   private final GroupControl.Factory groupControlFactory;
   private final GitRepositoryManager repoManager;
   private final ProjectNode.Factory projectNodeFactory;
+  private final Provider<IdentifiedUser> userProvider;
+  private final RecentProjectsCache recentProjectsCache;
 
   @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
   private OutputFormat format = OutputFormat.TEXT;
@@ -117,6 +121,9 @@ public class ListProjects {
   @Option(name = "--all", usage = "display all projects that are accessible by the calling user")
   private boolean all;
 
+  @Option(name = "--recent", usage = "display the projects that the calling user has recently accessed")
+  private boolean recent;
+
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of projects to list")
   private int limit;
 
@@ -129,13 +136,16 @@ public class ListProjects {
   @Inject
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
       GroupCache groupCache, GroupControl.Factory groupControlFactory,
-      GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory) {
+      GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory,
+      Provider<IdentifiedUser> userProvider, RecentProjectsCache recentProjectsCache) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.repoManager = repoManager;
     this.projectNodeFactory = projectNodeFactory;
+    this.userProvider = userProvider;
+    this.recentProjectsCache = recentProjectsCache;
   }
 
   public List<String> getShowBranch() {
@@ -343,6 +353,9 @@ public class ListProjects {
   }
 
   private Iterable<NameKey> scan() {
+    if (recent) {
+      return recentProjectsCache.get(userProvider.get().getAccountId());
+    }
     if (matchPrefix != null) {
       return projectCache.byName(matchPrefix);
     } else {

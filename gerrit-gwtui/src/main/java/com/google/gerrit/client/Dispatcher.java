@@ -17,8 +17,9 @@ package com.google.gerrit.client;
 import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_GROUP;
 import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
-import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
+import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
+import static com.google.gerrit.common.PageLinks.ADMIN_RECENT_PROJECTS;
 import static com.google.gerrit.common.PageLinks.MINE;
 import static com.google.gerrit.common.PageLinks.REGISTER;
 import static com.google.gerrit.common.PageLinks.SETTINGS;
@@ -48,6 +49,7 @@ import com.google.gerrit.client.account.ValidateEmailScreen;
 import com.google.gerrit.client.admin.AccountGroupInfoScreen;
 import com.google.gerrit.client.admin.AccountGroupMembersScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
+import com.google.gerrit.client.admin.AllProjectsScreen;
 import com.google.gerrit.client.admin.CreateGroupScreen;
 import com.google.gerrit.client.admin.CreateProjectScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
@@ -55,8 +57,8 @@ import com.google.gerrit.client.admin.PluginListScreen;
 import com.google.gerrit.client.admin.ProjectAccessScreen;
 import com.google.gerrit.client.admin.ProjectBranchesScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
-import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
+import com.google.gerrit.client.admin.RecentProjectsScreen;
 import com.google.gerrit.client.admin.Util;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
@@ -620,7 +622,11 @@ public class Dispatcher {
 
         } else if (matchExact(ADMIN_PROJECTS, token)
             || matchExact("/admin/projects", token)) {
-          Gerrit.display(token, new ProjectListScreen());
+          Gerrit.display(token, new AllProjectsScreen());
+
+        } else if (matchExact(ADMIN_RECENT_PROJECTS, token)
+            || matchExact("/admin/projects/recent", token)) {
+          Gerrit.display(token, new RecentProjectsScreen());
 
         } else if (matchPrefix("/admin/projects/", token)) {
           Gerrit.display(token, selectProject());

@@ -71,6 +71,7 @@ public interface GerritConstants extends Constants {
 
   String menuProjects();
   String menuProjectsList();
+  String menuProjectsRecent();
   String menuProjectsCreate();
 
   String menuPeople();

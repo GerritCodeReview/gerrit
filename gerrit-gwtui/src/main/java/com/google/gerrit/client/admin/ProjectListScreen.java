@@ -19,7 +19,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
@@ -27,19 +26,12 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 
-public class ProjectListScreen extends Screen {
+public abstract class ProjectListScreen extends Screen {
   private ProjectsTable projects;
 
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-    ProjectMap.all(new ScreenLoadCallback<ProjectMap>(this) {
-      @Override
-      protected void preDisplay(final ProjectMap result) {
-        projects.display(result);
-        projects.finishDisplay();
-      }
-    });
+  protected void display(final ProjectMap result) {
+    projects.display(result);
+    projects.finishDisplay();
   }
 
   @Override

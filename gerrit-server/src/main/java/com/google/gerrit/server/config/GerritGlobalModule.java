@@ -71,6 +71,8 @@ import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RecentProjectsCache;
+import com.google.gerrit.server.project.RecentProjectsCacheProvider;
 import com.google.gerrit.server.project.SectionSortCache;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
@@ -182,5 +184,8 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
 
     bind(AnonymousUser.class);
+
+    bind(RecentProjectsCache.class).toProvider(
+        RecentProjectsCacheProvider.class).in(SINGLETON);
   }
 }

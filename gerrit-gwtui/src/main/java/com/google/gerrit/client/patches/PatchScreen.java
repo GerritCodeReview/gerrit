@@ -20,12 +20,9 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.changes.CommitMessageBlock;
 import com.google.gerrit.client.changes.PatchTable;
-import com.google.gerrit.client.changes.PatchTable.PatchValidator;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.ChangeLink;
-import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.PatchScript;
@@ -37,23 +34,15 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
-import com.google.gwtexpui.safehtml.client.SafeHtml;
-import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtjsonrpc.common.VoidResult;
 
 public abstract class PatchScreen extends Screen implements
     CommentEditorContainer {
@@ -110,9 +99,7 @@ public abstract class PatchScreen extends Screen implements
   protected PatchScriptSettingsPanel settingsPanel;
   protected TopView topView;
 
-  private CheckBox reviewedCheckBox;
-  private FlowPanel reviewedPanel;
-  private InlineHyperlink reviewedLink;
+  private ReviewedPanels reviewedPanels;
   private HistoryTable historyTable;
   private FlowPanel topPanel;
   private FlowPanel contentPanel;
@@ -169,61 +156,9 @@ public abstract class PatchScreen extends Screen implements
           }
         });
 
-    reviewedPanel = new FlowPanel();
+    reviewedPanels =
+        new ReviewedPanels(patchKey, fileList, patchIndex, getPatchScreenType());
     settingsPanel = new PatchScriptSettingsPanel(prefs);
-  }
-
-  private void populateReviewedPanel(){
-    reviewedPanel.clear();
-
-    reviewedCheckBox = new CheckBox(PatchUtil.C.reviewedAnd() + " ");
-    reviewedCheckBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-      @Override
-      public void onValueChange(ValueChangeEvent<Boolean> event) {
-        setReviewedByCurrentUser(event.getValue());
-      }
-    });
-
-    reviewedPanel.add(reviewedCheckBox);
-    reviewedPanel.add(getReviewedAnchor());
-  }
-
-  private Anchor getReviewedAnchor() {
-    SafeHtmlBuilder text = new SafeHtmlBuilder();
-    text.append(PatchUtil.C.next());
-    text.append(SafeHtml.asis(Util.C.nextPatchLinkIcon()));
-
-    Anchor reviewedAnchor = new Anchor("");
-    SafeHtml.set(reviewedAnchor, text);
-
-    final PatchValidator unreviewedValidator = new PatchValidator() {
-      public boolean isValid(Patch patch) {
-        return !patch.isReviewedByCurrentUser();
-      }
-    };
-
-    int nextUnreviewedPatchIndex =
-        fileList.getNextPatch(patchIndex, true, unreviewedValidator,
-            fileList.PREFERENCE_VALIDATOR);
-
-    if (nextUnreviewedPatchIndex > -1) {
-      // Create invisible patch link to change page
-      reviewedLink =
-          fileList.createLink(nextUnreviewedPatchIndex, getPatchScreenType(),
-              null, null);
-      reviewedLink.setText("");
-    } else {
-      reviewedLink = new ChangeLink("", patchKey.getParentKey());
-    }
-    reviewedAnchor.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        setReviewedByCurrentUser(true);
-        reviewedLink.go();
-      }
-    });
-
-    return reviewedAnchor;
   }
 
   @Override
@@ -238,10 +173,10 @@ public abstract class PatchScreen extends Screen implements
 
   private void update(AccountDiffPreference dp) {
     // Did the user just turn on auto-review?
-    if (!reviewedCheckBox.getValue() && prefs.getOld().isManualReview()
+    if (!reviewedPanels.getValue() && prefs.getOld().isManualReview()
         && !dp.isManualReview()) {
-      reviewedCheckBox.setValue(true);
-      setReviewedByCurrentUser(true);
+      reviewedPanels.setValue(true);
+      reviewedPanels.setReviewedByCurrentUser(true);
     }
 
     if (lastScript != null && canReuse(dp, lastScript)) {
@@ -294,7 +229,7 @@ public abstract class PatchScreen extends Screen implements
     super.onInitUI();
 
     if (Gerrit.isSignedIn()) {
-      setTitleFarEast(reviewedPanel);
+      setTitleFarEast(reviewedPanels.top);
     }
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
@@ -342,30 +277,14 @@ public abstract class PatchScreen extends Screen implements
     contentPanel.add(contentTable);
     add(contentPanel);
     add(bottomNav);
+    if (Gerrit.isSignedIn()) {
+      add(reviewedPanels.bottom);
+    }
 
     if (fileList != null) {
       topNav.display(patchIndex, getPatchScreenType(), fileList);
       bottomNav.display(patchIndex, getPatchScreenType(), fileList);
     }
-  }
-
-  void setReviewedByCurrentUser(boolean reviewed) {
-    if (fileList != null) {
-      fileList.updateReviewedStatus(patchKey, reviewed);
-    }
-
-    PatchUtil.DETAIL_SVC.setReviewedByCurrentUser(patchKey, reviewed,
-        new AsyncCallback<VoidResult>() {
-          @Override
-          public void onFailure(Throwable arg0) {
-            // nop
-          }
-
-          @Override
-          public void onSuccess(VoidResult result) {
-            // nop
-          }
-        });
   }
 
   @Override
@@ -454,7 +373,7 @@ public abstract class PatchScreen extends Screen implements
     final int rpcseq = ++rpcSequence;
     lastScript = null;
     settingsPanel.setEnabled(false);
-    populateReviewedPanel();
+    reviewedPanels.populate();
     if (isFirst && fileList != null) {
       fileList.movePointerTo(patchKey);
     }
@@ -547,7 +466,7 @@ public abstract class PatchScreen extends Screen implements
       boolean isReviewed = false;
       if (isFirst && !prefs.get().isManualReview()) {
         isReviewed = true;
-        setReviewedByCurrentUser(isReviewed);
+        reviewedPanels.setReviewedByCurrentUser(isReviewed);
       } else {
         for (Patch p : patchSetDetail.getPatches()) {
           if (p.getKey().equals(patchKey)) {
@@ -556,7 +475,7 @@ public abstract class PatchScreen extends Screen implements
           }
         }
       }
-      reviewedCheckBox.setValue(isReviewed);
+      reviewedPanels.setValue(isReviewed);
     }
 
     intralineFailure = isFirst && script.hasIntralineFailure();
@@ -626,9 +545,9 @@ public abstract class PatchScreen extends Screen implements
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
-      final boolean isReviewed = !reviewedCheckBox.getValue();
-      reviewedCheckBox.setValue(isReviewed);
-      setReviewedByCurrentUser(isReviewed);
+      final boolean isReviewed = !reviewedPanels.getValue();
+      reviewedPanels.setValue(isReviewed);
+      reviewedPanels.setReviewedByCurrentUser(isReviewed);
     }
   }
 
@@ -639,10 +558,7 @@ public abstract class PatchScreen extends Screen implements
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
-      if (reviewedLink != null) {
-        setReviewedByCurrentUser(true);
-        reviewedLink.go();
-      }
+      reviewedPanels.go();
     }
   }
 }

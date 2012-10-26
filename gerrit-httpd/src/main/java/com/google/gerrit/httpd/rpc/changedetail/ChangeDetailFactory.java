@@ -37,6 +37,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
@@ -89,6 +90,10 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
   private final MergeOp.Factory opFactory;
   private boolean testMerge;
+
+  private List<PatchSetAncestor> currentPatchSetAncestors;
+  private List<PatchSet> currentDepPatchSets;
+  private List<Change> currentDepChanges;
 
   @Inject
   ChangeDetailFactory(final ApprovalTypes approvalTypes,
@@ -148,8 +153,6 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet());
 
-    detail.setCanRebase(detail.getChange().getStatus().isOpen() && control.canRebase());
-
     detail.setCanEdit(control.getRefControl().canWrite());
 
     List<SubmitRecord> submitRecords = control.getSubmitRecords(db, patch);
@@ -177,6 +180,11 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       loadCurrentPatchSet();
     }
     load();
+
+    detail.setCanRebase(detail.getChange().getStatus().isOpen() &&
+        control.canRebase() &&
+        RebaseChange.canDoRebase(db, change, repoManager,
+            currentPatchSetAncestors, currentDepPatchSets, currentDepChanges));
     detail.setAccounts(aic.create());
     return detail;
   }
@@ -283,6 +291,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private void loadCurrentPatchSet() throws OrmException,
       NoSuchEntityException, PatchSetInfoNotAvailableException,
       NoSuchChangeException {
+    currentDepPatchSets = new ArrayList<PatchSet>();
+    currentDepChanges = new ArrayList<Change>();
     final PatchSet currentPatch = findCurrentOrLatestPatchSet();
     final PatchSet.Id psId = currentPatch.getId();
     final PatchSetDetailFactory loader = patchSetDetail.create(null, psId, null);
@@ -295,8 +305,10 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     final HashMap<Change.Id,PatchSet.Id> ancestorPatchIds =
         new HashMap<Change.Id,PatchSet.Id>();
     final List<Change.Id> ancestorOrder = new ArrayList<Change.Id>();
-    for (PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(psId)) {
+    currentPatchSetAncestors = db.patchSetAncestors().ancestorsOf(psId).toList();
+    for (PatchSetAncestor a : currentPatchSetAncestors) {
       for (PatchSet p : db.patchSets().byRevision(a.getAncestorRevision())) {
+        currentDepPatchSets.add(p);
         final Change.Id ck = p.getId().getParentKey();
         if (changesToGet.add(ck)) {
           ancestorPatchIds.put(ck, p.getId());
@@ -330,6 +342,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final Change.Id a : ancestorOrder) {
       final Change ac = m.get(a);
       if (ac != null && ac.getProject().equals(detail.getChange().getProject())) {
+        currentDepChanges.add(ac);
         if (ac.getStatus().getCode() != Change.STATUS_DRAFT
             || ac.getOwner().equals(currentUserId)
             || isReviewer(ac)) {

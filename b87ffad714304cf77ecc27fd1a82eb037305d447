@@ -16,6 +16,24 @@
       "revId": "b87ffad714304cf77ecc27fd1a82eb037305d447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK+H///+Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-10-26T14:34:37Z",
+      "side": 1,
+      "message": "Would it be OK to just revert this property until someone is willing to submit a single thread fix?\n\nIf I understand the property correctly, not enforcing the local scope is only an issue if several templates shares the same macroname. Hopefully this is not common.\n\nI know there are quite a few users of the template I linked too, so I\u0027m guessing other people run into the issue every now and then.\n\nThat said, it is not a problem if you are aware of the problem; I can just remove the small macro we are using and adding the template code inline where needed.\n\nJust figured that it is likely that some Gerrit users would scratch their head and start to debug velocity templates fruitlessly.",
+      "parentUuid": "AAAK6H///8w\u003d",
+      "revId": "b87ffad714304cf77ecc27fd1a82eb037305d447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

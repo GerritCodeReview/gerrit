@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAK6H///9w\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T00:40:42Z",
+      "side": 0,
+      "message": "I\u0027m really not sure what is going on here. sshd-core should have transitively included mina-core. So we never should have required picking mina-core here. My Mac was unable to find a ton of mina symbols when this was included as a dependency. Taking it out allowed the build to proceed. So I am very confused.",
+      "revId": "6738e5f340186870f04630d6c38583db9ffb7ef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

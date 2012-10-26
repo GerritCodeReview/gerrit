@@ -97,7 +97,7 @@ limitations under the License.
   <dependencies>
     <dependency>
       <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-${Gerrit-ApiType}-api</artifactId>
+      <artifactId>gerrit-extension-api</artifactId>
       <version>${Gerrit-ApiVersion}</version>
       <scope>provided</scope>
     </dependency>

@@ -721,6 +721,30 @@ review by the associated `master`.
   add_apprentice_master(S, S).
 ====
 
+Example 14: Only allow Author to submit change
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example adds a new needed category `Patchset-Author` for any user that is
+not the author of the patch. This effectively blocks all users except the author
+from submitting the change. This could result in an impossible situation if the
+author does not have permissions for submitting the change.
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(S) :-
+    gerrit:default_submit(In),
+    In =.. [submit | Ls],
+    only_allow_author_to_submit(Ls, R),
+    S =.. [submit | R].
+
+  only_allow_author_to_submit(S, S) :-
+    gerrit:commit_author(Id),
+    gerrit:current_user(Id),
+    !.
+
+  only_allow_author_to_submit(S1, [label('Patchset-Author', need(_)) | S1]).
+====
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

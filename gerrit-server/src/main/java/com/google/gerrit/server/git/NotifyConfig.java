@@ -24,10 +24,15 @@ import java.util.EnumSet;
 import java.util.Set;
 
 public class NotifyConfig implements Comparable<NotifyConfig> {
+  public static enum Header {
+    TO, CC, BCC;
+  }
+
   private String name;
   private EnumSet<NotifyType> types = EnumSet.of(NotifyType.ALL);
   private String filter;
 
+  private Header header;
   private Set<GroupReference> groups = Sets.newHashSet();
   private Set<Address> addresses = Sets.newHashSet();
 
@@ -61,6 +66,14 @@ public class NotifyConfig implements Comparable<NotifyConfig> {
     } else {
       this.filter = Strings.emptyToNull(filter);
     }
+  }
+
+  public Header getHeader() {
+    return header;
+  }
+
+  public void setHeader(Header hdr) {
+    header = hdr;
   }
 
   public Set<GroupReference> getGroups() {

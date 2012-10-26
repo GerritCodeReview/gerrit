@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAK6H///9Y\u003d",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-26T07:16:57Z",
+      "side": 1,
+      "message": "Should the comma be a semi-colon?",
+      "revId": "5d0e0ab6bec45a4b18a9a3fe38f004fa8dc3d525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H///9U\u003d",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-26T07:16:57Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "5d0e0ab6bec45a4b18a9a3fe38f004fa8dc3d525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAK+H////I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 1

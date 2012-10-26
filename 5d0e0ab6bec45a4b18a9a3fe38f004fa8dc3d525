@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAK+H////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-26T06:47:35Z",
+      "side": 1,
+      "message": "Are this method name and JavaDoc still accurate?",
+      "revId": "5d0e0ab6bec45a4b18a9a3fe38f004fa8dc3d525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

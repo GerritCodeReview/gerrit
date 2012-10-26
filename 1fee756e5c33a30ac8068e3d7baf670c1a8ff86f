@@ -16,6 +16,24 @@
       "revId": "1fee756e5c33a30ac8068e3d7baf670c1a8ff86f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK+H////0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-26T05:51:18Z",
+      "side": 1,
+      "message": "Therese strings are just for now. In subsequent patches I\u0027ll replace them with proper API so that plugin implementers could also hook into eg. finding account process. For now I decided to keep thing as they are for two reasons:\n * reduce amount of changed logic and possible regression points\n * reduce patch size",
+      "parentUuid": "AAAK6H////U\u003d",
+      "revId": "1fee756e5c33a30ac8068e3d7baf670c1a8ff86f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAK/H////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-10-26T12:32:47Z",
+      "side": 1,
+      "message": "binded -\u003e bound? Same below.",
+      "revId": "a2b3bdde8cb4626d5872f864e8a67b1aab02c493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

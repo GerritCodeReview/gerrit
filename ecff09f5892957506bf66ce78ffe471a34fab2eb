@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAK+H////s\u003d",
+        "filename": "gerrit-realm-development/src/main/java/com/google/gerrit/realm/development/BecomeAnyAccountLoginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-26T06:12:26Z",
+      "side": 1,
+      "message": "True it seams that I somehow miss it",
+      "parentUuid": "AAAK6H////o\u003d",
+      "revId": "ecff09f5892957506bf66ce78ffe471a34fab2eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAK6H////s\u003d",
         "filename": "gerrit-realm-development/src/main/java/com/google/gerrit/realm/development/DevelopmentRealmProvider.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAK+H////o\u003d",
+        "filename": "gerrit-realm-development/src/main/java/com/google/gerrit/realm/development/DevelopmentRealmProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-26T06:12:26Z",
+      "side": 1,
+      "message": "Great hint, thanks. Will change this behavior in subsequent patch",
+      "parentUuid": "AAAK6H////s\u003d",
+      "revId": "ecff09f5892957506bf66ce78ffe471a34fab2eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAK6H////w\u003d",
         "filename": "gerrit-realm-development/src/main/java/com/google/gerrit/realm/development/DevelopmentRealmServletModule.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-10-25T22:41:03Z",
       "side": 1,
       "message": "nit: space indent not tab",
+      "revId": "ecff09f5892957506bf66ce78ffe471a34fab2eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK+H////g\u003d",
+        "filename": "gerrit-realm-development/src/main/java/com/google/gerrit/realm/development/DevelopmentRealmServletModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-26T06:12:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAK6H////w\u003d",
       "revId": "ecff09f5892957506bf66ce78ffe471a34fab2eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

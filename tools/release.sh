@@ -24,6 +24,9 @@ then
 	exit 1
 fi
 
+BINARY=asciidoc
+command -v $BINARY >/dev/null 2>&1 || { echo >&2 "error: $BINARY executable was not found. Either install or build with --without-documentation"; exit 1; }
+
 ./tools/version.sh --release &&
 mvn clean install $include_docs -P all
 rc=$?

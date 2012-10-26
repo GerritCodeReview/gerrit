@@ -783,6 +783,7 @@
 .patchContentTable .activeRow .lineNumber,
 .patchContentTable .activeRow .fileLine,
 .patchContentTable .activeRow .diffText,
+.patchContentTable .activeRow td.commentHolder,
 .patchContentTable .activeRow .wdc,
 .patchContentTable .activeRow .wdd,
 .patchContentTable .activeRow .wdi,

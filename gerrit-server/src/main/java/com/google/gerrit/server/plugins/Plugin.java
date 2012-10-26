@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.annotations.PluginData;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
-import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -231,13 +230,6 @@ public class Plugin {
     modules.add(env.getSysModule());
     if (apiType == ApiType.PLUGIN) {
       modules.add(env.getSysModule());
-    } else {
-      modules.add(new AbstractModule() {
-        @Override
-        protected void configure() {
-          bind(ServerInformation.class).toInstance(env.getServerInformation());
-        }
-      });
     }
     modules.add(new AbstractModule() {
       @Override

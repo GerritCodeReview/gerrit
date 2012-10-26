@@ -79,6 +79,7 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_EMAIL = "email";
   private static final String KEY_FILTER = "filter";
   private static final String KEY_TYPE = "type";
+  private static final String KEY_HEADER = "header";
 
   private static final String CAPABILITY = "capability";
 
@@ -368,6 +369,9 @@ public class ProjectConfig extends VersionedMetaData {
           NOTIFY, sectionName, KEY_TYPE,
           NotifyType.ALL));
       n.setTypes(types);
+      n.setHeader(ConfigUtil.getEnum(rc,
+          NOTIFY, sectionName, KEY_HEADER,
+          NotifyConfig.Header.BCC));
 
       for (String dst : rc.getStringList(NOTIFY, sectionName, KEY_EMAIL)) {
         if (dst.startsWith("group ")) {
@@ -593,6 +597,8 @@ public class ProjectConfig extends VersionedMetaData {
       Collections.sort(addrs);
       email.addAll(addrs);
 
+      set(rc, NOTIFY, nc.getName(), KEY_HEADER,
+          nc.getHeader(), NotifyConfig.Header.BCC);
       if (email.isEmpty()) {
         rc.unset(NOTIFY, nc.getName(), KEY_EMAIL);
       } else {

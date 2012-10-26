@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAK+H///+4\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-26T07:38:24Z",
+      "side": 1,
+      "message": "Why do you need a Category as a parameter when this predicate is named check_master_approval?\n\nI would remove the Category parameter and inline the label name.",
+      "revId": "ee0db4123b4658c823096025c8afe81dfcf6cc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK+H////A\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-26T07:38:24Z",
+      "side": 1,
+      "message": "I would prefer naming the label just \u0027Master-Approval\u0027 as this is what an apprentice will see in the UI:\n\n Need Master-Approval.\n\nHowever, why not put the name of the Master in the label name? Then, someone looking at the change immediately knows who is the master:\n\n Need Master-Yoda-Approval.\n\nI am not sure if we can get the name of the master from an user/1 term. If not we could add a predicate for that. This would, however, be out of scope of the stable-2.5 branch.",
+      "revId": "ee0db4123b4658c823096025c8afe81dfcf6cc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

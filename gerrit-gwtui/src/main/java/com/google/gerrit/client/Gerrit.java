@@ -651,6 +651,7 @@ public class Gerrit implements EntryPoint {
     final LinkMenuBar projectsBar = new LinkMenuBar();
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
     if(signedIn) {
+      addLink(projectsBar, C.menuProjectsRecent(), PageLinks.RECENT_PROJECTS);
       AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
         @Override
         public void onSuccess(AccountCapabilities result) {

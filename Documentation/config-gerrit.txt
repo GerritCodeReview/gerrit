@@ -424,6 +424,7 @@ Default is 1024 for most caches, except:
 * `"diff"`: default is `10m` (10 MiB of memory)
 * `"diff_intraline"`: default is `10m` (10 MiB of memory)
 * `"plugin_resources"`: default is 2m (2 MiB of memory)
+* `"recent"`: default is `10m` (10 MiB of memory)
 
 +
 If set to 0 the cache is disabled. Entries are removed immediately
@@ -570,6 +571,10 @@ in the database.  If a project record is updated or deleted, this
 cache should be flushed.  Newly inserted projects do not require
 a cache flush, as they will be read upon first reference.
 
+cache `"recent"`::
++
+Each item caches the objects that a user has recently accessed.
+
 cache `"sshkeys"`::
 +
 Caches unpacked versions of user SSH keys, so the internal SSH daemon
@@ -658,6 +663,13 @@ Administrators may force the cache to flush with
 link:cmd-flush-caches.html[gerrit flush-caches].
 +
 Default is 5 minutes.
+
+cache.recent.maxEntries::
++
+The maximum number of recently accessed objects that should be cached
+per user.
++
+Default is 10.
 
 [[changeMerge]]Section changeMerge
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

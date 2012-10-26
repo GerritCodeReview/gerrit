@@ -721,6 +721,29 @@ review by the associated `master`.
   add_apprentice_master(S, S).
 ====
 
+Example 14: Only allow Author to submit change
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example changes so that only the Author of the commit is able to submit
+the change. This could result in an impossible situation if the Author does not
+have 'submit' permission.
+
+.rules.pl
+[caption=""]
+====
+  submit_rule(S) :-
+    gerrit:default_submit(In),
+    In =.. [submit | Ls],
+    only_allow_author_to_submit(Ls, R),
+    S =.. [submit | R].
+
+  only_allow_author_to_submit(S,S) :-
+   gerrit:commit_author(Id),
+   gerrit:current_user(Id),
+   !.
+
+   only_allow_author_to_submit(S1, [label('Patchset-Author', need(_)) | S1]).
+====
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

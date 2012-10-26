@@ -24,6 +24,17 @@ then
 	exit 1
 fi
 
+
+if test -n "$include_docs"
+then
+	BINARY=asciidoc
+	if ! command -v $BINARY >/dev/null 2>&1
+	then
+		echo >&2 "error: $BINARY executable was not found. Either install $BINARY or use the --without-documentation option"
+		exit 1
+	fi
+fi
+
 ./tools/version.sh --release &&
 mvn clean install $include_docs -P all
 rc=$?

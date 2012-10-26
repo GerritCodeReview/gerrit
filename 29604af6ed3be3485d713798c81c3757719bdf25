@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAK6H///58\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T22:21:16Z",
+      "side": 1,
+      "message": "Interesting idea.",
+      "revId": "29604af6ed3be3485d713798c81c3757719bdf25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H///54\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T22:21:16Z",
+      "side": 1,
+      "message": "I can\u0027t tell you how often servers restart in my world, but they restart often enough that I would prefer these to be persistent. :-(",
+      "revId": "29604af6ed3be3485d713798c81c3757719bdf25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H///6Y\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T22:21:16Z",
+      "side": 1,
+      "message": "Doesn\u0027t this shadow a project whose name is \"recent\"? It has a trailing / but we accept an optional trailing / on project names in the /admin/projects/ namespace.",
+      "revId": "29604af6ed3be3485d713798c81c3757719bdf25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H///6U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T22:21:16Z",
+      "side": 1,
+      "message": "This definitely shadows a project named \"recent\".",
+      "revId": "29604af6ed3be3485d713798c81c3757719bdf25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H///6Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T22:21:16Z",
+      "side": 1,
+      "message": "} else if (matchPrefix !\u003d null) {",
+      "revId": "29604af6ed3be3485d713798c81c3757719bdf25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H///6A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RecentProjectsCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T22:21:16Z",
+      "side": 1,
+      "message": "This should probably be a configuration parameter.",
+      "revId": "29604af6ed3be3485d713798c81c3757719bdf25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H///6I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RecentProjectsCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T22:21:16Z",
+      "side": 1,
+      "message": "This map is not thread safe, and neither is the list within it.\n\nSimple fix is to make the two methods synchronized and have the get method return a copy of the list, e.g.\n\n  return Lists.newArrayList(list);",
+      "revId": "29604af6ed3be3485d713798c81c3757719bdf25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H///6E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RecentProjectsCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T22:21:16Z",
+      "side": 1,
+      "message": "If the project is already in the list you should remove it so it goes to the front. Otherwise accessing the same project 9 times will mean the list has that project 9 times, and 1 other project, rather than the last 10 projects the user touched.",
+      "revId": "29604af6ed3be3485d713798c81c3757719bdf25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H///6M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RecentProjectsCacheProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T22:21:16Z",
+      "side": 1,
+      "message": "Completely unnecessary provider.",
+      "revId": "29604af6ed3be3485d713798c81c3757719bdf25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

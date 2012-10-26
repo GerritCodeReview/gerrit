@@ -37,6 +37,10 @@ public class CreateProjectArgs {
   public boolean createEmptyCommit;
 
   public CreateProjectArgs() {
+    contributorAgreements = InheritedBoolean.INHERIT;
+    signedOffBy = InheritedBoolean.INHERIT;
+    contentMerge = InheritedBoolean.INHERIT;
+    changeIdRequired = InheritedBoolean.INHERIT;
   }
 
   public Project.NameKey getProject() {

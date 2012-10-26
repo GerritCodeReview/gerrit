@@ -16,6 +16,24 @@
       "revId": "a6ea0da56d90b640f36f577f7c1f6c716fad61b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK+H////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-10-26T02:21:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAK6H///9o\u003d",
+      "revId": "a6ea0da56d90b640f36f577f7c1f6c716fad61b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

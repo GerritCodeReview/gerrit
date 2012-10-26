@@ -316,21 +316,28 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
   }
 
-  /** BCC users and groups that want notification of events. */
-  protected void bccWatches(NotifyType type) {
+  /** Include users and groups that want notification of events. */
+  protected void includeWatchers(NotifyType type) {
     try {
       Watchers matching = getWatches(type);
-      for (Account.Id user : matching.accounts) {
-        add(RecipientType.BCC, user);
-      }
-      for (Address addr : matching.emails) {
-        add(RecipientType.BCC, addr);
-      }
+      add(RecipientType.TO, matching.to);
+      add(RecipientType.CC, matching.cc);
+      add(RecipientType.BCC, matching.bcc);
     } catch (OrmException err) {
       // Just don't CC everyone. Better to send a partial message to those
       // we already have queued up then to fail deliver entirely to people
       // who have a lower interest in the change.
       log.warn("Cannot BCC watchers for " + type, err);
+    }
+  }
+
+  /** Add users or email addresses to the TO, CC, or BCC list. */
+  protected void add(RecipientType type, Watchers.List list) {
+    for (Account.Id user : list.accounts) {
+      add(type, user);
+    }
+    for (Address addr : list.emails) {
+      add(type, addr);
     }
   }
 
@@ -379,8 +386,25 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   protected static class Watchers {
-    protected final Set<Account.Id> accounts = Sets.newHashSet();
-    protected final Set<Address> emails = Sets.newHashSet();
+    static class List {
+      protected final Set<Account.Id> accounts = Sets.newHashSet();
+      protected final Set<Address> emails = Sets.newHashSet();
+    }
+    protected final List to = new List();
+    protected final List cc = new List();
+    protected final List bcc = new List();
+
+    List list(NotifyConfig.Header header) {
+      switch (header) {
+        case TO:
+          return to;
+        case CC:
+          return cc;
+        default:
+        case BCC:
+          return bcc;
+      }
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -413,7 +437,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
         p = args.queryRewriter.get().rewrite(p);
       }
       if (p.match(changeData)) {
-        recursivelyAddAllAccounts(matching, group);
+        recursivelyAddAllAccounts(matching.list(nc.getHeader()), group);
       }
     }
 
@@ -424,16 +448,16 @@ public abstract class ChangeEmail extends OutgoingEmail {
         Predicate<ChangeData> p = qb.parse(nc.getFilter());
         p = args.queryRewriter.get().rewrite(p);
         if (p.match(changeData)) {
-          matching.emails.addAll(nc.getAddresses());
+          matching.list(nc.getHeader()).emails.addAll(nc.getAddresses());
         }
       } else {
-        matching.emails.addAll(nc.getAddresses());
+        matching.list(nc.getHeader()).emails.addAll(nc.getAddresses());
       }
     }
   }
 
-  private void recursivelyAddAllAccounts(Watchers matching, AccountGroup group)
-      throws OrmException {
+  private void recursivelyAddAllAccounts(Watchers.List matching,
+      AccountGroup group) throws OrmException {
     Set<AccountGroup.Id> seen = Sets.newHashSet();
     Queue<AccountGroup.Id> scan = Lists.newLinkedList();
     scan.add(group.getId());
@@ -466,13 +490,13 @@ public abstract class ChangeEmail extends OutgoingEmail {
         p = Predicate.and(qb.parse(w.getFilter()), p);
         p = args.queryRewriter.get().rewrite(p);
         if (p.match(changeData)) {
-          matching.accounts.add(w.getAccountId());
+          matching.bcc.accounts.add(w.getAccountId());
         }
       } catch (QueryParseException e) {
         // Ignore broken filter expressions.
       }
     } else if (p.match(changeData)) {
-      matching.accounts.add(w.getAccountId());
+      matching.bcc.accounts.add(w.getAccountId());
     }
   }
 

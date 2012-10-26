@@ -99,6 +99,16 @@ are sent.
 +
 Like email, this variable may be a list of options.
 
+[[notify.name.header]]notify.<name>.header::
++
+Email header used to list the destination. If not set BCC is used.
+Only one value may be specified. To use different headers for each
+address list them in different notify blocks.
++
+* `to`: The standard To field is used; addresses are visible to all.
+* `cc`: The standard CC field is used; addresses are visible to all.
+* `bcc`: SMTP RCPT TO is used to hide the address.
+
 [[notify.name.filter]]notify.<name>.filter::
 +
 link:user-search.html[Change search expression] to match changes that

@@ -52,8 +52,8 @@ public class MergedSender extends ReplyToChangeSender {
 
     ccAllApprovals();
     bccStarredBy();
-    bccWatches(NotifyType.ALL_COMMENTS);
-    bccWatches(NotifyType.SUBMITTED_CHANGES);
+    includeWatchers(NotifyType.ALL_COMMENTS);
+    includeWatchers(NotifyType.SUBMITTED_CHANGES);
   }
 
   @Override

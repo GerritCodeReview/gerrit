@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
@@ -47,25 +48,26 @@ public class CreateChangeSender extends NewChangeSender {
     super.init();
 
     try {
-      // BCC anyone who has interest in this project's changes
-      // Try to mark interested owners with a TO and not a BCC line.
-      //
+      // Try to mark interested owners with TO and CC or BCC line.
       Watchers matching = getWatches(NotifyType.NEW_CHANGES);
-      for (Account.Id user : matching.accounts) {
+      for (Account.Id user : Iterables.concat(
+          matching.to.accounts,
+          matching.cc.accounts,
+          matching.bcc.accounts)) {
         if (isOwnerOfProjectOrBranch(user)) {
           add(RecipientType.TO, user);
-        } else {
-          add(RecipientType.BCC, user);
         }
       }
-      for (Address addr : matching.emails) {
-        add(RecipientType.BCC, addr);
-      }
+
+      // Add everyone else. Owners added above will not be duplicated.
+      add(RecipientType.TO, matching.to);
+      add(RecipientType.CC, matching.cc);
+      add(RecipientType.BCC, matching.bcc);
     } catch (OrmException err) {
       // Just don't CC everyone. Better to send a partial message to those
       // we already have queued up then to fail deliver entirely to people
       // who have a lower interest in the change.
-      log.warn("Cannot BCC watchers for new change", err);
+      log.warn("Cannot notify watchers for new change", err);
     }
   }
 

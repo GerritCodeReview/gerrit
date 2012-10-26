@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
@@ -67,4 +68,9 @@ public interface AccountService extends RemoteJsonService {
 
   @SignInRequired
   void myAgreements(AsyncCallback<AgreementInfo> callback);
+
+  @Audit
+  @SignInRequired
+  void addRecentProject(Project.NameKey project,
+      AsyncCallback<VoidResult> callback);
 }

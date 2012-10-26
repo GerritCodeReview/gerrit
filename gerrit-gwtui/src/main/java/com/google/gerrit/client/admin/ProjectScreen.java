@@ -16,8 +16,10 @@ package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.client.Dispatcher.toProjectAdmin;
 
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.MenuScreen;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwtjsonrpc.common.VoidResult;
 
 public abstract class ProjectScreen extends MenuScreen {
   public static final String INFO = "info";
@@ -42,5 +44,10 @@ public abstract class ProjectScreen extends MenuScreen {
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.M.project(name.get()));
+    com.google.gerrit.client.account.Util.ACCOUNT_SVC.addRecentProject(name,
+        new GerritCallback<VoidResult>() {
+          public void onSuccess(final VoidResult result) {
+          }
+        });
   }
 }

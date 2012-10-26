@@ -31,6 +31,7 @@ import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
+import com.google.gerrit.server.RecentlyAccessedCacheImpl;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
@@ -127,6 +128,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(SectionSortCache.module());
     install(TagCache.module());
     install(ChangeCache.module());
+    install(RecentlyAccessedCacheImpl.module());
 
     install(new AccessControlModule());
     install(new GitModule());

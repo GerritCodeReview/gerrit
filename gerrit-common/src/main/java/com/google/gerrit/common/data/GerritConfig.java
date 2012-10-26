@@ -52,6 +52,7 @@ public class GerritConfig implements Cloneable {
   protected boolean testChangeMerge;
   protected String anonymousCowardName;
   protected int suggestFrom;
+  protected boolean cacheRecentlyAccessedObjects;
 
   public String getRegisterUrl() {
     return registerUrl;
@@ -245,6 +246,15 @@ public class GerritConfig implements Cloneable {
 
   public void setSuggestFrom(final int suggestFrom) {
     this.suggestFrom = suggestFrom;
+  }
+
+  public boolean cacheRecentlyAccessedObjects() {
+    return cacheRecentlyAccessedObjects;
+  }
+
+  public void setCacheRecentlyAccessedObjects(
+      final boolean cacheRecentlyAccessedObjects) {
+    this.cacheRecentlyAccessedObjects = cacheRecentlyAccessedObjects;
   }
 
   public boolean siteHasUsernames() {

@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.GitwebConfig;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.RecentlyAccessedCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -122,6 +123,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         "test", false));
     config.setAnonymousCowardName(anonymousCowardName);
     config.setSuggestFrom(cfg.getInt("suggest", "from", 0));
+    config.setCacheRecentlyAccessedObjects(cfg.getInt("cache",
+        RecentlyAccessedCacheImpl.RECENT_NAME, "maxEntries", 10) > 0);
 
     config.setReportBugUrl(cfg.getString("gerrit", null, "reportBugUrl"));
     if (config.getReportBugUrl() == null) {

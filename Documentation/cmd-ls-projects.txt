@@ -15,6 +15,7 @@ SYNOPSIS
   [--type {code | permissions | all}]
   [--format {text | json | json_compact}]
   [--all]
+  [--recent]
   [--limit <N>]
   [--has-acl-for GROUP]
 
@@ -88,6 +89,10 @@ used to unescape the output.
 	are owned by the calling user account (even if for these projects
 	the 'READ' access right is not assigned to the calling user
 	account).
+
+--recent::
+	Display the projects that were recently accessed by the calling
+	user.
 
 --limit::
 	Cap the number of results to the first N matches.

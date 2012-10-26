@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAK+H////Y\u003d",
+        "filename": "gerrit-plugin-realm/src/main/java/com/google/gerrit/realm/cache/CacheBinding.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-10-26T06:15:14Z",
+      "side": 1,
+      "message": "this was moved here because of RealmProvider.getRealmCacheModule method return type. Now when it appears that this can be moved to plugin module this movement seams to be unnecessary.",
+      "parentUuid": "AAAK6H////4\u003d",
+      "revId": "13f4f94af0717aa249b1f306ecf5fe575e035b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAK6H////g\u003d",
         "filename": "gerrit-plugin-realm/src/main/java/com/google/gerrit/realm/guice/RealmExtensionsModule.java",
         "patchSetId": 2

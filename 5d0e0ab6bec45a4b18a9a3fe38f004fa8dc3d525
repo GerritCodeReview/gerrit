@@ -104,6 +104,24 @@
       "revId": "5d0e0ab6bec45a4b18a9a3fe38f004fa8dc3d525",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK+H///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-26T16:45:56Z",
+      "side": 1,
+      "message": "Did you forget to add this change? Looks like the method was only renamed in the calling places.",
+      "parentUuid": "AAAK6H///8I\u003d",
+      "revId": "5d0e0ab6bec45a4b18a9a3fe38f004fa8dc3d525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

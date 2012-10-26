@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAK6H///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-26T00:51:53Z",
+      "side": 1,
+      "message": "Method names should start with lowerCaseAndBeCamelCase.",
+      "revId": "a6ea0da56d90b640f36f577f7c1f6c716fad61b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

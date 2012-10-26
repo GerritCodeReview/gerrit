@@ -34,6 +34,24 @@
       "revId": "f1fe3bf2158d8a1841c3e532743dea09480adedb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK6H///8A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-10-26T16:35:53Z",
+      "side": 1,
+      "message": "this page is a good case, \nclick this feedback box, blue line can work.\n\nbut the blue line will disapper when set cusor on your commit or\n my first feedback box. :)",
+      "parentUuid": "AAAK+H///+Y\u003d",
+      "revId": "f1fe3bf2158d8a1841c3e532743dea09480adedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

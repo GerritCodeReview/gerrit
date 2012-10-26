@@ -38,7 +38,7 @@ public class RevertedSender extends ReplyToChangeSender {
 
     ccAllApprovals();
     bccStarredBy();
-    bccWatches(NotifyType.ALL_COMMENTS);
+    includeWatchers(NotifyType.ALL_COMMENTS);
   }
 
   @Override

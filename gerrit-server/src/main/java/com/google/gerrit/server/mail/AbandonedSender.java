@@ -39,7 +39,7 @@ public class AbandonedSender extends ReplyToChangeSender {
 
     ccAllApprovals();
     bccStarredBy();
-    bccWatches(NotifyType.ALL_COMMENTS);
+    includeWatchers(NotifyType.ALL_COMMENTS);
   }
 
   @Override

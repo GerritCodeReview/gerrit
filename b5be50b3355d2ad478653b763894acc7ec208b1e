@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAK/n////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-27T00:42:36Z",
+      "side": 1,
+      "message": "The handler isn\u0027t really part of the data we are displaying, even if it is attached to a widget. This should be supplied separately by a different method.",
+      "revId": "b5be50b3355d2ad478653b763894acc7ec208b1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK/n////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-27T00:42:36Z",
+      "side": 1,
+      "message": "I don\u0027t think we want a FocusPanel. These can trap keyboard events by using a hidden input box. Its not really ideal for just adding an onclick handler.\n\nThere must be a simpler way in GWT to add a click handler to the header. DOM allows click handlers on \u003cdiv\u003e tags and that is all an HTMLPanel is. Maybe you can declare the onclick action via UIBinder somehow?",
+      "revId": "b5be50b3355d2ad478653b763894acc7ec208b1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

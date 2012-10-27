@@ -14,13 +14,26 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
+import com.google.gerrit.client.ui.AccountSuggestOracle;
+import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.TreeSet;
 
 public class SearchSuggestOracle extends HighlightSuggestOracle {
+  private static final List<ParamSuggester> paramSuggester = Arrays.asList(
+      new ParamSuggester("project:", new ProjectNameSuggestOracle()),
+      new ParamSuggester(Arrays.asList("owner:", "reviewer:"),
+          new AccountSuggestOracle()),
+      new ParamSuggester(Arrays.asList("ownerin:", "reviewerin:"),
+          new AccountGroupSuggestOracle()));
+
   private static final TreeSet<String> suggestions = new TreeSet<String>();
 
   static {
@@ -101,6 +114,13 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
       return;
     }
 
+    for (final ParamSuggester ps : paramSuggester) {
+      if (ps.applicable(lastWord)) {
+        ps.suggest(lastWord, request, done);
+        return;
+      }
+    }
+
     final ArrayList<SearchSuggestion> r = new ArrayList<SearchSuggestOracle.SearchSuggestion>();
     for (String suggestion : suggestions.tailSet(lastWord)) {
       if ((lastWord.length() < suggestion.length()) && suggestion.startsWith(lastWord)) {
@@ -129,6 +149,11 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     return super.getQueryPattern(getLastWord(query));
   }
 
+  @Override
+  protected boolean isHTML() {
+    return true;
+  }
+
   private static class SearchSuggestion implements SuggestOracle.Suggestion {
     private final String suggestion;
     private final String fullQuery;
@@ -146,6 +171,60 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
     @Override
     public String getReplacementString() {
       return fullQuery;
+    }
+  }
+
+  private static class ParamSuggester {
+    private final List<String> operators;
+    private final SuggestOracle parameterSuggestionOracle;
+
+    ParamSuggester(final String operator,
+        final SuggestOracle parameterSuggestionOracle) {
+      this(Collections.singletonList(operator), parameterSuggestionOracle);
+    }
+
+    ParamSuggester(final List<String> operators,
+        final SuggestOracle parameterSuggestionOracle) {
+      this.operators = operators;
+      this.parameterSuggestionOracle = parameterSuggestionOracle;
+    }
+
+    boolean applicable(final String query) {
+      final String operator = getApplicableOperator(query, operators);
+      return operator != null && query.length() > operator.length();
+    }
+
+    private String getApplicableOperator(final String lastWord,
+        final List<String> operators) {
+      for (final String operator : operators) {
+        if (lastWord.startsWith(operator)) {
+          return operator;
+        }
+      }
+      return null;
+    }
+
+    void suggest(final String lastWord, final Request request, final Callback done) {
+      final String operator = getApplicableOperator(lastWord, operators);
+      parameterSuggestionOracle.requestSuggestions(
+          new Request(lastWord.substring(operator.length()), request.getLimit()),
+          new Callback() {
+            @Override
+            public void onSuggestionsReady(final Request req,
+                final Response response) {
+              final String query = request.getQuery();
+              final List<SearchSuggestOracle.Suggestion> r =
+                  new ArrayList<SuggestOracle.Suggestion>(response
+                      .getSuggestions().size());
+              for (final SearchSuggestOracle.Suggestion s : response
+                  .getSuggestions()) {
+                r.add(new SearchSuggestion(s.getDisplayString(),
+                    query.substring(0, query.length() - lastWord.length()) +
+                    operator + "\"" + s.getReplacementString() + "\""));
+              }
+              done.onSuggestionsReady(request, new Response(r));
+            }
+          });
     }
   }
 }

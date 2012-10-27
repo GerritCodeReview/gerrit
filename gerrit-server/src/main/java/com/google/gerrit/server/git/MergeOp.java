@@ -416,7 +416,7 @@ public class MergeOp {
     inserter = repo.newObjectInserter();
   }
 
-  private RefUpdate openBranch() throws MergeException {
+  private RefUpdate openBranch() throws MergeException, OrmException {
     try {
       final RefUpdate branchUpdate = repo.updateRef(destBranch.get());
       if (branchUpdate.getOldObjectId() != null) {
@@ -433,8 +433,10 @@ public class MergeOp {
         } else if (repo.getFullBranch().equals(destBranch.get())) {
           branchUpdate.setExpectedOldObjectId(ObjectId.zeroId());
         } else {
-          throw new MergeException("Destination branch \""
-              + branchUpdate.getRef().getName() + "\" does not exist");
+          for (final Change c : db.changes().submitted(destBranch).toList()) {
+            setNew(c, message(c, "Your change could not be merged, "
+                + "because the destination branch does not exist anymore."));
+          }
         }
       } catch (IOException e) {
         throw new MergeException(

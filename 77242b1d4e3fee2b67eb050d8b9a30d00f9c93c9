@@ -85,6 +85,23 @@
       "revId": "77242b1d4e3fee2b67eb050d8b9a30d00f9c93c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALCH////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1900,
+      "author": {
+        "id": 1010579
+      },
+      "writtenOn": "2012-10-27T05:40:24Z",
+      "side": 1,
+      "message": "what about replacing the above line with:\nfinal PatchSet.Id id \u003d PatchSet.Id.fromRef(ref.getName());\nfinal Change change \u003d db.changes().get(id.getParentKey());\nif(cmd.getRefName().equals(change.getDest().get())) {\n            closeChange(cmd, id, c);\n}",
+      "revId": "77242b1d4e3fee2b67eb050d8b9a30d00f9c93c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

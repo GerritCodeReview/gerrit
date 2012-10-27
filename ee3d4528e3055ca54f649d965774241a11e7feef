@@ -16,6 +16,24 @@
       "revId": "ee3d4528e3055ca54f649d965774241a11e7feef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK/n///+k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-10-27T15:25:59Z",
+      "side": 1,
+      "message": "very sorry!\n\nDone",
+      "parentUuid": "AAAK/n////E\u003d",
+      "revId": "ee3d4528e3055ca54f649d965774241a11e7feef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

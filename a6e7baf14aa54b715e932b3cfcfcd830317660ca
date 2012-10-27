@@ -16,6 +16,24 @@
       "revId": "a6e7baf14aa54b715e932b3cfcfcd830317660ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK/n///+w\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-10-27T15:25:53Z",
+      "side": 1,
+      "message": "Its my mistake.\n\nDone.",
+      "parentUuid": "AAAK/n////s\u003d",
+      "revId": "a6e7baf14aa54b715e932b3cfcfcd830317660ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

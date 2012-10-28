@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 import java.util.concurrent.ExecutionException;
@@ -202,6 +203,65 @@ public class ProjectCacheImpl implements ProjectCache {
             } else {
               itr = Collections.<Project.NameKey> emptyList().iterator();
               return false;
+            }
+          }
+
+          @Override
+          public Project.NameKey next() {
+            if (!hasNext()) {
+              throw new NoSuchElementException();
+            }
+
+            Project.NameKey r = next;
+            next = null;
+            return r;
+          }
+
+          @Override
+          public void remove() {
+            throw new UnsupportedOperationException();
+          }
+        };
+      }
+    };
+  }
+
+  public Iterable<Project.NameKey> bySubname(final String substring) {
+    final Iterable<Project.NameKey> src;
+    try {
+      src = list.get(ListKey.ALL);
+    } catch (ExecutionException e) {
+      return Collections.emptyList();
+    }
+    return new Iterable<Project.NameKey>() {
+      @Override
+      public Iterator<Project.NameKey> iterator() {
+        return new Iterator<Project.NameKey>() {
+          private Iterator<Project.NameKey> itr = src.iterator();
+          private Project.NameKey next;
+
+          @Override
+          public boolean hasNext() {
+            if (next != null) {
+              return true;
+            }
+
+            if (!itr.hasNext()) {
+              return false;
+            }
+
+            Project.NameKey r = itr.next();
+            if (r.get().toLowerCase(Locale.US)
+                .contains(substring.toLowerCase(Locale.US))) {
+              next = r;
+              return true;
+            } else {
+              if (itr.hasNext()) {
+                return hasNext();
+              } else {
+                itr = Collections.<Project.NameKey> emptyList().iterator();
+                return false;
+              }
             }
           }
 

@@ -103,6 +103,7 @@ public interface AdminConstants extends Constants {
   String groupTabGeneral();
   String groupTabMembers();
   String projectListTitle();
+  String filter();
   String createProjectTitle();
   String projectAdminTabGeneral();
   String projectAdminTabBranches();

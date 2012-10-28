@@ -62,6 +62,14 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .send(NativeMap.copyKeysIntoChildren(cb));
   }
 
+  public static void match(String match, AsyncCallback<ProjectMap> cb) {
+    new RestApi("/projects/" + URL.encode(match).replaceAll("[?]", "%3F"))
+        .addParameterRaw("type", "ALL")
+        .addParameterTrue("d") // description
+        .addParameterTrue("subname")
+        .send(NativeMap.copyKeysIntoChildren(cb));
+  }
+
   protected ProjectMap() {
   }
 }

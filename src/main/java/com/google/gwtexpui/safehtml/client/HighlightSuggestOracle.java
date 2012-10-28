@@ -41,7 +41,7 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
     onRequestSuggestions(request, new Callback() {
       public void onSuggestionsReady(final Request request,
           final Response response) {
-        final String qpat = "(" + escape(request.getQuery()) + ")";
+        final String qpat = getQueryPattern(request.getQuery());
         final boolean html = isHTML();
         final ArrayList<Suggestion> r = new ArrayList<Suggestion>();
         for (final Suggestion s : response.getSuggestions()) {
@@ -50,6 +50,10 @@ public abstract class HighlightSuggestOracle extends SuggestOracle {
         cb.onSuggestionsReady(request, new Response(r));
       }
     });
+  }
+
+  protected String getQueryPattern(final String query) {
+    return "(" + escape(query) + ")";
   }
 
   /**

@@ -14,18 +14,63 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class AllProjectsScreen extends ProjectListScreen {
+  private NpTextBox filterTxt;
+  private String subname;
+
   @Override
   protected void onLoad() {
     super.onLoad();
-    ProjectMap.all(new ScreenLoadCallback<ProjectMap>(this) {
+    if (subname == null || "".equals(subname)) {
+      ProjectMap.all(new ScreenLoadCallback<ProjectMap>(this) {
+        @Override
+        protected void preDisplay(final ProjectMap result) {
+          display(result);
+        }
+      });
+    } else {
+      ProjectMap.match(subname, new ScreenLoadCallback<ProjectMap>(this) {
+        @Override
+        protected void preDisplay(final ProjectMap result) {
+          display(result);
+        }
+      });
+    }
+  }
+
+  @Override
+  protected void initPageHeader() {
+    final HorizontalPanel hp = new HorizontalPanel();
+    hp.setStyleName(Gerrit.RESOURCES.css().filterPanel());
+    final Label filterLabel = new Label(Util.C.filter());
+    filterLabel.setStyleName(Gerrit.RESOURCES.css().filterLabel());
+    hp.add(filterLabel);
+    filterTxt = new NpTextBox();
+    filterTxt.setWidth("200px");
+    filterTxt.setValue(subname);
+    filterTxt.addKeyUpHandler(new KeyUpHandler() {
       @Override
-      protected void preDisplay(final ProjectMap result) {
-        display(result);
+      public void onKeyUp(KeyUpEvent event) {
+        subname = filterTxt.getValue();
+        onLoad();
       }
     });
+    hp.add(filterTxt);
+    add(hp);
+  }
+
+  @Override
+  public void onShowView() {
+    super.onShowView();
+    filterTxt.setFocus(true);
   }
 }

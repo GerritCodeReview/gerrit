@@ -128,7 +128,8 @@ public class ListProjects {
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of projects to list")
   private int limit;
 
-  private String matchPrefix;
+  private String match;
+  private boolean byPrefix;
 
   @Option(name = "--has-acl-for", metaVar = "GROUP", usage =
       "displays only projects on which access rights for this group are directly assigned")
@@ -171,8 +172,9 @@ public class ListProjects {
     return this;
   }
 
-  public ListProjects setMatchPrefix(String prefix) {
-    this.matchPrefix = prefix;
+  public ListProjects setMatch(String match, boolean byPrefix) {
+    this.match = match;
+    this.byPrefix = byPrefix;
     return this;
   }
 
@@ -357,8 +359,12 @@ public class ListProjects {
   private Iterable<NameKey> scan() {
     if (recent) {
       return recentProjectsCache.getProjects(userProvider.get().getAccountId());
-    } else if (matchPrefix != null) {
-      return projectCache.byName(matchPrefix);
+    } else if (match != null) {
+      if (byPrefix) {
+        return projectCache.byName(match);
+      } else {
+        return projectCache.bySubname(match);
+      }
     } else {
       return projectCache.all();
     }

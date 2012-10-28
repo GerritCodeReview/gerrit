@@ -38,6 +38,7 @@ public abstract class ProjectListScreen extends Screen {
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.C.projectListTitle());
+    initPageHeader();
 
     projects = new ProjectsTable() {
       @Override
@@ -84,6 +85,9 @@ public abstract class ProjectListScreen extends Screen {
     projects.setSavePointerId(PageLinks.ADMIN_PROJECTS);
 
     add(projects);
+  }
+
+  protected void initPageHeader() {
   }
 
   @Override

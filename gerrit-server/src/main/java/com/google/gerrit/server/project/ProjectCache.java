@@ -49,6 +49,16 @@ public interface ProjectCache {
    */
   public abstract Iterable<Project.NameKey> byName(String prefix);
 
+  /**
+   * Filter the set of registered project names by a contained substring.
+   * The substring is case insensitive.
+   *
+   * @param substring substring to be contained in the project names
+   * @return sorted iteration of projects having the same substring in their
+   *         name
+   */
+  public abstract Iterable<Project.NameKey> bySubname(String substring);
+
   /** Notify the cache that a new project was constructed. */
   public void onCreateProject(Project.NameKey newProjectName);
 }

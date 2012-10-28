@@ -26,8 +26,11 @@ import com.google.inject.Singleton;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 @Singleton
@@ -49,7 +52,20 @@ public class ListProjectsServlet extends RestApiServlet {
       throws IOException {
     ListProjects impl = factory.get();
     if (!Strings.isNullOrEmpty(req.getPathInfo())) {
-      impl.setMatchPrefix(URLDecoder.decode(req.getPathInfo(), "UTF-8"));
+      final boolean byPrefix = req.getParameter("subname") == null;
+      impl.setMatch(URLDecoder.decode(req.getPathInfo(), "UTF-8"), byPrefix);
+      if (!byPrefix) {
+        req = new  HttpServletRequestWrapper(req) {
+          @SuppressWarnings({"rawtypes", "unchecked"})
+          @Override
+          public Map getParameterMap() {
+            Map params = new HashMap();
+            params.putAll(getRequest().getParameterMap());
+            params.remove("subname");
+            return params;
+         }
+        };
+      }
     }
     if (acceptsJson(req)) {
       impl.setFormat(OutputFormat.JSON_COMPACT);

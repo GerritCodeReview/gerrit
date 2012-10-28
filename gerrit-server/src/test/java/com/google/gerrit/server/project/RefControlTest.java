@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.rules.PrologEnvironment;
 import com.google.gerrit.rules.RulesCache;
 import com.google.gerrit.server.AccessPath;
@@ -301,6 +302,11 @@ public class RefControlTest extends TestCase {
 
       @Override
       public Iterable<Project.NameKey> byName(String prefix) {
+        return Collections.emptySet();
+      }
+
+      @Override
+      public Iterable<NameKey> bySubname(String substring) {
         return Collections.emptySet();
       }
 

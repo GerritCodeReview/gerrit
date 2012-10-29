@@ -16,6 +16,24 @@
       "revId": "136d6cc3a5b54196fd63c170da01103c347adf26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAK/n///+M\u003d",
+        "filename": "gerrit-war/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-29T13:45:12Z",
+      "side": 1,
+      "message": "This seems to be a problem with m2e in Eclipse Indigo.\n\nI\u0027ve uploaded a fix:\n\nChange: Id37cd53bea434cb9ecf8f509de8da558516e8303",
+      "parentUuid": "AAAK/n///+U\u003d",
+      "revId": "136d6cc3a5b54196fd63c170da01103c347adf26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,7 +25,7 @@ public class DefaultRealm implements Realm {
   private final AccountByEmailCache byEmail;
 
   @Inject
-  DefaultRealm(final EmailExpander emailExpander,
+  protected DefaultRealm(final EmailExpander emailExpander,
       final AccountByEmailCache byEmail) {
     this.emailExpander = emailExpander;
     this.byEmail = byEmail;

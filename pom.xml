@@ -91,6 +91,7 @@ limitations under the License.
     <module>gerrit-extension-api</module>
 
     <module>gerrit-gwtui</module>
+    <module>gerrit-realm-development</module>
   </modules>
 
   <profiles>

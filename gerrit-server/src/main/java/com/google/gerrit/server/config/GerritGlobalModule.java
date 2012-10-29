@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.realm.RealmModule;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.rules.PrologModule;
 import com.google.gerrit.rules.RulesCache;
@@ -80,35 +81,43 @@ import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
 
 import org.apache.velocity.runtime.RuntimeInstance;
-import org.eclipse.jgit.lib.Config;
+
+import javax.inject.Provider;
 
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
   private final AuthType loginType;
+  private final Provider<RealmModule> realmModuleProvider;
 
   @Inject
   GerritGlobalModule(final AuthConfig authConfig,
-      @GerritServerConfig final Config config) {
+      final Provider<RealmModule> realmModuleProvider) {
     loginType = authConfig.getAuthType();
+    this.realmModuleProvider = realmModuleProvider;
   }
 
   @Override
   protected void configure() {
-    switch (loginType) {
-      case HTTP_LDAP:
-      case LDAP:
-      case LDAP_BIND:
-      case CLIENT_SSL_CERT_LDAP:
-        install(new LdapModule());
-        break;
+    RealmModule realmModule = realmModuleProvider.get();
+    if (realmModule != null) {
+      install(realmModule);
+    } else {
+      switch (loginType) {
+        case HTTP_LDAP:
+        case LDAP:
+        case LDAP_BIND:
+        case CLIENT_SSL_CERT_LDAP:
+          install(new LdapModule());
+          break;
 
-      case CUSTOM_EXTENSION:
-        break;
+        case CUSTOM_EXTENSION:
+          break;
 
-      default:
-        bind(Realm.class).to(DefaultRealm.class);
-        break;
+        default:
+          bind(Realm.class).to(DefaultRealm.class);
+          break;
+      }
     }
 
     bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
@@ -140,8 +149,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectNode.Factory.class);
     factory(ProjectState.Factory.class);
     bind(PermissionCollection.Factory.class);
-    bind(AccountVisibility.class)
-        .toProvider(AccountVisibilityProvider.class)
+    bind(AccountVisibility.class).toProvider(AccountVisibilityProvider.class)
         .in(SINGLETON);
 
     bind(GroupControl.Factory.class).in(SINGLETON);
@@ -149,7 +157,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(InternalGroupBackend.class).in(SINGLETON);
     bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), GroupBackend.class);
-    DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
+    DynamicSet.bind(binder(), GroupBackend.class)
+        .to(InternalGroupBackend.class);
 
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(ToolsCatalog.class);
@@ -160,9 +169,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
     factory(ReloadSubmitQueueOp.Factory.class);
 
-    bind(RuntimeInstance.class)
-        .toProvider(VelocityRuntimeProvider.class)
-        .in(SINGLETON);
+    bind(RuntimeInstance.class).toProvider(VelocityRuntimeProvider.class).in(
+        SINGLETON);
     bind(FromAddressGenerator.class).toProvider(
         FromAddressGeneratorProvider.class).in(SINGLETON);
 
@@ -179,7 +187,8 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CacheRemovalListener.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
-    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
+    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(
+        ChangeCache.class);
 
     bind(AnonymousUser.class);
   }

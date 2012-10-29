@@ -36,6 +36,8 @@ import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.realm.RealmModule;
+import com.google.gerrit.realm.RealmModuleProvider;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
@@ -65,6 +67,7 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
@@ -281,6 +284,12 @@ public class Daemon extends SiteProgram {
   private Injector createCfgInjector() {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new AuthConfigModule());
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(RealmModule.class).toProvider(RealmModuleProvider.class);
+      }
+    });
     return dbInjector.createChildInjector(modules);
   }
 

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd;
 
-import static com.google.inject.Scopes.SINGLETON;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -51,12 +51,14 @@ import com.google.inject.servlet.ServletModule;
 import java.net.SocketAddress;
 
 import javax.annotation.Nullable;
+import javax.inject.Named;
 
 public class WebModule extends FactoryModule {
   private final AuthConfig authConfig;
   private final UrlModule.UrlConfig urlConfig;
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
+  private ServletModule realmServletModule;
 
   @Inject
   WebModule(final AuthConfig authConfig,
@@ -76,6 +78,11 @@ public class WebModule extends FactoryModule {
         }).getInstance(GitWebConfig.class);
   }
 
+  @Inject(optional = true)
+  public void setRealmServletModule(@Named("realm-servlet") ServletModule realmServletModule) {
+    this.realmServletModule = realmServletModule;
+  }
+
   @Override
   protected void configure() {
     bind(RequestScopePropagator.class).to(GuiceRequestScopePropagator.class);
@@ -84,38 +91,41 @@ public class WebModule extends FactoryModule {
     if (wantSSL) {
       install(new RequireSslFilter.Module());
     }
+    if (realmServletModule != null) {
+      install(realmServletModule);
+    } else {
+      switch (authConfig.getAuthType()) {
+        case HTTP:
+        case HTTP_LDAP:
+          install(new HttpAuthModule());
+          break;
 
-    switch (authConfig.getAuthType()) {
-      case HTTP:
-      case HTTP_LDAP:
-        install(new HttpAuthModule());
-        break;
+        case CLIENT_SSL_CERT_LDAP:
+          install(new HttpsClientSslCertModule());
+          break;
 
-      case CLIENT_SSL_CERT_LDAP:
-        install(new HttpsClientSslCertModule());
-        break;
+        case LDAP:
+        case LDAP_BIND:
+          install(new LdapAuthModule());
+          break;
 
-      case LDAP:
-      case LDAP_BIND:
-        install(new LdapAuthModule());
-        break;
+        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+          install(new ServletModule() {
+            @Override
+            protected void configureServlets() {
+              serve("/become").with(BecomeAnyAccountLoginServlet.class);
+            }
+       });
+          break;
 
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        install(new ServletModule() {
-          @Override
-          protected void configureServlets() {
-            serve("/become").with(BecomeAnyAccountLoginServlet.class);
-          }
-        });
-        break;
-
-      case OPENID:
-      case OPENID_SSO:
-        // OpenID support is bound in WebAppInitializer and Daemon.
-      case CUSTOM_EXTENSION:
-        break;
-      default:
-        throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
+        case OPENID:
+        case OPENID_SSO:
+          // OpenID support is bound in WebAppInitializer and Daemon.
+        case CUSTOM_EXTENSION:
+          break;
+        default:
+          throw new ProvisionException("Unsupported loginType: " + authConfig.getAuthType());
+      }
     }
 
     install(new UrlModule(urlConfig));

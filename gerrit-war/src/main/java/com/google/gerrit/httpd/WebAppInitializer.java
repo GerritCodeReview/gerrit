@@ -22,6 +22,8 @@ import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.plugins.HttpPluginModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.realm.RealmModule;
+import com.google.gerrit.realm.RealmModuleProvider;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AuthConfig;
@@ -219,6 +221,12 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(new LocalDiskRepositoryManager.Module());
     modules.add(SchemaVersionCheck.module());
     modules.add(new AuthConfigModule());
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(RealmModule.class).toProvider(RealmModuleProvider.class);
+      }
+    });
     return dbInjector.createChildInjector(modules);
   }
 

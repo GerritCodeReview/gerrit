@@ -224,16 +224,27 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         } catch (NoSuchChangeException e) {
           return Collections.emptyList();
         }
-        VisibilityControl visibilityControl = new VisibilityControl() {
-          @Override
-          public boolean isVisible(Account account) throws OrmException {
-            IdentifiedUser who =
-                identifiedUserFactory.create(reviewDbProvider, account.getId());
-            // we can't use changeControl directly as it won't suggest reviewers
-            // to drafts
-            return changeControl.forUser(who).isRefVisible();
-          }
-        };
+
+        VisibilityControl visibilityControl;
+        if (changeControl.getRefControl().isVisibleByRegisteredUsers()) {
+          visibilityControl = new VisibilityControl() {
+            @Override
+            public boolean isVisible(Account account) throws OrmException {
+              return true;
+            }
+          };
+        } else {
+          visibilityControl = new VisibilityControl() {
+            @Override
+            public boolean isVisible(Account account) throws OrmException {
+              IdentifiedUser who =
+                  identifiedUserFactory.create(reviewDbProvider, account.getId());
+              // we can't use changeControl directly as it won't suggest reviewers
+              // to drafts
+              return changeControl.forUser(who).isRefVisible();
+            }
+          };
+        }
 
         final List<AccountInfo> suggestedAccounts =
             suggestAccount(db, query, Boolean.TRUE, limit, visibilityControl);

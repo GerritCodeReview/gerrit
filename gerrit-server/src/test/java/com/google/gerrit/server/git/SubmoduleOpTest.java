@@ -100,7 +100,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
   /**
    * It tests Submodule.update in the scenario a merged commit is an empty one
-   * (it does not have a .gitmodule file) and the project the commit was merged
+   * (it does not have a .gitmodules file) and the project the commit was merged
    * is not a submodule of other project.
    *
    * @throws Exception If an exception occurs.
@@ -603,17 +603,17 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     final CodeReviewCommit codeReviewCommit =
         new CodeReviewCommit(sourceMergeTip.toObjectId());
-    final Change submitedChange =
+    final Change submittedChange =
         new Change(new Change.Key(sourceMergeTip.toObjectId().getName()),
             new Change.Id(1), new Account.Id(1), sourceBranchNameKey);
-    codeReviewCommit.change = submitedChange;
+    codeReviewCommit.change = submittedChange;
 
     final Map<Change.Id, CodeReviewCommit> mergedCommits =
         new HashMap<Change.Id, CodeReviewCommit>();
     mergedCommits.put(codeReviewCommit.change.getId(), codeReviewCommit);
 
-    final List<Change> submited = new ArrayList<Change>();
-    submited.add(submitedChange);
+    final List<Change> submitted = new ArrayList<Change>();
+    submitted.add(submittedChange);
 
     final Repository targetRepository = createWorkRepository();
     final Git targetGit = new Git(targetRepository);
@@ -658,7 +658,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     final SubmoduleOp submoduleOp =
         new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
             sourceRepository), urlProvider, schemaFactory, sourceRepository,
-            new Project(sourceBranchNameKey.getParentKey()), submited,
+            new Project(sourceBranchNameKey.getParentKey()), submitted,
             mergedCommits, myIdent, repoManager, replication);
 
     submoduleOp.update();
@@ -704,17 +704,17 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
 
     final CodeReviewCommit codeReviewCommit =
         new CodeReviewCommit(sourceMergeTip.toObjectId());
-    final Change submitedChange =
+    final Change submittedChange =
         new Change(new Change.Key(sourceMergeTip.toObjectId().getName()),
             new Change.Id(1), new Account.Id(1), sourceBranchNameKey);
-    codeReviewCommit.change = submitedChange;
+    codeReviewCommit.change = submittedChange;
 
     final Map<Change.Id, CodeReviewCommit> mergedCommits =
         new HashMap<Change.Id, CodeReviewCommit>();
     mergedCommits.put(codeReviewCommit.change.getId(), codeReviewCommit);
 
-    final List<Change> submited = new ArrayList<Change>();
-    submited.add(submitedChange);
+    final List<Change> submitted = new ArrayList<Change>();
+    submitted.add(submittedChange);
 
     final Repository targetRepository = createWorkRepository();
     final Git targetGit = new Git(targetRepository);
@@ -761,7 +761,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     final SubmoduleOp submoduleOp =
         new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
             sourceRepository), urlProvider, schemaFactory, sourceRepository,
-            new Project(sourceBranchNameKey.getParentKey()), submited,
+            new Project(sourceBranchNameKey.getParentKey()), submitted,
             mergedCommits, myIdent, repoManager, replication);
 
     submoduleOp.update();
@@ -784,7 +784,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
    * @param gitModulesFileContent The .gitmodules file content. During the test
    *        this file is created, so the commit containing it.
    * @param sourceBranchName The branch name of source project "pointed by"
-   *        .gitmodule file.
+   *        .gitmodules file.
    * @throws Exception If an exception occurs.
    */
   private void doOneSubscriptionInsert(final String gitModulesFileContent,
@@ -815,7 +815,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
    * source of another project (no subscribers found to this project).
    * </p>
    *
-   * @param gitModulesFileContent The .gitmodule file content.
+   * @param gitModulesFileContent The .gitmodules file content.
    * @param mergedBranch The {@link Branch.NameKey} instance representing the
    *        project/branch the commit was merged.
    * @param extractedSubscriptions The subscription rows extracted from

@@ -253,7 +253,6 @@ public class ReceiveCommits {
   private final PersonIdent gerritIdent;
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
-  private final ChangeCache changeCache;
   private final WorkQueue workQueue;
   private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
@@ -333,7 +332,6 @@ public class ReceiveCommits {
     this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
-    this.changeCache = changeCache;
     this.workQueue = workQueue;
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;

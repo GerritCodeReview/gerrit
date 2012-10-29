@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.errors.InvalidNameException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -104,6 +105,26 @@ public class RefControl {
   public boolean isVisible() {
     return (getCurrentUser() instanceof InternalUser || canPerform(Permission.READ))
         && canRead();
+  }
+
+  /**
+   * True if this reference is visible by all REGISTERED_USERS or
+   * ANONYMOUS_USERS
+   */
+  public boolean isVisibleByEveryone() {
+    List<PermissionRule> access = relevant.getPermission(Permission.READ);
+    for (PermissionRule rule : access) {
+      if (rule.isBlock()) {
+        return false;
+      }
+    }
+    for (PermissionRule rule : access) {
+      if (rule.getGroup().getUUID().equals(AccountGroup.ANONYMOUS_USERS)
+          || rule.getGroup().getUUID().equals(AccountGroup.REGISTERED_USERS)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

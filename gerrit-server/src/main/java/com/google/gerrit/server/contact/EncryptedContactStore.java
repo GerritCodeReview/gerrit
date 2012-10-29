@@ -111,8 +111,7 @@ class EncryptedContactStore implements ContactStore {
     try {
       InputStream in = new FileInputStream(pub);
       try {
-        in = PGPUtil.getDecoderStream(in);
-        return new PGPPublicKeyRingCollection(in);
+        return new PGPPublicKeyRingCollection(PGPUtil.getDecoderStream(in));
       } finally {
         in.close();
       }

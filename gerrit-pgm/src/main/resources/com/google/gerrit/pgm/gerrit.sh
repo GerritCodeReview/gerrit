@@ -9,6 +9,17 @@
 # processname: gerrit
 # ========================
 
+### BEGIN INIT INFO
+# Provides:          gerrit
+# Required-Start:    $named $remote_fs $syslog
+# Required-Stop:     $named $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/stop Gerrit Code Review
+# Description:       Gerrit is a web based code review system, facilitating online code reviews
+#                    for projects using the Git version control system.
+### END INIT INFO
+
 # Configuration files:
 #
 # /etc/default/gerritcodereview

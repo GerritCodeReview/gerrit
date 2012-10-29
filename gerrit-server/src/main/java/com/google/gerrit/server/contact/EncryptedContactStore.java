@@ -107,6 +107,7 @@ class EncryptedContactStore implements ContactStore {
     return true;
   }
 
+  @SuppressWarnings("resource")
   private static PGPPublicKeyRingCollection readPubRing(final File pub) {
     try {
       InputStream in = new FileInputStream(pub);

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.become;
+package com.google.gerrit.realm.development;
 
 import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
 

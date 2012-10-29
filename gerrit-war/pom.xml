@@ -109,6 +109,12 @@ limitations under the License.
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-realm-openid</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-pgm</artifactId>
       <version>${project.version}</version>
       <exclusions>
@@ -177,7 +183,7 @@ limitations under the License.
             <configuration>
               <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/plugins</outputDirectory>
               <includeGroupIds>com.google.gerrit</includeGroupIds>
-              <includeArtifactIds>gerrit-realm-development</includeArtifactIds>
+              <includeArtifactIds>gerrit-realm-development,gerrit-realm-openid</includeArtifactIds>
             </configuration>
             <goals>
               <goal>copy-dependencies</goal>

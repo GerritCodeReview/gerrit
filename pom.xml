@@ -79,7 +79,6 @@ limitations under the License.
     <module>gerrit-httpd</module>
     <module>gerrit-launcher</module>
     <module>gerrit-main</module>
-    <module>gerrit-openid</module>
     <module>gerrit-pgm</module>
     <module>gerrit-prettify</module>
     <module>gerrit-reviewdb</module>
@@ -92,6 +91,7 @@ limitations under the License.
 
     <module>gerrit-gwtui</module>
     <module>gerrit-realm-development</module>
+    <module>gerrit-realm-openid</module>
   </modules>
 
   <profiles>

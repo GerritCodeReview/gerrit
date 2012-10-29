@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 
@@ -40,4 +41,6 @@ public interface Realm {
    * user by that email address.
    */
   public Account.Id lookup(String accountName);
+
+  public void initGerritConfig(GerritConfig config);
 }

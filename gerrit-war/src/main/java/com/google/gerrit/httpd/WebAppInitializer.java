@@ -269,11 +269,6 @@ public class WebAppInitializer extends GuiceServletContextListener {
     modules.add(HttpContactStoreConnection.module());
     modules.add(new HttpPluginModule());
 
-    AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
-    if (authConfig.getAuthType() == AuthType.OPENID) {
-      modules.add(new OpenIdModule());
-    }
-
     return sysInjector.createChildInjector(modules);
   }
 

@@ -20,6 +20,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
@@ -274,6 +275,10 @@ class LdapRealm implements Realm {
       log.warn(String.format("Cannot lookup account %s in LDAP", accountName), e);
       return null;
     }
+  }
+
+  @Override
+  public void initGerritConfig(GerritConfig config) {
   }
 
   static class UserLoader extends CacheLoader<String, Optional<Account.Id>> {

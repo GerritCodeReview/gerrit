@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.openid;
+package com.google.gerrit.realm.httpd.auth.openid;
 
 import com.google.gerrit.httpd.rpc.RpcServletModule;
 import com.google.inject.servlet.ServletModule;

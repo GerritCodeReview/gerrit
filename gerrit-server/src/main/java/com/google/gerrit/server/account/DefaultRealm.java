@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.inject.Inject;
@@ -68,5 +69,9 @@ public class DefaultRealm implements Realm {
       }
     }
     return null;
+  }
+
+  @Override
+  public void initGerritConfig(GerritConfig config) {
   }
 }

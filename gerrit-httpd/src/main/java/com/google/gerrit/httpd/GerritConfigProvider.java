@@ -85,11 +85,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   private GerritConfig create() throws MalformedURLException {
     final GerritConfig config = new GerritConfig();
+    realm.initGerritConfig(config);
     switch (authConfig.getAuthType()) {
-      case OPENID:
-        config.setAllowedOpenIDs(authConfig.getAllowedOpenIDs());
-        break;
-
       case OPENID_SSO:
         config.setOpenIdSsoUrl(authConfig.getOpenIdSsoUrl());
         break;

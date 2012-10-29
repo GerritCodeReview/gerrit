@@ -12,30 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.httpd.auth.openid;
+package com.google.gerrit.realm.httpd.auth.openid;
 
-import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.auth.SignInMode;
-import com.google.gerrit.common.auth.openid.DiscoveryResult;
-import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
-import com.google.gerrit.common.auth.openid.OpenIdService;
-import com.google.gerrit.common.auth.openid.OpenIdUrls;
-import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.UrlEncoded;
-import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthMethod;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nullable;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jgit.lib.Config;
 import org.openid4java.consumer.ConsumerException;
@@ -62,16 +50,28 @@ import org.openid4java.util.ProxyProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nullable;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.auth.SignInMode;
+import com.google.gerrit.common.auth.openid.DiscoveryResult;
+import com.google.gerrit.common.auth.openid.OpenIdProviderPattern;
+import com.google.gerrit.common.auth.openid.OpenIdService;
+import com.google.gerrit.common.auth.openid.OpenIdUrls;
+import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.UrlEncoded;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthMethod;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwtorm.client.KeyUtil;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 @Singleton
 class OpenIdServiceImpl implements OpenIdService {
@@ -147,6 +147,7 @@ class OpenIdServiceImpl implements OpenIdService {
         "auth", null, "maxOpenIdSessionAge", -1, TimeUnit.SECONDS);
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public void discover(final String openidIdentifier, final SignInMode mode,
       final boolean remember, final String returnToken,

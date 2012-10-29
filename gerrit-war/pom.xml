@@ -129,6 +129,7 @@ limitations under the License.
           <warName>gerrit-${project.version}</warName>
           <archiveClasses>true</archiveClasses>
           <attachClasses>true</attachClasses>
+          <packagingExcludes>WEB-INF/lib/gerrit-realm-*.jar</packagingExcludes>
           <archive>
             <addMavenDescriptor>false</addMavenDescriptor>
             <manifestEntries>
@@ -160,6 +161,17 @@ limitations under the License.
             <configuration>
               <includeGroupIds>org.apache.tomcat,org.eclipse.jetty</includeGroupIds>
               <excludeArtifactIds>servlet-api</excludeArtifactIds>
+            </configuration>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>copy-realm-plugins</id>
+            <configuration>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/plugins</outputDirectory>
+              <includeGroupIds>com.google.gerrit</includeGroupIds>
+              <includeArtifactIds>gerrit-realm-development</includeArtifactIds>
             </configuration>
             <goals>
               <goal>copy-dependencies</goal>

@@ -11,9 +11,13 @@ runtime debugging environment.
 Maven Plugin
 ------------
 
-Install the Maven Integration plugins:
+Install the Maven Integration plugins.
 
-http://www.eclipse.org/m2e/download/[m2eclipse]
+In Eclipse version 3.7 (Indigo) and later, these are available in the
+default update site and can be found under the 'Collaboration' category.
+
+For older versions the update site must be manually added; the link can
+be found on the http://www.eclipse.org/m2e/download/[m2eclipse download page].
 
 
 [[Formatting]]

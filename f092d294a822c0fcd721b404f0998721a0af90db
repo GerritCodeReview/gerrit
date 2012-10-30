@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALIn///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/realm/RealmModuleProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-10-30T12:48:36Z",
+      "side": 1,
+      "message": "ger-\u003eget",
+      "revId": "f092d294a822c0fcd721b404f0998721a0af90db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

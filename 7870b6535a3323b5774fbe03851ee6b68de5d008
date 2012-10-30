@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALH3///+w\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-30T09:34:05Z",
+      "side": 1,
+      "message": "nit: should be named \"master_apprentice\" to be compatible with the naming style we use for predicates",
+      "revId": "7870b6535a3323b5774fbe03851ee6b68de5d008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALH3////A\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-30T09:34:05Z",
+      "side": 1,
+      "message": "nit: indentation level needs to be fixed for this and all other other lines",
+      "revId": "7870b6535a3323b5774fbe03851ee6b68de5d008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALH3///+8\u003d",
+        "filename": "Documentation/prolog-cookbook.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-10-30T09:34:05Z",
+      "side": 1,
+      "message": "nit: space after coma missing in this and several other lines",
+      "revId": "7870b6535a3323b5774fbe03851ee6b68de5d008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

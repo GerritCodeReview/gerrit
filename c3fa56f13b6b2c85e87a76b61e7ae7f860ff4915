@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALIn////I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-30T09:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALH3////c\u003d",
+      "revId": "c3fa56f13b6b2c85e87a76b61e7ae7f860ff4915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALH3////Y\u003d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALIn////E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-30T09:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALH3////Y\u003d",
+      "revId": "c3fa56f13b6b2c85e87a76b61e7ae7f860ff4915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALH3////U\u003d",
         "filename": "Documentation/dev-eclipse.txt",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-10-30T09:07:03Z",
       "side": 1,
       "message": "s/release site/update site",
+      "revId": "c3fa56f13b6b2c85e87a76b61e7ae7f860ff4915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALIn////A\u003d",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-30T09:21:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALH3////U\u003d",
       "revId": "c3fa56f13b6b2c85e87a76b61e7ae7f860ff4915",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

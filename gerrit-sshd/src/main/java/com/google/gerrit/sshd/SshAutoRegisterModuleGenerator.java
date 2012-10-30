@@ -14,22 +14,29 @@
 
 package com.google.gerrit.sshd;
 
+import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnnotation;
+
 import com.google.common.base.Preconditions;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import com.google.inject.TypeLiteral;
 
 import org.apache.sshd.server.Command;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
 class SshAutoRegisterModuleGenerator
     extends AbstractModule
     implements ModuleGenerator {
   private final Map<String, Class<Command>> commands = Maps.newHashMap();
+  private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
   private CommandName command;
 
   @Override
@@ -38,6 +45,16 @@ class SshAutoRegisterModuleGenerator
         .toProvider(new DispatchCommandProvider(command));
     for (Map.Entry<String, Class<Command>> e : commands.entrySet()) {
       bind(Commands.key(command, e.getKey())).to(e.getValue());
+    }
+    for (Map.Entry<TypeLiteral<?>, Class<?>> e : listeners.entries()) {
+      @SuppressWarnings("unchecked")
+      TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
+
+      @SuppressWarnings("unchecked")
+      Class<Object> impl = (Class<Object>) e.getValue();
+
+      Annotation n = calculateBindAnnotation(impl);
+      bind(type).annotatedWith(n).to(impl);
     }
   }
 
@@ -64,6 +81,12 @@ class SshAutoRegisterModuleGenerator
           type.getName(), export.value(),
           SshCommand.class.getName(), Command.class.getName()));
     }
+  }
+
+
+  @Override
+  public void listen(TypeLiteral<?> tl, Class<?> clazz) {
+    listeners.put(tl, clazz);
   }
 
   @Override

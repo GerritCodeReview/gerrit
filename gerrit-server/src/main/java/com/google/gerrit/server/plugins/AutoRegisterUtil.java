@@ -15,15 +15,27 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.annotations.Export;
-import com.google.inject.Module;
-import com.google.inject.TypeLiteral;
+import com.google.inject.internal.UniqueAnnotations;
 
-public interface ModuleGenerator {
-  void setPluginName(String name);
+import java.lang.annotation.Annotation;
 
-  void export(Export export, Class<?> type) throws InvalidPluginException;
+public final class AutoRegisterUtil {
 
-  void listen(TypeLiteral<?> tl, Class<?> clazz);
+  public static Annotation calculateBindAnnotation(Class<Object> impl) {
+    Annotation n = impl.getAnnotation(Export.class);
+    if (n == null) {
+      n = impl.getAnnotation(javax.inject.Named.class);
+    }
+    if (n == null) {
+      n = impl.getAnnotation(com.google.inject.name.Named.class);
+    }
+    if (n == null) {
+      n = UniqueAnnotations.create();
+    }
+    return n;
+  }
 
-  Module create() throws InvalidPluginException;
+  private AutoRegisterUtil() {
+    // hide default constructor
+  }
 }

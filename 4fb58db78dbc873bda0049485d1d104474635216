@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALIn////k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-30T08:37:38Z",
+      "side": 1,
+      "message": "build -\u003e built",
+      "revId": "4fb58db78dbc873bda0049485d1d104474635216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALIn////g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-30T08:37:38Z",
+      "side": 1,
+      "message": "advice -\u003e advise",
+      "revId": "4fb58db78dbc873bda0049485d1d104474635216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALIn////c\u003d",
+        "filename": "tools/release.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-30T08:37:38Z",
+      "side": 1,
+      "message": "- \"install\" -\u003e \"install $BINARY\"\n\n- \"build with --without-documentation\" -\u003e \"use the --without-documentation option\"",
+      "revId": "4fb58db78dbc873bda0049485d1d104474635216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

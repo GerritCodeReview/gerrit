@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALIn////U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-30T08:48:40Z",
+      "side": 1,
+      "message": "It would be nice if the commit message had a bit more detail explaining what this is and why it\u0027s needed.\n\nHaving looked into what LSB headers are and found an explanation [1] it seems this script is not compliant anyway as it does not provide all of the required actions:  start, stop, restart, force-reload, and status\n\n[1] http://wiki.debian.org/LSBInitScripts",
+      "revId": "a9ab32bdbdc978aaea180362cedf7e939169a915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

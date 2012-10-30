@@ -72,12 +72,6 @@ public class PluginGenerator extends Generator {
 
       // We really use a SourceWriter since it's convenient
       SourceWriter sw = f.createSourceWriter(context, out);
-      sw.println("public " + generatedSimpleSourceName + "() {");
-      sw.indent();
-      sw.println("onModuleLoad();");
-      sw.outdent();
-      sw.println("}");
-
       sw.commit(logger);
     }
 

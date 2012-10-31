@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALLH///+w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011547
+      },
+      "writtenOn": "2012-10-31T03:32:12Z",
+      "side": 1,
+      "message": "\"biding listenres\" -\u003e \"binding listeners\".",
+      "revId": "e09083569b2dde8b6d966eab64f2f391b921bd26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

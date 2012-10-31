@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALNH///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/contact/EncryptedContactStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-31T13:28:14Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is not breaking something.\n\nLooking at the source code of PGPUtil.getDecoderStream(InputStream) I can see that the provided InputStream is wrapped by a BufferedInputStream if the provided InputStream doesn\u0027t support marking, which is the case for the FileInputStream we provide. When the BufferedInputStream is closed it is ensured that all bytes from the buffer are written to the stream before it is closed. By the change above \u0027in\u0027 now only points to the FileInputStream, but not to the wrapping BufferedInputStream returned by PGPUtil.getDecoderStream. This means on in.close() the FileInputStream is closed, but the close() method on the wrapping BufferedinputStream is not invoked.",
+      "revId": "a2b5b465362e5e3b183edbd6cf7840f490d02136",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALH3///9s\u003d",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-10-31T01:12:48Z",
+      "side": 1,
+      "message": "Should I retrieve the cfg-file and check that sshd.listenAddress !\u003d \"off\" here before adding it?",
+      "revId": "5471384ccf75e8846405f59a7b7bdddf1e46302d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALNH////U\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-31T07:19:19Z",
+      "side": 1,
+      "message": "At the moment it\u0027s only projects, but the implementation allows us to add further objects in future.\n\nI\u0027ve changed the description above to say \u0027projects\u0027. We can change the description back to the more generic version once we decide to store also other objects in this cache.\n\nDone.",
+      "parentUuid": "AAALLX////c\u003d",
+      "revId": "088efc910aaec4c10cc927d3cb88950dc35aee24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALLX////k\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
         "patchSetId": 3
@@ -36,6 +54,41 @@
     },
     {
       "key": {
+        "uuid": "AAALNH////M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-31T07:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALLX////k\u003d",
+      "revId": "088efc910aaec4c10cc927d3cb88950dc35aee24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALNH////E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-31T07:19:19Z",
+      "side": 1,
+      "message": "This menu entry should not be added if the caching of recent project is disabled by setting the \u0027maxEntries\u0027 parameter for the \u0027recent\u0027 cache to 0.\n\nDone with the new patch set.",
+      "revId": "088efc910aaec4c10cc927d3cb88950dc35aee24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALLX////g\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AllProjectsScreen.java",
         "patchSetId": 3
@@ -47,6 +100,24 @@
       "writtenOn": "2012-10-31T06:50:33Z",
       "side": 1,
       "message": "2008 -\u003e 2012",
+      "revId": "088efc910aaec4c10cc927d3cb88950dc35aee24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALNH////I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AllProjectsScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-31T07:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALLX////g\u003d",
       "revId": "088efc910aaec4c10cc927d3cb88950dc35aee24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

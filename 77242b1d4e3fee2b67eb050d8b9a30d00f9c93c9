@@ -102,6 +102,24 @@
       "revId": "77242b1d4e3fee2b67eb050d8b9a30d00f9c93c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALNH///+E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1900,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-10-31T09:16:22Z",
+      "side": 1,
+      "message": "I have not verified your suggestion, but it seems that this small patch could certainly improve the situation and remedy the most common issues tied to pushing the same commit to different branches.\n\nAnd since this change has gone stale, could you push that small patch as a separate change? And we can try to iron out the rest of the edge cases in sub-sequential changes?",
+      "parentUuid": "AAALCH////8\u003d",
+      "revId": "77242b1d4e3fee2b67eb050d8b9a30d00f9c93c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

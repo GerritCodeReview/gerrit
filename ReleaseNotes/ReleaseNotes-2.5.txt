@@ -1833,6 +1833,9 @@ which is added to the change. Using any of the download commands to
 fetch this new patch set failed with 'Couldn't find remote ref' because
 no ref for the new patch set was created.
 
+* link:http://code.google.com/p/gerrit/issues/detail?id=1626[issue 1626]:
+  Fix NullPointerException on cherry-pick if `changeMerge.test` is enabled
+
 * link:http://code.google.com/p/gerrit/issues/detail?id=1491[issue 1491]:
   Fix nested submodule updates
 

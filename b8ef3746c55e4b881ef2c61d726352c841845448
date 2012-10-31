@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALLH////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-10-31T02:18:41Z",
+      "side": 1,
+      "message": "This method seems missleadingly named since REGISTERED_USERS is not everyone.",
+      "revId": "b8ef3746c55e4b881ef2c61d726352c841845448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

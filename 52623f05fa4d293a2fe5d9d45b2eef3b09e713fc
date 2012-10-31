@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALLH////g\u003d",
+        "filename": "tools/release.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-10-31T02:31:49Z",
+      "side": 1,
+      "message": "I would suggest using an if instead of the ¦¦ notation since this spans more than one line.\n\nDid you forget to test $include_docs here to allow your advised workaround to function?",
+      "revId": "52623f05fa4d293a2fe5d9d45b2eef3b09e713fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

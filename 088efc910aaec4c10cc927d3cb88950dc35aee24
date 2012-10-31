@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALLX////c\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-31T06:50:33Z",
+      "side": 1,
+      "message": "Can this be used for objects other than projects?",
+      "revId": "088efc910aaec4c10cc927d3cb88950dc35aee24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALLX////k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-31T06:50:33Z",
+      "side": 1,
+      "message": "If these are supposed to be in alphabetical order, `RECENT_PROJECTS` should be after `MINE`.",
+      "revId": "088efc910aaec4c10cc927d3cb88950dc35aee24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALLX////g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AllProjectsScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-31T06:50:33Z",
+      "side": 1,
+      "message": "2008 -\u003e 2012",
+      "revId": "088efc910aaec4c10cc927d3cb88950dc35aee24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

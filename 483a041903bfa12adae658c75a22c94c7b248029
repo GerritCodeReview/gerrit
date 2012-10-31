@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALLX///+o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-31T20:53:18Z",
+      "side": 1,
+      "message": "I agree about the space utilization, during code review I basically want 100% of the window covered with the code... minus maybe a small header or footer to remind where the controls are and file list and etc. But the more we can get for the code, the better.",
+      "parentUuid": "AAALKH////Y\u003d",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALKH////c\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 2
@@ -70,6 +88,23 @@
     },
     {
       "key": {
+        "uuid": "AAALLX///+c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/NavigationTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-31T20:53:18Z",
+      "side": 1,
+      "message": "Remove deleted code?",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALKH////M\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
         "patchSetId": 2
@@ -81,6 +116,23 @@
       "writtenOn": "2012-10-31T00:16:18Z",
       "side": 1,
       "message": "This is a hack, but it is the most straightforward way to support the diff view without tons of changes.\n\nThe diff view wants the header (name of files being diff\u0027ed) to be outside the scrollable area.  Nearly every other page probably doesn\u0027t want this.",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALLX///+Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-10-31T20:53:18Z",
+      "side": 1,
+      "message": "nit: space after if before (",
       "revId": "483a041903bfa12adae658c75a22c94c7b248029",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

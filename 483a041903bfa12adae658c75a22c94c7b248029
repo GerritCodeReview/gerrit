@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALKH////Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-10-31T00:16:18Z",
+      "side": 1,
+      "message": "We could also set the dock panel\u0027s bottom area to the bottom menu, but I felt like the more space we could give the scrollable area, the better.",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALKH////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-10-31T00:16:18Z",
+      "side": 1,
+      "message": "Special thanks to Colin from #gwt for showing me the trick to running code after the CSS has been injected",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALKH////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.ui.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-10-31T00:16:18Z",
+      "side": 1,
+      "message": "I had to make a few changes like this.  Widget.getOffsetHeight() doesn\u0027t account for margin, so I was coming up with the wrong sizes when calculating how tall to make the top nav bar.",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALKH////Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-10-31T00:16:18Z",
+      "side": 1,
+      "message": "I still need to add support for populating the bar in unified diff, but worst-case that can be done later.",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALKH////M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-10-31T00:16:18Z",
+      "side": 1,
+      "message": "This is a hack, but it is the most straightforward way to support the diff view without tons of changes.\n\nThe diff view wants the header (name of files being diff\u0027ed) to be outside the scrollable area.  Nearly every other page probably doesn\u0027t want this.",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "877d493809d91bf02f8d3688cc70d1a5350065eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALLX////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-10-31T02:02:12Z",
+      "side": 1,
+      "message": "It doesn\u0027t get printed if there is no rename.\n\nExample when a file is modified:\n\n    files:\n      file: lorumipsum.txt\n      type: MODIFIED\n      insertions: 50\n      deletions: -50\n    sizeInsertions: 50\n    sizeDeletions: -50\n\nExample when a file is renamed:\n\n    files:\n      file: hello_world.txt\n      fileOld: hello.txt\n      type: RENAMED\n      insertions: 0\n      deletions: 0\n    sizeInsertions: 0\n    sizeDeletions: 0",
+      "parentUuid": "AAALLH////8\u003d",
+      "revId": "877d493809d91bf02f8d3688cc70d1a5350065eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

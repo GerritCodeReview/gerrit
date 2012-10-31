@@ -247,7 +247,9 @@ patch
 -----
 Information about a patch on a file.
 
-file:: The name of the file.
+file:: The name of the file.  If the file is renamed, the new name.
+
+fileOld:: The old name of the file, if the file is renamed.
 
 type:: The type of change.
 

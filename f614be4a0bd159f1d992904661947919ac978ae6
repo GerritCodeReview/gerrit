@@ -16,6 +16,24 @@
       "revId": "f614be4a0bd159f1d992904661947919ac978ae6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALNH///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 2104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-10-31T08:36:01Z",
+      "side": 1,
+      "message": "That is interesting and it was suggested by Shawn as-well: some of current checks that are *inside* Gerrit should be moved to a plug-in.\n\nDifferent companies may have different policies and so they should be able to provide their own plug-ins for enforcing them.\n\nI would prefer to get the plug-in mechanism into Gerrit and then move some of this logic into a plug-in.",
+      "parentUuid": "AAAKrH////M\u003d",
+      "revId": "f614be4a0bd159f1d992904661947919ac978ae6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

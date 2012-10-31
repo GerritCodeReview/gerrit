@@ -22,7 +22,6 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
@@ -31,9 +30,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.Capable;
@@ -73,7 +69,6 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -113,7 +108,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -216,23 +210,11 @@ public class ReceiveCommits {
     }
   }
 
-  private static final Function<Exception, OrmException> ORM_EXCEPTION =
-      new Function<Exception, OrmException>() {
-        @Override
-        public OrmException apply(Exception input) {
-          if (input instanceof OrmException) {
-            return (OrmException) input;
-          }
-          return new OrmException("Error updating database", input);
-        }
-      };
-
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
   private final IdentifiedUser currentUser;
   private final ReviewDb db;
-  private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountResolver accountResolver;
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final MergedSender.Factory mergedSenderFactory;
@@ -248,7 +230,6 @@ public class ReceiveCommits {
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
   private final WorkQueue workQueue;
-  private final ListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
 
   private final ProjectControl projectControl;
@@ -284,7 +265,6 @@ public class ReceiveCommits {
 
   @Inject
   ReceiveCommits(final ReviewDb db,
-      final SchemaFactory<ReviewDb> schemaFactory,
       final AccountResolver accountResolver,
       final CreateChangeSender.Factory createChangeSenderFactory,
       final MergedSender.Factory mergedSenderFactory,
@@ -300,7 +280,6 @@ public class ReceiveCommits {
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
       final WorkQueue workQueue,
-      @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
 
       @Assisted final ProjectControl projectControl,
@@ -308,7 +287,6 @@ public class ReceiveCommits {
       final SubmoduleOp.Factory subOpFactory) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
-    this.schemaFactory = schemaFactory;
     this.accountResolver = accountResolver;
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.mergedSenderFactory = mergedSenderFactory;
@@ -324,7 +302,6 @@ public class ReceiveCommits {
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
     this.workQueue = workQueue;
-    this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
 
     this.projectControl = projectControl;
@@ -618,7 +595,7 @@ public class ReceiveCommits {
         }
       } else if (replace.cmd != null && replace.cmd.getResult() == OK) {
         try {
-          if (replace.insertPatchSet().checkedGet() != null) {
+          if (replace.insertPatchSet() != null) {
             replace.inputCommand.setResult(OK);
           }
         } catch (IOException err) {
@@ -660,19 +637,14 @@ public class ReceiveCommits {
     }
 
     try {
-      List<CheckedFuture<?, OrmException>> futures = Lists.newArrayList();
       for (ReplaceRequest replace : replaceByChange.values()) {
         if (replace.inputCommand == newChange) {
-          futures.add(replace.insertPatchSet());
+          replace.insertPatchSet();
         }
       }
 
       for (CreateRequest create : newChanges) {
-        futures.add(create.insertChange());
-      }
-
-      for (CheckedFuture<?, OrmException> f : futures) {
-        f.checkedGet();
+        create.insertChange();
       }
       newChange.setResult(OK);
     } catch (OrmException err) {
@@ -1283,35 +1255,10 @@ public class ReceiveCommits {
       cmd = new ReceiveCommand(ObjectId.zeroId(), c, ps.getRefName());
     }
 
-    CheckedFuture<Void, OrmException> insertChange() throws IOException {
+    void insertChange() throws IOException, OrmException {
       rp.getRevWalk().parseBody(commit);
       warnMalformedMessage(commit);
 
-      final Thread caller = Thread.currentThread();
-      ListenableFuture<Void> future = changeUpdateExector.submit(
-          requestScopePropagator.wrap(new Callable<Void>() {
-        @Override
-        public Void call() throws OrmException {
-          if (caller == Thread.currentThread()) {
-            insertChange(db);
-          } else {
-            ReviewDb db = schemaFactory.open();
-            try {
-              insertChange(db);
-            } finally {
-              db.close();
-            }
-          }
-          synchronized (newProgress) {
-            newProgress.update(1);
-          }
-          return null;
-        }
-      }));
-      return Futures.makeChecked(future, ORM_EXCEPTION);
-    }
-
-    private void insertChange(ReviewDb db) throws OrmException {
       final Account.Id me = currentUser.getAccountId();
       final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
       final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
@@ -1336,12 +1283,11 @@ public class ReceiveCommits {
 
       db.changes().beginTransaction(change.getId());
       try {
-        insertAncestors(db, ps.getId(), commit);
+        insertAncestors(ps.getId(), commit);
         db.patchSets().insert(Collections.singleton(ps));
         db.changes().insert(Collections.singleton(change));
         ChangeUtil.updateTrackingIds(db, change, trackingFooters, footerLines);
-        approvalsUtil.addReviewers(db, change, ps, info,
-            reviewers, Collections.<Account.Id> emptySet());
+        approvalsUtil.addReviewers(change, ps, info, reviewers);
         db.commit();
       } finally {
         db.rollback();
@@ -1350,6 +1296,7 @@ public class ReceiveCommits {
       created = true;
       replication.fire(project.getNameKey(), ps.getRefName());
       hooks.doPatchsetCreatedHook(change, ps, db);
+      newProgress.update(1);
       workQueue.getDefaultQueue()
           .submit(requestScopePropagator.wrap(new Runnable() {
         @Override
@@ -1594,38 +1541,10 @@ public class ReceiveCommits {
       return true;
     }
 
-    CheckedFuture<PatchSet.Id, OrmException> insertPatchSet()
-        throws IOException {
+    PatchSet.Id insertPatchSet() throws IOException, OrmException {
       rp.getRevWalk().parseBody(newCommit);
       warnMalformedMessage(newCommit);
 
-      final Thread caller = Thread.currentThread();
-      ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
-          requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
-        @Override
-        public PatchSet.Id call() throws OrmException {
-          try {
-            if (caller == Thread.currentThread()) {
-              return insertPatchSet(db);
-            } else {
-              ReviewDb db = schemaFactory.open();
-              try {
-                return insertPatchSet(db);
-              } finally {
-                db.close();
-              }
-            }
-          } finally {
-            synchronized (newProgress) {
-              replaceProgress.update(1);
-            }
-          }
-        }
-      }));
-      return Futures.makeChecked(future, ORM_EXCEPTION);
-    }
-
-    PatchSet.Id insertPatchSet(ReviewDb db) throws OrmException {
       final Account.Id me = currentUser.getAccountId();
       final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
       final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
@@ -1667,7 +1586,7 @@ public class ReceiveCommits {
           return null;
         }
 
-        insertAncestors(db, newPatchSet.getId(), newCommit);
+        insertAncestors(newPatchSet.getId(), newCommit);
         db.patchSets().insert(Collections.singleton(newPatchSet));
 
         if (checkMergedInto) {
@@ -1675,8 +1594,7 @@ public class ReceiveCommits {
           mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
         }
 
-        List<PatchSetApproval> patchSetApprovals =
-            approvalsUtil.copyVetosToLatestPatchSet(db, change);
+        List<PatchSetApproval> patchSetApprovals = approvalsUtil.copyVetosToLatestPatchSet(change);
 
         final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
         oldReviewers.clear();
@@ -1691,8 +1609,7 @@ public class ReceiveCommits {
           }
         }
 
-        approvalsUtil.addReviewers(db, change, newPatchSet, info,
-            reviewers, haveApprovals);
+        approvalsUtil.addReviewers(change, newPatchSet, info, reviewers, haveApprovals);
 
         msg =
             new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
@@ -1753,6 +1670,7 @@ public class ReceiveCommits {
 
       replication.fire(project.getNameKey(), newPatchSet.getRefName());
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
+      replaceProgress.update(1);
       if (mergedIntoRef != null) {
         hooks.doChangeMergedHook(
             change, currentUser.getAccount(), newPatchSet, db);
@@ -2156,9 +2074,7 @@ public class ReceiveCommits {
       }
 
       for (final ReplaceRequest req : toClose) {
-        final PatchSet.Id psi = req.validate(true)
-            ? req.insertPatchSet().checkedGet()
-            : null;
+        final PatchSet.Id psi = req.validate(true) ? req.insertPatchSet() : null;
         if (psi != null) {
           closeChange(req.inputCommand, psi, req.newCommit);
           closeProgress.update(1);
@@ -2305,7 +2221,7 @@ public class ReceiveCommits {
     }));
   }
 
-  private void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
+  private void insertAncestors(PatchSet.Id id, RevCommit src)
       throws OrmException {
     final int cnt = src.getParentCount();
     List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);

@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 
 public class PatchAttribute {
     public String file;
+    public String fileOld;
     public ChangeType type;
     public int insertions;
     public int deletions;

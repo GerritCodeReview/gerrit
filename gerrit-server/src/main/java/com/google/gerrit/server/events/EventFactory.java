@@ -296,6 +296,7 @@ public class EventFactory {
 
         PatchAttribute p = new PatchAttribute();
         p.file = patch.getNewName();
+        p.fileOld = patch.getOldName();
         p.type = patch.getChangeType();
         p.deletions -= patch.getDeletions();
         p.insertions = patch.getInsertions();

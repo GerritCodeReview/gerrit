@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALH3///9g\u003d",
+        "filename": "gerrit-realm-openid-sso/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-10-31T06:39:46Z",
+      "side": 1,
+      "message": "\"\\r\"",
+      "revId": "9107d1c3b3079150f8be278fe21488e3f5570ff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

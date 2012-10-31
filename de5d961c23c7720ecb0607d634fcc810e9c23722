@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALNH////A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-31T07:19:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALLX////U\u003d",
+      "revId": "de5d961c23c7720ecb0607d634fcc810e9c23722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALLX////Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-10-31T06:59:43Z",
       "side": 1,
       "message": "\"The substring is case insensitive\"",
+      "revId": "de5d961c23c7720ecb0607d634fcc810e9c23722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALNH///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-10-31T07:19:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALLX////Q\u003d",
       "revId": "de5d961c23c7720ecb0607d634fcc810e9c23722",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

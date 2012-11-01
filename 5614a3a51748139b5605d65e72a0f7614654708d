@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALPn////Y\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AccountGroupInclude.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-01T16:07:38Z",
+      "side": 1,
+      "message": "I don\u0027t think I can safely modify the primary key in my database like this.\n\nI had expected we do this by making a new table that uses Id (group) and UUID (member) and modified the lookup logic to query both and union them together.",
+      "revId": "5614a3a51748139b5605d65e72a0f7614654708d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

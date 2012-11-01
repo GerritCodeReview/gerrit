@@ -33,14 +33,19 @@ public final class AccountGroupIncludeAudit {
     @Column(id = 3)
     protected Timestamp addedOn;
 
+    @Column(id = 4)
+    protected AccountGroup.UUID includeUUID;
+
     protected Key() {
       groupId = new AccountGroup.Id();
       includeId = new AccountGroup.Id();
+      includeUUID = new AccountGroup.UUID();
     }
 
-    public Key(final AccountGroup.Id g, final AccountGroup.Id i, final Timestamp t) {
+    public Key(final AccountGroup.Id g, final AccountGroup.Id i, final AccountGroup.UUID uuid, final Timestamp t) {
       groupId = g;
       includeId = i;
+      includeUUID = uuid;
       addedOn = t;
     }
 
@@ -51,6 +56,10 @@ public final class AccountGroupIncludeAudit {
 
     public AccountGroup.Id getIncludedId() {
       return includeId;
+    }
+
+    public AccountGroup.UUID getIncludedUUID() {
+      return includeUUID;
     }
 
     public Timestamp getAddedOn() {
@@ -82,7 +91,8 @@ public final class AccountGroupIncludeAudit {
       final Account.Id adder) {
     final AccountGroup.Id group = m.getGroupId();
     final AccountGroup.Id include = m.getIncludeId();
-    key = new AccountGroupIncludeAudit.Key(group, include, now());
+    final AccountGroup.UUID uuid = m.getIncludeUUID();
+    key = new AccountGroupIncludeAudit.Key(group, include, uuid, now());
     addedBy = adder;
   }
 

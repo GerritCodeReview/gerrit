@@ -28,14 +28,18 @@ public final class AccountGroupInclude {
     @Column(id = 2)
     protected AccountGroup.Id includeId;
 
+    @Column(id = 3)
+    protected AccountGroup.UUID includeUUID;
+
     protected Key() {
       groupId = new AccountGroup.Id();
       includeId = new AccountGroup.Id();
+      includeUUID = new AccountGroup.UUID();
     }
 
-    public Key(final AccountGroup.Id g, final AccountGroup.Id i) {
+    public Key(final AccountGroup.Id g, final AccountGroup.UUID uuid) {
       groupId = g;
-      includeId = i;
+      includeUUID = uuid;
     }
 
     @Override
@@ -49,6 +53,10 @@ public final class AccountGroupInclude {
 
     public AccountGroup.Id getIncludeId() {
       return includeId;
+    }
+
+    public AccountGroup.UUID getIncludeUUID() {
+      return includeUUID;
     }
 
     @Override
@@ -77,5 +85,9 @@ public final class AccountGroupInclude {
 
   public AccountGroup.Id getIncludeId() {
     return key.includeId;
+  }
+
+  public AccountGroup.UUID getIncludeUUID() {
+    return key.includeUUID;
   }
 }

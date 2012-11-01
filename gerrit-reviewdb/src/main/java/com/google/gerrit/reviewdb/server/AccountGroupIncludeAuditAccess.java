@@ -31,4 +31,8 @@ public interface AccountGroupIncludeAuditAccess extends
   @Query("WHERE key.groupId = ? AND key.includeId = ?")
   ResultSet<AccountGroupIncludeAudit> byGroupInclude(AccountGroup.Id groupId,
       AccountGroup.Id incGroupId) throws OrmException;
+
+  @Query("WHERE key.groupId = ? AND key.includeUUID = ?")
+  ResultSet<AccountGroupIncludeAudit> byGroupIncludeUUID(AccountGroup.Id groupId,
+      AccountGroup.UUID incGroupUUID) throws OrmException;
 }

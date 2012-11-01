@@ -240,7 +240,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         }
 
         final AccountGroupInclude.Key key =
-            new AccountGroupInclude.Key(groupId, a.getId());
+            new AccountGroupInclude.Key(groupId, a.getGroupUUID());
         AccountGroupInclude m = db.accountGroupIncludes().get(key);
         if (m == null) {
           m = new AccountGroupInclude(key);

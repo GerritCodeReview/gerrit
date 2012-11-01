@@ -89,7 +89,7 @@ public class PerformCreateGroup {
       final String groupDescription, final boolean visibleToAll,
       final AccountGroup.Id ownerGroupId,
       final Collection<? extends Account.Id> initialMembers,
-      final Collection<? extends AccountGroup.Id> initialGroups)
+      final Collection<? extends AccountGroup.UUID> initialGroups)
       throws OrmException, NameAlreadyUsedException, PermissionDeniedException {
     if (!currentUser.getCapabilities().canCreateGroup()) {
       throw new PermissionDeniedException(String.format(
@@ -160,14 +160,14 @@ public class PerformCreateGroup {
   }
 
   private void addGroups(final AccountGroup.Id groupId,
-      final Collection<? extends AccountGroup.Id> groups) throws OrmException {
+      final Collection<? extends AccountGroup.UUID> groups) throws OrmException {
     final List<AccountGroupInclude> includeList =
       new ArrayList<AccountGroupInclude>();
     final List<AccountGroupIncludeAudit> includesAudit =
       new ArrayList<AccountGroupIncludeAudit>();
-    for (AccountGroup.Id includeId : groups) {
+    for (AccountGroup.UUID includeUUID : groups) {
       final AccountGroupInclude groupInclude =
-        new AccountGroupInclude(new AccountGroupInclude.Key(groupId, includeId));
+        new AccountGroupInclude(new AccountGroupInclude.Key(groupId, includeUUID));
       includeList.add(groupInclude);
 
       final AccountGroupIncludeAudit audit =
@@ -177,9 +177,8 @@ public class PerformCreateGroup {
     db.accountGroupIncludes().insert(includeList);
     db.accountGroupIncludesAudit().insert(includesAudit);
 
-    for (AccountGroup group : db.accountGroups().get(
-        new HashSet<AccountGroup.Id>(groups))) {
-      groupIncludeCache.evictInclude(group.getGroupUUID());
+    for (AccountGroup.UUID groupUUID : groups) {
+      groupIncludeCache.evictInclude(groupUUID);
     }
   }
 }

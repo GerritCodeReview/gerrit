@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALPn////w\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-01T08:27:43Z",
+      "side": 1,
+      "message": "This version bump is actually no longer necessary.",
+      "revId": "86a74e9b19b1c86a5a6a829f9ab978e4d413efbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

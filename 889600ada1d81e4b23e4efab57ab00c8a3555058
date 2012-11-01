@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALPn////Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-01T16:50:30Z",
+      "side": 1,
+      "message": "I don\u0027t want plugins using this protocol. We want to get rid of it. :-(",
+      "revId": "889600ada1d81e4b23e4efab57ab00c8a3555058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

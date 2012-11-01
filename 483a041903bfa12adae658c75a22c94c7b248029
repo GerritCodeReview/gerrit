@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALLX///94\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-01T08:26:45Z",
+      "side": 1,
+      "message": "What is the reason for removing and adding the scrollBody? Are you trying to force some sort of child order within the panel to maintain tab order or something?\n\nCycling scrollBody like this will cause onLoad methods to be fired into reviews aggressively, which is something we don\u0027t want as that causes RPCs.",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALLX///90\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-01T08:26:45Z",
+      "side": 1,
+      "message": "CSS for the btmmenu is broken by this commit, because it moved around in the DOM.",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALKH////Y\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
         "patchSetId": 2
@@ -31,6 +65,24 @@
       "side": 1,
       "message": "I agree about the space utilization, during code review I basically want 100% of the window covered with the code... minus maybe a small header or footer to remind where the controls are and file list and etc. But the more we can get for the code, the better.",
       "parentUuid": "AAALKH////Y\u003d",
+      "revId": "483a041903bfa12adae658c75a22c94c7b248029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALLX///9k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-01T08:26:45Z",
+      "side": 1,
+      "message": "This broke the site footer entirely. And you also broke the site header.",
+      "parentUuid": "AAALLX///+o\u003d",
       "revId": "483a041903bfa12adae658c75a22c94c7b248029",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

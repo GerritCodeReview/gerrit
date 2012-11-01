@@ -45,7 +45,7 @@ import javax.servlet.http.HttpServletResponse;
  * Base JSON servlet to ensure the current user is not forged.
  */
 @SuppressWarnings("serial")
-final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> {
+public final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> {
   private static final Logger log = LoggerFactory.getLogger(GerritJsonServlet.class);
   private static final ThreadLocal<GerritCall> currentCall =
       new ThreadLocal<GerritCall>();

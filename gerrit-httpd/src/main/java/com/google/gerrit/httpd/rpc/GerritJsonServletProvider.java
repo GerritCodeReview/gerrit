@@ -21,14 +21,14 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 /** Creates {@link GerritJsonServlet} with a {@link RemoteJsonService}. */
-class GerritJsonServletProvider implements Provider<GerritJsonServlet> {
+public class GerritJsonServletProvider implements Provider<GerritJsonServlet> {
   @Inject
   private Injector injector;
 
   private final Class<? extends RemoteJsonService> serviceClass;
 
   @Inject
-  GerritJsonServletProvider(final Class<? extends RemoteJsonService> c) {
+  public GerritJsonServletProvider(final Class<? extends RemoteJsonService> c) {
     serviceClass = c;
   }
 

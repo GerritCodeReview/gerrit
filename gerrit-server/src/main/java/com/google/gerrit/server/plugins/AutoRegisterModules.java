@@ -185,7 +185,8 @@ class AutoRegisterModules {
       if (sshGen != null) {
         sshGen.export(export, clazz);
       }
-    } else if (is("javax.servlet.http.HttpServlet", clazz)) {
+    } else if (is("javax.servlet.http.HttpServlet", clazz)
+        || is("com.google.gwtjsonrpc.common.RemoteJsonService", clazz)) {
       if (httpGen != null) {
         httpGen.export(export, clazz);
         listen(clazz, clazz);

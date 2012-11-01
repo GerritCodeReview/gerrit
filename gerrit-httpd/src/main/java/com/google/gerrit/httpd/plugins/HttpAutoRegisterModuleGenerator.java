@@ -20,11 +20,16 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.annotations.Export;
+import com.google.gerrit.httpd.rpc.GerritJsonServlet;
+import com.google.gerrit.httpd.rpc.GerritJsonServletProvider;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.ModuleGenerator;
+import com.google.gwtjsonrpc.common.RemoteJsonService;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
+import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 
 import java.lang.annotation.Annotation;
@@ -35,6 +40,7 @@ import javax.servlet.http.HttpServlet;
 class HttpAutoRegisterModuleGenerator extends ServletModule
     implements ModuleGenerator {
   private final Map<String, Class<HttpServlet>> serve = Maps.newHashMap();
+  private final Map<String, Class<RemoteJsonService>> jsonServices = Maps.newHashMap();
   private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
 
   @Override
@@ -42,6 +48,9 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
     for (Map.Entry<String, Class<HttpServlet>> e : serve.entrySet()) {
       bind(e.getValue()).in(Scopes.SINGLETON);
       serve(e.getKey()).with(e.getValue());
+    }
+    for (Map.Entry<String, Class<RemoteJsonService>> e: jsonServices.entrySet()) {
+      bindJsonService(e);
     }
     for (Map.Entry<TypeLiteral<?>, Class<?>> e : listeners.entries()) {
       @SuppressWarnings("unchecked")
@@ -64,13 +73,11 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
   public void export(Export export, Class<?> type)
       throws InvalidPluginException {
     if (HttpServlet.class.isAssignableFrom(type)) {
-      Class<HttpServlet> old = serve.get(export.value());
-      if (old != null) {
-        throw new InvalidPluginException(String.format(
-            "@Export(\"%s\") has duplicate bindings:\n  %s\n  %s",
-            export.value(), old.getName(), type.getName()));
-      }
+      checkForServiceDuplication(export, type);
       serve.put(export.value(), (Class<HttpServlet>) type);
+    } else if (RemoteJsonService.class.isAssignableFrom(type)) {
+      checkForServiceDuplication(export, type);
+      jsonServices.put(export.value(), (Class<RemoteJsonService>) type);
     } else {
       throw new InvalidPluginException(String.format(
           "Class %s with @Export(\"%s\") must extend %s",
@@ -87,5 +94,25 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
   @Override
   public Module create() throws InvalidPluginException {
     return this;
+  }
+
+  private void bindJsonService(Map.Entry<String, Class<RemoteJsonService>> e) {
+    Class<RemoteJsonService> clazz = e.getValue();
+    Key<GerritJsonServlet> srv =
+        Key.get(GerritJsonServlet.class, UniqueAnnotations.create());
+    GerritJsonServletProvider provider = new GerritJsonServletProvider(clazz);
+    bind(clazz);
+    serve(e.getKey()).with(srv);
+    bind(srv).toProvider(provider).in(Scopes.SINGLETON);
+  }
+
+  private void checkForServiceDuplication(Export export, Class<?> type)
+      throws InvalidPluginException {
+    Class<?> old = serve.get(export.value());
+    if (old != null) {
+      throw new InvalidPluginException(String.format(
+          "@Export(\"%s\") has duplicate bindings:\n  %s\n  %s",
+          export.value(), old.getName(), type.getName()));
+    }
   }
 }

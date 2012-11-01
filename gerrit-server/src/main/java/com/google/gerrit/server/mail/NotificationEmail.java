@@ -14,12 +14,19 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.server.mail.ProjectWatch.Watchers;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.jcraft.jsch.HostKey;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +37,8 @@ import java.util.Set;
  * repositories and changes
  */
 public abstract class NotificationEmail extends OutgoingEmail {
+  private static final Logger log = LoggerFactory.getLogger(NotificationEmail.class);
+
   protected ProjectState projectState;
   protected Project.NameKey project;
   protected Branch.NameKey branch;
@@ -69,6 +78,33 @@ public abstract class NotificationEmail extends OutgoingEmail {
     r = args.projectCache.get(project);
     return r != null ? r.getOwners() : Collections.<AccountGroup.UUID> emptySet();
   }
+
+  /** Include users and groups that want notification of events. */
+  protected void includeWatchers(NotifyType type) {
+    try {
+      Watchers matching = getWatches(type);
+      add(RecipientType.TO, matching.to);
+      add(RecipientType.CC, matching.cc);
+      add(RecipientType.BCC, matching.bcc);
+    } catch (OrmException err) {
+      // Just don't CC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
+      log.warn("Cannot BCC watchers for " + type, err);
+    }
+  }
+
+  /** Add users or email addresses to the TO, CC, or BCC list. */
+  protected void add(RecipientType type, Watchers.List list) {
+    for (Account.Id user : list.accounts) {
+      add(type, user);
+    }
+    for (Address addr : list.emails) {
+      add(type, addr);
+    }
+  }
+
+  protected abstract Watchers getWatches(NotifyType type) throws OrmException;
 
   public String getSshHost() {
     final List<HostKey> hostKeys = args.sshInfo.getHostKeys();

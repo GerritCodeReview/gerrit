@@ -554,7 +554,7 @@ public class ChangeControl {
 
   private boolean isDraftVisible(ReviewDb db, ChangeData cd)
       throws OrmException {
-    return isOwner() || isReviewer(db, cd);
+    return isOwner() || isReviewer(db, cd) || getRefControl().canViewDrafts();
   }
 
   private static boolean isUser(Term who) {

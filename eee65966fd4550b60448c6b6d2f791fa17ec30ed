@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALPn///+4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-02T09:10:48Z",
+      "side": 1,
+      "message": "I still think the author and committer name should be the full name, i.e. \"Firstname Surname\", rather than username style.",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

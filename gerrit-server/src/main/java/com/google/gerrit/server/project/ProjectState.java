@@ -42,6 +42,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -165,6 +166,20 @@ public class ProjectState {
           config.getRulesId());
       rulesMachine = pmc;
     }
+    return envFactory.create(pmc);
+  }
+
+  /**
+   * Like {@link #newPrologEnvironment()} but instead of reading the rules.pl
+   * read the provided input stream.
+   *
+   * @param name a name of the input stream. Could be any name.
+   * @param in InputStream to read prolog rules from
+   * @throws CompileException
+   */
+  public PrologEnvironment newPrologEnvironment(String name, InputStream in)
+      throws CompileException {
+    PrologMachineCopy pmc = rulesCache.loadMachine(name, in);
     return envFactory.create(pmc);
   }
 

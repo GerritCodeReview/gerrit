@@ -29,6 +29,7 @@ import com.googlecode.prolog_cafe.lang.PrologException;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -57,6 +58,9 @@ public class SubmitRuleEvaluator {
   private Term submitRule;
   private String projectName;
 
+  private boolean skipFilters;
+  private InputStream rulesInputStream;
+
   /**
    * @param userRuleLocatorName The name of the rule used to locate the
    *        user-supplied rule.
@@ -67,7 +71,7 @@ public class SubmitRuleEvaluator {
    * @param filterRuleWrapperName The name of the rule used to evaluate the
    *        filter rule.
    */
-  SubmitRuleEvaluator(ReviewDb db, PatchSet patchSet,
+  public SubmitRuleEvaluator(ReviewDb db, PatchSet patchSet,
       ProjectControl projectControl,
       ChangeControl changeControl, Change change, @Nullable ChangeData cd,
       boolean fastEvalLabels,
@@ -86,6 +90,14 @@ public class SubmitRuleEvaluator {
     this.filterRuleWrapperName = filterRuleWrapperName;
   }
 
+  public void skipSubmitFilters() {
+    skipFilters = true;
+  }
+
+  public void readRulesFrom(InputStream in) {
+    this.rulesInputStream = in;
+  }
+
   /**
    * Evaluates the given rule and filters.
    *
@@ -96,25 +108,10 @@ public class SubmitRuleEvaluator {
    * @return List of {@link Term} objects returned from the evaluated rules.
    * @throws RuleEvalException
    */
-  ListTerm evaluate() throws RuleEvalException {
+  public ListTerm evaluate() throws RuleEvalException {
     List<Term> results = new ArrayList<Term>();
-    ProjectState projectState = projectControl.getProjectState();
-    PrologEnvironment env;
-
+    PrologEnvironment env = getPrologEnvironment();
     try {
-      env = projectState.newPrologEnvironment();
-    } catch (CompileException err) {
-      throw new RuleEvalException("Cannot consult rules.pl for "
-          + getProjectName(), err);
-    }
-
-    try {
-      env.set(StoredValues.REVIEW_DB, db);
-      env.set(StoredValues.CHANGE, change);
-      env.set(StoredValues.CHANGE_DATA, cd);
-      env.set(StoredValues.PATCH_SET, patchSet);
-      env.set(StoredValues.CHANGE_CONTROL, changeControl);
-
       submitRule = env.once("gerrit", userRuleLocatorName, new VariableTerm());
       if (fastEvalLabels) {
         env.once("gerrit", "assume_range_from_label");
@@ -135,55 +132,84 @@ public class SubmitRuleEvaluator {
             err);
       }
 
-      ProjectState parentState = projectState.getParentState();
-      PrologEnvironment childEnv = env;
-      Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
-      projectsSeen.add(projectState.getProject().getNameKey());
-
       Term resultsTerm = toListTerm(results);
-      while (parentState != null) {
-        if (!projectsSeen.add(parentState.getProject().getNameKey())) {
-          // parent has been seen before, stop walk up inheritance tree
-          break;
-        }
-        PrologEnvironment parentEnv;
-        try {
-          parentEnv = parentState.newPrologEnvironment();
-        } catch (CompileException err) {
-          throw new RuleEvalException("Cannot consult rules.pl for "
-              + parentState.getProject().getName(), err);
-        }
-
-        parentEnv.copyStoredValues(childEnv);
-        Term filterRule =
-            parentEnv.once("gerrit", filterRuleLocatorName, new VariableTerm());
-        try {
-          if (fastEvalLabels) {
-            env.once("gerrit", "assume_range_from_label");
-          }
-
-          Term[] template =
-              parentEnv.once("gerrit", filterRuleWrapperName, filterRule,
-                  resultsTerm, new VariableTerm());
-          resultsTerm = template[2];
-        } catch (PrologException err) {
-          throw new RuleEvalException("Exception calling " + filterRule
-              + " on change " + change.getId() + " of "
-              + parentState.getProject().getName(), err);
-        } catch (RuntimeException err) {
-          throw new RuleEvalException("Exception calling " + filterRule
-              + " on change " + change.getId() + " of "
-              + parentState.getProject().getName(), err);
-        }
-
-        parentState = parentState.getParentState();
-        childEnv = parentEnv;
+      if (!skipFilters) {
+        resultsTerm = runSubmitFilters(resultsTerm, env);
       }
-
       return (ListTerm) resultsTerm;
     } finally {
       env.close();
     }
+  }
+
+  private PrologEnvironment getPrologEnvironment() throws RuleEvalException {
+    ProjectState projectState = projectControl.getProjectState();
+    PrologEnvironment env;
+    try {
+      if (rulesInputStream == null) {
+        env = projectState.newPrologEnvironment();
+      } else {
+        env = projectState.newPrologEnvironment("stdin", rulesInputStream);
+      }
+    } catch (CompileException err) {
+      throw new RuleEvalException("Cannot consult rules.pl for "
+          + getProjectName(), err);
+    }
+    env.set(StoredValues.REVIEW_DB, db);
+    env.set(StoredValues.CHANGE, change);
+    env.set(StoredValues.CHANGE_DATA, cd);
+    env.set(StoredValues.PATCH_SET, patchSet);
+    env.set(StoredValues.CHANGE_CONTROL, changeControl);
+    return env;
+  }
+
+  private Term runSubmitFilters(Term results, PrologEnvironment env) throws RuleEvalException {
+    ProjectState projectState = projectControl.getProjectState();
+    ProjectState parentState = projectState.getParentState();
+    PrologEnvironment childEnv = env;
+    Set<Project.NameKey> projectsSeen = new HashSet<Project.NameKey>();
+    projectsSeen.add(projectState.getProject().getNameKey());
+
+    while (parentState != null) {
+      if (!projectsSeen.add(parentState.getProject().getNameKey())) {
+        // parent has been seen before, stop walk up inheritance tree
+        break;
+      }
+      PrologEnvironment parentEnv;
+      try {
+        parentEnv = parentState.newPrologEnvironment();
+      } catch (CompileException err) {
+        throw new RuleEvalException("Cannot consult rules.pl for "
+            + parentState.getProject().getName(), err);
+      }
+
+      parentEnv.copyStoredValues(childEnv);
+      Term filterRule =
+          parentEnv.once("gerrit", filterRuleLocatorName, new VariableTerm());
+      try {
+        if (fastEvalLabels) {
+          env.once("gerrit", "assume_range_from_label");
+        }
+
+        Term[] template =
+            parentEnv.once("gerrit", filterRuleWrapperName, filterRule,
+                results, new VariableTerm());
+        results = template[2];
+      } catch (PrologException err) {
+        throw new RuleEvalException("Exception calling " + filterRule
+            + " on change " + change.getId() + " of "
+            + parentState.getProject().getName(), err);
+      } catch (RuntimeException err) {
+        throw new RuleEvalException("Exception calling " + filterRule
+            + " on change " + change.getId() + " of "
+            + parentState.getProject().getName(), err);
+      }
+
+      parentState = parentState.getParentState();
+      childEnv = parentEnv;
+    }
+
+    return results;
   }
 
   private static Term toListTerm(List<Term> terms) {
@@ -194,7 +220,7 @@ public class SubmitRuleEvaluator {
     return list;
   }
 
-  Term getSubmitRule() {
+  public Term getSubmitRule() {
     return submitRule;
   }
 

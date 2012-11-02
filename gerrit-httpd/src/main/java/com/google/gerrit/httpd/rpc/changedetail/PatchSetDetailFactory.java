@@ -124,7 +124,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       throw new NoSuchEntityException();
     }
 
-    final List<Patch> patches = list.toPatchList(patchSet.getId());
+    final List<Patch> patches = list.toPatchList(psIdNew);
     final Map<Patch.Key, Patch> byKey = new HashMap<Patch.Key, Patch>();
     for (final Patch p : patches) {
       byKey.put(p.getKey(), p);
@@ -184,7 +184,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   }
 
   private PatchListKey keyFor(final Whitespace whitespace) {
-    return new PatchListKey(projectKey, oldId, newId, whitespace);
+    return new PatchListKey(projectKey, oldId, newId, whitespace, true);
   }
 
   private PatchList listFor(PatchListKey key)

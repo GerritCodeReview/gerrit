@@ -122,6 +122,29 @@ public class PatchListEntry {
     this.deletions = deletions;
   }
 
+  public PatchListEntry copyAndUpdateBy(List<Edit> newListEdits) {
+    int ins = 0;
+    int del = 0;
+    for (Edit e : newListEdits) {
+      del += e.getEndA() - e.getBeginA();
+      ins += e.getEndB() - e.getBeginB();
+    }
+    return new PatchListEntry(this.changeType, this.patchType, this.oldName,
+        this.newName, Arrays.copyOf(this.header, this.header.length),
+        newListEdits, ins, del);
+  }
+
+  public PatchListEntry clone() {
+    List<Edit> edits = new ArrayList<Edit>();
+    for (Edit e : this.edits) {
+      edits.add(//
+          new Edit(e.getBeginA(), e.getEndA(), e.getBeginB(), e.getEndB()));
+    }
+    return new PatchListEntry(this.changeType, this.patchType, this.oldName,
+        this.newName, Arrays.copyOf(this.header, this.header.length), edits,
+        this.insertions, this.deletions);
+  }
+
   int weigh() {
     int size = 16 + 6*8 + 2*4 + 20 + 16+8+4+20;
     size += stringSize(oldName);
@@ -152,6 +175,10 @@ public class PatchListEntry {
 
   public String getNewName() {
     return newName;
+  }
+
+  public byte[] getHeader() {
+    return header;
   }
 
   public List<Edit> getEdits() {

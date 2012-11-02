@@ -15,7 +15,9 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
+import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -59,10 +61,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
   static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
@@ -101,66 +107,138 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
   }
 
-  private PatchList readPatchList(final PatchListKey key,
+  private PatchList readPatchList(final PatchListKey plkey,
       final Repository repo) throws IOException {
-    final RawTextComparator cmp = comparatorFor(key.getWhitespace());
+    final ObjectId newId = plkey.getNewId();
+    final ObjectId oldId = plkey.getOldId();
+    final Whitespace ws = plkey.getWhitespace();
+
     final ObjectReader reader = repo.newObjectReader();
     try {
       final RevWalk rw = new RevWalk(reader);
-      final RevCommit b = rw.parseCommit(key.getNewId());
-      final RevObject a = aFor(key, repo, rw, b);
+      final RevCommit b = rw.parseCommit(newId);
+      final PatchList pListAB =
+          computePatchList(oldId, b, ws, repo, reader, rw);
 
-      if (a == null) {
-        // TODO(sop) Remove this case.
-        // This is a merge commit, compared to its ancestor.
-        //
-        final PatchListEntry[] entries = new PatchListEntry[1];
-        entries[0] = newCommitMessage(cmp, repo, reader, null, b);
-        return new PatchList(a, b, true, entries);
+      if (plkey.isRebaseTransparent() && oldId != null) {
+        final RevCommit a = rw.parseCommit(oldId);
+        if (a.getParentCount() <= 2
+            && b.getParentCount() == 1
+            && Collections.disjoint(Arrays.asList(a.getParents()),
+                Arrays.asList(b.getParents()))) {
+
+          final List<PatchListEntry> entrysAB = pListAB.getPatches();
+          final RevObject A1 = aFor(null, repo, rw, a);
+          final RevCommit B1 = (RevCommit) aFor(null, repo, rw, b);
+          final List<PatchListEntry> entrysA1B1 =
+              computePatchList(A1, B1, ws, repo, reader, rw).getPatches();
+          // step1 : subtract files by subtrack hunks.
+          List<PatchListEntry> resultEntrys = new ArrayList<PatchListEntry>();
+          ABLoop: for (PatchListEntry entryAB : entrysAB) {
+            for (PatchListEntry entryA1B1 : entrysA1B1) {
+              if (entryAB.getNewName().equals(entryA1B1.getNewName()) && //
+                  Strings.nullToEmpty(entryAB.getOldName()).equals(
+                      Strings.nullToEmpty(entryA1B1.getOldName())) && //
+                  entryAB.getChangeType() == entryA1B1.getChangeType() && //
+                  entryAB.getPatchType() == entryA1B1.getPatchType() && //
+                  Arrays.equals(entryAB.getHeader(), entryA1B1.getHeader())
+                  ) {
+                Set<Edit> interSection =
+                    Sets.intersection(new HashSet<Edit>(entryAB.getEdits()),
+                        new HashSet<Edit>(entryA1B1.getEdits()));
+
+                if (interSection.isEmpty()) {
+                  resultEntrys.add(entryAB.clone());
+                } else {
+                  List<Edit> edits = new ArrayList<Edit>(entryAB.getEdits());
+                  edits.removeAll(interSection);
+                  if (!edits.isEmpty()) {
+                    List<Edit> resultEdits = new ArrayList<Edit>(edits.size());
+                    for (Edit e : edits) {
+                      resultEdits.add(new Edit(//
+                          e.getBeginA(), e.getEndA(),//
+                          e.getBeginB(), e.getEndB()));
+                    }
+                    resultEntrys.add(entryAB.copyAndUpdateBy(resultEdits));
+                  }
+                }
+                continue ABLoop;
+              }
+            }
+            resultEntrys.add(entryAB.clone());
+          }
+
+
+          // step 2: subtract hunks
+          // final List<PatchListEntry> entrysB1B = computePatchList(null, b,
+          // ws, repo, reader, rw).getPatches();
+          // final List<PatchListEntry> entrysA1A = computePatchList(null, a,
+          // ws, repo, reader, rw).getPatches();
+
+          return new PatchList(pListAB.getOldId(), pListAB.getNewId(), false,
+              resultEntrys.toArray(new PatchListEntry[resultEntrys.size()]));
+        }
       }
-
-      final boolean againstParent =
-          b.getParentCount() > 0 && b.getParent(0) == a;
-
-      RevCommit aCommit;
-      RevTree aTree;
-      if (a instanceof RevCommit) {
-        aCommit = (RevCommit) a;
-        aTree = aCommit.getTree();
-      } else if (a instanceof RevTree) {
-        aCommit = null;
-        aTree = (RevTree) a;
-      } else {
-        throw new IOException("Unexpected type: " + a.getClass());
-      }
-
-      RevTree bTree = b.getTree();
-
-      final TreeWalk walk = new TreeWalk(reader);
-      walk.reset();
-      walk.setRecursive(true);
-      walk.addTree(aTree);
-      walk.addTree(bTree);
-      walk.setFilter(TreeFilter.ANY_DIFF);
-
-      DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-      df.setRepository(repo);
-      df.setDiffComparator(cmp);
-      df.setDetectRenames(true);
-      List<DiffEntry> diffEntries = df.scan(aTree, bTree);
-
-      final int cnt = diffEntries.size();
-      final PatchListEntry[] entries = new PatchListEntry[1 + cnt];
-      entries[0] = newCommitMessage(cmp, repo, reader, //
-          againstParent ? null : aCommit, b);
-      for (int i = 0; i < cnt; i++) {
-        FileHeader fh = df.toFileHeader(diffEntries.get(i));
-        entries[1 + i] = newEntry(aTree, fh);
-      }
-      return new PatchList(a, b, againstParent, entries);
+      return pListAB;
     } finally {
       reader.release();
     }
+  }
+
+  private PatchList computePatchList(final ObjectId oldId, final RevCommit b,
+      final Whitespace ws, final Repository repo, final ObjectReader reader,
+      final RevWalk rw) throws IOException {
+
+    final RawTextComparator cmp = comparatorFor(ws);
+    final RevObject a = aFor(oldId, repo, rw, b);
+
+    if (a == null) {
+      // TODO(sop) Remove this case.
+      // This is a merge commit, compared to its ancestor.
+      //
+      final PatchListEntry[] entries = new PatchListEntry[1];
+      entries[0] = newCommitMessage(cmp, repo, reader, null, b);
+      return new PatchList(null, b, true, entries);
+    }
+
+    final boolean againstParent = b.getParentCount() > 0 && b.getParent(0) == a;
+
+    RevCommit aCommit;
+    RevTree aTree;
+    if (a instanceof RevCommit) {
+      aCommit = (RevCommit) a;
+      aTree = aCommit.getTree();
+    } else if (a instanceof RevTree) {
+      aCommit = null;
+      aTree = (RevTree) a;
+    } else {
+      throw new IOException("Unexpected type: " + a.getClass());
+    }
+
+    RevTree bTree = b.getTree();
+
+    final TreeWalk walk = new TreeWalk(reader);
+    walk.reset();
+    walk.setRecursive(true);
+    walk.addTree(aTree);
+    walk.addTree(bTree);
+    walk.setFilter(TreeFilter.ANY_DIFF);
+
+    DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE);
+    df.setRepository(repo);
+    df.setDiffComparator(cmp);
+    df.setDetectRenames(true);
+    List<DiffEntry> diffEntries = df.scan(aTree, bTree);
+
+    final int cnt = diffEntries.size();
+    final PatchListEntry[] entries = new PatchListEntry[1 + cnt];
+    entries[0] = newCommitMessage(cmp, repo, reader, //
+        againstParent ? null : aCommit, b);
+    for (int i = 0; i < cnt; i++) {
+      FileHeader fh = df.toFileHeader(diffEntries.get(i));
+      entries[1 + i] = newEntry(aTree, fh);
+    }
+    return new PatchList(a, b, againstParent, entries);
   }
 
   private PatchListEntry newCommitMessage(final RawTextComparator cmp,
@@ -218,11 +296,10 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
     }
   }
 
-  private static RevObject aFor(final PatchListKey key,
-      final Repository repo, final RevWalk rw, final RevCommit b)
-      throws IOException {
-    if (key.getOldId() != null) {
-      return rw.parseAny(key.getOldId());
+  private static RevObject aFor(final ObjectId  oldId, final Repository repo,
+      final RevWalk rw, final RevCommit b) throws IOException {
+    if (oldId != null) {
+      return rw.parseAny(oldId);
     }
 
     switch (b.getParentCount()) {

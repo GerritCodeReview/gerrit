@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALS3////k\u003d",
+        "filename": "tools/release.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-04T18:44:58Z",
+      "side": 1,
+      "message": "I think\n\n  if command -v $BINARY \u003e/dev/null 2\u003e\u00261\n  test\n\nshould probably do.",
+      "revId": "922bbdd958d0299cf4d60f59654ef9cbca5880b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

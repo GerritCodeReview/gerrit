@@ -16,6 +16,24 @@
       "revId": "e133dcc9cc5870bbc2854b8388314beeec2e762f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALTn////0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-05T10:47:10Z",
+      "side": 1,
+      "message": "These two parameters are not needed when evaluating prolog rules from refs/meta/config:rules.pl which is the normal case.\nFor the normal case we never skip submit filters and this class knows how to create an InputStream from the refs/meta/config:rules.pl. A caller would have to pass NULL as the InputStream in this. This is also not nice.\nOr, are you suggesting to have two evaluate methods? One without parameters and one with these 2 parameters?\n\nOnly when we want to test user provided submit rules (from stdin) we would use these two parameters.",
+      "parentUuid": "AAALS3////w\u003d",
+      "revId": "e133dcc9cc5870bbc2854b8388314beeec2e762f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

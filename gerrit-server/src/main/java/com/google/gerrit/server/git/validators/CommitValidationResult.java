@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.git.validators;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Result of a commit validation from a CommitValidationListener.
  *
@@ -28,7 +31,8 @@ package com.google.gerrit.server.git.validators;
 public class CommitValidationResult {
 
   private boolean validated;
-  private String message;
+  private String description;
+  private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
 
   /**
    * Successful commit validation.
@@ -43,37 +47,44 @@ public class CommitValidationResult {
       new CommitValidationResult(false, "Prohibited by Gerrit, invalid commit");
 
   /**
-   * Commit validation failed with a reason.
+   * Commit validation failed with a description.
    *
-   * @param message reason of the commit validation failure.
+   * @param description description of the commit validation failure.
    *
-   * @return validation failure with reason.
+   * @return validation failure with description.
    */
-  public static CommitValidationResult newFailure(String message) {
-    return new CommitValidationResult(false, message);
+  public static CommitValidationResult newFailure(String description) {
+    return new CommitValidationResult(false, description);
   }
 
   /**
-   * Commit validation succeeded with warning.
+   * Commit validation succeeded with a description.
    *
-   * @param message warning on the commit validation.
+   * @param description description of the commit validation.
    *
-   * @return validation success with warning.
+   * @return validation success with description.
    */
-  public static CommitValidationResult newSuccess(String message) {
-    return new CommitValidationResult(true, message);
+  public static CommitValidationResult newSuccess(String description) {
+    return new CommitValidationResult(true, description);
   }
 
   /**
    * Commit validation result and reason.
    *
    * @param validated true if commit is valid or false if has to be rejected.
-   * @param message reason of the commit validation failure or warning message when
-   *            commit has been validated.
+   * @param description description of the commit validation result.
    */
-  protected CommitValidationResult(boolean validated, String message) {
+  protected CommitValidationResult(boolean validated, String description) {
     this.validated = validated;
-    this.message = message;
+    this.description = description;
+  }
+
+  /**
+   * Default constructor.
+   */
+  public CommitValidationResult() {
+    this.validated = false;
+    this.description = "";
   }
 
   /**
@@ -98,15 +109,39 @@ public class CommitValidationResult {
    *
    * @return textual validation description.
    */
-  public String getValidationReason() {
-    return message;
+  public String getDescription() {
+    return description;
   }
 
   /**
    * Sets additional textual description for the validation.
    * @param message the textual validation description.
    */
-  public void setValidationReason(String message) {
-    this.message = message;
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  /**
+   * Add a new message.
+   * @param message the message.
+   */
+  public void addMessage(String message) {
+    messages.add(new CommitValidationMessage(message, false));
+  }
+
+  /**
+   * Add a new error message.
+   * @param error the error message.
+   */
+  public void addError(String error) {
+    messages.add(new CommitValidationMessage(error, true));
+  }
+
+  /**
+   * Get the list of messages.
+   * @return the list of messages.
+   */
+  public List<CommitValidationMessage> getMessages() {
+    return messages;
   }
 }

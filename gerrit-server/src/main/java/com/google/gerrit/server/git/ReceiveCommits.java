@@ -24,7 +24,6 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -89,7 +88,6 @@ import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1297,7 +1295,6 @@ public class ReceiveCommits {
 
     CheckedFuture<Void, OrmException> insertChange() throws IOException {
       rp.getRevWalk().parseBody(commit);
-      warnMalformedMessage(commit);
 
       final Thread caller = Thread.currentThread();
       ListenableFuture<Void> future = changeUpdateExector.submit(
@@ -1609,7 +1606,6 @@ public class ReceiveCommits {
     CheckedFuture<PatchSet.Id, OrmException> insertPatchSet()
         throws IOException {
       rp.getRevWalk().parseBody(newCommit);
-      warnMalformedMessage(newCommit);
 
       final Thread caller = Thread.currentThread();
       ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
@@ -2031,21 +2027,36 @@ public class ReceiveCommits {
       }
     }
 
+    boolean validated = true;
     for (CommitValidationListener validator : commitValidators) {
       CommitValidationResult validationResult =
           validator.onCommitReceived(new CommitReceivedEvent(cmd, project, ctl
               .getRefName(), c, currentUser));
       final String pluginName = pluginLoader.getPluginName(validator);
-      final String message = validationResult.getValidationReason();
+      final String description = validationResult.getDescription();
+      final String messageSuffix = String.format("%s%s",
+          pluginName, description.isEmpty() ? "" : ": " + description);
       if (!validationResult.isValidated()) {
-        reject(cmd, String.format("%s (rejected by plugin %s)", message, pluginName));
-        return false;
-      } else if (!Strings.isNullOrEmpty(message)) {
-        addMessage(String.format("(W) %s (from plugin %s)", message, pluginName));
+        addError(String.format("Rejected by plugin %s", messageSuffix));
+        validated = false;
+      } else {
+        addMessage(String.format("Validated by plugin %s", messageSuffix));
+      }
+
+      for (CommitValidationMessage message : validationResult.getMessages()) {
+        if (message.isError()) {
+          addError(message.getMessage());
+        } else {
+          addMessage(message.getMessage());
+        }
       }
     }
 
-    return true;
+    if (!validated) {
+      reject(cmd, "Commit validation failed");
+    }
+
+    return validated;
   }
 
   /**
@@ -2181,41 +2192,6 @@ public class ReceiveCommits {
     }
     sb.append("\n");
     addMessage(sb.toString());
-  }
-
-  private void warnMalformedMessage(RevCommit c) {
-    ObjectReader reader = rp.getRevWalk().getObjectReader();
-    if (65 < c.getShortMessage().length()) {
-      AbbreviatedObjectId id;
-      try {
-        id = reader.abbreviate(c);
-      } catch (IOException err) {
-        id = c.abbreviate(6);
-      }
-      addMessage("(W) " + id.name() //
-          + ": commit subject >65 characters; use shorter first paragraph");
-    }
-
-    int longLineCnt = 0, nonEmptyCnt = 0;
-    for (String line : c.getFullMessage().split("\n")) {
-      if (!line.trim().isEmpty()) {
-        nonEmptyCnt++;
-      }
-      if (70 < line.length()) {
-        longLineCnt++;
-      }
-    }
-
-    if (0 < longLineCnt && 33 < longLineCnt * 100 / nonEmptyCnt) {
-      AbbreviatedObjectId id;
-      try {
-        id = reader.abbreviate(c);
-      } catch (IOException err) {
-        id = c.abbreviate(6);
-      }
-      addMessage("(W) " + id.name() //
-          + ": commit message lines >70 characters; manually wrap lines");
-    }
   }
 
   private void autoCloseChanges(final ReceiveCommand cmd) {

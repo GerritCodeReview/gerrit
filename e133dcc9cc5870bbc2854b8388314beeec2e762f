@@ -34,6 +34,24 @@
       "revId": "e133dcc9cc5870bbc2854b8388314beeec2e762f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALT3////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-05T22:16:43Z",
+      "side": 1,
+      "message": "I don\u0027t know what the common use case is, but I am imagining 3 possibilities:  1) the evaluator object is instantiated, used once discarded (or several times, but all with the same settings) 2) the evaluator object is instantiated, used a bunch of times with one setting for these values, then tweaked, then used a bunch more with the new settings, repeat or discard 3) the evaluator object is instantiated and on each call these settings are likely to be different.   If #1 is the use case, these parameters should have been passed into the constructor.  If #2 is the general use case, what you have is good.  However if #3 is the use case, then you should pas these parameters into the evaluate function.  I was assuming that #3 would be the case, but I may have been way off.  Which use case pattern do you anticipate?",
+      "parentUuid": "AAALTn////0\u003d",
+      "revId": "e133dcc9cc5870bbc2854b8388314beeec2e762f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2030,8 +2030,8 @@ public class ReceiveCommits {
       CommitValidationResult validationResult =
           validator.onCommitReceived(new CommitReceivedEvent(cmd, project, ctl
               .getRefName(), c, currentUser));
-      if (!validationResult.validated) {
-        reject(cmd, validationResult.why);
+      if (!validationResult.isValidated()) {
+        reject(cmd, validationResult.getValidationReason());
         return false;
       }
     }

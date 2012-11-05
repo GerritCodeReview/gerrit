@@ -16,6 +16,24 @@
       "revId": "7472b25598e2d850bcfe0b950cdd0e78a4c30891",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALTn////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-05T10:36:49Z",
+      "side": 1,
+      "message": "The DENY rules are not included in \"relevant\" collection.\n\nWhen permission rules are loaded then DENY rules are only used to prevent ALLOW rules to be included in the result. The resulting collection of permission rules consists of only ALLOW and BLOCK rules. See PermissionCollection.filter (112-128)",
+      "parentUuid": "AAALS3////4\u003d",
+      "revId": "7472b25598e2d850bcfe0b950cdd0e78a4c30891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -88,7 +88,6 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1340,7 +1339,6 @@ public class ReceiveCommits {
 
     CheckedFuture<Void, OrmException> insertChange() throws IOException {
       rp.getRevWalk().parseBody(commit);
-      warnMalformedMessage(commit);
 
       final Thread caller = Thread.currentThread();
       ListenableFuture<Void> future = changeUpdateExector.submit(
@@ -1630,7 +1628,6 @@ public class ReceiveCommits {
     CheckedFuture<PatchSet.Id, OrmException> insertPatchSet()
         throws IOException {
       rp.getRevWalk().parseBody(newCommit);
-      warnMalformedMessage(newCommit);
 
       final Thread caller = Thread.currentThread();
       ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
@@ -1903,41 +1900,6 @@ public class ReceiveCommits {
       return false;
     }
     return true;
-  }
-
-  private void warnMalformedMessage(RevCommit c) {
-    ObjectReader reader = rp.getRevWalk().getObjectReader();
-    if (65 < c.getShortMessage().length()) {
-      AbbreviatedObjectId id;
-      try {
-        id = reader.abbreviate(c);
-      } catch (IOException err) {
-        id = c.abbreviate(6);
-      }
-      addMessage("(W) " + id.name() //
-          + ": commit subject >65 characters; use shorter first paragraph");
-    }
-
-    int longLineCnt = 0, nonEmptyCnt = 0;
-    for (String line : c.getFullMessage().split("\n")) {
-      if (!line.trim().isEmpty()) {
-        nonEmptyCnt++;
-      }
-      if (70 < line.length()) {
-        longLineCnt++;
-      }
-    }
-
-    if (0 < longLineCnt && 33 < longLineCnt * 100 / nonEmptyCnt) {
-      AbbreviatedObjectId id;
-      try {
-        id = reader.abbreviate(c);
-      } catch (IOException err) {
-        id = c.abbreviate(6);
-      }
-      addMessage("(W) " + id.name() //
-          + ": commit message lines >70 characters; manually wrap lines");
-    }
   }
 
   private void autoCloseChanges(final ReceiveCommand cmd) {

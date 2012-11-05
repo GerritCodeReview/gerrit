@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALT3////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidatorListener.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-05T13:53:00Z",
+      "side": 1,
+      "message": "Unused imports:\n\nProject, IdentifiedUser, RevCommit, ReceiveCommand",
+      "revId": "0e2c059d75b65603c01a5bdf256d354fc23a7ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

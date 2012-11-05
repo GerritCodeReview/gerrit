@@ -61,8 +61,9 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidationResult;
-import com.google.gerrit.server.git.validators.CommitValidatorListener;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -292,7 +293,7 @@ public class ReceiveCommits {
   private Task commandProgress;
   private MessageSender messageSender;
   private BatchRefUpdate batch;
-  private final DynamicSet<CommitValidatorListener> commitValidators;
+  private final DynamicSet<CommitValidationListener> commitValidators;
 
   @Inject
   ReceiveCommits(final ReviewDb db,
@@ -316,7 +317,7 @@ public class ReceiveCommits {
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
       final SshInfo sshInfo,
-      final DynamicSet<CommitValidatorListener> commitValidationListeners,
+      final DynamicSet<CommitValidationListener> commitValidationListeners,
       final SubmoduleOp.Factory subOpFactory,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo) throws IOException {
@@ -2035,7 +2036,7 @@ public class ReceiveCommits {
       }
     }
 
-    for (CommitValidatorListener validator : commitValidators) {
+    for (CommitValidationListener validator : commitValidators) {
       CommitValidationResult validationResult =
           validator.onCommitReceived(new CommitReceivedEvent(cmd, project, ctl
               .getRefName(), c, currentUser));

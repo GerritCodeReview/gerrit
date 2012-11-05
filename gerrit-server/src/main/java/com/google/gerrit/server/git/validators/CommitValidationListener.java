@@ -25,7 +25,7 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
  *
  */
 @ExtensionPoint
-public interface CommitValidatorListener {
+public interface CommitValidationListener {
   /**
    * Commit validation.
    *

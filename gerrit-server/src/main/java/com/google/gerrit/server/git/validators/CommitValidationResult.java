@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.git.validators;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Result of a commit validation from a CommitValidationListener.
  *
@@ -29,6 +32,7 @@ public class CommitValidationResult {
 
   private boolean validated;
   private String message;
+  private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
 
   /**
    * Successful commit validation.
@@ -108,5 +112,29 @@ public class CommitValidationResult {
    */
   public void setValidationReason(String message) {
     this.message = message;
+  }
+
+  /**
+   * Add a new message.
+   * @param message the message.
+   */
+  public void addMessage(String message) {
+    messages.add(new CommitValidationMessage(message, false));
+  }
+
+  /**
+   * Add a new error message.
+   * @param error the error message.
+   */
+  public void addError(String error) {
+    messages.add(new CommitValidationMessage(error, true));
+  }
+
+  /**
+   * Get the list of messages.
+   * @return the list of messages.
+   */
+  public List<CommitValidationMessage> getMessages() {
+    return messages;
   }
 }

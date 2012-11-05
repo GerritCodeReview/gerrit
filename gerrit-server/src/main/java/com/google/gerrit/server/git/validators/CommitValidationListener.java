@@ -15,12 +15,7 @@
 package com.google.gerrit.server.git.validators;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
-
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Listener to Git extra validation step.

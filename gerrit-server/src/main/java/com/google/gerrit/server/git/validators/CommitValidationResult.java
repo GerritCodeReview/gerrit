@@ -27,8 +27,8 @@ package com.google.gerrit.server.git.validators;
  */
 public class CommitValidationResult {
 
-  public final boolean validated;
-  public final String message;
+  private boolean validated;
+  private String message;
 
   /**
    * Successful commit validation.
@@ -75,11 +75,27 @@ public class CommitValidationResult {
   }
 
   /**
+   * Sets validation status.
+   * @param validated the validation status
+   */
+  public void setIsValidated(boolean validated) {
+    this.validated = validated;
+  }
+
+  /**
    * Gets additional textual description for the validation.
    *
-   * @return textual validation reason.
+   * @return textual validation description.
    */
   public String getValidationReason() {
     return message;
+  }
+
+  /**
+   * Sets additional textual description for the validation.
+   * @param message the textual validation description.
+   */
+  public void setValidationReason(String message) {
+    this.message = message;
   }
 }

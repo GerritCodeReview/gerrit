@@ -737,12 +737,21 @@ author does not have permissions for submitting the change.
     only_allow_author_to_submit(Ls, R),
     S =.. [submit | R].
 
-  only_allow_author_to_submit(S, S) :-
+  only_allow_author_to_submit(S,S) :-
+   gerrit:commit_author(Id),
+   gerrit:current_user(Id),
+   gerrit:current_user(Id,User),
+   gerrit:has_submit_permission(User),
+   !.
+
+  only_allow_author_to_submit(S1, [label('Patchset-Author', need(_)) | S1]) :-
     gerrit:commit_author(Id),
-    gerrit:current_user(Id),
+    gerrit:current_user(Id,User),
+    gerrit:has_submit_permission(User),
     !.
 
-  only_allow_author_to_submit(S1, [label('Patchset-Author', need(_)) | S1]).
+  % Author does not have submit permissions.
+    only_allow_author_to_submit(S1,[label('Patchset-Author', impossible(_)) | S1]).
 ====
 
 GERRIT

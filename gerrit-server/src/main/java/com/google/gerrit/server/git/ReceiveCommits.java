@@ -1969,7 +1969,7 @@ public class ReceiveCommits {
         }
       }
       if (!sboAuthor && !sboCommitter && !sboMe && !ctl.canForgeCommitter()) {
-        reject(cmd, "not Signed-off-by author/committer/uploader");
+        reject(cmd, "not Signed-off-by author/committer/uploader in commit message footer");
         return false;
       }
     }
@@ -1978,19 +1978,19 @@ public class ReceiveCommits {
     if (MagicBranch.isMagicBranch(cmd.getRefName()) || NEW_PATCHSET.matcher(cmd.getRefName()).matches()) {
       if (idList.isEmpty()) {
         if (projectControl.getProjectState().isRequireChangeID()) {
-          String errMsg = "missing Change-Id in commit message";
+          String errMsg = "missing Change-Id in commit message footer";
           reject(cmd, errMsg);
           addMessage(getFixedCommitMsgWithChangeId(errMsg, c));
           return false;
         }
       } else if (idList.size() > 1) {
-        reject(cmd, "multiple Change-Id lines in commit message");
+        reject(cmd, "multiple Change-Id lines in commit message footer");
         return false;
       } else {
         final String v = idList.get(idList.size() - 1).trim();
         if (!v.matches("^I[0-9a-f]{8,}.*$")) {
           final String errMsg =
-              "missing or invalid Change-Id line format in commit message";
+              "missing or invalid Change-Id line format in commit message footer";
           reject(cmd, errMsg);
           addMessage(getFixedCommitMsgWithChangeId(errMsg, c));
           return false;

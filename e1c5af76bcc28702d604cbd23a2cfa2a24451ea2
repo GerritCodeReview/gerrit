@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALXH////4\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-09T19:39:55Z",
+      "side": 1,
+      "message": "Must have been cherry-picked back to 2.5? Removed from 2.6 release notes.",
+      "parentUuid": "AAALT3///+c\u003d",
+      "revId": "e1c5af76bcc28702d604cbd23a2cfa2a24451ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALTn////c\u003d",
         "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
         "patchSetId": 1
@@ -64,6 +82,24 @@
       "writtenOn": "2012-11-09T15:34:55Z",
       "side": 1,
       "message": "It was added in 2.5",
+      "revId": "e1c5af76bcc28702d604cbd23a2cfa2a24451ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALXH////8\u003d",
+        "filename": "ReleaseNotes/ReleaseNotes-2.6.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-09T19:39:55Z",
+      "side": 1,
+      "message": "Must have been cherry-picked back then. I saw this as a delta since v2.5 when I ran git log. Removed from 2.6 release notes.",
+      "parentUuid": "AAALVn////8\u003d",
       "revId": "e1c5af76bcc28702d604cbd23a2cfa2a24451ea2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

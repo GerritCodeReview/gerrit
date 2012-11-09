@@ -38,10 +38,16 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
     }
     HashMap<String, Ref> r = new HashMap<String, Ref>();
     for (Map.Entry<String, Ref> e : oldRefs.entrySet()) {
-      if (!e.getKey().startsWith("refs/changes/")) {
-        r.put(e.getKey(), e.getValue());
+      String name = e.getKey();
+      if (!skip(name)) {
+        r.put(name, e.getValue());
       }
     }
     rp.setAdvertisedRefs(r, rp.getAdvertisedObjects());
+  }
+
+  private static boolean skip(String name) {
+    return name.startsWith("refs/changes/")
+        || name.startsWith("refs/cache-automerge/");
   }
 }

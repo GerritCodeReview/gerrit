@@ -1,0 +1,124 @@
+Release notes for Gerrit 2.6
+============================
+
+Gerrit 2.6 is now available:
+
+link:http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.6.war[http://code.google.com/p/gerrit/downloads/detail?name=gerrit-full-2.6.war]
+
+Schema Change
+-------------
+*WARNING:* This release contains schema changes.  To upgrade:
+----
+  java -jar gerrit.war init -d site_path
+----
+
+*WARNING:* Upgrading to 2.6.x requires the server be first upgraded to 2.1.7 (or
+a later 2.1.x version), and then to 2.6.x.  If you are upgrading from 2.2.x.x or
+newer, you may ignore this warning and upgrade directly to 2.6.x.
+
+New Features
+------------
+
+Review UI
+~~~~~~~~~
+* The reviewer matrix on a change displays gray boxes where
+  permissions do not allow voting in that category. The coloring
+  enables authors to quickly identify if another reviewer is
+  necessary to continue the change.
+
+* New 'Rebase If Necessary' submit type. This is similar to cherry
+  pick, but honors change dependency information.
+* Submit type displayed per-change in the info block.
+* Submit type selectable per-change by `submit_type` Prolog rules.
+
+* Rebase button is hidden when patch set is current.
+
+* `suggest.from` configures a minimum number of characters before
+  matches for reviewers, accounts, groups or projects are offered.
+
+Access Controls
+~~~~~~~~~~~~~~~
+* Remove Reviewer is a new permission.
+
+* LDAP group names are configurable, `cn` is still the default.
+* LDAP cache reduces the number of recursive group queries.
+* Kerberos authentication to LDAP servers is now supported.
+
+* Basic project properities are now inherited by default from parent
+  projects: Use Content Merge, Require Contributor Agreement, Require
+  Change Id, Require Signed Off By.
+
+Hooks
+~~~~~
+* Change topic is passed to hooks as `--topic NAME`.
+* New `reviewer-added` hook called when a reviewer is added.
+* New `reviewer-added` event is sent by stream-events.
+
+SSH
+~~~
+* `create-account --http-password` enables setting/resetting the
+  HTTP password of role accounts, for Git or JSON API access.
+
+* `ls-projects --has-acl-for` lists projects that mention a group
+  in an ACL, identifying where rights are granted.
+
+* `query` includes submit record information from Prolog rules.
+* `query` includes `resumeSortKey` in summary block.
+* `query` includes author and change size information when given
+  certain options on the command line.
+
+Plugins
+~~~~~~~
+* Plugins can contribute Prolog facts/predicates from Java.
+* Plugins can prompt for parameters during `init` with `InitStep`.
+* Plugins can now contribute JavaScript to the web UI. UI plugins can
+  also be written and compiled with GWT.
+* New Maven archetypes for JavaScript and GWT plugins.
+
+EMail
+~~~~~
+* Email footers now include `Gerrit-HasInlineComments: {Yes|No}`.
+* Notifications configured in project.config can now be addressed
+  using any of To, CC, or BCC headers.
+
+* `#if($email.hasInlineComments())` can be used in templates to test
+  if there are comments to be included in this email.
+
+Upgrades
+~~~~~~~~
+* Embedded Jetty is now 8.1.7.v20120910.
+* ASM bytecode library is now 4.0.
+* JGit is now 2.1.0.201209190230-r.
+
+Bug Fixes
+---------
+
+Web UI
+~~~~~~
+* CLA hyperlink on registration page was broken.
+* Links to CGit were broken when remove-suffix was enabled.
+* Improved creation of inline comment editors, avoiding multiple
+  draft editors on the same line of code.
+
+Hooks
+~~~~~
+* `draft-published` event is now fired.
+
+Git
+~~~
+* The regex wildcard `.` is now permitted in reference names.
+* Checking if a change is mergeable no longer writes to the repository.
+* Improved `git ls-remote` and `git fetch` performance by caching
+  changes, decreasing database queries and traffic.
+* Commits pushed without a Change-Id now warn with instructions on how
+  to download and install the commit-msg hook.
+* Submitted but unmerged changes are periodically retried. This is
+  necessary for a multi-master configuration where the second master
+  may need to retry a change not yet merged by the first. Please note
+  we still do not believe this is sufficient to enable multi-master.
+
+Tools
+~~~~~
+* `GREP_OPTIONS` is ignored in `commit-msg` hook, to prevent errors
+  when users have the value set in the environment.
+

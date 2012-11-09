@@ -16,6 +16,24 @@
       "revId": "a875d30bffcaec9cfd1085ff0a5573451f82dee9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALTn////k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/PageLinks.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-09T04:54:23Z",
+      "side": 1,
+      "message": "I agree that we should get rid of /admin/projects/ and it should be rather /projects/, but then the recent projects can\u0027t be under /projects/recent/ because this would shadow a project with the name \u0027recent\u0027 (see Shawn\u0027s comment on patch set 1 in this file and in Dispatcher). This is why I was making it /recent/projects/.",
+      "parentUuid": "AAALU3////8\u003d",
+      "revId": "a875d30bffcaec9cfd1085ff0a5573451f82dee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

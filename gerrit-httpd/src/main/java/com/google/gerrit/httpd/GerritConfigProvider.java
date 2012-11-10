@@ -97,11 +97,13 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       case LDAP:
       case LDAP_BIND:
         config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
+        config.setRegisterText(cfg.getString("auth", null, "registertext"));
         config.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));
         break;
 
       case CUSTOM_EXTENSION:
         config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
+        config.setRegisterText(cfg.getString("auth", null, "registertext"));
         config.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));
         config.setHttpPasswordUrl(cfg.getString("auth", null, "httpPasswordUrl"));
         break;

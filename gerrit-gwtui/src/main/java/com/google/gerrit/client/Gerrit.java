@@ -736,7 +736,8 @@ public class Gerrit implements EntryPoint {
         case LDAP_BIND:
         case CUSTOM_EXTENSION:
           if (cfg.getRegisterUrl() != null) {
-            menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
+            String registerText = cfg.getRegisterText() == null ? C.menuRegister() : cfg.getRegisterText();
+            menuRight.add(anchor(registerText, cfg.getRegisterUrl()));
           }
           menuRight.addItem(C.menuSignIn(), new Command() {
             public void execute() {

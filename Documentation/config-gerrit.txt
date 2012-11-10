@@ -264,6 +264,13 @@ when auth.type is `LDAP`.
 +
 If not set, no "Register" link is displayed.
 
+[[auth.registerText]]auth.registerText::
++
+Text for the "Register" link in the upper right corner.  Used only
+when auth.type is `LDAP`.
++
+If not set, defaults to "Register".
+
 [[auth.cookiePath]]auth.cookiePath::
 +
 Sets "path" attribute of the authentication cookie.

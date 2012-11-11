@@ -16,6 +16,24 @@
       "revId": "32f211c126ae8041caf4546cd4c88e106bb95b76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfX////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-11-11T15:11:11Z",
+      "side": 1,
+      "message": "Indeed. I whipped this up at the request of one of my users during one of the talks yesterday, and wasn\u0027t paying 100% attention to what I was typing. Will fix.",
+      "parentUuid": "AAALen////8\u003d",
+      "revId": "32f211c126ae8041caf4546cd4c88e106bb95b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

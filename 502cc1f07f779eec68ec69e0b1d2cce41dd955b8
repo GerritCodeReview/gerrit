@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALgn///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/MissingCredentialsException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-12T22:21:54Z",
+      "side": 1,
+      "message": "when the credentials are not supplied but needed for that account.",
+      "revId": "502cc1f07f779eec68ec69e0b1d2cce41dd955b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/UserNotFoundException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-12T22:21:54Z",
+      "side": 1,
+      "message": "How can you say that \"credentials are valid\" if the user account does not exist ?\n\nI would call this exception \"UnknownUserException\" otherwise seems we accept the auth but user could not be looked up in some sort of directory.",
+      "revId": "502cc1f07f779eec68ec69e0b1d2cce41dd955b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

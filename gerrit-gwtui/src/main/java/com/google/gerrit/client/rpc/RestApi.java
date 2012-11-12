@@ -44,11 +44,9 @@ public class RestApi {
 
   private class MyRequestCallback<T extends JavaScriptObject> implements
       RequestCallback {
-    private final boolean wasGet;
     private final AsyncCallback<T> cb;
 
-    public MyRequestCallback(boolean wasGet, AsyncCallback<T> cb) {
-      this.wasGet = wasGet;
+    MyRequestCallback(AsyncCallback<T> cb) {
       this.cb = cb;
     }
 
@@ -78,11 +76,6 @@ public class RestApi {
         return;
       }
       json = json.substring(JSON_MAGIC.length());
-
-      if (wasGet && json.startsWith("{\"_authkey\":")) {
-        RestApi.this.resendPost(cb, json);
-        return;
-      }
 
       T data;
       try {
@@ -168,24 +161,9 @@ public class RestApi {
   public <T extends JavaScriptObject> void send(final AsyncCallback<T> cb) {
     RequestBuilder req = new RequestBuilder(RequestBuilder.GET, url.toString());
     req.setHeader("Accept", JsonConstants.JSON_TYPE);
-    req.setCallback(new MyRequestCallback<T>(true, cb));
+    req.setCallback(new MyRequestCallback<T>(cb));
     try {
       RpcStatus.INSTANCE.onRpcStart();
-      req.send();
-    } catch (RequestException e) {
-      RpcStatus.INSTANCE.onRpcComplete();
-      cb.onFailure(e);
-    }
-  }
-
-  private <T extends JavaScriptObject> void resendPost(
-      final AsyncCallback<T> cb, String token) {
-    RequestBuilder req = new RequestBuilder(RequestBuilder.POST, url.toString());
-    req.setHeader("Accept", JsonConstants.JSON_TYPE);
-    req.setHeader("Content-Type", JsonConstants.JSON_TYPE);
-    req.setRequestData(token);
-    req.setCallback(new MyRequestCallback<T>(false, cb));
-    try {
       req.send();
     } catch (RequestException e) {
       RpcStatus.INSTANCE.onRpcComplete();

@@ -22,7 +22,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.AuthConfig;
@@ -143,8 +142,7 @@ class ProjectBasicAuthFilter implements Filter {
 
     try {
       AuthResult whoAuthResult = accountManager.authenticate(whoAuth);
-      session.get().setUserAccountId(whoAuthResult.getAccountId(),
-          AuthMethod.PASSWORD);
+      session.get().setUserAccountId(whoAuthResult.getAccountId());
       return true;
     } catch (AccountException e) {
       log.warn("Authentication failed for " + username, e);

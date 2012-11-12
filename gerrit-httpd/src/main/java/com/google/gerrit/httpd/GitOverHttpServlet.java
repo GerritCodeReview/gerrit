@@ -18,7 +18,6 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.CacheModule;
@@ -178,12 +177,10 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class UploadFactory implements UploadPackFactory<HttpServletRequest> {
     private final TransferConfig config;
-    private final Provider<WebSession> session;
 
     @Inject
-    UploadFactory(TransferConfig tc, Provider<WebSession> session) {
+    UploadFactory(TransferConfig tc) {
       this.config = tc;
-      this.session = session;
     }
 
     @Override
@@ -191,7 +188,6 @@ public class GitOverHttpServlet extends GitServlet {
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(config.getPackConfig());
       up.setTimeout(config.getTimeout());
-      session.get().setAccessPath(AccessPath.GIT);
       return up;
     }
   }
@@ -241,14 +237,11 @@ public class GitOverHttpServlet extends GitServlet {
 
   static class ReceiveFactory implements ReceivePackFactory<HttpServletRequest> {
     private final AsyncReceiveCommits.Factory factory;
-    private final Provider<WebSession> session;
     private final TransferConfig config;
 
     @Inject
-    ReceiveFactory(AsyncReceiveCommits.Factory factory,
-        Provider<WebSession> session, TransferConfig config) {
+    ReceiveFactory(AsyncReceiveCommits.Factory factory, TransferConfig config) {
       this.factory = factory;
-      this.session = session;
       this.config = config;
     }
 
@@ -269,7 +262,6 @@ public class GitOverHttpServlet extends GitServlet {
       rp.setTimeout(config.getTimeout());
       rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
       req.setAttribute(ATT_RC, rc);
-      session.get().setAccessPath(AccessPath.GIT);
       return rp;
     }
   }

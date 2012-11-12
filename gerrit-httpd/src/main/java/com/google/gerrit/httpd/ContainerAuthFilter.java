@@ -19,7 +19,6 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -100,9 +99,7 @@ class ContainerAuthFilter implements Filter {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
-    session.get().setUserAccountId(
-        who.getAccount().getId(),
-        AuthMethod.PASSWORD);
+    session.get().setUserAccountId(who.getAccount().getId());
     return true;
   }
 }

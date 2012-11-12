@@ -25,7 +25,6 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AuthConfig;
@@ -33,6 +32,8 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
+
+import org.eclipse.jgit.http.server.GitSmartHttpTools;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -65,9 +66,8 @@ public final class CacheBasedWebSession implements WebSession {
   private final AuthConfig authConfig;
   private final Provider<AnonymousUser> anonymousProvider;
   private final IdentifiedUser.RequestFactory identified;
-  private AccessPath accessPath = AccessPath.WEB_UI;
+  private AccessPath accessPath;
   private Cookie outCookie;
-  private AuthMethod authMethod;
 
   private Key key;
   private Val val;
@@ -85,7 +85,17 @@ public final class CacheBasedWebSession implements WebSession {
     this.anonymousProvider = anonymousProvider;
     this.identified = identified;
 
-    final String cookie = readCookie();
+    String cookie = request.getHeader("Authorization");
+    if (cookie != null && cookie.startsWith("OAuth ")) {
+      cookie = cookie.substring("OAuth ".length());
+      accessPath = AccessPath.REST_API;
+    } else if (cookie != null && GitSmartHttpTools.isGitClient(request)) {
+      accessPath = AccessPath.GIT;
+    } else {
+      cookie = readCookie();
+      accessPath = AccessPath.WEB_BROWSER;
+    }
+
     if (cookie != null) {
       key = new Key(cookie);
       val = manager.get(key);
@@ -93,7 +103,6 @@ public final class CacheBasedWebSession implements WebSession {
       key = null;
       val = null;
     }
-    authMethod = isSignedIn() ? AuthMethod.COOKIE : AuthMethod.NONE;
 
     if (isSignedIn() && val.needsCookieRefresh()) {
       // Cookie is more than half old. Send the cookie again to the
@@ -124,14 +133,8 @@ public final class CacheBasedWebSession implements WebSession {
     return val != null;
   }
 
-  public String getToken() {
-    return isSignedIn() ? val.getXsrfToken() : null;
-  }
-
-  public boolean isTokenValid(final String inputToken) {
-    return isSignedIn() //
-        && val.getXsrfToken() != null //
-        && val.getXsrfToken().equals(inputToken);
+  public String getAccessToken() {
+    return isSignedIn() ? key.getToken() : null;
   }
 
   public AccountExternalId.Key getLastLoginExternalId() {
@@ -145,8 +148,7 @@ public final class CacheBasedWebSession implements WebSession {
     return anonymousProvider.get();
   }
 
-  public void login(final AuthResult res, final AuthMethod meth,
-                    final boolean rememberMe) {
+  public void login(final AuthResult res, final boolean rememberMe) {
     final Account.Id id = res.getAccountId();
     final AccountExternalId.Key identity = res.getExternalId();
 
@@ -155,22 +157,14 @@ public final class CacheBasedWebSession implements WebSession {
     }
 
     key = manager.createKey(id);
-    val = manager.createVal(key, id, rememberMe, identity, null);
+    val = manager.createVal(key, id, rememberMe, identity);
     saveCookie();
-
-    authMethod = meth;
-  }
-
-  /** Change the access path from the default of {@link AccessPath#WEB_UI}. */
-  public void setAccessPath(AccessPath path) {
-    accessPath = path;
   }
 
   /** Set the user account for this current request only. */
-  public void setUserAccountId(Account.Id id, AuthMethod method) {
+  public void setUserAccountId(Account.Id id) {
     key = new Key("id:" + id);
-    val = new Val(id, 0, false, null, "", 0);
-    authMethod = method;
+    val = new Val(id, 0, false, null, 0);
   }
 
   public void logout() {
@@ -216,9 +210,5 @@ public final class CacheBasedWebSession implements WebSession {
 
   private static boolean isSecure(final HttpServletRequest req) {
     return req.isSecure() || "https".equals(req.getScheme());
-  }
-
-  public AuthMethod getAuthMethod() {
-    return authMethod;
   }
 }

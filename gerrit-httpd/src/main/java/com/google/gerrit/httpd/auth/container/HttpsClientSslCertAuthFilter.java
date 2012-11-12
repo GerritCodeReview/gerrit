@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.auth.container;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.inject.Inject;
@@ -85,7 +84,7 @@ class HttpsClientSslCertAuthFilter implements Filter {
       log.error(err, e);
       throw new ServletException(err, e);
     }
-    webSession.get().login(arsp, AuthMethod.COOKIE, true);
+    webSession.get().login(arsp, true);
     chain.doFilter(req, rsp);
   }
 

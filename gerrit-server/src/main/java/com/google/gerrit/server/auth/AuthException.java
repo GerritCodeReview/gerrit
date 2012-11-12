@@ -14,24 +14,44 @@
 
 package com.google.gerrit.server.auth;
 
+import com.google.common.collect.Lists;
+
+import java.util.List;
+
 /**
  * Base type for authentication exceptions.
  */
 public class AuthException extends Exception {
   private static final long serialVersionUID = -8946302676525580372L;
+  private final List<AuthException> exceptions;
 
-  public AuthException() {
+  protected AuthException() {
+    this.exceptions = Lists.newArrayList();
+  }
+
+  public AuthException(List<AuthException> exceptions) {
+    this.exceptions = exceptions;
   }
 
   public AuthException(String msg) {
     super(msg);
+    this.exceptions = Lists.newArrayList();
   }
 
   public AuthException(Throwable ex) {
     super(ex);
+    this.exceptions = Lists.newArrayList();
   }
 
   public AuthException(String msg, Throwable ex) {
     super(msg, ex);
+    this.exceptions = Lists.newArrayList();
+  }
+
+  /**
+   * @return list of all exceptions thrown by {@link AuthBackend}s
+   */
+  public List<AuthException> getAllExceptions() {
+    return exceptions;
   }
 }

@@ -94,7 +94,9 @@ final class PluginInstallCommand extends SshCommand {
       throw die("cannot install plugin");
     } catch (PluginInstallException e) {
       e.printStackTrace(stderr);
-      throw die("plugin failed to install");
+      String msg =
+          String.format("Plugin failed to install. Cause: %s", e.getMessage());
+      throw die(msg);
     } finally {
       try {
         data.close();

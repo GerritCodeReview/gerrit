@@ -14,11 +14,18 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.inject.Scopes.SINGLETON;
+
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.httpd.auth.BasicHttpAuthProtocolHandler;
+import com.google.gerrit.httpd.auth.DefaultHttpAuthProtocolSelector;
+import com.google.gerrit.httpd.auth.DigestHttpAuthProtocolHandler;
+import com.google.gerrit.httpd.auth.HttpAuthProtocolHandler;
+import com.google.gerrit.httpd.auth.HttpAuthorizer;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
 
-import javax.servlet.Filter;
+import javax.inject.Inject;
 
 /** Configures Git access over HTTP with authentication. */
 public class GitOverHttpModule extends ServletModule {
@@ -31,19 +38,24 @@ public class GitOverHttpModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
-    Class<? extends Filter> authFilter;
+    DynamicSet.setOf(binder(), HttpAuthProtocolHandler.class);
     if (authConfig.isTrustContainerAuth()) {
-      authFilter = ContainerAuthFilter.class;
+      // authFilter = ContainerAuthFilter.class;
+      throw new RuntimeException("implement me");
     } else if (authConfig.isGitBasichAuth()) {
-      authFilter = ProjectBasicAuthFilter.class;
+      DynamicSet.bind(binder(), HttpAuthProtocolHandler.class).to(
+          BasicHttpAuthProtocolHandler.class);
+      bind(DefaultHttpAuthProtocolSelector.class).in(SINGLETON);
     } else {
-      authFilter = ProjectDigestFilter.class;
+      DynamicSet.bind(binder(), HttpAuthProtocolHandler.class).to(
+          DigestHttpAuthProtocolHandler.class);
+      bind(DefaultHttpAuthProtocolSelector.class).in(SINGLETON);
     }
 
     String git = GitOverHttpServlet.URL_REGEX;
-    filterRegex(git).through(authFilter);
+    filterRegex(git).through(HttpAuthorizer.class);
     serveRegex(git).with(GitOverHttpServlet.class);
 
-    filter("/a/*").through(authFilter);
+    filter("/a/*").through(HttpAuthorizer.class);
   }
 }

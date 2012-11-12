@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALfX////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T11:20:30Z",
+      "side": 1,
+      "message": "[optional] Maybe \"refs/changes/\" should also be declared as constant somewhere?",
+      "revId": "a12b363dfdd503b177371a6a342e0798c5f599c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALaX////g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsAdvertiseRefsHook.java",
         "patchSetId": 1

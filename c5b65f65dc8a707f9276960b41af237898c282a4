@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfX///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T19:13:19Z",
+      "side": 1,
+      "message": "missing file header",
+      "revId": "c5b65f65dc8a707f9276960b41af237898c282a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfX///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T19:13:19Z",
+      "side": 1,
+      "message": "[optional] maybe having toString() method would be a good idea",
+      "revId": "c5b65f65dc8a707f9276960b41af237898c282a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

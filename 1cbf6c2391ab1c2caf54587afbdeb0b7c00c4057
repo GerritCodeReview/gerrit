@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfX///68\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T22:41:46Z",
+      "side": 1,
+      "message": "nit: empty line",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfX///64\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T22:41:46Z",
+      "side": 1,
+      "message": "make username final",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

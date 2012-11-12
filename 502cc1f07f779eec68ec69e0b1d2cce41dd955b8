@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALen///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T23:04:15Z",
+      "side": 1,
+      "message": "What would the constructor do?  If it is just formatting a string, the caller should do the formatting when it creates the exception.",
+      "parentUuid": "AAALfX///7Y\u003d",
+      "revId": "502cc1f07f779eec68ec69e0b1d2cce41dd955b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALgn///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/MissingCredentialsException.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALen///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/MissingCredentialsException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T23:04:15Z",
+      "side": 1,
+      "message": "no account can\u0027t be specified either. this is the \"I have no information on which to operate on in this request\".\n\nupdated the comment.",
+      "parentUuid": "AAALgn///+M\u003d",
+      "revId": "502cc1f07f779eec68ec69e0b1d2cce41dd955b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALgn///+Q\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/UserNotFoundException.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-11-12T22:21:54Z",
       "side": 1,
       "message": "How can you say that \"credentials are valid\" if the user account does not exist ?\n\nI would call this exception \"UnknownUserException\" otherwise seems we accept the auth but user could not be looked up in some sort of directory.",
+      "revId": "502cc1f07f779eec68ec69e0b1d2cce41dd955b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///9c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/UserNotFoundException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T23:04:15Z",
+      "side": 1,
+      "message": "You could just be checking the secure hash is correct. However, the account that is referenced may have been deleted (either way we can\u0027t find it).\n\nperhaps this will never occur at authentication, but instead when the user directory lookup method is invoked.  Should I remove this for now? What do you think Luca?",
+      "parentUuid": "AAALgn///+Q\u003d",
       "revId": "502cc1f07f779eec68ec69e0b1d2cce41dd955b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

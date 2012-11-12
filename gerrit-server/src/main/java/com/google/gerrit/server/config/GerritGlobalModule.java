@@ -48,6 +48,7 @@ import com.google.gerrit.server.account.IncludingGroupMembership;
 import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.UniversalGroupBackend;
+import com.google.gerrit.server.auth.AuthPluginModule;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.events.EventFactory;
@@ -127,6 +128,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(SectionSortCache.module());
     install(TagCache.module());
     install(ChangeCache.module());
+    install(new AuthPluginModule());
 
     install(new AccessControlModule());
     install(new GitModule());

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALfX///7Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T22:25:56Z",
+      "side": 1,
+      "message": "could we add constructor:\n\npublic AuthException(List\u003cAuthException\u003e exceptions);\n\nfor combining all exceptions that could be thrown during authorization process from registered AuthBackend\u0027s?",
+      "revId": "502cc1f07f779eec68ec69e0b1d2cce41dd955b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALgn///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/MissingCredentialsException.java",
         "patchSetId": 1

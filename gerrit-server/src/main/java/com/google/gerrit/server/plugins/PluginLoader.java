@@ -446,7 +446,7 @@ public class PluginLoader implements LifecycleListener {
       Class<? extends Module> sshModule = load(sshName, pluginLoader);
       Class<? extends Module> httpModule = load(httpName, pluginLoader);
       keep = true;
-      return new Plugin(name,
+      return new JarPlugin(name,
           srcJar, snapshot,
           jarFile, manifest,
           new File(dataDir, name), type, pluginLoader,

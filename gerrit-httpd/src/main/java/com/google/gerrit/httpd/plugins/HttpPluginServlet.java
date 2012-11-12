@@ -25,6 +25,7 @@ import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.PluginsCollection;
@@ -44,6 +45,8 @@ import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -79,6 +82,7 @@ class HttpPluginServlet extends HttpServlet
   private static final Logger log
       = LoggerFactory.getLogger(HttpPluginServlet.class);
 
+  private final File pluginsDir;
   private final MimeUtilFileTypeRegistry mimeUtil;
   private final Provider<String> webUrl;
   private final Cache<ResourceKey, Resource> resourceCache;
@@ -92,13 +96,16 @@ class HttpPluginServlet extends HttpServlet
       = Maps.newConcurrentMap();
 
   @Inject
-  HttpPluginServlet(MimeUtilFileTypeRegistry mimeUtil,
+  HttpPluginServlet(
+      SitePaths sitePaths,
+      MimeUtilFileTypeRegistry mimeUtil,
       @CanonicalWebUrl Provider<String> webUrl,
       @Named(HttpPluginModule.PLUGIN_RESOURCES) Cache<ResourceKey, Resource> cache,
       @GerritServerConfig Config cfg,
       SshInfo sshInfo,
       RestApiServlet.Globals globals,
       PluginsCollection plugins) {
+    this.pluginsDir = sitePaths.plugins_dir;
     this.mimeUtil = mimeUtil;
     this.webUrl = webUrl;
     this.resourceCache = cache;
@@ -264,12 +271,17 @@ class HttpPluginServlet extends HttpServlet
 
     if (file.startsWith(holder.staticPrefix)) {
       JarFile jar = holder.plugin.getJarFile();
-      JarEntry entry = jar.getJarEntry(file);
-      if (exists(entry)) {
-        sendResource(jar, entry, key, res);
+      if (jar == null) {
+        String jsFileName = file.replaceFirst("static/", "");
+        sendJsPlugin(jsFileName, key, req, res);
       } else {
-        resourceCache.put(key, Resource.NOT_FOUND);
-        Resource.NOT_FOUND.send(req, res);
+        JarEntry entry = jar.getJarEntry(file);
+        if (exists(entry)) {
+          sendResource(jar, entry, key, res);
+        } else {
+          resourceCache.put(key, Resource.NOT_FOUND);
+          Resource.NOT_FOUND.send(req, res);
+        }
       }
     } else if (file.equals(
         holder.docPrefix.substring(0, holder.docPrefix.length() - 1))) {
@@ -547,20 +559,38 @@ class HttpPluginServlet extends HttpServlet
       res.getOutputStream().write(data);
     } else {
       InputStream in = jar.getInputStream(entry);
+      writeToResponse(res, in);
+    }
+  }
+
+  private void sendJsPlugin(String jsFileName, ResourceKey key,
+      HttpServletRequest req, HttpServletResponse res) throws IOException {
+    File jsFile = new File(pluginsDir, jsFileName);
+    if (jsFile.exists()) {
+      res.setHeader("Content-Length", Long.toString(jsFile.length()));
+      res.setContentType("application/javascript");
+      writeToResponse(res, new FileInputStream(jsFile));
+    } else  {
+      resourceCache.put(key, Resource.NOT_FOUND);
+      Resource.NOT_FOUND.send(req, res);
+    }
+  }
+
+  private void writeToResponse(HttpServletResponse res, InputStream in)
+      throws IOException {
+    try {
+      OutputStream out = res.getOutputStream();
       try {
-        OutputStream out = res.getOutputStream();
-        try {
-          byte[] tmp = new byte[1024];
-          int n;
-          while ((n = in.read(tmp)) > 0) {
-            out.write(tmp, 0, n);
-          }
-        } finally {
-          out.close();
+        byte[] tmp = new byte[1024];
+        int n;
+        while ((n = in.read(tmp)) > 0) {
+          out.write(tmp, 0, n);
         }
       } finally {
-        in.close();
+        out.close();
       }
+    } finally {
+      in.close();
     }
   }
 

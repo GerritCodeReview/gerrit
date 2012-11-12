@@ -244,6 +244,11 @@ public class Gerrit implements EntryPoint {
     return myAccountDiffPref;
   }
 
+  /** @return the currently signed in user's XSRF token; null if current user is not signed in*/
+  public static String getXsrfToken() {
+    return xsrfToken;
+  }
+
   public static void setAccountDiffPreference(AccountDiffPreference accountDiffPref) {
     myAccountDiffPref = accountDiffPref;
   }

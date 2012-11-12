@@ -54,6 +54,7 @@ import com.google.gerrit.client.admin.GroupListScreen;
 import com.google.gerrit.client.admin.PluginListScreen;
 import com.google.gerrit.client.admin.ProjectAccessScreen;
 import com.google.gerrit.client.admin.ProjectBranchesScreen;
+import com.google.gerrit.client.admin.ProjectDashboardsScreen;
 import com.google.gerrit.client.admin.ProjectInfoScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.admin.ProjectScreen;
@@ -728,6 +729,10 @@ public class Dispatcher {
 
           if (ProjectScreen.ACCESS.equals(panel)) {
             return new ProjectAccessScreen(k);
+          }
+
+          if (ProjectScreen.DASHBOARDS.equals(panel)) {
+            return new ProjectDashboardsScreen(k);
           }
         }
         return new NotFoundScreen();

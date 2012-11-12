@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALen////E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T20:52:37Z",
+      "side": 1,
+      "message": "nit: too generic of a description\n\nAdded AuthRequest type for the pluggable auth system.",
+      "revId": "2c3989941b1a5520e7449ff369c5a8591a694fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen////A\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T20:52:37Z",
+      "side": 1,
+      "message": "nit: make this more explicit\n\nAuthRequest allows the new auth plug-able infrastructure to get a clean hierarchy of req for auth from different protocols.",
+      "revId": "2c3989941b1a5520e7449ff369c5a8591a694fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthRequest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T20:52:37Z",
+      "side": 1,
+      "message": "nit: extra line",
+      "revId": "2c3989941b1a5520e7449ff369c5a8591a694fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthRequest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T20:52:37Z",
+      "side": 1,
+      "message": "nit: add @Nullable",
+      "revId": "2c3989941b1a5520e7449ff369c5a8591a694fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthRequest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T20:52:37Z",
+      "side": 1,
+      "message": "nit: add @Nullable",
+      "revId": "2c3989941b1a5520e7449ff369c5a8591a694fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthRequest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T20:52:37Z",
+      "side": 1,
+      "message": "i don\u0027t think this should be a method on the request.  what does it mean to be anonymous? Wouldn\u0027t that be backend specific? In the simple case, both getUsername() and getPassword() would be null.",
+      "revId": "2c3989941b1a5520e7449ff369c5a8591a694fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -50,7 +50,7 @@ public class ChangeInfo extends JavaScriptObject {
   }
 
   public final String id_abbreviated() {
-    return new Change.Key(id()).abbreviate();
+    return new Change.Key(change_id()).abbreviate();
   }
 
   public final Change.Status status() {
@@ -61,10 +61,11 @@ public class ChangeInfo extends JavaScriptObject {
     return Natives.keys(labels0());
   }
 
+  public final native String id() /*-{ return this.id; }-*/;
   public final native String project() /*-{ return this.project; }-*/;
   public final native String branch() /*-{ return this.branch; }-*/;
   public final native String topic() /*-{ return this.topic; }-*/;
-  public final native String id() /*-{ return this.id; }-*/;
+  public final native String change_id() /*-{ return this.change_id; }-*/;
   private final native String statusRaw() /*-{ return this.status; }-*/;
   public final native String subject() /*-{ return this.subject; }-*/;
   public final native AccountInfo owner() /*-{ return this.owner; }-*/;

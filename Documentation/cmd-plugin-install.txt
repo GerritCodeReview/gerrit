@@ -30,41 +30,49 @@ This command is intended to be used in scripts.
 OPTIONS
 -------
 -::
-	Plugin jar as piped input.
+	Plugin jar or js as piped input.
 
 <URL>::
 	URL from where the plugin should be downloaded. This can be an
 	HTTP or FTP site.
 
 <PATH>::
-	Absolute file path to the plugin jar.
+	Absolute file path to the plugin jar or js.
 
 --name::
 -n::
 	The name under which the plugin should be installed. Note: if the plugin
 	provides its own name in the MANIFEST file, then the plugin name from the
-	MANIFEST file has precedence over this option.
+	MANIFEST file has precedence over this option. Also this parametner should
+	ends with '.jar' or '.js' to indicate plugin type
 
 EXAMPLES
 --------
 Install a plugin from an absolute file path on the server's host:
 
 ====
-	ssh -p 29418 localhost gerrit plugin install -n name \
+	ssh -p 29418 localhost gerrit plugin install -n name.jar \
 	  $(pwd)/my-plugin.jar
+====
+
+Install a WebUi plugin from an absolute file path on the server's host:
+
+====
+  ssh -p 29418 localhost gerrit plugin install -n name.js \
+    $(pwd)/my-webui-plugin.js
 ====
 
 Install a plugin from an HTTP site:
 
 ====
-	ssh -p 29418 localhost gerrit plugin install -n name \
+	ssh -p 29418 localhost gerrit plugin install -n name.jar \
 	  http://build-server/output/our-plugin.jar
 ====
 
 Install a plugin from piped input:
 
 ====
-	ssh -p 29418 localhost gerrit plugin install -n name \
+	ssh -p 29418 localhost gerrit plugin install -n name.jar \
 	  - <target/name-0.1.jar
 ====
 

@@ -594,6 +594,7 @@ public class ListChanges {
   }
 
   static class ChangeInfo {
+    String kind = "gerritcodereview#change";
     String project;
     String branch;
     String topic;

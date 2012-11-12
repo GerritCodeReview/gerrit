@@ -34,7 +34,7 @@ public class InternalAuthBackend implements AuthBackend {
 
   @Override
   public String getDomain() {
-    return "gerrit";
+    return "username";
   }
 
   // TODO(gerritcodereview-team): This function has no coverage.

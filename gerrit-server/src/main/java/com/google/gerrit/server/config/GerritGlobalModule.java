@@ -49,6 +49,7 @@ import com.google.gerrit.server.account.InternalGroupBackend;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.auth.AuthBackend;
+import com.google.gerrit.server.auth.UniversalAuthBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.events.EventFactory;
@@ -146,6 +147,7 @@ public class GerritGlobalModule extends FactoryModule {
         .in(SINGLETON);
 
     DynamicSet.setOf(binder(), AuthBackend.class);
+    bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
 
     bind(GroupControl.Factory.class).in(SINGLETON);
     factory(IncludingGroupMembership.Factory.class);

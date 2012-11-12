@@ -140,7 +140,7 @@ public abstract class Plugin {
 
   abstract boolean canReload();
 
-  File getSrcJar() {
+  File getSrcFile() {
     return srcFile;
   }
 

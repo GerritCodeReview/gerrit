@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALen///98\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T22:47:40Z",
+      "side": 1,
+      "message": "nit: wording.  the sentence doesn\u0027t make sense. perhaps:\n\nSupport creating a request for authentication of a remote...",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALfX///68\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
         "patchSetId": 4
@@ -30,6 +47,74 @@
       "writtenOn": "2012-11-12T22:41:46Z",
       "side": 1,
       "message": "make username final",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///9w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T22:47:40Z",
+      "side": 1,
+      "message": "please comment the public methods.",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///94\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T22:47:40Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///90\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T22:47:40Z",
+      "side": 1,
+      "message": "@Nullable",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///9s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T22:47:40Z",
+      "side": 1,
+      "message": "@Nullable",
       "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

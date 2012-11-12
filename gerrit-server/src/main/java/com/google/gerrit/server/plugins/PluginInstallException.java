@@ -17,6 +17,10 @@ package com.google.gerrit.server.plugins;
 public class PluginInstallException extends Exception {
   private static final long serialVersionUID = 1L;
 
+  public PluginInstallException(String msg) {
+    super(msg);
+  }
+
   public PluginInstallException(Throwable why) {
     super(why.getMessage(), why);
   }

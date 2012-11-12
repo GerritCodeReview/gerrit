@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALen///+U\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/HttpBasicAuthRequest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T22:38:34Z",
+      "side": 1,
+      "message": "nit: LIT_BASIC --\u003e BASIC",
+      "revId": "96dfc482c89c0694b674238aba6cf31562708d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///+Q\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/HttpBasicAuthRequest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T22:38:34Z",
+      "side": 1,
+      "message": "If you are checking null here, I would also check that the hdr.startsWith(BASIC).",
+      "revId": "96dfc482c89c0694b674238aba6cf31562708d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///+M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/HttpBasicAuthRequest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T22:38:34Z",
+      "side": 1,
+      "message": "it may be appropriate to throw an IllegalArgumentException().",
+      "revId": "96dfc482c89c0694b674238aba6cf31562708d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///+I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/HttpBasicAuthRequest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T22:38:34Z",
+      "side": 1,
+      "message": "this should be 0.\n\nI believe the empty username is a valid name.",
+      "revId": "96dfc482c89c0694b674238aba6cf31562708d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

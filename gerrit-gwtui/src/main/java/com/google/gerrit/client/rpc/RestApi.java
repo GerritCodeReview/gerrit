@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.rpc;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RpcStatus;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -161,6 +162,9 @@ public class RestApi {
   public <T extends JavaScriptObject> void send(final AsyncCallback<T> cb) {
     RequestBuilder req = new RequestBuilder(RequestBuilder.GET, url.toString());
     req.setHeader("Accept", JsonConstants.JSON_TYPE);
+    if (Gerrit.getAccessToken() != null) {
+      req.setHeader("Authorization", "OAuth " + Gerrit.getAccessToken());
+    }
     req.setCallback(new MyRequestCallback<T>(cb));
     try {
       RpcStatus.INSTANCE.onRpcStart();

@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gwtorm.server.OrmException;
@@ -114,7 +113,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
 
     if (res != null) {
-      webSession.get().login(res, AuthMethod.BACKDOOR, false);
+      webSession.get().login(res, false);
       final StringBuilder rdr = new StringBuilder();
       rdr.append(req.getContextPath());
       if (IS_DEV && req.getParameter("gwt.codesvr") != null) {

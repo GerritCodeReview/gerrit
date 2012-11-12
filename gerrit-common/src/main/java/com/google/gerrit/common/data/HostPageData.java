@@ -23,7 +23,7 @@ import java.util.List;
 public class HostPageData {
   public Account account;
   public AccountDiffPreference accountDiffPref;
-  public String xsrfToken;
+  public String accessToken;
   public GerritConfig config;
   public Theme theme;
   public List<String> plugins;

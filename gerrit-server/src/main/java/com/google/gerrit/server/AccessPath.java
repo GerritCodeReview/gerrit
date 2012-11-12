@@ -19,8 +19,11 @@ public enum AccessPath {
   /** An unknown access path, probably should not be special. */
   UNKNOWN,
 
-  /** Access through the web UI. */
-  WEB_UI,
+  /** Access through the REST API. */
+  REST_API,
+
+  /** Access by a web cookie. This path is not protected like REST_API. */
+  WEB_BROWSER,
 
   /** Access through an SSH command that is not invoked by Git. */
   SSH_COMMAND,

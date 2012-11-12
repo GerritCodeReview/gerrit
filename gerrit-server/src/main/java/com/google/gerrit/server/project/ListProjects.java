@@ -409,6 +409,7 @@ public class ListProjects {
   }
 
   private static class ProjectInfo {
+    final String kind = "gerritcodereview#project";
     transient String name;
     String parent;
     String description;

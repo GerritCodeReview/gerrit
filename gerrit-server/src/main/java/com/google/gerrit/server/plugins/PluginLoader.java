@@ -28,6 +28,7 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.plugins.Plugin.ApiType;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -44,6 +45,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.text.SimpleDateFormat;
@@ -315,23 +317,23 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public synchronized void rescan() {
-    List<File> jars = scanJarsInPluginsDirectory();
-    stopRemovedPlugins(jars);
-    dropRemovedDisabledPlugins(jars);
+    List<File> plugins = scanJarsInPluginsDirectory();
+    stopRemovedPlugins(plugins);
+    dropRemovedDisabledPlugins(plugins);
 
-    for (File jar : jars) {
-      if (jar.getName().endsWith(".disabled")) {
+    for (File plugin : plugins) {
+      if (plugin.getName().endsWith(".disabled")) {
         continue;
       }
 
-      String name = nameOf(jar);
+      String name = nameOf(plugin);
       FileSnapshot brokenTime = broken.get(name);
-      if (brokenTime != null && !brokenTime.isModified(jar)) {
+      if (brokenTime != null && !brokenTime.isModified(plugin)) {
         continue;
       }
 
       Plugin active = running.get(name);
-      if (active != null && !active.isModified(jar)) {
+      if (active != null && !active.isModified(plugin)) {
         continue;
       }
 
@@ -340,7 +342,7 @@ public class PluginLoader implements LifecycleListener {
       }
 
       try {
-        Plugin loadedPlugin = runPlugin(name, jar, active);
+        Plugin loadedPlugin = runPlugin(name, plugin, active);
         if (active == null && !loadedPlugin.isDisabled()) {
           log.info(String.format("Loaded plugin %s", name));
         }
@@ -352,11 +354,11 @@ public class PluginLoader implements LifecycleListener {
     cleanInBackground();
   }
 
-  private Plugin runPlugin(String name, File jar, Plugin oldPlugin)
+  private Plugin runPlugin(String name, File plugin, Plugin oldPlugin)
       throws PluginInstallException {
-    FileSnapshot snapshot = FileSnapshot.save(jar);
+    FileSnapshot snapshot = FileSnapshot.save(plugin);
     try {
-      Plugin newPlugin = loadPlugin(name, jar, snapshot);
+      Plugin newPlugin = loadPlugin(name, plugin, snapshot);
       boolean reload = oldPlugin != null
           && oldPlugin.canReload()
           && newPlugin.canReload();
@@ -437,16 +439,36 @@ public class PluginLoader implements LifecycleListener {
     return 0 < ext ? name.substring(0, ext) : name;
   }
 
-  private Plugin loadPlugin(String name, File srcJar, FileSnapshot snapshot)
+  private static String getExtension(File file) {
+    String name = file.getName();
+    int ext = name.lastIndexOf(".");
+    return 0 < ext ? name.substring(ext, name.length()) : "";
+  }
+
+  private Plugin loadPlugin(String name, File srcPlugin, FileSnapshot snapshot)
       throws IOException, ClassNotFoundException, InvalidPluginException {
     File tmp;
-    FileInputStream in = new FileInputStream(srcJar);
+    FileInputStream in = new FileInputStream(srcPlugin);
+    String extension = getExtension(srcPlugin);
     try {
-      tmp = asTemp(in, tempNameFor(name), ".jar", tmpDir);
+      tmp = asTemp(in, tempNameFor(name), extension, tmpDir);
     } finally {
       in.close();
     }
 
+    String pluginName = srcPlugin.getName();
+    if (isJarPlugin(pluginName)) {
+      return loadJarPlugin(name, srcPlugin, snapshot, tmp);
+    } else if (isJsPlugin(pluginName)) {
+      return loadJsPlugin(name, srcPlugin, snapshot);
+    } else {
+      throw new RuntimeException("Unsupported plugin type");
+    }
+  }
+
+  private Plugin loadJarPlugin(String name, File srcJar, FileSnapshot snapshot,
+      File tmp) throws IOException, InvalidPluginException,
+      MalformedURLException, ClassNotFoundException {
     JarFile jarFile = new JarFile(tmp);
     boolean keep = false;
     try {
@@ -482,6 +504,10 @@ public class PluginLoader implements LifecycleListener {
         jarFile.close();
       }
     }
+  }
+
+  private Plugin loadJsPlugin(String name, File srcJar, FileSnapshot snapshot) {
+    return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot, ApiType.JS);
   }
 
   private static ClassLoader parentFor(Plugin.ApiType type)
@@ -528,8 +554,7 @@ public class PluginLoader implements LifecycleListener {
       @Override
       public boolean accept(File pathname) {
         String n = pathname.getName();
-        return (n.endsWith(".jar") || n.endsWith(".jar.disabled"))
-            && pathname.isFile();
+        return (isJarPlugin(n) || isJsPlugin(n)) && pathname.isFile();
       }
     });
     if (matches == null) {
@@ -537,5 +562,18 @@ public class PluginLoader implements LifecycleListener {
       return Collections.emptyList();
     }
     return Arrays.asList(matches);
+  }
+
+  private boolean isJarPlugin(String name) {
+    return isPlugin(name, "jar");
+  }
+
+  private boolean isJsPlugin(String name) {
+    return isPlugin(name, "js");
+  }
+
+  private boolean isPlugin(String fileName, String ext) {
+    String fullExt = "." + ext;
+    return fileName.endsWith(fullExt) || fileName.endsWith(fullExt + ".disabled");
   }
 }

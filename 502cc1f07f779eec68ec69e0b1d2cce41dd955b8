@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAALfX///6g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T23:10:50Z",
+      "side": 1,
+      "message": "I would say that we should expose list of thrown exceptions, then consumers could return different messages to user base on exception in this list.",
+      "parentUuid": "AAALen///9k\u003d",
+      "revId": "502cc1f07f779eec68ec69e0b1d2cce41dd955b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALgn///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/MissingCredentialsException.java",
         "patchSetId": 1

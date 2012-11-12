@@ -16,6 +16,24 @@
       "revId": "22516c188987fa13346ea1161033d9915ebca238",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///9Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T23:04:31Z",
+      "side": 1,
+      "message": "How about getNamespace()?",
+      "parentUuid": "AAALfX///7Q\u003d",
+      "revId": "22516c188987fa13346ea1161033d9915ebca238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

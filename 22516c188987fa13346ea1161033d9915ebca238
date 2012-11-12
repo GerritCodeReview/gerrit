@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfX///7Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T22:30:49Z",
+      "side": 1,
+      "message": "didn\u0027t we agree that this should be getDomain() not getName()?",
+      "revId": "22516c188987fa13346ea1161033d9915ebca238",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

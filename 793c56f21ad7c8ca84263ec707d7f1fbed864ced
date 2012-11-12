@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfX///7E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthRequest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T22:35:49Z",
+      "side": 1,
+      "message": "base on annotation @Nullable null is also valid return type, this should be also added to javadoc",
+      "revId": "793c56f21ad7c8ca84263ec707d7f1fbed864ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfX///7I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthRequest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T22:35:49Z",
+      "side": 1,
+      "message": "does \u0027null\u0027 means something in this context? maybe when password is \u0027null\u0027 we should consider that users is anonymous",
+      "revId": "793c56f21ad7c8ca84263ec707d7f1fbed864ced",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

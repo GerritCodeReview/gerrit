@@ -24,6 +24,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.changes.ListChangesOption;
@@ -232,10 +233,7 @@ public class ListChanges {
       ChangeData.ensureCurrentPatchSetLoaded(db, changes);
       ChangeData.ensureCurrentApprovalsLoaded(db, changes);
 
-      List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
-      for (ChangeData cd : changes) {
-        info.add(toChangeInfo(cd));
-      }
+      List<ChangeInfo> info = toChangeInfo(changes);
       if (moreChanges && !info.isEmpty()) {
         if (reverse) {
           info.get(0)._moreChanges = true;
@@ -245,7 +243,22 @@ public class ListChanges {
       }
       res.add(info);
     }
+    writeChangeInfo(res, out);
+  }
 
+  public void write(List<Change> in, Writer out)
+      throws OrmException, IOException {
+    List<ChangeData> changes = Lists.newArrayListWithCapacity(in.size());
+    for (Change change : in) {
+      changes.add(new ChangeData(change));
+    }
+    ChangeData.ensureCurrentPatchSetLoaded(db, changes);
+    ChangeData.ensureCurrentApprovalsLoaded(db, changes);
+    writeChangeInfo(ImmutableList.of(toChangeInfo(changes)), out);
+  }
+
+  private void writeChangeInfo(List<List<ChangeInfo>> res, Writer out)
+      throws OrmException, IOException {
     if (!accounts.isEmpty()) {
       for (Account account : db.get().accounts().get(accounts.keySet())) {
         AccountAttribute a = accounts.get(account.getId());
@@ -280,6 +293,15 @@ public class ListChanges {
         }
       }
     }
+  }
+
+  private List<ChangeInfo> toChangeInfo(List<ChangeData> changes)
+      throws OrmException {
+    List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
+    for (ChangeData cd : changes) {
+      info.add(toChangeInfo(cd));
+    }
+    return info;
   }
 
   private ChangeInfo toChangeInfo(ChangeData cd) throws OrmException {

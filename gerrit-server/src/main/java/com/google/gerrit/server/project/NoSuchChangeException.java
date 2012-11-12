@@ -20,6 +20,9 @@ import com.google.gerrit.reviewdb.client.Change;
 public class NoSuchChangeException extends Exception {
   private static final long serialVersionUID = 1L;
 
+  public NoSuchChangeException() {
+  }
+
   public NoSuchChangeException(final Change.Id key) {
     this(key, null);
   }

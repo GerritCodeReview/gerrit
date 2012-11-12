@@ -22,6 +22,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.common.changes.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -70,7 +71,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
@@ -265,7 +268,7 @@ public class ListChanges {
           out.write('\n');
         }
         for (ChangeInfo c : info) {
-          String id = new Change.Key(c.id).abbreviate();
+          String id = new Change.Key(c.changeId).abbreviate();
           String subject = c.subject;
           if (subject.length() + id.length() > 80) {
             subject = subject.substring(0, 80 - id.length());
@@ -285,7 +288,7 @@ public class ListChanges {
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
-    out.id = in.getKey().get();
+    out.changeId = in.getKey().get();
     out.subject = in.getSubject();
     out.status = in.getStatus();
     out.owner = asAccountAttribute(in.getOwner());
@@ -296,6 +299,7 @@ public class ListChanges {
     out.starred = user.getStarredChanges().contains(in.getId()) ? true : null;
     out.reviewed = in.getStatus().isOpen() && isChangeReviewed(cd) ? true : null;
     out.labels = options.contains(LABELS) ? labelsFor(cd) : null;
+    out.finish();
 
     if (options.contains(ALL_REVISIONS) || options.contains(CURRENT_REVISION)) {
       out.revisions = revisions(cd);
@@ -595,10 +599,11 @@ public class ListChanges {
 
   static class ChangeInfo {
     final String kind = "gerritcodereview#change";
+    String id;
     String project;
     String branch;
     String topic;
-    String id;
+    String changeId;
     String subject;
     Change.Status status;
     Timestamp created;
@@ -615,6 +620,17 @@ public class ListChanges {
     Map<String, RevisionInfo> revisions;
 
     Boolean _moreChanges;
+
+    void finish() {
+      try {
+        id = Joiner.on('~').join(
+            URLEncoder.encode(project, "UTF-8"),
+            URLEncoder.encode(branch, "UTF-8"),
+            URLEncoder.encode(changeId, "UTF-8"));
+      } catch (UnsupportedEncodingException e) {
+        log.error("Cannot encode components for id", e);
+      }
+    }
   }
 
   static class RevisionInfo {

@@ -137,6 +137,7 @@ and accepts the same options as query parameters.
   )]}'
   {
     "external/bison": {
+      "kind": "gerritcodereview#project",
       "description": "GNU parser generator"
     },
     "external/gcc": {},
@@ -184,9 +185,11 @@ Query for open changes of watched projects:
 
   )]}'
   {
+    "kind": "gerritcodereview#change",
+    "id": "demo~master~Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
     "project": "demo",
     "branch": "master",
-    "id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
+    "change_id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
     "subject": "One change",
     "status": "NEW",
     "created": "2012-07-17 07:18:30.854000000",
@@ -199,9 +202,11 @@ Query for open changes of watched projects:
     },
   },
   {
+    "kind": "gerritcodereview#change",
+    "id": "demo~master~I09c8041b5867d5b33170316e2abc34b79bbb8501",
     "project": "demo",
     "branch": "master",
-    "id": "I09c8041b5867d5b33170316e2abc34b79bbb8501",
+    "change_id": "I09c8041b5867d5b33170316e2abc34b79bbb8501",
     "subject": "Another change",
     "status": "NEW",
     "created": "2012-07-17 07:18:30.884000000",
@@ -242,9 +247,11 @@ Query that retrieves changes for a user's dashboard:
   [
     [
       {
+        "kind": "gerritcodereview#change",
+        "id": "demo~master~Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
         "project": "demo",
         "branch": "master",
-        "id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
+        "change_id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
         "subject": "One change",
         "status": "NEW",
         "created": "2012-07-17 07:18:30.854000000",
@@ -306,9 +313,11 @@ default. Optional fields are:
   )]}'
   [
     {
+      "kind": "gerritcodereview#change",
+      "id": "demo~master~I7ea46d2e2ee5c64c0d807677859cfb7d90b8966a",
       "project": "gerrit",
       "branch": "master",
-      "id": "I7ea46d2e2ee5c64c0d807677859cfb7d90b8966a",
+      "change_id": "I7ea46d2e2ee5c64c0d807677859cfb7d90b8966a",
       "subject": "Use an EventBus to manage star icons",
       "status": "NEW",
       "created": "2012-04-25 00:52:25.580000000",

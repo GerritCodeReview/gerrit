@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALen///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T21:03:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALfX///9I\u003d",
+      "revId": "3532011801bba38053d700aca5d9ea91f92d4145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALgn////U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthUser.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-12T20:23:52Z",
       "side": 1,
       "message": "Why creating a Builder for creating an AuthUser ?\n\nOne should call:\n  AuthUser user \u003d new Builder(new UUID(\"foo\")).build();\n\nIsn\u0027t simpler just allow AuthUser to have a constructor ?\n  AuthUser user \u003d new AuthUser(new UUID(\"foo\"));\n\nI don\u0027t see the value of the Builder here :-(",
+      "revId": "3532011801bba38053d700aca5d9ea91f92d4145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-12T21:03:46Z",
+      "side": 1,
+      "message": "The value is that when we add new fields to the AuthUser (potentially an email address), we don\u0027t need to add a bunch of new constructors.  I know google auth systems almost always return an email address.\n\nThe other option, to get around this, is allow AuthUser to be sub-classed so the AuthBackend can add arbitrary fields (if needed). I am thinking this could be the better solution.",
+      "parentUuid": "AAALgn////U\u003d",
       "revId": "3532011801bba38053d700aca5d9ea91f92d4145",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

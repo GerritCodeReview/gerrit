@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "AAALgn////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-12T19:14:17Z",
+      "side": 1,
+      "message": "Why don\u0027t you just make a static method ? This Builder seems too much overkilling. ;-(",
+      "revId": "c5b65f65dc8a707f9276960b41af237898c282a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-12T19:14:17Z",
+      "side": 1,
+      "message": "[Optional] Are you sure you want to tie the uuid concept to the AccountExternalId.Key ?\n\nThis seems to much tied to the implementation you have in mind now and may risk to tie the design to it.",
+      "revId": "c5b65f65dc8a707f9276960b41af237898c282a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALfX///9g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthUser.java",
         "patchSetId": 1

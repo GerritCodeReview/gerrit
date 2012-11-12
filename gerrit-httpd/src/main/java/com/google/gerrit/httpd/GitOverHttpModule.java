@@ -15,14 +15,18 @@
 package com.google.gerrit.httpd;
 
 import static com.google.gerrit.httpd.plugins.LfsPluginServlet.LFS_REST;
+import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.httpd.auth.BasicHttpAuthProtocolHandler;
+import com.google.gerrit.httpd.auth.DefaultHttpAuthProtocolSelector;
+import com.google.gerrit.httpd.auth.HttpAuthProtocolHandler;
+import com.google.gerrit.httpd.auth.HttpAuthorizer;
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
-import javax.servlet.Filter;
 
 /** Configures Git access over HTTP with authentication. */
 public class GitOverHttpModule extends ServletModule {
@@ -39,24 +43,23 @@ public class GitOverHttpModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
-    Class<? extends Filter> authFilter;
+    DynamicSet.setOf(binder(), HttpAuthProtocolHandler.class);
     if (authConfig.isTrustContainerAuth()) {
-      authFilter = ContainerAuthFilter.class;
-    } else {
-      authFilter =
-          authConfig.getGitBasicAuthPolicy() == GitBasicAuthPolicy.OAUTH
-              ? ProjectOAuthFilter.class
-              : ProjectBasicAuthFilter.class;
+      // authFilter = ContainerAuthFilter.class;
+      throw new RuntimeException("implement me");
     }
+
+    DynamicSet.bind(binder(), HttpAuthProtocolHandler.class).to(BasicHttpAuthProtocolHandler.class);
+    bind(DefaultHttpAuthProtocolSelector.class).in(SINGLETON);
 
     if (isHttpEnabled()) {
       String git = GitOverHttpServlet.URL_REGEX;
-      filterRegex(git).through(authFilter);
+      filterRegex(git).through(HttpAuthorizer.class);
       serveRegex(git).with(GitOverHttpServlet.class);
     }
 
-    filterRegex(LFS_URL_REGEX).through(authFilter);
-    filter("/a/*").through(authFilter);
+    filterRegex(LFS_URL_REGEX).through(HttpAuthorizer.class);
+    filter("/a/*").through(HttpAuthorizer.class);
   }
 
   private boolean isHttpEnabled() {

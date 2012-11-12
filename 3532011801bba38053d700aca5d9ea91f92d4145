@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfX///9I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthUser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-12T19:59:55Z",
+      "side": 1,
+      "message": "[optional] can we short it to get()?\n\ncurrently sample code would look like:\nUUID uuid \u003d new UUID(\"something\");\nString uuidStr \u003d uuid.getUUID();\n\nwe have here \u0027uuid\u0027 duplication, IMO one in getUUID can be dropped.",
+      "revId": "3532011801bba38053d700aca5d9ea91f92d4145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

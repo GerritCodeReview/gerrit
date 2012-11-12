@@ -35,7 +35,7 @@ public interface AuthBackend {
    * @param req the object describing the request.
    * @return the successfully authenticated user.
    * @throws MissingCredentialsException when there are no credentials.
-   * @throws InvalidCredentialsException when the credential are present and
+   * @throws InvalidCredentialsException when the credentials are present and
    *         invalid.
    * @throws UnknownUserException when the credentials are valid but there is
    *         no matching user.

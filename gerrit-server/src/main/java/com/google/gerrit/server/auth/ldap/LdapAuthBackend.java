@@ -103,10 +103,10 @@ public class LdapAuthBackend implements AuthBackend {
         }
       }
     } catch (AccountException e) {
-      log.error("Cannot query LDAP to autenticate user", e);
+      log.error("Cannot query LDAP to authenticate user", e);
       throw new InvalidCredentialsException("Cannot query LDAP for account", e);
     } catch (NamingException e) {
-      log.error("Cannot query LDAP to autenticate user", e);
+      log.error("Cannot query LDAP to authenticate user", e);
       throw new AuthException("Cannot query LDAP for account", e);
     } catch (LoginException e) {
       log.error("Cannot authenticate server via JAAS", e);

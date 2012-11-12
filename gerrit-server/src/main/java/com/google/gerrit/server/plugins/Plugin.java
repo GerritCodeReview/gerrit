@@ -93,12 +93,12 @@ public abstract class Plugin {
     this.disabled = srcFile.getName().endsWith(".disabled");
   }
 
-  File getSrcFile() {
-    return srcFile;
-  }
-
   PluginUser getPluginUser() {
     return pluginUser;
+  }
+
+  public File getSrcFile() {
+    return srcFile;
   }
 
   public String getName() {

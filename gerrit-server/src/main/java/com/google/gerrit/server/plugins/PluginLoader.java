@@ -51,6 +51,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.text.SimpleDateFormat;
@@ -143,7 +144,7 @@ public class PluginLoader implements LifecycleListener {
   public void installPluginFromStream(String originalName, InputStream in)
       throws IOException, PluginInstallException {
     String fileName = originalName;
-    if (!fileName.endsWith(".jar")) {
+    if (!(fileName.endsWith(".jar") || fileName.endsWith(".js"))) {
       fileName += ".jar";
     }
     File tmp = asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
@@ -155,7 +156,8 @@ public class PluginLoader implements LifecycleListener {
           name, originalName));
     }
 
-    File dst = new File(pluginsDir, name + ".jar");
+    String fileExtension = getExtension(originalName);
+    File dst = new File(pluginsDir, name + fileExtension);
     synchronized (this) {
       Plugin active = running.get(name);
       if (active != null) {
@@ -386,11 +388,11 @@ public class PluginLoader implements LifecycleListener {
     dropRemovedDisabledPlugins(jars);
   }
 
-  private Plugin runPlugin(String name, File jar, Plugin oldPlugin)
+  private Plugin runPlugin(String name, File plugin, Plugin oldPlugin)
       throws PluginInstallException {
-    FileSnapshot snapshot = FileSnapshot.save(jar);
+    FileSnapshot snapshot = FileSnapshot.save(plugin);
     try {
-      Plugin newPlugin = loadPlugin(name, jar, snapshot);
+      Plugin newPlugin = loadPlugin(name, plugin, snapshot);
       boolean reload = oldPlugin != null
           && oldPlugin.canReload()
           && newPlugin.canReload();
@@ -454,7 +456,9 @@ public class PluginLoader implements LifecycleListener {
       iterator.remove();
 
       CleanupHandle cleanupHandle = cleanupHandles.remove(plugin);
-      cleanupHandle.cleanup();
+      if (cleanupHandle != null) {
+        cleanupHandle.cleanup();
+      }
     }
     return toCleanup.size();
   }
@@ -466,8 +470,8 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
-  public static String nameOf(File jar) {
-    return nameOf(jar.getName());
+  public static String nameOf(File plugin) {
+    return nameOf(plugin.getName());
   }
 
   private static String nameOf(String name) {
@@ -478,16 +482,39 @@ public class PluginLoader implements LifecycleListener {
     return 0 < ext ? name.substring(0, ext) : name;
   }
 
-  private Plugin loadPlugin(String name, File srcJar, FileSnapshot snapshot)
-      throws IOException, ClassNotFoundException, InvalidPluginException {
-    File tmp;
-    FileInputStream in = new FileInputStream(srcJar);
-    try {
-      tmp = asTemp(in, tempNameFor(name), ".jar", tmpDir);
-    } finally {
-      in.close();
-    }
+  private static String getExtension(File file) {
+    return getExtension(file.getName());
+  }
 
+  private static String getExtension(String name) {
+    int ext = name.lastIndexOf('.');
+    return 0 < ext ? name.substring(ext) : "";
+  }
+
+  private Plugin loadPlugin(String name, File srcPlugin, FileSnapshot snapshot)
+      throws IOException, ClassNotFoundException, InvalidPluginException {
+    String pluginName = srcPlugin.getName();
+    if (isJarPlugin(pluginName)) {
+      File tmp;
+      FileInputStream in = new FileInputStream(srcPlugin);
+      String extension = getExtension(srcPlugin);
+      try {
+        tmp = asTemp(in, tempNameFor(name), extension, tmpDir);
+      } finally {
+        in.close();
+      }
+      return loadJarPlugin(name, srcPlugin, snapshot, tmp);
+    } else if (isJsPlugin(pluginName)) {
+      return loadJsPlugin(name, srcPlugin, snapshot);
+    } else {
+      throw new InvalidPluginException(String.format(
+          "Unsupported plugin type: ", srcPlugin.getName()));
+    }
+  }
+
+  private Plugin loadJarPlugin(String name, File srcJar, FileSnapshot snapshot,
+      File tmp) throws IOException, InvalidPluginException,
+      MalformedURLException, ClassNotFoundException {
     JarFile jarFile = new JarFile(tmp);
     boolean keep = false;
     try {
@@ -529,6 +556,10 @@ public class PluginLoader implements LifecycleListener {
         jarFile.close();
       }
     }
+  }
+
+  private Plugin loadJsPlugin(String name, File srcJar, FileSnapshot snapshot) {
+    return new JsPlugin(name, srcJar, pluginUserFactory.create(name), snapshot);
   }
 
   private static ClassLoader parentFor(Plugin.ApiType type)
@@ -642,7 +673,7 @@ public class PluginLoader implements LifecycleListener {
       @Override
       public boolean accept(File pathname) {
         String n = pathname.getName();
-        return (n.endsWith(".jar") || n.endsWith(".jar.disabled"))
+        return (isJarPlugin(n) || isJsPlugin(n))
             && !n.startsWith(".last_")
             && !n.startsWith(".next_")
             && pathname.isFile();
@@ -666,13 +697,20 @@ public class PluginLoader implements LifecycleListener {
   }
 
   public static String getGerritPluginName(File srcFile) throws IOException {
-    JarFile jarFile = new JarFile(srcFile);
-    try {
-      return jarFile.getManifest().getMainAttributes()
-          .getValue("Gerrit-PluginName");
-    } finally {
-      jarFile.close();
+    String fileName = srcFile.getName();
+    if (isJarPlugin(fileName)) {
+      JarFile jarFile = new JarFile(srcFile);
+      try {
+        return jarFile.getManifest().getMainAttributes()
+            .getValue("Gerrit-PluginName");
+      } finally {
+        jarFile.close();
+      }
     }
+    if (isJsPlugin(fileName)) {
+      return fileName.substring(0, fileName.length() - 3);
+    }
+    return null;
   }
 
   private static Multimap<String, File> asMultimap(List<File> plugins)
@@ -683,5 +721,18 @@ public class PluginLoader implements LifecycleListener {
           nameOf(srcFile)), srcFile);
     }
     return map;
+  }
+
+  private static boolean isJarPlugin(String name) {
+    return isPlugin(name, "jar");
+  }
+
+  private static boolean isJsPlugin(String name) {
+    return isPlugin(name, "js");
+  }
+
+  private static boolean isPlugin(String fileName, String ext) {
+    String fullExt = "." + ext;
+    return fileName.endsWith(fullExt) || fileName.endsWith(fullExt + ".disabled");
   }
 }

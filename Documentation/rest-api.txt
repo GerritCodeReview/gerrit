@@ -396,6 +396,35 @@ default. Optional fields are:
   ]
 ----
 
+[[dashboards]]
+/dashboards/project/ (List Dashboards)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Lists custom dashboards for a project.
+
+The `/dashboards/project/` URL expects the project name as part of the
+URL.
+List all dashboards for the `myProject` project:
+----
+  GET /dashboards/project/myProject?format=JSON&d HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "refs/meta/dashboards/main:MyDashboard": {
+      "kind": "gerritcodereview#dashboard",
+      "id" : "refs/meta/dashboards/main:MyDashboard",
+      "dashboard_name": "MyDashboard",
+      "ref_name": "refs/meta/dashboards/main",
+      "project_name": "myProject",
+      "description": "Most recent open and merged changes.",
+      "parameters": "title\u003dMyDashboard\u0026Open+Changes\u003dstatus:open project:myProject limit:15\u0026Merged+Changes\u003dstatus:merged project:myProject limit:15"
+    }
+  }
+----
+
 
 GERRIT
 ------

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALgn///6s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T03:31:28Z",
+      "side": 1,
+      "message": "Strange that you are getting this error. It\u0027s true that the 1.1 version is not contained in Maven central, but it is there in http://repo.spray.cc/, which is defined in the parent pom.xml as \u0027parboiled-repo\u0027. So Maven should be able to find the 1.1 artifact.\n\nAnyway I don\u0027t see anything wrong with upgrading :)\nJust wondering if the \u0027parboiled-repo\u0027 is then still needed? Probably it can be removed now?",
+      "revId": "5bb52e1f6d94ce79749589beb7060798c47d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

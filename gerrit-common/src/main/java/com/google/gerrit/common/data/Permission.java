@@ -82,9 +82,6 @@ public class Permission implements Comparable<Permission> {
     if (AccessSection.ALL.equals(ref)) {
       return !OWNER.equals(permissionName);
     }
-    if (AccessSection.REF_CONFIG.equals(ref)) {
-      return !PUSH.equals(permissionName);
-    }
     return true;
   }
 

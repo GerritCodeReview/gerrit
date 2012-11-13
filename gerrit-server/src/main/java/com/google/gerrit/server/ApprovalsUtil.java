@@ -115,6 +115,49 @@ public class ApprovalsUtil {
     return patchSetApprovals;
   }
 
+  /**
+   * Moves the PatchSetApprovals to the last PatchSet on the change while
+   * keeping all the scores intact.
+   *
+   * @param change Change to update
+   * @throws OrmException
+   * @return List<PatchSetApproval> The previous approvals
+   */
+  public List<PatchSetApproval> copyApprovalsToLatestPatchSet(Change change)
+      throws OrmException {
+    return copyApprovalsToLatestPatchSet(db, change);
+  }
+
+  /**
+   * Moves the PatchSetApprovals to the last PatchSet on the change while
+   * keeping all the scores intact.
+   *
+   * @param db database connection to use for updates.
+   * @param change Change to update
+   * @throws OrmException
+   * @return List<PatchSetApproval> The previous approvals
+   */
+  public List<PatchSetApproval> copyApprovalsToLatestPatchSet(ReviewDb db,
+      Change change) throws OrmException {
+    PatchSet.Id source;
+    if (change.getNumberOfPatchSets() > 1) {
+      source = new PatchSet.Id(change.getId(), change.getNumberOfPatchSets() - 1);
+    } else {
+      throw new OrmException("Previous patch set could not be found");
+    }
+
+    PatchSet.Id dest = change.currPatchSetId();
+    List<PatchSetApproval> patchSetApprovals = db.patchSetApprovals().byChange(change.getId()).toList();
+    for (PatchSetApproval a : patchSetApprovals) {
+      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
+      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+        db.patchSetApprovals().insert(
+            Collections.singleton(new PatchSetApproval(dest, a)));
+      }
+    }
+    return patchSetApprovals;
+  }
+
   public void addReviewers(ReviewDb db, Change change, PatchSet ps,
       PatchSetInfo info, Set<Id> wantReviewers,
       Set<Account.Id> existingReviewers) throws OrmException {

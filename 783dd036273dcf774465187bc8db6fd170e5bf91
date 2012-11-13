@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfX///4Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BackendSshAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-13T03:31:33Z",
+      "side": 1,
+      "message": "You should rather inject AuthBackend, the UniversalAuthBackend is implementation specific and is explicitly bind in GerrigGlobalModule to AuthBackend",
+      "revId": "783dd036273dcf774465187bc8db6fd170e5bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfX///4M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-13T03:31:33Z",
+      "side": 1,
+      "message": "[optional] maybe this string should be declared as public static final?",
+      "revId": "783dd036273dcf774465187bc8db6fd170e5bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfX///4I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-13T03:31:33Z",
+      "side": 1,
+      "message": "do we really need to bind DynamicSet\u003cAuthBackend\u003e once again. It should be already bind.",
+      "revId": "783dd036273dcf774465187bc8db6fd170e5bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

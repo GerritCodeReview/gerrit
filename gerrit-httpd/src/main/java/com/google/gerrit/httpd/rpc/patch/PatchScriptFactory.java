@@ -304,7 +304,11 @@ class PatchScriptFactory extends Handler<PatchScript> {
       final Patch.Key pKey = c.getKey().getParentKey();
       final Patch p = byKey.get(pKey);
       if (p != null) {
-        p.setCommentCount(p.getCommentCount() + 1);
+        if (c.getLine() != 0) {
+          p.setLineCommentCount(p.getLineCommentCount() + 1);
+        } else {
+          p.setFileCommentCount(p.getFileCommentCount() + 1);
+        }
       }
     }
   }
@@ -320,7 +324,11 @@ class PatchScriptFactory extends Handler<PatchScript> {
       final Patch.Key pKey = c.getKey().getParentKey();
       final Patch p = byKey.get(pKey);
       if (p != null) {
-        p.setDraftCount(p.getDraftCount() + 1);
+        if (c.getLine() != 0) {
+          p.setLineDraftCount(p.getLineDraftCount() + 1);
+        } else {
+          p.setFileDraftCount(p.getFileDraftCount() + 1);
+        }
       }
     }
   }

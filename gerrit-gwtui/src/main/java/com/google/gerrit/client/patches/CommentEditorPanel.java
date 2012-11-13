@@ -249,7 +249,11 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     PatchUtil.DETAIL_SVC.saveDraft(comment,
         new GerritCallback<PatchLineComment>() {
           public void onSuccess(final PatchLineComment result) {
-            notifyDraftDelta(isNew() ? 1 : 0);
+            if (result.getLine() != 0) {
+              notifyLineDraftDelta(isNew() ? 1 : 0);
+            } else {
+              notifyFileDraftDelta(isNew() ? 1 : 0);
+            }
             comment = result;
             text.setReadOnly(false);
             save.setEnabled(true);
@@ -272,10 +276,17 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
         });
   }
 
-  private void notifyDraftDelta(final int delta) {
+  private void notifyFileDraftDelta(final int delta) {
     CommentEditorContainer c = getContainer();
     if (c != null) {
-      c.notifyDraftDelta(delta);
+      c.notifyFileDraftDelta(delta);
+    }
+  }
+
+  private void notifyLineDraftDelta(final int delta) {
+    CommentEditorContainer c = getContainer();
+    if (c != null) {
+      c.notifyLineDraftDelta(delta);
     }
   }
 
@@ -296,7 +307,12 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     PatchUtil.DETAIL_SVC.deleteDraft(comment.getKey(),
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
-            notifyDraftDelta(-1);
+            if (comment.getLine() != 0) {
+              notifyLineDraftDelta(-1);
+            } else {
+              notifyFileDraftDelta(-1);
+            }
+
             removeUI();
           }
 

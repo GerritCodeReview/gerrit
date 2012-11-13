@@ -165,15 +165,30 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   }
 
   @Override
-  public void notifyDraftDelta(final int delta) {
+  public void notifyFileDraftDelta(final int delta) {
     if (fileList != null) {
-      fileList.notifyDraftDelta(patchKey, delta);
+      fileList.notifyFileDraftDelta(patchKey, delta);
     }
 
     Widget p = getParent();
     while (p != null) {
       if (p instanceof CommentEditorContainer) {
-        ((CommentEditorContainer) p).notifyDraftDelta(delta);
+        ((CommentEditorContainer) p).notifyFileDraftDelta(delta);
+        break;
+      }
+      p = p.getParent();
+    }
+  }
+
+  public void notifyLineDraftDelta(final int delta) {
+    if (fileList != null) {
+      fileList.notifyLineDraftDelta(patchKey, delta);
+    }
+
+    Widget p = getParent();
+    while (p != null) {
+      if (p instanceof CommentEditorContainer) {
+        ((CommentEditorContainer) p).notifyLineDraftDelta(delta);
         break;
       }
       p = p.getParent();
@@ -910,7 +925,11 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
               @Override
               public void onSuccess(final PatchLineComment result) {
                 enableButtons(true);
-                notifyDraftDelta(1);
+                if (newComment.getLine() != 0) {
+                  notifyLineDraftDelta(1);
+                } else {
+                  notifyFileDraftDelta(1);
+                }
                 findOrCreateEditor(result, true).setOpen(false);
               }
 

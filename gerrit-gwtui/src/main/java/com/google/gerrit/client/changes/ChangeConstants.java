@@ -58,7 +58,8 @@ public interface ChangeConstants extends Constants {
   String keyPublishComments();
 
   String patchTableColumnName();
-  String patchTableColumnComments();
+  String patchTableColumnFileComments();
+  String patchTableColumnLineComments();
   String patchTableColumnSize();
   String patchTableColumnDiff();
   String patchTableDiffSideBySide();

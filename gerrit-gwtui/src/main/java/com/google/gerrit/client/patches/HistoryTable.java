@@ -83,8 +83,10 @@ class HistoryTable extends FancyFlexTable<Patch> {
     fmt.setStyleName(1, 0, Gerrit.RESOURCES.css().dataHeader());
     table.setText(2, 0, PatchUtil.C.patchHeaderNew());
     fmt.setStyleName(2, 0, Gerrit.RESOURCES.css().dataHeader());
-    table.setText(3, 0, Util.C.patchTableColumnComments());
+    table.setText(3, 0, Util.C.patchTableColumnFileComments());
     fmt.setStyleName(3, 0, Gerrit.RESOURCES.css().dataHeader());
+    table.setText(4, 0, Util.C.patchTableColumnLineComments());
+    fmt.setStyleName(4, 0, Gerrit.RESOURCES.css().dataHeader());
 
     if (screen.getPatchSetDetail().getInfo().getParents().size() > 1) {
       table.setText(0, 1, PatchUtil.C.patchBaseAutoMerge());
@@ -96,6 +98,7 @@ class HistoryTable extends FancyFlexTable<Patch> {
     fmt.setStyleName(1, 1, Gerrit.RESOURCES.css().dataCell());
     fmt.setStyleName(2, 1, Gerrit.RESOURCES.css().dataCell());
     fmt.setStyleName(3, 1, Gerrit.RESOURCES.css().dataCell());
+    fmt.setStyleName(4, 1, Gerrit.RESOURCES.css().dataCell());
 
     installRadio(1, 1, null, screen.idSideA, 0);
 
@@ -111,8 +114,12 @@ class HistoryTable extends FancyFlexTable<Patch> {
       installRadio(2, col, psId, screen.idSideB, 1);
 
       fmt.setStyleName(3, col, Gerrit.RESOURCES.css().dataCell());
-      if (k.getCommentCount() > 0) {
-        table.setText(3, col, Integer.toString(k.getCommentCount()));
+      if (k.getFileCommentCount() > 0) {
+        table.setText(3, col, Integer.toString(k.getFileCommentCount()));
+      }
+      fmt.setStyleName(4, col, Gerrit.RESOURCES.css().dataCell());
+      if (k.getLineCommentCount() > 0) {
+        table.setText(4, col, Integer.toString(k.getLineCommentCount()));
       }
       col++;
     }

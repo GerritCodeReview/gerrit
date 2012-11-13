@@ -176,7 +176,11 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   @Override
-  public void notifyDraftDelta(int delta) {
+  public void notifyFileDraftDelta(int delta) {
+  }
+
+  @Override
+  public void notifyLineDraftDelta(int delta) {
   }
 
   @Override

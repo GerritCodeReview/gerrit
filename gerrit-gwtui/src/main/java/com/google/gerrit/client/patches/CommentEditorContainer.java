@@ -15,7 +15,7 @@
 package com.google.gerrit.client.patches;
 
 public interface CommentEditorContainer {
-  void notifyDraftDelta(int delta);
-
+  void notifyFileDraftDelta(int delta);
+  void notifyLineDraftDelta(int delta);
   void remove(CommentEditorPanel panel);
 }

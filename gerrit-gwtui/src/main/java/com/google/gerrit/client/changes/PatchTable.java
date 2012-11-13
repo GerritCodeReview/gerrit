@@ -65,7 +65,8 @@ public class PatchTable extends Composite {
           return !((listenablePrefs.get().isSkipDeleted()
               && patch.getChangeType().equals(ChangeType.DELETED))
               || (listenablePrefs.get().isSkipUncommented()
-              && patch.getCommentCount() == 0));
+              && patch.getFileCommentCount() == 0
+              && patch.getLineCommentCount() == 0));
         }
 
       };
@@ -166,9 +167,15 @@ public class PatchTable extends Composite {
     }
   }
 
-  public void notifyDraftDelta(final Patch.Key k, final int delta) {
+  public void notifyFileDraftDelta(final Patch.Key k, final int delta) {
     if (myTable != null) {
-      myTable.notifyDraftDelta(k, delta);
+      myTable.notifyFileDraftDelta(k, delta);
+    }
+  }
+
+  public void notifyLineDraftDelta(final Patch.Key k, final int delta) {
+    if (myTable != null) {
+      myTable.notifyLineDraftDelta(k, delta);
     }
   }
 
@@ -297,9 +304,10 @@ public class PatchTable extends Composite {
 
   private class MyTable extends NavigationTable<Patch> {
     private static final int C_PATH = 2;
-    private static final int C_DRAFT = 3;
-    private static final int C_SIZE = 4;
-    private static final int C_SIDEBYSIDE = 5;
+    private static final int C_FILE_DRAFT = 3;
+    private static final int C_LINE_DRAFT = 4;
+    private static final int C_SIZE = 5;
+    private static final int C_SIDEBYSIDE = 6;
     private int activeRow = -1;
 
     MyTable() {
@@ -348,15 +356,28 @@ public class PatchTable extends Composite {
       }
     }
 
-    void notifyDraftDelta(final Patch.Key key, final int delta) {
+    void notifyFileDraftDelta(final Patch.Key key, final int delta) {
       final int row = findRow(key);
       if (0 <= row) {
         final Patch p = getRowItem(row);
         if (p != null) {
-          p.setDraftCount(p.getDraftCount() + delta);
+          p.setFileDraftCount(p.getFileDraftCount() + delta);
           final SafeHtmlBuilder m = new SafeHtmlBuilder();
-          appendCommentCount(m, p);
-          SafeHtml.set(table, row, C_DRAFT, m);
+          appendFileCommentCount(m, p);
+          SafeHtml.set(table, row, C_FILE_DRAFT, m);
+        }
+      }
+    }
+
+    void notifyLineDraftDelta(final Patch.Key key, final int delta) {
+      final int row = findRow(key);
+      if (0 <= row) {
+        final Patch p = getRowItem(row);
+        if (p != null) {
+          p.setLineDraftCount(p.getLineDraftCount() + delta);
+          final SafeHtmlBuilder m = new SafeHtmlBuilder();
+          appendLineCommentCount(m, p);
+          SafeHtml.set(table, row, C_LINE_DRAFT, m);
         }
       }
     }
@@ -444,10 +465,16 @@ public class PatchTable extends Composite {
       m.append(Util.C.patchTableColumnName());
       m.closeTd();
 
-      // "Comments"
+      // "File Comments"
       m.openTd();
       m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
-      m.append(Util.C.patchTableColumnComments());
+      m.append(Util.C.patchTableColumnFileComments());
+      m.closeTd();
+
+      // "Inline Comments"
+      m.openTd();
+      m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
+      m.append(Util.C.patchTableColumnLineComments());
       m.closeTd();
 
       // "Size"
@@ -506,7 +533,13 @@ public class PatchTable extends Composite {
       m.openTd();
       m.addStyleName(Gerrit.RESOURCES.css().dataCell());
       m.addStyleName(Gerrit.RESOURCES.css().commentCell());
-      appendCommentCount(m, p);
+      appendFileCommentCount(m, p);
+      m.closeTd();
+
+      m.openTd();
+      m.addStyleName(Gerrit.RESOURCES.css().dataCell());
+      m.addStyleName(Gerrit.RESOURCES.css().commentCell());
+      appendLineCommentCount(m, p);
       m.closeTd();
 
       m.openTd();
@@ -570,17 +603,32 @@ public class PatchTable extends Composite {
       m.closeTr();
     }
 
-    void appendCommentCount(final SafeHtmlBuilder m, final Patch p) {
-      if (p.getCommentCount() > 0) {
-        m.append(Util.M.patchTableComments(p.getCommentCount()));
+    void appendFileCommentCount(final SafeHtmlBuilder m, final Patch p) {
+      if (p.getFileCommentCount() > 0) {
+        m.append(Util.M.patchTableComments(p.getFileCommentCount()));
       }
-      if (p.getDraftCount() > 0) {
-        if (p.getCommentCount() > 0) {
+      if (p.getFileDraftCount() > 0) {
+        if (p.getFileCommentCount() > 0) {
           m.append(", ");
         }
         m.openSpan();
         m.setStyleName(Gerrit.RESOURCES.css().drafts());
-        m.append(Util.M.patchTableDrafts(p.getDraftCount()));
+        m.append(Util.M.patchTableDrafts(p.getFileDraftCount()));
+        m.closeSpan();
+      }
+    }
+
+    void appendLineCommentCount(final SafeHtmlBuilder m, final Patch p) {
+      if (p.getLineCommentCount() > 0) {
+        m.append(Util.M.patchTableComments(p.getLineCommentCount()));
+      }
+      if (p.getLineDraftCount() > 0) {
+        if (p.getLineCommentCount() > 0) {
+          m.append(", ");
+        }
+        m.openSpan();
+        m.setStyleName(Gerrit.RESOURCES.css().drafts());
+        m.append(Util.M.patchTableDrafts(p.getLineDraftCount()));
         m.closeSpan();
       }
     }

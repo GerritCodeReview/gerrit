@@ -226,7 +226,12 @@ public abstract class PatchScreen extends Screen implements
   }
 
   @Override
-  public void notifyDraftDelta(int delta) {
+  public void notifyLineDraftDelta(int delta) {
+    lastScript = null;
+  }
+
+  @Override
+  public void notifyFileDraftDelta(int delta) {
     lastScript = null;
   }
 

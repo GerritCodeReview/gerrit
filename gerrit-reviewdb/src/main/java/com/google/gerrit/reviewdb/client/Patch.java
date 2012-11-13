@@ -169,11 +169,17 @@ public final class Patch {
   /** What type of patch is this; see {@link PatchType}. */
   protected char patchType;
 
-  /** Number of published comments on this patch. */
-  protected int nbrComments;
+  /** Number of published line comments on this patch. */
+  protected int nbrLineComments;
 
   /** Number of drafts by the current user; not persisted in the datastore. */
-  protected int nbrDrafts;
+  protected int nbrLineDrafts;
+
+  /** Number of published File comments on this patch. */
+  protected int nbrFileComments;
+
+  /** Number of drafts by the current user; not persisted in the datastore. */
+  protected int nbrFileDrafts;
 
   /** Number of lines added to the file. */
   protected int insertions;
@@ -203,20 +209,36 @@ public final class Patch {
     return key;
   }
 
-  public int getCommentCount() {
-    return nbrComments;
+  public int getLineCommentCount() {
+    return nbrLineComments;
   }
 
-  public void setCommentCount(final int n) {
-    nbrComments = n;
+  public void setLineCommentCount(final int n) {
+    nbrLineComments = n;
   }
 
-  public int getDraftCount() {
-    return nbrDrafts;
+  public int getLineDraftCount() {
+    return nbrLineDrafts;
   }
 
-  public void setDraftCount(final int n) {
-    nbrDrafts = n;
+  public void setLineDraftCount(final int n) {
+    nbrLineDrafts = n;
+  }
+
+  public int getFileCommentCount() {
+    return nbrFileComments;
+  }
+
+  public void setFileCommentCount(final int n) {
+    nbrFileComments = n;
+  }
+
+  public int getFileDraftCount() {
+    return nbrFileDrafts;
+  }
+
+  public void setFileDraftCount(final int n) {
+    nbrFileDrafts = n;
   }
 
   public int getInsertions() {

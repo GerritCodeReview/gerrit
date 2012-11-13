@@ -16,11 +16,13 @@ package com.google.gerrit.server.util;
 
 import com.google.common.base.Objects;
 import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.name.Named;
@@ -64,14 +66,32 @@ public class ThreadLocalRequestContext {
         throw new ProvisionException(NotSignedInException.MESSAGE,
             new NotSignedInException());
       }
+
+      @Provides
+      ReviewDb provideReviewDb() {
+        Provider<ReviewDb> provider = db.get();
+        if (provider == null) {
+          throw new ProvisionException("Not in request scope");
+        }
+        return provider.get();
+      }
     };
   }
 
+  private static final ThreadLocal<Provider<ReviewDb>> db =
+      new ThreadLocal<Provider<ReviewDb>>();
   private static final ThreadLocal<RequestContext> local =
       new ThreadLocal<RequestContext>();
 
   @Inject
   ThreadLocalRequestContext() {
+  }
+
+  public Provider<ReviewDb> setReviewDbProvider(
+      @Nullable Provider<ReviewDb> provider) {
+    Provider<ReviewDb> old = db.get();
+    db.set(provider);
+    return old;
   }
 
   public RequestContext setContext(@Nullable RequestContext ctx) {

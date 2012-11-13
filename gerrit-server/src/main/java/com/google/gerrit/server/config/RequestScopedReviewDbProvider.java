@@ -21,13 +21,12 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-import com.google.inject.Singleton;
 
 /** Provides {@link ReviewDb} database handle live only for this request. */
-@Singleton
-final class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
+public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<RequestCleanup> cleanup;
+  private ReviewDb db;
 
   @Inject
   RequestScopedReviewDbProvider(final SchemaFactory<ReviewDb> schema,
@@ -38,9 +37,11 @@ final class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
 
   @Override
   public ReviewDb get() {
-    final ReviewDb c;
+    if (db != null) {
+      return db;
+    }
     try {
-      c = schema.open();
+      db = schema.open();
     } catch (OrmException e) {
       throw new ProvisionException("Cannot open ReviewDb", e);
     }
@@ -48,16 +49,15 @@ final class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
       cleanup.get().add(new Runnable() {
         @Override
         public void run() {
-          c.close();
+          db.close();
+          db = null;
         }
       });
-      return c;
-    } catch (Error e) {
-      c.close();
-      throw e;
-    } catch (RuntimeException e) {
-      c.close();
-      throw e;
+      return db;
+    } catch (Throwable e) {
+      db.close();
+      db = null;
+      throw new ProvisionException("Cannot defer cleanup of ReviewDb", e);
     }
   }
 }

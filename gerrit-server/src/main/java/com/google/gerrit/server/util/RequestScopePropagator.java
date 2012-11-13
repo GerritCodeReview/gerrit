@@ -15,7 +15,9 @@
 package com.google.gerrit.server.util;
 
 import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -43,11 +45,14 @@ public abstract class RequestScopePropagator {
 
   private final Scope scope;
   private final ThreadLocalRequestContext local;
+  private final Provider<RequestScopedReviewDbProvider> dbProvider;
 
   protected RequestScopePropagator(Scope scope,
-      ThreadLocalRequestContext local) {
+      ThreadLocalRequestContext local,
+      Provider<RequestScopedReviewDbProvider> dbProvider) {
     this.scope = scope;
     this.local = local;
+    this.dbProvider = dbProvider;
   }
 
   /**
@@ -169,11 +174,13 @@ public abstract class RequestScopePropagator {
     return new Callable<T>() {
       @Override
       public T call() throws Exception {
-        RequestContext old = local.setContext(context);
+        RequestContext oldCtx = local.setContext(context);
+        Provider<ReviewDb> oldDb = local.setReviewDbProvider(dbProvider.get());
         try {
           return callable.call();
         } finally {
-          local.setContext(old);
+          local.setReviewDbProvider(oldDb);
+          local.setContext(oldCtx);
         }
       }
     };

@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.util;
+package com.google.gerrit.server.mail;
 
-import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.FactoryModule;
 
-/**
- * The RequestContext is an interface exposing the fields that are needed
- * by the GerritGlobalModule scope.
- */
-public interface RequestContext {
-  CurrentUser getCurrentUser();
+public class EmailModule extends FactoryModule {
+  @Override
+  protected void configure() {
+    factory(AbandonedSender.Factory.class);
+  }
 }

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.util;
 
+import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.inject.OutOfScopeException;
+import com.google.inject.Provider;
 import com.google.inject.Scope;
 
 import java.util.concurrent.Callable;
@@ -31,8 +33,9 @@ public abstract class ThreadLocalRequestScopePropagator<C>
   private final ThreadLocal<C> threadLocal;
 
   protected ThreadLocalRequestScopePropagator(Scope scope,
-      ThreadLocal<C> threadLocal, ThreadLocalRequestContext local) {
-    super(scope, local);
+      ThreadLocal<C> threadLocal, ThreadLocalRequestContext local,
+      Provider<RequestScopedReviewDbProvider> dbProvider) {
+    super(scope, local, dbProvider);
     this.threadLocal = threadLocal;
   }
 

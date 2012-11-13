@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestScopePropagator;
@@ -114,8 +115,10 @@ class SshScope {
     private final SshScope sshScope;
 
     @Inject
-    Propagator(SshScope sshScope, ThreadLocalRequestContext local) {
-      super(REQUEST, current, local);
+    Propagator(SshScope sshScope,
+        ThreadLocalRequestContext local,
+        Provider<RequestScopedReviewDbProvider> dbProvider) {
+      super(REQUEST, current, local, dbProvider);
       this.sshScope = sshScope;
     }
 
@@ -140,12 +143,15 @@ class SshScope {
 
   private final ThreadLocalRequestContext local;
   private final IdentifiedUser.RequestFactory userFactory;
+  private final Provider<RequestScopedReviewDbProvider> db;
 
   @Inject
   SshScope(ThreadLocalRequestContext local,
-      IdentifiedUser.RequestFactory userFactory) {
+      IdentifiedUser.RequestFactory userFactory,
+      Provider<RequestScopedReviewDbProvider> db) {
     this.local = local;
     this.userFactory = userFactory;
+    this.db = db;
   }
 
   Context newContext(SshSession session, String commandLine) {
@@ -156,10 +162,15 @@ class SshScope {
     return new Context(ctx, ctx.getSession(), ctx.getCommandLine());
   }
 
-  Context set(Context ctx) {
+  Context set(final Context ctx) {
     Context old = current.get();
     current.set(ctx);
     local.setContext(ctx);
+    if (ctx != null) {
+      local.setReviewDbProvider(db.get());
+    } else {
+      local.setReviewDbProvider(null);
+    }
     return old;
   }
 

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
@@ -46,14 +47,17 @@ public class RequestContextFilter implements Filter {
 
   private final Provider<RequestCleanup> cleanup;
   private final Provider<HttpRequestContext> requestContext;
+  private final Provider<RequestScopedReviewDbProvider> db;
   private final ThreadLocalRequestContext local;
 
   @Inject
   RequestContextFilter(final Provider<RequestCleanup> r,
       final Provider<HttpRequestContext> c,
+      final Provider<RequestScopedReviewDbProvider> d,
       final ThreadLocalRequestContext l) {
     cleanup = r;
     requestContext = c;
+    db = d;
     local = l;
   }
 
@@ -72,8 +76,10 @@ public class RequestContextFilter implements Filter {
     RequestContext old = local.setContext(requestContext.get());
     try {
       try {
+        local.setReviewDbProvider(db.get());
         chain.doFilter(request, response);
       } finally {
+        local.setReviewDbProvider(null);
         cleanup.get().run();
       }
     } finally {

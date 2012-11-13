@@ -52,6 +52,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.RequestScopePropagator;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.server.AtomicUpdate;
@@ -59,7 +60,9 @@ import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -153,6 +156,8 @@ public class MergeOp {
   private final SubmoduleOp.Factory subOpFactory;
   private final WorkQueue workQueue;
   private final RequestScopePropagator requestScopePropagator;
+  private final ThreadLocalRequestContext threadLocalContext;
+  private Provider<ReviewDb> oldDbProvider;
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
@@ -169,7 +174,8 @@ public class MergeOp {
       final SubmitStrategyFactory submitStrategyFactory,
       final SubmoduleOp.Factory subOpFactory,
       final WorkQueue workQueue,
-      final RequestScopePropagator requestScopePropagator) {
+      final RequestScopePropagator requestScopePropagator,
+      final ThreadLocalRequestContext threadLocalContext) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -190,6 +196,7 @@ public class MergeOp {
     this.subOpFactory = subOpFactory;
     this.workQueue = workQueue;
     this.requestScopePropagator = requestScopePropagator;
+    this.threadLocalContext = threadLocalContext;
     this.myIdent = myIdent;
     destBranch = branch;
     toMerge = ArrayListMultimap.create();
@@ -262,6 +269,7 @@ public class MergeOp {
   private void openSchema() throws OrmException {
     if (db == null) {
       db = schemaFactory.open();
+      oldDbProvider = threadLocalContext.setReviewDbProvider(Providers.of(db));
     }
   }
 
@@ -333,6 +341,7 @@ public class MergeOp {
       if (db != null) {
         db.close();
       }
+      threadLocalContext.setReviewDbProvider(oldDbProvider);
     }
   }
 

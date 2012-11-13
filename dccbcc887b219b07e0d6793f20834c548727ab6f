@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALgn///68\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/UniversalAuthBackend.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-13T03:28:52Z",
+      "side": 1,
+      "message": "I disagree: if ONLY one authBackend provided a valid user and the other did not ... we are fine and we can proceed.\n\nThe restriction that all the other authBackend have not failed will never produce a valid result with multiple auth backends.",
+      "revId": "dccbcc887b219b07e0d6793f20834c548727ab6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

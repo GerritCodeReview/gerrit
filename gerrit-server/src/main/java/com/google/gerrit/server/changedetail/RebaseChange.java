@@ -398,7 +398,8 @@ public class RebaseChange {
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),
               ChangeUtil.messageUUID(db)), uploader, patchSetId);
-      cmsg.setMessage("Patch Set " + patchSetId.get() + ": Rebased");
+      cmsg.setMessage("Patch Set " + change.currentPatchSetId().get()
+          + ": Patch Set " + patchSetId.get( )+ " was rebased onto the latest head");
       db.changeMessages().insert(Collections.singleton(cmsg));
       db.commit();
     } finally {

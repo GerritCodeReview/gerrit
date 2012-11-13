@@ -31,7 +31,6 @@ public class SshAuthRequest extends AuthRequest {
   private PublicKey pubKey;
   private String password;
 
-
   /**
    * Create a new authentication request for a remote user.
    *
@@ -80,5 +79,9 @@ public class SshAuthRequest extends AuthRequest {
   @Nullable
   public String getPassword() {
     return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 }

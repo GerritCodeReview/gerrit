@@ -94,9 +94,7 @@ public interface AdminConstants extends Constants {
   String buttonDeleteBranch();
   String branchDeletionOpenChanges();
 
-  String groupListPrev();
-  String groupListNext();
-  String groupListOpen();
+  String groupItemHelp();
 
   String groupListTitle();
   String createGroupTitle();

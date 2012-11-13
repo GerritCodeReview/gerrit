@@ -21,7 +21,6 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -40,14 +39,9 @@ public class GroupTable extends NavigationTable<AccountGroup> {
   }
 
   public GroupTable(final boolean enableLink, final String pointerId) {
+    super(Util.C.groupItemHelp());
     this.enableLink = enableLink;
-
     setSavePointerId(pointerId);
-    keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.groupListPrev()));
-    keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.groupListNext()));
-    keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.groupListOpen()));
-    keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
-        .groupListOpen()));
 
     table.setText(0, 1, Util.C.columnGroupName());
     table.setText(0, 2, Util.C.columnGroupDescription());

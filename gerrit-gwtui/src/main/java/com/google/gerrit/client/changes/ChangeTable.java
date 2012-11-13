@@ -42,7 +42,6 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -79,18 +78,13 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   public ChangeTable(boolean showApprovals) {
+    super(Util.C.changeItemHelp());
     approvalTypes = Gerrit.getConfig().getApprovalTypes().getApprovalTypes();
     if (showApprovals) {
       columns = BASE_COLUMNS + approvalTypes.size();
     } else {
       columns = BASE_COLUMNS;
     }
-
-    keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.changeTablePrev()));
-    keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.changeTableNext()));
-    keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.changeTableOpen()));
-    keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
-        .changeTableOpen()));
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));

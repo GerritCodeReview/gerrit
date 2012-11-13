@@ -20,6 +20,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -34,6 +35,41 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
+  protected class MyFlexTable extends FancyFlexTable.MyFlexTable {
+    public MyFlexTable() {
+      sinkEvents(Event.ONDBLCLICK | Event.ONCLICK);
+    }
+
+    @Override
+    public void onBrowserEvent(final Event event) {
+      switch (DOM.eventGetType(event)) {
+        case Event.ONCLICK: {
+          // Find out which cell was actually clicked.
+          final Element td = getEventTargetCell(event);
+          if (td == null) {
+            break;
+          }
+          final int row = rowOf(td);
+          if (getRowItem(row) != null) {
+            onCellSingleClick(rowOf(td), columnOf(td));
+            return;
+          }
+          break;
+        }
+        case Event.ONDBLCLICK: {
+          // Find out which cell was actually clicked.
+          Element td = getEventTargetCell(event);
+          if (td == null) {
+            return;
+          }
+          onCellDoubleClick(rowOf(td), columnOf(td));
+          return;
+        }
+      }
+      super.onBrowserEvent(event);
+    }
+  }
+
   @SuppressWarnings("serial")
   private static final LinkedHashMap<String, Object> savedPositions =
       new LinkedHashMap<String, Object>(10, 0.75f, true) {
@@ -89,6 +125,16 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
         onOpenRow(currentRow);
       }
     }
+  }
+
+  /** Invoked when the user double clicks on a table cell. */
+  protected void onCellDoubleClick(int row, int column) {
+    movePointerTo(row);
+  }
+
+  /** Invoked when the user clicks on a table cell. */
+  protected void onCellSingleClick(int row, int column) {
+    onOpenRow(row);
   }
 
   protected int getCurrentRow() {
@@ -257,6 +303,11 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     computedScrollType = false;
     parentScrollPanel = null;
     super.onUnload();
+  }
+
+  @Override
+  protected MyFlexTable createFlexTable() {
+    return new MyFlexTable();
   }
 
   public class PrevKeyCommand extends KeyCommand {

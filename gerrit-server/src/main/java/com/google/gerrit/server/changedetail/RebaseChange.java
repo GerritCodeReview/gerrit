@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -46,6 +47,7 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -77,6 +79,7 @@ public class RebaseChange {
   private final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory;
   private final ChangeHookRunner hooks;
   private final ApprovalsUtil approvalsUtil;
+  private final Config cfg;
 
   @Inject
   RebaseChange(final ChangeControl.Factory changeControlFactory,
@@ -85,7 +88,8 @@ public class RebaseChange {
       final GitRepositoryManager gitManager,
       final GitReferenceUpdated replication,
       final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
-      final ChangeHookRunner hooks, final ApprovalsUtil approvalsUtil) {
+      final ChangeHookRunner hooks, final ApprovalsUtil approvalsUtil,
+      final @GerritServerConfig Config cfg) {
     this.changeControlFactory = changeControlFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.db = db;
@@ -95,6 +99,7 @@ public class RebaseChange {
     this.rebasedPatchSetSenderFactory = rebasedPatchSetSenderFactory;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
+    this.cfg = cfg;
   }
 
   /**
@@ -393,7 +398,7 @@ public class RebaseChange {
             "Change %s was modified", change.getId()));
       }
 
-      approvalsUtil.copyVetosToLatestPatchSet(change);
+      approvalsUtil.copyApprovalsToLatestPatchSet(cfg, db, change);
 
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),

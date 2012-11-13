@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALen///9M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-13T00:04:00Z",
+      "side": 1,
+      "message": "spelling: trays ---\u003e tries\n\ngrammar: to authenticate  a given user across all of them.",
+      "revId": "ecfe211d25713c04bbb22ffc6773082021ad056c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///9I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-13T00:04:00Z",
+      "side": 1,
+      "message": "spelling: retunrs --\u003e returns\n\ngrammar: successful response. In any...",
+      "revId": "ecfe211d25713c04bbb22ffc6773082021ad056c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/UniversalAuthBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-13T00:04:00Z",
+      "side": 1,
+      "message": "How about this:\n\n  List\u003cAuthUser\u003e authUsers \u003d Lists.newArrayList();\n  List\u003cAuthException\u003e authExs \u003d Lists.newArrayList();\n  for (AuthBackend backend : authBackends) {\n    try {\n      authUsers.add(backend.authenticate(request));\n    } catch (MissingCredentialsException ex) {\n      // Not handled by this backend.\n    } catch (AuthException ex) {\n      authExs.add(ex);\n    }\n  }\n\n  // Handle the valid responses\n  if (authExs.isEmpty() \u0026\u0026 authUsers.isEmpty()) {\n      throw MissingCredentialsException();\n  } else if (authExs.isEmpty() \u0026\u0026 authUsers.size() \u003d\u003d 1) {\n      return authUsers.get(0); \n  } else if (authExs.size() \u003d\u003d 1 \u0026\u0026 authUsers.isEmpty()) {\n    throw authExs.get(0);\n  }\n\n  throw AuthException(\"Multiple AuthBackends attempted to handle request:\"\n  + \" authUsers\u003d%s authExs\u003d%s\", authUsers, authExs);",
+      "revId": "ecfe211d25713c04bbb22ffc6773082021ad056c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALen///9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/UniversalAuthBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-13T00:04:00Z",
+      "side": 1,
+      "message": "spelling: Ambiguous",
+      "revId": "ecfe211d25713c04bbb22ffc6773082021ad056c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

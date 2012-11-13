@@ -44,6 +44,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -53,6 +54,8 @@ import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -598,27 +601,29 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   }
 
   private void populateDiffAllActions(final PatchSetDetail detail) {
-    final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
-    diffAllSideBySide.addClickHandler(new ClickHandler() {
+    final MenuBar menu = new MenuBar();
+    actionsPanel.add(menu);
+
+    MenuBar moreMenu = new MenuBar(true);
+    menu.addItem(new MenuItem(Util.C.buttonMore(), moreMenu));
+    moreMenu.addItem(new MenuItem(Util.C.buttonDiffAllSideBySide(), new Command() {
       @Override
-      public void onClick(ClickEvent event) {
+      public void execute() {
         for (Patch p : detail.getPatches()) {
           openWindow(Dispatcher.toPatchSideBySide(diffBaseId, p.getKey()));
         }
       }
-    });
-    actionsPanel.add(diffAllSideBySide);
+    }));
 
-    final Button diffAllUnified = new Button(Util.C.buttonDiffAllUnified());
-    diffAllUnified.addClickHandler(new ClickHandler() {
+
+    moreMenu.addItem(new MenuItem(Util.C.buttonDiffAllUnified(), new Command() {
       @Override
-      public void onClick(ClickEvent event) {
+      public void execute() {
         for (Patch p : detail.getPatches()) {
           openWindow(Dispatcher.toPatchUnified(diffBaseId, p.getKey()));
         }
       }
-    });
-    actionsPanel.add(diffAllUnified);
+    }));
   }
 
   private void openWindow(String token) {

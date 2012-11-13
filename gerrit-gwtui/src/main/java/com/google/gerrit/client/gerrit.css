@@ -27,6 +27,9 @@
 @external .gwt-InlineLabel;
 @external .gwt-InlineHyperlink;
 @external .gwt-RadioButton;
+@external .gwt-MenuItem;
+@external .gwt-MenuItem-selected;
+@external .gwt-MenuBarPopup;
 
 @external .searchPanel;
 @external .smallHeading;
@@ -956,6 +959,33 @@
 .patchSetActions .gwt-Button {
   margin-right: 30px;
   font-size: 8pt;
+}
+.patchSetActions div {
+  display: inline;
+  position: relative;
+  top: -1px;
+  padding-bottom: 3px;
+  width: 75px;
+  background: url("gerrit_ui/gwt/chrome/images/hborder.png") repeat-x scroll 0 -27px transparent;
+  border: 1px outset #CCCCCC;
+  cursor: pointer;
+}
+.patchSetActions div table {
+  display: inline-block;
+  vertical-align:top;
+}
+.patchSetActions .gwt-MenuItem {
+  font-weight: normal;
+  color: #000000;
+  cursor: pointer;
+  text-decoration: none;
+}
+.patchSetActions .gwt-MenuItem-selected {
+  background: transparent;
+}
+.gwt-MenuBarPopup > div {
+  position: relative;
+  left: -6px;
 }
 
 .selectPatchSetOldVersion {

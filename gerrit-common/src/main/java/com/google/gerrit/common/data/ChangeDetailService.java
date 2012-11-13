@@ -42,4 +42,9 @@ public interface ChangeDetailService extends RemoteJsonService {
   @SignInRequired
   void patchSetPublishDetail(PatchSet.Id key,
       AsyncCallback<PatchSetPublishDetail> callback);
+
+  @Audit
+  @SignInRequired
+  void alterTopic(Change.Id id, String topic, String message,
+      AsyncCallback<ChangeDetail> callback);
 }

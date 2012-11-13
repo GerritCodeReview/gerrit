@@ -72,6 +72,10 @@ public final class ApprovalCategory {
   @Column(id = 6)
   protected boolean copyMinScore;
 
+  /** If set, all scores are copied during a trivial rebase. */
+  @Column(id = 7)
+  protected boolean copyAllScores;
+
   /** Computed name derived from {@link #name}. */
   protected String labelName;
 
@@ -147,5 +151,13 @@ public final class ApprovalCategory {
 
   public void setCopyMinScore(final boolean copy) {
     copyMinScore = copy;
+  }
+
+  public boolean isCopyAllScores() {
+    return copyAllScores;
+  }
+
+  public void setCopyAllScores(final boolean copy) {
+    copyAllScores = copy;
   }
 }

@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
@@ -75,9 +76,9 @@ public class ApprovalsUtil {
    * @throws OrmException
    * @return List<PatchSetApproval> The previous approvals
    */
-  public List<PatchSetApproval> copyVetosToLatestPatchSet(Change change)
+  public List<PatchSetApproval> copyReviewsToLatestPatchSet(Change change)
       throws OrmException {
-    return copyVetosToLatestPatchSet(db, change);
+    return copyReviewsToLatestPatchSet(db, change, true);
   }
 
   /**
@@ -89,8 +90,8 @@ public class ApprovalsUtil {
    * @throws OrmException
    * @return List<PatchSetApproval> The previous approvals
    */
-  public List<PatchSetApproval> copyVetosToLatestPatchSet(ReviewDb db,
-      Change change) throws OrmException {
+  public List<PatchSetApproval> copyReviewsToLatestPatchSet(ReviewDb db,
+      Change change, boolean isTrivialRebase) throws OrmException {
     PatchSet.Id source;
     if (change.getNumberOfPatchSets() > 1) {
       source = new PatchSet.Id(change.getId(), change.getNumberOfPatchSets() - 1);
@@ -105,10 +106,28 @@ public class ApprovalsUtil {
       if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
         final ApprovalType type = approvalTypes.byId(a.getCategoryId());
         if (a.getPatchSetId().equals(source) &&
-            type.getCategory().isCopyMinScore() &&
-            type.isMaxNegative(a)) {
-          db.patchSetApprovals().insert(
-              Collections.singleton(new PatchSetApproval(dest, a)));
+            ((type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) ||
+             (type.getCategory().isCopyAllScores() && isTrivialRebase))) {
+          try {
+            // Copy approvals to the new patchset
+            PatchSetApproval psa = new PatchSetApproval(dest, a);
+            db.patchSetApprovals().beginTransaction(psa.getKey());
+            psa.cache(change);
+            db.patchSetApprovals().insert(
+                Collections.singleton(psa));
+            db.commit();
+
+            // Inject a message to tell users why we copied their reviews
+            final ChangeMessage cmsg =
+                new ChangeMessage(new ChangeMessage.Key(change.getId(),
+                    ChangeUtil.messageUUID(db)), change.getOwner(), dest);
+            cmsg.setMessage("Patch Set " + dest + ": Reviews copied for trivial rebase");
+            db.changeMessages().beginTransaction(cmsg.getKey());
+            db.changeMessages().insert(Collections.singleton(cmsg));
+            db.commit();
+          } finally {
+            db.rollback();
+          }
         }
       }
     }

@@ -393,7 +393,7 @@ public class RebaseChange {
             "Change %s was modified", change.getId()));
       }
 
-      approvalsUtil.copyVetosToLatestPatchSet(change);
+      approvalsUtil.copyReviewsToLatestPatchSet(change);
 
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),

@@ -90,6 +90,8 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -1475,6 +1477,7 @@ public class ReceiveCommits {
     PatchSetInfo info;
     ChangeMessage msg;
     String mergedIntoRef;
+    boolean trivialRebase;
     private PatchSet.Id priorPatchSet;
 
     ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
@@ -1483,6 +1486,7 @@ public class ReceiveCommits {
       this.newCommit = newCommit;
       this.inputCommand = cmd;
       this.checkMergedInto = checkMergedInto;
+      this.trivialRebase = false;
     }
 
     boolean validate(boolean ignoreNoChanges) throws IOException {
@@ -1580,6 +1584,10 @@ public class ReceiveCommits {
               }
               addMessage(msg.toString());
             }
+          }
+          if (priorPatchSet.equals(ps.getId())) {
+            trivialRebase = newCommit.getTree() == prior.getTree()
+                || isTrivialRebase(prior, newCommit);
           }
         } catch (IOException e) {
           log.error("Change " + change.getId() + " missing " + revIdStr, e);
@@ -1686,7 +1694,7 @@ public class ReceiveCommits {
         }
 
         List<PatchSetApproval> patchSetApprovals =
-            approvalsUtil.copyVetosToLatestPatchSet(db, change);
+            approvalsUtil.copyReviewsToLatestPatchSet(db, change, trivialRebase);
 
         final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
         oldReviewers.clear();
@@ -1796,6 +1804,27 @@ public class ReceiveCommits {
         }
       }));
       return newPatchSet.getId();
+    }
+  }
+
+  private boolean isTrivialRebase(RevCommit prior, RevCommit next) {
+    if (next.getParentCount() != 1) {
+      // Trivial rebases done by machine only work well on 1 parent.
+      return false;
+    }
+
+    // A trivial rebase can be detected by looking for the next commit
+    // having the same tree as would exist when the prior commit is
+    // cherry-picked onto the next commit's new first parent.
+    try {
+      ThreeWayMerger merger = MergeStrategy.RESOLVE.newMerger(repo, true);
+      merger.setBase(prior.getParent(0));
+      return merger.merge(next.getParent(0), prior)
+          && merger.getResultTreeId().equals(next.getTree());
+    } catch (IOException err) {
+      log.warn("Cannot check trivial rebase of new patch set "
+          + next.name() + " in " + project.getName(), err);
+      return false;
     }
   }
 

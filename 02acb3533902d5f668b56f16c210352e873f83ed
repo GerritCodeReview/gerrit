@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALgn///38\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-13T19:50:46Z",
+      "side": 1,
+      "message": "Could you explain a bit more about what the refactor does here?  Does this refactoring stand on it own?  Why is it something that I would want even if I don\u0027t merge this change\u0027s children?  How does it make the code better?",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

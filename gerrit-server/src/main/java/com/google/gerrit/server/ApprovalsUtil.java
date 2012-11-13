@@ -26,9 +26,13 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.Config;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -112,6 +116,51 @@ public class ApprovalsUtil {
         }
       }
     }
+    return patchSetApprovals;
+  }
+
+  /**
+   * Moves the PatchSetApprovals to the last PatchSet on the change while
+   * keeping scores intact where requird. The specific behavior is controlled
+   * through the approval.stickThroughRebase and the
+   * approval.<type>.stickThroughRebase configuration options.
+   *
+   * @param db database connection to use for updates.
+   * @param change Change to update
+   * @throws OrmException
+   * @return List<PatchSetApproval> The previous approvals
+   */
+  public List<PatchSetApproval> copyApprovalsToLatestPatchSet(
+      @GerritServerConfig Config cfg, ReviewDb db, Change change)
+          throws OrmException {
+    PatchSet.Id source;
+    if (change.getNumberOfPatchSets() > 1) {
+      source = new PatchSet.Id(change.getId(), change.getNumberOfPatchSets() - 1);
+    } else {
+      throw new OrmException("Previous patch set could not be found");
+    }
+
+    PatchSet.Id dest = change.currPatchSetId();
+    List<PatchSetApproval> patchSetApprovals = db.patchSetApprovals().byChange(change.getId()).toList();
+    final List<PatchSetApproval> toInsert = new ArrayList<PatchSetApproval>();
+    boolean globalStickThroughRebase = cfg.getBoolean(
+        "approval", null, "stickThroughRebase", false);
+    for (PatchSetApproval a : patchSetApprovals) {
+      // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
+      if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+        final ApprovalType type = approvalTypes.byId(a.getCategoryId());
+        boolean typeSpecificStickThroughRebase = cfg.getBoolean(
+            "approval", a.getCategoryId().get(), "stickThroughRebase", false);
+        if ((a.getPatchSetId().equals(source) &&
+             type.getCategory().isCopyMinScore() &&
+             type.isMaxNegative(a)) ||
+            globalStickThroughRebase ||
+            typeSpecificStickThroughRebase) {
+            toInsert.add(new PatchSetApproval(dest, a));
+        }
+      }
+    }
+    db.patchSetApprovals().insert(toInsert);
     return patchSetApprovals;
   }
 

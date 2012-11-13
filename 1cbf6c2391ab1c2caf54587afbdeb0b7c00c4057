@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALgn///9E\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-13T00:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALen///98\u003d",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALfX///68\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-12T22:41:46Z",
       "side": 1,
       "message": "nit: empty line",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///9A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-13T00:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALfX///68\u003d",
       "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALgn///8w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-13T00:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALfX///64\u003d",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALen///9w\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2012-11-12T22:47:40Z",
       "side": 1,
       "message": "please comment the public methods.",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///8s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-13T00:34:26Z",
+      "side": 1,
+      "message": "Comment here will just say what the method name says ... redundant IMHO.",
+      "parentUuid": "AAALen///9w\u003d",
       "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAALgn///88\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-13T00:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALen///94\u003d",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALen///90\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
         "patchSetId": 4
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAALgn///84\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-13T00:34:26Z",
+      "side": 1,
+      "message": "This can never happen: SSH always need a username to authenticate. Anonymous SSH connections are never allowed.",
+      "parentUuid": "AAALen///90\u003d",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALen///9s\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
         "patchSetId": 4
@@ -115,6 +223,24 @@
       "writtenOn": "2012-11-12T22:47:40Z",
       "side": 1,
       "message": "@Nullable",
+      "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///80\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-13T00:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALen///9s\u003d",
       "revId": "1cbf6c2391ab1c2caf54587afbdeb0b7c00c4057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

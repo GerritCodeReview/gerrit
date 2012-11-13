@@ -18,9 +18,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import java.util.Collections;
@@ -45,43 +42,6 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
-  }
-
-  @Override
-  protected MyFlexTable createFlexTable() {
-    MyFlexTable table = new MyFlexTable() {
-      @Override
-      public void onBrowserEvent(final Event event) {
-        switch (DOM.eventGetType(event)) {
-          case Event.ONCLICK: {
-            // Find out which cell was actually clicked.
-            final Element td = getEventTargetCell(event);
-            if (td == null) {
-              break;
-            }
-            final int row = rowOf(td);
-            if (getRowItem(row) != null) {
-              ProjectsTable.this.movePointerTo(row);
-              return;
-            }
-            break;
-          }
-          case Event.ONDBLCLICK: {
-            // Find out which cell was actually clicked.
-            Element td = getEventTargetCell(event);
-            if (td == null) {
-              return;
-            }
-            onOpenRow(rowOf(td));
-            return;
-          }
-        }
-        super.onBrowserEvent(event);
-      }
-    };
-
-    table.sinkEvents(Event.ONDBLCLICK | Event.ONCLICK);
-    return table;
   }
 
   @Override

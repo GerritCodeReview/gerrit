@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.inject.Inject;
 
 class ChangeDetailServiceImpl implements ChangeDetailService {
@@ -30,16 +31,19 @@ class ChangeDetailServiceImpl implements ChangeDetailService {
   private final IncludedInDetailFactory.Factory includedInDetail;
   private final PatchSetDetailFactory.Factory patchSetDetail;
   private final PatchSetPublishDetailFactory.Factory patchSetPublishDetail;
+  private final AlterTopicHandler.Factory alterTopic;
 
   @Inject
   ChangeDetailServiceImpl(final ChangeDetailFactory.Factory changeDetail,
       final IncludedInDetailFactory.Factory includedInDetail,
       final PatchSetDetailFactory.Factory patchSetDetail,
-      final PatchSetPublishDetailFactory.Factory patchSetPublishDetail) {
+      final PatchSetPublishDetailFactory.Factory patchSetPublishDetail,
+      final AlterTopicHandler.Factory alterTopic) {
     this.changeDetail = changeDetail;
     this.includedInDetail = includedInDetail;
     this.patchSetDetail = patchSetDetail;
     this.patchSetPublishDetail = patchSetPublishDetail;
+    this.alterTopic = alterTopic;
   }
 
   public void changeDetail(final Change.Id id,
@@ -65,5 +69,10 @@ class ChangeDetailServiceImpl implements ChangeDetailService {
   public void patchSetPublishDetail(final PatchSet.Id id,
       final AsyncCallback<PatchSetPublishDetail> callback) {
     patchSetPublishDetail.create(id).to(callback);
+  }
+
+  public void alterTopic(final Change.Id id, final String topic,
+      final String message, final AsyncCallback<ChangeDetail> callback) {
+    alterTopic.create(id, topic, message).to(callback);
   }
 }

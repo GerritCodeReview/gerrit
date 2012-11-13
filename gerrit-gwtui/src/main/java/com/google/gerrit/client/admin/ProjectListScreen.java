@@ -20,12 +20,16 @@ import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Widget;
 
 public class ProjectListScreen extends Screen {
   private ProjectsTable projects;
@@ -78,7 +82,10 @@ public class ProjectListScreen extends Screen {
 
       @Override
       protected void populate(final int row, final ProjectInfo k) {
-        table.setWidget(row, 1, new Hyperlink(k.name(), link(k)));
+        FlowPanel fp = new FlowPanel();
+        fp.add(createSearchLink(k.name()));
+        fp.add(new InlineHyperlink(k.name(), link(k)));
+        table.setWidget(row, 1, fp);
         table.setText(row, 2, k.description());
         GitwebLink l = Gerrit.getGitwebLink();
         if (l != null) {
@@ -87,6 +94,16 @@ public class ProjectListScreen extends Screen {
         }
 
         setRowItem(row, k);
+      }
+
+      private Widget createSearchLink(String projectName) {
+        Image image = new Image(Gerrit.RESOURCES.queryProjectLink());
+        InlineHyperlink h = new InlineHyperlink(" ", PageLinks.toChangeQuery("project:" + projectName));
+        h.setTitle("Search for changes");
+        DOM.insertBefore(h.getElement(), image.getElement(),
+            DOM.getFirstChild(h.getElement()));
+
+        return h;
       }
     };
     projects.setSavePointerId(PageLinks.ADMIN_PROJECTS);

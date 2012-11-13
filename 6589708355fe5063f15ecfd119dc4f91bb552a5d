@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALgn///70\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-13T02:40:20Z",
+      "side": 1,
+      "message": "- Does cfg.getRegisterText() actually get called twice, or will the second one be optimized out somehow?\n\n- Does the value from the config file need to be sanitized?  What happens if a user puts html or some other wierdness in there?",
+      "revId": "6589708355fe5063f15ecfd119dc4f91bb552a5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

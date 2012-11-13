@@ -137,13 +137,18 @@ and accepts the same options as query parameters.
   )]}'
   {
     "external/bison": {
+      "kind": "gerritcodereview#project",
       "description": "GNU parser generator"
     },
-    "external/gcc": {},
+    "external/gcc": {
+      "kind": "gerritcodereview#project"
+    },
     "external/openssl": {
+      "kind": "gerritcodereview#project",
       "description": "encryption\ncrypto routines"
     },
     "test": {
+      "kind": "gerritcodereview#project",
       "description": "\u003chtml\u003e is escaped"
     }
   }
@@ -161,8 +166,12 @@ Content-Disposition: attachment
 Content-Type: application/json;charset=UTF-8
 )]}'
 {
-"platform/drivers": {},
-"platform/tools": {}
+"platform/drivers": {
+  "kind": "gerritcodereview#project"
+},
+"platform/tools": {
+  "kind": "gerritcodereview#project"
+}
 }
 ----
 E.g. this feature can be used by suggestion client UI's to limit results.
@@ -184,6 +193,7 @@ Query for open changes of watched projects:
 
   )]}'
   {
+    "kind": "gerritcodereview#change",
     "project": "demo",
     "branch": "master",
     "id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
@@ -199,6 +209,7 @@ Query for open changes of watched projects:
     },
   },
   {
+    "kind": "gerritcodereview#change",
     "project": "demo",
     "branch": "master",
     "id": "I09c8041b5867d5b33170316e2abc34b79bbb8501",
@@ -242,6 +253,7 @@ Query that retrieves changes for a user's dashboard:
   [
     [
       {
+        "kind": "gerritcodereview#change",
         "project": "demo",
         "branch": "master",
         "id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
@@ -306,6 +318,7 @@ default. Optional fields are:
   )]}'
   [
     {
+      "kind": "gerritcodereview#change",
       "project": "gerrit",
       "branch": "master",
       "id": "I7ea46d2e2ee5c64c0d807677859cfb7d90b8966a",

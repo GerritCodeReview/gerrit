@@ -107,7 +107,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final Provider<ChangeQueryRewriter> rewriter;
     final IdentifiedUser.GenericFactory userFactory;
     final CapabilityControl.Factory capabilityControlFactory;
-    final ChangeControl.Factory changeControlFactory;
     final ChangeControl.GenericFactory changeControlGenericFactory;
     final AccountResolver accountResolver;
     final GroupBackend groupBackend;
@@ -122,7 +121,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         Provider<ChangeQueryRewriter> rewriter,
         IdentifiedUser.GenericFactory userFactory,
         CapabilityControl.Factory capabilityControlFactory,
-        ChangeControl.Factory changeControlFactory,
         ChangeControl.GenericFactory changeControlGenericFactory,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
@@ -135,7 +133,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.rewriter = rewriter;
       this.userFactory = userFactory;
       this.capabilityControlFactory = capabilityControlFactory;
-      this.changeControlFactory = changeControlFactory;
       this.changeControlGenericFactory = changeControlGenericFactory;
       this.accountResolver = accountResolver;
       this.groupBackend = groupBackend;

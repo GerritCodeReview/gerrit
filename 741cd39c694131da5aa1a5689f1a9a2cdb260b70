@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALgn///6Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T06:03:23Z",
+      "side": 1,
+      "message": "s/all a/a",
+      "revId": "741cd39c694131da5aa1a5689f1a9a2cdb260b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///6M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T06:03:23Z",
+      "side": 1,
+      "message": "nit: this method seems to be wrongly indented",
+      "revId": "741cd39c694131da5aa1a5689f1a9a2cdb260b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///6I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T06:03:23Z",
+      "side": 1,
+      "message": "nit: mising space after \u0027for\u0027",
+      "revId": "741cd39c694131da5aa1a5689f1a9a2cdb260b70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

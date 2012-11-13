@@ -255,13 +255,13 @@ public class PublishComments implements Callable<VoidResult> {
     db.patchSetApprovals().update(upd);
     db.patchSetApprovals().insert(ins);
 
-    summarizeInlineComments(msgbuf);
+    summarizeComments(msgbuf);
     message(msgbuf.toString());
   }
 
   private void publishMessageOnly() throws OrmException {
     StringBuilder msgbuf = new StringBuilder();
-    summarizeInlineComments(msgbuf);
+    summarizeComments(msgbuf);
     message(msgbuf.toString());
   }
 
@@ -365,16 +365,46 @@ public class PublishComments implements Callable<VoidResult> {
     hooks.doCommentAddedHook(change, user.getAccount(), patchSet, messageText, changed, db);
   }
 
-  private void summarizeInlineComments(StringBuilder in) {
+  private void summarizeComments(StringBuilder in) {
     if (!drafts.isEmpty()) {
       if (in.length() != 0) {
         in.append("\n\n");
       }
-      if (drafts.size() == 1) {
-        in.append("(1 inline comment)");
-      } else {
-        in.append("(" + drafts.size() + " inline comments)");
+      int fileCommentSize = 0;
+      int inlineCommentSize = 0;
+      for (PatchLineComment c : drafts) {
+        if (c.getLine() != 0) {
+          inlineCommentSize++;
+        } else {
+          fileCommentSize++;
+        }
+        if (drafts.size() == 1) {
+          if (fileCommentSize != 0) {
+            in.append("(1 file comment)");
+            return;
+          }
+          if (inlineCommentSize != 0) {
+            in.append("(1 inline comment)");
+            return;
+          }
+        }
       }
+      in.append("(");
+      if (fileCommentSize != 0) {
+        if (fileCommentSize == 1) {
+          in.append("1 file comment");
+        } else {
+          in.append(fileCommentSize + " file comments");
+        }
+      }
+      if (inlineCommentSize != 0) {
+        if (inlineCommentSize == 1) {
+          in.append("; 1 inline comment");
+        } else {
+          in.append("; " + inlineCommentSize + " inline comments");
+        }
+      }
+      in.append(")");
     }
   }
 }

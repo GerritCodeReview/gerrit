@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2012 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,9 +14,12 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.Messages;
 
-public class Util {
-  public static final UIConstants C = GWT.create(UIConstants.class);
-  public static final UIMessages M = GWT.create(UIMessages.class);
+import java.util.Date;
+
+public interface UIMessages extends Messages {
+  String helpListOpen(String item);
+  String helpListPrev(String item);
+  String helpListNext(String item);
 }

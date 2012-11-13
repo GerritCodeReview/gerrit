@@ -16,6 +16,7 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
@@ -53,6 +54,15 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
 
   private boolean computedScrollType;
   private ScrollPanel parentScrollPanel;
+
+  protected NavigationTable(String itemHelpName) {
+    this();
+    keysNavigation.add(new PrevKeyCommand(0, 'k', Util.M.helpListPrev(itemHelpName)));
+    keysNavigation.add(new NextKeyCommand(0, 'j', Util.M.helpListNext(itemHelpName)));
+    keysNavigation.add(new OpenKeyCommand(0, 'o', Util.M.helpListOpen(itemHelpName)));
+    keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
+                                                  Util.M.helpListOpen(itemHelpName)));
+  }
 
   protected NavigationTable() {
     pointer = new Image(Gerrit.RESOURCES.arrowRight());

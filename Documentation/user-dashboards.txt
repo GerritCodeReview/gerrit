@@ -43,6 +43,30 @@ Parameters may be separated from each other using any of the following
 characters, as some users may find one more readable than another:
 `&` or `;` or `,`
 
+The special `all_queries=...` parameter is designed to facilitate
+more easily writting similar queries in a dashboard.  The value of the
+all_queries parameter will be used in every query in the dashboard by
+appending it to their ends with a space (ANDing it with the queries).
+
+Since it may be desirable to combine the all_queries value with the
+dashboard queries using parentheses, the all_queries parameter
+supports magic dangling right parentheses which give fine control over
+the logical evaluation of the queries.  Any dangling right parenthesis
+will be auto opened with an equal number of left parentheses on the
+front (left) side of each query in the dashboard.  The most obvious
+reason to use magic parentheses is to add an all_queries parameter to
+OR with every query instead of the default ANDing; but since you can
+have more than just one magic parenthesis the combinatorial
+possibilities of this feature are much greater than just simple ORs.
+
+Example custom dashboard using all_queries to constrain a dashboard
+to changes for the current user:
+
+----
+  /#/dashboard/?title=Mine&all_queries=self&My+Pending=is:open&My+Merged=is:merged
+----
+
+
 Project Dashboards
 ------------------
 
@@ -78,10 +102,11 @@ defining project dashboards on the All-Projects project.
 Project dashboard queries may contain the special `${project}` token
 which will be replaced with the project name to which the dashboard is
 being applied.  This is useful for defining dashboards designed to be
-inherited.  With this token, it is possible to cause a project
-dashboard to be restricted to only changes for the project in which
-an inherited dashboard is being applied by simply adding
-`project:${project}` to the queries in the dashboard.
+inherited.  With this token, it is possible to cause a query in a
+project dashboard to be restricted to only changes for the project in
+which an inherited dashboard is being applied by simply adding
+`project:${project}` to the query in the dashboard.  To similarly
+constrain an entire dashboard use `all_queries:project:${project}`.
 
 Section main
 ~~~~~~~~~~~~

@@ -22,6 +22,7 @@ import com.google.gwt.http.client.URL;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class CustomDashboardScreen extends Screen implements ChangeListScreen {
   private String title;
@@ -33,6 +34,7 @@ public class CustomDashboardScreen extends Screen implements ChangeListScreen {
   public CustomDashboardScreen(String params) {
     titles = new ArrayList<String>();
     queries = new ArrayList<String>();
+    String all_queries = null;
     for (String kvPair : params.split("[,;&]")) {
       String[] kv = kvPair.split("=", 2);
       if (kv.length != 2 || kv[0].isEmpty()) {
@@ -41,11 +43,48 @@ public class CustomDashboardScreen extends Screen implements ChangeListScreen {
 
       if ("title".equals(kv[0])) {
         title = URL.decodeQueryString(kv[1]);
+      } else if ("all_queries".equals(kv[0])) {
+        all_queries = URL.decodeQueryString(kv[1]);
       } else {
         titles.add(URL.decodeQueryString(kv[0]));
         queries.add(URL.decodeQueryString(kv[1]));
       }
     }
+
+    if (all_queries != null) {
+      String lefts = magicParens(all_queries);
+      ListIterator<String> it = queries.listIterator();
+      while (it.hasNext()) {
+        it.set(lefts + it.next() + " " + all_queries);
+      }
+    }
+  }
+
+  /** Output a left paren for every dangling right paren */
+  private static String magicParens(String allQueries) {
+    int addLefts = 0;
+    int cur = 0;
+    int next = 0;
+    while (true) {
+      next = allQueries.indexOf("(", cur);
+      if (next > -1) {
+        addLefts--;
+      } else {
+        next = allQueries.indexOf(")", cur);
+        if (next > -1) {
+          addLefts++;
+        } else {
+          break;
+        }
+      }
+      cur = next + 1;
+    }
+
+    StringBuffer parens = new StringBuffer();
+    for (; addLefts > 0; addLefts--) {
+      parens.append("(");
+    }
+    return parens.toString();
   }
 
   @Override

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALgn///7k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-13T02:43:06Z",
+      "side": 1,
+      "message": "Capitalisation in the email address seems to break hyperlinking on the change overview page.",
+      "revId": "fb534b5883af51f3c4f8da01a4484837f7a0be07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///7s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-13T02:43:06Z",
+      "side": 1,
+      "message": "availible -\u003e available",
+      "revId": "fb534b5883af51f3c4f8da01a4484837f7a0be07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///7o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-13T02:43:06Z",
+      "side": 1,
+      "message": "Add \" on this project\"?",
+      "revId": "fb534b5883af51f3c4f8da01a4484837f7a0be07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

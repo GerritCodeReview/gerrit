@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALgn///5g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T12:36:35Z",
+      "side": 1,
+      "message": "s/for all approvals/approvals",
+      "revId": "7697c5b79bf2ee36a0cfd2712ea624e160364dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///5k\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T12:36:35Z",
+      "side": 1,
+      "message": "Does it make sense to allow defining a default for all categories by setting\n  approval.stickThroughRebase\n?",
+      "revId": "7697c5b79bf2ee36a0cfd2712ea624e160364dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///50\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T12:36:35Z",
+      "side": 1,
+      "message": "The approvals are only copied if stickyness is configured for the approval category. I think the method description should be more precise and mention this.",
+      "revId": "7697c5b79bf2ee36a0cfd2712ea624e160364dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///5w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T12:36:35Z",
+      "side": 1,
+      "message": "Same as above.",
+      "revId": "7697c5b79bf2ee36a0cfd2712ea624e160364dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///54\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T12:36:35Z",
+      "side": 1,
+      "message": "In the commit message and in the documentation it is now \u0027approval\u0027 not \u0027approvals\u0027.",
+      "revId": "7697c5b79bf2ee36a0cfd2712ea624e160364dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///5s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T12:36:35Z",
+      "side": 1,
+      "message": "It would be better to insert all approvals at once after the loop has finished. We always try to minimize rountrips to the database.",
+      "revId": "7697c5b79bf2ee36a0cfd2712ea624e160364dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///5o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/RebaseChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T12:36:35Z",
+      "side": 1,
+      "message": "Since we have the db connection here, should we provide it to the method?",
+      "revId": "7697c5b79bf2ee36a0cfd2712ea624e160364dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

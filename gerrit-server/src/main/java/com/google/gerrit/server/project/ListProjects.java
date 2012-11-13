@@ -409,6 +409,7 @@ public class ListProjects {
   }
 
   private static class ProjectInfo {
+    @SuppressWarnings("unused")
     final String kind = "gerritcodereview#project";
     transient String name;
     String parent;

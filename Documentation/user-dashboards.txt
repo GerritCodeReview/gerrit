@@ -43,6 +43,22 @@ Parameters may be separated from each other using any of the following
 characters, as some users may find one more readable than another:
 `&` or `;` or `,`
 
+The special `all_queries=...` parameter is designed to facilitate
+designing similar queries in a dashboard.  The value of the all_queries 
+parameter will be used in all the queries in the dashboard by appending
+it to the end of the other queries with a space.  This makes the default
+behavior to AND this value with each of the queries in the dashboard.  
+However, to enable other ways of combining this parameter with queries,
+such as with an OR, each query is first surrounded by parenthesis
+before appending the all_queries value.
+
+Example custom dashboard using all_queries to constrain a dashboard
+to changes for the current user:
+
+----
+  /#/dashboard/?title=Mine&all_queries=self&My+Pending=is:open&My+Merged=is:merged
+----
+
 Project Dashboards
 ------------------
 
@@ -78,10 +94,11 @@ defining project dashboards on the All-Projects project.
 Project dashboard queries may contain the special `${project}` token
 which will be replaced with the project name to which the dashboard is
 being applied.  This is useful for defining dashboards designed to be
-inherited.  With this token, it is possible to cause a project
-dashboard to be restricted to only changes for the project in which
-an inherited dashboard is being applied by simply adding
-`project:${project}` to the queries in the dashboard.
+inherited.  With this token, it is possible to cause a query in a
+project dashboard to be restricted to only changes for the project in
+which an inherited dashboard is being applied by simply adding
+`project:${project}` to the query in the dashboard.  To constrain
+an entire dashboard use `all_queries:project:${project}`.
 
 Section main
 ~~~~~~~~~~~~

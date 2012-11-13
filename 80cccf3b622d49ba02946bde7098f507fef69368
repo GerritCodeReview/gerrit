@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALgn///4w\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T15:16:42Z",
+      "side": 1,
+      "message": "s/plugin/plugins",
+      "revId": "80cccf3b622d49ba02946bde7098f507fef69368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///4s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T15:16:42Z",
+      "side": 1,
+      "message": "s/contribute with/contribute",
+      "revId": "80cccf3b622d49ba02946bde7098f507fef69368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///4o\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T15:16:42Z",
+      "side": 1,
+      "message": "s/implementation to CommitValidatorListener/implementation of CommitValidatorListener",
+      "revId": "80cccf3b622d49ba02946bde7098f507fef69368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALgn///4k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationListener.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-13T15:16:42Z",
+      "side": 1,
+      "message": "This doesn\u0027t compile since the file name and interface name do not match.",
+      "revId": "80cccf3b622d49ba02946bde7098f507fef69368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

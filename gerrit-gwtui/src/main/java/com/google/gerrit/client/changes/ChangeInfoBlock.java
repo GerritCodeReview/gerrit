@@ -18,15 +18,24 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.AccountLink;
+import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.data.AccountInfoCache;
+import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
 public class ChangeInfoBlock extends Composite {
@@ -93,8 +102,7 @@ public class ChangeInfoBlock extends Composite {
     table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
     table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), chg
         .getProject(), chg.getStatus(), dst.get(), null));
-    table.setWidget(R_TOPIC, 1, new BranchLink(chg.getTopic(),
-        chg.getProject(), chg.getStatus(), dst.get(), chg.getTopic()));
+    table.setWidget(R_TOPIC, 1, topic(chg));
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
     table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));
@@ -123,4 +131,53 @@ public class ChangeInfoBlock extends Composite {
       table.getCellFormatter().removeStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
     }
   }
+
+  public Widget topic(final Change chg) {
+    final Branch.NameKey dst = chg.getDest();
+
+    FlowPanel fp = new FlowPanel();
+    fp.add(new BranchLink(chg.getTopic(), chg.getProject(), chg.getStatus(),
+           dst.get(), chg.getTopic()));
+
+    final Image edit = new Image(Gerrit.RESOURCES.edit());
+    edit.addClickHandler(new  ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        new AlterTopicDialog(chg).center();
+      }
+    });
+    edit.addStyleName(Gerrit.RESOURCES.css().changeInfoBlockEdit());
+    fp.add(edit);
+
+    return fp;
+  }
+
+  private class AlterTopicDialog extends CommentedActionDialog<ChangeDetail> {
+    TextBox newTopic;
+    Change change;
+
+    AlterTopicDialog(Change chg) {
+      super(Util.C.alterTopicTitle(), Util.C.headingAlterTopicMessage(),
+          new ChangeDetailCache.IgnoreErrorCallback());
+      change = chg;
+
+      newTopic = new TextBox();
+      panel.insert(newTopic, 0);
+      panel.insert(new InlineLabel("Alter topic to:"), 0);
+    }
+
+    @Override
+    protected void onLoad() {
+      super.onLoad();
+      newTopic.setText(change.getTopic());
+    }
+
+    @Override
+    public void onSend() {
+      String topic = newTopic.getText();
+      Util.DETAIL_SVC.alterTopic(change.getId(), topic,
+        getMessageText(), createCallback());
+    }
+  }
+
 }

@@ -897,6 +897,10 @@
   margin-right: 15px;
 }
 
+.changeInfoBlockEdit {
+  float: right;
+}
+
 .infoBlock {
   border-collapse: collapse;
   border-spacing: 0;

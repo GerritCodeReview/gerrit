@@ -16,6 +16,24 @@
       "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfH///9Q\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-13T21:58:48Z",
+      "side": 1,
+      "message": "Hi Martin\n\n so nice you to start review this topic now:)\n\nOK!\nthe background is the file-comments feature need each cell in table header accept click event.\n\nFor example in SidyBySidy diff view currently the table header is displayed by PatchTableHeader  which in fact are not in the PatchContentTable.  In PatchTableHeader there are 2 PatchSetSelectBox and their CSS style is controlled by PatchTableHeaderSideBySide.ui.xml.\n \nThis refactoring donot use PatchTableHeader anymore, it just allocate the PatchSetSelectBox directly in the cells of PatchContentTable \u0027s header thus in later feature of this topic\n \n  --it will be easy to prepare seats for icons for line number column header\n  --it will be easy to get the header of \u0027A\u0027 side or \u0027B\u0027 side be clickble. \n  --it will easy to control the CSS as the components are in cells of table after refactoring . the header columns will stand align with the content columns together. \n\nFor the case of Unified view,  the header have 2 rows , each row need be clickble and\n we need a boundary line between these 2 rows to make user be clear  which side s/he is clicking on,  \nonce user add file comments on \u0027A\u0027 side we need  add row between these 2 rows. \nwith this refactor these function will be easy to roll out.\n\n (I am not mean this is the only way to go \n hope I make it clear now :)  \n)\n\n\n/Bruce",
+      "parentUuid": "AAALgn///38\u003d",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

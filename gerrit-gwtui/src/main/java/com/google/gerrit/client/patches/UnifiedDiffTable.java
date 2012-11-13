@@ -66,6 +66,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   @Override
   protected void onCellSingleClick(int row, int column) {
+    super.onCellSingleClick(row, column);
     if (column == 1 || column == 2) {
       if (!"".equals(table.getText(row, column))) {
         onCellDoubleClick(row, column);

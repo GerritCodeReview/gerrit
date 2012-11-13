@@ -63,6 +63,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void onCellSingleClick(int row, int column) {
+    super.onCellSingleClick(row, column);
     if (column == 1 || column == 4) {
       onCellDoubleClick(row, column);
     }

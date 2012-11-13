@@ -22,7 +22,5 @@ public interface UIConstants extends Constants {
 
   String projectName();
   String projectDescription();
-  String projectListOpen();
-  String projectListPrev();
-  String projectListNext();
+  String projectItemHelp();
 }

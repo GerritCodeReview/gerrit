@@ -16,6 +16,24 @@
       "revId": "dccbcc887b219b07e0d6793f20834c548727ab6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfX///38\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/UniversalAuthBackend.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-13T03:34:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALgn///68\u003d",
+      "revId": "dccbcc887b219b07e0d6793f20834c548727ab6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

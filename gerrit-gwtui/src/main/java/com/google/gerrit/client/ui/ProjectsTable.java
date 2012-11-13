@@ -48,43 +48,6 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
   }
 
   @Override
-  protected MyFlexTable createFlexTable() {
-    MyFlexTable table = new MyFlexTable() {
-      @Override
-      public void onBrowserEvent(final Event event) {
-        switch (DOM.eventGetType(event)) {
-          case Event.ONCLICK: {
-            // Find out which cell was actually clicked.
-            final Element td = getEventTargetCell(event);
-            if (td == null) {
-              break;
-            }
-            final int row = rowOf(td);
-            if (getRowItem(row) != null) {
-              ProjectsTable.this.movePointerTo(row);
-              return;
-            }
-            break;
-          }
-          case Event.ONDBLCLICK: {
-            // Find out which cell was actually clicked.
-            Element td = getEventTargetCell(event);
-            if (td == null) {
-              return;
-            }
-            onOpenRow(rowOf(td));
-            return;
-          }
-        }
-        super.onBrowserEvent(event);
-      }
-    };
-
-    table.sinkEvents(Event.ONDBLCLICK | Event.ONCLICK);
-    return table;
-  }
-
-  @Override
   protected Object getRowItemKey(final ProjectInfo item) {
     return item.name();
   }

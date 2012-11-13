@@ -213,11 +213,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   public abstract void display(CommentDetail comments, boolean expandComments);
 
   @Override
-  protected MyFlexTable createFlexTable() {
-    return new DoubleClickFlexTable();
-  }
-
-  @Override
   protected Object getRowItemKey(final Object item) {
     return null;
   }
@@ -365,12 +360,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private boolean isComment(int row) {
     return getRowItem(row) instanceof CommentList;
   }
-
-  /** Invoked when the user double clicks on a table cell. */
-  protected abstract void onCellDoubleClick(int row, int column);
-
-  /** Invoked when the user clicks on a table cell. */
-  protected abstract void onCellSingleClick(int row, int column);
 
   /**
    * Invokes createCommentEditor() with an empty string as value for the comment
@@ -656,42 +645,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     final List<PatchLineComment> comments = new ArrayList<PatchLineComment>();
     final List<PublishedCommentPanel> panels =
         new ArrayList<PublishedCommentPanel>();
-  }
-
-  protected class DoubleClickFlexTable extends MyFlexTable {
-    public DoubleClickFlexTable() {
-      sinkEvents(Event.ONDBLCLICK | Event.ONCLICK);
-    }
-
-    @Override
-    public void onBrowserEvent(final Event event) {
-      switch (DOM.eventGetType(event)) {
-        case Event.ONCLICK: {
-          // Find out which cell was actually clicked.
-          final Element td = getEventTargetCell(event);
-          if (td == null) {
-            break;
-          }
-          final int row = rowOf(td);
-          if (getRowItem(row) != null) {
-            movePointerTo(row);
-            onCellSingleClick(rowOf(td), columnOf(td));
-            return;
-          }
-          break;
-        }
-        case Event.ONDBLCLICK: {
-          // Find out which cell was actually clicked.
-          Element td = getEventTargetCell(event);
-          if (td == null) {
-            return;
-          }
-          onCellDoubleClick(rowOf(td), columnOf(td));
-          return;
-        }
-      }
-      super.onBrowserEvent(event);
-    }
   }
 
   public static class NoOpKeyCommand extends NeedsSignInKeyCommand {

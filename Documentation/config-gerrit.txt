@@ -72,6 +72,27 @@ be added at once by adding a group as reviewer.
 +
 Default is 20.
 
+
+[[approval]]Section approval
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[approval.type.stickThroughRebase]]approval.<type>.stickThroughRebase::
++
+If set to true, approvals of type `<type>` will persist through
+rebases done through the WebUI button.
++
+By default, false for all types.
+
+Common examples:
+----
+[approval "CRVW"]
+  stickThroughRebase = true
+
+[approval "VRIF"]
+  stickThroughRebase = true
+----
+
+
 [[auth]]Section auth
 ~~~~~~~~~~~~~~~~~~~~
 

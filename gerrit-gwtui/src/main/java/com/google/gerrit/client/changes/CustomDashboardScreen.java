@@ -22,6 +22,7 @@ import com.google.gwt.http.client.URL;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class CustomDashboardScreen extends Screen implements ChangeListScreen {
   private String title;
@@ -33,6 +34,7 @@ public class CustomDashboardScreen extends Screen implements ChangeListScreen {
   public CustomDashboardScreen(String params) {
     titles = new ArrayList<String>();
     queries = new ArrayList<String>();
+    String all_queries = null;
     for (String kvPair : params.split("[,;&]")) {
       String[] kv = kvPair.split("=", 2);
       if (kv.length != 2 || kv[0].isEmpty()) {
@@ -41,9 +43,18 @@ public class CustomDashboardScreen extends Screen implements ChangeListScreen {
 
       if ("title".equals(kv[0])) {
         title = URL.decodeQueryString(kv[1]);
+      } else if ("all_queries".equals(kv[0])) {
+        all_queries = URL.decodeQueryString(kv[1]);
       } else {
         titles.add(URL.decodeQueryString(kv[0]));
         queries.add(URL.decodeQueryString(kv[1]));
+      }
+    }
+
+    if (all_queries != null) {
+      ListIterator<String> it = queries.listIterator();
+      while (it.hasNext()) {
+        it.set("(" + it.next() + ") " + all_queries);
       }
     }
   }

@@ -196,6 +196,12 @@ public class ListDashboards {
     if (seen.add(parent)) {
       dashboards = addProjectDashboards(projectState, dashboards);
     }
+
+    for (String id : dashboards.keySet()) {
+      DashboardInfo info = dashboards.get(id);
+      info.parameters = info.parameters.replaceAll("[$][{]project[}]", projectName.get());
+    }
+
     return dashboards;
   }
 
@@ -285,7 +291,9 @@ public class ListDashboards {
     }
 
     final Project.NameKey projectName = projectState.getProject().getNameKey();
-    return loadDashboard(projectControl, defaultDashboardId);
+    DashboardInfo info = loadDashboard(projectControl, defaultDashboardId);
+    info.parameters = info.parameters.replaceAll("[$][{]project[}]", projectName.get());
+    return info;
   }
 
   private DashboardInfo loadDashboard(final ProjectControl projectControl,

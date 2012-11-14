@@ -38,7 +38,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
   private final Provider<ReviewDb> dbProvider;
 
   public static class Input {
-    String message;
+    public String message;
   }
 
   @Inject

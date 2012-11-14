@@ -53,14 +53,15 @@ import javax.annotation.Nullable;
 /** Creates a {@link PatchSetDetail} from a {@link PatchSet}. */
 class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
-  private static final Logger log =
-    LoggerFactory.getLogger(PatchSetDetailFactory.class);
+  private static final Logger log = LoggerFactory
+      .getLogger(PatchSetDetailFactory.class);
 
   interface Factory {
     PatchSetDetailFactory create(
         @Assisted("psIdBase") @Nullable PatchSet.Id psIdBase,
         @Assisted("psIdNew") PatchSet.Id psIdNew,
-        @Nullable AccountDiffPreference diffPrefs);
+        @Nullable AccountDiffPreference diffPrefs,
+        @Assisted final String diffTyle);
   }
 
   private final PatchSetInfoFactory infoFactory;
@@ -72,6 +73,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final PatchSet.Id psIdBase;
   private final PatchSet.Id psIdNew;
   private final AccountDiffPreference diffPrefs;
+  private final String diffTyle;
   private ObjectId oldId;
   private ObjectId newId;
 
@@ -85,7 +87,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       final ChangeControl.Factory changeControlFactory,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
-      @Assisted @Nullable final AccountDiffPreference diffPrefs) {
+      @Assisted @Nullable final AccountDiffPreference diffPrefs,
+      @Assisted final String diffTyle) {
     this.infoFactory = psif;
     this.db = db;
     this.patchListCache = patchListCache;
@@ -94,6 +97,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
     this.diffPrefs = diffPrefs;
+    this.diffTyle = diffTyle;
   }
 
   @Override
@@ -116,7 +120,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
         projectKey = control.getProject().getNameKey();
 
-        list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
+        list = listFor(keyFor(diffPrefs.getIgnoreWhitespace(), diffTyle));
       } else { // OK, means use base to compare
         list = patchListCache.get(control.getChange(), patchSet);
       }
@@ -124,13 +128,14 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       throw new NoSuchEntityException();
     }
 
-    final List<Patch> patches = list.toPatchList(patchSet.getId());
+    final List<Patch> patches = list.toPatchList(psIdNew);
     final Map<Patch.Key, Patch> byKey = new HashMap<Patch.Key, Patch>();
     for (final Patch p : patches) {
       byKey.put(p.getKey(), p);
     }
 
-    for (final PatchLineComment c : db.patchComments().publishedByPatchSet(psIdNew)) {
+    for (final PatchLineComment c : db.patchComments().publishedByPatchSet(
+        psIdNew)) {
       final Patch p = byKey.get(c.getKey().getParentKey());
       if (p != null) {
         p.setCommentCount(p.getCommentCount() + 1);
@@ -150,14 +155,16 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       // quickly locate where they have pending drafts, and review them.
       //
       final Account.Id me = ((IdentifiedUser) user).getAccountId();
-      for (final PatchLineComment c : db.patchComments().draftByPatchSetAuthor(psIdNew, me)) {
+      for (final PatchLineComment c : db.patchComments().draftByPatchSetAuthor(
+          psIdNew, me)) {
         final Patch p = byKey.get(c.getKey().getParentKey());
         if (p != null) {
           p.setDraftCount(p.getDraftCount() + 1);
         }
       }
 
-      for (AccountPatchReview r : db.accountPatchReviews().byReviewer(me, psIdNew)) {
+      for (AccountPatchReview r : db.accountPatchReviews().byReviewer(me,
+          psIdNew)) {
         final Patch p = byKey.get(r.getKey().getPatchKey());
         if (p != null) {
           p.setReviewedByCurrentUser(true);
@@ -183,8 +190,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     }
   }
 
-  private PatchListKey keyFor(final Whitespace whitespace) {
-    return new PatchListKey(projectKey, oldId, newId, whitespace);
+  private PatchListKey keyFor(final Whitespace whitespace, String diffType) {
+    return new PatchListKey(projectKey, oldId, newId, whitespace, diffType);
   }
 
   private PatchList listFor(PatchListKey key)

@@ -295,7 +295,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     currentDepChanges = new ArrayList<Change>();
     final PatchSet currentPatch = findCurrentOrLatestPatchSet();
     final PatchSet.Id psId = currentPatch.getId();
-    final PatchSetDetailFactory loader = patchSetDetail.create(null, psId, null);
+    final PatchSetDetailFactory loader =
+        patchSetDetail.create(null, psId, null, "0");
     loader.patchSet = currentPatch;
     loader.control = control;
     detail.setCurrentPatchSetDetail(loader.call());

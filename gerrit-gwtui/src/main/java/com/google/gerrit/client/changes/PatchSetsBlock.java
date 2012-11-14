@@ -106,10 +106,11 @@ public class PatchSetsBlock extends Composite {
     patchSetPanels.clear();
   }
 
-  public void refresh(final PatchSet.Id diffBaseId) {
+  public void refresh(final PatchSet.Id diffBaseId, final String diffType) {
     if (patchSetPanelsList != null) {
       for (final PatchSetComplexDisclosurePanel p : patchSetPanelsList) {
         p.setDiffBaseId(diffBaseId);
+        p.setDiffType(diffType);
         if (p.isOpen()) {
           p.refresh();
         }

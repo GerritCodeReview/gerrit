@@ -128,6 +128,7 @@ public interface ChangeConstants extends Constants {
   String headingAbandonMessage();
   String abandonChangeTitle();
   String oldVersionHistory();
+  String diffTypeList();
   String baseDiffItem();
   String autoMerge();
 

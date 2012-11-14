@@ -80,6 +80,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   private final Set<ClickHandler> registeredClickHandler =  new HashSet<ClickHandler>();
 
   private PatchSet.Id diffBaseId;
+  private String diffType;
 
   /**
    * Creates a closed complex disclosure panel for a patch set.
@@ -121,6 +122,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
 
   public void setDiffBaseId(PatchSet.Id diffBaseId) {
     this.diffBaseId = diffBaseId;
+  }
+
+  public void setDiffType(String diffType) {
+    this.diffType = diffType;
   }
 
   /**
@@ -699,7 +704,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       }
 
       Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs,
-          new GerritCallback<PatchSetDetail>() {
+          diffType, new GerritCallback<PatchSetDetail>() {
             @Override
             public void onSuccess(PatchSetDetail result) {
               if (actionsPanel != null) {
@@ -724,7 +729,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       }
 
       Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs,
-          new GerritCallback<PatchSetDetail>() {
+          diffType, new GerritCallback<PatchSetDetail>() {
             public void onSuccess(final PatchSetDetail result) {
               loadInfoTable(result);
               loadActionPanel(result);

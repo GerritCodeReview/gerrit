@@ -81,6 +81,7 @@ public class ChangeScreen extends Screen
 
   private Grid patchesGrid;
   private ListBox patchesList;
+  private ListBox diffTypeList;
 
   /**
    * The change id for which the old version history is valid.
@@ -214,6 +215,7 @@ public class ChangeScreen extends Screen
       @Override
       public void onChange(ChangeEvent event) {
         final int index = patchesList.getSelectedIndex();
+        final String diffTyle = diffTypeList.getValue(diffTypeList.getSelectedIndex());
         final String selectedPatchSet = patchesList.getValue(index);
         if (index == 0) {
           diffBaseId = null;
@@ -221,15 +223,19 @@ public class ChangeScreen extends Screen
           diffBaseId = PatchSet.Id.parse(selectedPatchSet);
         }
         if (patchSetsBlock != null) {
-          patchSetsBlock.refresh(diffBaseId);
+          patchSetsBlock.refresh(diffBaseId, diffTyle);
         }
       }
     });
 
-    patchesGrid = new Grid(1, 2);
+    patchesGrid = new Grid(1, 4);
     patchesGrid.setStyleName(Gerrit.RESOURCES.css().selectPatchSetOldVersion());
     patchesGrid.setText(0, 0, Util.C.oldVersionHistory());
     patchesGrid.setWidget(0, 1, patchesList);
+
+    patchesGrid.setStyleName(Gerrit.RESOURCES.css().diffTypeList());
+    patchesGrid.setText(0, 2, Util.C.diffTypeList());
+    patchesGrid.setWidget(0, 3, diffTypeList);
     add(patchesGrid);
 
     patchSetsBlock = new PatchSetsBlock();
@@ -302,6 +308,12 @@ public class ChangeScreen extends Screen
     if (diffBaseId != null && patchesList != null) {
       patchesList.setSelectedIndex(diffBaseId.get());
     }
+
+    diffTypeList.addItem("Default","0");
+    diffTypeList.addItem("Filter out irrelevant files","1");
+    diffTypeList.addItem("Rebase Old PS before comparing","2");
+    diffTypeList.addItem("Rebase New PS before comparing","3");
+    diffTypeList.setSelectedIndex(0);
 
     patchSetsBlock.display(detail, diffBaseId);
     addComments(detail);

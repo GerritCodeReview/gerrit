@@ -37,7 +37,8 @@ public interface ChangeDetailService extends RemoteJsonService {
 
   @Audit
   void patchSetDetail2(PatchSet.Id baseId, PatchSet.Id key,
-      AccountDiffPreference diffPrefs, AsyncCallback<PatchSetDetail> callback);
+      AccountDiffPreference diffPrefs, String diffType,
+      AsyncCallback<PatchSetDetail> callback);
 
   @SignInRequired
   void patchSetPublishDetail(PatchSet.Id key,

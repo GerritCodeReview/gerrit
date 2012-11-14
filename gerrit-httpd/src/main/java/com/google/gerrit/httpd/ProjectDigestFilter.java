@@ -20,6 +20,7 @@ import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -109,10 +110,9 @@ class ProjectDigestFilter implements Filter {
   private boolean verify(HttpServletRequest req, Response rsp)
       throws IOException {
     final String hdr = req.getHeader(AUTHORIZATION);
-    if (hdr == null) {
+    if (hdr == null || !hdr.startsWith("Digest ")) {
       // Allow an anonymous connection through, or it might be using a
       // session cookie instead of digest authentication.
-      //
       return true;
     }
 
@@ -164,7 +164,10 @@ class ProjectDigestFilter implements Filter {
     if (expect.equals(response)) {
       try {
         if (tokens.checkToken(nonce, "") != null) {
-          session.get().setUserAccountId(who.getAccount().getId());
+          WebSession ws = session.get();
+          ws.setUserAccountId(who.getAccount().getId());
+          ws.setAccessPathOk(AccessPath.GIT, true);
+          ws.setAccessPathOk(AccessPath.REST_API, true);
           return true;
 
         } else {
@@ -229,12 +232,6 @@ class ProjectDigestFilter implements Filter {
   }
 
   private Map<String, String> parseAuthorization(String auth) {
-    if (!auth.startsWith("Digest ")) {
-      // We only support Digest authentication scheme, deny the rest.
-      //
-      return Collections.emptyMap();
-    }
-
     Map<String, String> p = new HashMap<String, String>();
     int next = "Digest ".length();
     while (next < auth.length()) {

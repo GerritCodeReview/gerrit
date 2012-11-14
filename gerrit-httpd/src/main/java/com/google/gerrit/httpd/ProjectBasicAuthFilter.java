@@ -18,6 +18,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -103,10 +104,9 @@ class ProjectBasicAuthFilter implements Filter {
   private boolean verify(HttpServletRequest req, Response rsp)
       throws IOException {
     final String hdr = req.getHeader(AUTHORIZATION);
-    if (hdr == null) {
+    if (hdr == null || !hdr.startsWith(LIT_BASIC)) {
       // Allow an anonymous connection through, or it might be using a
       // session cookie instead of basic authentication.
-      //
       return true;
     }
 
@@ -142,7 +142,10 @@ class ProjectBasicAuthFilter implements Filter {
 
     try {
       AuthResult whoAuthResult = accountManager.authenticate(whoAuth);
-      session.get().setUserAccountId(whoAuthResult.getAccountId());
+      WebSession ws = session.get();
+      ws.setUserAccountId(whoAuthResult.getAccountId());
+      ws.setAccessPathOk(AccessPath.GIT, true);
+      ws.setAccessPathOk(AccessPath.REST_API, true);
       return true;
     } catch (AccountException e) {
       log.warn("Authentication failed for " + username, e);

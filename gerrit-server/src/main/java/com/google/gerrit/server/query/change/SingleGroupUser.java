@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityControl;
 import com.google.gerrit.server.account.GroupMembership;
@@ -37,7 +36,7 @@ public final class SingleGroupUser extends CurrentUser {
 
   public SingleGroupUser(CapabilityControl.Factory capabilityControlFactory,
       Set<AccountGroup.UUID> groups) {
-    super(capabilityControlFactory, AccessPath.UNKNOWN);
+    super(capabilityControlFactory);
     this.groups = new ListGroupMembership(groups);
   }
 

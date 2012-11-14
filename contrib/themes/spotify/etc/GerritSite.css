@@ -1,0 +1,113 @@
+#gerrit_topmenu {
+	font-size: 9pt !important;
+	padding-top: 5px !important;
+	padding-left: 15px !important;
+	padding-right: 15px !important;
+	background: url(static/background-spotigreen.jpg) !important;
+	float: left !important;
+	margin-left: 250px !important;
+	margin-right: 150px !important;
+	border-radius: 0 0 10px 10px !important;
+	padding-bottom: 10px !important;
+	border-bottom: 1px solid #abc506 !important;
+	border-right: 1px solid #abc506 !important;
+	border-left: 1px solid #abc506 !important;
+}
+
+body, .gwt-DialogBox .dialogMiddleCenter {
+	background: #FFF url(static/background-gradient.png) no-repeat !important;
+}
+
+#logo-spotify {
+	background: url(static/logo.png) no-repeat;
+	height: 98px;
+	width: 228px;
+	margin-left: 2px;
+}
+
+#gerrit_header {
+	background: #FCFEEF;
+	padding-bottom: 10px;
+	border-bottom: dashed 1px rgba(0, 0, 0, 0.05);
+}
+
+#gerrit_topmenu .gwt-TextBox {
+	margin-top: 15px;
+	width: 240px;
+}
+
+#gerrit_topmenu > table {
+    float: left;
+}
+
+#gerrit_topmenu > table > tbody > tr > td:nth-child(3) a {
+	margin-left: 5px;
+	background-color: #FFC;
+	border-radius: 3px;
+	padding: 5px 5px;
+	border-right: none !important;
+}
+
+.gwt-TabPanelBottom {
+	background: #FFC !important;
+	border-radius: 0 0 3px 3px !important;
+	padding-bottom: 6px !important;
+	padding-top: 6px !important;
+}
+
+.gwt-TabBar .gwt-TabBarItem, .gwt-TabBar .gwt-TabBarRest, .gwt-TabBar .gwt-TabPanelBottom {
+	background: transparent !important;
+}
+
+.gwt-TabBarItem-wrapper {
+	background: rgba(255, 255, 255, 0.2) !important;
+}
+
+#gerrit_topmenu .gwt-TabBar .gwt-TabBarItem-selected {
+	background: #FFC !important;
+	border-radius: 3px 3px 0 0 !important;
+}
+
+#gerrit_topmenu .gwt-TabBar .gwt-TabBarItem-selected:hover {
+	background: #FFC !important;
+}
+
+#gerrit_topmenu .gwt-TabBar .gwt-TabBarItem-selected:focus {
+	outline: none !important;
+}
+
+#gerrit_topmenu > table > tbody > tr > td > table {
+	border: none !important;
+}
+
+.gwt-TabBar {
+	border-bottom: 1px solid #E2E2AD !important;
+}
+
+.gwt-TabBarItem {
+	border-right: 1px solid rgba(79, 58, 0, 0.3) !important;
+	background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.gwt-TabBarItem:hover {
+	background: rgba(255, 255, 255, 0.1) !important;
+}
+
+a, a:visited {
+	text-decoration: none !important;
+	color: #3F4D00 !important;
+}
+
+a:hover {
+	color: #5d7200 !important;
+	text-decoration: underline !important;
+}
+
+.gwt-Label {
+height: 30px !important;
+line-height: 30px !important;
+}
+
+#gerrit_btmmenu > div {
+	color: rgba(0, 0, 0, 0.3) !important;
+}

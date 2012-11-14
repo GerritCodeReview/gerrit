@@ -119,6 +119,24 @@
       "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmn////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-14T18:32:38Z",
+      "side": 1,
+      "message": "Rename it to \"summary\" or something like that?  I have another commit based on this that adds a list of messages.",
+      "parentUuid": "AAALjX////M\u003d",
+      "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

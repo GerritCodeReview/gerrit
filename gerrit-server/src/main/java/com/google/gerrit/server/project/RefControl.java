@@ -327,6 +327,11 @@ public class RefControl {
     return canPerform(Permission.REMOVE_REVIEWER);
   }
 
+  /** @return true if this user can view draft changes. */
+  public boolean canViewDrafts() {
+    return canPerform(Permission.VIEW_DRAFTS);
+  }
+
   /** All value ranges of any allowed label permission. */
   public List<PermissionRange> getLabelRanges() {
     List<PermissionRange> r = new ArrayList<PermissionRange>();

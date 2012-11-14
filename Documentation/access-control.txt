@@ -759,6 +759,18 @@ In order to submit, all approval categories (such as `Verified` and
 See above for details on each category.
 
 
+[[category_view_drafts]]
+View Drafts
+~~~~~~~~~~~
+
+This category permits users to view draft changes uploaded by other
+users.
+
+The change owner and any explicitly added reviewers can always see
+draft changes (even without having the `View Drafts` access right
+assigned).
+
+
 [[category_makeoneup]]
 Your Category Here
 ~~~~~~~~~~~~~~~~~~

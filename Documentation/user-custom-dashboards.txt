@@ -62,6 +62,9 @@ Example dashboard config file `MyProject Dashboard`:
   query = status:merged project:myProject limit:15
 ----
 
+Project dashboards are inherited from ancestor projects unless
+overridden by dashboards with the same ref and name.
+
 Section main
 ~~~~~~~~~~~~
 

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALmn////g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-14T18:16:03Z",
+      "side": 1,
+      "message": "Please add issue tracker line:\n\n Bug: Issue 1312\n\nin the footer of the commit message",
+      "revId": "ccc87a8bf9e6663c09bba53cc79692fdc4943e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALfH///8w\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
         "patchSetId": 1

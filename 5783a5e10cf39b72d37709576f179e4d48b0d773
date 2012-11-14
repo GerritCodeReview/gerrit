@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALmX////Y\u003d",
+        "filename": "Documentation/error-prohibited-by-gerrit-invalid-commit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-14T22:27:00Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "AAALjn///9Y\u003d",
+      "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALjn///9k\u003d",
         "filename": "Documentation/error-prohibited-by-gerrit-invalid-commit.txt",
         "patchSetId": 20
@@ -54,6 +72,42 @@
     },
     {
       "key": {
+        "uuid": "AAALmX////k\u003d",
+        "filename": "Documentation/error-prohibited-by-gerrit-invalid-commit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-14T22:27:00Z",
+      "side": 1,
+      "message": "Good point: we can prefix (from plugin X) so troubleshoot wouldn\u0027t be a nightmare then ;-)",
+      "parentUuid": "AAALjn///8E\u003d",
+      "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmX////o\u003d",
+        "filename": "Documentation/error-prohibited-by-gerrit-invalid-commit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-14T22:27:00Z",
+      "side": 1,
+      "message": "Right, if this is a real failure it is only ONE then.\n\nCorrect on the second point as well: will fix it.",
+      "parentUuid": "AAALjn///9k\u003d",
+      "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALjn///9U\u003d",
         "filename": "Documentation/error-prohibited-by-gerrit-invalid-commit.txt",
         "patchSetId": 20
@@ -65,6 +119,24 @@
       "writtenOn": "2012-11-14T07:04:34Z",
       "side": 1,
       "message": "s/on/in the",
+      "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmX////g\u003d",
+        "filename": "Documentation/error-prohibited-by-gerrit-invalid-commit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-14T22:27:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALjn///9U\u003d",
       "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "AAALmX////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-14T22:27:00Z",
+      "side": 1,
+      "message": "We wanted to introduce the concept of warning as well: it is really \"why\" because it could be actually validated BUT you may want to explain to your user that there were issues or messages to be sent back to him on this commit.\n\nDoes this make sense ?",
+      "parentUuid": "AAALjX////Q\u003d",
+      "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALjn///9c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
         "patchSetId": 20
@@ -99,6 +189,24 @@
       "writtenOn": "2012-11-14T07:04:34Z",
       "side": 1,
       "message": "Would be nice to have a comment on this method, to be consistent with the rest.",
+      "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmX////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-14T22:27:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALjn///9c\u003d",
       "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -134,6 +242,24 @@
       "side": 1,
       "message": "Rename it to \"summary\" or something like that?  I have another commit based on this that adds a list of messages.",
       "parentUuid": "AAALjX////M\u003d",
+      "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmX////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-14T22:27:00Z",
+      "side": 1,
+      "message": "True ... summary is better.\n\nIn case of validated \u003d false \u003d\u003e this is why it failed.\nIn case of validated \u003d true \u003d\u003e this is an additional summary of things to be aware of.\n\nBetter \"message\" I would say then: it is a message to the user (error or warning).",
+      "parentUuid": "AAALmn////M\u003d",
       "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

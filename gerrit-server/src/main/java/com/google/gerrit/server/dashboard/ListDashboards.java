@@ -45,6 +45,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -111,7 +112,7 @@ public class ListDashboards {
       if (level != null) {
         switch (level) {
           case PROJECT:
-            output = projectDashboards(new Project.NameKey(entityName));
+            output = allDashboardsFor(new Project.NameKey(entityName));
             break;
           default:
             throw new IllegalStateException("unsupported dashboard level: " + level);
@@ -128,15 +129,50 @@ public class ListDashboards {
     }
   }
 
-  private Map<String, DashboardInfo> projectDashboards(final Project.NameKey projectName) {
+  private Map<String, DashboardInfo> allDashboardsFor(
+      final Project.NameKey projectName) {
+    ProjectState projectState = projectCache.get(projectName);
+    Project.NameKey parent;
+
+    Map<String, DashboardInfo> dashboards = Maps.newTreeMap();
+    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    seen.add(projectName);
+    do {
+      dashboards = addProjectDashboards(projectState, dashboards);
+
+      parent = projectState.getProject().getParent();
+      if (parent == null || !seen.add(parent)) {
+        break;
+      }
+
+      projectState = projectCache.get(parent);
+    } while (projectState  != null);
+
+    projectState = projectCache.getAllProjects();
+    parent = projectState.getProject().getNameKey();
+    if (seen.add(parent)) {
+      dashboards = addProjectDashboards(projectState, dashboards);
+    }
+
+    return dashboards;
+  }
+
+  private Map<String, DashboardInfo> addProjectDashboards(
+      final ProjectState projectState, Map<String, DashboardInfo> all) {
+    final Map<String, DashboardInfo> dashboards = projectDashboards(projectState);
+    dashboards.putAll(all);
+    return dashboards;
+  }
+
+  private Map<String, DashboardInfo> projectDashboards(final ProjectState projectState) {
     final Map<String, DashboardInfo> output = Maps.newTreeMap();
 
-    final ProjectState projectState = projectCache.get(projectName);
     final ProjectControl projectControl = projectState.controlFor(currentUser);
     if (projectState == null || !projectControl.isVisible()) {
       return output;
     }
 
+    final Project.NameKey projectName = projectState.getProject().getNameKey();
     Repository repo = null;
     RevWalk revWalk = null;
     try {

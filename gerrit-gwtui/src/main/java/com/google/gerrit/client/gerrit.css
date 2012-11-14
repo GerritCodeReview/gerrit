@@ -13,26 +13,10 @@
  * limitations under the License.
  */
 
-@external .gwt-Button;
-@external .gwt-TabBar;
-@external .gwt-TabBarFirst;
-@external .gwt-TabBarItem;
-@external .gwt-TabBarItem-selected;
-@external .gwt-TabBarRest;
-@external .gwt-TabPanelBottom;
-@external .gwt-TextBox;
-@external .gwt-Hyperlink;
-@external .gwt-CheckBox;
-@external .gwt-DisclosurePanel, .header, .content;
-@external .gwt-InlineLabel;
-@external .gwt-InlineHyperlink;
-@external .gwt-RadioButton;
-
-@external .searchPanel;
-@external .smallHeading;
-@external .wdi;
-@external .wdd;
-@external .wdc;
+/**
+ * Make every single class external so users can rely on their names
+ */
+@external .*;
 
 @def black #000000;
 @def white #ffffff;

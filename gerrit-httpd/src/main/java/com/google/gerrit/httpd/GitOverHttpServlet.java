@@ -18,7 +18,9 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
@@ -157,8 +159,12 @@ public class GitOverHttpServlet extends GitServlet {
       } catch (NoSuchProjectException err) {
         throw new RepositoryNotFoundException(projectName);
       }
+
+      CurrentUser user = pc.getCurrentUser();
+      user.setAccessPath(AccessPath.GIT);
+
       if (!pc.isVisible()) {
-        if (pc.getCurrentUser() instanceof AnonymousUser) {
+        if (user instanceof AnonymousUser) {
           throw new ServiceNotAuthorizedException();
         } else {
           throw new ServiceNotEnabledException();

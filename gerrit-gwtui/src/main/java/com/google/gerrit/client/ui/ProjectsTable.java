@@ -17,7 +17,6 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import java.util.Collections;
@@ -27,11 +26,7 @@ import java.util.List;
 public class ProjectsTable extends NavigationTable<ProjectInfo> {
 
   public ProjectsTable() {
-    keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.projectListPrev()));
-    keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.projectListNext()));
-    keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.projectListOpen()));
-    keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER,
-                                                  Util.C.projectListOpen()));
+    super(Util.C.projectItemHelp());
     initColumnHeaders();
   }
 

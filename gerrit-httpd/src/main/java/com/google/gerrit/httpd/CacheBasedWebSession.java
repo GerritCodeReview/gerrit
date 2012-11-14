@@ -86,8 +86,8 @@ public final class CacheBasedWebSession implements WebSession {
     this.identified = identified;
 
     String cookie = request.getHeader("Authorization");
-    if (cookie != null && cookie.startsWith("OAuth ")) {
-      cookie = cookie.substring("OAuth ".length());
+    if (cookie != null && cookie.startsWith("Bearer ")) {
+      cookie = cookie.substring("Bearer ".length());
       accessPath = AccessPath.REST_API;
     } else if (cookie != null && GitSmartHttpTools.isGitClient(request)) {
       accessPath = AccessPath.GIT;
@@ -133,8 +133,8 @@ public final class CacheBasedWebSession implements WebSession {
     return val != null;
   }
 
-  public String getAccessToken() {
-    return isSignedIn() ? key.getToken() : null;
+  public String getAuthorization() {
+    return isSignedIn() ? "Bearer " + key.getToken() : null;
   }
 
   public AccountExternalId.Key getLastLoginExternalId() {

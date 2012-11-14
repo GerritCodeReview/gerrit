@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.auth;
 
+import com.google.common.base.Objects;
+
 import javax.annotation.Nullable;
 
 /**
@@ -46,5 +48,11 @@ public abstract class AuthRequest {
   @Nullable
   public final String getPassword() {
     return password;
+  }
+
+  public void checkPassword(String pwd) throws AuthException {
+    if (!Objects.equal(getPassword(), pwd)) {
+      throw new InvalidCredentialsException();
+    }
   }
 }

@@ -34,6 +34,7 @@ import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountVisibility;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -59,6 +60,7 @@ import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
 import com.google.gerrit.server.mail.VelocityRuntimeProvider;
@@ -72,6 +74,8 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectNode;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionSortCache;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeQueryRewriter;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -129,12 +133,17 @@ public class GerritGlobalModule extends FactoryModule {
     install(ChangeCache.module());
 
     install(new AccessControlModule());
+    install(new EmailModule());
     install(new GitModule());
     install(new PrologModule());
     install(ThreadLocalRequestContext.module());
 
+    bind(AccountResolver.class);
+    bind(ChangeQueryRewriter.class);
+
     factory(AccountInfoCacheFactory.Factory.class);
     factory(CapabilityControl.Factory.class);
+    factory(ChangeQueryBuilder.Factory.class);
     factory(GroupInfoCacheFactory.Factory.class);
     factory(InternalUser.Factory.class);
     factory(ProjectNode.Factory.class);

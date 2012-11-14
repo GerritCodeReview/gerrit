@@ -19,9 +19,11 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -91,11 +93,17 @@ public class ChangeMergeQueue implements MergeQueue {
 
       @Provides
       public PerThreadRequestScope.Scoper provideScoper(
-          final PerThreadRequestScope.Propagator propagator) {
+          final PerThreadRequestScope.Propagator propagator,
+          final Provider<RequestScopedReviewDbProvider> dbProvider) {
         final RequestContext requestContext = new RequestContext() {
           @Override
           public CurrentUser getCurrentUser() {
             throw new OutOfScopeException("No user on merge thread");
+          }
+
+          @Override
+          public Provider<ReviewDb> getReviewDbProvider() {
+            return dbProvider.get();
           }
         };
         return new PerThreadRequestScope.Scoper() {

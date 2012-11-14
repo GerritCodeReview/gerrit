@@ -16,22 +16,15 @@ package com.google.gerrit.httpd.rpc.changedetail;
 
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ReviewResult;
-import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.extensions.restapi.InvalidApiCallException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.changedetail.AbandonChange;
-import com.google.gerrit.server.mail.EmailException;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.change.Abandon;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-
-import java.io.IOException;
 
 import javax.annotation.Nullable;
 
@@ -41,7 +34,9 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
     AbandonChangeHandler create(PatchSet.Id patchSetId, String message);
   }
 
-  private final Provider<AbandonChange> abandonChangeProvider;
+  private final ChangeControl.Factory changeControlFactory;
+  private final ChangeResource.Factory changeResourceFactory;
+  private final Abandon abandon;
   private final ChangeDetailFactory.Factory changeDetailFactory;
 
   private final PatchSet.Id patchSetId;
@@ -49,11 +44,15 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
   private final String message;
 
   @Inject
-  AbandonChangeHandler(final Provider<AbandonChange> abandonChangeProvider,
+  AbandonChangeHandler(final ChangeControl.Factory changeControlFactory,
+      final ChangeResource.Factory changeResourceFactory,
+      final Abandon abandon,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message) {
-    this.abandonChangeProvider = abandonChangeProvider;
+    this.changeControlFactory = changeControlFactory;
+    this.changeResourceFactory = changeResourceFactory;
+    this.abandon = abandon;
     this.changeDetailFactory = changeDetailFactory;
 
     this.patchSetId = patchSetId;
@@ -61,14 +60,13 @@ class AbandonChangeHandler extends Handler<ChangeDetail> {
   }
 
   @Override
-  public ChangeDetail call() throws NoSuchChangeException, OrmException,
-      EmailException, NoSuchEntityException, InvalidChangeOperationException,
-      PatchSetInfoNotAvailableException, RepositoryNotFoundException,
-      IOException {
-    final AbandonChange abandonChange = abandonChangeProvider.get();
-    abandonChange.setChangeId(patchSetId.getParentKey());
-    abandonChange.setMessage(message);
-    final ReviewResult result = abandonChange.call();
+  public ChangeDetail call() throws InvalidApiCallException, Exception {
+    final Abandon.Input input = new Abandon.Input();
+    input.message = message;
+    ChangeControl ctl =
+        changeControlFactory.controlFor(patchSetId.getParentKey());
+    ChangeResource req = changeResourceFactory.create(ctl);
+    final ReviewResult result = (ReviewResult) abandon.apply(req, input);
     if (result.getErrors().size() > 0) {
       throw new NoSuchChangeException(result.getChangeId());
     }

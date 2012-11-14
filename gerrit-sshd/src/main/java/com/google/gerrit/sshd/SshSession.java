@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 
 import org.apache.sshd.common.Session.AttributeKey;
@@ -43,6 +44,7 @@ public class SshSession {
   }
 
   SshSession(SshSession parent, SocketAddress peer, CurrentUser user) {
+    user.setAccessPath(AccessPath.SSH_COMMAND);
     this.sessionId = parent.sessionId;
     this.remoteAddress = peer;
     if (parent.remoteAddress == peer) {
@@ -81,6 +83,10 @@ public class SshSession {
     username = user;
     identity = null;
     authError = error;
+  }
+
+  void setAccessPath(AccessPath path) {
+    identity.setAccessPath(path);
   }
 
   /** @return {@code true} if the authentication did not succeed. */

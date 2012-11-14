@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -99,7 +100,10 @@ class ContainerAuthFilter implements Filter {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
-    session.get().setUserAccountId(who.getAccount().getId());
+    WebSession ws = session.get();
+    ws.setUserAccountId(who.getAccount().getId());
+    ws.setAccessPathOk(AccessPath.GIT, true);
+    ws.setAccessPathOk(AccessPath.REST_API, true);
     return true;
   }
 }

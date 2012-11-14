@@ -16,6 +16,24 @@
       "revId": "8b407039f26397bdc26480160c23d5c929b2aa30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALjn///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AlterTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-14T00:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALgn///3c\u003d",
+      "revId": "8b407039f26397bdc26480160c23d5c929b2aa30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

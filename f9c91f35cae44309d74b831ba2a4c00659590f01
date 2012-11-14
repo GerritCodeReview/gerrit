@@ -16,6 +16,24 @@
       "revId": "f9c91f35cae44309d74b831ba2a4c00659590f01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALjn///9M\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-14T07:06:18Z",
+      "side": 1,
+      "message": "Hmm.  The Change-Id line was added by the commit-msg hook.  It usually puts it in the right place.  Thanks for fixing it.",
+      "parentUuid": "AAALfH///6c\u003d",
+      "revId": "f9c91f35cae44309d74b831ba2a4c00659590f01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

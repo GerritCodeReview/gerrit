@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALmn///98\u003d",
+        "filename": "Documentation/user-custom-dashboards.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-14T22:12:26Z",
+      "side": 1,
+      "message": "s/on project/ at a project/\n\nMaybe: s/level.  To do this define/ by defining/",
+      "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmn///90\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-14T22:12:26Z",
+      "side": 1,
+      "message": "nit: unneeded wrap?",
+      "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmn///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-14T22:12:26Z",
+      "side": 1,
+      "message": "Me hates \"output\". :(",
+      "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmn///9o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-14T22:12:26Z",
+      "side": 1,
+      "message": "You don\u0027t want to create many RevWalkers here, one should do.",
+      "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmn///9s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-14T22:12:26Z",
+      "side": 1,
+      "message": "Maybe put the project and refname in this message (and other similar ones)?",
+      "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

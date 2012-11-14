@@ -87,7 +87,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
   }
 
   protected void populate(final int row, final DashboardInfo k) {
-    table.setWidget(row, 1, new Anchor(k.name(), "#" + link(k)));
+    table.setWidget(row, 1, new Anchor(k.name() + " " + k.isDefault(), "#" + link(k)));
     table.setText(row, 2, k.description());
 
     setRowItem(row, k);

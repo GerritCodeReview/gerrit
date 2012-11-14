@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfH///5k\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-14T05:37:23Z",
+      "side": 1,
+      "message": "s/incomming/incoming",
+      "revId": "fd63419eadf2eff2e302a00151218b8bd4925c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfH///5g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthBackend.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-14T05:37:23Z",
+      "side": 1,
+      "message": "Can the crendentials be verified as valid if there is no matching user?",
+      "revId": "fd63419eadf2eff2e302a00151218b8bd4925c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

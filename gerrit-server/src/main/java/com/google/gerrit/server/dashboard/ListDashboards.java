@@ -150,7 +150,7 @@ public class ListDashboards {
   }
 
   private Map<String, DashboardInfo> allDashboardsFor(ProjectState projectState,
-        final String defaultId) {
+      final String defaultId) {
     final Project.NameKey projectName = projectState.getProject().getNameKey();
     Project.NameKey parent;
 
@@ -164,7 +164,15 @@ public class ListDashboards {
       projectState = projectCache.get(parent);
     } while (projectState != null && seen.add(parent));
 
+    for (String id : dashboards.keySet()) {
+      replaceTokens(dashboards.get(id), projectName.get());
+    }
+
     return dashboards;
+  }
+
+  private static void replaceTokens(DashboardInfo info, String project) {
+    info.parameters = info.parameters.replaceAll("[$][{]project[}]", project);
   }
 
   private Map<String, DashboardInfo> addProjectDashboards(
@@ -253,14 +261,15 @@ public class ListDashboards {
     do {
       info = loadProjectDefaultDashboard(projectState, considerLocal);
       if (info != null) {
-         return info;
+        replaceTokens(info, projectName.get());
+        return info;
       }
       considerLocal = false;
 
       parent =  projectState.getProject().getParent(allProjects);
       projectState = projectCache.get(parent);
     } while (projectState != null && seen.add(parent));
-    return info;
+    return null;
   }
 
   private DashboardInfo loadProjectDefaultDashboard(final ProjectState projectState,

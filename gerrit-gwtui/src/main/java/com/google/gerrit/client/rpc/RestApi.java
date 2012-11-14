@@ -162,8 +162,8 @@ public class RestApi {
   public <T extends JavaScriptObject> void send(final AsyncCallback<T> cb) {
     RequestBuilder req = new RequestBuilder(RequestBuilder.GET, url.toString());
     req.setHeader("Accept", JsonConstants.JSON_TYPE);
-    if (Gerrit.getAccessToken() != null) {
-      req.setHeader("Authorization", "OAuth " + Gerrit.getAccessToken());
+    if (Gerrit.getAuthorization() != null) {
+      req.setHeader("Authorization", Gerrit.getAuthorization());
     }
     req.setCallback(new MyRequestCallback<T>(cb));
     try {

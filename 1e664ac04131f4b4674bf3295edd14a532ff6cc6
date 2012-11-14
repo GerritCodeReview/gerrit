@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALmn///8g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-11-14T22:21:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it is best to return null here vs a default AccountAttribute, but we have a similar check \u0026 return value in ListChanges.",
+      "revId": "1e664ac04131f4b4674bf3295edd14a532ff6cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

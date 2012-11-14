@@ -403,6 +403,9 @@ public class EventFactory {
    * @return object suitable for serialization to JSON
    */
   public AccountAttribute asAccountAttribute(Account.Id id) {
+    if (id == null) {
+      return null;
+    }
     return asAccountAttribute(accountCache.get(id).getAccount());
   }
 

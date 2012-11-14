@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.ui.InlineHyperlink;
@@ -34,6 +35,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -432,6 +435,40 @@ public class PatchTable extends Composite {
           detail, PatchTable.this));
     }
 
+    void initializeLastRow(int row) {
+      table.setWidget(
+          row,
+          C_SIDEBYSIDE - 2,
+          new InlineHyperlink(Util.C.buttonDiffAllSideBySide(), History
+              .getToken()) {
+            @Override
+            public void go() {
+              for (Patch p : detail.getPatches()) {
+                openWindow(Dispatcher.toPatchSideBySide(base, p.getKey()));
+              }
+            }
+          });
+
+      int C_UNIFIED = C_SIDEBYSIDE - 2 + 1;
+      table.setWidget(
+          row,
+          C_UNIFIED,
+          new InlineHyperlink(Util.C.buttonDiffAllUnified(), History
+              .getToken()) {
+            @Override
+            public void go() {
+              for (Patch p : detail.getPatches()) {
+                openWindow(Dispatcher.toPatchUnified(base, p.getKey()));
+              }
+            }
+          });
+    }
+
+    private void openWindow(String token) {
+      String url = Window.Location.getPath() + "#" + token;
+      Window.open(url, "_blank", null);
+    }
+
     void appendHeader(final SafeHtmlBuilder m) {
       m.openTr();
 
@@ -591,7 +628,7 @@ public class PatchTable extends Composite {
       m.closeTr();
     }
 
-    void appendTotals(final SafeHtmlBuilder m, int ins, int dels,
+    void appendLastRow(final SafeHtmlBuilder m, int ins, int dels,
         final boolean isReverseDiff) {
       m.openTr();
 
@@ -615,6 +652,12 @@ public class PatchTable extends Composite {
       }
 
       m.append(Util.M.patchTableSize_Modify(ins, dels));
+      m.closeTd();
+
+      openlink(m, 2);
+      m.closeTd();
+
+      openlink(m, 1);
       m.closeTd();
 
       m.closeTr();
@@ -787,8 +830,9 @@ public class PatchTable extends Composite {
               return true;
             }
           }
-          table.appendTotals(nc, insertions, deletions, isReverseDiff);
+          table.appendLastRow(nc, insertions, deletions, isReverseDiff);
           table.resetHtml(nc);
+          table.initializeLastRow(row + 1);
           nc = null;
           stage = 1;
           row = 0;

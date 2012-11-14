@@ -32,7 +32,6 @@ import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
@@ -183,7 +182,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           }
         }
       }
-      populateDiffAllActions(detail);
       body.add(actionsPanel);
     }
   }
@@ -595,35 +593,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       });
       actionsPanel.add(b);
     }
-  }
-
-  private void populateDiffAllActions(final PatchSetDetail detail) {
-    final Button diffAllSideBySide = new Button(Util.C.buttonDiffAllSideBySide());
-    diffAllSideBySide.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        for (Patch p : detail.getPatches()) {
-          openWindow(Dispatcher.toPatchSideBySide(diffBaseId, p.getKey()));
-        }
-      }
-    });
-    actionsPanel.add(diffAllSideBySide);
-
-    final Button diffAllUnified = new Button(Util.C.buttonDiffAllUnified());
-    diffAllUnified.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        for (Patch p : detail.getPatches()) {
-          openWindow(Dispatcher.toPatchUnified(diffBaseId, p.getKey()));
-        }
-      }
-    });
-    actionsPanel.add(diffAllUnified);
-  }
-
-  private void openWindow(String token) {
-    String url = Window.Location.getPath() + "#" + token;
-    Window.open(url, "_blank", null);
   }
 
   private void populateReviewAction() {

@@ -109,6 +109,10 @@ public final class Project {
 
   protected InheritedBoolean useContentMerge;
 
+  protected String defaultDashboardId;
+
+  protected String localDefaultDashboardId;
+
   protected Project() {
   }
 
@@ -184,6 +188,22 @@ public final class Project {
 
   public void setState(final State newState) {
     state = newState;
+  }
+
+  public String getDefaultDashboard() {
+    return defaultDashboardId;
+  }
+
+  public void setDefaultDashboard(final String defaultDashboardId) {
+    this.defaultDashboardId = defaultDashboardId;
+  }
+
+  public String getLocalDefaultDashboard() {
+    return localDefaultDashboardId;
+  }
+
+  public void setLocalDefaultDashboard(final String localDefaultDashboardId) {
+    this.localDefaultDashboardId = localDefaultDashboardId;
   }
 
   public void copySettingsFrom(final Project update) {

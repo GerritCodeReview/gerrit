@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfH///6c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-14T05:05:32Z",
+      "side": 1,
+      "message": "This should be also in the last paragraph of the commit message.\n\nI\u0027ll fix this and then submit.",
+      "revId": "f9c91f35cae44309d74b831ba2a4c00659590f01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

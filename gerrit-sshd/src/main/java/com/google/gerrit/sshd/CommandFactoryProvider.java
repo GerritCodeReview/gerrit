@@ -16,9 +16,11 @@ package com.google.gerrit.sshd;
 
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.sshd.SshScope.Context;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -56,15 +58,17 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
   private final SshScope sshScope;
   private final ScheduledExecutorService startExecutor;
   private final Executor destroyExecutor;
+  private final SchemaFactory<ReviewDb> schemaFactory;
 
   @Inject
   CommandFactoryProvider(
       @CommandName(Commands.ROOT) final DispatchCommandProvider d,
       @GerritServerConfig final Config cfg, final WorkQueue workQueue,
-      final SshLog l, final SshScope s) {
+      final SshLog l, final SshScope s, SchemaFactory<ReviewDb> sf) {
     dispatcher = d;
     log = l;
     sshScope = s;
+    schemaFactory = sf;
 
     int threads = cfg.getInt("sshd","commandStartThreads", 2);
     startExecutor = workQueue.createQueue(threads, "SshCommandStart");
@@ -122,7 +126,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
 
     public void setSession(final ServerSession session) {
       final SshSession s = session.getAttribute(SshSession.KEY);
-      this.ctx = sshScope.newContext(s, commandLine);
+      this.ctx = sshScope.newContext(schemaFactory, s, commandLine);
     }
 
     public void start(final Environment env) throws IOException {

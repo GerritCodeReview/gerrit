@@ -16,6 +16,7 @@ package com.google.gerrit.server.util;
 
 import com.google.common.base.Objects;
 import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.AbstractModule;
@@ -63,6 +64,11 @@ public class ThreadLocalRequestContext {
         }
         throw new ProvisionException(NotSignedInException.MESSAGE,
             new NotSignedInException());
+      }
+
+      @Provides
+      ReviewDb provideReviewDb(RequestContext ctx) {
+        return ctx.getReviewDbProvider().get();
       }
     };
   }

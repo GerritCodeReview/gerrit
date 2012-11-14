@@ -15,10 +15,12 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.sshd.SshScope.Context;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -58,6 +60,7 @@ class NoShell implements Factory<Command> {
 
   static class SendMessage implements Command, SessionAware {
     private final Provider<MessageFactory> messageFactory;
+    private final SchemaFactory<ReviewDb> schemaFactory;
     private final SshScope sshScope;
 
     private InputStream in;
@@ -67,8 +70,10 @@ class NoShell implements Factory<Command> {
     private Context context;
 
     @Inject
-    SendMessage(Provider<MessageFactory> messageFactory, SshScope sshScope) {
+    SendMessage(Provider<MessageFactory> messageFactory,
+        SchemaFactory<ReviewDb> sf, SshScope sshScope) {
       this.messageFactory = messageFactory;
+      this.schemaFactory = sf;
       this.sshScope = sshScope;
     }
 
@@ -89,7 +94,8 @@ class NoShell implements Factory<Command> {
     }
 
     public void setSession(final ServerSession session) {
-      this.context = sshScope.newContext(session.getAttribute(SshSession.KEY), "");
+      SshSession s = session.getAttribute(SshSession.KEY);
+      this.context = sshScope.newContext(schemaFactory, s, "");
     }
 
     public void start(final Environment env) throws IOException {

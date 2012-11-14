@@ -85,31 +85,33 @@ public class AlterTopic implements Callable<VoidResult> {
     }
 
     final Change change = db.changes().get(changeId);
-    final ChangeMessage cmsg = new ChangeMessage(
-        new ChangeMessage.Key(changeId, ChangeUtil.messageUUID(db)),
-        currentUser.getAccountId(), change.currentPatchSetId());
-    final StringBuilder msgBuf =
-        new StringBuilder("Topic changed to: " + topic);
-    if (message != null && message.length() > 0) {
-      msgBuf.append("\n\n");
-      msgBuf.append(message);
-    }
-    cmsg.setMessage(msgBuf.toString());
-
-    final Change updatedChange = db.changes().atomicUpdate(changeId,
-        new AtomicUpdate<Change>() {
-      @Override
-      public Change update(Change change) {
-        change.setTopic(topic);
-        return change;
+    if (!change.getTopic().equals(topic)) {
+      final ChangeMessage cmsg = new ChangeMessage(
+          new ChangeMessage.Key(changeId, ChangeUtil.messageUUID(db)),
+          currentUser.getAccountId(), change.currentPatchSetId());
+      final StringBuilder msgBuf =
+          new StringBuilder("Topic changed to: " + topic);
+      if (message != null && message.length() > 0) {
+        msgBuf.append("\n\n");
+        msgBuf.append(message);
       }
-    });
+      cmsg.setMessage(msgBuf.toString());
 
-    if (updatedChange == null) {
-      String err = "Change is closed, submitted, or patchset is not latest";
-      throw new InvalidChangeOperationException(err);
+      final Change updatedChange = db.changes().atomicUpdate(changeId,
+          new AtomicUpdate<Change>() {
+        @Override
+        public Change update(Change change) {
+          change.setTopic(topic);
+          return change;
+        }
+      });
+
+      if (updatedChange == null) {
+        String err = "Change is closed, submitted, or patchset is not latest";
+        throw new InvalidChangeOperationException(err);
+      }
+      db.changeMessages().insert(Collections.singleton(cmsg));
     }
-    db.changeMessages().insert(Collections.singleton(cmsg));
 
     return VoidResult.INSTANCE;
   }

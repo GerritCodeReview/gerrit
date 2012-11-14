@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.gerrit.reviewdb.client.Project.NameKey;
+import com.google.common.base.Throwables;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -43,11 +47,14 @@ public abstract class RequestScopePropagator {
 
   private final Scope scope;
   private final ThreadLocalRequestContext local;
+  private final Provider<RequestScopedReviewDbProvider> dbProviderProvider;
 
   protected RequestScopePropagator(Scope scope,
-      ThreadLocalRequestContext local) {
+      ThreadLocalRequestContext local,
+      Provider<RequestScopedReviewDbProvider> dbProviderProvider) {
     this.scope = scope;
     this.local = local;
+    this.dbProviderProvider = dbProviderProvider;
   }
 
   /**
@@ -111,15 +118,14 @@ public abstract class RequestScopePropagator {
         public void run() {
           try {
             wrapped.call();
-          } catch (RuntimeException e) {
-            throw e;
           } catch (Exception e) {
+            Throwables.propagateIfPossible(e);
             throw new RuntimeException(e); // Not possible.
           }
         }
 
         @Override
-        public NameKey getProjectNameKey() {
+        public Project.NameKey getProjectNameKey() {
           return ((ProjectRunnable) runnable).getProjectNameKey();
         }
 
@@ -164,12 +170,23 @@ public abstract class RequestScopePropagator {
    */
   protected abstract <T> Callable<T> wrapImpl(final Callable<T> callable);
 
-  protected <T> Callable<T> context(final RequestContext context,
+  protected <T> Callable<T> context(RequestContext context,
       final Callable<T> callable) {
+    final CurrentUser user = context.getCurrentUser();
     return new Callable<T>() {
       @Override
       public T call() throws Exception {
-        RequestContext old = local.setContext(context);
+        RequestContext old = local.setContext(new RequestContext() {
+          @Override
+          public CurrentUser getCurrentUser() {
+            return user;
+          }
+
+          @Override
+          public Provider<ReviewDb> getReviewDbProvider() {
+            return dbProviderProvider.get();
+          }
+        });
         try {
           return callable.call();
         } finally {
@@ -191,7 +208,6 @@ public abstract class RequestScopePropagator {
                 return new RequestCleanup();
               }
             }).get();
-
         try {
           return callable.call();
         } finally {

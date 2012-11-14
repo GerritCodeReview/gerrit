@@ -38,11 +38,11 @@ class ThemeFactory {
 
   private HostPageData.Theme getTheme(String name) {
     HostPageData.Theme theme = new HostPageData.Theme();
-    theme.backgroundColor = color(name, "backgroundColor", "#FCFEEF");
-    theme.textColor = color(name, "textColor", "#000000");
-    theme.trimColor = color(name, "trimColor", "#D4E9A9");
-    theme.selectionColor = color(name, "selectionColor", "#FFFFCC");
-    theme.topMenuColor = color(name, "topMenuColor", theme.trimColor);
+    theme.backgroundColor = color(name, "backgroundColor", "#FFFFFF");
+    theme.textColor = color(name, "textColor", "#353535");
+    theme.trimColor = color(name, "trimColor", "#EEEEEE");
+    theme.selectionColor = color(name, "selectionColor", "#D8EDF9");
+    theme.topMenuColor = color(name, "topMenuColor", "#FFFFFF");
     theme.changeTableOutdatedColor = color(name, "changeTableOutdatedColor", "#F08080");
     theme.tableOddRowColor = color(name, "tableOddRowColor", "transparent");
     theme.tableEvenRowColor = color(name, "tableEvenRowColor", "transparent");
@@ -54,11 +54,7 @@ class ThemeFactory {
     if (v == null || v.isEmpty()) {
       v = cfg.getString("theme", null, name);
       if (v == null || v.isEmpty()) {
-        if ("signed-in".equals(section) && "backgroundColor".equals(name)) {
-          v = "#FFFFFF";
-        } else {
-          v = defaultValue;
-        }
+        v = defaultValue;
       }
     }
     if (!v.startsWith("#") && v.matches("^[0-9a-fA-F]{2,6}$")) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfH///8w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/SubmoduleSectionParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010817
+      },
+      "writtenOn": "2012-11-14T00:39:39Z",
+      "side": 1,
+      "message": "I did consider this instead, but I cannot think of a case where \u0027/\u0027 is correct here.\n\n   boolean urlIsRelative \u003d url.startsWith(\"/\") || url.startsWith(\"../\");",
+      "revId": "ccc87a8bf9e6663c09bba53cc79692fdc4943e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

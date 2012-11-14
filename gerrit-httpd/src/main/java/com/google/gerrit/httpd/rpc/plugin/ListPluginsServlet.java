@@ -16,7 +16,7 @@ package com.google.gerrit.httpd.rpc.plugin;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.httpd.RestApiServlet;
+import com.google.gerrit.httpd.SimpleJsonApiServlet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.plugins.ListPlugins;
@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
-public class ListPluginsServlet extends RestApiServlet {
+public class ListPluginsServlet extends SimpleJsonApiServlet {
   private static final long serialVersionUID = 1L;
   private final ParameterParser paramParser;
   private final Provider<ListPlugins> factory;

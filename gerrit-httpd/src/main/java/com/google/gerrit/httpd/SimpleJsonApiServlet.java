@@ -45,10 +45,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public abstract class RestApiServlet extends HttpServlet {
+public abstract class SimpleJsonApiServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   private static final Logger log =
-      LoggerFactory.getLogger(RestApiServlet.class);
+      LoggerFactory.getLogger(SimpleJsonApiServlet.class);
 
   /** MIME type used for a JSON response body. */
   protected static final String JSON_TYPE = JsonConstants.JSON_TYPE;
@@ -75,7 +75,7 @@ public abstract class RestApiServlet extends HttpServlet {
   private final Provider<CurrentUser> currentUser;
 
   @Inject
-  protected RestApiServlet(final Provider<CurrentUser> currentUser) {
+  protected SimpleJsonApiServlet(final Provider<CurrentUser> currentUser) {
     this.currentUser = currentUser;
   }
 

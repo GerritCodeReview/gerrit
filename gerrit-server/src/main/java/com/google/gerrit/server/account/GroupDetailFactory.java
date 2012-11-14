@@ -20,7 +20,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUUID;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gwtorm.server.OrmException;
@@ -121,21 +121,21 @@ public class GroupDetailFactory implements Callable<GroupDetail> {
     return members;
   }
 
-  private List<AccountGroupInclude> loadIncludes() throws OrmException {
-    List<AccountGroupInclude> groups = new ArrayList<AccountGroupInclude>();
+  private List<AccountGroupIncludeByUUID> loadIncludes() throws OrmException {
+    List<AccountGroupIncludeByUUID> groups = new ArrayList<AccountGroupIncludeByUUID>();
 
-    for (final AccountGroupInclude m : db.accountGroupIncludes().byGroup(groupId)) {
-      if (control.canSeeGroup(m.getIncludeId())) {
-        gic.want(m.getIncludeId());
+    for (final AccountGroupIncludeByUUID m : db.accountGroupIncludesByUUID().byGroup(groupId)) {
+      if (control.canSeeGroup(m.getIncludeUUID())) {
+        gic.want(m.getIncludeUUID());
         groups.add(m);
       }
     }
 
-    Collections.sort(groups, new Comparator<AccountGroupInclude>() {
-      public int compare(final AccountGroupInclude o1,
-          final AccountGroupInclude o2) {
-        final AccountGroup a = gic.get(o1.getIncludeId());
-        final AccountGroup b = gic.get(o2.getIncludeId());
+    Collections.sort(groups, new Comparator<AccountGroupIncludeByUUID>() {
+      public int compare(final AccountGroupIncludeByUUID o1,
+          final AccountGroupIncludeByUUID o2) {
+        final AccountGroup a = gic.get(o1.getIncludeUUID());
+        final AccountGroup b = gic.get(o2.getIncludeUUID());
         return n(a).compareTo(n(b));
       }
 

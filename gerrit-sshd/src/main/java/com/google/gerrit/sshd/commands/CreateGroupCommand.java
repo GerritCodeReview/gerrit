@@ -57,10 +57,10 @@ final class CreateGroupCommand extends SshCommand {
   @Option(name = "--visible-to-all", usage = "to make the group visible to all registered users")
   private boolean visibleToAll;
 
-  private final Set<AccountGroup.Id> initialGroups = new HashSet<AccountGroup.Id>();
+  private final Set<AccountGroup.UUID> initialGroups = new HashSet<AccountGroup.UUID>();
 
   @Option(name = "--group", aliases = "-g", metaVar = "GROUP", usage = "initial set of groups to be included in the group")
-  void addGroup(final AccountGroup.Id id) {
+  void addGroup(final AccountGroup.UUID id) {
     initialGroups.add(id);
   }
 

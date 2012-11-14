@@ -19,7 +19,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUUID;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gwtorm.server.SchemaFactory;
@@ -102,8 +102,8 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
         }
 
         Set<AccountGroup.Id> ids = Sets.newHashSet();
-        for (AccountGroupInclude agi : db.accountGroupIncludes()
-            .byInclude(group.get(0).getId())) {
+        for (AccountGroupIncludeByUUID agi : db.accountGroupIncludesByUUID()
+            .byIncludeUUID(group.get(0).getGroupUUID())) {
           ids.add(agi.getGroupId());
         }
 

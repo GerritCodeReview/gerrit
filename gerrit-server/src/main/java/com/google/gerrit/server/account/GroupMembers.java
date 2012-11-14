@@ -18,7 +18,7 @@ import com.google.gerrit.common.data.GroupDetail;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUUID;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
@@ -111,9 +111,9 @@ public class GroupMembers {
       }
     }
     if (groupDetail.includes != null) {
-      for (final AccountGroupInclude groupInclude : groupDetail.includes) {
+      for (final AccountGroupIncludeByUUID groupInclude : groupDetail.includes) {
         final AccountGroup includedGroup =
-            groupCache.get(groupInclude.getIncludeId());
+            groupCache.get(groupInclude.getIncludeUUID());
         if (!seen.contains(includedGroup.getGroupUUID())) {
           members.addAll(listAccounts(includedGroup.getGroupUUID(), project, seen));
         }

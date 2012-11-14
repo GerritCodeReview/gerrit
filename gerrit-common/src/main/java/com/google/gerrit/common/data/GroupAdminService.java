@@ -17,7 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUUID;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -85,5 +85,5 @@ public interface GroupAdminService extends RemoteJsonService {
   @Audit
   @SignInRequired
   void deleteGroupIncludes(AccountGroup.Id groupId,
-      Set<AccountGroupInclude.Key> keys, AsyncCallback<VoidResult> callback);
+      Set<AccountGroupIncludeByUUID.Key> keys, AsyncCallback<VoidResult> callback);
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALmn///9Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-11-14T22:09:05Z",
+      "side": 1,
+      "message": "This results in NPE when the patch was uploaded with a non-gerrit user author and forgeAuthor permissions.",
+      "revId": "1a9be5ee43525f5910ea6be6e98a69123ed78b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

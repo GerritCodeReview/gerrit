@@ -16,8 +16,6 @@ package com.google.gerrit.client.ui;
 
 import com.google.gwt.i18n.client.Messages;
 
-import java.util.Date;
-
 public interface UIMessages extends Messages {
   String helpListOpen(String item);
   String helpListPrev(String item);

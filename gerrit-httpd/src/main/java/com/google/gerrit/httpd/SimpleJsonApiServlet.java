@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
@@ -84,7 +85,7 @@ public abstract class SimpleJsonApiServlet extends HttpServlet {
   }
 
   @Override
-  protected void service(HttpServletRequest req, HttpServletResponse res)
+  protected final void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
     res.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
     res.setHeader("Pragma", "no-cache");
@@ -94,7 +95,7 @@ public abstract class SimpleJsonApiServlet extends HttpServlet {
     try {
       checkUserSession(req);
       checkRequiresCapability();
-      super.service(req, res);
+      handle(req, res);
     } catch (InvalidAuthException err) {
       sendError(res, SC_FORBIDDEN, err.getMessage());
     } catch (RequireCapabilityException err) {
@@ -103,6 +104,15 @@ public abstract class SimpleJsonApiServlet extends HttpServlet {
       handleException(err, req, res);
     } catch (RuntimeException err) {
       handleException(err, req, res);
+    }
+  }
+
+  protected void handle(HttpServletRequest req, HttpServletResponse res)
+      throws ServletException, IOException {
+    if ("GET".equals(req.getMethod())) {
+      doGet(req, res);
+    } else {
+      sendError(res, SC_METHOD_NOT_ALLOWED, "Method not allowed");
     }
   }
 
@@ -153,6 +163,9 @@ public abstract class SimpleJsonApiServlet extends HttpServlet {
 
   protected static void sendError(HttpServletResponse res,
       int statusCode, String msg) throws IOException {
+    if (!msg.endsWith("\n")) {
+      msg += "\n";
+    }
     res.setStatus(statusCode);
     sendText(null, res, msg);
   }

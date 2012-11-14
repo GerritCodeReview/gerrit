@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.registration;
 import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
@@ -40,6 +41,11 @@ import java.util.concurrent.ConcurrentMap;
  * registrations to decide between singleton and non-singleton members.
  */
 public abstract class DynamicMap<T> {
+  /** Create a new empty map that cannot be modified. */
+  public static <T> DynamicMap<T> empty() {
+    return new DynamicMap<T>() {};
+  }
+
   /**
    * Declare a singleton {@code DynamicMap<T>} with a binder.
    * <p>

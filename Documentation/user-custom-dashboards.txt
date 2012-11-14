@@ -65,6 +65,11 @@ Example dashboard config file `MyProject Dashboard`:
 Project dashboards are inherited from ancestor projects unless
 overridden by dashboards with the same ref and name.
 
+Project dashboard queries may contain the special `${project}` token
+which will be replaced with the project name to which the dashboard is
+being applied.  This is useful for defining dashboards designed to be
+inherited.
+
 Section main
 ~~~~~~~~~~~~
 

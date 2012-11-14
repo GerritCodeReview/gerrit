@@ -27,8 +27,8 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeAudit;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUUID;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUUIDAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -239,15 +239,15 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new NoSuchEntityException());
         }
 
-        final AccountGroupInclude.Key key =
-            new AccountGroupInclude.Key(groupId, a.getId());
-        AccountGroupInclude m = db.accountGroupIncludes().get(key);
+        final AccountGroupIncludeByUUID.Key key =
+            new AccountGroupIncludeByUUID.Key(groupId, a.getGroupUUID());
+        AccountGroupIncludeByUUID m = db.accountGroupIncludesByUUID().get(key);
         if (m == null) {
-          m = new AccountGroupInclude(key);
-          db.accountGroupIncludesAudit().insert(
-              Collections.singleton(new AccountGroupIncludeAudit(m,
+          m = new AccountGroupIncludeByUUID(key);
+          db.accountGroupIncludesByUUIDAudit().insert(
+              Collections.singleton(new AccountGroupIncludeByUUIDAudit(m,
                   getAccountId())));
-          db.accountGroupIncludes().insert(Collections.singleton(m));
+          db.accountGroupIncludesByUUID().insert(Collections.singleton(m));
           groupIncludeCache.evictInclude(a.getGroupUUID());
         }
 
@@ -311,7 +311,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   }
 
   public void deleteGroupIncludes(final AccountGroup.Id groupId,
-      final Set<AccountGroupInclude.Key> keys,
+      final Set<AccountGroupIncludeByUUID.Key> keys,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException,
@@ -321,26 +321,26 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new NameAlreadyUsedException());
         }
 
-        for (final AccountGroupInclude.Key k : keys) {
+        for (final AccountGroupIncludeByUUID.Key k : keys) {
           if (!groupId.equals(k.getGroupId())) {
             throw new Failure(new NoSuchEntityException());
           }
         }
 
         final Account.Id me = getAccountId();
-        final Set<AccountGroup.Id> groupsToEvict = new HashSet<AccountGroup.Id>();
-        for (final AccountGroupInclude.Key k : keys) {
-          final AccountGroupInclude m =
-              db.accountGroupIncludes().get(k);
+        final Set<AccountGroup.UUID> groupsToEvict = new HashSet<AccountGroup.UUID>();
+        for (final AccountGroupIncludeByUUID.Key k : keys) {
+          final AccountGroupIncludeByUUID m =
+              db.accountGroupIncludesByUUID().get(k);
           if (m != null) {
-            if (!control.canRemoveGroup(m.getIncludeId())) {
+            if (!control.canRemoveGroup(m.getIncludeUUID())) {
               throw new Failure(new NoSuchEntityException());
             }
 
-            AccountGroupIncludeAudit audit = null;
-            for (AccountGroupIncludeAudit a : db
-                .accountGroupIncludesAudit().byGroupInclude(
-                    m.getGroupId(), m.getIncludeId())) {
+            AccountGroupIncludeByUUIDAudit audit = null;
+            for (AccountGroupIncludeByUUIDAudit a : db
+                .accountGroupIncludesByUUIDAudit().byGroupInclude(
+                    m.getGroupId(), m.getIncludeUUID())) {
               if (a.isActive()) {
                 audit = a;
                 break;
@@ -349,15 +349,15 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
             if (audit != null) {
               audit.removed(me);
-              db.accountGroupIncludesAudit().update(
+              db.accountGroupIncludesByUUIDAudit().update(
                   Collections.singleton(audit));
             }
-            db.accountGroupIncludes().delete(Collections.singleton(m));
-            groupsToEvict.add(k.getIncludeId());
+            db.accountGroupIncludesByUUID().delete(Collections.singleton(m));
+            groupsToEvict.add(k.getIncludeUUID());
           }
         }
-        for (AccountGroup group : db.accountGroups().get(groupsToEvict)) {
-          groupIncludeCache.evictInclude(group.getGroupUUID());
+        for (AccountGroup.UUID uuid : groupsToEvict) {
+          groupIncludeCache.evictInclude(uuid);
         }
         return VoidResult.INSTANCE;
       }

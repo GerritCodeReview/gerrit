@@ -29,7 +29,7 @@ import com.google.gerrit.common.data.GroupInfo;
 import com.google.gerrit.common.data.GroupInfoCache;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUUID;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -298,7 +298,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
   }
 
-  private class IncludeTable extends FancyFlexTable<AccountGroupInclude> {
+  private class IncludeTable extends FancyFlexTable<AccountGroupIncludeByUUID> {
     private boolean enabled = true;
 
     IncludeTable() {
@@ -314,7 +314,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     void setEnabled(final boolean enabled) {
       this.enabled = enabled;
       for (int row = 1; row < table.getRowCount(); row++) {
-        final AccountGroupInclude k = getRowItem(row);
+        final AccountGroupIncludeByUUID k = getRowItem(row);
         if (k != null) {
           ((CheckBox) table.getWidget(row, 1)).setEnabled(enabled);
         }
@@ -322,10 +322,10 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
     }
 
     void deleteChecked() {
-      final HashSet<AccountGroupInclude.Key> keys =
-          new HashSet<AccountGroupInclude.Key>();
+      final HashSet<AccountGroupIncludeByUUID.Key> keys =
+          new HashSet<AccountGroupIncludeByUUID.Key>();
       for (int row = 1; row < table.getRowCount(); row++) {
-        final AccountGroupInclude k = getRowItem(row);
+        final AccountGroupIncludeByUUID k = getRowItem(row);
         if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           keys.add(k.getKey());
         }
@@ -335,7 +335,7 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {
-                  final AccountGroupInclude k = getRowItem(row);
+                  final AccountGroupIncludeByUUID k = getRowItem(row);
                   if (k != null && keys.contains(k.getKey())) {
                     table.removeRow(row);
                   } else {
@@ -347,11 +347,11 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       }
     }
 
-    void display(final List<AccountGroupInclude> result) {
+    void display(final List<AccountGroupIncludeByUUID> result) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final AccountGroupInclude k : result) {
+      for (final AccountGroupIncludeByUUID k : result) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
@@ -359,15 +359,15 @@ public class AccountGroupMembersScreen extends AccountGroupScreen {
       }
     }
 
-    void populate(final int row, final AccountGroupInclude k) {
-      AccountGroup.Id id = k.getIncludeId();
-      GroupInfo group = groups.get(id);
+    void populate(final int row, final AccountGroupIncludeByUUID k) {
+      AccountGroup.UUID uuid = k.getIncludeUUID();
+      GroupInfo group = groups.get(uuid);
       CheckBox checkBox = new CheckBox();
       table.setWidget(row, 1, checkBox);
       checkBox.setEnabled(enabled);
       table.setWidget(row, 2,
-          new Hyperlink(group.getName(), Dispatcher.toGroup(id)));
-      table.setText(row, 3, groups.get(id).getDescription());
+          new Hyperlink(group.getName(), Dispatcher.toGroup(uuid)));
+      table.setText(row, 3, groups.get(uuid).getDescription());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());

@@ -20,7 +20,7 @@ import com.google.gwtorm.client.CompoundKey;
 import java.sql.Timestamp;
 
 /** Inclusion of an {@link AccountGroup} in another {@link AccountGroup}. */
-public final class AccountGroupIncludeAudit {
+public final class AccountGroupIncludeByUUIDAudit {
   public static class Key extends CompoundKey<AccountGroup.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -28,19 +28,19 @@ public final class AccountGroupIncludeAudit {
     protected AccountGroup.Id groupId;
 
     @Column(id = 2)
-    protected AccountGroup.Id includeId;
+    protected AccountGroup.UUID includeUUID;
 
     @Column(id = 3)
     protected Timestamp addedOn;
 
     protected Key() {
       groupId = new AccountGroup.Id();
-      includeId = new AccountGroup.Id();
+      includeUUID = new AccountGroup.UUID();
     }
 
-    public Key(final AccountGroup.Id g, final AccountGroup.Id i, final Timestamp t) {
+    public Key(final AccountGroup.Id g, final AccountGroup.UUID u, final Timestamp t) {
       groupId = g;
-      includeId = i;
+      includeUUID = u;
       addedOn = t;
     }
 
@@ -49,8 +49,8 @@ public final class AccountGroupIncludeAudit {
       return groupId;
     }
 
-    public AccountGroup.Id getIncludedId() {
-      return includeId;
+    public AccountGroup.UUID getIncludeUUID() {
+      return includeUUID;
     }
 
     public Timestamp getAddedOn() {
@@ -59,7 +59,7 @@ public final class AccountGroupIncludeAudit {
 
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {includeId};
+      return new com.google.gwtorm.client.Key<?>[] {includeUUID};
     }
   }
 
@@ -75,18 +75,23 @@ public final class AccountGroupIncludeAudit {
   @Column(id = 4, notNull = false)
   protected Timestamp removedOn;
 
-  protected AccountGroupIncludeAudit() {
+  protected AccountGroupIncludeByUUIDAudit() {
   }
 
-  public AccountGroupIncludeAudit(final AccountGroupInclude m,
-      final Account.Id adder) {
+  public AccountGroupIncludeByUUIDAudit(final AccountGroupIncludeByUUID m,
+      final Account.Id adder, final Timestamp when) {
     final AccountGroup.Id group = m.getGroupId();
-    final AccountGroup.Id include = m.getIncludeId();
-    key = new AccountGroupIncludeAudit.Key(group, include, now());
+    final AccountGroup.UUID include = m.getIncludeUUID();
+    key = new AccountGroupIncludeByUUIDAudit.Key(group, include, maybeNow(when));
     addedBy = adder;
   }
 
-  public AccountGroupIncludeAudit.Key getKey() {
+  public AccountGroupIncludeByUUIDAudit(final AccountGroupIncludeByUUID m,
+      final Account.Id adder) {
+    this(m, adder, null);
+  }
+
+  public AccountGroupIncludeByUUIDAudit.Key getKey() {
     return key;
   }
 
@@ -96,14 +101,10 @@ public final class AccountGroupIncludeAudit {
 
   public void removed(final Account.Id deleter) {
     removedBy = deleter;
-    removedOn = now();
+    removedOn = maybeNow(null);
   }
 
-  public Account.Id getAddedBy() {
-    return addedBy;
-  }
-
-  private static Timestamp now() {
-    return new Timestamp(System.currentTimeMillis());
+  private static Timestamp maybeNow(Timestamp when) {
+    return when == null ? new Timestamp(System.currentTimeMillis()) : when;
   }
 }

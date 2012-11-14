@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfH///7I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationListener.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-14T03:33:10Z",
+      "side": 1,
+      "message": "maybe better:\n  Listener to make additional validation of received commits.\n?",
+      "revId": "75f74f6da6a68fe78b58f69a2de602efe4e7d394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfH///7A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-14T03:33:10Z",
+      "side": 1,
+      "message": "s/CommitValidatorListener/CommitValidationListener",
+      "revId": "75f74f6da6a68fe78b58f69a2de602efe4e7d394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfH///64\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-14T03:33:10Z",
+      "side": 1,
+      "message": "s/server/Gerrit\n\ns/contact admin/invalid commit\n\nCan you please add documentation for this new error message as it\u0027s there for other error messages? Just explain that the commit was rejected by a commit validating plugin.",
+      "revId": "75f74f6da6a68fe78b58f69a2de602efe4e7d394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALfH///60\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-14T03:33:10Z",
+      "side": 1,
+      "message": "s/validation/validation failure  ?",
+      "revId": "75f74f6da6a68fe78b58f69a2de602efe4e7d394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

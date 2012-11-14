@@ -129,8 +129,10 @@ public class ChangeInfoBlock extends Composite {
 
     if (status.isClosed()) {
       table.getCellFormatter().addStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
+      table.getRowFormatter().setVisible(R_SUBMIT_TYPE, false);
     } else {
       table.getCellFormatter().removeStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
+      table.getRowFormatter().setVisible(R_SUBMIT_TYPE, true);
     }
   }
 

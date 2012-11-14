@@ -119,9 +119,6 @@ public class ReviewCommand extends SshCommand {
   private ChangeControl.Factory changeControlFactory;
 
   @Inject
-  private ChangeResource.Factory changeResourceFactory;
-
-  @Inject
   private Provider<Abandon> abandonProvider;
 
   @Inject
@@ -214,8 +211,8 @@ public class ReviewCommand extends SshCommand {
         input.message = changeComment;
         ChangeControl ctl =
             changeControlFactory.controlFor(patchSetId.getParentKey());
-        ChangeResource req = changeResourceFactory.create(ctl);
-        final ReviewResult result = (ReviewResult) abandon.apply(req, input);
+        final ReviewResult result =
+            (ReviewResult) abandon.apply(new ChangeResource(ctl), input);
         handleReviewResultErrors(result);
       } else if (restoreChange) {
         final RestoreChange restoreChange = restoreChangeProvider.get();

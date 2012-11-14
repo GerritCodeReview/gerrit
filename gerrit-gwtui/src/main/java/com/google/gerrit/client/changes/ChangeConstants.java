@@ -107,6 +107,7 @@ public interface ChangeConstants extends Constants {
   String buttonAlterTopicCancel();
   String headingAlterTopicMessage();
   String alterTopicTitle();
+  String alterTopicLabel();
 
   String includedInTableBranch();
   String includedInTableTag();

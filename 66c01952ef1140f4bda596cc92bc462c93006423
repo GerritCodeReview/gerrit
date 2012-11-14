@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALjn///+Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-14T01:30:38Z",
+      "side": 1,
+      "message": "That would make sense.  I was just making it match the class names (which I think should remain alter)\n\nI\u0027ll make a new change.",
+      "parentUuid": "AAALgn///2Y\u003d",
+      "revId": "66c01952ef1140f4bda596cc92bc462c93006423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALgn///2U\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeInfoBlock.java",
         "patchSetId": 3

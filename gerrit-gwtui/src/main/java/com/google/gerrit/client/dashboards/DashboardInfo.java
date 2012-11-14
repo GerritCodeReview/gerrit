@@ -23,6 +23,7 @@ public class DashboardInfo extends JavaScriptObject {
   public final native String projectName() /*-{ return this.project_name; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
   public final native String parameters() /*-{ return this.parameters; }-*/;
+  public final native boolean isDefault() /*-{ return this.isDefault ? true : false; }-*/;
 
   protected DashboardInfo() {
   }

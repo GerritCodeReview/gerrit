@@ -420,7 +420,32 @@ List all dashboards for the `myProject` project:
       "ref_name": "refs/meta/dashboards/main",
       "project_name": "myProject",
       "description": "Most recent open and merged changes.",
-      "parameters": "title\u003dMyDashboard\u0026Open+Changes\u003dstatus:open project:myProject limit:15\u0026Merged+Changes\u003dstatus:merged project:myProject limit:15"
+      "parameters": "title\u003dMyDashboard\u0026Open+Changes\u003dstatus:open project:myProject limit:15\u0026Merged+Changes\u003dstatus:merged project:myProject limit:15",
+      "is_default": true
+    }
+  }
+----
+
+To retrieve only the default dashboard of a project set the parameter `default`.
+
+----
+  GET /dashboards/project/myProject?default&format=JSON&d HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "MyProject Dashboard": {
+      "kind": "gerritcodereview#dashboard",
+      "id" : "refs/meta/dashboards/main:MyDashboard",
+      "name": "MyDashboard",
+      "ref_name": "refs/meta/dashboards/main",
+      "project_name": "myProject",
+      "description": "Most recent open and merged changes.",
+      "parameters": "title\u003dMyDashboard\u0026Open+Changes\u003dstatus:open project:myProject limit:15\u0026Merged+Changes\u003dstatus:merged project:myProject limit:15",
+      "is_default": true
     }
   }
 ----

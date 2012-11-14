@@ -34,6 +34,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 /** List projects visible to the calling user. */
 public class ListDashboards {
@@ -63,6 +65,9 @@ public class ListDashboards {
 
   @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
   private OutputFormat format = OutputFormat.JSON;
+
+  @Option(name = "--default", usage = "only the projects default dashboard is returned")
+  private boolean defaultDashboard;
 
   private Level level;
   private String entityName;
@@ -111,7 +116,14 @@ public class ListDashboards {
       if (level != null) {
         switch (level) {
           case PROJECT:
-            dashboards = projectDashboards(new Project.NameKey(entityName));
+            final Project.NameKey projectName = new Project.NameKey(entityName);
+            if (defaultDashboard) {
+              dashboards = Maps.newTreeMap();
+              final DashboardInfo info = loadProjectDefaultDashboard(projectName);
+              dashboards.put(info.id, info);
+            } else {
+              dashboards = projectDashboards(projectName);
+            }
             break;
           default:
             throw new IllegalStateException("unsupported dashboard level: " + level);
@@ -145,7 +157,8 @@ public class ListDashboards {
       final Map<String, Ref> refs = repo.getRefDatabase().getRefs(REFS_DASHBOARDS);
       for (final Ref ref : refs.values()) {
         if (projectControl.controlForRef(ref.getName()).canRead()) {
-          dashboards.putAll(loadDashboards(projectName, repo, revWalk, ref));
+          dashboards.putAll(loadDashboards(projectControl.getProject(), repo,
+              revWalk, ref));
         }
       }
     } catch (IOException e) {
@@ -163,8 +176,8 @@ public class ListDashboards {
   }
 
   private Map<String, DashboardInfo> loadDashboards(
-      final Project.NameKey projectName, final Repository repo,
-      final RevWalk revWalk, final Ref ref) {
+      final Project project, final Repository repo,
+      final RevWalk revWalk, final Ref ref) throws IOException {
     final Map<String, DashboardInfo> dashboards = Maps.newTreeMap();
     TreeWalk treeWalk = new TreeWalk(repo);
     try {
@@ -173,44 +186,127 @@ public class ListDashboards {
       treeWalk.addTree(tree);
       treeWalk.setRecursive(true);
       while (treeWalk.next()) {
-        DashboardInfo info = new DashboardInfo();
-        info.dashboardName = treeWalk.getPathString();
-        info.refName = ref.getName();
-        info.projectName = projectName.get();
-        info.id = createId(info.refName, info.dashboardName);
+
         final ObjectLoader loader = repo.open(treeWalk.getObjectId(0));
-
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        loader.copyTo(out);
-        Config dashboardConfig = new Config();
-        dashboardConfig.fromText(new String(out.toByteArray(), "UTF-8"));
-
-        info.description = dashboardConfig.getString("main", null, "description");
-
-        final StringBuilder query = new StringBuilder();
-        query.append("title=");
-        query.append(info.dashboardName.replaceAll(" ", "+"));
-        final Set<String> sections = dashboardConfig.getSubsections("section");
-        for (final String section : sections) {
-          query.append("&");
-          query.append(section.replaceAll(" ", "+"));
-          query.append("=");
-          query.append(dashboardConfig.getString("section", section, "query"));
-        }
-        info.parameters = query.toString();
-
+        final DashboardInfo info =
+            loadDashboard(project, ref.getName(), treeWalk.getPathString(),
+                loader);
         dashboards.put(info.id, info);
       }
-    } catch (IOException e) {
-      log.warn("Failed to load dashboards of project " + projectName.get()
-          + " from ref " + ref.getName(), e);
     } catch (ConfigInvalidException e) {
-      log.warn("Failed to load dashboards of project " + projectName.get()
+      log.warn("Failed to load dashboards of project " + project.getName()
+          + " from ref " + ref.getName(), e);
+    } catch (IOException e) {
+      log.warn("Failed to load dashboards of project " + project.getName()
           + " from ref " + ref.getName(), e);
     } finally {
       treeWalk.release();
     }
     return dashboards;
+  }
+
+  private DashboardInfo loadProjectDefaultDashboard(final Project.NameKey projectName) {
+    final ProjectState projectState = projectCache.get(projectName);
+    final ProjectControl projectControl = projectState.controlFor(currentUser);
+    if (projectState == null || !projectControl.isVisible()) {
+      return null;
+    }
+
+    final Project project = projectControl.getProject();
+    final String defaultDashboardId =
+        project.getLocalDefaultDashboard() != null ? project
+            .getLocalDefaultDashboard() : project.getDefaultDashboard();
+    return loadDashboard(projectControl, defaultDashboardId);
+  }
+
+  private DashboardInfo loadDashboard(final ProjectControl projectControl,
+      final String dashboardId) {
+    StringTokenizer t = new StringTokenizer(dashboardId);
+    if (t.countTokens() != 2) {
+      throw new IllegalStateException("failed to load dashboard, invalid dashboard id: " + dashboardId);
+    }
+    final String refName = t.nextToken();
+    final String path = t.nextToken();
+
+    Repository repo = null;
+    RevWalk revWalk = null;
+    TreeWalk treeWalk = null;
+    try {
+      repo =
+          repoManager.openRepository(projectControl.getProject().getNameKey());
+      final Ref ref = repo.getRef(refName);
+      if (ref == null) {
+        return null;
+      }
+
+      if (!projectControl.controlForRef(ref.getName()).canRead()) {
+        return null;
+      }
+
+      revWalk = new RevWalk(repo);
+      final RevCommit commit = revWalk.parseCommit(ref.getObjectId());
+      treeWalk = new TreeWalk(repo);
+      treeWalk.addTree(commit.getTree());
+      treeWalk.setRecursive(true);
+      treeWalk.setFilter(PathFilter.create(path));
+      if (!treeWalk.next()) {
+        return null;
+      }
+
+      final ObjectLoader loader = repo.open(treeWalk.getObjectId(0));
+      return loadDashboard(projectControl.getProject(), refName, path, loader);
+    } catch (IOException e) {
+      log.warn("Failed to load default dashboard", e);
+    } catch (ConfigInvalidException e) {
+      log.warn("Failed to load dashboards of project "
+          + projectControl.getProject().getName() + " from ref " + refName, e);
+    } finally {
+      if (treeWalk != null) {
+        treeWalk.release();
+      }
+      if (revWalk != null) {
+        revWalk.release();
+      }
+      if (repo != null) {
+        repo.close();
+      }
+    }
+    return null;
+  }
+
+  private DashboardInfo loadDashboard(final Project project,
+      final String refName, final String path, final ObjectLoader loader)
+      throws IOException, ConfigInvalidException {
+    DashboardInfo info = new DashboardInfo();
+    info.dashboardName = path;
+    info.refName = refName;
+    info.projectName = project.getName();
+    info.id = createId(info.refName, info.dashboardName);
+    final String defaultDashboardId =
+        project.getLocalDefaultDashboard() != null ? project
+            .getLocalDefaultDashboard() : project.getDefaultDashboard();
+    info.isDefault = info.id.equals(defaultDashboardId);
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    loader.copyTo(out);
+    Config dashboardConfig = new Config();
+    dashboardConfig.fromText(new String(out.toByteArray(), "UTF-8"));
+
+    info.description = dashboardConfig.getString("main", null, "description");
+
+    final StringBuilder query = new StringBuilder();
+    query.append("title=");
+    query.append(info.dashboardName.replaceAll(" ", "+"));
+    final Set<String> sections = dashboardConfig.getSubsections("section");
+    for (final String section : sections) {
+      query.append("&");
+      query.append(section.replaceAll(" ", "+"));
+      query.append("=");
+      query.append(dashboardConfig.getString("section", section, "query"));
+    }
+    info.parameters = query.toString();
+
+    return info;
   }
 
   private static String createId(final String refName,
@@ -227,5 +323,6 @@ public class ListDashboards {
     String projectName;
     String description;
     String parameters;
+    boolean isDefault;
   }
 }

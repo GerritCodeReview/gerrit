@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALjn///8s\u003d",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-14T09:30:14Z",
+      "side": 1,
+      "message": "I need to update these docs. Its possible I broke the digest based authentication for command line tools.",
+      "revId": "94de07534e9d6391c1cd086c911abdf78b51b0a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

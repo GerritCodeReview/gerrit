@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.inject.Inject;
 
 class ChangeDetailServiceImpl implements ChangeDetailService {

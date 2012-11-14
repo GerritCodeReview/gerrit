@@ -90,7 +90,8 @@ public class AlterTopic implements Callable<VoidResult> {
           new ChangeMessage.Key(changeId, ChangeUtil.messageUUID(db)),
           currentUser.getAccountId(), change.currentPatchSetId());
       final StringBuilder msgBuf =
-          new StringBuilder("Topic changed to: " + topic);
+          new StringBuilder("Topic changed from \"" + change.getTopic() //
+              + "\" to \"" + topic + "\"");
       if (message != null && message.length() > 0) {
         msgBuf.append("\n\n");
         msgBuf.append(message);

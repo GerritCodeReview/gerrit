@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "AAALjX////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-14T07:54:01Z",
+      "side": 1,
+      "message": "I suggest \"error\" instead of \"why\".  Since this object is a ValidationResult, \"why\" sounds like why it *was* validated (not why it failed).",
+      "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALjn///9c\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
         "patchSetId": 20
@@ -64,6 +81,23 @@
       "writtenOn": "2012-11-14T07:04:34Z",
       "side": 1,
       "message": "Would be nice to have a comment on this method, to be consistent with the rest.",
+      "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALjX////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidationResult.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-14T07:54:01Z",
+      "side": 1,
+      "message": "This too sounds like \"why it validated\" instead of \"why it failed\".",
       "revId": "5783a5e10cf39b72d37709576f179e4d48b0d773",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

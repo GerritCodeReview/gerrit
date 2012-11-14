@@ -16,6 +16,24 @@
       "revId": "4592b5cca389ad06435edf486c36970c18eb99ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALjX////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritRequestModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-14T02:34:39Z",
+      "side": 1,
+      "message": "Ah but then you need an implementation of:\nbindScope(RequestScoped.class, ???);\n\nThat delegates to the request context scope.... which would be similar to what you have now... but would work for almost every future case.",
+      "parentUuid": "AAALjX////k\u003d",
+      "revId": "4592b5cca389ad06435edf486c36970c18eb99ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALjX////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritRequestModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-14T02:24:02Z",
+      "side": 1,
+      "message": "can\u0027t you just move this and the ReviewDb binding into the GerritGlobalModule? since you don\u0027t need any special handling when out of a request scope, you just need to be bound in the right injector.",
+      "revId": "4592b5cca389ad06435edf486c36970c18eb99ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

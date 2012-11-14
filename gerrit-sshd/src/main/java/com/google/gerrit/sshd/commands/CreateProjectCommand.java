@@ -66,7 +66,7 @@ final class CreateProjectCommand extends SshCommand {
   private SubmitType submitType = SubmitType.MERGE_IF_NECESSARY;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
-  private InheritedBoolean contributorAgreements;
+  private InheritedBoolean contributorAgreements = InheritedBoolean.INHERIT;
 
   @Option(name = "--signed-off-by", usage = "if signed-off-by is required")
   private InheritedBoolean signedOffBy = InheritedBoolean.INHERIT;

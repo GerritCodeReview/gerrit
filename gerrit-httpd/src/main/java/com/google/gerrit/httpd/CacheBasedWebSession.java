@@ -35,6 +35,8 @@ import com.google.inject.servlet.RequestScoped;
 
 import org.eclipse.jgit.http.server.GitSmartHttpTools;
 
+import java.util.EnumSet;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,7 +68,7 @@ public final class CacheBasedWebSession implements WebSession {
   private final AuthConfig authConfig;
   private final Provider<AnonymousUser> anonymousProvider;
   private final IdentifiedUser.RequestFactory identified;
-  private AccessPath accessPath;
+  private final EnumSet<AccessPath> okPaths = EnumSet.of(AccessPath.UNKNOWN);
   private Cookie outCookie;
 
   private Key key;
@@ -85,34 +87,29 @@ public final class CacheBasedWebSession implements WebSession {
     this.anonymousProvider = anonymousProvider;
     this.identified = identified;
 
-    String cookie = request.getHeader("Authorization");
-    if (cookie != null && cookie.startsWith("Bearer ")) {
-      cookie = cookie.substring("Bearer ".length());
-      accessPath = AccessPath.REST_API;
-    } else if (cookie != null && GitSmartHttpTools.isGitClient(request)) {
-      accessPath = AccessPath.GIT;
-    } else {
-      cookie = readCookie();
-      accessPath = AccessPath.WEB_BROWSER;
-    }
+    if (!GitSmartHttpTools.isGitClient(request)) {
+      String cookie = readCookie();
+      String token = request.getHeader("Authorization");
+      if (token != null && token.startsWith("Bearer ")) {
+        token = token.substring("Bearer ".length());
+        okPaths.add(AccessPath.REST_API);
+      } else {
+        token = cookie;
+      }
 
-    if (cookie != null) {
-      key = new Key(cookie);
-      val = manager.get(key);
-    } else {
-      key = null;
-      val = null;
-    }
+      if (token != null) {
+        key = new Key(token);
+        val = manager.get(key);
 
-    if (isSignedIn() && val.needsCookieRefresh()) {
-      // Cookie is more than half old. Send the cookie again to the
-      // client with an updated expiration date. We don't dare to
-      // change the key token here because there may be other RPCs
-      // queued up in the browser whose xsrfKey would not get updated
-      // with the new token, causing them to fail.
-      //
-      val = manager.createVal(key, val);
-      saveCookie();
+        if (isSignedIn() && val.needsCookieRefresh()) {
+          // Cookie is more than half old. Send the cookie again to the
+          // client with an updated expiration date.
+          val = manager.createVal(key, val);
+          if (cookie != null) {
+            saveCookie();
+          }
+        }
+      }
     }
   }
 
@@ -129,25 +126,43 @@ public final class CacheBasedWebSession implements WebSession {
     return null;
   }
 
+  @Override
   public boolean isSignedIn() {
     return val != null;
   }
 
+  @Override
   public String getAuthorization() {
     return isSignedIn() ? "Bearer " + key.getToken() : null;
   }
 
+  @Override
+  public boolean isAccessPathOk(AccessPath path) {
+    return okPaths.contains(path);
+  }
+
+  public void setAccessPathOk(AccessPath path, boolean ok) {
+    if (ok) {
+      okPaths.add(path);
+    } else {
+      okPaths.remove(path);
+    }
+  }
+
+  @Override
   public AccountExternalId.Key getLastLoginExternalId() {
     return val != null ? val.getExternalId() : null;
   }
 
+  @Override
   public CurrentUser getCurrentUser() {
     if (isSignedIn()) {
-      return identified.create(accessPath, val.getAccountId());
+      return identified.create(val.getAccountId());
     }
     return anonymousProvider.get();
   }
 
+  @Override
   public void login(final AuthResult res, final boolean rememberMe) {
     final Account.Id id = res.getAccountId();
     final AccountExternalId.Key identity = res.getExternalId();
@@ -162,11 +177,13 @@ public final class CacheBasedWebSession implements WebSession {
   }
 
   /** Set the user account for this current request only. */
+  @Override
   public void setUserAccountId(Account.Id id) {
     key = new Key("id:" + id);
     val = new Val(id, 0, false, null, 0);
   }
 
+  @Override
   public void logout() {
     if (val != null) {
       manager.destroy(key);

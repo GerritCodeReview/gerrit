@@ -39,7 +39,7 @@ public class InternalUser extends CurrentUser {
 
   @Inject
   protected InternalUser(CapabilityControl.Factory capabilityControlFactory) {
-    super(capabilityControlFactory, AccessPath.UNKNOWN);
+    super(capabilityControlFactory);
   }
 
   @Override

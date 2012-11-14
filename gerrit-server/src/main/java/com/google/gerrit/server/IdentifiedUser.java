@@ -38,6 +38,7 @@ import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.util.Providers;
 
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.SystemReader;
@@ -90,20 +91,19 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(final Account.Id id) {
-      return create(AccessPath.UNKNOWN, null, id);
+      return create((SocketAddress) null, id);
     }
 
     public IdentifiedUser create(Provider<ReviewDb> db, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, AccessPath.UNKNOWN,
+      return new IdentifiedUser(capabilityControlFactory,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
           groupBackend, null, db, id);
     }
 
-    public IdentifiedUser create(AccessPath accessPath,
-        Provider<SocketAddress> remotePeerProvider, Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, accessPath,
+    public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
+      return new IdentifiedUser(capabilityControlFactory,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
-          groupBackend, remotePeerProvider, null, id);
+          groupBackend, Providers.of(remotePeer), null, id);
     }
   }
 
@@ -149,9 +149,8 @@ public class IdentifiedUser extends CurrentUser {
       this.dbProvider = dbProvider;
     }
 
-    public IdentifiedUser create(final AccessPath accessPath,
-        final Account.Id id) {
-      return new IdentifiedUser(capabilityControlFactory, accessPath,
+    public IdentifiedUser create(Account.Id id) {
+      return new IdentifiedUser(capabilityControlFactory,
           authConfig, anonymousCowardName, canonicalUrl, realm, accountCache,
           groupBackend, remotePeerProvider, dbProvider, id);
     }
@@ -187,7 +186,6 @@ public class IdentifiedUser extends CurrentUser {
 
   private IdentifiedUser(
       CapabilityControl.Factory capabilityControlFactory,
-      final AccessPath accessPath,
       final AuthConfig authConfig,
       final String anonymousCowardName,
       final Provider<String> canonicalUrl,
@@ -195,7 +193,7 @@ public class IdentifiedUser extends CurrentUser {
       final GroupBackend groupBackend,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
-    super(capabilityControlFactory, accessPath);
+    super(capabilityControlFactory);
     this.canonicalUrl = canonicalUrl;
     this.accountCache = accountCache;
     this.groupBackend = groupBackend;

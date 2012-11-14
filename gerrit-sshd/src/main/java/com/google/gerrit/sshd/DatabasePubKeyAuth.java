@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.client.AccountSshKey;
-import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
@@ -23,7 +22,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.apache.commons.codec.binary.Base64;
@@ -43,7 +41,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.SocketAddress;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.Collection;
@@ -201,13 +198,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
 
   private IdentifiedUser createUser(final SshSession sd,
       final SshKeyCacheEntry key) {
-    return userFactory.create(AccessPath.SSH_COMMAND,
-        new Provider<SocketAddress>() {
-          @Override
-          public SocketAddress get() {
-            return sd.getRemoteAddress();
-          }
-        }, key.getAccount());
+    return userFactory.create(sd.getRemoteAddress(), key.getAccount());
   }
 
   private SshKeyCacheEntry find(final Iterable<SshKeyCacheEntry> keyList,

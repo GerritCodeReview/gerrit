@@ -196,6 +196,11 @@ public class ListDashboards {
     if (seen.add(parent)) {
       dashboards = addProjectDashboards(projectState, dashboards);
     }
+
+    for (String id : dashboards.keySet()) {
+      replaceTokens(dashboards.get(id), projectName.get());
+    }
+
     return dashboards;
   }
 
@@ -285,7 +290,13 @@ public class ListDashboards {
     }
 
     final Project.NameKey projectName = projectState.getProject().getNameKey();
-    return loadDashboard(projectControl, defaultDashboardId);
+    DashboardInfo info = loadDashboard(projectControl, defaultDashboardId);
+    replaceTokens(info, projectName.get());
+    return info;
+  }
+
+  private static void replaceTokens(DashboardInfo info, String project) {
+    info.parameters = info.parameters.replaceAll("[$][{]project[}]", project);
   }
 
   private DashboardInfo loadDashboard(final ProjectControl projectControl,

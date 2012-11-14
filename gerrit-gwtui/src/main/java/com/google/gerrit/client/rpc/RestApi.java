@@ -24,6 +24,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.ServerUnavailableException;
@@ -159,13 +160,47 @@ public class RestApi {
     return this;
   }
 
+  public <T extends JavaScriptObject> void get(final AsyncCallback<T> cb) {
+    send(RequestBuilder.GET, null, cb);
+  }
+
+  public <T extends JavaScriptObject> void post(final JavaScriptObject data,
+      final AsyncCallback<T> cb) {
+    send(RequestBuilder.POST, data, cb);
+  }
+
+  public <T extends JavaScriptObject> void put(final JavaScriptObject data,
+      final AsyncCallback<T> cb) {
+    send(RequestBuilder.PUT, data, cb);
+  }
+
+  public <T extends JavaScriptObject> void delete(final JavaScriptObject data,
+      final AsyncCallback<T> cb) {
+    send(RequestBuilder.DELETE, data, cb);
+  }
+
+  /**
+   * Send a GET request to the client.
+   * @deprecated Use {@link #get(AsyncCallback)} instead.
+   */
+  @Deprecated
   public <T extends JavaScriptObject> void send(final AsyncCallback<T> cb) {
-    RequestBuilder req = new RequestBuilder(RequestBuilder.GET, url.toString());
+    get(cb);
+  }
+
+  private <T extends JavaScriptObject> void send(
+      final RequestBuilder.Method method, final JavaScriptObject data,
+      final AsyncCallback<T> cb) {
+    RequestBuilder req = new RequestBuilder(method, url.toString());
     req.setHeader("Accept", JsonConstants.JSON_TYPE);
     if (Gerrit.getAuthorization() != null) {
       req.setHeader("Authorization", Gerrit.getAuthorization());
     }
     req.setCallback(new MyRequestCallback<T>(cb));
+    if(data != null && method != RequestBuilder.GET) {
+      req.setRequestData(new JSONObject(data).toString());
+      req.setHeader("Content-Type", JsonConstants.JSON_TYPE);
+    }
     try {
       RpcStatus.INSTANCE.onRpcStart();
       req.send();

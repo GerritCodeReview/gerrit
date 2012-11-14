@@ -21,16 +21,17 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-import com.google.inject.Singleton;
+import com.google.inject.servlet.RequestScoped;
 
 /** Provides {@link ReviewDb} database handle live only for this request. */
-@Singleton
-final class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
+@RequestScoped
+public class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<RequestCleanup> cleanup;
+  private ReviewDb db;
 
   @Inject
-  RequestScopedReviewDbProvider(final SchemaFactory<ReviewDb> schema,
+  public RequestScopedReviewDbProvider(final SchemaFactory<ReviewDb> schema,
       final Provider<RequestCleanup> cleanup) {
     this.schema = schema;
     this.cleanup = cleanup;
@@ -38,26 +39,27 @@ final class RequestScopedReviewDbProvider implements Provider<ReviewDb> {
 
   @Override
   public ReviewDb get() {
-    final ReviewDb c;
-    try {
-      c = schema.open();
-    } catch (OrmException e) {
-      throw new ProvisionException("Cannot open ReviewDb", e);
+    if (db == null) {
+      final ReviewDb c;
+      try {
+        c = schema.open();
+      } catch (OrmException e) {
+        throw new ProvisionException("Cannot open ReviewDb", e);
+      }
+      try {
+        cleanup.get().add(new Runnable() {
+          @Override
+          public void run() {
+            c.close();
+            db = null;
+          }
+        });
+      } catch (Throwable e) {
+        c.close();
+        throw new ProvisionException("Cannot defer cleanup of ReviewDb", e);
+      }
+      db = c;
     }
-    try {
-      cleanup.get().add(new Runnable() {
-        @Override
-        public void run() {
-          c.close();
-        }
-      });
-      return c;
-    } catch (Error e) {
-      c.close();
-      throw e;
-    } catch (RuntimeException e) {
-      c.close();
-      throw e;
-    }
+    return db;
   }
 }

@@ -154,6 +154,11 @@ public class ListDashboards {
       dashboards = addProjectDashboards(projectState, dashboards);
     }
 
+    for (String id : dashboards.keySet()) {
+      DashboardInfo info = dashboards.get(id);
+      info.parameters = info.parameters.replaceAll("[$][{]project[}]", projectName.get());
+    }
+
     return dashboards;
   }
 

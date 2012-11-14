@@ -159,13 +159,47 @@ public class RestApi {
     return this;
   }
 
+  public <T extends JavaScriptObject> void get(final AsyncCallback<T> cb) {
+    send(RequestBuilder.GET, null, cb);
+  }
+
+  public <T extends JavaScriptObject> void post(final String data,
+      final AsyncCallback<T> cb) {
+    send(RequestBuilder.POST, data, cb);
+  }
+
+  public <T extends JavaScriptObject> void put(final String data,
+      final AsyncCallback<T> cb) {
+    send(RequestBuilder.PUT, data, cb);
+  }
+
+  public <T extends JavaScriptObject> void delete(final String data,
+      final AsyncCallback<T> cb) {
+    send(RequestBuilder.DELETE, data, cb);
+  }
+
+  /**
+   * Send a GET request to the client.
+   * @deprecated Use {@link #get(AsyncCallback)} instead.
+   */
+  @Deprecated
   public <T extends JavaScriptObject> void send(final AsyncCallback<T> cb) {
-    RequestBuilder req = new RequestBuilder(RequestBuilder.GET, url.toString());
+    get(cb);
+  }
+
+  private <T extends JavaScriptObject> void send(
+      final RequestBuilder.Method method, final String data,
+      final AsyncCallback<T> cb) {
+    RequestBuilder req = new RequestBuilder(method, url.toString());
     req.setHeader("Accept", JsonConstants.JSON_TYPE);
     if (Gerrit.getAuthorization() != null) {
       req.setHeader("Authorization", Gerrit.getAuthorization());
     }
     req.setCallback(new MyRequestCallback<T>(cb));
+    if(data != null && method != RequestBuilder.GET) {
+      req.setRequestData(data);
+      req.setHeader("Content-Type", JsonConstants.JSON_TYPE);
+    }
     try {
       RpcStatus.INSTANCE.onRpcStart();
       req.send();

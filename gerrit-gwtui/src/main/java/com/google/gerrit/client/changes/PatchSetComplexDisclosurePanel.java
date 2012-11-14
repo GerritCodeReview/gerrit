@@ -54,6 +54,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
@@ -525,8 +526,24 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
 
             @Override
             public void onSend() {
-              Util.MANAGE_SVC.abandonChange(patchSet.getId(), getMessageText(),
-                  createCallback());
+              // TODO: once the other users of ActionDialog have converted to
+              // REST APIs, we can use createCallback() rather than providing
+              // them directly.
+              ChangeApi.abandon(changeDetail.getChange().getChangeId(),
+                  getMessageText(), new AsyncCallback<ChangeInfo>() {
+                    @Override
+                    public void onSuccess(ChangeInfo result) {
+                      sent = true;
+                      Gerrit.display(PageLinks.toChange(new Change.Id(result
+                          ._number())));
+                      hide();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                      enableButtons(true);
+                    }
+                  });
             }
           }.center();
         }

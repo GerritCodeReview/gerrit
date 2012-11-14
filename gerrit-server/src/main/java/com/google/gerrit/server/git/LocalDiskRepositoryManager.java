@@ -298,6 +298,15 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (name.contains("/../")) return true; // no "foo/../etc/passwd"
     if (name.contains("/./")) return true; // "foo/./foo" is insane to ask
     if (name.contains("//")) return true; // windows UNC path can be "//..."
+    if (name.contains("?")) return true; // common unix wildcard
+    if (name.contains("%")) return true; // wildcard or string parameter
+    if (name.contains("*")) return true; // wildcard
+    if (name.contains(":")) return true; // Could be used for aboslute paths in windows?
+    if (name.contains("<")) return true; // redirect input
+    if (name.contains(">")) return true; // redirect output
+    if (name.contains("|")) return true; // pipe
+    if (name.contains("$")) return true; // dollar sign
+    if (name.contains("\r")) return true; // carriage return
 
     return false; // is a reasonable name
   }

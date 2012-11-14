@@ -163,7 +163,7 @@ public class ChangeInfoBlock extends Composite {
 
       newTopic = new TextBox();
       panel.insert(newTopic, 0);
-      panel.insert(new InlineLabel("Alter topic to:"), 0);
+      panel.insert(new InlineLabel(Util.C.alterTopicLabel()), 0);
     }
 
     @Override

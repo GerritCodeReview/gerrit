@@ -31,35 +31,35 @@ public class GroupInfoCacheFactory {
   }
 
   private final GroupCache groupCache;
-  private final Map<AccountGroup.Id, AccountGroup> out;
+  private final Map<AccountGroup.UUID, AccountGroup> out;
 
   @Inject
   GroupInfoCacheFactory(final GroupCache groupCache) {
     this.groupCache = groupCache;
-    this.out = new HashMap<AccountGroup.Id, AccountGroup>();
+    this.out = new HashMap<AccountGroup.UUID, AccountGroup>();
   }
 
   /**
    * Indicate a group will be needed later on.
    *
-   * @param id identity that will be needed in the future; may be null.
+   * @param uuid identity that will be needed in the future; may be null.
    */
-  public void want(final AccountGroup.Id id) {
-    if (id != null && !out.containsKey(id)) {
-      out.put(id, groupCache.get(id));
+  public void want(final AccountGroup.UUID uuid) {
+    if (uuid != null && !out.containsKey(uuid)) {
+      out.put(uuid, groupCache.get(uuid));
     }
   }
 
   /** Indicate one or more groups will be needed later on. */
-  public void want(final Iterable<AccountGroup.Id> ids) {
-    for (final AccountGroup.Id id : ids) {
-      want(id);
+  public void want(final Iterable<AccountGroup.UUID> uuids) {
+    for (final AccountGroup.UUID uuid : uuids) {
+      want(uuid);
     }
   }
 
-  public AccountGroup get(final AccountGroup.Id id) {
-    want(id);
-    return out.get(id);
+  public AccountGroup get(final AccountGroup.UUID uuid) {
+    want(uuid);
+    return out.get(uuid);
   }
 
   /**

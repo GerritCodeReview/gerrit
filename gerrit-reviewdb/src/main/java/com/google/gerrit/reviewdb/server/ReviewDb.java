@@ -112,6 +112,12 @@ public interface ReviewDb extends Schema {
   @Relation(id = 28)
   SubmoduleSubscriptionAccess submoduleSubscriptions();
 
+  @Relation(id = 29)
+  AccountGroupIncludeByUuidAccess accountGroupIncludesByUuid();
+
+  @Relation(id = 30)
+  AccountGroupIncludeByUuidAuditAccess accountGroupIncludesByUuidAudit();
+
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)
   int nextAccountId() throws OrmException;

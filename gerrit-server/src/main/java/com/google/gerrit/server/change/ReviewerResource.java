@@ -12,20 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.plugins;
+package com.google.gerrit.server.change;
 
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.inject.TypeLiteral;
 
-/** Plugins available from {@code /plugins/}. */
-public class PluginMap extends NativeMap<PluginInfo> {
-  public static void all(AsyncCallback<PluginMap> callback) {
-    new RestApi("/plugins/")
-        .addParameterTrue("all")
-        .send(NativeMap.copyKeysIntoChildren(callback));
+public class ReviewerResource extends ChangeResource {
+  public static final TypeLiteral<RestView<ReviewerResource>> REVIEWER_KIND =
+      new TypeLiteral<RestView<ReviewerResource>>() {};
+
+  private final Account.Id id;
+
+  public ReviewerResource(ChangeResource rsrc, Account.Id id) {
+    super(rsrc);
+    this.id = id;
   }
 
-  protected PluginMap() {
+  public Account.Id getAccountId() {
+    return id;
   }
 }

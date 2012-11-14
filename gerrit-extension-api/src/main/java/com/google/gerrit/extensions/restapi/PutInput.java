@@ -12,20 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.plugins;
+package com.google.gerrit.extensions.restapi;
 
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import java.io.IOException;
+import java.io.InputStream;
 
-/** Plugins available from {@code /plugins/}. */
-public class PluginMap extends NativeMap<PluginInfo> {
-  public static void all(AsyncCallback<PluginMap> callback) {
-    new RestApi("/plugins/")
-        .addParameterTrue("all")
-        .send(NativeMap.copyKeysIntoChildren(callback));
-  }
 
-  protected PluginMap() {
-  }
+/** Raw data stream supplied by the body of a PUT. */
+public interface PutInput {
+  String getContentType();
+  long getContentLength();
+  InputStream getInputStream() throws IOException;
 }

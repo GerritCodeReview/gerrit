@@ -12,20 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.plugins;
+package com.google.gerrit.httpd.rpc.account;
 
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gerrit.httpd.restapi.RestApiServlet;
+import com.google.gerrit.server.account.AccountsCollection;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
-/** Plugins available from {@code /plugins/}. */
-public class PluginMap extends NativeMap<PluginInfo> {
-  public static void all(AsyncCallback<PluginMap> callback) {
-    new RestApi("/plugins/")
-        .addParameterTrue("all")
-        .send(NativeMap.copyKeysIntoChildren(callback));
-  }
+@Singleton
+public class AccountsRestApiServlet extends RestApiServlet {
+  private static final long serialVersionUID = 1L;
 
-  protected PluginMap() {
+  @Inject
+  AccountsRestApiServlet(RestApiServlet.Globals globals,
+      Provider<AccountsCollection> accounts) {
+    super(globals, accounts);
   }
 }

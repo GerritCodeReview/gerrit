@@ -12,20 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.plugins;
+package com.google.gerrit.extensions.restapi;
 
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+/** Named resource does not exist (HTTP 404 Not Found). */
+public class ResourceNotFoundException extends RestApiException {
+  private static final long serialVersionUID = 1L;
 
-/** Plugins available from {@code /plugins/}. */
-public class PluginMap extends NativeMap<PluginInfo> {
-  public static void all(AsyncCallback<PluginMap> callback) {
-    new RestApi("/plugins/")
-        .addParameterTrue("all")
-        .send(NativeMap.copyKeysIntoChildren(callback));
+  /** Requested resource is not found, failing portion not specified. */
+  public ResourceNotFoundException() {
   }
 
-  protected PluginMap() {
+  /** @param id portion of the resource URI that does not exist. */
+  public ResourceNotFoundException(String id) {
+    super(id);
   }
 }

@@ -213,8 +213,8 @@ public class RestApi {
       final AsyncCallback<T> cb) {
     RequestBuilder req = new RequestBuilder(method, url.toString());
     req.setHeader("Accept", JsonConstants.JSON_TYPE);
-    if (Gerrit.getAccessToken() != null) {
-      req.setHeader("Authorization", "OAuth " + Gerrit.getAccessToken());
+    if (Gerrit.getAuthorization() != null) {
+      req.setHeader("Authorization", Gerrit.getAuthorization());
     }
     if (contentData != null) {
       req.setHeader("Content-Type", contentType);

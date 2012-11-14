@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.change;
 
-import com.google.gerrit.httpd.RestApiServlet;
+import com.google.gerrit.httpd.SimpleJsonApiServlet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.query.QueryParseException;
@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Singleton
-public class ListChangesServlet extends RestApiServlet {
+public class ListChangesServlet extends SimpleJsonApiServlet {
   private static final long serialVersionUID = 1L;
   private static final Logger log = LoggerFactory.getLogger(ListChangesServlet.class);
   private final ParameterParser paramParser;

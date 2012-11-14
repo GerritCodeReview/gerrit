@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALjn///6s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-14T17:51:00Z",
+      "side": 1,
+      "message": "You should use projectState.getProject().getParent(allProjectsName) here. Then you don\u0027t need the special handling for the All-Projects project below.",
+      "revId": "279ef921b7dc30dd11a34111dcb7860d737994b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

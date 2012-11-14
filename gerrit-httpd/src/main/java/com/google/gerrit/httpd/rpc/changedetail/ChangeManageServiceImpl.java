@@ -23,7 +23,6 @@ import com.google.inject.Inject;
 
 class ChangeManageServiceImpl implements ChangeManageService {
   private final SubmitAction.Factory submitAction;
-  private final AbandonChangeHandler.Factory abandonChangeHandlerFactory;
   private final RebaseChangeHandler.Factory rebaseChangeFactory;
   private final RestoreChangeHandler.Factory restoreChangeHandlerFactory;
   private final RevertChange.Factory revertChangeFactory;
@@ -32,14 +31,12 @@ class ChangeManageServiceImpl implements ChangeManageService {
 
   @Inject
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
-      final AbandonChangeHandler.Factory abandonChangeHandlerFactory,
       final RebaseChangeHandler.Factory rebaseChangeFactory,
       final RestoreChangeHandler.Factory restoreChangeHandlerFactory,
       final RevertChange.Factory revertChangeFactory,
       final PublishAction.Factory publishAction,
       final DeleteDraftChange.Factory deleteDraftChangeFactory) {
     this.submitAction = patchSetAction;
-    this.abandonChangeHandlerFactory = abandonChangeHandlerFactory;
     this.rebaseChangeFactory = rebaseChangeFactory;
     this.restoreChangeHandlerFactory = restoreChangeHandlerFactory;
     this.revertChangeFactory = revertChangeFactory;
@@ -50,11 +47,6 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void submit(final PatchSet.Id patchSetId,
       final AsyncCallback<ChangeDetail> cb) {
     submitAction.create(patchSetId).to(cb);
-  }
-
-  public void abandonChange(final PatchSet.Id patchSetId, final String message,
-      final AsyncCallback<ChangeDetail> callback) {
-    abandonChangeHandlerFactory.create(patchSetId, message).to(callback);
   }
 
   public void rebaseChange(final PatchSet.Id patchSetId,

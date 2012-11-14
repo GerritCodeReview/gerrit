@@ -20,6 +20,13 @@ import javax.annotation.Nullable;
  * Defines an abstract request for user authentication to Gerrit.
  */
 public abstract class AuthRequest {
+  private final String username;
+  private final String password;
+
+  protected AuthRequest(String username, String password) {
+    this.username = username;
+    this.password = password;
+  }
 
   /**
    * Returns the username to be authenticated.
@@ -27,7 +34,9 @@ public abstract class AuthRequest {
    * @return username for authentication or null for anonymous access.
    */
   @Nullable
-  public abstract String getUsername();
+  public final String getUsername() {
+    return username;
+  }
 
   /**
    * Returns the user's credentials
@@ -35,5 +44,7 @@ public abstract class AuthRequest {
    * @return user's credentials or null
    */
   @Nullable
-  public abstract String getPassword();
+  public final String getPassword() {
+    return password;
+  }
 }

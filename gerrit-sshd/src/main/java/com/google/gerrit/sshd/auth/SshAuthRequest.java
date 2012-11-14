@@ -27,10 +27,7 @@ import javax.annotation.Nullable;
  */
 public class SshAuthRequest extends AuthRequest {
   private final SocketAddress clientAddress;
-  private final String username;
   private PublicKey pubKey;
-  private String password;
-
 
   /**
    * Create a new authentication request for a remote user.
@@ -39,7 +36,7 @@ public class SshAuthRequest extends AuthRequest {
    * @param clientAddress remote SSH client address
    */
   public SshAuthRequest(String username, SocketAddress clientAddress) {
-    this.username = username;
+    super(username, null);
     this.clientAddress = clientAddress;
   }
 
@@ -64,21 +61,5 @@ public class SshAuthRequest extends AuthRequest {
    */
   public SocketAddress getClientAddress() {
     return clientAddress;
-  }
-
-  @Override
-  public String getUsername() {
-    return username;
-  }
-
-  /**
-   * Return the client SSH password client credentials.
-   *
-   * @return user's password or null if not provided during SSH negotiation.
-   */
-  @Override
-  @Nullable
-  public String getPassword() {
-    return password;
   }
 }

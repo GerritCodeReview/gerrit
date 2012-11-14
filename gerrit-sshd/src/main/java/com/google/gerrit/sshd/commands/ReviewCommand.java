@@ -17,19 +17,21 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewResult;
+import com.google.gerrit.extensions.restapi.InvalidApiCallException;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.changedetail.AbandonChange;
+import com.google.gerrit.server.change.Abandon;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
-import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PublishComments;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -40,7 +42,6 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -115,7 +116,10 @@ public class ReviewCommand extends SshCommand {
   private DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
 
   @Inject
-  private Provider<AbandonChange> abandonChangeProvider;
+  private ChangeControl.Factory changeControlFactory;
+
+  @Inject
+  private Provider<Abandon> abandonProvider;
 
   @Inject
   private PublishComments.Factory publishCommentsFactory;
@@ -184,8 +188,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   private void approveOne(final PatchSet.Id patchSetId)
-      throws NoSuchChangeException, OrmException, EmailException, Failure,
-      RepositoryNotFoundException, IOException {
+      throws InvalidApiCallException, Exception {
 
     if (changeComment == null) {
       changeComment = "";
@@ -203,10 +206,13 @@ public class ReviewCommand extends SshCommand {
       publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage).call();
 
       if (abandonChange) {
-        final AbandonChange abandonChange = abandonChangeProvider.get();
-        abandonChange.setChangeId(patchSetId.getParentKey());
-        abandonChange.setMessage(changeComment);
-        final ReviewResult result = abandonChange.call();
+        final Abandon abandon = abandonProvider.get();
+        final Abandon.Input input = new Abandon.Input();
+        input.message = changeComment;
+        ChangeControl ctl =
+            changeControlFactory.controlFor(patchSetId.getParentKey());
+        final ReviewResult result =
+            (ReviewResult) abandon.apply(new ChangeResource(ctl), input);
         handleReviewResultErrors(result);
       } else if (restoreChange) {
         final RestoreChange restoreChange = restoreChangeProvider.get();

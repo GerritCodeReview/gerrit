@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALfH///54\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/HttpBasicAuthRequest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-14T05:26:14Z",
+      "side": 1,
+      "message": "Should this method be declared after the constructor?",
+      "revId": "ca68cdc24bd36e7718a4c7bcba31e054e4aebf94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

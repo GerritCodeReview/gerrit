@@ -26,7 +26,7 @@ public class ChangeResource implements RestResource {
   public static final TypeLiteral<RestView<ChangeResource>> VIEW_TYPE =
       new TypeLiteral<RestView<ChangeResource>>() {};
 
-  interface Factory {
+  public interface Factory {
     ChangeResource create(ChangeControl ctl);
   }
 

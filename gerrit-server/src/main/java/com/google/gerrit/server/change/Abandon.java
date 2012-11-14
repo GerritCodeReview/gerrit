@@ -33,7 +33,7 @@ import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
 
-class Abandon implements RestModifyView<ChangeResource, Input> {
+public class Abandon implements RestModifyView<ChangeResource, Input> {
   private final ChangeHooks hooks;
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
@@ -41,8 +41,8 @@ class Abandon implements RestModifyView<ChangeResource, Input> {
   @Option(name = "--message", aliases = {"-m"}, usage = "optional message to append to change")
   private String message;
 
-  static class Input {
-    String message;
+  public static class Input {
+    public String message;
   }
 
   @Inject

@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.rpc.project;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.httpd.RestApiServlet;
+import com.google.gerrit.httpd.SimpleJsonApiServlet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.project.ListProjects;
@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Singleton
-public class ListProjectsServlet extends RestApiServlet {
+public class ListProjectsServlet extends SimpleJsonApiServlet {
   private static final long serialVersionUID = 1L;
   private final ParameterParser paramParser;
   private final Provider<ListProjects> factory;

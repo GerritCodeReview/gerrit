@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALqH////I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T18:01:03Z",
+      "side": 1,
+      "message": "Maybe mention that the NPE only occurs when abandon is done from the SSH command.\n\nIn addition this also fixes pushing of commits which have an unknown author. Without this fix, the push fails with \u0027internal server error\u0027, the change/patch set gets created, but we fail to do patchset-created event because of this NPE. Maybe you want to mention this in the commit message as well?",
+      "revId": "1e664ac04131f4b4674bf3295edd14a532ff6cc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALmn///8g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 1

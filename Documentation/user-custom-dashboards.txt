@@ -43,6 +43,40 @@ Parameters may be separated from each other using any of the following
 characters, as some users may find one more readable than another:
 `&` or `;` or `,`
 
+Project Dashboards
+------------------
+
+It is possible to share custom dashboards at a project level. To do
+this define the dashboards in a `refs/meta/dashboards/*` branch of the
+project. For each dashboard create a config file. The file name will be
+used as name for the dashboard.
+
+Example dashboard config file `MyProject Dashboard`:
+
+----
+[main]
+  description = Most recent open and merged changes.
+[section "Open Changes"]
+  query = status:open project:myProject limit:15
+[section "Merged Changes"]
+  query = status:merged project:myProject limit:15
+----
+
+Section main
+~~~~~~~~~~~~
+
+main.description::
++
+The description of the dashboard.
+
+Section section
+~~~~~~~~~~~~~~~
+
+section.<name>.query::
++
+The change query that should be used to populate the section with the
+given name.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

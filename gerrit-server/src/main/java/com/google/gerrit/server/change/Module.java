@@ -36,6 +36,10 @@ public class Module extends FactoryModule {
       .to(Abandon.class);
 
     bind(CHANGE_KIND)
+      .annotatedWith(Exports.named("POST.restore"))
+      .to(Restore.class);
+
+    bind(CHANGE_KIND)
       .annotatedWith(Exports.named("GET.reviewers"))
       .to(Reviewers.class);
 

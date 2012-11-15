@@ -20,5 +20,6 @@ public class EmailModule extends FactoryModule {
   @Override
   protected void configure() {
     factory(AbandonedSender.Factory.class);
+    factory(RestoredSender.Factory.class);
   }
 }

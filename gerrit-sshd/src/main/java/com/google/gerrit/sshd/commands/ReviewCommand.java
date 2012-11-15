@@ -17,7 +17,6 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewResult;
-import com.google.gerrit.extensions.restapi.InvalidApiCallException;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
@@ -26,9 +25,9 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
-import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
@@ -128,7 +127,7 @@ public class ReviewCommand extends SshCommand {
   private PublishDraft.Factory publishDraftFactory;
 
   @Inject
-  private Provider<RestoreChange> restoreChangeProvider;
+  private Provider<Restore> restoreProvider;
 
   @Inject
   private Submit.Factory submitFactory;
@@ -188,7 +187,7 @@ public class ReviewCommand extends SshCommand {
   }
 
   private void approveOne(final PatchSet.Id patchSetId)
-      throws InvalidApiCallException, Exception {
+      throws Exception {
 
     if (changeComment == null) {
       changeComment = "";
@@ -215,10 +214,13 @@ public class ReviewCommand extends SshCommand {
             (ReviewResult) abandon.apply(new ChangeResource(ctl), input);
         handleReviewResultErrors(result);
       } else if (restoreChange) {
-        final RestoreChange restoreChange = restoreChangeProvider.get();
-        restoreChange.setChangeId(patchSetId.getParentKey());
-        restoreChange.setMessage(changeComment);
-        final ReviewResult result = restoreChange.call();
+        final Restore restore = restoreProvider.get();
+        final Restore.Input input = new Restore.Input();
+        input.message = changeComment;
+        ChangeControl ctl =
+            changeControlFactory.controlFor(patchSetId.getParentKey());
+        final ReviewResult result =
+            (ReviewResult) restore.apply(new ChangeResource(ctl), input);
         handleReviewResultErrors(result);
       }
       if (submitChange) {

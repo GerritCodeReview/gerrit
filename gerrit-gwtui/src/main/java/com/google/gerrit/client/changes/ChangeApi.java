@@ -41,4 +41,12 @@ public class ChangeApi {
     msg.setMessage(message);
     call.post(msg, callback);
   }
+
+  public static void restore(int changeId, String message,
+      AsyncCallback<ChangeInfo> callback) {
+    RestApi call = new RestApi(URI + changeId + "/restore");
+    Message msg = new Message();
+    msg.setMessage(message);
+    call.post(msg, callback);
+  }
 }

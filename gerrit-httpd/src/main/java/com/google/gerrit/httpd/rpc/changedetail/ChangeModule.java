@@ -29,7 +29,6 @@ public class ChangeModule extends RpcServletModule {
       @Override
       protected void configure() {
         factory(EditCommitMessageHandler.Factory.class);
-        factory(RestoreChangeHandler.Factory.class);
         factory(RebaseChangeHandler.Factory.class);
         factory(ChangeDetailFactory.Factory.class);
         factory(IncludedInDetailFactory.Factory.class);

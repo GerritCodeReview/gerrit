@@ -17,26 +17,26 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.change.Abandon.Input;
-import com.google.gerrit.server.mail.AbandonedSender;
+import com.google.gerrit.server.change.Restore.Input;
+import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class Abandon implements RestModifyView<ChangeResource, Input> {
+public class Restore implements RestModifyView<ChangeResource, Input> {
   private final ChangeHooks hooks;
-  private final AbandonedSender.Factory abandonedSenderFactory;
+  private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson json;
 
@@ -46,12 +46,12 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
   }
 
   @Inject
-  Abandon(ChangeHooks hooks,
-      AbandonedSender.Factory abandonedSenderFactory,
+  Restore(ChangeHooks hooks,
+      RestoredSender.Factory restoredSenderFactory,
       Provider<ReviewDb> dbProvider,
       ChangeJson json) {
     this.hooks = hooks;
-    this.abandonedSenderFactory = abandonedSenderFactory;
+    this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
     this.json = json;
   }
@@ -63,40 +63,39 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public Object apply(ChangeResource req, Input input)
-      throws BadRequestException, AuthException,
-      ResourceConflictException, Exception {
+      throws Exception {
     ChangeControl control = req.getControl();
     Change change = req.getChange();
-    if (!control.canAbandon()) {
-      throw new AuthException("abandon not permitted");
-    } else if (!change.getStatus().isOpen()) {
+    if (!control.canRestore()) {
+      throw new AuthException("restore not permitted");
+    } else if (change.getStatus() != Status.ABANDONED) {
       throw new ResourceConflictException("change is " + status(change));
     }
 
-    // Create a message to accompany the abandoned change
+    // Create a message to accompany the restore change
     ReviewDb db = dbProvider.get();
     PatchSet.Id patchSetId = change.currentPatchSetId();
     IdentifiedUser currentUser = (IdentifiedUser) control.getCurrentUser();
     String message = Strings.emptyToNull(input.message);
-    ChangeMessage cmsg = new ChangeMessage(
+    final ChangeMessage cmsg = new ChangeMessage(
         new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
         currentUser.getAccountId(), patchSetId);
     StringBuilder msg = new StringBuilder();
-    msg.append(String.format("Patch Set %d: Abandoned", patchSetId.get()));
+    msg.append(String.format("Patch Set %d: Restored", patchSetId.get()));
     if (message != null) {
       msg.append("\n\n");
       msg.append(message);
     }
     cmsg.setMessage(msg.toString());
 
-    // Abandon the change
-    Change updatedChange = db.changes().atomicUpdate(
+    // Restore the change
+    final Change updatedChange = db.changes().atomicUpdate(
       change.getId(),
       new AtomicUpdate<Change>() {
         @Override
         public Change update(Change change) {
-          if (change.getStatus().isOpen()) {
-            change.setStatus(Change.Status.ABANDONED);
+          if (change.getStatus() == Change.Status.ABANDONED) {
+            change.setStatus(Change.Status.NEW);
             ChangeUtil.updated(change);
             return change;
           }
@@ -109,8 +108,8 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
     }
 
     ChangeUtil.updatedChange(db, currentUser, updatedChange, cmsg,
-                             abandonedSenderFactory);
-    hooks.doChangeAbandonedHook(updatedChange, currentUser.getAccount(),
+                             restoredSenderFactory);
+    hooks.doChangeRestoredHook(updatedChange, currentUser.getAccount(),
                                 message, db);
     return json.format(change.getId());
   }

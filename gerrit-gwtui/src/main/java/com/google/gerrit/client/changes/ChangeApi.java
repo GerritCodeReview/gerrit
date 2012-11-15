@@ -31,6 +31,13 @@ public class ChangeApi {
     api(id, "abandon").data(input).post(cb);
   }
 
+  /** Restore a previously abandoned change to be open again. */
+  public static void restore(int id, String msg, AsyncCallback<ChangeInfo> cb) {
+    Input input = Input.create();
+    input.message(emptyToNull(msg));
+    api(id, "restore").data(input).post(cb);
+  }
+
   /** Create a new change that reverts the delta caused by this change. */
   public static void revert(int id, String msg, AsyncCallback<ChangeInfo> cb) {
     Input input = Input.create();

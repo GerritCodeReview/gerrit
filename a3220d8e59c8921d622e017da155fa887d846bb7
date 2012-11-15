@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALmn///8E\u003d",
+        "filename": "Documentation/user-custom-dashboards.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T00:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALmn///98\u003d",
+      "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALmn///90\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardInfo.java",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-14T22:12:26Z",
       "side": 1,
       "message": "nit: unneeded wrap?",
+      "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmn///8A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardInfo.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T00:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALmn///90\u003d",
       "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALmn///78\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T00:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALmn///9k\u003d",
+      "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALmn///9o\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
         "patchSetId": 9
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAALmn///74\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T00:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALmn///9o\u003d",
+      "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALmn///9s\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
         "patchSetId": 9
@@ -81,6 +153,24 @@
       "writtenOn": "2012-11-14T22:12:26Z",
       "side": 1,
       "message": "Maybe put the project and refname in this message (and other similar ones)?",
+      "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmn///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T00:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALmn///9s\u003d",
       "revId": "a3220d8e59c8921d622e017da155fa887d846bb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

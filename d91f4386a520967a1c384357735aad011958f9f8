@@ -87,6 +87,24 @@
       "revId": "d91f4386a520967a1c384357735aad011958f9f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsX///78\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-15T23:08:42Z",
+      "side": 1,
+      "message": "refer https://gerrit-review.googlesource.com/Documentation/access-control.html#category_forge_author\n\nI still think keep align with Document is better . not get user confused.",
+      "parentUuid": "AAALsX///8Y\u003d",
+      "revId": "d91f4386a520967a1c384357735aad011958f9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

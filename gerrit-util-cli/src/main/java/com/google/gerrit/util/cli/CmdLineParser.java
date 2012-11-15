@@ -34,6 +34,9 @@
 
 package com.google.gerrit.util.cli;
 
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -54,11 +57,9 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 /**
  * Extended command line parser which handles --foo=value arguments.
@@ -186,7 +187,7 @@ public class CmdLineParser {
   }
 
   public void parseArgument(final String... args) throws CmdLineException {
-    final ArrayList<String> tmp = new ArrayList<String>(args.length);
+    List<String> tmp = Lists.newArrayListWithCapacity(args.length);
     for (int argi = 0; argi < args.length; argi++) {
       final String str = args[argi];
       if (str.equals("--")) {
@@ -211,15 +212,20 @@ public class CmdLineParser {
 
   public void parseOptionMap(Map<String, String[]> parameters)
       throws CmdLineException {
-    parseOptionMap(parameters, Collections.<String>emptySet());
+    Multimap<String, String> map = LinkedHashMultimap.create();
+    for (Map.Entry<String, String[]> ent : parameters.entrySet()) {
+      for (String val : ent.getValue()) {
+        map.put(ent.getKey(), val);
+      }
+    }
+    parseOptionMap(map);
   }
 
-  public void parseOptionMap(Map<String, String[]> parameters,
-      Set<String> argNames)
+  public void parseOptionMap(Multimap<String, String> params)
       throws CmdLineException {
-    ArrayList<String> tmp = new ArrayList<String>();
-    for (Map.Entry<String, String[]> ent : parameters.entrySet()) {
-      String name = ent.getKey();
+    List<String> tmp = Lists.newArrayListWithCapacity(2 * params.size());
+    for (final String key : params.keySet()) {
+      String name = key;
       if (!name.startsWith("-")) {
         if (name.length() == 1) {
           name = "-" + name;
@@ -230,17 +236,15 @@ public class CmdLineParser {
 
       if (findHandler(name) instanceof BooleanOptionHandler) {
         boolean on = false;
-        for (String value : ent.getValue()) {
-          on = toBoolean(ent.getKey(), value);
+        for (String value : params.get(key)) {
+          on = toBoolean(key, value);
         }
         if (on) {
           tmp.add(name);
         }
       } else {
-        for (String value : ent.getValue()) {
-          if (!argNames.contains(ent.getKey())) {
-            tmp.add(name);
-          }
+        for (String value : params.get(key)) {
+          tmp.add(name);
           tmp.add(value);
         }
       }
@@ -328,7 +332,7 @@ public class CmdLineParser {
     private void ensureOptionsInitialized() {
       if (options == null) {
         help = new HelpOption();
-        options = new ArrayList<OptionHandler>();
+        options = Lists.newArrayList();
         addOption(help, help);
       }
     }

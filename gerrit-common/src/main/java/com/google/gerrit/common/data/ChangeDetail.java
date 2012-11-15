@@ -29,6 +29,7 @@ public class ChangeDetail {
   protected AccountInfoCache accounts;
   protected boolean allowsAnonymous;
   protected boolean canAbandon;
+  protected boolean canCherryPick;
   protected boolean canPublish;
   protected boolean canRebase;
   protected boolean canRestore;
@@ -74,6 +75,14 @@ public class ChangeDetail {
 
   public void setCanAbandon(final boolean a) {
     canAbandon = a;
+  }
+
+  public boolean canCherryPick() {
+    return canCherryPick;
+  }
+
+  public void setCanCherryPick(final boolean a) {
+    canCherryPick = a;
   }
 
   public boolean canPublish() {

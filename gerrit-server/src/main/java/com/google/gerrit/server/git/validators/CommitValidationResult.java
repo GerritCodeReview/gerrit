@@ -54,6 +54,17 @@ public class CommitValidationResult {
   }
 
   /**
+   * Commit validation succeeded with warning.
+   *
+   * @param message warning on the commit validation.
+   *
+   * @return validation success with warning.
+   */
+  public static CommitValidationResult newSuccess(String message) {
+    return new CommitValidationResult(true, message);
+  }
+
+  /**
    * Commit validation result and reason.
    *
    * @param validated true if commit is valid or false if has to be rejected.

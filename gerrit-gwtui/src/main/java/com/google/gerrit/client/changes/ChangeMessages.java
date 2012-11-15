@@ -23,7 +23,7 @@ public interface ChangeMessages extends Messages {
   String changesAbandonedInProject(String string);
 
   String revertChangeDefaultMessage(String commitMsg, String commitId);
-
+  String cherryPickedChangeDefaultMessage(String commitMsg, String commitId);
   String changeScreenTitleId(String changeId);
   String outdatedHeader(int outdated);
   String patchSetHeader(int id);

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsX///84\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-15T22:20:26Z",
+      "side": 1,
+      "message": "authoId -\u003e authorId",
+      "revId": "d91f4386a520967a1c384357735aad011958f9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsX///80\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-15T22:20:26Z",
+      "side": 1,
+      "message": "- Forge -\u003e Forged\n\n- gerrit -\u003e Gerrit",
+      "revId": "d91f4386a520967a1c384357735aad011958f9f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

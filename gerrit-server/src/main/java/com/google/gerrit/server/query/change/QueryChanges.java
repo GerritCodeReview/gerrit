@@ -24,12 +24,17 @@ import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.changes.ListChangesOption;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.InvalidApiAuthException;
+import com.google.gerrit.extensions.restapi.InvalidApiCallException;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -44,6 +49,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.AccountAttribute;
@@ -57,7 +63,6 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.QueryParseException;
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -70,9 +75,7 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -81,9 +84,11 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class ListChanges {
-  private static final Logger log = LoggerFactory.getLogger(ListChanges.class);
+public class QueryChanges implements RestReadView<ChangeResource> {
+  private static final Logger log = LoggerFactory.getLogger(QueryChanges.class);
 
   @Singleton
   static class Urls {
@@ -120,14 +125,15 @@ public class ListChanges {
   private Map<Change.Id, ChangeControl> controls;
   private EnumSet<ListChangesOption> options;
 
-  @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
-  private OutputFormat format = OutputFormat.TEXT;
+  @Deprecated
+  @Option(name = "--format", usage = "(deprecated) output format")
+  private OutputFormat format;
 
   @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", multiValued = true, usage = "Query string")
   private List<String> queries;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "Maximum number of results to return")
-  public void setLimit(int limit) {
+  void setLimit(int limit) {
     imp.setLimit(limit);
   }
 
@@ -142,7 +148,7 @@ public class ListChanges {
   }
 
   @Option(name = "-P", metaVar = "SORTKEY", usage = "Previous changes before SORTKEY")
-  public void setSortKeyAfter(String key) {
+  void setSortKeyAfter(String key) {
     // Querying for the prior page of changes requires sortkey_after predicate.
     // Changes are shown most recent->least recent. The previous page of
     // results contains changes that were updated after the given key.
@@ -151,7 +157,7 @@ public class ListChanges {
   }
 
   @Option(name = "-N", metaVar = "SORTKEY", usage = "Next changes after SORTKEY")
-  public void setSortKeyBefore(String key) {
+  void setSortKeyBefore(String key) {
     // Querying for the next page of changes requires sortkey_before predicate.
     // Changes are shown most recent->least recent. The next page contains
     // changes that were updated before the given key.
@@ -159,7 +165,7 @@ public class ListChanges {
   }
 
   @Inject
-  ListChanges(QueryProcessor qp,
+  QueryChanges(QueryProcessor qp,
       Provider<ReviewDb> db,
       ApprovalTypes at,
       CurrentUser u,
@@ -187,25 +193,61 @@ public class ListChanges {
     options = EnumSet.noneOf(ListChangesOption.class);
   }
 
-  public OutputFormat getFormat() {
-    return format;
-  }
-
-  public ListChanges setFormat(OutputFormat fmt) {
-    this.format = fmt;
-    return this;
-  }
-
-  public ListChanges addQuery(String query) {
-    if (queries == null) {
-      queries = Lists.newArrayList();
+  @Override
+  public Object apply(ChangeResource rsrc)
+      throws InvalidApiCallException, InvalidApiAuthException, OrmException {
+    try {
+      List<List<ChangeInfo>> out = rsrc != null ? one(rsrc) : query();
+      if (format == OutputFormat.TEXT) {
+        return formatText(out);
+      }
+      return out.size() == 1 ? out.get(0) : out;
+    } catch (QueryParseException e) {
+      // This is a hack to detect an operator that requires authentication.
+      Pattern p = Pattern.compile("^Error in operator (.*:self)$");
+      Matcher m = p.matcher(e.getMessage());
+      if (m.matches()) {
+        String op = m.group(1);
+        throw new InvalidApiAuthException("Must be signed-in to use " + op);
+      }
+      throw new InvalidApiCallException(e.getMessage());
     }
-    queries.add(query);
-    return this;
   }
 
-  public void query(Writer out)
-      throws OrmException, QueryParseException, IOException {
+  private List<List<ChangeInfo>> one(ChangeResource rsrc) throws OrmException {
+    ChangeData cd = new ChangeData(rsrc.getChange());
+    List<ChangeData> changes = ImmutableList.of(cd);
+    ChangeData.ensureCurrentPatchSetLoaded(db, changes);
+    ChangeData.ensureCurrentApprovalsLoaded(db, changes);
+    return ImmutableList.of(toChangeInfo(changes));
+  }
+
+  private static BinaryResult formatText(List<List<ChangeInfo>> res) {
+    StringBuilder sb = new StringBuilder();
+    boolean firstQuery = true;
+    for (List<ChangeInfo> info : res) {
+      if (firstQuery) {
+        firstQuery = false;
+      } else {
+        sb.append('\n');
+      }
+      for (ChangeInfo c : info) {
+        String id = new Change.Key(c.changeId).abbreviate();
+        String subject = c.subject;
+        if (subject.length() + id.length() > 80) {
+          subject = subject.substring(0, 80 - id.length());
+        }
+        sb.append(id);
+        sb.append(' ');
+        sb.append(subject.replace('\n', ' '));
+        sb.append('\n');
+      }
+    }
+    return BinaryResult.create(sb.toString());
+  }
+
+  private List<List<ChangeInfo>> query()
+      throws OrmException, QueryParseException {
     if (imp.isDisabled()) {
       throw new QueryParseException("query disabled");
     }
@@ -232,10 +274,7 @@ public class ListChanges {
       ChangeData.ensureCurrentPatchSetLoaded(db, changes);
       ChangeData.ensureCurrentApprovalsLoaded(db, changes);
 
-      List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
-      for (ChangeData cd : changes) {
-        info.add(toChangeInfo(cd));
-      }
+      List<ChangeInfo> info = toChangeInfo(changes);
       if (moreChanges && !info.isEmpty()) {
         if (reverse) {
           info.get(0)._moreChanges = true;
@@ -245,41 +284,22 @@ public class ListChanges {
       }
       res.add(info);
     }
-
     if (!accounts.isEmpty()) {
       for (Account account : db.get().accounts().get(accounts.keySet())) {
         AccountAttribute a = accounts.get(account.getId());
         a.name = Strings.emptyToNull(account.getFullName());
       }
     }
+    return res;
+  }
 
-    if (format.isJson()) {
-      format.newGson().toJson(
-          res.size() == 1 ? res.get(0) : res,
-          new TypeToken<List<ChangeInfo>>() {}.getType(),
-          out);
-      out.write('\n');
-    } else {
-      boolean firstQuery = true;
-      for (List<ChangeInfo> info : res) {
-        if (firstQuery) {
-          firstQuery = false;
-        } else {
-          out.write('\n');
-        }
-        for (ChangeInfo c : info) {
-          String id = new Change.Key(c.changeId).abbreviate();
-          String subject = c.subject;
-          if (subject.length() + id.length() > 80) {
-            subject = subject.substring(0, 80 - id.length());
-          }
-          out.write(id);
-          out.write(' ');
-          out.write(subject.replace('\n', ' '));
-          out.write('\n');
-        }
-      }
+  private List<ChangeInfo> toChangeInfo(List<ChangeData> changes)
+      throws OrmException {
+    List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
+    for (ChangeData cd : changes) {
+      info.add(toChangeInfo(cd));
     }
+    return info;
   }
 
   private ChangeInfo toChangeInfo(ChangeData cd) throws OrmException {
@@ -597,7 +617,7 @@ public class ListChanges {
     return p;
   }
 
-  static class ChangeInfo {
+  public static class ChangeInfo {
     final String kind = "gerritcodereview#change";
     String id;
     String project;

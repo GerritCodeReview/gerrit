@@ -14,11 +14,12 @@
 
 package com.google.gerrit.client.dashboards;
 
-import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.Image;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,12 +32,13 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
   }
 
   protected void initColumnHeaders() {
-    table.setText(0, 1, Util.C.dashboardName());
-    table.setText(0, 2, Util.C.dashboardDescription());
-
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
+    fmt.setColSpan(0, 0, 2);
     fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
     fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+
+    table.setText(0, 1, Util.C.dashboardName());
+    table.setText(0, 2, Util.C.dashboardDescription());
   }
 
   public void display(DashboardMap dashes) {
@@ -70,7 +72,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     table.setText(row, 0, section);
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.setColSpan(row, 0, 3);
+    fmt.setColSpan(row, 0, 4);
     fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().sectionHeader());
   }
 
@@ -82,13 +84,19 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());
     fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
+    fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
 
     populate(row, k);
   }
 
   protected void populate(final int row, final DashboardInfo k) {
-    table.setWidget(row, 1, new Anchor(k.name(), "#" + link(k)));
-    table.setText(row, 2, k.description());
+    if (k.isDefault()) {
+      table.setWidget(row, 1, new Image(Gerrit.RESOURCES.greenCheck()));
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      fmt.getElement(row, 1).setTitle(Util.C.dashboardDefaultToolTip());
+    }
+    table.setWidget(row, 2, new Anchor(k.name(), "#" + link(k)));
+    table.setText(row, 3, k.description());
 
     setRowItem(row, k);
   }

@@ -24,6 +24,7 @@ import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
+import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -54,6 +55,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtjsonrpc.common.VoidResult;
 
@@ -513,6 +515,31 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       actionsPanel.add(b);
     }
 
+    if (changeDetail.canCherryPick()) {
+      final Button b = new Button(Util.C.buttonCherryPickChangeBegin());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          new CherryPickDialog(b) {
+            {
+              sendButton.setText(Util.C.buttonCherryPickChangeSend());
+              message.setText(Util.M.cherryPickedChangeDefaultMessage(
+                  detail.getInfo().getMessage().trim(),
+                  detail.getPatchSet().getRevision().get()));
+            }
+
+            @Override
+            public void onSend() {
+              Util.MANAGE_SVC.cherryPickChange(patchSet.getId(), getMessageText(),
+                  getDestinationBranch(), createCallback());
+            }
+          }.center();
+        }
+      });
+      actionsPanel.add(b);
+    }
+
     if (changeDetail.canAbandon()) {
       final Button b = new Button(Util.C.buttonAbandonChangeBegin());
       b.addClickHandler(new ClickHandler() {
@@ -802,6 +829,24 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
             enableOnFailure.setEnabled(true);
           }
         });
+    }
+  }
+
+  private abstract class CherryPickDialog extends ActionDialog {
+    private TextBox newBranch;
+
+    CherryPickDialog(final FocusWidget enableOnFailure) {
+      super(enableOnFailure, true, Util.C.cherryPickTitle(), Util.C.cherryPickCommitMessage());
+
+      newBranch = new TextBox();
+      newBranch.setVisibleLength(65);
+      message.setCharacterWidth(70);
+      panel.insert(newBranch, 0);
+      panel.insert(new SmallHeading(Util.C.headingCherryPickBranch()), 0);
+    }
+
+    public String getDestinationBranch() {
+      return newBranch.getText();
     }
   }
 }

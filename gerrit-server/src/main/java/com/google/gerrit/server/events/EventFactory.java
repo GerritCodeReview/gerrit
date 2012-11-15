@@ -347,8 +347,16 @@ public class EventFactory {
           p.parents.add(a.getAncestorRevision().get());
         }
 
-        p.author = asAccountAttribute(//
-            psInfoFactory.get(db, pId).getAuthor().getAccount());
+        Account.Id authoId =
+            psInfoFactory.get(db, pId).getAuthor().getAccount();
+        if (authoId == null) {
+          p.author = new AccountAttribute();
+          p.author.email = "";
+          p.author.name = "[Forge Author or non-gerrit User]";
+          p.author.username = "";
+        } else {
+          p.author = asAccountAttribute(authoId);
+        }
 
         Change change = db.changes().get(pId.getParentKey());
         List<Patch> list =

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALqH///8A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T23:38:36Z",
+      "side": 1,
+      "message": "Can you factor out\n  psInfoFactory.get(db, pId).getAuthor()\ninto a variable? I think it would be better than to have it in 3 places now.",
+      "revId": "9cf4fea848882f162f058dec68695ea841cbb939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

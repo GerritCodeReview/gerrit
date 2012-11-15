@@ -16,6 +16,24 @@
       "revId": "9cf4fea848882f162f058dec68695ea841cbb939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsX///7g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-15T23:51:14Z",
+      "side": 1,
+      "message": "exactly right! \n\nI can ...certainly no problem for me.\n\nsorry this small patch cost you guys many time.",
+      "parentUuid": "AAALqH///8A\u003d",
+      "revId": "9cf4fea848882f162f058dec68695ea841cbb939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.common.ChangeHooks;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -26,11 +27,14 @@ import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeException;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
@@ -42,6 +46,7 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -199,7 +204,7 @@ public class ChangeUtil {
       throw new NoSuchChangeException(changeId, e);
     }
 
-    final RevWalk revWalk = new RevWalk(git);
+    RevWalk revWalk = new RevWalk(git);
     try {
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
@@ -289,6 +294,131 @@ public class ChangeUtil {
       return change.getId();
     } finally {
       revWalk.release();
+      git.close();
+    }
+  }
+
+  public static Change.Id cherryPick(final PatchSet.Id patchSetId,
+      final IdentifiedUser user, final String message,
+      final String destinationBranch, final ReviewDb db,
+      final ChangeHooks hooks, GitRepositoryManager gitManager,
+      final PatchSetInfoFactory patchSetInfoFactory,
+      final GitReferenceUpdated replication, PersonIdent myIdent)
+      throws NoSuchChangeException, EmailException, OrmException,
+      MissingObjectException, IncorrectObjectTypeException, IOException,
+      InvalidChangeOperationException, MergeException {
+
+    final Change.Id changeId = patchSetId.getParentKey();
+
+    final PatchSet patch = db.patchSets().get(patchSetId);
+    if (patch == null) {
+      throw new NoSuchChangeException(changeId);
+    }
+    if (destinationBranch == null) {
+      throw new InvalidChangeOperationException("Cherry Pick: Destination Branch cannot be null");
+    }
+
+    final Repository git;
+    try {
+      git = gitManager.openRepository(db.changes().get(changeId).getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(changeId, e);
+    }
+
+    try {
+      RevWalk revWalk = null;
+      try {
+        revWalk = new RevWalk(git);
+
+        Ref destRef = git.getRef(destinationBranch);
+        if (destRef == null) {
+          throw new InvalidChangeOperationException("Branch does not exists: " + destinationBranch);
+        }
+
+        final RevCommit mergeTip = revWalk.parseCommit(destRef.getObjectId());
+
+        RevCommit commitToCherryPick =
+            revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+
+        PersonIdent authorIdent =
+            user.newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+
+        RevCommit cherryPickCommit = null;
+        ObjectInserter oi = null;
+        try {
+          oi = git.newObjectInserter();
+
+          cherryPickCommit =
+              MergeUtil.createCherryPickFromCommit(git, oi, mergeTip,
+                  commitToCherryPick, authorIdent, message, revWalk, true);
+        } finally {
+          oi.release();
+        }
+
+        if (cherryPickCommit == null) {
+          throw new MergeException("Could not create a merge commit during the cherry pick");
+        }
+
+        final ObjectId computedChangeId =
+            ChangeIdUtil.computeChangeId(commitToCherryPick.getTree(),
+                commitToCherryPick, authorIdent, myIdent, message);
+
+        final Change change =
+            new Change(new Change.Key("I" + computedChangeId.name()),
+                new Change.Id(db.nextChangeId()), user.getAccountId(),
+                    new Branch.NameKey(db.changes().get(changeId).getProject(),
+                        destRef.getName()));
+
+        change.nextPatchSetId();
+
+        final PatchSet ps = new PatchSet(change.currPatchSetId());
+        ps.setCreatedOn(change.getCreatedOn());
+        ps.setUploader(change.getOwner());
+        ps.setRevision(new RevId(cherryPickCommit.name()));
+
+        change.setCurrentPatchSet(patchSetInfoFactory.get(cherryPickCommit,
+            ps.getId()));
+        ChangeUtil.updated(change);
+
+        final RefUpdate ru = git.updateRef(ps.getRefName());
+        ru.setExpectedOldObjectId(ObjectId.zeroId());
+        ru.setNewObjectId(cherryPickCommit);
+        ru.disableRefLog();
+        if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+          throw new IOException(String.format(
+              "Failed to create ref %s in %s: %s", ps.getRefName(), change
+                  .getDest().getParentKey().get(), ru.getResult()));
+        }
+        replication.fire(change.getProject(), ru.getName());
+
+        db.changes().beginTransaction(change.getId());
+        try {
+          insertAncestors(db, ps.getId(), cherryPickCommit);
+          db.patchSets().insert(Collections.singleton(ps));
+          db.changes().insert(Collections.singleton(change));
+          db.commit();
+        } finally {
+          db.rollback();
+        }
+
+        final ChangeMessage cmsg =
+            new ChangeMessage(new ChangeMessage.Key(changeId,
+                ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
+        final StringBuilder msgBuf =
+            new StringBuilder("Patch Set " + patchSetId.get()
+                + ": Cherry Picked");
+        msgBuf.append("\n\n");
+        msgBuf.append("This patchset was cherry picked to change: "
+            + change.getKey().get());
+
+        cmsg.setMessage(msgBuf.toString());
+        db.changeMessages().insert(Collections.singleton(cmsg));
+
+        return change.getId();
+      } finally {
+        revWalk.release();
+      }
+    } finally {
       git.close();
     }
   }

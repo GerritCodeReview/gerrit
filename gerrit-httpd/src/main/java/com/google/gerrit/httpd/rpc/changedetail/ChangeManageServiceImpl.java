@@ -23,6 +23,7 @@ import com.google.inject.Inject;
 
 class ChangeManageServiceImpl implements ChangeManageService {
   private final SubmitAction.Factory submitAction;
+  private final CherryPickChange.Factory cherryPickChangeFactory;
   private final RebaseChangeHandler.Factory rebaseChangeFactory;
   private final RestoreChangeHandler.Factory restoreChangeHandlerFactory;
   private final RevertChange.Factory revertChangeFactory;
@@ -31,12 +32,14 @@ class ChangeManageServiceImpl implements ChangeManageService {
 
   @Inject
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
+      final CherryPickChange.Factory cherryPickChangeFactory,
       final RebaseChangeHandler.Factory rebaseChangeFactory,
       final RestoreChangeHandler.Factory restoreChangeHandlerFactory,
       final RevertChange.Factory revertChangeFactory,
       final PublishAction.Factory publishAction,
       final DeleteDraftChange.Factory deleteDraftChangeFactory) {
     this.submitAction = patchSetAction;
+    this.cherryPickChangeFactory = cherryPickChangeFactory;
     this.rebaseChangeFactory = rebaseChangeFactory;
     this.restoreChangeHandlerFactory = restoreChangeHandlerFactory;
     this.revertChangeFactory = revertChangeFactory;
@@ -47,6 +50,11 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void submit(final PatchSet.Id patchSetId,
       final AsyncCallback<ChangeDetail> cb) {
     submitAction.create(patchSetId).to(cb);
+  }
+
+  public void cherryPickChange(final PatchSet.Id patchSetId, final String message,
+      final String destinationBranch, final AsyncCallback<ChangeDetail> callback) {
+    cherryPickChangeFactory.create(patchSetId, message, destinationBranch).to(callback);
   }
 
   public void rebaseChange(final PatchSet.Id patchSetId,

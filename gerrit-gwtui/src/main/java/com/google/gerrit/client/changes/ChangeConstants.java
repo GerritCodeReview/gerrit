@@ -129,6 +129,12 @@ public interface ChangeConstants extends Constants {
   String headingRevertMessage();
   String revertChangeTitle();
 
+  String buttonCherryPickChangeBegin();
+  String buttonCherryPickChangeSend();
+  String headingCherryPickBranch();
+  String cherryPickCommitMessage();
+  String cherryPickTitle();
+
   String buttonAbandonChangeBegin();
   String buttonAbandonChangeSend();
   String headingAbandonMessage();

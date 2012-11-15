@@ -958,7 +958,7 @@
   font-size: 8pt;
 }
 
-.selectPatchSetOldVersion {
+.selectPatchSetOldVersion .diffByList {
   font-weight: bold;
   margin-right: 30px;
   margin-top: 5px;

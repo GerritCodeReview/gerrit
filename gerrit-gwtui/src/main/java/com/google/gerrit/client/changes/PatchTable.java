@@ -78,6 +78,7 @@ public class PatchTable extends Composite {
   private MyTable myTable;
   private String savePointerId;
   private PatchSet.Id base;
+  private int diffBy;
   private List<Patch> patchList;
   private ListenableAccountDiffPreference listenablePrefs;
 
@@ -121,6 +122,14 @@ public class PatchTable extends Composite {
 
   public PatchSet.Id getBase() {
     return base;
+  }
+
+  public int getDiffBy() {
+    return diffBy;
+  }
+
+  public void setDiffBy(int diffBy) {
+    this.diffBy = diffBy;
   }
 
   public void setSavePointerId(final String id) {

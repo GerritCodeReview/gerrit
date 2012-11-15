@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt32;
+import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
 import static org.eclipse.jgit.lib.ObjectIdSerialization.readCanBeNull;
@@ -35,20 +37,32 @@ import java.io.Serializable;
 import javax.annotation.Nullable;
 
 public class PatchListKey implements Serializable {
-  static final long serialVersionUID = 16L;
+  static final long serialVersionUID = 17L;
 
   private transient ObjectId oldId;
   private transient ObjectId newId;
   private transient Whitespace whitespace;
 
+  // 0 : Default.
+  // 1 : Subtract all files never touched by patch-sets of current diff.
+  // 2 : Rebase the old patch-set against the new Patchset's parent before comparing.
+  // 3 : Rebase the new patch-set against the old Patchset's parent before comparing.
+  private transient int diffBy;
+
   transient Project.NameKey projectKey; // not required to form the key
 
   public PatchListKey(final Project.NameKey pk, final AnyObjectId a,
       final AnyObjectId b, final Whitespace ws) {
+    this(pk, a, b, ws, 0);
+  }
+
+  public PatchListKey(final Project.NameKey pk, final AnyObjectId a,
+      final AnyObjectId b, final Whitespace ws, final int dy) {
     projectKey = pk;
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
     whitespace = ws;
+    diffBy = dy;
   }
 
   /** Old side commit, or null to assume ancestor or combined merge. */
@@ -66,6 +80,10 @@ public class PatchListKey implements Serializable {
     return whitespace;
   }
 
+  public int getDiffBy() {
+    return diffBy;
+  }
+
   @Override
   public int hashCode() {
     int h = 0;
@@ -76,6 +94,7 @@ public class PatchListKey implements Serializable {
 
     h = h * 31 + newId.hashCode();
     h = h * 31 + whitespace.name().hashCode();
+    h = h * 31 + diffBy;
 
     return h;
   }
@@ -86,7 +105,8 @@ public class PatchListKey implements Serializable {
       final PatchListKey k = (PatchListKey) o;
       return eq(oldId, k.oldId) //
           && eq(newId, k.newId) //
-          && whitespace == k.whitespace;
+          && whitespace == k.whitespace
+          && diffBy == k.diffBy;
     }
     return false;
   }
@@ -104,6 +124,7 @@ public class PatchListKey implements Serializable {
     n.append(newId.name());
     n.append(" ");
     n.append(whitespace.name());
+    n.append(diffBy);
     n.append("]");
     return n.toString();
   }
@@ -119,11 +140,13 @@ public class PatchListKey implements Serializable {
     writeCanBeNull(out, oldId);
     writeNotNull(out, newId);
     writeEnum(out, whitespace);
+    writeFixInt32(out, diffBy);
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
     oldId = readCanBeNull(in);
     newId = readNotNull(in);
     whitespace = readEnum(in, Whitespace.values());
+    diffBy = readFixInt32(in);
   }
 }

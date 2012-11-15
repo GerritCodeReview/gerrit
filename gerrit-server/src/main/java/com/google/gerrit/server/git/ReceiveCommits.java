@@ -2044,13 +2044,13 @@ public class ReceiveCommits {
       CommitValidationResult validationResult =
           validator.onCommitReceived(new CommitReceivedEvent(cmd, project, ctl
               .getRefName(), c, currentUser));
-      String pluginName = pluginLoader.getPluginName(validator);
+      final String pluginName = pluginLoader.getPluginName(validator);
+      final String message = validationResult.message;
       if (!validationResult.validated) {
-        reject(cmd, String.format("%s (rejected by plugin %s)",
-            validationResult.message, pluginName));
+        reject(cmd, String.format("%s (rejected by plugin %s)", message, pluginName));
         return false;
-      } else if(!Strings.isNullOrEmpty(validationResult.message)) {
-        addMessage(String.format("%s (from plugin %s)", pluginName));
+      } else if (!Strings.isNullOrEmpty(message)) {
+        addMessage(String.format("%s (from plugin %s)", message, pluginName));
       }
     }
 

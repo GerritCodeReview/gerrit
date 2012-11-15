@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsX///9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2053,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-15T22:14:52Z",
+      "side": 1,
+      "message": "(W) prefix should be added by the plugin, if it is needed.",
+      "revId": "4966aa5baa60076429c551a6eebf3c2cfb6db9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

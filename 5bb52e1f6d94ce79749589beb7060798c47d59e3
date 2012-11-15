@@ -16,6 +16,24 @@
       "revId": "5bb52e1f6d94ce79749589beb7060798c47d59e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALnX////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2012-11-15T00:52:04Z",
+      "side": 1,
+      "message": "Thanks for noticing. It was reproducible yesterday, but not today. I have no idea what was going on. :/\n\nUnless someone figures out what was happening, I think you\u0027re right and the patch should be sold as a tweak to rely less on third-party maven repos instead of a bugfix.",
+      "parentUuid": "AAALgn///6s\u003d",
+      "revId": "5bb52e1f6d94ce79749589beb7060798c47d59e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

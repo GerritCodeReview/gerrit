@@ -30,6 +30,7 @@ public class ChangeDetail {
   protected boolean allowsAnonymous;
   protected boolean canAbandon;
   protected boolean canEditCommitMessage;
+  protected boolean canCherryPick;
   protected boolean canPublish;
   protected boolean canRebase;
   protected boolean canRestore;
@@ -84,6 +85,14 @@ public class ChangeDetail {
 
   public void setCanEditCommitMessage(final boolean a) {
     canEditCommitMessage = a;
+  }
+
+  public boolean canCherryPick() {
+    return canCherryPick;
+  }
+
+  public void setCanCherryPick(final boolean a) {
+    canCherryPick = a;
   }
 
   public boolean canPublish() {

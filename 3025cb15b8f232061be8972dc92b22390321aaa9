@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALqH////8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 2053,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-15T09:55:53Z",
+      "side": 1,
+      "message": "String.format is given a string with two %s placeholders, but only one parameter is given.\n\nI guess the message was meant to be passed.  I\u0027ll upload a patch to fix this.",
+      "revId": "3025cb15b8f232061be8972dc92b22390321aaa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

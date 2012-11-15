@@ -94,6 +94,10 @@ public class ProjectConfig extends VersionedMetaData {
   private static final String KEY_MERGE_CONTENT = "mergeContent";
   private static final String KEY_STATE = "state";
 
+  private static final String DASHBOARD = "dashboard";
+  private static final String KEY_DEFAULT = "default";
+  private static final String KEY_LOCAL_DEFAULT = "local-default";
+
   private static final SubmitType defaultSubmitAction =
       SubmitType.MERGE_IF_NECESSARY;
   private static final State defaultStateValue =
@@ -290,6 +294,9 @@ public class ProjectConfig extends VersionedMetaData {
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, Project.InheritedBoolean.INHERIT));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
+
+    p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
+    p.setLocalDefaultDashboard(rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
 
     loadAccountsSection(rc, groupsByName);
     loadContributorAgreements(rc, groupsByName);
@@ -537,6 +544,9 @@ public class ProjectConfig extends VersionedMetaData {
     set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), Project.InheritedBoolean.INHERIT);
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), null);
+
+    set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDefaultDashboard());
+    set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDefaultDashboard());
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<AccountGroup.UUID>();
     saveAccountsSection(rc, keepGroups);

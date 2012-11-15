@@ -77,6 +77,29 @@ section.<name>.query::
 The change query that should be used to populate the section with the
 given name.
 
+Project Default Dashboard
+-------------------------
+
+It is possible to define a default dashboard for a project in the
+projects `project.config` file in the `refs/meta/config` branch:
+
+----
+[dashboard]
+  default = refs/meta/dashboards/main:default
+----
+
+The dashboard set as the default dashboard will be inherited as the
+default dashboard by child projects if they do not define their own
+default dashboard. The `local-default` entry makes it possible to
+define a different default dashboard that is only used by this project
+but not inherited to the child projects.
+
+----
+[dashboard]
+  default = refs/meta/dashboards/main:default
+  local-default = refs/meta/dashboards/main:local
+----
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

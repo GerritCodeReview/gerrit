@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.query.change;
+package com.google.gerrit.server.change;
 
 import static com.google.gerrit.common.changes.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.common.changes.ListChangesOption.ALL_FILES;
@@ -24,6 +24,7 @@ import static com.google.gerrit.common.changes.ListChangesOption.LABELS;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.changes.ListChangesOption;
@@ -43,7 +44,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.events.AccountAttribute;
@@ -55,9 +55,8 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.query.QueryParseException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gson.reflect.TypeToken;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -66,13 +65,10 @@ import com.google.inject.Singleton;
 import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.lib.Config;
-import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -82,8 +78,8 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 
-public class ListChanges {
-  private static final Logger log = LoggerFactory.getLogger(ListChanges.class);
+public class ChangeJson {
+  private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
 
   @Singleton
   static class Urls {
@@ -104,81 +100,39 @@ public class ListChanges {
     }
   }
 
-  private final QueryProcessor imp;
   private final Provider<ReviewDb> db;
   private final ApprovalTypes approvalTypes;
   private final CurrentUser user;
   private final AnonymousUser anonymous;
-  private final ChangeControl.Factory changeControlFactory;
+  private final ChangeControl.GenericFactory changeControlGenericFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchListCache patchListCache;
-  private final SshInfo sshInfo;
   private final Provider<String> urlProvider;
   private final Urls urls;
-  private boolean reverse;
+  private ChangeControl.Factory changeControlUserFactory;
+  private SshInfo sshInfo;
   private Map<Account.Id, AccountAttribute> accounts;
   private Map<Change.Id, ChangeControl> controls;
   private EnumSet<ListChangesOption> options;
 
-  @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
-  private OutputFormat format = OutputFormat.TEXT;
-
-  @Option(name = "--query", aliases = {"-q"}, metaVar = "QUERY", multiValued = true, usage = "Query string")
-  private List<String> queries;
-
-  @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "Maximum number of results to return")
-  public void setLimit(int limit) {
-    imp.setLimit(limit);
-  }
-
-  @Option(name = "-o", multiValued = true, usage = "Output options per change")
-  public void addOption(ListChangesOption o) {
-    options.add(o);
-  }
-
-  @Option(name = "-O", usage = "Output option flags, in hex")
-  void setOptionFlagsHex(String hex) {
-    options.addAll(ListChangesOption.fromBits(Integer.parseInt(hex, 16)));
-  }
-
-  @Option(name = "-P", metaVar = "SORTKEY", usage = "Previous changes before SORTKEY")
-  public void setSortKeyAfter(String key) {
-    // Querying for the prior page of changes requires sortkey_after predicate.
-    // Changes are shown most recent->least recent. The previous page of
-    // results contains changes that were updated after the given key.
-    imp.setSortkeyAfter(key);
-    reverse = true;
-  }
-
-  @Option(name = "-N", metaVar = "SORTKEY", usage = "Next changes after SORTKEY")
-  public void setSortKeyBefore(String key) {
-    // Querying for the next page of changes requires sortkey_before predicate.
-    // Changes are shown most recent->least recent. The next page contains
-    // changes that were updated before the given key.
-    imp.setSortkeyBefore(key);
-  }
-
   @Inject
-  ListChanges(QueryProcessor qp,
+  ChangeJson(
       Provider<ReviewDb> db,
       ApprovalTypes at,
       CurrentUser u,
       AnonymousUser au,
-      ChangeControl.Factory cf,
+      ChangeControl.GenericFactory gf,
       PatchSetInfoFactory psi,
       PatchListCache plc,
-      SshInfo sshInfo,
       @CanonicalWebUrl Provider<String> curl,
       Urls urls) {
-    this.imp = qp;
     this.db = db;
     this.approvalTypes = at;
     this.user = u;
     this.anonymous = au;
-    this.changeControlFactory = cf;
+    this.changeControlGenericFactory = gf;
     this.patchSetInfoFactory = psi;
     this.patchListCache = plc;
-    this.sshInfo = sshInfo;
     this.urlProvider = curl;
     this.urls = urls;
 
@@ -187,99 +141,68 @@ public class ListChanges {
     options = EnumSet.noneOf(ListChangesOption.class);
   }
 
-  public OutputFormat getFormat() {
-    return format;
-  }
-
-  public ListChanges setFormat(OutputFormat fmt) {
-    this.format = fmt;
+  public ChangeJson addOption(ListChangesOption o) {
+    options.add(o);
     return this;
   }
 
-  public ListChanges addQuery(String query) {
-    if (queries == null) {
-      queries = Lists.newArrayList();
-    }
-    queries.add(query);
+  public ChangeJson addOptions(Collection<ListChangesOption> o) {
+    options.addAll(o);
     return this;
   }
 
-  public void query(Writer out)
-      throws OrmException, QueryParseException, IOException {
-    if (imp.isDisabled()) {
-      throw new QueryParseException("query disabled");
-    }
-    if (queries == null || queries.isEmpty()) {
-      queries = Collections.singletonList("status:open");
-    } else if (queries.size() > 10) {
-      // Hard-code a default maximum number of queries to prevent
-      // users from submitting too much to the server in a single call.
-      throw new QueryParseException("limit of 10 queries");
-    }
+  public ChangeJson setSshInfo(SshInfo info) {
+    sshInfo = info;
+    return this;
+  }
 
-    List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(queries.size());
-    for (String query : queries) {
-      List<ChangeData> changes = imp.queryChanges(query);
-      boolean moreChanges = imp.getLimit() > 0 && changes.size() > imp.getLimit();
-      if (moreChanges) {
-        if (reverse) {
-          changes = changes.subList(1, changes.size());
-        } else {
-          changes = changes.subList(0, imp.getLimit());
-        }
-      }
+  public ChangeJson setChangeControlFactory(ChangeControl.Factory cf) {
+    changeControlUserFactory = cf;
+    return this;
+  }
+
+  public ChangeInfo format(ChangeResource rsrc) throws OrmException {
+    return format(new ChangeData(rsrc.getControl()));
+  }
+
+  public ChangeInfo format(Change change) throws OrmException {
+    return format(new ChangeData(change));
+  }
+
+  public ChangeInfo format(Change.Id id) throws OrmException {
+    return format(new ChangeData(id));
+  }
+
+  public ChangeInfo format(ChangeData cd) throws OrmException {
+    List<ChangeData> tmp = ImmutableList.of(cd);
+    return formatList2(ImmutableList.of(tmp)).get(0).get(0);
+  }
+
+  public List<List<ChangeInfo>> formatList2(List<List<ChangeData>> in)
+      throws OrmException {
+    List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
+    for (List<ChangeData> changes : in) {
       ChangeData.ensureChangeLoaded(db, changes);
       ChangeData.ensureCurrentPatchSetLoaded(db, changes);
       ChangeData.ensureCurrentApprovalsLoaded(db, changes);
-
-      List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
-      for (ChangeData cd : changes) {
-        info.add(toChangeInfo(cd));
-      }
-      if (moreChanges && !info.isEmpty()) {
-        if (reverse) {
-          info.get(0)._moreChanges = true;
-        } else {
-          info.get(info.size() - 1)._moreChanges = true;
-        }
-      }
-      res.add(info);
+      res.add(toChangeInfo(changes));
     }
-
     if (!accounts.isEmpty()) {
       for (Account account : db.get().accounts().get(accounts.keySet())) {
         AccountAttribute a = accounts.get(account.getId());
         a.name = Strings.emptyToNull(account.getFullName());
       }
     }
+    return res;
+  }
 
-    if (format.isJson()) {
-      format.newGson().toJson(
-          res.size() == 1 ? res.get(0) : res,
-          new TypeToken<List<ChangeInfo>>() {}.getType(),
-          out);
-      out.write('\n');
-    } else {
-      boolean firstQuery = true;
-      for (List<ChangeInfo> info : res) {
-        if (firstQuery) {
-          firstQuery = false;
-        } else {
-          out.write('\n');
-        }
-        for (ChangeInfo c : info) {
-          String id = new Change.Key(c.changeId).abbreviate();
-          String subject = c.subject;
-          if (subject.length() + id.length() > 80) {
-            subject = subject.substring(0, 80 - id.length());
-          }
-          out.write(id);
-          out.write(' ');
-          out.write(subject.replace('\n', ' '));
-          out.write('\n');
-        }
-      }
+  private List<ChangeInfo> toChangeInfo(List<ChangeData> changes)
+      throws OrmException {
+    List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
+    for (ChangeData cd : changes) {
+      info.add(toChangeInfo(cd));
     }
+    return info;
   }
 
   private ChangeInfo toChangeInfo(ChangeData cd) throws OrmException {
@@ -338,7 +261,11 @@ public class ListChanges {
     }
 
     try {
-      ctrl = changeControlFactory.controlFor(cd.change(db));
+      if (changeControlUserFactory != null) {
+        ctrl = changeControlUserFactory.controlFor(cd.change(db));
+      } else {
+        ctrl = changeControlGenericFactory.controlFor(cd.change(db), user);
+      }
     } catch (NoSuchChangeException e) {
       return null;
     }
@@ -577,7 +504,7 @@ public class ListChanges {
             + cd.change(db).getProject().get(), refName));
       }
     }
-    if (!sshInfo.getHostKeys().isEmpty()) {
+    if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {
       HostKey host = sshInfo.getHostKeys().get(0);
       r.put("ssh", new FetchInfo(String.format(
           "ssh://%s/%s",
@@ -597,14 +524,14 @@ public class ListChanges {
     return p;
   }
 
-  static class ChangeInfo {
+  public static class ChangeInfo {
     final String kind = "gerritcodereview#change";
     String id;
     String project;
     String branch;
     String topic;
-    String changeId;
-    String subject;
+    public String changeId;
+    public String subject;
     Change.Status status;
     Timestamp created;
     Timestamp updated;
@@ -618,8 +545,7 @@ public class ListChanges {
     Map<String, LabelInfo> labels;
     String current_revision;
     Map<String, RevisionInfo> revisions;
-
-    Boolean _moreChanges;
+    public Boolean _moreChanges;
 
     void finish() {
       try {

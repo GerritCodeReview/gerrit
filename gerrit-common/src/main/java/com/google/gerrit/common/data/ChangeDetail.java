@@ -48,6 +48,7 @@ public class ChangeDetail {
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
   protected boolean canEdit;
+  protected boolean canEditTopicName;
 
   public ChangeDetail() {
   }
@@ -122,6 +123,14 @@ public class ChangeDetail {
 
   public void setCanDeleteDraft(boolean a) {
     canDeleteDraft = a;
+  }
+
+  public boolean canEditTopicName() {
+    return canEditTopicName;
+  }
+
+  public void setCanEditTopicName(boolean a) {
+    canEditTopicName = a;
   }
 
   public Change getChange() {

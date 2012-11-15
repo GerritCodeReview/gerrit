@@ -332,6 +332,10 @@ public class RefControl {
     return canPerform(Permission.VIEW_DRAFTS);
   }
 
+  public boolean canEditTopicName() {
+    return canPerform(Permission.EDIT_TOPIC_NAME);
+  }
+
   /** All value ranges of any allowed label permission. */
   public List<PermissionRange> getLabelRanges() {
     List<PermissionRange> r = new ArrayList<PermissionRange>();

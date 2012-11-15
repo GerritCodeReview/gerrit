@@ -771,6 +771,18 @@ draft changes (even without having the `View Drafts` access right
 assigned).
 
 
+[[category_edit_topic_name]]
+Edit Topic Name
+~~~~~~~~~~~~~~~
+
+This category permits users to edit the topic name of a change that
+is uploaded for review.
+
+The change owner, branch owners, project owners, and site administrators
+can always edit the topic name (even without having the `Edit Topic Name`
+access right assigned).
+
+
 [[category_makeoneup]]
 Your Category Here
 ~~~~~~~~~~~~~~~~~~

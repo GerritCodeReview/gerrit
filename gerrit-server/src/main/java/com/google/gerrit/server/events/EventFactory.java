@@ -347,8 +347,16 @@ public class EventFactory {
           p.parents.add(a.getAncestorRevision().get());
         }
 
-        p.author = asAccountAttribute(//
-            psInfoFactory.get(db, pId).getAuthor().getAccount());
+        Account.Id authorId =
+            psInfoFactory.get(db, pId).getAuthor().getAccount();
+        if (authorId == null) {
+          p.author = new AccountAttribute();
+          p.author.email = psInfoFactory.get(db, pId).getAuthor().getEmail();
+          p.author.name = psInfoFactory.get(db, pId).getAuthor().getName();
+          p.author.username = "";
+        } else {
+          p.author = asAccountAttribute(authorId);
+        }
 
         Change change = db.changes().get(pId.getParentKey());
         List<Patch> list =

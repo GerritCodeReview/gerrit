@@ -34,6 +34,24 @@
       "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsX///7U\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-15T23:58:28Z",
+      "side": 1,
+      "message": "Hi Edwin, Martin\n\nis there still any question? \nthis feature miss you guys very much. :)\n\n/Bruce",
+      "parentUuid": "AAALfH///9Q\u003d",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

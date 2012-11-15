@@ -38,6 +38,13 @@ public class ChangeApi {
     new RestApi(URI + changeId + "/abandon").data(input).post(callback);
   }
 
+  public static void restore(int changeId, String message,
+      AsyncCallback<ChangeInfo> callback) {
+    Input input = Input.create();
+    input.setMessage(emptyToNull(message));
+    new RestApi(URI + changeId + "/restore").data(input).post(callback);
+  }
+
   public static void topic(int id, String topic, String msg, AsyncCallback<String> cb) {
     Input input = Input.create();
     input.setTopic(emptyToNull(topic));

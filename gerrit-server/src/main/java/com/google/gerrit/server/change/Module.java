@@ -40,6 +40,7 @@ public class Module extends RestApiModule {
     put(CHANGE_KIND, "topic").to(PutTopic.class);
     delete(CHANGE_KIND, "topic").to(PutTopic.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
+    post(CHANGE_KIND, "restore").to(Restore.class);
     child(CHANGE_KIND, "reviewers").to(Reviewers.class);
 
     get(REVIEWER_KIND).to(GetReviewer.class);

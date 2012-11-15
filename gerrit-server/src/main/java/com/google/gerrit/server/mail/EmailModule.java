@@ -21,5 +21,6 @@ public class EmailModule extends FactoryModule {
   protected void configure() {
     factory(AbandonedSender.Factory.class);
     factory(CommentSender.Factory.class);
+    factory(RestoredSender.Factory.class);
   }
 }

@@ -15,6 +15,7 @@
 
 package com.google.gerrit.server.changedetail;
 
+import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -24,7 +25,6 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -35,7 +35,7 @@ import java.util.concurrent.Callable;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-public class AlterTopic implements Callable<VoidResult> {
+public class AlterTopic implements Callable<ReviewResult> {
 
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
@@ -77,11 +77,19 @@ public class AlterTopic implements Callable<VoidResult> {
   }
 
   @Override
-  public VoidResult call() throws EmailException,
+  public ReviewResult call() throws EmailException,
       InvalidChangeOperationException, NoSuchChangeException, OrmException {
     final ChangeControl control = changeControlFactory.validateFor(changeId);
+    final ReviewResult result = new ReviewResult();
+    result.setChangeId(changeId);
+
     if (!control.canAddPatchSet()) {
       throw new NoSuchChangeException(changeId);
+    }
+    if (!control.canEditTopicName()) {
+      result.addError(new ReviewResult.Error(
+          ReviewResult.Error.Type.EDIT_TOPIC_NAME_NOT_PERMITTED));
+      return result;
     }
 
     final Change change = db.changes().get(changeId);
@@ -114,6 +122,6 @@ public class AlterTopic implements Callable<VoidResult> {
       db.changeMessages().insert(Collections.singleton(cmsg));
     }
 
-    return VoidResult.INSTANCE;
+    return result;
   }
 }

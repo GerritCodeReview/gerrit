@@ -82,7 +82,10 @@ public class ReviewResult {
       GIT_ERROR,
 
       /** The destination branch does not exist */
-      DEST_BRANCH_NOT_FOUND
+      DEST_BRANCH_NOT_FOUND,
+
+      /** Not permitted to edit the topic name */
+      EDIT_TOPIC_NAME_NOT_PERMITTED
     }
 
     protected Type type;

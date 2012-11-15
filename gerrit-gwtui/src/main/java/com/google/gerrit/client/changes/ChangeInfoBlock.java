@@ -143,15 +143,20 @@ public class ChangeInfoBlock extends Composite {
     fp.add(new BranchLink(chg.getTopic(), chg.getProject(), chg.getStatus(),
            dst.get(), chg.getTopic()));
 
-    final Image edit = new Image(Gerrit.RESOURCES.edit());
-    edit.addClickHandler(new  ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        new AlterTopicDialog(chg).center();
-      }
-    });
-    edit.addStyleName(Gerrit.RESOURCES.css().changeInfoBlockEdit());
-    fp.add(edit);
+    ChangeDetailCache detailCache = ChangeCache.get(chg.getId()).getChangeDetailCache();
+    ChangeDetail changeDetail = detailCache.get();
+
+    if (changeDetail.canEditTopicName()) {
+      final Image edit = new Image(Gerrit.RESOURCES.edit());
+      edit.addClickHandler(new  ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          new AlterTopicDialog(chg).center();
+        }
+      });
+      edit.addStyleName(Gerrit.RESOURCES.css().changeInfoBlockEdit());
+      fp.add(edit);
+    }
 
     return fp;
   }

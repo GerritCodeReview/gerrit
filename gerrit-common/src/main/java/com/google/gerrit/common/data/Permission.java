@@ -23,6 +23,7 @@ import java.util.List;
 public class Permission implements Comparable<Permission> {
   public static final String ABANDON = "abandon";
   public static final String CREATE = "create";
+  public static final String EDIT_TOPIC_NAME = "editTopicName";
   public static final String FORGE_AUTHOR = "forgeAuthor";
   public static final String FORGE_COMMITTER = "forgeCommitter";
   public static final String FORGE_SERVER = "forgeServerAsCommitter";
@@ -57,6 +58,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(REMOVE_REVIEWER.toLowerCase());
     NAMES_LC.add(SUBMIT.toLowerCase());
     NAMES_LC.add(VIEW_DRAFTS.toLowerCase());
+    NAMES_LC.add(EDIT_TOPIC_NAME.toLowerCase());
 
     labelIndex = NAMES_LC.indexOf(Permission.LABEL);
   }

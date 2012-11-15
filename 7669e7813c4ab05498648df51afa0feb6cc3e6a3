@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALmn///6w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T01:21:21Z",
+      "side": 0,
+      "message": "We still need this line.",
+      "revId": "7669e7813c4ab05498648df51afa0feb6cc3e6a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

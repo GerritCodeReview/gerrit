@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALqH///8k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T23:11:08Z",
+      "side": 1,
+      "message": "Can\u0027t you get the name of the author like this:\n  psInfoFactory.get(db, pId).getAuthor().getEmail()\n?",
+      "revId": "453e102763959910fd649d37f3b3e4f2a765fb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///8o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T23:11:08Z",
+      "side": 1,
+      "message": "Can\u0027t you get the name of the author like this:\n  psInfoFactory.get(db, pId).getAuthor().getName()\n?",
+      "revId": "453e102763959910fd649d37f3b3e4f2a765fb0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "1a9be5ee43525f5910ea6be6e98a69123ed78b1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsX///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-15T20:09:21Z",
+      "side": 1,
+      "message": "Hi Brad\n\nthanks a lot for your reminder! \nI will prepare a patch for this case.\n\n/Bruce",
+      "parentUuid": "AAALmn///9Q\u003d",
+      "revId": "1a9be5ee43525f5910ea6be6e98a69123ed78b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,34 +15,29 @@
 package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.canCherryPick;
-import static com.google.gerrit.server.git.MergeUtil.commit;
+import static com.google.gerrit.server.git.MergeUtil.getCherryPickCommitMessage;
+import static com.google.gerrit.server.git.MergeUtil.createCherryPickFromCommit;
+import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
 import static com.google.gerrit.server.git.MergeUtil.hasMissingDependencies;
 import static com.google.gerrit.server.git.MergeUtil.markCleanMerges;
 import static com.google.gerrit.server.git.MergeUtil.mergeOneCommit;
-import static com.google.gerrit.server.git.MergeUtil.newThreeWayMerger;
+import static com.google.gerrit.server.git.MergeUtil.getApprovalsForCommit;
 
-import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.merge.Merger;
-import org.eclipse.jgit.merge.ThreeWayMerger;
-import org.eclipse.jgit.revwalk.FooterKey;
-import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,20 +46,12 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CherryPick extends SubmitStrategy {
   private static final Logger log = LoggerFactory.getLogger(CherryPick.class);
-
-  private static final ApprovalCategory.Id CRVW = //
-      new ApprovalCategory.Id("CRVW");
-  private static final ApprovalCategory.Id VRIF = //
-      new ApprovalCategory.Id("VRIF");
-  private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
-  private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<String> urlProvider;
@@ -91,8 +78,7 @@ public class CherryPick extends SubmitStrategy {
     CodeReviewCommit newMergeTip = mergeTip;
     while (!toMerge.isEmpty()) {
       final CodeReviewCommit n = toMerge.remove(0);
-      final ThreeWayMerger m =
-          newThreeWayMerger(args.repo, args.inserter, args.useContentMerge);
+
       try {
         if (newMergeTip == null) {
           // The branch is unborn. Take a fast-forward resolution to
@@ -112,10 +98,11 @@ public class CherryPick extends SubmitStrategy {
           // taking the delta relative to that one parent and redoing
           // that on the current merge tip.
           //
-          m.setBase(n.getParent(0));
-          if (m.merge(newMergeTip, n)) {
-            newMergeTip = writeCherryPickCommit(m, newMergeTip, n);
 
+          newMergeTip = writeCherryPickCommit(mergeTip, n);
+
+          if (newMergeTip != null) {
+            newCommits.put(newMergeTip.patchsetId.getParentKey(), newMergeTip);
           } else {
             n.statusCode = CommitMergeStatus.PATH_CONFLICT;
           }
@@ -159,167 +146,50 @@ public class CherryPick extends SubmitStrategy {
     return newMergeTip;
   }
 
-  @Override
-  public Map<Change.Id, CodeReviewCommit> getNewCommits() {
-    return newCommits;
-  }
-
-  @Override
-  public boolean dryRun(final CodeReviewCommit mergeTip,
-      final CodeReviewCommit toMerge) throws MergeException {
-    return canCherryPick(args.mergeSorter, args.repo, args.useContentMerge,
-        mergeTip, args.rw, toMerge);
-  }
-
-  private CodeReviewCommit writeCherryPickCommit(final Merger m,
-      final CodeReviewCommit mergeTip, final CodeReviewCommit n)
+  private CodeReviewCommit writeCherryPickCommit(final CodeReviewCommit mergeTip, final CodeReviewCommit n)
       throws IOException, OrmException {
+
     args.rw.parseBody(n);
 
-    final List<FooterLine> footers = n.getFooterLines();
-    final StringBuilder msgbuf = new StringBuilder();
-    msgbuf.append(n.getFullMessage());
+    final PatchSetApproval submitAudit =
+        getSubmitter(args.db, n.change.currPatchSetId());
 
-    if (msgbuf.length() == 0) {
-      // WTF, an empty commit message?
-      msgbuf.append("<no commit message provided>");
-    }
-    if (msgbuf.charAt(msgbuf.length() - 1) != '\n') {
-      // Missing a trailing LF? Correct it (perhaps the editor was broken).
-      msgbuf.append('\n');
-    }
-    if (footers.isEmpty()) {
-      // Doesn't end in a "Signed-off-by: ..." style line? Add another line
-      // break to start a new paragraph for the reviewed-by tag lines.
-      //
-      msgbuf.append('\n');
+    PersonIdent cherryPickCommitterIdent = null;
+    if (submitAudit != null) {
+      cherryPickCommitterIdent =
+          args.identifiedUserFactory.create(submitAudit.getAccountId())
+              .newCommitterIdent(submitAudit.getGranted(),
+                  args.myIdent.getTimeZone());
+    } else {
+      cherryPickCommitterIdent = args.myIdent;
     }
 
-    if (!contains(footers, CHANGE_ID, n.change.getKey().get())) {
-      msgbuf.append(CHANGE_ID.getName());
-      msgbuf.append(": ");
-      msgbuf.append(n.change.getKey().get());
-      msgbuf.append('\n');
-    }
+    final String cherryPickCmtMsg =
+        getCherryPickCommitMessage(n, approvalTypes, urlProvider, args.db,
+            args.identifiedUserFactory);
 
-    final String siteUrl = urlProvider.get();
-    if (siteUrl != null) {
-      final String url = siteUrl + n.patchsetId.getParentKey().get();
-      if (!contains(footers, REVIEWED_ON, url)) {
-        msgbuf.append(REVIEWED_ON.getName());
-        msgbuf.append(": ");
-        msgbuf.append(url);
-        msgbuf.append('\n');
-      }
-    }
-
-    PatchSetApproval submitAudit = null;
-    List<PatchSetApproval> approvalList = null;
-    try {
-      approvalList =
-          args.db.patchSetApprovals().byPatchSet(n.patchsetId).toList();
-      Collections.sort(approvalList, new Comparator<PatchSetApproval>() {
-        @Override
-        public int compare(final PatchSetApproval a, final PatchSetApproval b) {
-          return a.getGranted().compareTo(b.getGranted());
-        }
-      });
-
-      for (final PatchSetApproval a : approvalList) {
-        if (a.getValue() <= 0) {
-          // Negative votes aren't counted.
-          continue;
-        }
-
-        if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-          // Submit is treated specially, below (becomes committer)
-          //
-          if (submitAudit == null
-              || a.getGranted().compareTo(submitAudit.getGranted()) > 0) {
-            submitAudit = a;
-          }
-          continue;
-        }
-
-        final Account acc =
-            args.identifiedUserFactory.create(a.getAccountId()).getAccount();
-        final StringBuilder identbuf = new StringBuilder();
-        if (acc.getFullName() != null && acc.getFullName().length() > 0) {
-          if (identbuf.length() > 0) {
-            identbuf.append(' ');
-          }
-          identbuf.append(acc.getFullName());
-        }
-        if (acc.getPreferredEmail() != null
-            && acc.getPreferredEmail().length() > 0) {
-          if (isSignedOffBy(footers, acc.getPreferredEmail())) {
-            continue;
-          }
-          if (identbuf.length() > 0) {
-            identbuf.append(' ');
-          }
-          identbuf.append('<');
-          identbuf.append(acc.getPreferredEmail());
-          identbuf.append('>');
-        }
-        if (identbuf.length() == 0) {
-          // Nothing reasonable to describe them by? Ignore them.
-          continue;
-        }
-
-        final String tag;
-        if (CRVW.equals(a.getCategoryId())) {
-          tag = "Reviewed-by";
-        } else if (VRIF.equals(a.getCategoryId())) {
-          tag = "Tested-by";
-        } else {
-          final ApprovalType at = approvalTypes.byId(a.getCategoryId());
-          if (at == null) {
-            // A deprecated/deleted approval type, ignore it.
-            continue;
-          }
-          tag = at.getCategory().getName().replace(' ', '-');
-        }
-
-        if (!contains(footers, new FooterKey(tag), identbuf.toString())) {
-          msgbuf.append(tag);
-          msgbuf.append(": ");
-          msgbuf.append(identbuf);
-          msgbuf.append('\n');
-        }
-      }
-    } catch (OrmException e) {
-      log.error("Can't read approval records for " + n.patchsetId, e);
-    }
-
-    final CommitBuilder mergeCommit = new CommitBuilder();
-    mergeCommit.setTreeId(m.getResultTreeId());
-    mergeCommit.setParentId(mergeTip);
-    mergeCommit.setAuthor(n.getAuthorIdent());
-    mergeCommit.setCommitter(toCommitterIdent(submitAudit));
-    mergeCommit.setMessage(msgbuf.toString());
-
-    final ObjectId id = commit(args.inserter, mergeCommit);
     final CodeReviewCommit newCommit =
-        (CodeReviewCommit) args.rw.parseCommit(id);
+        createCherryPickFromCommit(args.repo, args.inserter, mergeTip, n,
+            cherryPickCommitterIdent, cherryPickCmtMsg, args.rw, args.useContentMerge);
+
+    if (newCommit == null)
+        return null;
 
     n.change.nextPatchSetId();
 
     final PatchSet ps = new PatchSet(n.change.currPatchSetId());
     ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
     ps.setUploader(submitAudit.getAccountId());
-    ps.setRevision(new RevId(id.getName()));
-    insertAncestors(ps.getId(), newCommit);
+    ps.setRevision(new RevId(newCommit.getId().getName()));
+    insertAncestors(args.db, ps.getId(), newCommit);
     args.db.patchSets().insert(Collections.singleton(ps));
 
     n.change.setCurrentPatchSet(patchSetInfoFactory.get(newCommit, ps.getId()));
     args.db.changes().update(Collections.singletonList(n.change));
 
-    if (approvalList != null) {
-      for (PatchSetApproval a : approvalList) {
-        args.db.patchSetApprovals().insert(
-            Collections.singleton(new PatchSetApproval(ps.getId(), a)));
-      }
+    for (PatchSetApproval a : getApprovalsForCommit(args.db, newCommit)) {
+      args.db.patchSetApprovals().insert(
+          Collections.singleton(new PatchSetApproval(ps.getId(), a)));
     }
 
     final RefUpdate ru = args.repo.updateRef(ps.getRefName());
@@ -331,16 +201,17 @@ public class CherryPick extends SubmitStrategy {
           ps.getRefName(), n.change.getDest().getParentKey().get(),
           ru.getResult()));
     }
+
     replication.fire(n.change.getProject(), ru.getName());
 
     newCommit.copyFrom(n);
     newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;
     newCommits.put(newCommit.patchsetId.getParentKey(), newCommit);
-    setRefLogIdent(submitAudit);
     return newCommit;
   }
 
-  private void insertAncestors(PatchSet.Id id, RevCommit src)
+
+  private static void insertAncestors(ReviewDb db, PatchSet.Id id, RevCommit src)
       throws OrmException {
     final int cnt = src.getParentCount();
     List<PatchSetAncestor> toInsert = new ArrayList<PatchSetAncestor>(cnt);
@@ -351,33 +222,18 @@ public class CherryPick extends SubmitStrategy {
       a.setAncestorRevision(new RevId(src.getParent(p).getId().name()));
       toInsert.add(a);
     }
-    args.db.patchSetAncestors().insert(toInsert);
+    db.patchSetAncestors().insert(toInsert);
   }
 
-  private boolean contains(List<FooterLine> footers, FooterKey key, String val) {
-    for (final FooterLine line : footers) {
-      if (line.matches(key) && val.equals(line.getValue())) {
-        return true;
-      }
-    }
-    return false;
+  @Override
+  public Map<Change.Id, CodeReviewCommit> getNewCommits() {
+    return newCommits;
   }
 
-  private boolean isSignedOffBy(List<FooterLine> footers, String email) {
-    for (final FooterLine line : footers) {
-      if (line.matches(FooterKey.SIGNED_OFF_BY)
-          && email.equals(line.getEmailAddress())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private PersonIdent toCommitterIdent(final PatchSetApproval audit) {
-    if (audit != null) {
-      return args.identifiedUserFactory.create(audit.getAccountId())
-          .newCommitterIdent(audit.getGranted(), args.myIdent.getTimeZone());
-    }
-    return args.myIdent;
+  @Override
+  public boolean dryRun(final CodeReviewCommit mergeTip,
+      final CodeReviewCommit toMerge) throws MergeException {
+    return canCherryPick(args.mergeSorter, args.repo, args.useContentMerge,
+        mergeTip, args.rw, toMerge);
   }
 }

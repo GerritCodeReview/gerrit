@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc.changedetail;
 import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.PermissionRange;
@@ -152,6 +153,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
         changeId));
 
     detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet());
+
+    detail.setCanCherryPick(control.getProjectControl().canPushToAtLeastOneRef() == Capable.OK);
 
     detail.setCanEdit(control.getRefControl().canWrite());
     detail.setCanEditTopicName(control.canEditTopicName());

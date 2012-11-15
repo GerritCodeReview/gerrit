@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALqH///9g\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T19:52:50Z",
+      "side": 1,
+      "message": "s/all a/a",
+      "revId": "d13f537f56dcab3e504419052a84b8c6f40b7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///9c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectDashesScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T19:52:50Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "d13f537f56dcab3e504419052a84b8c6f40b7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///9Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T19:52:50Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "d13f537f56dcab3e504419052a84b8c6f40b7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///9U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T19:52:50Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "d13f537f56dcab3e504419052a84b8c6f40b7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///9Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-15T19:52:50Z",
+      "side": 1,
+      "message": "Shouldn\u0027t they be sorted by refName aka section title first? Otherwise it could happen that the same section is displayed multiple times, couldn\u0027t it?",
+      "revId": "d13f537f56dcab3e504419052a84b8c6f40b7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

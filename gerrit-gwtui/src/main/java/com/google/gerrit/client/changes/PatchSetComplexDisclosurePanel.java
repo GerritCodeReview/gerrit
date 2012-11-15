@@ -589,8 +589,21 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
 
             @Override
             public void onSend() {
-              Util.MANAGE_SVC.restoreChange(patchSet.getId(), getMessageText(),
-                  createCallback());
+              ChangeApi.restore(changeDetail.getChange().getChangeId(),
+                  getMessageText(), new AsyncCallback<ChangeInfo>() {
+                    @Override
+                    public void onSuccess(ChangeInfo result) {
+                      sent = true;
+                      Gerrit.display(PageLinks.toChange(new Change.Id(result
+                          ._number())));
+                      hide();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                      enableButtons(true);
+                    }
+                  });
             }
           }.center();
         }

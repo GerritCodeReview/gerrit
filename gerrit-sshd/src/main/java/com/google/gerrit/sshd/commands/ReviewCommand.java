@@ -28,9 +28,9 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
-import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
 import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
@@ -130,7 +130,7 @@ public class ReviewCommand extends SshCommand {
   private PublishDraft.Factory publishDraftFactory;
 
   @Inject
-  private Provider<RestoreChange> restoreChangeProvider;
+  private Provider<Restore> restoreProvider;
 
   @Inject
   private Submit.Factory submitFactory;
@@ -220,11 +220,18 @@ public class ReviewCommand extends SshCommand {
           writeError("error: " + parseError(Type.CHANGE_IS_CLOSED) + "\n");
         }
       } else if (restoreChange) {
-        final RestoreChange restoreChange = restoreChangeProvider.get();
-        restoreChange.setChangeId(patchSetId.getParentKey());
-        restoreChange.setMessage(changeComment);
-        final ReviewResult result = restoreChange.call();
-        handleReviewResultErrors(result);
+        final Restore restore = restoreProvider.get();
+        final Restore.Input input = new Restore.Input();
+        input.message = changeComment;
+        ChangeControl ctl =
+            changeControlFactory.controlFor(patchSetId.getParentKey());
+        try {
+          restore.apply(new ChangeResource(ctl), input);
+        } catch(AuthException e) {
+          writeError("error: " + parseError(Type.RESTORE_NOT_PERMITTED) + "\n");
+        } catch(ResourceConflictException e) {
+          writeError("error: " + parseError(Type.CHANGE_NOT_ABANDONED) + "\n");
+        }
       }
       if (submitChange) {
         final ReviewResult result = submitFactory.create(patchSetId).call();

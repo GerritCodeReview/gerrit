@@ -28,6 +28,7 @@ public class Module extends RestApiModule {
 
     get(CHANGE_KIND).to(GetChange.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
+    post(CHANGE_KIND, "restore").to(Restore.class);
     child(CHANGE_KIND, "reviewers").to(Reviewers.class);
 
     get(REVIEWER_KIND).to(GetReviewer.class);

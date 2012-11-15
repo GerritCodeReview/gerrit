@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALmn///6k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-15T01:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALmn///7E\u003d",
+      "revId": "76befe161762e7764e1a738320b99fd93019ef44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALmn///60\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALmn///6Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CherryPick.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-15T01:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALmn///60\u003d",
+      "revId": "76befe161762e7764e1a738320b99fd93019ef44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALmn///7A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-11-15T01:21:21Z",
       "side": 1,
       "message": "maybe better name it \u0027createCherryPickCommitMessage\u0027?",
+      "revId": "76befe161762e7764e1a738320b99fd93019ef44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALmn///6E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-15T01:37:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALmn///7A\u003d",
       "revId": "76befe161762e7764e1a738320b99fd93019ef44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

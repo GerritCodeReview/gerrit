@@ -80,6 +80,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   private final Set<ClickHandler> registeredClickHandler =  new HashSet<ClickHandler>();
 
   private PatchSet.Id diffBaseId;
+  private int diffBy;
 
   /**
    * Creates a closed complex disclosure panel for a patch set.
@@ -121,6 +122,10 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
 
   public void setDiffBaseId(PatchSet.Id diffBaseId) {
     this.diffBaseId = diffBaseId;
+  }
+
+  public void setDiffBy(int diffBy) {
+    this.diffBy = diffBy;
   }
 
   /**
@@ -192,6 +197,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     if (!patchSet.getId().equals(diffBaseId)) {
       patchTable = new PatchTable();
       patchTable.setSavePointerId("PatchTable " + patchSet.getId());
+      patchTable.setDiffBy(diffBy);
       patchTable.display(diffBaseId, detail);
       for (ClickHandler clickHandler : registeredClickHandler) {
         patchTable.addClickHandler(clickHandler);
@@ -683,7 +689,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       if (patchTable != null) {
         if (patchTable.getBase() == null && diffBaseId == null
             || patchTable.getBase() != null
-            && patchTable.getBase().equals(diffBaseId)) {
+            && patchTable.getBase().equals(diffBaseId)
+            && patchTable.getDiffBy() == diffBy) {
           actionsPanel.setVisible(true);
           patchTable.setVisible(true);
           return;
@@ -698,7 +705,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         patchTable.setVisible(false);
       }
 
-      Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs,
+      Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs, diffBy,
           new GerritCallback<PatchSetDetail>() {
             @Override
             public void onSuccess(PatchSetDetail result) {
@@ -723,7 +730,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         diffPrefs = new ListenableAccountDiffPreference().get();
       }
 
-      Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs,
+      Util.DETAIL_SVC.patchSetDetail2(diffBaseId, patchSet.getId(), diffPrefs, diffBy,
           new GerritCallback<PatchSetDetail>() {
             public void onSuccess(final PatchSetDetail result) {
               loadInfoTable(result);

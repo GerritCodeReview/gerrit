@@ -60,7 +60,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     PatchSetDetailFactory create(
         @Assisted("psIdBase") @Nullable PatchSet.Id psIdBase,
         @Assisted("psIdNew") PatchSet.Id psIdNew,
-        @Nullable AccountDiffPreference diffPrefs);
+        @Nullable AccountDiffPreference diffPrefs,
+        @Assisted int diffType);
   }
 
   private final PatchSetInfoFactory infoFactory;
@@ -72,6 +73,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final PatchSet.Id psIdBase;
   private final PatchSet.Id psIdNew;
   private final AccountDiffPreference diffPrefs;
+  private final int diffTyle;
   private ObjectId oldId;
   private ObjectId newId;
 
@@ -85,7 +87,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       final ChangeControl.Factory changeControlFactory,
       @Assisted("psIdBase") @Nullable final PatchSet.Id psIdBase,
       @Assisted("psIdNew") final PatchSet.Id psIdNew,
-      @Assisted @Nullable final AccountDiffPreference diffPrefs) {
+      @Assisted @Nullable final AccountDiffPreference diffPrefs,
+      @Assisted int diffType) {
     this.infoFactory = psif;
     this.db = db;
     this.patchListCache = patchListCache;
@@ -94,6 +97,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     this.psIdBase = psIdBase;
     this.psIdNew = psIdNew;
     this.diffPrefs = diffPrefs;
+    this.diffTyle = diffType;
   }
 
   @Override
@@ -116,7 +120,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
         projectKey = control.getProject().getNameKey();
 
-        list = listFor(keyFor(diffPrefs.getIgnoreWhitespace()));
+        list = listFor(keyFor(diffPrefs.getIgnoreWhitespace(), diffTyle));
       } else { // OK, means use base to compare
         list = patchListCache.get(control.getChange(), patchSet);
       }
@@ -183,8 +187,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     }
   }
 
-  private PatchListKey keyFor(final Whitespace whitespace) {
-    return new PatchListKey(projectKey, oldId, newId, whitespace);
+  private PatchListKey keyFor(final Whitespace whitespace, int diffType) {
+    return new PatchListKey(projectKey, oldId, newId, whitespace, diffType);
   }
 
   private PatchList listFor(PatchListKey key)

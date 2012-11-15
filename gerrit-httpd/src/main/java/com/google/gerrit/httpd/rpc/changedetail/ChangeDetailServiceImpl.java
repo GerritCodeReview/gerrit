@@ -54,12 +54,12 @@ class ChangeDetailServiceImpl implements ChangeDetailService {
 
   public void patchSetDetail(PatchSet.Id id,
       AsyncCallback<PatchSetDetail> callback) {
-    patchSetDetail2(null, id, null, callback);
+    patchSetDetail2(null, id, null, 0, callback);
   }
 
   public void patchSetDetail2(PatchSet.Id baseId, PatchSet.Id id,
-      AccountDiffPreference diffPrefs, AsyncCallback<PatchSetDetail> callback) {
-    patchSetDetail.create(baseId, id, diffPrefs).to(callback);
+      AccountDiffPreference diffPrefs, int diffBy, AsyncCallback<PatchSetDetail> callback) {
+    patchSetDetail.create(baseId, id, diffPrefs, diffBy).to(callback);
   }
 
   public void patchSetPublishDetail(final PatchSet.Id id,

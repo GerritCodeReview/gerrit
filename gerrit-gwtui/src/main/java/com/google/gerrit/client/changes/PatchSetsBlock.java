@@ -69,7 +69,8 @@ public class PatchSetsBlock extends Composite {
   }
 
   /** Adds UI elements for each patch set of the given change to this composite. */
-  public void display(final ChangeDetail detail, final PatchSet.Id diffBaseId) {
+  public void display(final ChangeDetail detail, final PatchSet.Id diffBaseId,
+      final int diffBy) {
     clear();
 
     final PatchSet currps = detail.getCurrentPatchSet();
@@ -91,6 +92,7 @@ public class PatchSetsBlock extends Composite {
           new PatchSetComplexDisclosurePanel(ps, ps == currps);
       if (diffBaseId != null) {
         p.setDiffBaseId(diffBaseId);
+        p.setDiffBy(diffBy);
         if (ps == currps) {
           p.refresh();
         }
@@ -106,10 +108,11 @@ public class PatchSetsBlock extends Composite {
     patchSetPanels.clear();
   }
 
-  public void refresh(final PatchSet.Id diffBaseId) {
+  public void refresh(final PatchSet.Id diffBaseId, final int diffBy) {
     if (patchSetPanelsList != null) {
       for (final PatchSetComplexDisclosurePanel p : patchSetPanelsList) {
         p.setDiffBaseId(diffBaseId);
+        p.setDiffBy(diffBy);
         if (p.isOpen()) {
           p.refresh();
         }

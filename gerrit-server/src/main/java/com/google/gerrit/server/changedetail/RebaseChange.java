@@ -421,7 +421,7 @@ public class RebaseChange {
    * @throws IOException Merged failed
    * @throws PathConflictException the rebase failed due to a path conflict
    */
-  private static ObjectId rebaseCommit(final Repository git,
+  public static ObjectId rebaseCommit(final Repository git,
       final ObjectInserter inserter, final RevCommit original,
       final RevCommit base, final boolean useContentMerge,
       final PersonIdent committerIdent) throws IOException,

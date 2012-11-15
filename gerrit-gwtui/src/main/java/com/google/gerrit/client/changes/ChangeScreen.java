@@ -81,6 +81,7 @@ public class ChangeScreen extends Screen
 
   private Grid patchesGrid;
   private ListBox patchesList;
+  private ListBox diffByList;
 
   /**
    * The change id for which the old version history is valid.
@@ -91,6 +92,7 @@ public class ChangeScreen extends Screen
    * Which patch set id is the diff base.
    */
   private static PatchSet.Id diffBaseId;
+  private static int diffBy;
 
   public ChangeScreen(final Change.Id toShow) {
     changeId = toShow;
@@ -213,23 +215,26 @@ public class ChangeScreen extends Screen
     patchesList.addChangeHandler(new ChangeHandler() {
       @Override
       public void onChange(ChangeEvent event) {
-        final int index = patchesList.getSelectedIndex();
-        final String selectedPatchSet = patchesList.getValue(index);
-        if (index == 0) {
-          diffBaseId = null;
-        } else {
-          diffBaseId = PatchSet.Id.parse(selectedPatchSet);
-        }
-        if (patchSetsBlock != null) {
-          patchSetsBlock.refresh(diffBaseId);
-        }
+        doOnChange();
       }
     });
 
-    patchesGrid = new Grid(1, 2);
+    patchesGrid = new Grid(1, 4);
     patchesGrid.setStyleName(Gerrit.RESOURCES.css().selectPatchSetOldVersion());
     patchesGrid.setText(0, 0, Util.C.oldVersionHistory());
     patchesGrid.setWidget(0, 1, patchesList);
+
+    diffByList = new ListBox();
+    diffByList.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(ChangeEvent event) {
+        doOnChange();
+      }
+    });
+    patchesGrid.setStyleName(Gerrit.RESOURCES.css().diffByList());
+    patchesGrid.setText(0, 2, Util.C.diffByList());
+    patchesGrid.setWidget(0, 3, diffByList);
+
     add(patchesGrid);
 
     patchSetsBlock = new PatchSetsBlock();
@@ -238,6 +243,20 @@ public class ChangeScreen extends Screen
     comments = new FlowPanel();
     comments.setStyleName(Gerrit.RESOURCES.css().changeComments());
     add(comments);
+  }
+
+  private void doOnChange() {
+    final int index = patchesList.getSelectedIndex();
+    final String selectedPatchSet = patchesList.getValue(index);
+    if (index == 0) {
+      diffBaseId = null;
+    } else {
+      diffBaseId = PatchSet.Id.parse(selectedPatchSet);
+    }
+    diffBy = Integer.valueOf(diffByList.getSelectedIndex());
+    if (patchSetsBlock != null) {
+      patchSetsBlock.refresh(diffBaseId, diffBy);
+    }
   }
 
   private void displayTitle(final Change.Key changeId, final String subject) {
@@ -303,7 +322,12 @@ public class ChangeScreen extends Screen
       patchesList.setSelectedIndex(diffBaseId.get());
     }
 
-    patchSetsBlock.display(detail, diffBaseId);
+    diffByList.addItem("Default");
+    diffByList.addItem("Filter out irrelevant files");
+    diffByList.addItem("Rebase Old PS before comparing");
+    diffByList.addItem("Rebase New PS before comparing");
+    diffByList.setSelectedIndex(diffBy);
+    patchSetsBlock.display(detail, diffBaseId, diffBy);
     addComments(detail);
 
     // If any dependency change is still open, or is outdated,

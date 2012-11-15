@@ -101,6 +101,7 @@ public interface ChangeConstants extends Constants {
   String changeInfoBlockCanMergeYes();
   String changeInfoBlockCanMergeNo();
 
+  String diffByList();
   String includedInTableBranch();
   String includedInTableTag();
 

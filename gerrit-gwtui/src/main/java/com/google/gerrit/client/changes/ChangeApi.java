@@ -36,9 +36,8 @@ public class ChangeApi {
    */
   public static void abandon(int changeId, String message,
       AsyncCallback<ChangeInfo> callback) {
-    RestApi call = new RestApi(URI + changeId + "/abandon");
     Message msg = new Message();
     msg.setMessage(message);
-    call.post(msg, callback);
+    new RestApi(URI + changeId + "/abandon").data(msg).post(callback);
   }
 }

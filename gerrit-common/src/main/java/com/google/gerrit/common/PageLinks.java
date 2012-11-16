@@ -41,6 +41,7 @@ public class PageLinks {
   public static final String PROJECTS = "/projects/";
   public static final String DASHBOARDS = ",dashboards/";
   public static final String AUTH_DIALOG = "/auth-dialog/";
+  public static final String AUTH_FAILED = "/auth-dialog/auth-failed";
   public static final String ADMIN_GROUPS = "/admin/groups/";
   public static final String ADMIN_CREATE_GROUP = "/admin/create-group/";
   public static final String ADMIN_PROJECTS = "/admin/projects/";

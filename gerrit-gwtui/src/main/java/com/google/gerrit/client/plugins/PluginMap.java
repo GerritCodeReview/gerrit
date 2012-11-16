@@ -21,8 +21,9 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 /** Plugins available from {@code /plugins/}. */
 public class PluginMap extends NativeMap<PluginInfo> {
   public static void all(AsyncCallback<PluginMap> callback) {
-    new RestApi("/plugins/").addParameterTrue("all")
-        .send(NativeMap.copyKeysIntoChildren(callback));
+    new RestApi("/plugins/")
+      .addParameterTrue("all")
+      .get(NativeMap.copyKeysIntoChildren(callback));
   }
 
   protected PluginMap() {

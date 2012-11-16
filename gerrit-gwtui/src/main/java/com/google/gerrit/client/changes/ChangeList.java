@@ -35,7 +35,7 @@ public class ChangeList extends NativeList<ChangeInfo> {
       call.addParameterRaw("q", KeyUtil.encode(q));
     }
     addOptions(call, ListChangesOption.LABELS);
-    call.send(callback);
+    call.get(callback);
   }
 
   public static void prev(String query,
@@ -49,7 +49,7 @@ public class ChangeList extends NativeList<ChangeInfo> {
     if (!PagedSingleListScreen.MIN_SORTKEY.equals(sortkey)) {
       call.addParameter("P", sortkey);
     }
-    call.send(callback);
+    call.get(callback);
   }
 
   public static void next(String query,
@@ -63,7 +63,7 @@ public class ChangeList extends NativeList<ChangeInfo> {
     if (!PagedSingleListScreen.MAX_SORTKEY.equals(sortkey)) {
       call.addParameter("N", sortkey);
     }
-    call.send(callback);
+    call.get(callback);
   }
 
   private static void addOptions(

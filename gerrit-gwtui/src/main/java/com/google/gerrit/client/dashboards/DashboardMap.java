@@ -25,14 +25,14 @@ public class DashboardMap extends NativeMap<DashboardInfo> {
   public static void allOnProject(Project.NameKey project,
       AsyncCallback<DashboardMap> callback) {
     new RestApi("/dashboards/project/" + URL.encode(project.get()).replaceAll("[?]", "%3F"))
-        .send(NativeMap.copyKeysIntoChildren(callback));
+        .get(NativeMap.copyKeysIntoChildren(callback));
   }
 
   public static void projectDefault(Project.NameKey project,
       AsyncCallback<DashboardMap> callback) {
     new RestApi("/dashboards/project/" + URL.encode(project.get()).replaceAll("[?]", "%3F"))
         .addParameterTrue("default")
-        .send(NativeMap.copyKeysIntoChildren(callback));
+        .get(NativeMap.copyKeysIntoChildren(callback));
   }
 
   protected DashboardMap() {

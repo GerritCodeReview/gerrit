@@ -26,7 +26,7 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .addParameterRaw("type", "ALL")
         .addParameterTrue("all")
         .addParameterTrue("d") // description
-        .send(NativeMap.copyKeysIntoChildren(callback));
+        .get(NativeMap.copyKeysIntoChildren(callback));
   }
 
   public static void permissions(AsyncCallback<ProjectMap> callback) {
@@ -34,7 +34,7 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .addParameterRaw("type", "PERMISSIONS")
         .addParameterTrue("all")
         .addParameterTrue("d") // description
-        .send(NativeMap.copyKeysIntoChildren(callback));
+        .get(NativeMap.copyKeysIntoChildren(callback));
   }
 
   public static void parentCandidates(AsyncCallback<ProjectMap> callback) {
@@ -42,7 +42,7 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .addParameterRaw("type", "PARENT_CANDIDATES")
         .addParameterTrue("all")
         .addParameterTrue("d") // description
-        .send(NativeMap.copyKeysIntoChildren(callback));
+        .get(NativeMap.copyKeysIntoChildren(callback));
   }
 
   public static void suggest(String prefix, int limit, AsyncCallback<ProjectMap> cb) {
@@ -50,7 +50,7 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .addParameterRaw("type", "ALL")
         .addParameter("n", limit)
         .addParameterTrue("d") // description
-        .send(NativeMap.copyKeysIntoChildren(cb));
+        .get(NativeMap.copyKeysIntoChildren(cb));
   }
 
   protected ProjectMap() {

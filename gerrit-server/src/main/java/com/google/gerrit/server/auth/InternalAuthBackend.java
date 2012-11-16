@@ -35,7 +35,7 @@ public class InternalAuthBackend implements AuthBackend {
 
   @Override
   public String getDomain() {
-    return "internal";
+    return "gerrit";
   }
 
   @Override
@@ -62,8 +62,7 @@ public class InternalAuthBackend implements AuthBackend {
     }
 
     req.checkPassword(who.getPassword(username));
-    return new AuthUser(new AuthUser.UUID(who.getAccount().getId().toString()),
-        username);
+    return new AuthUser(new AuthUser.UUID(getDomain(), username), username);
   }
 
 }

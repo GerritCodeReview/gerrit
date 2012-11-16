@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.AuthenticationServlet;
 import com.google.gerrit.httpd.auth.AuthorizationPage;
 import com.google.gerrit.httpd.auth.DefaultAuthorizationPage;
-import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
@@ -106,12 +105,6 @@ public class WebModule extends FactoryModule {
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        install(new ServletModule() {
-          @Override
-          protected void configureServlets() {
-            serve("/become").with(BecomeAnyAccountLoginServlet.class);
-          }
-        });
         break;
 
       case OPENID:

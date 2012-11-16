@@ -112,7 +112,7 @@ public class AuthenticationDialog extends AutoCenterDialogBox {
   }
 
   private Button submit(final FormPanel form) {
-    return new Button("Submit", new ClickHandler() {
+    return new Button(Gerrit.C.buttonSignIn(), new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
         form.submit();

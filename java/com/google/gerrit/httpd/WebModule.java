@@ -16,7 +16,10 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.auth.AuthenticationServlet;
+import com.google.gerrit.httpd.auth.AuthorizationPage;
+import com.google.gerrit.httpd.auth.DefaultAuthorizationPage;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
@@ -52,6 +55,8 @@ public class WebModule extends LifecycleModule {
 
   @Override
   protected void configure() {
+    DynamicSet.setOf(binder(), AuthorizationPage.class);
+    DynamicSet.bind(binder(), AuthorizationPage.class).to(DefaultAuthorizationPage.class);
     bind(RequestScopePropagator.class).to(GuiceRequestScopePropagator.class);
     bind(HttpRequestContext.class);
 

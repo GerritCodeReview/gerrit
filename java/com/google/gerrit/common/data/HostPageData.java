@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /** Data sent as part of the host page, to bootstrap the UI. */
 public class HostPageData {
@@ -40,6 +41,7 @@ public class HostPageData {
   public Integer pluginsLoadTimeout;
   public boolean isNoteDbEnabled;
   public boolean canLoadInIFrame;
+  public Map<String, String> authPages;
 
   public static class Theme {
     public String backgroundColor;

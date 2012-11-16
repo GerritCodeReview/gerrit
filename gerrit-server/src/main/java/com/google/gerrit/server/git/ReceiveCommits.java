@@ -2045,6 +2045,14 @@ public class ReceiveCommits {
       } else {
         addMessage(String.format("Validated by plugin %s", messageSuffix));
       }
+
+      for (CommitValidationMessage message : validationResult.getMessages()) {
+        if (message.isError()) {
+          addError(message.getMessage());
+        } else {
+          addMessage(message.getMessage());
+        }
+      }
     }
 
     if (!validated) {

@@ -35,15 +35,15 @@ import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCache;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -400,11 +400,12 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     }
 
     try {
-      final AuthRequest req = AuthRequest.forUser(user);
-      req.setSkipAuthentication(true);
+      AuthRequest req = new AuthRequest(user, null) {};
+//      final AuthRequest req = AuthRequest.forUser(user);
+//      req.setSkipAuthentication(true);
       return accountCache.get(accountManager.authenticate(req).getAccountId())
           .getAccount();
-    } catch (AccountException e) {
+    } catch (AuthException e) {
       return null;
     }
   }

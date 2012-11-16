@@ -21,8 +21,6 @@ public interface Realm {
   /** Can the end-user modify this field of their own account? */
   public boolean allowsEdit(Account.FieldName field);
 
-  public AuthRequest authenticate(AuthRequest who) throws AccountException;
-
   public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who)
       throws AccountException;
 

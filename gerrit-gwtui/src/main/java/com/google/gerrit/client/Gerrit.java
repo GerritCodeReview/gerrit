@@ -655,42 +655,30 @@ public class Gerrit implements EntryPoint {
 
     final LinkMenuBar projectsBar = new LinkMenuBar();
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
-    if(signedIn) {
-      AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
-        @Override
-        public void onSuccess(AccountCapabilities result) {
-          if (result.canPerform(CREATE_PROJECT)) {
-            addLink(projectsBar, C.menuProjectsCreate(), PageLinks.ADMIN_CREATE_PROJECT);
-          }
-        }
-      }, CREATE_PROJECT);
-    }
     menuLeft.add(projectsBar, C.menuProjects());
 
     if (signedIn) {
       final LinkMenuBar groupsBar = new LinkMenuBar();
       addLink(groupsBar, C.menuGroupsList(), PageLinks.ADMIN_GROUPS);
-      AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
-        @Override
-        public void onSuccess(AccountCapabilities result) {
-          if (result.canPerform(CREATE_GROUP)) {
-            addLink(groupsBar, C.menuGroupsCreate(), PageLinks.ADMIN_CREATE_GROUP);
-          }
-        }
-      }, CREATE_GROUP);
       menuLeft.add(groupsBar, C.menuGroups());
 
       final LinkMenuBar pluginsBar = new LinkMenuBar();
       AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
         @Override
         public void onSuccess(AccountCapabilities result) {
+          if (result.canPerform(CREATE_PROJECT)) {
+            addLink(projectsBar, C.menuProjectsCreate(), PageLinks.ADMIN_CREATE_PROJECT);
+          }
+          if (result.canPerform(CREATE_GROUP)) {
+            addLink(groupsBar, C.menuGroupsCreate(), PageLinks.ADMIN_CREATE_GROUP);
+          }
           if (result.canPerform(ADMINISTRATE_SERVER)) {
             addLink(pluginsBar, C.menuPluginsInstalled(), PageLinks.ADMIN_PLUGINS);
             menuLeft.insert(pluginsBar, C.menuPlugins(),
                 menuLeft.getWidgetIndex(groupsBar) + 1);
           }
         }
-      }, ADMINISTRATE_SERVER);
+      }, CREATE_PROJECT, CREATE_GROUP, ADMINISTRATE_SERVER);
     }
 
     if (getConfig().isDocumentationAvailable()) {

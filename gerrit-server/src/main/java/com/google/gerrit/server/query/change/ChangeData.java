@@ -127,6 +127,12 @@ public class ChangeData {
     change = c;
   }
 
+  public ChangeData(final ChangeControl c) {
+    legacyId = c.getChange().getId();
+    change = c.getChange();
+    changeControl = c;
+  }
+
   public void setCurrentFilePaths(String[] filePaths) {
     currentFiles = filePaths;
   }
@@ -191,7 +197,7 @@ public class ChangeData {
     return visibleTo == user;
   }
 
-  ChangeControl changeControl() {
+  public ChangeControl changeControl() {
     return changeControl;
   }
 

@@ -17,7 +17,6 @@ package com.google.gerrit.client.projects;
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwt.http.client.URL;
 
 /** Projects available from {@code /projects/}. */
 public class ProjectMap extends NativeMap<ProjectInfo> {
@@ -46,9 +45,10 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
   }
 
   public static void suggest(String prefix, int limit, AsyncCallback<ProjectMap> cb) {
-    new RestApi("/projects/" + URL.encode(prefix).replaceAll("[?]", "%3F"))
-        .addParameterRaw("type", "ALL")
+    new RestApi("/projects/")
+        .addParameter("p", prefix)
         .addParameter("n", limit)
+        .addParameterRaw("type", "ALL")
         .addParameterTrue("d") // description
         .get(NativeMap.copyKeysIntoChildren(cb));
   }

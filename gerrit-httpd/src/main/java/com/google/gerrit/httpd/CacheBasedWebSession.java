@@ -162,14 +162,14 @@ public final class CacheBasedWebSession implements WebSession {
     }
 
     key = manager.createKey(id);
-    val = manager.createVal(key, id, rememberMe, identity);
+    val = manager.createVal(key, id, rememberMe, identity, null);
     saveCookie();
   }
 
   /** Set the user account for this current request only. */
   public void setUserAccountId(Account.Id id) {
     key = new Key("id:" + id);
-    val = new Val(id, 0, false, null, 0);
+    val = new Val(id, 0, false, null, 0, null);
   }
 
   public void logout() {
@@ -179,6 +179,11 @@ public final class CacheBasedWebSession implements WebSession {
       val = null;
       saveCookie();
     }
+  }
+
+  @Override
+  public String getSessionId() {
+    return val != null ? val.getSessionId() : null;
   }
 
   private void saveCookie() {

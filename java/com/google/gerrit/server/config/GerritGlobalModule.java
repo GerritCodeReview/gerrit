@@ -94,7 +94,10 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.auth.AuthBackend;
+import com.google.gerrit.server.auth.InternalRealmBackend;
+import com.google.gerrit.server.auth.RealmBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
+import com.google.gerrit.server.auth.UniversalRealmBackend;
 import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
@@ -274,6 +277,10 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);
+
+    bind(RealmBackend.class).to(UniversalRealmBackend.class).in(SINGLETON);
+    DynamicSet.setOf(binder(), RealmBackend.class);
+    DynamicSet.bind(binder(), RealmBackend.class).to(InternalRealmBackend.class);
 
     bind(GroupControl.Factory.class).in(SINGLETON);
     bind(GroupControl.GenericFactory.class).in(SINGLETON);

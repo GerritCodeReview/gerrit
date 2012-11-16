@@ -19,6 +19,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 public class DashboardInfo extends JavaScriptObject {
   public final native String id() /*-{ return this.id; }-*/;
   public final native String name() /*-{ return this.dashboard_name; }-*/;
+  public final native String section() /*-{ return this.section; }-*/;
   public final native String refName() /*-{ return this.ref_name; }-*/;
   public final native String projectName() /*-{ return this.project_name; }-*/;
   public final native String description() /*-{ return this.description; }-*/;

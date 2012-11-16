@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.http.client.URL;
 import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {
@@ -76,6 +77,27 @@ public class PageLinks {
   public static String toChangeQuery(String query, String page) {
     return "/q/" + KeyUtil.encode(query) + "," + page;
   }
+
+  public static String toProjectDashboard(Project.NameKey projectName,
+      String dashboardId) {
+    return PROJECTS + URL.encodePathSegment(projectName.get()) + DASHBOARDS
+        + PageLinks.encodeDashboardId(dashboardId);
+  }
+
+  public static String encodeDashboardId(String dashboardId) {
+    int c = dashboardId.indexOf(":");
+    if (0 <= c) {
+      final String ref = URL.encodePathSegment(dashboardId.substring(0, c));
+      final String path = URL.encodePathSegment(dashboardId.substring(c + 1));
+      return ref + ":" + path;
+    } else {
+      return URL.encodePathSegment(dashboardId);
+    }
+  }
+
+  public static String projectQuery(Project.NameKey proj) {
+    return op("project", proj.get());
+}
 
   public static String projectQuery(Project.NameKey proj, Status status) {
       return status(status) + " " + op("project", proj.get());

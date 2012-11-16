@@ -30,17 +30,20 @@ public class DashboardResource implements RestResource {
   private final String pathName;
   private final ObjectId objId;
   private final Config config;
+  private final boolean projectDefault;
 
   DashboardResource(ProjectControl control,
       String refName,
       String pathName,
       ObjectId objId,
-      Config config) {
+      Config config,
+      boolean projectDefault) {
     this.control = control;
     this.refName = refName;
     this.pathName = pathName;
     this.objId = objId;
     this.config = config;
+    this.projectDefault = projectDefault;
   }
 
   public ProjectControl getControl() {
@@ -61,5 +64,9 @@ public class DashboardResource implements RestResource {
 
   public Config getConfig() {
     return config;
+  }
+
+  public boolean isProjectDefault() {
+    return projectDefault;
   }
 }

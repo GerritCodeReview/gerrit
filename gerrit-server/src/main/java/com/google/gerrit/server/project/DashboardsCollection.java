@@ -22,8 +22,11 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.UrlEncoded;
@@ -46,18 +49,22 @@ import java.net.URLEncoder;
 import java.util.List;
 
 class DashboardsCollection implements
-    ChildCollection<ProjectResource, DashboardResource> {
+    ChildCollection<ProjectResource, DashboardResource>,
+    AcceptsCreate<ProjectResource>{
   private final GitRepositoryManager gitManager;
   private final DynamicMap<RestView<DashboardResource>> views;
   private final Provider<ListDashboards> list;
+  private final Provider<SetDefaultDashboard.CreateDefault> createDefault;
 
   @Inject
   DashboardsCollection(GitRepositoryManager gitManager,
       DynamicMap<RestView<DashboardResource>> views,
-      Provider<ListDashboards> list) {
+      Provider<ListDashboards> list,
+      Provider<SetDefaultDashboard.CreateDefault> createDefault) {
     this.gitManager = gitManager;
     this.views = views;
     this.list = list;
+    this.createDefault = createDefault;
   }
 
   @Override
@@ -65,12 +72,24 @@ class DashboardsCollection implements
     return list.get();
   }
 
+  @SuppressWarnings("unchecked")
+  @Override
+  public RestModifyView<ProjectResource, ?> create(ProjectResource parent,
+      String id) throws RestApiException {
+    if ("default".equals(id)) {
+      return createDefault.get();
+    }
+    throw new ResourceNotFoundException(id);
+  }
+
   @Override
   public DashboardResource parse(ProjectResource parent, String id)
       throws ResourceNotFoundException, Exception {
     ProjectControl ctl = parent.getControl();
+    boolean def = false;
     if ("default".equals(id)) {
       id = defaultOf(ctl.getProject());
+      def = true;
     }
 
     List<String> parts = Lists.newArrayList(
@@ -108,7 +127,7 @@ class DashboardsCollection implements
         throw new ResourceNotFoundException();
       }
       BlobBasedConfig cfg = new BlobBasedConfig(null, git, objId);
-      return new DashboardResource(ctl, ref, path, objId, cfg);
+      return new DashboardResource(ctl, ref, path, objId, cfg, def);
     } finally {
       git.close();
     }

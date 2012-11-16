@@ -17,12 +17,13 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.git.GitRepositoryManager.REFS_DASHBOARDS;
 
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.project.DashboardsCollection.DashboardInfo;
 
 import java.io.UnsupportedEncodingException;
 
 class GetDashboard implements RestReadView<DashboardResource> {
   @Override
-  public Object apply(DashboardResource resource)
+  public DashboardInfo apply(DashboardResource resource)
       throws UnsupportedEncodingException {
     return DashboardsCollection.parse(
         resource.getControl().getProject(),

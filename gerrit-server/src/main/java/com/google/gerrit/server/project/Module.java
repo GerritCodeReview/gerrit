@@ -36,5 +36,7 @@ public class Module extends RestApiModule {
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);
+    put(DASHBOARD_KIND).to(SetDashboard.class);
+    delete(DASHBOARD_KIND).to(DeleteDashboard.class);
   }
 }

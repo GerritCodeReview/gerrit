@@ -14,20 +14,30 @@
 
 package com.google.gerrit.httpd.auth;
 
+import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
+
+import com.google.common.collect.Sets;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.reviewdb.client.AccountExternalId.Key;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AuthMethod;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.auth.AuthUser;
+import com.google.gerrit.server.auth.RealmBackend;
+import com.google.gerrit.server.auth.UserData;
+import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,23 +46,30 @@ import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class AuthenticationServlet extends HttpServlet {
-  public static final String PARAMENTER_USERNAME = "username";
+  public static final String PARAMETER_USERNAME = "username";
   public static final String PARAMETER_PASSWORD = "password";
 
   private static final String OK_RESPONSE = "OK";
   private static final String FAIL_RESPONSE = "FAIL";
 
   private final AuthBackend authBackend;
-  private final AccountCache accountCache;
+  private final RealmBackend realmBackend;
   private final Provider<WebSession> session;
+  private final SchemaFactory<ReviewDb> schema;
+  private final AccountByEmailCache byEmailCache;
 
   @Inject
-  AuthenticationServlet(AuthBackend authBackend,
+  AuthenticationServlet(
+      AuthBackend authBackend,
+      RealmBackend realmBackend,
       Provider<WebSession> session,
-      AccountCache accountCache) {
-    this.authBackend = authBackend;
+      SchemaFactory<ReviewDb> schema,
+      AccountByEmailCache byEmailCache) {
+    this.schema = schema;
     this.session = session;
-    this.accountCache = accountCache;
+    this.authBackend = authBackend;
+    this.byEmailCache = byEmailCache;
+    this.realmBackend = realmBackend;
   }
 
   @Override
@@ -64,20 +81,64 @@ public class AuthenticationServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    String username = req.getParameter(PARAMENTER_USERNAME);
+    String username = req.getParameter(PARAMETER_USERNAME);
     String password = req.getParameter(PARAMETER_PASSWORD);
     HttpAuthRequest authRequest = new HttpAuthRequest(username, password, req, resp);
     try {
       AuthUser user = authBackend.authenticate(authRequest);
-      AccountState account = accountCache.getByUsername(user.getUsername());
       AccountExternalId.Key key = new AccountExternalId.Key(user.getUUID().get());
-      AuthResult res = new AuthResult(account.getAccount().getId(), key, false);
+      Account.Id accountId = getUserAccount(user, key);
+      AuthResult res = new AuthResult(accountId, key, false);
       session.get().login(res, AuthMethod.PASSWORD, false);
       resp.getOutputStream().write(OK_RESPONSE.getBytes());
       return;
     } catch (AuthException e) {
-      e.printStackTrace();
+      // log and just return fail response
     }
     resp.getOutputStream().write(FAIL_RESPONSE.getBytes());
+  }
+
+  private Account.Id getUserAccount(AuthUser user, AccountExternalId.Key key) {
+    try {
+      ReviewDb db = schema.open();
+      try {
+        AccountExternalId externalId = db.accountExternalIds().get(key);
+        if (externalId == null) {
+          return create(db, user, key);
+        }
+        return externalId.getAccountId();
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private Account.Id create(ReviewDb db, AuthUser user, Key key)
+      throws OrmException {
+    String username = user.getUsername();
+    Account.Id newId = new Account.Id(db.nextAccountId());
+    Account account = new Account(newId);
+    AccountExternalId accountExternalId = new AccountExternalId(newId, key);
+    UserData userData = realmBackend.getUserData(user);
+    if (userData == null) {
+      // throw exception ?
+    }
+
+    accountExternalId.setEmailAddress(userData.getEmailAddress());
+    account.setFullName(userData.getDisplayName());
+    account.setPreferredEmail(userData.getEmailAddress());
+    account.setUserName(username);
+
+    // create username
+    AccountExternalId.Key userNameKey = new AccountExternalId.Key(SCHEME_USERNAME, username);
+    AccountExternalId userNameId = new AccountExternalId(newId, userNameKey);
+
+    db.accounts().insert(Collections.singleton(account));
+    db.accountExternalIds().insert(Sets.newHashSet(accountExternalId, userNameId));
+
+    byEmailCache.evict(account.getPreferredEmail());
+    return account.getId();
   }
 }

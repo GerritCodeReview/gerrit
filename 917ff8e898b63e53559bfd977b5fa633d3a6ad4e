@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsH///+Q\u003d",
+        "filename": "Documentation/user-custom-dashboards.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-16T02:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALqH///6s\u003d",
+      "revId": "917ff8e898b63e53559bfd977b5fa633d3a6ad4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALqH///6o\u003d",
         "filename": "Documentation/user-custom-dashboards.txt",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsH///+I\u003d",
+        "filename": "Documentation/user-custom-dashboards.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-16T02:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALqH///6o\u003d",
+      "revId": "917ff8e898b63e53559bfd977b5fa633d3a6ad4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALqH///6k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2012-11-16T01:36:12Z",
       "side": 1,
       "message": "[optional] Have a method that does this, instead of having this code in two places. It might be ok to have this one line duplicated, but image that in future we maybe have more patterns that we want to replace.",
+      "revId": "917ff8e898b63e53559bfd977b5fa633d3a6ad4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsH///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/dashboard/ListDashboards.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-16T02:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALqH///6k\u003d",
       "revId": "917ff8e898b63e53559bfd977b5fa633d3a6ad4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

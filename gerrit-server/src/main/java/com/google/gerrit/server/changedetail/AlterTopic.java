@@ -124,7 +124,7 @@ public class AlterTopic implements Callable<ReviewResult> {
       });
 
       if (updatedChange == null) {
-        String err = "Change is closed, submitted, or patchset is not latest";
+        String err = "Patchset is not latest";
         throw new InvalidChangeOperationException(err);
       }
       db.changeMessages().insert(Collections.singleton(cmsg));

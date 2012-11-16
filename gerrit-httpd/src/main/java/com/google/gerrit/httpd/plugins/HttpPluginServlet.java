@@ -14,17 +14,19 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.httpd.rpc.plugin.ListPluginsServlet;
+import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.documentation.MarkdownFormatter;
 import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.server.plugins.PluginsCollection;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -80,7 +82,7 @@ class HttpPluginServlet extends HttpServlet
   private final Cache<ResourceKey, Resource> resourceCache;
   private final String sshHost;
   private final int sshPort;
-  private final ListPluginsServlet listServlet;
+  private final RestApiServlet managerApi;
 
   private List<Plugin> pending = Lists.newArrayList();
   private String base;
@@ -92,11 +94,13 @@ class HttpPluginServlet extends HttpServlet
       @CanonicalWebUrl Provider<String> webUrl,
       @Named(HttpPluginModule.PLUGIN_RESOURCES) Cache<ResourceKey, Resource> cache,
       @GerritServerConfig Config cfg,
-      SshInfo sshInfo, ListPluginsServlet listServlet) {
+      SshInfo sshInfo,
+      RestApiServlet.Globals globals,
+      PluginsCollection plugins) {
     this.mimeUtil = mimeUtil;
     this.webUrl = webUrl;
     this.resourceCache = cache;
-    this.listServlet = listServlet;
+    this.managerApi = new RestApiServlet(globals, plugins);
 
     String sshHost = "review.example.com";
     int sshPort = 29418;
@@ -187,11 +191,16 @@ class HttpPluginServlet extends HttpServlet
   @Override
   public void service(HttpServletRequest req, HttpServletResponse res)
       throws IOException, ServletException {
-    String name = extractName(req);
-    if (name.equals("")) {
-      listServlet.service(req, res);
+    List<String> parts = Lists.newArrayList(
+      Splitter.on('/').limit(3).omitEmptyStrings()
+        .split(Strings.nullToEmpty(req.getPathInfo())));
+
+    if (isApiCall(req, parts)) {
+      managerApi.service(req, res);
       return;
     }
+
+    String name = parts.get(0);
     final PluginHolder holder = plugins.get(name);
     if (holder == null) {
       noCache(res);
@@ -212,6 +221,14 @@ class HttpPluginServlet extends HttpServlet
     } else {
       chain.doFilter(wr, res);
     }
+  }
+
+  private static boolean isApiCall(HttpServletRequest req, List<String> parts) {
+    String method = req.getMethod();
+    int cnt = parts.size();
+    return cnt == 0
+        || (cnt == 1 && ("PUT".equals(method) || "DELETE".equals(method)))
+        || (cnt == 2 && parts.get(1).startsWith("gerrit~"));
   }
 
   private void onDefault(PluginHolder holder,
@@ -551,15 +568,6 @@ class HttpPluginServlet extends HttpServlet
       in.close();
     }
     return data;
-  }
-
-  private static String extractName(HttpServletRequest req) {
-    String path = req.getPathInfo();
-    if (Strings.isNullOrEmpty(path) || "/".equals(path)) {
-      return "";
-    }
-    int s = path.indexOf('/', 1);
-    return 0 <= s ? path.substring(1, s) : path.substring(1);
   }
 
   static void noCache(HttpServletResponse res) {

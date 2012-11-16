@@ -51,7 +51,10 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.InternalAuthBackend;
+import com.google.gerrit.server.auth.InternalRealmBackend;
+import com.google.gerrit.server.auth.RealmBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
+import com.google.gerrit.server.auth.UniversalRealmBackend;
 import com.google.gerrit.server.auth.ldap.LdapGroupBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.auth.ldap.LdapRealmModule;
@@ -163,6 +166,11 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);
     DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);
+
+    bind(RealmBackend.class).to(UniversalRealmBackend.class).in(SINGLETON);
+    DynamicSet.setOf(binder(), RealmBackend.class);
+    DynamicSet.bind(binder(), RealmBackend.class).to(InternalRealmBackend.class);
+
 
     bind(GroupControl.Factory.class).in(SINGLETON);
     factory(IncludingGroupMembership.Factory.class);

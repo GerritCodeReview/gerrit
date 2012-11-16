@@ -36,4 +36,6 @@ public interface WebSession {
   public void setUserAccountId(Account.Id id);
 
   public void logout();
+
+  public String getSessionId();
 }

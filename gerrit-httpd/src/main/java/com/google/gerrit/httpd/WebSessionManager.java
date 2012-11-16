@@ -90,11 +90,11 @@ class WebSessionManager {
     final Account.Id who = val.getAccountId();
     final boolean remember = val.isPersistentCookie();
     final AccountExternalId.Key lastLogin = val.getExternalId();
-    return createVal(key, who, remember, lastLogin);
+    return createVal(key, who, remember, lastLogin, val.sessionId);
   }
 
   Val createVal(final Key key, final Account.Id who, final boolean remember,
-      final AccountExternalId.Key lastLogin) {
+      final AccountExternalId.Key lastLogin, String sid) {
     // Refresh the cookie every hour or when it is half-expired.
     // This reduces the odds that the user session will be kicked
     // early but also avoids us needing to refresh the cookie on
@@ -106,8 +106,11 @@ class WebSessionManager {
     final long now = now();
     final long refreshCookieAt = now + refresh;
     final long expiresAt = now + sessionMaxAgeMillis;
+    if (sid == null) {
+      sid = createKey(who).token;
+    }
 
-    Val val = new Val(who, refreshCookieAt, remember, lastLogin, expiresAt);
+    Val val = new Val(who, refreshCookieAt, remember, lastLogin, expiresAt, sid);
     self.put(key.token, val);
     return val;
   }
@@ -171,15 +174,17 @@ class WebSessionManager {
     private transient boolean persistentCookie;
     private transient AccountExternalId.Key externalId;
     private transient long expiresAt;
+    private transient String sessionId;
 
     Val(final Account.Id accountId, final long refreshCookieAt,
         final boolean persistentCookie, final AccountExternalId.Key externalId,
-        final long expiresAt) {
+        final long expiresAt, final String sessionId) {
       this.accountId = accountId;
       this.refreshCookieAt = refreshCookieAt;
       this.persistentCookie = persistentCookie;
       this.externalId = externalId;
       this.expiresAt = expiresAt;
+      this.sessionId = sessionId;
     }
 
     Account.Id getAccountId() {
@@ -188,6 +193,10 @@ class WebSessionManager {
 
     AccountExternalId.Key getExternalId() {
       return externalId;
+    }
+
+    String getSessionId() {
+      return sessionId;
     }
 
     boolean needsCookieRefresh() {
@@ -211,6 +220,11 @@ class WebSessionManager {
       if (externalId != null) {
         writeVarInt32(out, 4);
         writeString(out, externalId.get());
+      }
+
+      if (sessionId != null) {
+        writeVarInt32(out, 5);
+        writeString(out, sessionId);
       }
 
       writeVarInt32(out, 6);
@@ -238,7 +252,7 @@ class WebSessionManager {
             externalId = new AccountExternalId.Key(readString(in));
             continue;
           case 5:
-            readString(in);
+            sessionId = readString(in);
             continue;
           case 6:
             expiresAt = readFixInt64(in);

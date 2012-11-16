@@ -25,12 +25,12 @@ import com.google.gerrit.client.account.EditPreferences;
 import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.api.ApiGlue;
 import com.google.gerrit.client.api.PluginLoader;
+import com.google.gerrit.client.auth.AuthenticationDialog;
 import com.google.gerrit.client.change.LocalComments;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.config.ConfigServerApi;
 import com.google.gerrit.client.documentation.DocInfo;
 import com.google.gerrit.client.info.AccountInfo;
-import com.google.gerrit.client.info.AuthInfo;
 import com.google.gerrit.client.info.GeneralPreferences;
 import com.google.gerrit.client.info.ServerInfo;
 import com.google.gerrit.client.info.TopMenu;
@@ -73,7 +73,6 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.http.client.UrlBuilder;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
@@ -137,6 +136,7 @@ public class Gerrit implements EntryPoint {
   private static String lastChangeListToken;
   private static String lastViewToken;
   private static Anchor uiSwitcherLink;
+  private static AuthenticationDialog authDialog;
 
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
@@ -339,12 +339,13 @@ public class Gerrit implements EntryPoint {
       token = token.substring(1);
     }
 
-    return selfRedirect("login/") + URL.encodePathSegment("#/" + token);
+    return selfRedirect("#" + PageLinks.AUTH_DIALOG + token);
   }
 
   public static String selfRedirect(String suffix) {
     // Clean up the path. Users seem to like putting extra slashes into the URL
     // which can break redirections by misinterpreting at either client or server.
+    String hash = "";
     String path = Location.getPath();
     if (path == null || path.isEmpty()) {
       path = "/";
@@ -364,6 +365,10 @@ public class Gerrit implements EntryPoint {
       while (suffix.startsWith("/")) {
         suffix = suffix.substring(1);
       }
+      if (suffix.contains("#")) {
+        hash = suffix.substring(suffix.indexOf('#') + 1);
+        suffix = suffix.substring(0, suffix.indexOf('#'));
+      }
       path += suffix;
     }
 
@@ -375,7 +380,17 @@ public class Gerrit implements EntryPoint {
       builder.setPort(Integer.parseInt(port));
     }
     builder.setPath(path);
+    if (!hash.isEmpty()) {
+      builder.setHash(hash);
+    }
     return builder.buildString();
+  }
+
+  public static void showAuthDialog() {
+    if (authDialog != null) {
+      authDialog.show();
+      authDialog.center();
+    }
   }
 
   static void deleteSessionCookie() {
@@ -625,6 +640,9 @@ public class Gerrit implements EntryPoint {
     menuLeft = new MorphingTabPanel();
     menuRight = new LinkMenuBar();
     searchPanel = new SearchPanel();
+    if (hpd.authPages != null && !hpd.authPages.isEmpty()) {
+      authDialog = new AuthenticationDialog(hpd.authPages);
+    }
     menuLeft.setStyleName(RESOURCES.css().topmenuMenuLeft());
     menuLine.setStyleName(RESOURCES.css().topmenu());
     topMenu.add(menuLine);
@@ -715,7 +733,6 @@ public class Gerrit implements EntryPoint {
     menuBars = new HashMap<>();
 
     boolean signedIn = isSignedIn();
-    AuthInfo authInfo = info().auth();
     LinkMenuBar m;
 
     m = new LinkMenuBar();
@@ -821,88 +838,9 @@ public class Gerrit implements EntryPoint {
     }
 
     if (signedIn) {
-      whoAmI(!authInfo.isClientSslCertLdap());
-    } else {
-      switch (authInfo.authType()) {
-        case CLIENT_SSL_CERT_LDAP:
-          break;
-
-        case OPENID:
-          menuRight.addItem(
-              C.menuRegister(),
-              new Command() {
-                @Override
-                public void execute() {
-                  String t = History.getToken();
-                  if (t == null) {
-                    t = "";
-                  }
-                  doSignIn(PageLinks.REGISTER + t);
-                }
-              });
-          menuRight.addItem(
-              C.menuSignIn(),
-              new Command() {
-                @Override
-                public void execute() {
-                  doSignIn(History.getToken());
-                }
-              });
-          break;
-
-        case OAUTH:
-          menuRight.addItem(
-              C.menuSignIn(),
-              new Command() {
-                @Override
-                public void execute() {
-                  doSignIn(History.getToken());
-                }
-              });
-          break;
-
-        case OPENID_SSO:
-          menuRight.addItem(
-              C.menuSignIn(),
-              new Command() {
-                @Override
-                public void execute() {
-                  doSignIn(History.getToken());
-                }
-              });
-          break;
-
-        case HTTP:
-        case HTTP_LDAP:
-          if (authInfo.loginUrl() != null) {
-            String signinText =
-                authInfo.loginText() == null ? C.menuSignIn() : authInfo.loginText();
-            menuRight.add(anchor(signinText, authInfo.loginUrl()));
-          }
-          break;
-
-        case LDAP:
-        case LDAP_BIND:
-        case CUSTOM_EXTENSION:
-          if (authInfo.registerUrl() != null) {
-            String registerText =
-                authInfo.registerText() == null ? C.menuRegister() : authInfo.registerText();
-            menuRight.add(anchor(registerText, authInfo.registerUrl()));
-          }
-          menuRight.addItem(
-              C.menuSignIn(),
-              new Command() {
-                @Override
-                public void execute() {
-                  doSignIn(History.getToken());
-                }
-              });
-          break;
-
-        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-          menuRight.add(anchor("Become", loginRedirect("")));
-          break;
-      }
+      whoAmI(true);
+    } else if (authDialog != null) {
+      addLink(menuRight, C.menuSignIn(), PageLinks.AUTH_DIALOG);
     }
     ConfigServerApi.topMenus(
         new GerritCallback<TopMenuList>() {

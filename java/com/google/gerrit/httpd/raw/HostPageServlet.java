@@ -18,6 +18,7 @@ import static com.google.gerrit.common.FileUtil.lastModified;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.common.primitives.Bytes;
@@ -29,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.systemstatus.MessageOfTheDay;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.httpd.auth.AuthorizationPage;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
@@ -52,6 +54,7 @@ import java.io.StringWriter;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -76,6 +79,7 @@ public class HostPageServlet extends HttpServlet {
   private static final int DEFAULT_JS_LOAD_TIMEOUT = 5000;
 
   private final Provider<CurrentUser> currentUser;
+  private final DynamicSet<AuthorizationPage> authPages;
   private final DynamicSet<WebUiPlugin> plugins;
   private final DynamicSet<MessageOfTheDay> messages;
   private final HostPageData.Theme signedOutTheme;
@@ -97,6 +101,7 @@ public class HostPageServlet extends HttpServlet {
       SitePaths sp,
       ThemeFactory themeFactory,
       ServletContext servletContext,
+      DynamicSet<AuthorizationPage> authPages,
       DynamicSet<WebUiPlugin> webUiPlugins,
       DynamicSet<MessageOfTheDay> motd,
       @GerritServerConfig Config cfg,
@@ -105,6 +110,7 @@ public class HostPageServlet extends HttpServlet {
       GetDiffPreferences diffPref)
       throws IOException, ServletException {
     currentUser = cu;
+    this.authPages = authPages;
     plugins = webUiPlugins;
     messages = motd;
     signedOutTheme = themeFactory.getSignedOutTheme();
@@ -198,6 +204,7 @@ public class HostPageServlet extends HttpServlet {
     }
     plugins(w);
     messages(w);
+    authPages(w);
 
     byte[] hpd = w.toString().getBytes(UTF_8);
     byte[] raw = Bytes.concat(page.part1, hpd, page.part2);
@@ -257,6 +264,18 @@ public class HostPageServlet extends HttpServlet {
     if (!list.isEmpty()) {
       w.write(HPD_ID + ".messages=");
       json(list, w);
+      w.write(";");
+    }
+  }
+
+  private void authPages(StringWriter w) {
+    Map<String, String> pages = Maps.newHashMap();
+    for (AuthorizationPage page : authPages) {
+      pages.put(page.getAuthName(), page.getAuthPageContent());
+    }
+    if (!pages.isEmpty()) {
+      w.write(HPD_ID + ".authPages=");
+      json(pages, w);
       w.write(";");
     }
   }

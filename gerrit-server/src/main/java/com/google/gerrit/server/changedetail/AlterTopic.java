@@ -50,10 +50,10 @@ public class AlterTopic implements Callable<ReviewResult> {
   }
 
   @Argument(index = 1, required = true, multiValued = false, usage = "new topic")
-  private String topic;
+  private String newTopicName;
 
   public void setTopic(final String topic) {
-    this.topic = topic.trim();
+    this.newTopicName = topic.trim();
   }
 
   @Option(name = "--message", aliases = {"-m"},
@@ -72,7 +72,7 @@ public class AlterTopic implements Callable<ReviewResult> {
     this.currentUser = currentUser;
 
     changeId = null;
-    topic = null;
+    newTopicName = null;
     message = null;
   }
 
@@ -93,13 +93,21 @@ public class AlterTopic implements Callable<ReviewResult> {
     }
 
     final Change change = db.changes().get(changeId);
-    if (!change.getTopic().equals(topic)) {
+    final String oldTopicName = change.getTopic();
+    if (!oldTopicName.equals(newTopicName)) {
+      String summary;
+      if (oldTopicName.isEmpty()) {
+        summary = "Topic set to \"" + newTopicName + "\"";
+      } else if (newTopicName.isEmpty()) {
+        summary = "Topic \"" + oldTopicName + "\" removed";
+      } else {
+        summary = "Topic changed from \"" + oldTopicName //
+            + "\" to \"" + newTopicName + "\"";
+      }
       final ChangeMessage cmsg = new ChangeMessage(
           new ChangeMessage.Key(changeId, ChangeUtil.messageUUID(db)),
           currentUser.getAccountId(), change.currentPatchSetId());
-      final StringBuilder msgBuf =
-          new StringBuilder("Topic changed from \"" + change.getTopic() //
-              + "\" to \"" + topic + "\"");
+      final StringBuilder msgBuf = new StringBuilder(summary);
       if (message != null && message.length() > 0) {
         msgBuf.append("\n\n");
         msgBuf.append(message);
@@ -110,7 +118,7 @@ public class AlterTopic implements Callable<ReviewResult> {
           new AtomicUpdate<Change>() {
         @Override
         public Change update(Change change) {
-          change.setTopic(topic);
+          change.setTopic(newTopicName);
           return change;
         }
       });

@@ -43,7 +43,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
-import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -82,7 +81,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final Config config;
   private final AccountVisibilityProvider accountVisibilityProvider;
   private final AuthConfig authConfig;
-  private final Realm realm;
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicMap<DownloadCommand> downloadCommands;
   private final DynamicMap<CloneCommand> cloneCommands;
@@ -106,7 +104,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       @GerritServerConfig Config config,
       AccountVisibilityProvider accountVisibilityProvider,
       AuthConfig authConfig,
-      Realm realm,
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicMap<DownloadCommand> downloadCommands,
       DynamicMap<CloneCommand> cloneCommands,
@@ -127,7 +124,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
     this.authConfig = authConfig;
-    this.realm = realm;
     this.downloadSchemes = downloadSchemes;
     this.downloadCommands = downloadCommands;
     this.cloneCommands = cloneCommands;
@@ -151,7 +147,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   public ServerInfo apply(ConfigResource rsrc) throws MalformedURLException {
     ServerInfo info = new ServerInfo();
     info.accounts = getAccountsInfo(accountVisibilityProvider);
-    info.auth = getAuthInfo(authConfig, realm);
+    info.auth = getAuthInfo(authConfig);
     info.change = getChangeInfo(config);
     info.download =
         getDownloadInfo(downloadSchemes, downloadCommands, cloneCommands, archiveFormats);
@@ -178,11 +174,10 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private AuthInfo getAuthInfo(AuthConfig cfg, Realm realm) {
+  private AuthInfo getAuthInfo(AuthConfig cfg) {
     AuthInfo info = new AuthInfo();
     info.authType = cfg.getAuthType();
     info.useContributorAgreements = toBoolean(cfg.isUseContributorAgreements());
-    info.editableAccountFields = new ArrayList<>(realm.getEditableFields());
     info.switchAccountUrl = cfg.getSwitchAccountUrl();
     info.gitBasicAuthPolicy = cfg.getGitBasicAuthPolicy();
 

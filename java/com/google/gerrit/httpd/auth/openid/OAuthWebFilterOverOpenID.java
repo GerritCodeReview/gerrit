@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.auth.openid;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -72,7 +73,11 @@ class OAuthWebFilterOverOpenID implements Filter {
         throw new IllegalStateException("service is unknown");
       }
       oauthSession.setServiceProvider(service);
-      oauthSession.login(httpRequest, httpResponse, service);
+      try {
+        oauthSession.login(httpRequest, httpResponse, service);
+      } catch (AuthException e) {
+        throw new IOException(e);
+      }
     } else {
       chain.doFilter(httpRequest, response);
     }

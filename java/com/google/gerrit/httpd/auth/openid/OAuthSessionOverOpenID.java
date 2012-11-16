@@ -26,12 +26,14 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.auth.HttpAuthRequest;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -88,7 +90,7 @@ class OAuthSessionOverOpenID {
 
   boolean login(
       HttpServletRequest request, HttpServletResponse response, OAuthServiceProvider oauth)
-      throws IOException {
+      throws IOException, AuthException {
     log.debug("Login " + this);
 
     if (isOAuthFinal(request)) {
@@ -116,7 +118,7 @@ class OAuthSessionOverOpenID {
   }
 
   private void authenticateAndRedirect(HttpServletRequest req, HttpServletResponse rsp)
-      throws IOException {
+      throws IOException, AuthException {
     com.google.gerrit.server.account.AuthRequest areq =
         new com.google.gerrit.server.account.AuthRequest(
             ExternalId.Key.parse(user.getExternalId()));
@@ -200,7 +202,7 @@ class OAuthSessionOverOpenID {
       areq.setUserName(user.getUserName());
       areq.setEmailAddress(user.getEmailAddress());
       areq.setDisplayName(user.getDisplayName());
-      arsp = accountManager.authenticate(areq);
+      arsp = accountManager.authenticate(new HttpAuthRequest(user.getUserName(), "", req, rsp));
     } catch (AccountException e) {
       log.error("Unable to authenticate user \"" + user + "\"", e);
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);

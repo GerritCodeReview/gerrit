@@ -27,9 +27,10 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.AuthenticationFailedException;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
@@ -152,12 +153,11 @@ class ProjectBasicAuthFilter implements Filter {
       return failAuthentication(rsp, username, req);
     }
 
-    AuthRequest whoAuth = AuthRequest.forUser(username);
-    whoAuth.setPassword(password);
+    AuthRequest authRequest = new AuthRequest(username, password) {};
 
     try {
-      AuthResult whoAuthResult = accountManager.authenticate(whoAuth);
-      setUserIdentified(whoAuthResult.getAccountId());
+      AuthResult authResult = accountManager.authenticate(authRequest);
+      setUserIdentified(authResult.getAccountId());
       return true;
     } catch (NoSuchUserException e) {
       if (who.checkPassword(password, username)) {
@@ -171,6 +171,10 @@ class ProjectBasicAuthFilter implements Filter {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     } catch (AccountException e) {
+      log.warn(authenticationFailedMsg(username, req), e);
+      rsp.sendError(SC_UNAUTHORIZED);
+      return false;
+    } catch (AuthException e) {
       log.warn(authenticationFailedMsg(username, req), e);
       rsp.sendError(SC_UNAUTHORIZED);
       return false;

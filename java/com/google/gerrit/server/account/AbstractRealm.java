@@ -16,41 +16,13 @@ package com.google.gerrit.server.account;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.mail.send.EmailSender;
-import com.google.inject.Inject;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 /** Basic implementation of {@link Realm}. */
 public abstract class AbstractRealm implements Realm {
-  private EmailSender emailSender;
-
-  @Inject(optional = true)
-  void setEmailSender(EmailSender emailSender) {
-    this.emailSender = emailSender;
-  }
-
-  @Override
-  public Set<AccountFieldName> getEditableFields() {
-    Set<AccountFieldName> fields = new HashSet<>();
-    for (AccountFieldName n : AccountFieldName.values()) {
-      if (allowsEdit(n)) {
-        if (n == AccountFieldName.REGISTER_NEW_EMAIL) {
-          if (emailSender != null && emailSender.isEnabled()) {
-            fields.add(n);
-          }
-        } else {
-          fields.add(n);
-        }
-      }
-    }
-    return fields;
-  }
-
   @Override
   public boolean hasEmailAddress(IdentifiedUser user, String email) {
     for (ExternalId ext : user.state().getExternalIds()) {

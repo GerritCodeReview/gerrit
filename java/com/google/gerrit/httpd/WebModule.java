@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.auth.AuthenticationServlet;
 import com.google.gerrit.httpd.auth.AuthorizationPage;
 import com.google.gerrit.httpd.auth.DefaultAuthorizationPage;
-import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
@@ -111,7 +110,6 @@ public class WebModule extends LifecycleModule {
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        install(new BecomeAnyAccountModule());
         break;
 
       case OAUTH:

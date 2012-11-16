@@ -1046,6 +1046,7 @@ a:hover.downloadLink {
 .stringListPanelButtons {
   margin-left: 0.5em;
 }
+
 .stringListPanelButtons .gwt-Button {
   margin-right: 2em;
   font-size: 7pt;
@@ -1057,4 +1058,10 @@ a:hover.downloadLink {
   font-size: 18px;
   margin-top: 5px;
   margin-bottom: 15px;
+}
+
+/** AuthenticationDialog **/
+.signInFailedLabel {
+  color: red;
+  text-align: center;
 }

@@ -14,12 +14,13 @@
 
 package com.google.gerrit.httpd.auth;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -33,24 +34,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-@SuppressWarnings("serial")
 public class AuthenticationServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
   public static final String PARAMETER_USERNAME = "username";
   public static final String PARAMETER_PASSWORD = "password";
+  public static final String PARAMETER_REDIRECT = "redirect";
 
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
   private static final Logger log = LoggerFactory.getLogger(AuthenticationServlet.class);
 
   private final String canonicalWebUrl;
-  private final Provider<WebSession> sessionProvider;
   private final AccountManager accountManager;
+  private final Provider<WebSession> sessionProvider;
 
   @Inject
   AuthenticationServlet(
-      AccountManager accountManger,
+      AccountManager accountManager,
       Provider<WebSession> sessionProvider,
       @CanonicalWebUrl String canonicalWebUrl) {
-    this.accountManager = accountManger;
+    this.accountManager = accountManager;
     this.sessionProvider = sessionProvider;
     this.canonicalWebUrl = canonicalWebUrl;
   }
@@ -66,19 +69,22 @@ public class AuthenticationServlet extends HttpServlet {
       throws ServletException, IOException {
     String username = req.getParameter(PARAMETER_USERNAME);
     String password = req.getParameter(PARAMETER_PASSWORD);
-    AuthRequest auth = AuthRequest.forUser(username);
-    auth.setPassword(password);
+    String redirect = req.getParameter(PARAMETER_REDIRECT);
+    HttpAuthRequest authRequest = new HttpAuthRequest(username, password, req, resp);
     AuthResult result;
     try {
-      result = accountManager.authenticate(auth);
-    } catch (AccountException e) {
-      log.error("Unable to authenticate user \"" + username + "\"");
+      result = accountManager.authenticate(authRequest);
+    } catch (AuthException | AccountException e) {
+      log.error("Unable to authenticate user \"" + username + "\"", e);
       redirect(resp, PageLinks.AUTH_FAILED);
       return;
     }
+
     sessionProvider.get().login(result, false);
     if (result.isNew()) {
       redirect(resp, PageLinks.REGISTER);
+    } else if (!Strings.isNullOrEmpty(redirect)) {
+      redirect(resp, redirect);
     } else {
       redirect(resp);
     }
@@ -89,14 +95,11 @@ public class AuthenticationServlet extends HttpServlet {
   }
 
   private void redirect(HttpServletResponse resp, String url) throws IOException {
-    if (!url.startsWith("/")) {
-      url = "/" + url;
-    }
     String selfUrl = "#" + url;
     if (IS_DEV) {
       resp.sendRedirect(canonicalWebUrl + "?gwt.codesrv=127.0.0.1:9997" + selfUrl);
     } else {
-      resp.sendRedirect(canonicalWebUrl + selfUrl);
+      resp.sendRedirect(canonicalWebUrl + url);
     }
   }
 }

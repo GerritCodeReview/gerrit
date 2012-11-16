@@ -28,9 +28,6 @@ public interface Realm {
   /** Can the end-user modify this field of their own account? */
   boolean allowsEdit(AccountFieldName field);
 
-  /** Returns the account fields that the end-user can modify. */
-  Set<AccountFieldName> getEditableFields();
-
   AuthRequest authenticate(AuthRequest who) throws AccountException;
 
   void onCreateAccount(AuthRequest who, Account account);

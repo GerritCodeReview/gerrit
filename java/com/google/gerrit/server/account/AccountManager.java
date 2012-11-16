@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.base.Strings;
@@ -35,7 +36,11 @@ import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.auth.NoSuchUserException;
+import com.google.gerrit.server.auth.AuthBackend;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.auth.AuthUser;
+import com.google.gerrit.server.auth.RealmBackend;
+import com.google.gerrit.server.auth.UserData;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
@@ -75,8 +80,8 @@ public class AccountManager {
   private final AtomicBoolean awaitsFirstAccountCheck;
   private final ExternalIds externalIds;
   private final GroupsUpdate.Factory groupsUpdateFactory;
-  private final boolean autoUpdateAccountActiveStatus;
-  private final SetInactiveFlag setInactiveFlag;
+  private final RealmBackend realmBackend;
+  private final AuthBackend authBackend;
 
   @Inject
   AccountManager(
@@ -91,7 +96,8 @@ public class AccountManager {
       ProjectCache projectCache,
       ExternalIds externalIds,
       GroupsUpdate.Factory groupsUpdateFactory,
-      SetInactiveFlag setInactiveFlag) {
+      AuthBackend authBackend,
+      RealmBackend realmBackend) {
     this.sequences = sequences;
     this.accounts = accounts;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -104,9 +110,8 @@ public class AccountManager {
         new AtomicBoolean(cfg.getBoolean("capability", "makeFirstUserAdmin", true));
     this.externalIds = externalIds;
     this.groupsUpdateFactory = groupsUpdateFactory;
-    this.autoUpdateAccountActiveStatus =
-        cfg.getBoolean("auth", "autoUpdateAccountActiveStatus", false);
-    this.setInactiveFlag = setInactiveFlag;
+    this.authBackend = authBackend;
+    this.realmBackend = realmBackend;
   }
 
   /** @return user identified by this external identity string */
@@ -127,23 +132,30 @@ public class AccountManager {
    *     cannot be located, is unable to be activated or deactivated, or is inactive, or cannot be
    *     added to the admin group (only for the first account).
    */
-  public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
+  public AuthResult authenticate(com.google.gerrit.server.auth.AuthRequest who)
+      throws AuthException, AccountException, IOException {
+    AuthUser authUser = authBackend.authenticate(who);
+    UserData userData = realmBackend.getUserData(authUser);
+    return create(authUser, userData);
+  }
+
+  public AuthResult create(AuthUser authUser, UserData userData)
+      throws AuthException, AccountException, IOException {
+    ExternalId.Key externalKey = ExternalId.Key.parse(authUser.getUUID().uuid());
     try {
-      who = realm.authenticate(who);
-    } catch (NoSuchUserException e) {
-      deactivateAccountIfItExists(who);
-      throw e;
-    }
-    try {
-      Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
+      Optional<ExternalId> optionalExtId = externalIds.get(externalKey);
       if (!optionalExtId.isPresent()) {
-        if (who.getUserName().isPresent()) {
-          ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, who.getUserName().get());
+        if (userData.getUsername() != null) {
+          ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, userData.getUsername());
           Optional<ExternalId> existingId = externalIds.get(key);
           if (existingId.isPresent()) {
             // An inconsistency is detected in the database, having a record for scheme "username:"
             // but no record for scheme "gerrit:". Try to recover by linking
             // "gerrit:" identity to the existing account.
+            AuthRequest who = new AuthRequest(externalKey);
+            who.setUserName(userData.getUsername());
+            who.setEmailAddress(userData.getEmailAddress());
+            who.setDisplayName(userData.getDisplayName());
             log.warn(
                 "User {} already has an account; link new identity to the existing account.",
                 who.getUserName());
@@ -152,7 +164,7 @@ public class AccountManager {
         }
         // New account, automatically create and return.
         log.info("External ID not found. Attempting to create new account.");
-        return create(who);
+        return create(userData);
       }
 
       ExternalId extId = optionalExtId.get();
@@ -166,71 +178,34 @@ public class AccountManager {
       }
 
       // Account exists
-      Optional<Account> act = updateAccountActiveStatus(who, accountState.get().getAccount());
-      if (!act.isPresent()) {
-        // The account was deleted since we checked for it last time. This should never happen
-        // since we don't support deletion of accounts.
-        throw new AccountException("Authentication error, account not found");
-      }
+      Optional<Account> act =
+          byIdCache.get(accountState.get().getAccount().getId()).map(AccountState::getAccount);
       if (!act.get().isActive()) {
         throw new AccountException("Authentication error, account inactive");
       }
+      if (userData == null) {
+        throw new AuthException("Cannot authorize user without user data, authorization failed");
+      }
 
       // return the identity to the caller.
-      update(who, extId);
-      return new AuthResult(extId.accountId(), who.getExternalIdKey(), false);
+      update(userData, optionalExtId.get());
+      return new AuthResult(optionalExtId.get().accountId(), externalKey, false);
     } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
     }
   }
 
-  private void deactivateAccountIfItExists(AuthRequest authRequest) {
-    if (!shouldUpdateActiveStatus(authRequest)) {
-      return;
-    }
-    try {
-      Optional<ExternalId> extId = externalIds.get(authRequest.getExternalIdKey());
-      if (!extId.isPresent()) {
-        return;
-      }
-      setInactiveFlag.deactivate(extId.get().accountId());
-    } catch (Exception e) {
-      log.error(
-          "Unable to deactivate account "
-              + authRequest
-                  .getUserName()
-                  .orElse(" for external ID key " + authRequest.getExternalIdKey().get()),
-          e);
-    }
-  }
-
-  private Optional<Account> updateAccountActiveStatus(AuthRequest authRequest, Account account)
-      throws AccountException {
-    if (!shouldUpdateActiveStatus(authRequest) || authRequest.isActive() == account.isActive()) {
-      return Optional.of(account);
-    }
-
-    if (authRequest.isActive()) {
-      try {
-        setInactiveFlag.activate(account.getId());
-      } catch (Exception e) {
-        throw new AccountException("Unable to activate account " + account.getId(), e);
-      }
-    } else {
-      try {
-        setInactiveFlag.deactivate(account.getId());
-      } catch (Exception e) {
-        throw new AccountException("Unable to deactivate account " + account.getId(), e);
-      }
-    }
-    return byIdCache.get(account.getId()).map(AccountState::getAccount);
-  }
-
-  private boolean shouldUpdateActiveStatus(AuthRequest authRequest) {
-    return autoUpdateAccountActiveStatus && authRequest.authProvidesAccountActiveStatus();
-  }
-
   private void update(AuthRequest who, ExternalId extId)
+      throws OrmException, IOException, ConfigInvalidException, AccountException {
+    update(extId, who.getEmailAddress(), who.getDisplayName());
+  }
+
+  private void update(final UserData userData, final ExternalId extId)
+      throws OrmException, IOException, ConfigInvalidException, AccountException {
+    update(extId, userData.getEmailAddress(), userData.getDisplayName());
+  }
+
+  private void update(ExternalId extId, String newEmail, String displayName)
       throws OrmException, IOException, ConfigInvalidException, AccountException {
     IdentifiedUser user = userFactory.create(extId.accountId());
     List<Consumer<InternalAccountUpdate.Builder>> accountUpdates = new ArrayList<>();
@@ -238,7 +213,6 @@ public class AccountManager {
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
     //
-    String newEmail = who.getEmailAddress();
     String oldEmail = extId.email();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       ExternalId extIdWithNewEmail =
@@ -252,22 +226,18 @@ public class AccountManager {
     }
 
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
-        && !Strings.isNullOrEmpty(who.getDisplayName())
-        && !Objects.equals(user.getAccount().getFullName(), who.getDisplayName())) {
-      accountUpdates.add(u -> u.setFullName(who.getDisplayName()));
+        && !Strings.isNullOrEmpty(displayName)
+        && !Objects.equals(user.getAccount().getFullName(), displayName)) {
+      accountUpdates.add(a -> a.setFullName(displayName));
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
-        && who.getUserName().isPresent()
-        && !who.getUserName().equals(user.getUserName())) {
-      if (user.getUserName().isPresent()) {
-        log.warn(
-            "Not changing already set username {} to {}",
-            user.getUserName().get(),
-            who.getUserName().get());
-      } else {
-        log.warn("Not setting username to {}", who.getUserName().get());
-      }
+        && user.getUserName() != null
+        && !Objects.equals(user.getUserName(), user.getUserName())) {
+      log.warn(
+          String.format(
+              "Not changing already set username %s to %s",
+              user.getUserName(), user.getUserName()));
     }
 
     if (!accountUpdates.isEmpty()) {
@@ -282,15 +252,16 @@ public class AccountManager {
     }
   }
 
-  private AuthResult create(AuthRequest who)
+  private AuthResult create(UserData userData)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(sequences.nextAccountId());
 
-    ExternalId extId =
-        ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
+    ExternalId.Key externalKey = ExternalId.Key.create(SCHEME_GERRIT, userData.getUsername());
+    ExternalId extId = ExternalId.createWithEmail(externalKey, newId, userData.getEmailAddress());
     checkEmailNotUsed(extId);
+
     ExternalId userNameExtId =
-        who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
+        userData.getUsername() != null ? createUsername(newId, userData.getUsername()) : null;
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
@@ -303,7 +274,7 @@ public class AccountManager {
                   "Create Account on First Login",
                   newId,
                   u -> {
-                    u.setFullName(who.getDisplayName())
+                    u.setFullName(userData.getDisplayName())
                         .setPreferredEmail(extId.email())
                         .addExternalId(extId);
                     if (userNameExtId != null) {
@@ -325,7 +296,7 @@ public class AccountManager {
     }
 
     if (userNameExtId != null) {
-      who.getUserName().ifPresent(sshKeyCache::evict);
+      sshKeyCache.evict(userData.getUsername());
     }
 
     IdentifiedUser user = userFactory.create(newId);
@@ -346,7 +317,8 @@ public class AccountManager {
       addGroupMember(adminGroupUuid, user);
     }
 
-    realm.onCreateAccount(who, accountState.getAccount());
+    byIdCache.evict(accountState.getAccount().getId());
+    realm.onCreateAccount(new AuthRequest(externalKey), accountState.getAccount());
     return new AuthResult(newId, extId.key(), true);
   }
 

@@ -116,6 +116,7 @@ public class Gerrit implements EntryPoint {
   private static boolean docSearch;
   private static String docUrl;
   private static HostPageData.Theme myTheme;
+  private static List<String> authPages;
   private static String defaultScreenToken;
   private static DiffPreferencesInfo myAccountDiffPref;
   private static EditPreferencesInfo editPrefs;
@@ -386,8 +387,17 @@ public class Gerrit implements EntryPoint {
     return builder.buildString();
   }
 
+  public static void showAuthFailedDialog() {
+    showAuthDialog(true);
+  }
+
   public static void showAuthDialog() {
+    showAuthDialog(false);
+  }
+
+  private static void showAuthDialog(boolean authFailed) {
     if (authDialog != null) {
+      authDialog.setFailed(authFailed);
       authDialog.show();
       authDialog.center();
     }
@@ -494,6 +504,7 @@ public class Gerrit implements EntryPoint {
               public void onSuccess(HostPageData result) {
                 Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
                 myTheme = result.theme;
+                authPages = result.authPages;
                 isNoteDbEnabled = result.isNoteDbEnabled;
                 if (result.accountDiffPref != null) {
                   myAccountDiffPref = result.accountDiffPref;

@@ -31,6 +31,7 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -175,7 +176,11 @@ class LoginForm extends HttpServlet {
       if ((isGerritLogin(req) || oauthSession.isOAuthFinal(req))) {
         oauthSession.setServiceProvider(oauthProvider);
         oauthSession.setLinkMode(link);
-        oauthSession.login(req, res, oauthProvider);
+        try {
+          oauthSession.login(req, res, oauthProvider);
+        } catch (AuthException e) {
+          throw new IOException(e);
+        }
       }
     }
   }

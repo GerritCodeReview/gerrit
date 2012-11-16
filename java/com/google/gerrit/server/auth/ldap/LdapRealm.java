@@ -22,7 +22,6 @@ import com.google.common.cache.LoadingCache;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.extensions.client.AccountFieldName;
-import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AbstractRealm;
@@ -34,7 +33,6 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.auth.NoSuchUserException;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -65,8 +63,8 @@ class LdapRealm extends AbstractRealm {
   static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   static final String USERNAME = "username";
 
+  private final Config config;
   private final Helper helper;
-  private final AuthConfig authConfig;
   private final EmailExpander emailExpander;
   private final LoadingCache<String, Optional<Account.Id>> usernameCache;
   private final Set<AccountFieldName> readOnlyAccountFields;
@@ -74,21 +72,17 @@ class LdapRealm extends AbstractRealm {
   private final String mandatoryGroup;
   private final LdapGroupBackend groupBackend;
 
-  private final Config config;
-
   private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
 
   @Inject
   LdapRealm(
       Helper helper,
-      AuthConfig authConfig,
       EmailExpander emailExpander,
       LdapGroupBackend groupBackend,
       @Named(LdapModule.GROUP_CACHE) LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(LdapModule.USERNAME_CACHE) LoadingCache<String, Optional<Account.Id>> usernameCache,
       @GerritServerConfig Config config) {
     this.helper = helper;
-    this.authConfig = authConfig;
     this.emailExpander = emailExpander;
     this.groupBackend = groupBackend;
     this.usernameCache = usernameCache;
@@ -103,10 +97,6 @@ class LdapRealm extends AbstractRealm {
     if (optdef(config, "accountSshUserName", "DEFAULT") != null) {
       readOnlyAccountFields.add(AccountFieldName.USER_NAME);
     }
-    if (!authConfig.isAllowRegisterNewEmail()) {
-      readOnlyAccountFields.add(AccountFieldName.REGISTER_NEW_EMAIL);
-    }
-
     fetchMemberOfEagerly = optional(config, "fetchMemberOfEagerly", true);
     mandatoryGroup = optional(config, "mandatoryGroup");
   }
@@ -227,25 +217,13 @@ class LdapRealm extends AbstractRealm {
 
     final String username = who.getLocalUser();
     try {
-      final DirContext ctx;
-      if (authConfig.getAuthType() == AuthType.LDAP_BIND) {
-        ctx = helper.authenticate(username, who.getPassword());
-      } else {
-        ctx = helper.open();
-      }
+      final DirContext ctx = helper.open();
       try {
         final Helper.LdapSchema schema = helper.getSchema(ctx);
         LdapQuery.Result m;
         who.setAuthProvidesAccountActiveStatus(true);
         m = helper.findAccount(schema, ctx, username, fetchMemberOfEagerly);
         who.setActive(true);
-
-        if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {
-          // We found the user account, but we need to verify
-          // the password matches it before we can continue.
-          //
-          helper.close(helper.authenticate(m.getDN(), who.getPassword()));
-        }
 
         who.setDisplayName(apply(schema.accountFullName, m));
         who.setUserName(apply(schema.accountSshUserName, m));

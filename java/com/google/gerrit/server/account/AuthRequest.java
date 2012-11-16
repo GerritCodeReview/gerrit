@@ -24,7 +24,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import java.util.Optional;
 
 /**
- * Information for {@link AccountManager#authenticate(AuthRequest)}.
+ * Information for {@link AccountManager#authenticate(com.google.gerrit.common.auth.AuthRequest)}.
  *
  * <p>Callers should populate this object with as much information as possible about the user
  * account. For example, OpenID authentication might return registration information including a

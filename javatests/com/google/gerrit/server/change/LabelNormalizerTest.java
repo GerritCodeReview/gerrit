@@ -37,7 +37,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.change.LabelNormalizer.Result;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -92,7 +92,7 @@ public class LabelNormalizerTest {
 
     db = schemaFactory.open();
     schemaCreator.create(db);
-    userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    userId = accountManager.authenticate(new AuthRequest("user", "") {}).getAccountId();
     user = userFactory.create(userId);
 
     requestContext.setContext(

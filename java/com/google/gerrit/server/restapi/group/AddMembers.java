@@ -36,9 +36,9 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.MemberResource;
@@ -191,12 +191,14 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     try {
-      AuthRequest req = AuthRequest.forUser(user);
-      req.setSkipAuthentication(true);
-      return accountCache
-          .get(accountManager.authenticate(req).getAccountId())
-          .map(AccountState::getAccount);
-    } catch (AccountException e) {
+      final AuthRequest req = new AuthRequest(user, null) {};
+      Optional<AccountState> accountState =
+          accountCache.get(accountManager.authenticate(req).getAccountId());
+      if (accountState.isPresent()) {
+        return Optional.of(accountState.get().getAccount());
+      }
+      return Optional.empty();
+    } catch (AccountException | com.google.gerrit.server.auth.AuthException e) {
       return Optional.empty();
     }
   }

@@ -29,7 +29,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.testing.Util;
@@ -65,9 +65,8 @@ public class CommitsCollectionTest {
   public void setUp() throws Exception {
     setUpPermissions();
 
-    Account.Id user = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    Account.Id user = accountManager.authenticate(new AuthRequest("user", "empty")).getAccountId();
     testEnvironment.setApiUser(user);
-
     Project.NameKey name = new Project.NameKey("project");
     InMemoryRepository inMemoryRepo = repoManager.createRepository(name);
     project = new ProjectConfig(name);

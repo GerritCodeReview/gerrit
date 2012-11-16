@@ -22,17 +22,12 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -72,10 +67,8 @@ class ProjectOAuthFilter implements Filter {
   private static final String BASIC = "Basic ";
   private static final String GIT_COOKIE_PREFIX = "git-";
 
-  private final DynamicItem<WebSession> session;
   private final DynamicMap<OAuthLoginProvider> loginProviders;
   private final AccountCache accountCache;
-  private final AccountManager accountManager;
   private final String gitOAuthProvider;
   private final boolean userNameToLowerCase;
 
@@ -84,15 +77,11 @@ class ProjectOAuthFilter implements Filter {
 
   @Inject
   ProjectOAuthFilter(
-      DynamicItem<WebSession> session,
       DynamicMap<OAuthLoginProvider> pluginsProvider,
       AccountCache accountCache,
-      AccountManager accountManager,
       @GerritServerConfig Config gerritConfig) {
-    this.session = session;
     this.loginProviders = pluginsProvider;
     this.accountCache = accountCache;
-    this.accountManager = accountManager;
     this.gitOAuthProvider = gerritConfig.getString("auth", null, "gitOAuthProvider");
     this.userNameToLowerCase = gerritConfig.getBoolean("auth", null, "userNameToLowerCase", false);
   }
@@ -171,18 +160,18 @@ class ProjectOAuthFilter implements Filter {
     authRequest.setAuthPlugin(authInfo.pluginName);
     authRequest.setAuthProvider(authInfo.exportName);
 
-    try {
-      AuthResult authResult = accountManager.authenticate(authRequest);
-      WebSession ws = session.get();
-      ws.setUserAccountId(authResult.getAccountId());
-      ws.setAccessPathOk(AccessPath.GIT, true);
-      ws.setAccessPathOk(AccessPath.REST_API, true);
-      return true;
-    } catch (AccountException e) {
-      log.warn(authenticationFailedMsg(authInfo.username, req), e);
+//    try {
+//      AuthResult authResult = accountManager.authenticate(authRequest);
+//      WebSession ws = session.get();
+//      ws.setUserAccountId(authResult.getAccountId());
+//      ws.setAccessPathOk(AccessPath.GIT, true);
+//      ws.setAccessPathOk(AccessPath.REST_API, true);
+//      return true;
+//    } catch (AccountException e) {
+      // FIXME CollabNet gerrit integration does not support OAuth authorization
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
-    }
+//    }
   }
 
   /**

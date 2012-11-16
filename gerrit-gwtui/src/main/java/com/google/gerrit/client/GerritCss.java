@@ -296,4 +296,6 @@ public interface GerritCss extends CssResource {
   String usernameField();
 
   String watchedProjectFilter();
+
+  String signInFailedLabel();
 }

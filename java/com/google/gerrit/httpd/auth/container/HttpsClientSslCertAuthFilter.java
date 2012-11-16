@@ -16,10 +16,12 @@ package com.google.gerrit.httpd.auth.container;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.auth.HttpAuthRequest;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -32,6 +34,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,11 +75,12 @@ class HttpsClientSslCertAuthFilter implements Filter {
     } else {
       throw new ServletException("Couldn't extract username from your certificate");
     }
-    final AuthRequest areq = AuthRequest.forUser(userName);
+    AuthRequest areq =
+        new HttpAuthRequest(userName, null, (HttpServletRequest) req, (HttpServletResponse) rsp);
     final AuthResult arsp;
     try {
       arsp = accountManager.authenticate(areq);
-    } catch (AccountException e) {
+    } catch (AuthException | AccountException e) {
       String err = "Unable to authenticate user \"" + userName + "\"";
       log.error(err, e);
       throw new ServletException(err, e);

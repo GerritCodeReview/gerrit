@@ -41,6 +41,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -112,7 +113,8 @@ public class GerritPublicKeyCheckerTest {
 
     db = schemaFactory.open();
     schemaCreator.create(db);
-    userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    userId = accountManager.authenticate(new AuthRequest("user", "") {}).getAccountId();
+    Account userAccount = db.accounts().get(userId);
     // Note: does not match any key in TestKeys.
     accountsUpdateProvider
         .get()
@@ -143,7 +145,7 @@ public class GerritPublicKeyCheckerTest {
   }
 
   private IdentifiedUser addUser(String name) throws Exception {
-    AuthRequest req = AuthRequest.forUser(name);
+    AuthRequest req = new AuthRequest(name, "") {};
     Account.Id id = accountManager.authenticate(req).getAccountId();
     return userFactory.create(id);
   }

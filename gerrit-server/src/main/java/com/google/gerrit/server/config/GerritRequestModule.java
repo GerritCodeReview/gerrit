@@ -29,7 +29,6 @@ import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.changedetail.RebaseChange;
 import com.google.gerrit.server.changedetail.Submit;
-import com.google.gerrit.server.dashboard.ListDashboards;
 import com.google.gerrit.server.git.AsyncReceiveCommits;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
@@ -66,7 +65,6 @@ public class GerritRequestModule extends FactoryModule {
     bind(IdentifiedUser.RequestFactory.class).in(SINGLETON);
     bind(MetaDataUpdate.User.class).in(RequestScoped.class);
     bind(ListProjects.class);
-    bind(ListDashboards.class);
     bind(ApprovalsUtil.class);
 
     bind(PerRequestProjectControlCache.class).in(RequestScoped.class);

@@ -24,8 +24,8 @@ prefix the endpoint URL with `/a/`. For example to authenticate to
 [[output]]
 Output Format
 ~~~~~~~~~~~~~
-Most APIs return text format by default. JSON can be requested
-by setting the `Accept` HTTP request header to include
+Most APIs return pretty printed JSON by default. Compact JSON can be
+requested by setting the `Accept` HTTP request header to include
 `application/json`, for example:
 
 ----
@@ -43,12 +43,11 @@ body to a JSON parser:
   [ ... valid JSON ... ]
 ----
 
-The default JSON format is `JSON_COMPACT`, which skips unnecessary
-whitespace. This is not the easiest format for a human to read. Many
-examples in this documentation use `format=JSON` as a query parameter
-to obtain pretty formatting in the response. Producing (and parsing)
-the compact format is more efficient, so most tools should prefer the
-default compact format.
+The default JSON format is pretty, which uses extra whitespace to make
+the output more readable for a human. Producing (and parsing) the
+non-pretty compact format is more efficient so tools should request it
+by using the `Accept: application/json` header or `pp=0` query
+parameter whenever possible.
 
 Responses will be gzip compressed by the server if the HTTP
 `Accept-Encoding` request header is set to `gzip`. This may
@@ -66,7 +65,7 @@ by UI tools to discover if administrative features are available
 to the caller, so they can hide (or show) relevant UI actions.
 
 ----
-  GET /accounts/self/capabilities?format=JSON HTTP/1.0
+  GET /accounts/self/capabilities HTTP/1.0
 
   )]}'
   {
@@ -79,7 +78,7 @@ to the caller, so they can hide (or show) relevant UI actions.
 
 Administrator that has authenticated with digest authentication:
 ----
-  GET /a/accounts/self/capabilities?format=JSON HTTP/1.0
+  GET /a/accounts/self/capabilities HTTP/1.0
   Authorization: Digest username="admin", realm="Gerrit Code Review", nonce="...
 
   )]}'
@@ -106,7 +105,7 @@ Filtering may decrease the response time by avoiding looking at every
 possible alternative for the caller.
 
 ----
-  GET /a/accounts/self/capabilities?format=JSON&q=createAccount&q=createGroup HTTP/1.0
+  GET /a/accounts/self/capabilities?q=createAccount&q=createGroup HTTP/1.0
   Authorization: Digest username="admin", realm="Gerrit Code Review", nonce="...
 
   )]}'
@@ -128,7 +127,7 @@ using the link:cmd-ls-projects.html[ls-projects] command over SSH,
 and accepts the same options as query parameters.
 
 ----
-  GET /projects/?format=JSON&d HTTP/1.0
+  GET /projects/?d HTTP/1.0
 
   HTTP/1.1 200 OK
   Content-Disposition: attachment
@@ -138,35 +137,111 @@ and accepts the same options as query parameters.
   {
     "external/bison": {
       "kind": "gerritcodereview#project",
+      "id": "external%2Fbison",
       "description": "GNU parser generator"
     },
-    "external/gcc": {},
+    "external/gcc": {
+      "kind": "gerritcodereview#project",
+      "id": "external%2Fgcc",
+    },
     "external/openssl": {
+      "kind": "gerritcodereview#project",
+      "id": "external%2Fopenssl",
       "description": "encryption\ncrypto routines"
     },
     "test": {
+      "kind": "gerritcodereview#project",
+      "id": "test",
       "description": "\u003chtml\u003e is escaped"
     }
   }
 ----
 
 [[suggest-projects]]
-The `/projects/` URL also accepts a prefix string as part of the URL.
+The `/projects/` URL also accepts a prefix string in the `p` parameter.
 This limits the results to those projects that start with the specified
 prefix.
 List all projects that start with `platform/`:
 ----
-GET /projects/platform/?format=JSON HTTP/1.0
-HTTP/1.1 200 OK
-Content-Disposition: attachment
-Content-Type: application/json;charset=UTF-8
-)]}'
-{
-"platform/drivers": {},
-"platform/tools": {}
-}
+  GET /projects/?p=platform%2F HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "platform/drivers": {
+      "kind": "gerritcodereview#project",
+      "id": "platform%2Fdrivers",
+    },
+    "platform/tools": {
+      "kind": "gerritcodereview#project",
+      "id": "platform%2Ftools",
+    }
+  }
 ----
 E.g. this feature can be used by suggestion client UI's to limit results.
+
+/projects/*/dashboards/ (List Dashboards)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+List custom dashboards for a project.
+
+The `/projects/{name}/dashboards/` URL expects the a URL encoded
+project name as part of the URL. If name contains / the correct
+encoding is to use `%2F`.
+
+List all dashboards for the `work/my-project` project:
+----
+  GET /projects/work%2Fmy-project/dashboards/ HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  [
+    {
+      "kind": "gerritcodereview#dashboard",
+      "id": "main:closed",
+      "ref": "main",
+      "path": "closed",
+      "description": "Merged and abandoned changes in last 7 weeks",
+      "url": "/dashboard/?title\u003dClosed+changes\u0026Merged\u003dstatus:merged+age:7w\u0026Abandoned\u003dstatus:abandoned+age:7w",
+      "default": true,
+      "title": "Closed changes",
+      "sections": [
+        {
+          "name": "Merged",
+          "query": "status:merged age:7w"
+        },
+        {
+          "name": "Abandoned",
+          "query": "status:abandoned age:7w"
+        }
+      ]
+    }
+  ]
+----
+
+To retrieve only the default dashboard, add `default` to the URL:
+----
+  GET /projects/work%2Fmy-project/dashboards/default HTTP/1.0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "kind": "gerritcodereview#dashboard",
+    "id": "main:closed",
+    "ref": "main",
+    "path": "closed",
+    "default": true,
+    ...
+  }
+----
 
 [[changes]]
 /changes/ (Query Changes)
@@ -177,7 +252,7 @@ the returned results.
 
 Query for open changes of watched projects:
 ----
-  GET /changes/?format=JSON&q=status:open+is:watched&n=2 HTTP/1.0
+  GET /changes/q=status:open+is:watched&n=2 HTTP/1.0
 
   HTTP/1.1 200 OK
   Content-Disposition: attachment
@@ -237,7 +312,7 @@ arrays, one per query in the same order the queries were given in.
 
 Query that retrieves changes for a user's dashboard:
 ----
-  GET /changes/?format=JSON&q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS HTTP/1.0
+  GET /changes/?q=is:open+owner:self&q=is:open+reviewer:self+-owner:self&q=is:closed+owner:self+limit:5&o=LABELS HTTP/1.0
 
   HTTP/1.1 200 OK
   Content-Disposition: attachment
@@ -304,7 +379,7 @@ default. Optional fields are:
   modified files will be output.
 
 ----
-  GET /changes/?q=97&format=JSON&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES HTTP/1.0
+  GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES HTTP/1.0
 
   HTTP/1.1 200 OK
   Content-Disposition: attachment
@@ -394,60 +469,6 @@ default. Optional fields are:
       }
     }
   ]
-----
-
-[[dashboards]]
-/dashboards/project/ (List Dashboards)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-Lists custom dashboards for a project.
-
-The `/dashboards/project/` URL expects the project name as part of the
-URL.
-List all dashboards for the `myProject` project:
-----
-  GET /dashboards/project/myProject?format=JSON&d HTTP/1.0
-
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
-
-  )]}'
-  {
-    "refs/meta/dashboards/main:MyDashboard": {
-      "kind": "gerritcodereview#dashboard",
-      "id" : "refs/meta/dashboards/main:MyDashboard",
-      "dashboard_name": "MyDashboard",
-      "ref_name": "refs/meta/dashboards/main",
-      "project_name": "myProject",
-      "description": "Most recent open and merged changes.",
-      "parameters": "title\u003dMyDashboard\u0026Open+Changes\u003dstatus:open project:myProject limit:15\u0026Merged+Changes\u003dstatus:merged project:myProject limit:15",
-      "is_default": true
-    }
-  }
-----
-
-To retrieve only the default dashboard of a project set the parameter `default`.
-
-----
-  GET /dashboards/project/myProject?default&format=JSON&d HTTP/1.0
-
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json;charset=UTF-8
-
-  )]}'
-  {
-    "MyProject Dashboard": {
-      "kind": "gerritcodereview#dashboard",
-      "id" : "refs/meta/dashboards/main:MyDashboard",
-      "name": "MyDashboard",
-      "ref_name": "refs/meta/dashboards/main",
-      "project_name": "myProject",
-      "description": "Most recent open and merged changes.",
-      "parameters": "title\u003dMyDashboard\u0026Open+Changes\u003dstatus:open project:myProject limit:15\u0026Merged+Changes\u003dstatus:merged project:myProject limit:15",
-      "is_default": true
-    }
-  }
 ----
 
 

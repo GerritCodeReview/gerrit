@@ -104,6 +104,14 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
+  public Plugin get(String name) {
+    Plugin p = running.get(name);
+    if (p != null) {
+      return p;
+    }
+    return disabled.get(name);
+  }
+
   public Iterable<Plugin> getPlugins(boolean all) {
     if (!all) {
       return running.values();

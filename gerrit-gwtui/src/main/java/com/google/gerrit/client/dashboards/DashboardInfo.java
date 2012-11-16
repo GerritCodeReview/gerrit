@@ -18,12 +18,11 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class DashboardInfo extends JavaScriptObject {
   public final native String id() /*-{ return this.id; }-*/;
-  public final native String name() /*-{ return this.dashboard_name; }-*/;
-  public final native String refName() /*-{ return this.ref_name; }-*/;
-  public final native String projectName() /*-{ return this.project_name; }-*/;
+  public final native String ref() /*-{ return this.ref; }-*/;
+  public final native String path() /*-{ return this.path; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
-  public final native String parameters() /*-{ return this.parameters; }-*/;
-  public final native boolean isDefault() /*-{ return this.is_default ? true : false; }-*/;
+  public final native String url() /*-{ return this.url; }-*/;
+  public final native boolean isDefault() /*-{ return this['default'] ? true : false; }-*/;
 
   protected DashboardInfo() {
   }

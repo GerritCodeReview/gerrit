@@ -14,127 +14,46 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_ACCOUNT;
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
-import static com.google.gerrit.common.data.GlobalCapability.FLUSH_CACHES;
-import static com.google.gerrit.common.data.GlobalCapability.KILL_TASK;
-import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
-import static com.google.gerrit.common.data.GlobalCapability.START_REPLICATION;
-import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
-import static com.google.gerrit.common.data.GlobalCapability.VIEW_CONNECTIONS;
-import static com.google.gerrit.common.data.GlobalCapability.VIEW_QUEUE;
-
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.OutputFormat;
-import com.google.gerrit.server.git.QueueProvider;
-import com.google.gson.reflect.TypeToken;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.ChildCollection;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.account.AccountResource.Capability;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-import org.kohsuke.args4j.Option;
+class Capabilities implements
+    ChildCollection<AccountResource, AccountResource.Capability> {
+  private final DynamicMap<RestView<AccountResource.Capability>> views;
+  private final Provider<GetCapabilities> get;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-public class Capabilities implements RestReadView<AccountResource> {
-  @Deprecated
-  @Option(name = "--format", usage = "(deprecated) output format")
-  private OutputFormat format;
-
-  @Option(name = "-q", metaVar = "CAP", multiValued = true, usage = "Capability to inspect")
-  void addQuery(String name) {
-    if (query == null) {
-      query = Sets.newHashSet();
-    }
-    query.add(name.toLowerCase());
+  @Inject
+  Capabilities(
+      DynamicMap<RestView<AccountResource.Capability>> views,
+      Provider<GetCapabilities> get) {
+    this.views = views;
+    this.get = get;
   }
-  private Set<String> query;
 
   @Override
-  public Object apply(AccountResource resource)
-      throws BadRequestException, Exception {
-    CapabilityControl cc = resource.getUser().getCapabilities();
-    Map<String, Object> have = Maps.newLinkedHashMap();
-    for (String name : GlobalCapability.getAllNames()) {
-      if (!name.equals(PRIORITY) && want(name) && cc.canPerform(name)) {
-        if (GlobalCapability.hasRange(name)) {
-          have.put(name, new Range(cc.getRange(name)));
-        } else {
-          have.put(name, true);
-        }
-      }
-    }
-
-    have.put(CREATE_ACCOUNT, cc.canCreateAccount());
-    have.put(CREATE_GROUP, cc.canCreateGroup());
-    have.put(CREATE_PROJECT, cc.canCreateProject());
-    have.put(KILL_TASK, cc.canKillTask());
-    have.put(VIEW_CACHES, cc.canViewCaches());
-    have.put(FLUSH_CACHES, cc.canFlushCaches());
-    have.put(VIEW_CONNECTIONS, cc.canViewConnections());
-    have.put(VIEW_QUEUE, cc.canViewQueue());
-    have.put(START_REPLICATION, cc.canStartReplication());
-
-    QueueProvider.QueueType queue = cc.getQueueType();
-    if (queue != QueueProvider.QueueType.INTERACTIVE
-        || (query != null && query.contains(PRIORITY))) {
-      have.put(PRIORITY, queue);
-    }
-
-    Iterator<Map.Entry<String, Object>> itr = have.entrySet().iterator();
-    while (itr.hasNext()) {
-      Map.Entry<String, Object> e = itr.next();
-      if (!want(e.getKey())) {
-        itr.remove();
-      } else if (e.getValue() instanceof Boolean && !((Boolean) e.getValue())) {
-        itr.remove();
-      }
-    }
-
-    if (format == OutputFormat.TEXT) {
-      StringBuilder sb = new StringBuilder();
-      for (Map.Entry<String, Object> e : have.entrySet()) {
-        sb.append(e.getKey());
-        if (!(e.getValue() instanceof Boolean)) {
-          sb.append(": ");
-          sb.append(e.getValue().toString());
-        }
-        sb.append('\n');
-      }
-      return BinaryResult.create(sb.toString());
-    } else {
-      return OutputFormat.JSON.newGson().toJsonTree(
-        have,
-        new TypeToken<Map<String, Object>>() {}.getType());
-    }
+  public GetCapabilities list() throws ResourceNotFoundException {
+    return get.get();
   }
 
-  private boolean want(String name) {
-    return query == null || query.contains(name.toLowerCase());
+  @Override
+  public Capability parse(AccountResource parent, String id)
+      throws ResourceNotFoundException, Exception {
+    CapabilityControl cap = parent.getUser().getCapabilities();
+    if (cap.canPerform(id)
+        || (cap.canAdministrateServer() && GlobalCapability.isCapability(id))) {
+      return new AccountResource.Capability(parent.getUser(), id);
+    }
+    throw new ResourceNotFoundException(id);
   }
 
-  private static class Range {
-    private transient PermissionRange range;
-    @SuppressWarnings("unused")
-    private int min;
-    @SuppressWarnings("unused")
-    private int max;
-
-    Range(PermissionRange r) {
-      range = r;
-      min = r.getMin();
-      max = r.getMax();
-    }
-
-    @Override
-    public String toString() {
-      return range.toString();
-    }
+  @Override
+  public DynamicMap<RestView<Capability>> views() {
+    return views;
   }
 }

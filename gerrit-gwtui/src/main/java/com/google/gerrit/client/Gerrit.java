@@ -15,10 +15,11 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
 import com.google.gerrit.client.account.AccountCapabilities;
+import com.google.gerrit.client.auth.AuthenticationDialog;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.openid.OpenIdSsoPanel;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
@@ -54,7 +55,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.http.client.UrlBuilder;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
@@ -105,6 +105,7 @@ public class Gerrit implements EntryPoint {
   private static ViewSite<Screen> body;
   private static PatchScreen patchScreen;
   private static String lastChangeListToken;
+  private static AuthenticationDialog authDialog;
 
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
@@ -335,6 +336,13 @@ public class Gerrit implements EntryPoint {
     return builder.buildString();
   }
 
+  public static void showAuthDialog() {
+    if (authDialog != null) {
+      authDialog.show();
+      authDialog.center();
+    }
+  }
+
   static void deleteSessionCookie() {
     myAccount = null;
     myAccountDiffPref = null;
@@ -492,6 +500,9 @@ public class Gerrit implements EntryPoint {
     menuLeft = new MorphingTabPanel();
     menuRight = new LinkMenuBar();
     searchPanel = new SearchPanel();
+    if (hpd.authPages != null && !hpd.authPages.isEmpty()) {
+      authDialog = new AuthenticationDialog(hpd.authPages);
+    }
     menuLeft.setStyleName(RESOURCES.css().topmenuMenuLeft());
     menuLine.setStyleName(RESOURCES.css().topmenu());
     gTopMenu.add(menuLine);
@@ -696,53 +707,8 @@ public class Gerrit implements EntryPoint {
       if (cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP) {
         menuRight.add(anchor(C.menuSignOut(), selfRedirect("/logout")));
       }
-    } else {
-      switch (cfg.getAuthType()) {
-        case HTTP:
-        case HTTP_LDAP:
-        case CLIENT_SSL_CERT_LDAP:
-          break;
-
-        case OPENID:
-          menuRight.addItem(C.menuRegister(), new Command() {
-            public void execute() {
-              final String to = History.getToken();
-              new OpenIdSignInDialog(SignInMode.REGISTER, to, null).center();
-            }
-          });
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
-          break;
-
-        case OPENID_SSO:
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
-          break;
-
-        case LDAP:
-        case LDAP_BIND:
-        case CUSTOM_EXTENSION:
-          if (cfg.getRegisterUrl() != null) {
-            final String registerText = cfg.getRegisterText() == null ? C.menuRegister() : cfg.getRegisterText();
-            menuRight.add(anchor(registerText, cfg.getRegisterUrl()));
-          }
-          menuRight.addItem(C.menuSignIn(), new Command() {
-            public void execute() {
-              doSignIn(History.getToken());
-            }
-          });
-          break;
-
-        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-          menuRight.add(anchor("Become", selfRedirect("/become")));
-          break;
-      }
+    } else if (authDialog != null) {
+      addLink(menuRight, C.menuSignIn(), PageLinks.AUTH_DIALOG);
     }
   }
 

@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.common.primitives.Bytes;
@@ -28,6 +27,7 @@ import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.auth.AuthorizationPage;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.linker.server.Permutation;
@@ -44,12 +44,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +64,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /** Sends the Gerrit host page to clients. */
 @SuppressWarnings("serial")
@@ -69,6 +76,7 @@ public class HostPageServlet extends HttpServlet {
       LoggerFactory.getLogger(HostPageServlet.class);
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
   private static final String HPD_ID = "gerrit_hostpagedata";
+  private static final String AUTH_FORM_ID_PREFIX = "gerrit_auth_";
 
   private final Provider<CurrentUser> currentUser;
   private final Provider<WebSession> session;
@@ -240,9 +248,9 @@ public class HostPageServlet extends HttpServlet {
   }
 
   private void authPages(StringWriter w) {
-    Map<String, String> pages = Maps.newHashMap();
+    List<String> pages = Lists.newArrayList();
     for (AuthorizationPage page : authPages) {
-      pages.put(page.getAuthName(), page.getAuthPageContent());
+      pages.add(page.getAuthName());
     }
     if (!pages.isEmpty()) {
       w.write(HPD_ID + ".authPages=");
@@ -291,6 +299,7 @@ public class HostPageServlet extends HttpServlet {
       css = injectCssFile(hostDoc, "gerrit_sitecss", site.site_css);
       header = injectXmlFile(hostDoc, "gerrit_header", site.site_header);
       footer = injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
+      injectAuthenciationForms(hostDoc, "auth_forms");
 
       final HostPageData pageData = new HostPageData();
       pageData.config = config;
@@ -400,6 +409,44 @@ public class HostPageServlet extends HttpServlet {
       final Element content = html.getDocumentElement();
       banner.appendChild(hostDoc.importNode(content, true));
       return info;
+    }
+
+    private void injectAuthenciationForms(Document hostDoc, String id)
+        throws IOException {
+      Element authInputs = HtmlDomUtil.find(hostDoc, id);
+      for (AuthorizationPage authPage : authPages) {
+        try {
+          attachAuthorizationForm(hostDoc, authInputs, authPage);
+        } catch (Exception e) {
+          throw new IOException("Cannot attach authorization form named: "
+              + authPage.getAuthName(), e);
+        }
+      }
+    }
+
+    private void attachAuthorizationForm(Document hostDoc, Element authInputs,
+        AuthorizationPage authPage) throws ParserConfigurationException,
+        SAXException, IOException {
+      DocumentBuilder db =
+          DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      StringReader reader = new StringReader(authPage.getAuthPageContent());
+      InputSource in = new InputSource(reader);
+      Document authDoc = db.parse(in);
+      Element documentElement = authDoc.getDocumentElement();
+      Node node = hostDoc.importNode(documentElement, true);
+      Element form = hostDoc.createElement("form");
+      form.setAttribute("id", AUTH_FORM_ID_PREFIX + authPage.getAuthName());
+      form.setAttribute("action", "authenticate");
+      form.setAttribute("method", "post");
+      form.appendChild(node);
+      form.appendChild(createSubmitButton(hostDoc));
+      authInputs.appendChild(form);
+    }
+
+    private Element createSubmitButton(Document hostDoc) {
+      Element submit = hostDoc.createElement("input");
+      submit.setAttribute("type", "submit");
+      return submit;
     }
   }
 }

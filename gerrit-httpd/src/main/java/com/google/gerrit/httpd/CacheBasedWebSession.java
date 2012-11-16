@@ -137,6 +137,11 @@ public final class CacheBasedWebSession implements WebSession {
     return isSignedIn() ? "Bearer " + key.getToken() : null;
   }
 
+  @Override
+  public boolean isValidAuthorization(String keyIn) {
+    return keyIn.equals(getAuthorization());
+  }
+
   public AccountExternalId.Key getLastLoginExternalId() {
     return val != null ? val.getExternalId() : null;
   }

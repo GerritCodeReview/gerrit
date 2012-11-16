@@ -35,11 +35,10 @@ import com.google.gerrit.server.BadRequestHandler;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.MembersCollection.MemberInfo;
 import com.google.gerrit.server.group.PutMembers.Input;
@@ -180,11 +179,10 @@ class PutMembers implements RestModifyView<GroupResource, Input> {
     }
 
     try {
-      final AuthRequest req = AuthRequest.forUser(user);
-      req.setSkipAuthentication(true);
+      final AuthRequest req = new AuthRequest(user, null) {};
       return accountCache.get(accountManager.authenticate(req).getAccountId())
           .getAccount();
-    } catch (AccountException e) {
+    } catch (com.google.gerrit.server.auth.AuthException e) {
       return null;
     }
   }

@@ -221,7 +221,7 @@ public class ListDashboards {
 
   private DashboardInfo loadDashboard(final ProjectControl projectControl,
       final String dashboardId) {
-    StringTokenizer t = new StringTokenizer(dashboardId);
+    StringTokenizer t = new StringTokenizer(dashboardId, ":");
     if (t.countTokens() != 2) {
       throw new IllegalStateException("failed to load dashboard, invalid dashboard id: " + dashboardId);
     }

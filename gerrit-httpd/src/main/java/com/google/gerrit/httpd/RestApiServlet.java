@@ -20,8 +20,6 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.server.AccessPath;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CapabilityControl;
@@ -92,29 +90,14 @@ public abstract class RestApiServlet extends HttpServlet {
     res.setHeader("Content-Disposition", "attachment");
 
     try {
-      checkUserSession(req);
       checkRequiresCapability();
       super.service(req, res);
-    } catch (InvalidAuthException err) {
-      sendError(res, SC_FORBIDDEN, err.getMessage());
     } catch (RequireCapabilityException err) {
       sendError(res, SC_FORBIDDEN, err.getMessage());
     } catch (Error err) {
       handleException(err, req, res);
     } catch (RuntimeException err) {
       handleException(err, req, res);
-    }
-  }
-
-  private void checkUserSession(HttpServletRequest req)
-      throws InvalidAuthException {
-    CurrentUser user = currentUser.get();
-    if (user instanceof AnonymousUser) {
-      if (!"GET".equals(req.getMethod())) {
-        throw new InvalidAuthException("Authentication required");
-      }
-    } else if (user.getAccessPath() != AccessPath.REST_API) {
-      throw new InvalidAuthException("Invalid authentication method");
     }
   }
 
@@ -243,13 +226,6 @@ public abstract class RestApiServlet extends HttpServlet {
   @SuppressWarnings("serial") // Never serialized or thrown out of this class.
   private static class RequireCapabilityException extends Exception {
     public RequireCapabilityException(String msg) {
-      super(msg);
-    }
-  }
-
-  @SuppressWarnings("serial") // Never serialized or thrown out of this class.
-  private static class InvalidAuthException extends Exception {
-    public InvalidAuthException(String msg) {
       super(msg);
     }
   }

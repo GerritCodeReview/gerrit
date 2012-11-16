@@ -21,6 +21,8 @@ import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.auth.AuthenticationServlet;
+import com.google.gerrit.httpd.auth.AuthorizationPage;
+import com.google.gerrit.httpd.auth.DefaultAuthorizationPage;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
@@ -80,6 +82,8 @@ public class WebModule extends FactoryModule {
 
   @Override
   protected void configure() {
+    DynamicSet.setOf(binder(), AuthorizationPage.class);
+    DynamicSet.bind(binder(), AuthorizationPage.class).to(DefaultAuthorizationPage.class);
     bind(RequestScopePropagator.class).to(GuiceRequestScopePropagator.class);
     bind(HttpRequestContext.class);
 

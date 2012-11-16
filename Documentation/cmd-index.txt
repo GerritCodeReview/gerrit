@@ -120,6 +120,9 @@ link:cmd-gsql.html[gerrit gsql]::
 link:cmd-set-project-parent.html[gerrit set-project-parent]::
 	Change the project permissions are inherited from.
 
+link:cmd-ls-user-refs.html[gerrit ls-user-refs]::
+	Lists refs visible for a specified user.
+
 link:cmd-show-caches.html[gerrit show-caches]::
 	Display current cache statistics.
 

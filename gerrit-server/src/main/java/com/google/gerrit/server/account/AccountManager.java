@@ -27,6 +27,11 @@ import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.auth.AuthBackend;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.auth.AuthUser;
+import com.google.gerrit.server.auth.RealmBackend;
+import com.google.gerrit.server.auth.UserData;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
@@ -57,6 +62,8 @@ public class AccountManager {
   private final ChangeUserName.Factory changeUserNameFactory;
   private final ProjectCache projectCache;
   private final AtomicBoolean firstAccount;
+  private final AuthBackend authBackend;
+  private final RealmBackend realmBackend;
 
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
@@ -64,7 +71,9 @@ public class AccountManager {
       final AuthConfig authConfig, final Realm accountMapper,
       final IdentifiedUser.GenericFactory userFactory,
       final ChangeUserName.Factory changeUserNameFactory,
-      final ProjectCache projectCache) throws OrmException {
+      final ProjectCache projectCache,
+      final AuthBackend authBackend,
+      final RealmBackend realmBackend) throws OrmException {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
@@ -73,6 +82,8 @@ public class AccountManager {
     this.userFactory = userFactory;
     this.changeUserNameFactory = changeUserNameFactory;
     this.projectCache = projectCache;
+    this.authBackend = authBackend;
+    this.realmBackend = realmBackend;
 
     firstAccount = new AtomicBoolean();
     final ReviewDb db = schema.open();
@@ -109,27 +120,29 @@ public class AccountManager {
    * @throws AccountException the account does not exist, and cannot be created,
    *         or exists, but cannot be located, or is inactive.
    */
-  public AuthResult authenticate(AuthRequest who) throws AccountException {
-    who = realm.authenticate(who);
+  public AuthResult authenticate(com.google.gerrit.server.auth.AuthRequest who) throws AuthException {
+    AuthUser authUser = authBackend.authenticate(who);
     try {
       final ReviewDb db = schema.open();
       try {
-        final AccountExternalId.Key key = id(who);
+        String uuid = authUser.getUUID().get();
+        final AccountExternalId.Key key = new AccountExternalId.Key(uuid);
         final AccountExternalId id = db.accountExternalIds().get(key);
+        final UserData userData = realmBackend.getUserData(authUser);
         if (id == null) {
           // New account, automatically create and return.
           //
-          return create(db, who);
+          return create(db, userData);
 
         } else { // Account exists
 
           Account act = db.accounts().get(id.getAccountId());
           if (act == null || !act.isActive()) {
-            throw new AccountException("Authentication error, account inactive");
+            throw new AuthException("Authentication error, account inactive");
           }
 
           // return the identity to the caller.
-          update(db, who, id);
+          update(db, userData, id);
           return new AuthResult(id.getAccountId(), key, false);
         }
 
@@ -137,19 +150,31 @@ public class AccountManager {
         db.close();
       }
     } catch (OrmException e) {
-      throw new AccountException("Authentication error", e);
+      throw new AuthException("Authentication error", e);
     }
   }
 
   private void update(final ReviewDb db, final AuthRequest who,
       final AccountExternalId extId) throws OrmException {
+    update(db, extId, who.getEmailAddress(), who.getDisplayName(),
+        who.getUserName());
+  }
+
+  private void update(final ReviewDb db, final UserData userData,
+      final AccountExternalId extId) throws OrmException {
+    update(db, extId, userData.getEmailAddress(), userData.getDisplayName(),
+        userData.getUsername());
+  }
+
+  private void update(final ReviewDb db, final AccountExternalId extId,
+      final String newEmail, final String displayName, final String username)
+      throws OrmException {
     final IdentifiedUser user = userFactory.create(extId.getAccountId());
     Account toUpdate = null;
 
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
     //
-    final String newEmail = who.getEmailAddress();
     final String oldEmail = extId.getEmailAddress();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       if (oldEmail != null
@@ -163,14 +188,14 @@ public class AccountManager {
     }
 
     if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
-        && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
+        && !eq(user.getAccount().getFullName(), displayName)) {
       toUpdate = load(toUpdate, user.getAccountId(), db);
-      toUpdate.setFullName(who.getDisplayName());
+      toUpdate.setFullName(displayName);
     }
 
     if (!realm.allowsEdit(Account.FieldName.USER_NAME)
-        && !eq(user.getUserName(), who.getUserName())) {
-      changeUserNameFactory.create(db, user, who.getUserName());
+        && !eq(user.getUserName(), username)) {
+      changeUserNameFactory.create(db, user, username);
     }
 
     if (toUpdate != null) {
@@ -201,16 +226,15 @@ public class AccountManager {
     return (a == null && b == null) || (a != null && a.equals(b));
   }
 
-  private AuthResult create(final ReviewDb db, final AuthRequest who)
-      throws OrmException, AccountException {
+  private AuthResult create(final ReviewDb db, final UserData userData)
+      throws OrmException, AuthException {
     if (authConfig.isAllowGoogleAccountUpgrade()
-        && who.isScheme(OpenIdUrls.URL_GOOGLE + "?")
-        && who.getEmailAddress() != null) {
+        && userData.getEmailAddress() != null) {
       final List<AccountExternalId> openId = new ArrayList<AccountExternalId>();
       final List<AccountExternalId> v1 = new ArrayList<AccountExternalId>();
 
       for (final AccountExternalId extId : db.accountExternalIds()
-          .byEmailAddress(who.getEmailAddress())) {
+          .byEmailAddress(userData.getEmailAddress())) {
         if (extId.isScheme(OpenIdUrls.URL_GOOGLE + "?")) {
           openId.add(extId);
         } else if (extId.isScheme(AccountExternalId.LEGACY_GAE)) {
@@ -230,14 +254,14 @@ public class AccountManager {
           //
           for (final AccountExternalId extId : openId) {
             if (!accountId.equals(extId.getAccountId())) {
-              throw new AccountException("Multiple user accounts for "
-                  + who.getEmailAddress() + " using Google Accounts provider");
+              throw new AuthException("Multiple user accounts for "
+                  + /*who.getEmailAddress() + */" using Google Accounts provider");
             }
           }
         }
 
-        final AccountExternalId newId = createId(accountId, who);
-        newId.setEmailAddress(who.getEmailAddress());
+        final AccountExternalId newId = createId(accountId, userData);
+        newId.setEmailAddress(userData.getEmailAddress());
 
         if (openId.size() == 1) {
           final AccountExternalId oldId = openId.get(0);
@@ -254,24 +278,24 @@ public class AccountManager {
         // identity and creating a new identity matching the token we have.
         //
         final AccountExternalId oldId = v1.get(0);
-        final AccountExternalId newId = createId(oldId.getAccountId(), who);
-        newId.setEmailAddress(who.getEmailAddress());
+        final AccountExternalId newId = createId(oldId.getAccountId(), userData);
+        newId.setEmailAddress(userData.getEmailAddress());
 
         db.accountExternalIds().upsert(Collections.singleton(newId));
         db.accountExternalIds().delete(Collections.singleton(oldId));
         return new AuthResult(newId.getAccountId(), newId.getKey(), false);
 
       } else if (v1.size() > 1) {
-        throw new AccountException("Multiple Gerrit 1.x accounts found");
+        throw new AuthException("Multiple Gerrit 1.x accounts found");
       }
     }
 
     final Account.Id newId = new Account.Id(db.nextAccountId());
     final Account account = new Account(newId);
-    final AccountExternalId extId = createId(newId, who);
+    final AccountExternalId extId = createId(newId, userData);
 
-    extId.setEmailAddress(who.getEmailAddress());
-    account.setFullName(who.getDisplayName());
+    extId.setEmailAddress(userData.getEmailAddress());
+    account.setFullName(userData.getDisplayName());
     account.setPreferredEmail(extId.getEmailAddress());
 
     db.accounts().insert(Collections.singleton(account));
@@ -297,20 +321,20 @@ public class AccountManager {
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 
-    if (who.getUserName() != null) {
+    if (userData.getUsername() != null) {
       // Only set if the name hasn't been used yet, but was given to us.
       //
       IdentifiedUser user = userFactory.create(newId);
       try {
-        changeUserNameFactory.create(db, user, who.getUserName()).call();
+        changeUserNameFactory.create(db, user, userData.getUsername()).call();
       } catch (NameAlreadyUsedException e) {
         final String message =
-            "Cannot assign user name \"" + who.getUserName() + "\" to account "
+            "Cannot assign user name \"" + userData.getUsername() + "\" to account "
                 + newId + "; name already in use.";
         handleSettingUserNameFailure(db, account, extId, message, e, false);
       } catch (InvalidUserNameException e) {
         final String message =
-            "Cannot assign user name \"" + who.getUserName() + "\" to account "
+            "Cannot assign user name \"" + userData.getUsername() + "\" to account "
                 + newId + "; name does not conform.";
         handleSettingUserNameFailure(db, account, extId, message, e, false);
       } catch (OrmException e) {
@@ -320,7 +344,6 @@ public class AccountManager {
     }
 
     byEmailCache.evict(account.getPreferredEmail());
-    realm.onCreateAccount(who, account);
     return new AuthResult(newId, extId.getKey(), true);
   }
 
@@ -346,7 +369,7 @@ public class AccountManager {
   private void handleSettingUserNameFailure(final ReviewDb db,
       final Account account, final AccountExternalId extId,
       final String errorMessage, final Exception e, final boolean logException)
-      throws AccountUserNameException, OrmException {
+      throws AuthException, OrmException {
     if (logException) {
       log.error(errorMessage, e);
     } else {
@@ -363,14 +386,8 @@ public class AccountManager {
       // the database
       db.accounts().delete(Collections.singleton(account));
       db.accountExternalIds().delete(Collections.singleton(extId));
-      throw new AccountUserNameException(errorMessage, e);
+      throw new AuthException(errorMessage, e);
     }
-  }
-
-  private static AccountExternalId createId(final Account.Id newId,
-      final AuthRequest who) {
-    final String ext = who.getExternalId();
-    return new AccountExternalId(newId, new AccountExternalId.Key(ext));
   }
 
   /**
@@ -475,6 +492,19 @@ public class AccountManager {
     }
   }
 
+  private static AccountExternalId createId(final Account.Id newId,
+      final AuthRequest who) {
+    return createId(newId, who.getExternalId());
+  }
+
+  private static AccountExternalId createId(final Account.Id newId,
+      final UserData userData) {
+    return createId(newId, userData.getExteranalId());
+  }
+
+  private static AccountExternalId createId(final Account.Id newId, String ext) {
+    return new AccountExternalId(newId, new AccountExternalId.Key(ext));
+  }
 
   private static AccountExternalId.Key id(final AuthRequest who) {
     return new AccountExternalId.Key(who.getExternalId());

@@ -90,6 +90,7 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
@@ -103,6 +104,7 @@ public class Gerrit implements EntryPoint {
   private static String myHost;
   private static GerritConfig myConfig;
   private static HostPageData.Theme myTheme;
+  private static List<String> authPages;
   private static Account myAccount;
   private static AccountDiffPreference myAccountDiffPref;
   private static String authorization;
@@ -310,7 +312,7 @@ public class Gerrit implements EntryPoint {
     } else if (token.startsWith("/")) {
       token = token.substring(1);
     }
-    return selfRedirect("/login/" + token);
+    return selfRedirect(PageLinks.AUTH_DIALOG + token);
   }
 
   public static String selfRedirect(String suffix) {
@@ -349,8 +351,17 @@ public class Gerrit implements EntryPoint {
     return builder.buildString();
   }
 
+  public static void showAuthFailedDialog() {
+    showAuthDialog(true);
+  }
+
   public static void showAuthDialog() {
+    showAuthDialog(false);
+  }
+
+  private static void showAuthDialog(boolean authFailed) {
     if (authDialog != null) {
+      authDialog.setFailed(authFailed);
       authDialog.show();
       authDialog.center();
     }
@@ -402,11 +413,13 @@ public class Gerrit implements EntryPoint {
 
     final HostPageDataService hpd = GWT.create(HostPageDataService.class);
     hpd.load(new GerritCallback<HostPageData>() {
+
       @Override
       public void onSuccess(final HostPageData result) {
         Document.get().getElementById("gerrit_hostpagedata").removeFromParent();
         myConfig = result.config;
         myTheme = result.theme;
+        authPages = result.authPages;
         if (result.account != null) {
           myAccount = result.account;
           authorization = result.authorization;

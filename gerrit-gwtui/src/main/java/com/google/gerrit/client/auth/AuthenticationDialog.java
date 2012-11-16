@@ -22,8 +22,10 @@ import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -32,9 +34,12 @@ import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import java.util.List;
 
 public class AuthenticationDialog extends AutoCenterDialogBox {
+  private final Label authFailedLabel;
 
   public AuthenticationDialog(List<String> authPages) {
     super(true, true);
+    authFailedLabel = new Label(Gerrit.C.signInFailed());
+    authFailedLabel.setStyleName(Gerrit.RESOURCES.css().signInFailedLabel());
     if (authPages.size() == 1) {
       handleSingleAuthentication(authPages.get(0));
     }  else if (authPages.size() > 1) {
@@ -57,6 +62,7 @@ public class AuthenticationDialog extends AutoCenterDialogBox {
 
   private void handleSingleAuthentication(String authName) {
     VerticalPanel container = new VerticalPanel();
+    container.add(authFailedLabel);
     FormPanel formPanel = extractForm(authName);
     container.add(formPanel);
     add(container);
@@ -64,6 +70,7 @@ public class AuthenticationDialog extends AutoCenterDialogBox {
 
   private void handleMultiAuthentication(List<String> authPages) {
     VerticalPanel container = new VerticalPanel();
+    container.add(authFailedLabel);
     TabBar tabs = new TabBar();
     final VerticalPanel content = new VerticalPanel();
 
@@ -109,5 +116,9 @@ public class AuthenticationDialog extends AutoCenterDialogBox {
         return;
       }
     }
+  }
+
+  public void setFailed(boolean authFailed) {
+    this.authFailedLabel.setVisible(authFailed);
   }
 }

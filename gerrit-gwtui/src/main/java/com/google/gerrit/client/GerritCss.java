@@ -230,4 +230,5 @@ public interface GerritCss extends CssResource {
   String patchCellReverseDiff();
   String projectFilterPanel();
   String projectFilterLabel();
+  String signInFailedLabel();
 }

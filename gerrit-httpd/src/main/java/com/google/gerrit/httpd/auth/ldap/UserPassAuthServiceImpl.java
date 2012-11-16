@@ -18,12 +18,10 @@ import com.google.gerrit.common.auth.userpass.LoginResult;
 import com.google.gerrit.common.auth.userpass.UserPassAuthService;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.AuthType;
-import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AccountUserNameException;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.auth.AuthenticationUnavailableException;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.inject.Inject;
@@ -60,27 +58,13 @@ class UserPassAuthServiceImpl implements UserPassAuthService {
     }
 
     username = username.trim();
-
-    final AuthRequest req = AuthRequest.forUser(username);
-    req.setPassword(password);
-
+    AuthRequest req = new AuthRequest(username, password) {};
     final AuthResult res;
     try {
       res = accountManager.authenticate(req);
-    } catch (AccountUserNameException e) {
-      // entered user name and password were correct, but user name could not be
-      // set for the newly created account and this is why the login fails,
-      // error screen with error message should be shown to the user
-      callback.onFailure(e);
-      return;
-    } catch (AuthenticationUnavailableException e) {
-      result.setError(LoginResult.Error.AUTHENTICATION_UNAVAILABLE);
-      callback.onSuccess(result);
-      return;
-    } catch (AccountException e) {
+    } catch (AuthException e) {
       log.info(String.format("'%s' failed to sign in: %s", username, e.getMessage()));
-      result.setError(LoginResult.Error.INVALID_LOGIN);
-      callback.onSuccess(result);
+      callback.onFailure(e);
       return;
     }
 

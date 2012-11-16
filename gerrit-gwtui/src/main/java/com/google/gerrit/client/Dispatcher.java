@@ -232,8 +232,9 @@ public class Dispatcher {
         || matchPrefix("q,", token)) {
       redirectFromLegacyToken(token, legacySettings(token));
 
-    } else if (matchExact(AUTH_DIALOG, token)) {
-      Gerrit.showAuthDialog();
+    } else if (matchPrefix(AUTH_DIALOG, token)) {
+      authenticate(token);
+
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
@@ -368,6 +369,14 @@ public class Dispatcher {
       return "/" + token.substring(0, c) + "/" + token.substring(c + 1);
     }
     return null;
+  }
+
+  private static void authenticate(final String token) {
+    if (matchExact(PageLinks.AUTH_FAILED, token)) {
+      Gerrit.showAuthFailedDialog();
+      return;
+    }
+    Gerrit.showAuthDialog();
   }
 
   private static void query(final String token) {

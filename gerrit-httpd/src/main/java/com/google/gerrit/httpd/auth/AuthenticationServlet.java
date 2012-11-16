@@ -14,30 +14,21 @@
 
 package com.google.gerrit.httpd.auth;
 
-import static com.google.gerrit.reviewdb.client.AccountExternalId.SCHEME_USERNAME;
-
-import com.google.common.collect.Sets;
+import com.google.common.base.Strings;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountExternalId;
-import com.google.gerrit.reviewdb.client.AccountExternalId.Key;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.AuthException;
-import com.google.gerrit.server.auth.AuthUser;
-import com.google.gerrit.server.auth.RealmBackend;
-import com.google.gerrit.server.auth.UserData;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
-import java.util.Collections;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -48,29 +39,22 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthenticationServlet extends HttpServlet {
   public static final String PARAMETER_USERNAME = "username";
   public static final String PARAMETER_PASSWORD = "password";
+  public static final String PARAMETER_REDIRECT = "redirect";
 
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
+  private static final Logger log = LoggerFactory.getLogger(AuthenticationServlet.class);
 
   private final String canonicalWebUrl;
-  private final AuthBackend authBackend;
-  private final RealmBackend realmBackend;
-  private final Provider<WebSession> session;
-  private final SchemaFactory<ReviewDb> schema;
-  private final AccountByEmailCache byEmailCache;
+  private final AccountManager accountManager;
+  private final Provider<WebSession> sessionProvider;
 
   @Inject
   AuthenticationServlet(
-      AuthBackend authBackend,
-      RealmBackend realmBackend,
-      Provider<WebSession> session,
-      SchemaFactory<ReviewDb> schema,
-      AccountByEmailCache byEmailCache,
+      AccountManager accountManager,
+      Provider<WebSession> sessionProvider,
       @CanonicalWebUrl String canonicalWebUrl) {
-    this.schema = schema;
-    this.session = session;
-    this.authBackend = authBackend;
-    this.byEmailCache = byEmailCache;
-    this.realmBackend = realmBackend;
+    this.accountManager = accountManager;
+    this.sessionProvider = sessionProvider;
     this.canonicalWebUrl = canonicalWebUrl;
   }
 
@@ -85,70 +69,36 @@ public class AuthenticationServlet extends HttpServlet {
       throws ServletException, IOException {
     String username = req.getParameter(PARAMETER_USERNAME);
     String password = req.getParameter(PARAMETER_PASSWORD);
+    String redirect = req.getParameter(PARAMETER_REDIRECT);
     HttpAuthRequest authRequest = new HttpAuthRequest(username, password, req, resp);
+    AuthResult result;
     try {
-      AuthUser user = authBackend.authenticate(authRequest);
-      AccountExternalId.Key key = new AccountExternalId.Key(user.getUUID().get());
-      Account.Id accountId = getUserAccount(user, key);
-      AuthResult res = new AuthResult(accountId, key, false);
-      session.get().login(res, false);
-      redirect(resp, "#");
-      return;
+      result = accountManager.authenticate(authRequest);
     } catch (AuthException e) {
-      // log and just return fail response
+      log.error("Unable to authenticate user \"" + username + "\"", e);
+      redirect(resp, PageLinks.AUTH_FAILED);
+      return;
     }
-    redirect(resp, "#/auth-dialog");
+    sessionProvider.get().login(result, false);
+    if (result.isNew()) {
+      redirect(resp, PageLinks.REGISTER);
+    } else if (!Strings.isNullOrEmpty(redirect)) {
+      redirect(resp, redirect);
+    } else {
+      redirect(resp);
+    }
   }
 
-  private Account.Id create(ReviewDb db, AuthUser user, Key key)
-      throws OrmException {
-    String username = user.getUsername();
-    Account.Id newId = new Account.Id(db.nextAccountId());
-    Account account = new Account(newId);
-    AccountExternalId accountExternalId = new AccountExternalId(newId, key);
-    UserData userData = realmBackend.getUserData(user);
-    if (userData == null) {
-      // throw exception ?
-    }
-
-    accountExternalId.setEmailAddress(userData.getEmailAddress());
-    account.setFullName(userData.getDisplayName());
-    account.setPreferredEmail(userData.getEmailAddress());
-    account.setUserName(username);
-
-    // create username
-    AccountExternalId.Key userNameKey = new AccountExternalId.Key(SCHEME_USERNAME, username);
-    AccountExternalId userNameId = new AccountExternalId(newId, userNameKey);
-
-    db.accounts().insert(Collections.singleton(account));
-    db.accountExternalIds().insert(Sets.newHashSet(accountExternalId, userNameId));
-
-    byEmailCache.evict(account.getPreferredEmail());
-    return account.getId();
+  private void redirect(HttpServletResponse resp) throws IOException {
+    redirect(resp, "");
   }
 
   private void redirect(HttpServletResponse resp, String url) throws IOException {
+    String  selfUrl = "#" + url;
     if (IS_DEV) {
-      resp.sendRedirect(canonicalWebUrl + "?gwt.codesrv=127.0.0.1:9997" + url);
+      resp.sendRedirect(canonicalWebUrl + "?gwt.codesrv=127.0.0.1:9997" + selfUrl);
     } else {
-      resp.sendRedirect(canonicalWebUrl + url);
-    }
-  }
-
-  private Account.Id getUserAccount(AuthUser user, AccountExternalId.Key key) {
-    try {
-      ReviewDb db = schema.open();
-      try {
-        AccountExternalId externalId = db.accountExternalIds().get(key);
-        if (externalId == null) {
-          return create(db, user, key);
-        }
-        return externalId.getAccountId();
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      throw new RuntimeException(e);
+      resp.sendRedirect(canonicalWebUrl + selfUrl);
     }
   }
 }

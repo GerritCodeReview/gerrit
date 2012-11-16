@@ -28,7 +28,7 @@ public class DashboardMap extends NativeMap<DashboardInfo> {
         .send(NativeMap.copyKeysIntoChildren(callback));
   }
 
-  public static void projectDefault(Project.NameKey project, boolean mine,
+  public static void projectDefault(Project.NameKey project,
       AsyncCallback<DashboardMap> callback) {
     new RestApi("/dashboards/project/" + URL.encode(project.get()).replaceAll("[?]", "%3F"))
         .addParameterTrue("default")

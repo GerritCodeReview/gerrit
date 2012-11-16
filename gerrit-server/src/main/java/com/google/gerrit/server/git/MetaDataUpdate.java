@@ -106,6 +106,12 @@ public class MetaDataUpdate {
     getCommitBuilder().setMessage(message);
   }
 
+  public void setAuthor(IdentifiedUser user) {
+    getCommitBuilder().setAuthor(user.newCommitterIdent(
+        getCommitBuilder().getCommitter().getWhen(),
+        getCommitBuilder().getCommitter().getTimeZone()));
+  }
+
   /** Close the cached Repository handle. */
   public void close() {
     getRepository().close();

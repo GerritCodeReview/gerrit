@@ -14,11 +14,11 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.dashboards.DashboardMap;
+import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.dashboards.DashboardsTable;
+import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.reviewdb.client.Project;
-
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ProjectDashboardsScreen extends ProjectScreen {
@@ -33,10 +33,10 @@ public class ProjectDashboardsScreen extends ProjectScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
-    DashboardMap.allOnProject(getProjectKey(),
-        new ScreenLoadCallback<DashboardMap>(this) {
+    DashboardList.all(getProjectKey(),
+        new ScreenLoadCallback<NativeList<DashboardList>>(this) {
       @Override
-      protected void preDisplay(final DashboardMap result) {
+      protected void preDisplay(NativeList<DashboardList> result) {
         dashes.display(result);
       }
     });

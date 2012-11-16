@@ -14,27 +14,31 @@
 
 package com.google.gerrit.client.dashboards;
 
-import com.google.gerrit.client.rpc.NativeMap;
+import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.http.client.URL;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 
-/** Dashboards available from {@code /dashboards/}. */
-public class DashboardMap extends NativeMap<DashboardInfo> {
-  public static void allOnProject(Project.NameKey project,
-      AsyncCallback<DashboardMap> callback) {
-    new RestApi("/dashboards/project/" + URL.encode(project.get()).replaceAll("[?]", "%3F"))
-        .get(NativeMap.copyKeysIntoChildren(callback));
+/** Project dashboards from {@code /projects/<name>/dashboards/}. */
+public class DashboardList extends NativeList<DashboardInfo> {
+  public static void all(Project.NameKey project,
+      AsyncCallback<NativeList<DashboardList>> callback) {
+    new RestApi(base(project))
+      .addParameterTrue("inherited")
+      .get(callback);
   }
 
-  public static void projectDefault(Project.NameKey project,
-      AsyncCallback<DashboardMap> callback) {
-    new RestApi("/dashboards/project/" + URL.encode(project.get()).replaceAll("[?]", "%3F"))
-        .addParameterTrue("default")
-        .get(NativeMap.copyKeysIntoChildren(callback));
+  public static void defaultDashboard(Project.NameKey project,
+      AsyncCallback<DashboardInfo> callback) {
+    new RestApi(base(project) + "default").get(callback);
   }
 
-  protected DashboardMap() {
+  private static String base(Project.NameKey project) {
+    String name = URL.encodePathSegment(project.get());
+    return "/projects/" + name + "/dashboards/";
+  }
+
+  protected DashboardList() {
   }
 }

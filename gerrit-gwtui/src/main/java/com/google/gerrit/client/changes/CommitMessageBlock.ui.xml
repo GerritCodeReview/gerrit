@@ -57,6 +57,11 @@ limitations under the License.
 
     .commitSummary {
       font-weight: bold;
+      white-space: pre-wrap;
+    }
+
+    .commitBody {
+      white-space: pre-wrap;
     }
 
     .commitBody p {

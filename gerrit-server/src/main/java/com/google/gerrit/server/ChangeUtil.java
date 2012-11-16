@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
+import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -31,7 +32,10 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 
@@ -191,15 +195,11 @@ public class ChangeUtil {
       throw new NoSuchChangeException(changeId);
     }
 
-    final Repository git;
+    final Repository git =
+        gitManager.openRepository(db.changes().get(changeId).getProject());
+    RevWalk revWalk = null;
     try {
-      git = gitManager.openRepository(db.changes().get(changeId).getProject());
-    } catch (RepositoryNotFoundException e) {
-      throw new NoSuchChangeException(changeId, e);
-    }
-
-    final RevWalk revWalk = new RevWalk(git);
-    try {
+      revWalk = new RevWalk(git);
       RevCommit commitToRevert =
           revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
@@ -283,6 +283,149 @@ public class ChangeUtil {
       cm.send();
 
       hooks.doPatchsetCreatedHook(change, ps, db);
+
+      return change.getId();
+    } finally {
+      revWalk.release();
+      git.close();
+    }
+  }
+
+  public static Change.Id editCommitMessage(final PatchSet.Id patchSetId,
+      final IdentifiedUser user, final String message, final ReviewDb db,
+      final ChangeHooks hooks, GitRepositoryManager gitManager,
+      final PatchSetInfoFactory patchSetInfoFactory,
+      final GitReferenceUpdated replication, PersonIdent myIdent)
+      throws NoSuchChangeException, EmailException, OrmException,
+      MissingObjectException, IncorrectObjectTypeException, IOException,
+      InvalidChangeOperationException, PatchSetInfoNotAvailableException {
+    final Change.Id changeId = patchSetId.getParentKey();
+    final PatchSet patch = db.patchSets().get(patchSetId);
+    if (patch == null) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    final Repository git;
+    try {
+      git = gitManager.openRepository(db.changes().get(changeId).getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(changeId, e);
+    }
+
+    final RevWalk revWalk = new RevWalk(git);
+    try {
+      Change change = db.changes().get(changeId);
+
+      RevCommit commit =
+          revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+
+      PersonIdent authorIdent =
+          user.newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+
+      CommitBuilder commitBuilder = new CommitBuilder();
+      commitBuilder.addParentId(commit);
+      commitBuilder.setTreeId(commit.getTree());
+      commitBuilder.setAuthor(authorIdent);
+      commitBuilder.setCommitter(myIdent);
+      commitBuilder.setMessage(message);
+
+      RevCommit newCommit;
+      final ObjectInserter oi = git.newObjectInserter();
+      try {
+        ObjectId id = oi.insert(commitBuilder);
+        oi.flush();
+        newCommit = revWalk.parseCommit(id);
+      } finally {
+        oi.release();
+      }
+
+      change.nextPatchSetId();
+
+      final PatchSet originalPS = db.patchSets().get(patchSetId);
+
+      final PatchSet newPatchSet = new PatchSet(change.currPatchSetId());
+      newPatchSet.setCreatedOn(change.getCreatedOn());
+      newPatchSet.setUploader(change.getOwner());
+      newPatchSet.setRevision(new RevId(newCommit.name()));
+      newPatchSet.setDraft(originalPS.isDraft());
+
+      final PatchSetInfo info =
+          patchSetInfoFactory.get(newCommit, newPatchSet.getId());
+
+      final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
+      ru.setExpectedOldObjectId(ObjectId.zeroId());
+      ru.setNewObjectId(newCommit);
+      ru.disableRefLog();
+      if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+        throw new IOException(String.format(
+            "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
+            change.getDest().getParentKey().get(), ru.getResult()));
+      }
+      replication.fire(change.getProject(), ru.getName());
+
+      db.changes().beginTransaction(change.getId());
+      try {
+        Change updatedChange;
+
+        updatedChange =
+            db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
+              @Override
+              public Change update(Change change) {
+                if (change.getStatus().isOpen()) {
+                  change.updateNumberOfPatchSets(newPatchSet.getPatchSetId());
+                  return change;
+                } else {
+                  return null;
+                }
+              }
+            });
+        if (updatedChange != null) {
+          change = updatedChange;
+        } else {
+          throw new InvalidChangeOperationException(String.format(
+              "Change %s is closed", change.getId()));
+        }
+
+        ChangeUtil.insertAncestors(db, newPatchSet.getId(), commit);
+        db.patchSets().insert(Collections.singleton(newPatchSet));
+        updatedChange =
+            db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
+              @Override
+              public Change update(Change change) {
+                if (change.getStatus().isClosed()) {
+                  return null;
+                }
+                if (!change.currentPatchSetId().equals(patchSetId)) {
+                  return null;
+                }
+                if (change.getStatus() != Change.Status.DRAFT) {
+                  change.setStatus(Change.Status.NEW);
+                }
+                change.setLastSha1MergeTested(null);
+                change.setCurrentPatchSet(info);
+                ChangeUtil.updated(change);
+                return change;
+              }
+            });
+        if (updatedChange != null) {
+          change = updatedChange;
+        } else {
+          throw new InvalidChangeOperationException(String.format(
+              "Change %s was modified", change.getId()));
+        }
+
+        final ChangeMessage cmsg =
+            new ChangeMessage(new ChangeMessage.Key(changeId,
+                ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
+        final String msg = "Patch Set " + newPatchSet.getPatchSetId() + ": Commit message was updated";
+        cmsg.setMessage(msg);
+        db.changeMessages().insert(Collections.singleton(cmsg));
+        db.commit();
+      } finally {
+        db.rollback();
+      }
+
+      hooks.doPatchsetCreatedHook(change, newPatchSet, db);
 
       return change.getId();
     } finally {

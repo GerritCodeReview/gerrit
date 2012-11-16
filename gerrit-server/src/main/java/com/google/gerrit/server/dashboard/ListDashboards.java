@@ -120,7 +120,9 @@ public class ListDashboards {
             if (defaultDashboard) {
               dashboards = Maps.newTreeMap();
               final DashboardInfo info = loadProjectDefaultDashboard(projectName);
-              dashboards.put(info.id, info);
+              if (info != null) {
+                dashboards.put(info.id, info);
+              }
             } else {
               dashboards = projectDashboards(projectName);
             }
@@ -216,6 +218,9 @@ public class ListDashboards {
     final String defaultDashboardId =
         project.getLocalDefaultDashboard() != null ? project
             .getLocalDefaultDashboard() : project.getDefaultDashboard();
+    if (defaultDashboardId == null) {
+      return null;
+    }
     return loadDashboard(projectControl, defaultDashboardId);
   }
 

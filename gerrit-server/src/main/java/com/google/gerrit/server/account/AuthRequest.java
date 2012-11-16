@@ -21,12 +21,13 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAI
 import com.google.gerrit.server.account.externalids.ExternalId;
 
 /**
- * Information for {@link AccountManager#authenticate(AuthRequest)}.
- *
- * <p>Callers should populate this object with as much information as possible about the user
- * account. For example, OpenID authentication might return registration information including a
- * display name for the user, and an email address for them. These fields however are optional, as
- * not all OpenID providers return them, and not all non-OpenID systems can use them.
+ * Information for {@link AccountManager#authenticate(com.google.gerrit.common.auth.AuthRequest)}.
+ * <p>
+ * Callers should populate this object with as much information as possible
+ * about the user account. For example, OpenID authentication might return
+ * registration information including a display name for the user, and an email
+ * address for them. These fields however are optional, as not all OpenID
+ * providers return them, and not all non-OpenID systems can use them.
  */
 public class AuthRequest {
   /** Create a request for a local username, such as from LDAP. */

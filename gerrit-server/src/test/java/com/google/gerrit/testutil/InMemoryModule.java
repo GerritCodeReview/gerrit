@@ -20,12 +20,15 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.auth.AuthBackend;
+import com.google.gerrit.server.auth.RealmBackend;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
@@ -177,6 +180,8 @@ public class InMemoryModule extends FactoryModule {
     bind(DataSourceType.class).to(InMemoryH2Type.class);
     bind(ChangeBundleReader.class).to(GwtormChangeBundleReader.class);
     bind(SecureStore.class).to(DefaultSecureStore.class);
+    DynamicSet.bind(binder(), AuthBackend.class).to(FakeAuthBackend.class);
+    DynamicSet.bind(binder(), RealmBackend.class).to(FakeRealmBackend.class);
 
     TypeLiteral<SchemaFactory<ReviewDb>> schemaFactory =
         new TypeLiteral<SchemaFactory<ReviewDb>>() {};

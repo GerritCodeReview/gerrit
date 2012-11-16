@@ -386,8 +386,17 @@ public class Gerrit implements EntryPoint {
     return builder.buildString();
   }
 
+  public static void showAuthFailedDialog() {
+    showAuthDialog(true);
+  }
+
   public static void showAuthDialog() {
+    showAuthDialog(false);
+  }
+
+  private static void showAuthDialog(boolean authFailed) {
     if (authDialog != null) {
+      authDialog.setFailed(authFailed);
       authDialog.show();
       authDialog.center();
     }

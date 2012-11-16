@@ -17,6 +17,20 @@ package com.google.gerrit.server.query.group;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+
+import org.eclipse.jgit.lib.Config;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TestName;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -49,18 +63,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import org.eclipse.jgit.lib.Config;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TestName;
 
 @Ignore
 public abstract class AbstractQueryGroupsTest extends GerritServerTests {
@@ -307,7 +309,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   private Account.Id createAccount(String username, String fullName, String email, boolean active)
       throws Exception {
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
-      Account.Id id = accountManager.authenticate(AuthRequest.forUser(username)).getAccountId();
+      Account.Id id = accountManager.authenticate(new com.google.gerrit.server.auth.AuthRequest(username, "") {}).getAccountId();
       if (email != null) {
         accountManager.link(id, AuthRequest.forEmail(email));
       }

@@ -14,35 +14,16 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
-import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.auth.openid.OpenIdUrls;
-import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.httpd.CanonicalWebUrl;
-import com.google.gerrit.httpd.ProxyProperties;
-import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.UrlEncoded;
-import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gwtorm.client.KeyUtil;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.eclipse.jgit.lib.Config;
 import org.openid4java.consumer.ConsumerException;
 import org.openid4java.consumer.ConsumerManager;
@@ -66,6 +47,28 @@ import org.openid4java.message.sreg.SRegResponse;
 import org.openid4java.util.HttpClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.auth.openid.OpenIdUrls;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.httpd.CanonicalWebUrl;
+import com.google.gerrit.httpd.ProxyProperties;
+import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.UrlEncoded;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gwtorm.client.KeyUtil;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 @Singleton
 class OpenIdServiceImpl {
@@ -422,7 +425,7 @@ class OpenIdServiceImpl {
       switch (mode) {
         case REGISTER:
         case SIGN_IN:
-          arsp = accountManager.authenticate(areq);
+          //          arsp = accountManager.authenticate(areq);
 
           final Cookie lastId = new Cookie(OpenIdUrls.LASTID_COOKIE, "");
           lastId.setPath(req.getContextPath() + "/login/");
@@ -432,17 +435,17 @@ class OpenIdServiceImpl {
           } else {
             lastId.setMaxAge(0);
           }
-          rsp.addCookie(lastId);
-          webSession.get().login(arsp, remember);
-          if (arsp.isNew() && claimedIdentifier != null) {
-            final com.google.gerrit.server.account.AuthRequest linkReq =
-                new com.google.gerrit.server.account.AuthRequest(
-                    ExternalId.Key.parse(claimedIdentifier));
-            linkReq.setDisplayName(areq.getDisplayName());
-            linkReq.setEmailAddress(areq.getEmailAddress());
-            accountManager.link(arsp.getAccountId(), linkReq);
-          }
-          callback(arsp.isNew(), req, rsp);
+//          rsp.addCookie(lastId);
+//          webSession.get().login(arsp, remember);
+//          if (arsp.isNew() && claimedIdentifier != null) {
+//            final com.google.gerrit.server.account.AuthRequest linkReq =
+//                new com.google.gerrit.server.account.AuthRequest(
+//                    ExternalId.Key.parse(claimedIdentifier));
+//            linkReq.setDisplayName(areq.getDisplayName());
+//            linkReq.setEmailAddress(areq.getEmailAddress());
+//            accountManager.link(arsp.getAccountId(), linkReq);
+//          }
+//          callback(arsp.isNew(), req, rsp);
           break;
 
         case LINK_IDENTIY:

@@ -21,10 +21,8 @@ import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
 import com.google.gerrit.extensions.auth.oauth.OAuthVerifier;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.CanonicalWebUrl;
-import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
@@ -55,7 +53,6 @@ class OAuthSession {
   private static final Logger log = LoggerFactory.getLogger(OAuthSession.class);
   private static final SecureRandom randomState = newRandomGenerator();
   private final String state;
-  private final DynamicItem<WebSession> webSession;
   private final Provider<IdentifiedUser> identifiedUser;
   private final AccountManager accountManager;
   private final CanonicalWebUrl urlProvider;
@@ -68,14 +65,12 @@ class OAuthSession {
 
   @Inject
   OAuthSession(
-      DynamicItem<WebSession> webSession,
       Provider<IdentifiedUser> identifiedUser,
       AccountManager accountManager,
       CanonicalWebUrl urlProvider,
       OAuthTokenCache tokenCache) {
     this.state = generateRandomState();
     this.identifiedUser = identifiedUser;
-    this.webSession = webSession;
     this.accountManager = accountManager;
     this.urlProvider = urlProvider;
     this.tokenCache = tokenCache;
@@ -152,7 +147,7 @@ class OAuthSession {
       return;
     }
 
-    webSession.get().login(arsp, true);
+    //    webSession.get().login(arsp, true);
     String suffix = redirectToken.substring(OAuthWebFilter.GERRIT_LOGIN.length() + 1);
     StringBuilder rdr = new StringBuilder(urlProvider.get(req));
     rdr.append(Url.decode(suffix));

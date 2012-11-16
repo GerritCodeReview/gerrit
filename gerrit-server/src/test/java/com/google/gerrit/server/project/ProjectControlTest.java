@@ -29,8 +29,8 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
@@ -89,11 +89,12 @@ public class ProjectControlTest {
     // Need to create at least one user to be admin before creating a "normal"
     // registered user.
     // See AccountManager#create().
-    accountManager.authenticate(AuthRequest.forUser("admin")).getAccountId();
+    accountManager.authenticate(new AuthRequest("admin", "empty") {}).getAccountId();
     admins = groupCache.get(new AccountGroup.NameKey("Administrators")).getGroupUUID();
     setUpPermissions();
 
-    Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    Account.Id userId =
+        accountManager.authenticate(new AuthRequest("user", "empty") {}).getAccountId();
     user = userFactory.create(userId);
 
     Project.NameKey name = new Project.NameKey("project");

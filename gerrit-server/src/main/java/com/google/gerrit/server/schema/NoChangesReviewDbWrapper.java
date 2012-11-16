@@ -16,6 +16,9 @@ package com.google.gerrit.server.schema;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import java.util.Map;
+import java.util.function.Function;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
@@ -38,8 +41,6 @@ import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.ListResultSet;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
-import java.util.Map;
-import java.util.function.Function;
 
 /**
  * Wrapper for ReviewDb that never calls the underlying change tables.

@@ -27,35 +27,11 @@ import static org.eclipse.jgit.lib.RefUpdate.Result.FAST_FORWARD;
 import static org.eclipse.jgit.lib.RefUpdate.Result.FORCED;
 import static org.eclipse.jgit.lib.RefUpdate.Result.NEW;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterators;
-import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
-import com.google.gerrit.gpg.testutil.TestKey;
-import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
-import com.google.gerrit.server.schema.SchemaCreator;
-import com.google.gerrit.server.util.RequestContext;
-import com.google.gerrit.server.util.ThreadLocalRequestContext;
-import com.google.gerrit.testutil.InMemoryDatabase;
-import com.google.gerrit.testutil.InMemoryModule;
-import com.google.gerrit.testutil.TestNotesMigration;
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Provider;
-import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
@@ -68,6 +44,32 @@ import org.eclipse.jgit.transport.PushCertificateIdent;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterators;
+import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
+import com.google.gerrit.gpg.testutil.TestKey;
+import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.auth.AuthRequest;
+import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.testutil.InMemoryDatabase;
+import com.google.gerrit.testutil.InMemoryModule;
+import com.google.gerrit.testutil.TestNotesMigration;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 
 /** Unit tests for {@link GerritPublicKeyChecker}. */
 public class GerritPublicKeyCheckerTest {
@@ -114,7 +116,7 @@ public class GerritPublicKeyCheckerTest {
 
     db = schemaFactory.open();
     schemaCreator.create(db);
-    userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    userId = accountManager.authenticate(new AuthRequest("user", "") {}).getAccountId();
     Account userAccount = db.accounts().get(userId);
     // Note: does not match any key in TestKeys.
     userAccount.setPreferredEmail("user@example.com");
@@ -145,7 +147,7 @@ public class GerritPublicKeyCheckerTest {
   }
 
   private IdentifiedUser addUser(String name) throws Exception {
-    AuthRequest req = AuthRequest.forUser(name);
+    AuthRequest req = new AuthRequest(name, "") {};
     Account.Id id = accountManager.authenticate(req).getAccountId();
     return userFactory.create(id);
   }

@@ -24,13 +24,13 @@ import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.auth.HttpAuthRequest;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AccountUserNameException;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.auth.AuthenticationUnavailableException;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -114,19 +114,12 @@ class LdapLoginServlet extends HttpServlet {
       return;
     }
 
-    AuthRequest areq = AuthRequest.forUser(username);
-    areq.setPassword(password);
+    AuthRequest areq = new HttpAuthRequest(username, password, req, res);
 
     AuthResult ares;
     try {
       ares = accountManager.authenticate(areq);
-    } catch (AccountUserNameException e) {
-      sendForm(req, res, e.getMessage());
-      return;
-    } catch (AuthenticationUnavailableException e) {
-      sendForm(req, res, "Authentication unavailable at this time.");
-      return;
-    } catch (AccountException e) {
+    } catch (AuthException | AccountException e) {
       log.info(String.format("'%s' failed to sign in: %s", username, e.getMessage()));
       sendForm(req, res, "Invalid username or password.");
       return;

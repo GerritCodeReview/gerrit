@@ -14,6 +14,17 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.TimeUtil;
@@ -23,6 +34,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -30,6 +42,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
+import com.google.gerrit.server.auth.AuthBackend;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.auth.AuthUser;
+import com.google.gerrit.server.auth.RealmBackend;
+import com.google.gerrit.server.auth.UserData;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -37,14 +54,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Tracks authentication related details for user accounts. */
 @Singleton
@@ -59,10 +68,12 @@ public class AccountManager {
   private final ChangeUserName.Factory changeUserNameFactory;
   private final ProjectCache projectCache;
   private final AtomicBoolean awaitsFirstAccountCheck;
+  private final RealmBackend realmBackend;
   private final AuditService auditService;
   private final Provider<InternalAccountQuery> accountQueryProvider;
   private final ExternalIds externalIds;
   private final ExternalIdsUpdate.Server externalIdsUpdateFactory;
+  private final AuthBackend authBackend;
 
   @Inject
   AccountManager(
@@ -76,7 +87,9 @@ public class AccountManager {
       AuditService auditService,
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIds externalIds,
-      ExternalIdsUpdate.Server externalIdsUpdateFactory) {
+      ExternalIdsUpdate.Server externalIdsUpdateFactory,
+      AuthBackend authBackend,
+      RealmBackend realmBackend) {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
@@ -89,6 +102,8 @@ public class AccountManager {
     this.accountQueryProvider = accountQueryProvider;
     this.externalIds = externalIds;
     this.externalIdsUpdateFactory = externalIdsUpdateFactory;
+    this.authBackend = authBackend;
+    this.realmBackend = realmBackend;
   }
 
   /** @return user identified by this external identity string */
@@ -111,17 +126,24 @@ public class AccountManager {
    * @throws AccountException the account does not exist, and cannot be created, or exists, but
    *     cannot be located, or is inactive.
    */
-  public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
-    who = realm.authenticate(who);
+  public AuthResult authenticate(com.google.gerrit.server.auth.AuthRequest who)
+      throws AuthException, AccountException, IOException {
+    AuthUser authUser = authBackend.authenticate(who);
+    UserData userData = realmBackend.getUserData(authUser);
+    return create(authUser, userData);
+  }
+
+  public AuthResult create(AuthUser authUser, UserData userData)
+      throws AuthException, AccountException, IOException {
+    ExternalId.Key externalKey = ExternalId.Key.create(SCHEME_GERRIT, authUser.getUsername());
     try {
       try (ReviewDb db = schema.open()) {
-        ExternalId id = findExternalId(who.getExternalIdKey());
-        if (id == null) {
+        ExternalId id = findExternalId(externalKey);
+        if (id == null && userData != null) {
           // New account, automatically create and return.
           //
-          return create(db, who);
+          return create(db, userData, externalKey);
         }
-
         // Account exists
         Account act = byIdCache.get(id.accountId()).getAccount();
         if (!act.isActive()) {
@@ -129,8 +151,11 @@ public class AccountManager {
         }
 
         // return the identity to the caller.
-        update(db, who, id);
-        return new AuthResult(id.accountId(), who.getExternalIdKey(), false);
+        if (userData == null) {
+          throw new AuthException("Cannot authorize user without user data, authorization failed");
+        }
+        update(db, userData, id);
+        return new AuthResult(id.accountId(), externalKey, false);
       }
     } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
@@ -151,13 +176,26 @@ public class AccountManager {
 
   private void update(ReviewDb db, AuthRequest who, ExternalId extId)
       throws OrmException, IOException, ConfigInvalidException {
+    update(db, extId, who.getEmailAddress(), who.getDisplayName());
+  }
+
+  private void update(final ReviewDb db, final UserData userData, final ExternalId extId)
+      throws OrmException, IOException, ConfigInvalidException {
+    update(db, extId, userData.getEmailAddress(), userData.getDisplayName());
+  }
+
+  private void update(
+      final ReviewDb db,
+      final ExternalId extId,
+      final String newEmail,
+      final String displayName)
+      throws OrmException, IOException, ConfigInvalidException {
     IdentifiedUser user = userFactory.create(extId.accountId());
     Account toUpdate = null;
 
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
     //
-    String newEmail = who.getEmailAddress();
     String oldEmail = extId.email();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       if (oldEmail != null && oldEmail.equals(user.getAccount().getPreferredEmail())) {
@@ -174,18 +212,19 @@ public class AccountManager {
     }
 
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
-        && !Strings.isNullOrEmpty(who.getDisplayName())
-        && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
+        && !Strings.isNullOrEmpty(displayName)
+        && !eq(user.getAccount().getFullName(), displayName)) {
       toUpdate = load(toUpdate, user.getAccountId(), db);
-      toUpdate.setFullName(who.getDisplayName());
+      toUpdate.setFullName(displayName);
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
-        && who.getUserName() != null
-        && !eq(user.getUserName(), who.getUserName())) {
+        && user.getUserName() != null
+        && !eq(user.getUserName(), user.getUserName())) {
       log.warn(
           String.format(
-              "Not changing already set username %s to %s", user.getUserName(), who.getUserName()));
+              "Not changing already set username %s to %s",
+              user.getUserName(), user.getUserName()));
     }
 
     if (toUpdate != null) {
@@ -215,14 +254,30 @@ public class AccountManager {
     return (a == null && b == null) || (a != null && a.equals(b));
   }
 
-  private AuthResult create(ReviewDb db, AuthRequest who)
+  public AuthResult create(ReviewDb db, UserData userData) throws OrmException,
+      AccountException, IOException, ConfigInvalidException {
+    ExternalId.Key externalKey =
+        ExternalId.Key.create(SCHEME_GERRIT, userData.getUsername());
+    return create(db, userData, externalKey);
+  }
+
+  private AuthResult create(ReviewDb db, UserData userData, ExternalId.Key externalKey)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
+    String username = userData.getUsername();
+    AccountExternalId usernameId =
+        db.accountExternalIds().get(new AccountExternalId.Key("username", username));
+    if (usernameId != null) {
+      AccountState accountState = byIdCache.getByUsername(username);
+      Account.Id accountId = accountState.getAccount().getId();
+      return new AuthResult(accountId, externalKey, false);
+    }
+
     Account.Id newId = new Account.Id(db.nextAccountId());
     Account account = new Account(newId, TimeUtil.nowTs());
 
     ExternalId extId =
-        ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
-    account.setFullName(who.getDisplayName());
+        ExternalId.createWithEmail(externalKey, newId, userData.getEmailAddress());
+    account.setFullName(userData.getDisplayName());
     account.setPreferredEmail(extId.email());
 
     boolean isFirstAccount =
@@ -242,7 +297,7 @@ public class AccountManager {
                 + newId
                 + "; external ID already in use.");
       }
-      externalIdsUpdateFactory.create().upsert(db, extId);
+      externalIdsUpdateFactory.create().upsert(db, existingExtId);
     } finally {
       // If adding the account failed, it may be that it actually was the
       // first account. So we reset the 'check for first account'-guard, as
@@ -270,16 +325,16 @@ public class AccountManager {
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 
-    if (who.getUserName() != null) {
+    if (userData.getUsername() != null) {
       // Only set if the name hasn't been used yet, but was given to us.
       //
       IdentifiedUser user = userFactory.create(newId);
       try {
-        changeUserNameFactory.create(db, user, who.getUserName()).call();
+        changeUserNameFactory.create(db, user, userData.getUsername()).call();
       } catch (NameAlreadyUsedException e) {
         String message =
             "Cannot assign user name \""
-                + who.getUserName()
+                + userData.getUsername()
                 + "\" to account "
                 + newId
                 + "; name already in use.";
@@ -287,7 +342,7 @@ public class AccountManager {
       } catch (InvalidUserNameException e) {
         String message =
             "Cannot assign user name \""
-                + who.getUserName()
+                + userData.getUsername()
                 + "\" to account "
                 + newId
                 + "; name does not conform.";
@@ -300,7 +355,7 @@ public class AccountManager {
 
     byEmailCache.evict(account.getPreferredEmail());
     byIdCache.evict(account.getId());
-    realm.onCreateAccount(who, account);
+    realm.onCreateAccount(new AuthRequest(externalKey), account);
     return new AuthResult(newId, extId.key(), true);
   }
 

@@ -16,6 +16,20 @@ package com.google.gerrit.httpd.auth.openid;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Optional;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.codec.binary.Base64;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
@@ -26,27 +40,18 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.CanonicalWebUrl;
 import com.google.gerrit.httpd.LoginUrlToken;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.auth.HttpAuthRequest;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Optional;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.codec.binary.Base64;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** OAuth protocol implementation */
 @SessionScoped
@@ -88,7 +93,7 @@ class OAuthSessionOverOpenID {
 
   boolean login(
       HttpServletRequest request, HttpServletResponse response, OAuthServiceProvider oauth)
-      throws IOException {
+      throws IOException, AuthException {
     log.debug("Login " + this);
 
     if (isOAuthFinal(request)) {
@@ -116,7 +121,7 @@ class OAuthSessionOverOpenID {
   }
 
   private void authenticateAndRedirect(HttpServletRequest req, HttpServletResponse rsp)
-      throws IOException {
+      throws IOException, AuthException {
     com.google.gerrit.server.account.AuthRequest areq =
         new com.google.gerrit.server.account.AuthRequest(
             ExternalId.Key.parse(user.getExternalId()));
@@ -200,7 +205,7 @@ class OAuthSessionOverOpenID {
       areq.setUserName(user.getUserName());
       areq.setEmailAddress(user.getEmailAddress());
       areq.setDisplayName(user.getDisplayName());
-      arsp = accountManager.authenticate(areq);
+      arsp = accountManager.authenticate(new HttpAuthRequest(user.getUserName(), "", req, rsp));
     } catch (AccountException e) {
       log.error("Unable to authenticate user \"" + user + "\"", e);
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);

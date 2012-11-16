@@ -262,8 +262,9 @@ public class Dispatcher {
     } else if (matchPrefix("/admin/", token)) {
       admin(token);
 
-    } else if (matchExact(AUTH_DIALOG, token)) {
-      Gerrit.showAuthDialog();
+    } else if (matchPrefix(AUTH_DIALOG, token)) {
+      authenticate(token);
+
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }
@@ -285,6 +286,14 @@ public class Dispatcher {
       screen = new QueryScreen(s, 0);
     }
     Gerrit.display(token, screen);
+  }
+
+  private static void authenticate(final String token) {
+    if (matchExact(PageLinks.AUTH_FAILED, token)) {
+      Gerrit.showAuthFailedDialog();
+      return;
+    }
+    Gerrit.showAuthDialog();
   }
 
   private static Screen mine() {

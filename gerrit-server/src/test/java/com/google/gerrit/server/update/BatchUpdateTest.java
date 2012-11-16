@@ -16,6 +16,14 @@ package com.google.gerrit.server.update;
 
 import static org.junit.Assert.assertEquals;
 
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
@@ -36,13 +44,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.ReceiveCommand;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 public class BatchUpdateTest {
   @Inject private AccountManager accountManager;
@@ -75,7 +76,7 @@ public class BatchUpdateTest {
 
     db = schemaFactory.open();
     schemaCreator.create(db);
-    Account.Id userId = accountManager.authenticate(AuthRequest.forUser("user")).getAccountId();
+    Account.Id userId = accountManager.authenticate(new AuthRequest("user", "") {}).getAccountId();
     user = userFactory.create(userId);
 
     project = new Project.NameKey("test");

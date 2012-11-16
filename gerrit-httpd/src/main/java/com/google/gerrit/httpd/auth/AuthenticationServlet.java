@@ -14,34 +14,26 @@
 
 package com.google.gerrit.httpd.auth;
 
-import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.account.externalids.ExternalIdsUpdate;
-import com.google.gerrit.server.auth.AuthBackend;
+import com.google.common.base.Strings;
+import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.auth.AuthException;
-import com.google.gerrit.server.auth.AuthUser;
-import com.google.gerrit.server.auth.RealmBackend;
-import com.google.gerrit.server.auth.UserData;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AuthenticationServlet extends HttpServlet {
@@ -49,36 +41,23 @@ public class AuthenticationServlet extends HttpServlet {
 
   public static final String PARAMETER_USERNAME = "username";
   public static final String PARAMETER_PASSWORD = "password";
+  public static final String PARAMETER_REDIRECT = "redirect";
 
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
+  private static final Logger log = LoggerFactory.getLogger(AuthenticationServlet.class);
 
   private final String canonicalWebUrl;
-  private final AuthBackend authBackend;
-  private final RealmBackend realmBackend;
-  private final Provider<WebSession> session;
-  private final SchemaFactory<ReviewDb> schema;
-  private final ExternalIds externalIds;
-  private final ExternalIdsUpdate.Server externalIdsUpdate;
-  private final AccountsUpdate accountsUpdate;
+  private final AccountManager accountManager;
+  private final Provider<WebSession> sessionProvider;
 
   @Inject
   AuthenticationServlet(
-      AuthBackend authBackend,
-      RealmBackend realmBackend,
-      Provider<WebSession> session,
-      SchemaFactory<ReviewDb> schema,
-      @CanonicalWebUrl String canonicalWebUrl,
-      ExternalIds externalIds,
-      ExternalIdsUpdate.Server externalIdsUpdate,
-      AccountsUpdate accountsUpdate) {
-    this.schema = schema;
-    this.session = session;
-    this.authBackend = authBackend;
-    this.realmBackend = realmBackend;
+      AccountManager accountManager,
+      Provider<WebSession> sessionProvider,
+      @CanonicalWebUrl String canonicalWebUrl) {
+    this.accountManager = accountManager;
+    this.sessionProvider = sessionProvider;
     this.canonicalWebUrl = canonicalWebUrl;
-    this.externalIds = externalIds;
-    this.externalIdsUpdate = externalIdsUpdate;
-    this.accountsUpdate = accountsUpdate;
   }
 
   @Override
@@ -92,70 +71,37 @@ public class AuthenticationServlet extends HttpServlet {
       throws ServletException, IOException {
     String username = req.getParameter(PARAMETER_USERNAME);
     String password = req.getParameter(PARAMETER_PASSWORD);
+    String redirect = req.getParameter(PARAMETER_REDIRECT);
     HttpAuthRequest authRequest = new HttpAuthRequest(username, password, req, resp);
+    AuthResult result;
     try {
-      AuthUser user = authBackend.authenticate(authRequest);
-      ExternalId.Key key = ExternalId.Key.create(ExternalId.SCHEME_UUID, user.getUUID().uuid());
-      Account.Id accountId = getUserAccount(user, key);
-      AuthResult res = new AuthResult(accountId, key, false);
-      session.get().login(res, false);
-      redirect(resp, "#");
+      result = accountManager.authenticate(authRequest);
+    } catch (AuthException | AccountException e) {
+      log.error("Unable to authenticate user \"" + username + "\"", e);
+      redirect(resp, PageLinks.AUTH_FAILED);
       return;
-    } catch (AuthException e) {
-      // log and just return fail response
     }
-    redirect(resp, "#/auth-dialog");
+
+    sessionProvider.get().login(result, false);
+    if (result.isNew()) {
+      redirect(resp, PageLinks.REGISTER);
+    } else if (!Strings.isNullOrEmpty(redirect)) {
+      redirect(resp, redirect);
+    } else {
+      redirect(resp);
+    }
   }
 
-  private Account.Id create(ReviewDb db, AuthUser user)
-      throws OrmException, ConfigInvalidException, IOException {
-    UserData userData = realmBackend.getUserData(user);
-    if (userData == null) {
-      //TODO(dpursehouse) throw exception ?
-    }
-
-    List<ExternalId> extIds = new ArrayList<>(2);
-    String username = user.getUsername();
-    String email = userData.getEmailAddress();
-    Account.Id id = new Account.Id(db.nextAccountId());
-
-    if (username != null) {
-      extIds.add(
-          ExternalId.createUsername(
-              username, id, null)); //TODO(dpursehouse) OK to use null password?
-    }
-    if (email != null) {
-      extIds.add(ExternalId.createEmail(id, email));
-    }
-
-    externalIdsUpdate.create().insert(db, extIds);
-
-    Account a = new Account(id, TimeUtil.nowTs());
-    a.setFullName(userData.getDisplayName());
-    a.setPreferredEmail(email);
-    a.setUserName(username);
-    accountsUpdate.insert(db, a);
-
-    return a.getId();
+  private void redirect(HttpServletResponse resp) throws IOException {
+    redirect(resp, "");
   }
 
   private void redirect(HttpServletResponse resp, String url) throws IOException {
+    String  selfUrl = "#" + url;
     if (IS_DEV) {
-      resp.sendRedirect(canonicalWebUrl + "?gwt.codesrv=127.0.0.1:9997" + url);
+      resp.sendRedirect(canonicalWebUrl + "?gwt.codesrv=127.0.0.1:9997" + selfUrl);
     } else {
       resp.sendRedirect(canonicalWebUrl + url);
-    }
-  }
-
-  private Account.Id getUserAccount(AuthUser user, ExternalId.Key key) {
-    try (ReviewDb db = schema.open()) {
-      ExternalId externalId = externalIds.get(db, key);
-      if (externalId == null) {
-        return create(db, user);
-      }
-      return externalId.accountId();
-    } catch (IOException | ConfigInvalidException | OrmException e) {
-      throw new RuntimeException(e);
     }
   }
 }

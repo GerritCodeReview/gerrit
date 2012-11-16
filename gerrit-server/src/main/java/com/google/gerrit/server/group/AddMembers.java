@@ -36,8 +36,8 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountsCollection;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.auth.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.group.AddMembers.Input;
 import com.google.gwtorm.server.OrmException;
@@ -203,10 +203,9 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     try {
-      AuthRequest req = AuthRequest.forUser(user);
-      req.setSkipAuthentication(true);
+      final AuthRequest req = new AuthRequest(user, null) {};
       return accountCache.get(accountManager.authenticate(req).getAccountId()).getAccount();
-    } catch (AccountException e) {
+    } catch (AccountException | com.google.gerrit.server.auth.AuthException e) {
       return null;
     }
   }

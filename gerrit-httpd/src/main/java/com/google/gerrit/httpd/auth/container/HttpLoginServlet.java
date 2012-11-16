@@ -17,28 +17,14 @@ package com.google.gerrit.httpd.auth.container;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.httpd.CanonicalWebUrl;
-import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gerrit.httpd.LoginUrlToken;
-import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.server.account.AccountException;
-import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.gwtexpui.server.CacheHeaders;
-import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +32,26 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.httpd.CanonicalWebUrl;
+import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.httpd.LoginUrlToken;
+import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.auth.AuthenticationServlet;
+import com.google.gerrit.httpd.auth.HttpAuthRequest;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * Initializes the user session if HTTP authentication is enabled.
@@ -111,13 +117,14 @@ class HttpLoginServlet extends HttpServlet {
       return;
     }
 
-    final AuthRequest areq = AuthRequest.forUser(user);
-    areq.setDisplayName(authFilter.getRemoteDisplayname(req));
-    areq.setEmailAddress(authFilter.getRemoteEmail(req));
+    String password =
+        req.getParameter(AuthenticationServlet.PARAMETER_PASSWORD);
+    HttpAuthRequest areq =
+        new HttpAuthRequest(user, password, req, (HttpServletResponse) req);
     final AuthResult arsp;
     try {
       arsp = accountManager.authenticate(areq);
-    } catch (AccountException e) {
+    } catch (AuthException | AccountException e) {
       log.error("Unable to authenticate user \"" + user + "\"", e);
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
       return;

@@ -19,7 +19,9 @@ import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
+import static com.google.gerrit.common.PageLinks.DASHBOARDS;
 import static com.google.gerrit.common.PageLinks.MINE;
+import static com.google.gerrit.common.PageLinks.PROJECTS;
 import static com.google.gerrit.common.PageLinks.REGISTER;
 import static com.google.gerrit.common.PageLinks.SETTINGS;
 import static com.google.gerrit.common.PageLinks.SETTINGS_AGREEMENTS;
@@ -67,6 +69,8 @@ import com.google.gerrit.client.changes.CustomDashboardScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
+import com.google.gerrit.client.dashboards.DashboardInfo;
+import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.Screen;
@@ -82,6 +86,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
@@ -186,6 +191,9 @@ public class Dispatcher {
 
     } else if (matchPrefix("/dashboard/", token)) {
       dashboard(token);
+
+    } else if (matchPrefix(PROJECTS, token)) {
+      projects(token);
 
     } else if (matchExact(SETTINGS, token) //
         || matchPrefix("/settings/", token) //
@@ -380,6 +388,33 @@ public class Dispatcher {
     if (rest.startsWith("?")) {
       Gerrit.display(token, new CustomDashboardScreen(rest.substring(1)));
       return;
+    }
+
+    Gerrit.display(token, new NotFoundScreen());
+  }
+
+  private static void projects(final String token) {
+    String rest = skip(token);
+    int c = rest.indexOf(DASHBOARDS);
+    if (0 <= c) {
+      final String project = URL.decodePathSegment(rest.substring(0, c));
+      rest = rest.substring(c);
+      if (matchPrefix(DASHBOARDS, rest)) {
+        final String dashboardId = skip(rest);
+        c = dashboardId.indexOf(":");
+        if (0 <= c) {
+          final String ref = URL.decodePathSegment(dashboardId.substring(0, c));
+          final String path = URL.decodePathSegment(dashboardId.substring(c + 1));
+          DashboardList.get(new Project.NameKey(project), ref + ":" + path,
+              new GerritCallback<DashboardInfo>() {
+                @Override
+                public void onSuccess(DashboardInfo result) {
+                  select(result.url());
+                }
+              });
+          return;
+        }
+      }
     }
 
     Gerrit.display(token, new NotFoundScreen());

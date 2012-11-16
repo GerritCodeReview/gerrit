@@ -37,6 +37,8 @@ public class PageLinks {
   public static final String TOP = "n,z";
 
   public static final String MINE = "/";
+  public static final String PROJECTS = "/projects/";
+  public static final String DASHBOARDS = ",dashboards/";
   public static final String ADMIN_GROUPS = "/admin/groups/";
   public static final String ADMIN_CREATE_GROUP = "/admin/create-group/";
   public static final String ADMIN_PROJECTS = "/admin/projects/";

@@ -17,6 +17,12 @@ package com.google.gerrit.server.project;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
@@ -27,6 +33,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.TreeFormatter;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -39,11 +46,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -54,7 +63,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /** List projects visible to the calling user. */
-public class ListProjects {
+public class ListProjects implements RestReadView<TopLevelResource> {
   private static final Logger log = LoggerFactory.getLogger(ListProjects.class);
 
   public static enum FilterType {
@@ -96,7 +105,8 @@ public class ListProjects {
   private final GitRepositoryManager repoManager;
   private final ProjectNode.Factory projectNodeFactory;
 
-  @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
+  @Deprecated
+  @Option(name = "--format", usage = "(deprecated) output format")
   private OutputFormat format = OutputFormat.TEXT;
 
   @Option(name = "--show-branch", aliases = {"-b"}, multiValued = true,
@@ -120,6 +130,7 @@ public class ListProjects {
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of projects to list")
   private int limit;
 
+  @Option(name = "-p", metaVar = "PERFIX", usage = "match project prefix")
   private String matchPrefix;
 
   @Option(name = "--has-acl-for", metaVar = "GROUP", usage =
@@ -155,7 +166,7 @@ public class ListProjects {
   }
 
   public ListProjects setFormat(OutputFormat fmt) {
-    this.format = fmt;
+    format = fmt;
     return this;
   }
 
@@ -164,13 +175,30 @@ public class ListProjects {
     return this;
   }
 
-  public void display(OutputStream out) {
-    final PrintWriter stdout;
-    try {
-      stdout = new PrintWriter(new BufferedWriter(new OutputStreamWriter(out, "UTF-8")));
-    } catch (UnsupportedEncodingException e) {
-      // Our encoding is required by the specifications for the runtime.
-      throw new RuntimeException("JVM lacks UTF-8 encoding", e);
+  @Override
+  public Object apply(TopLevelResource resource) throws AuthException,
+      BadRequestException, ResourceConflictException, Exception {
+    if (format == OutputFormat.TEXT) {
+      ByteArrayOutputStream buf = new ByteArrayOutputStream();
+      display(buf);
+      return BinaryResult.create(buf.toByteArray())
+          .setContentType("text/plain")
+          .setCharacterEncoding("UTF-8");
+    }
+    format = OutputFormat.JSON;
+    return display(null);
+  }
+
+  public JsonElement display(OutputStream displayOutputStream) {
+    PrintWriter stdout = null;
+    if (displayOutputStream != null) {
+      try {
+        stdout = new PrintWriter(new BufferedWriter(
+            new OutputStreamWriter(displayOutputStream, "UTF-8")));
+      } catch (UnsupportedEncodingException e) {
+        // Our encoding is required by the specifications for the runtime.
+        throw new RuntimeException("JVM lacks UTF-8 encoding", e);
+      }
     }
 
     int found = 0;
@@ -212,7 +240,7 @@ public class ListProjects {
               && !rejected.contains(parentState.getProject().getName())) {
             ProjectControl parentCtrl = parentState.controlFor(currentUser);
             if (parentCtrl.isVisible() || parentCtrl.isOwner()) {
-              info.name = parentState.getProject().getName();
+              info.setName(parentState.getProject().getName());
               info.description = parentState.getProject().getDescription();
             } else {
               rejected.add(parentState.getProject().getName());
@@ -236,7 +264,7 @@ public class ListProjects {
             continue;
           }
 
-          info.name = projectName.get();
+          info.setName(projectName.get());
           if (showTree && format.isJson()) {
             ProjectState parent = e.getParentState();
             if (parent != null) {
@@ -305,7 +333,7 @@ public class ListProjects {
           break;
         }
 
-        if (format.isJson()) {
+        if (stdout == null || format.isJson()) {
           output.put(info.name, info);
           continue;
         }
@@ -330,15 +358,22 @@ public class ListProjects {
         stdout.print('\n');
       }
 
-      if (format.isJson()) {
+      if (stdout == null) {
+        return OutputFormat.JSON.newGson().toJsonTree(
+            output,
+            new TypeToken<Map<String, Object>>() {}.getType());
+      } else if (format.isJson()) {
         format.newGson().toJson(
             output, new TypeToken<Map<String, ProjectInfo>>() {}.getType(), stdout);
         stdout.print('\n');
       } else if (showTree && treeMap.size() > 0) {
         printProjectTree(stdout, treeMap);
       }
+      return null;
     } finally {
-      stdout.flush();
+      if (stdout != null) {
+        stdout.flush();
+      }
     }
   }
 
@@ -408,12 +443,23 @@ public class ListProjects {
     return false;
   }
 
-  private static class ProjectInfo {
+  static class ProjectInfo {
     @SuppressWarnings("unused")
     final String kind = "gerritcodereview#project";
+
     transient String name;
+    String id;
     String parent;
     String description;
     Map<String, String> branches;
+
+    void setName(String name) {
+      try {
+        this.name = name;
+        id = URLEncoder.encode(name, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        log.warn("Cannot UTF-8 encode project id", e);
+      }
+    }
   }
 }

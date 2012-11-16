@@ -188,16 +188,11 @@ public abstract class SimpleJsonApiServlet extends HttpServlet {
 
     public <T> boolean parse(T param, HttpServletRequest req,
         HttpServletResponse res) throws IOException {
-      return parse(param, req, res, Collections.<String>emptySet());
-    }
-
-    public <T> boolean parse(T param, HttpServletRequest req,
-        HttpServletResponse res, Set<String> argNames) throws IOException {
       CmdLineParser clp = parserFactory.create(param);
       try {
         @SuppressWarnings("unchecked")
         Map<String, String[]> parameterMap = req.getParameterMap();
-        clp.parseOptionMap(parameterMap, argNames);
+        clp.parseOptionMap(parameterMap);
       } catch (CmdLineException e) {
         if (!clp.wasHelpRequestedByOption()) {
           res.setStatus(HttpServletResponse.SC_BAD_REQUEST);

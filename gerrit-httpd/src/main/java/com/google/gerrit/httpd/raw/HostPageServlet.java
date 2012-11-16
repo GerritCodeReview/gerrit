@@ -14,9 +14,10 @@
 
 package com.google.gerrit.httpd.raw;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
-import com.google.common.collect.Lists;
 import com.google.common.primitives.Bytes;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.httpd.auth.AuthorizationPage;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -71,6 +73,7 @@ public class HostPageServlet extends HttpServlet {
   private final Provider<CurrentUser> currentUser;
   private final Provider<WebSession> session;
   private final GerritConfig config;
+  private final DynamicSet<AuthorizationPage> authPages;
   private final DynamicSet<WebUiPlugin> plugins;
   private final HostPageData.Theme signedOutTheme;
   private final HostPageData.Theme signedInTheme;
@@ -85,12 +88,14 @@ public class HostPageServlet extends HttpServlet {
   HostPageServlet(final Provider<CurrentUser> cu, final Provider<WebSession> w,
       final SitePaths sp, final ThemeFactory themeFactory,
       final GerritConfig gc, final ServletContext servletContext,
+      final DynamicSet<AuthorizationPage> authPages,
       final DynamicSet<WebUiPlugin> webUiPlugins,
       @GerritServerConfig final Config cfg)
       throws IOException, ServletException {
     currentUser = cu;
     session = w;
     config = gc;
+    this.authPages = authPages;
     plugins = webUiPlugins;
     signedOutTheme = themeFactory.getSignedOutTheme();
     signedInTheme = themeFactory.getSignedInTheme();
@@ -196,6 +201,7 @@ public class HostPageServlet extends HttpServlet {
       w.write(";");
     }
     plugins(w);
+    authPages(w);
 
     final byte[] hpd = w.toString().getBytes("UTF-8");
     final byte[] raw = Bytes.concat(page.part1, hpd, page.part2);
@@ -229,6 +235,18 @@ public class HostPageServlet extends HttpServlet {
     if (!urls.isEmpty()) {
       w.write(HPD_ID + ".plugins=");
       json(urls, w);
+      w.write(";");
+    }
+  }
+
+  private void authPages(StringWriter w) {
+    Map<String, String> pages = Maps.newHashMap();
+    for (AuthorizationPage page : authPages) {
+      pages.put(page.getAuthName(), page.getAuthPageContent());
+    }
+    if (!pages.isEmpty()) {
+      w.write(HPD_ID + ".authPages=");
+      json(pages, w);
       w.write(";");
     }
   }

@@ -17,7 +17,13 @@ package com.google.gerrit.server.plugins;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 
@@ -28,16 +34,18 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 /** List the installed plugins. */
-public class ListPlugins {
+public class ListPlugins implements RestReadView<TopLevelResource> {
   private final PluginLoader pluginLoader;
 
-  @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
+  @Deprecated
+  @Option(name = "--format", usage = "(deprecated) output format")
   private OutputFormat format = OutputFormat.TEXT;
 
   @Option(name = "--all", aliases = {"-a"}, usage = "List all plugins, including disabled plugins")
@@ -57,19 +65,26 @@ public class ListPlugins {
     return this;
   }
 
-  public void display(OutputStream out) {
-    final PrintWriter stdout;
-    try {
-      stdout =
-          new PrintWriter(new BufferedWriter(new OutputStreamWriter(out,
-              "UTF-8")));
-    } catch (UnsupportedEncodingException e) {
-      // Our encoding is required by the specifications for the runtime.
-      throw new RuntimeException("JVM lacks UTF-8 encoding", e);
+  @Override
+  public Object apply(TopLevelResource resource) throws AuthException,
+      BadRequestException, ResourceConflictException, Exception {
+    format = OutputFormat.JSON;
+    return display(null);
+  }
+
+  public JsonElement display(OutputStream displayOutputStream)
+      throws UnsupportedEncodingException {
+    PrintWriter stdout = null;
+    if (displayOutputStream != null) {
+      try {
+        stdout = new PrintWriter(new BufferedWriter(
+            new OutputStreamWriter(displayOutputStream, "UTF-8")));
+      } catch (UnsupportedEncodingException e) {
+        throw new RuntimeException("JVM lacks UTF-8 encoding", e);
+      }
     }
 
     Map<String, PluginInfo> output = Maps.newTreeMap();
-
     List<Plugin> plugins = Lists.newArrayList(pluginLoader.getPlugins(all));
     Collections.sort(plugins, new Comparator<Plugin>() {
       @Override
@@ -80,15 +95,11 @@ public class ListPlugins {
 
     if (!format.isJson()) {
       stdout.format("%-30s %-10s %-8s\n", "Name", "Version", "Status");
-      stdout
-          .print("-------------------------------------------------------------------------------\n");
+      stdout.print("-------------------------------------------------------------------------------\n");
     }
 
     for (Plugin p : plugins) {
-      PluginInfo info = new PluginInfo();
-      info.version = p.getVersion();
-      info.disabled = p.isDisabled() ? true : null;
-
+      PluginInfo info = new PluginInfo(p);
       if (format.isJson()) {
         output.put(p.getName(), info);
       } else {
@@ -98,19 +109,34 @@ public class ListPlugins {
       }
     }
 
-    if (format.isJson()) {
+    if (stdout == null) {
+      return OutputFormat.JSON.newGson().toJsonTree(
+          output,
+          new TypeToken<Map<String, Object>>() {}.getType());
+    } else if (format.isJson()) {
       format.newGson().toJson(output,
           new TypeToken<Map<String, PluginInfo>>() {}.getType(), stdout);
       stdout.print('\n');
     }
     stdout.flush();
+    return null;
   }
 
-  private static class PluginInfo {
+  static class PluginInfo {
+    final String kind = "gerritcodereview#plugin";
+    String id;
     String version;
-    // disabled is only read via reflection when building the json output.  We
-    // do not want to show a compiler error that it isn't used.
-    @SuppressWarnings("unused")
     Boolean disabled;
+
+    PluginInfo(Plugin p) {
+      try {
+        id = URLEncoder.encode(p.getName(), "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        throw new RuntimeException("Cannot encode plugin id", e);
+      }
+
+      version = p.getVersion();
+      disabled = p.isDisabled() ? true : null;
+    }
   }
 }

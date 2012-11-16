@@ -14,12 +14,16 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleModule;
 
 public class PluginModule extends LifecycleModule {
   @Override
   protected void configure() {
+    DynamicMap.mapOf(binder(), PluginResource.PLUGIN_KIND);
+
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
 
@@ -29,5 +33,25 @@ public class PluginModule extends LifecycleModule {
 
     bind(CopyConfigModule.class);
     listener().to(PluginLoader.class);
+
+    bind(PluginResource.PLUGIN_KIND)
+      .annotatedWith(Exports.named("PUT./"))
+      .to(InstallPlugin.Overwrite.class);
+    bind(PluginResource.PLUGIN_KIND)
+      .annotatedWith(Exports.named("DELETE./"))
+      .to(DisablePlugin.class);
+
+    bind(PluginResource.PLUGIN_KIND)
+      .annotatedWith(Exports.named("GET.status"))
+      .to(GetStatus.class);
+    bind(PluginResource.PLUGIN_KIND)
+      .annotatedWith(Exports.named("POST.disable"))
+      .to(DisablePlugin.class);
+    bind(PluginResource.PLUGIN_KIND)
+      .annotatedWith(Exports.named("POST.enable"))
+      .to(EnablePlugin.class);
+    bind(PluginResource.PLUGIN_KIND)
+      .annotatedWith(Exports.named("POST.reload"))
+      .to(ReloadPlugin.class);
   }
 }

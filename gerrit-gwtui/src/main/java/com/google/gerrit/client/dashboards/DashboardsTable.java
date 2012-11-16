@@ -41,12 +41,12 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     table.setText(0, 2, Util.C.dashboardDescription());
   }
 
-  public void display(DashboardMap dashes) {
+  public void display(DashboardList dashes) {
     while (1 < table.getRowCount()) {
       table.removeRow(table.getRowCount() - 1);
     }
 
-    List<DashboardInfo> list = dashes.values().asList();
+    List<DashboardInfo> list = dashes.asList();
     Collections.sort(list, new Comparator<DashboardInfo>() {
       @Override
       public int compare(DashboardInfo a, DashboardInfo b) {
@@ -56,8 +56,8 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
 
     String section = null;
     for(DashboardInfo d : list) {
-      if (!d.refName().equals(section)) {
-        section = d.refName();
+      if (!d.ref().equals(section)) {
+        section = d.ref();
         insertTitleRow(table.getRowCount(), section);
       }
       insert(table.getRowCount(), d);
@@ -95,15 +95,14 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.getElement(row, 1).setTitle(Util.C.dashboardDefaultToolTip());
     }
-    table.setWidget(row, 2, new Anchor(k.name(), "#" + link(k)));
+    table.setWidget(row, 2, new Anchor(k.path(), "#" + k.url()));
     table.setText(row, 3, k.description());
-
     setRowItem(row, k);
   }
 
   @Override
   protected Object getRowItemKey(final DashboardInfo item) {
-    return item.name();
+    return item.id();
   }
 
   @Override
@@ -111,10 +110,6 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     if (row > 0) {
       movePointerTo(row);
     }
-    History.newItem(link(getRowItem(row)));
-  }
-
-  private String link(final DashboardInfo item) {
-    return "/dashboard/?" + item.parameters();
+    History.newItem(getRowItem(row).url());
   }
 }

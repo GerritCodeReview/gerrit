@@ -24,6 +24,8 @@ public interface WebSession {
 
   public String getAuthorization();
 
+  public boolean isValidAuthorization(String keyIn);
+
   public AccountExternalId.Key getLastLoginExternalId();
 
   public CurrentUser getCurrentUser();

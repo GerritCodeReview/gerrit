@@ -249,7 +249,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       } else {
         // The session must exist, and must be using this token.
         //
-        return session.isSignedIn() && keyIn.equals(session.getAuthorization());
+        return session.isSignedIn() && session.isValidAuthorization(keyIn);
       }
     }
 

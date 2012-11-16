@@ -888,7 +888,7 @@
 }
 
 .changeInfoTopicPanel a {
-  float: left;
+  float:left;
 }
 
 .infoBlock {

@@ -140,6 +140,7 @@ public class ChangeInfoBlock extends Composite {
     final Branch.NameKey dst = chg.getDest();
 
     FlowPanel fp = new FlowPanel();
+    fp.addStyleName(Gerrit.RESOURCES.css().changeInfoTopicPanel());
     fp.add(new BranchLink(chg.getTopic(), chg.getProject(), chg.getStatus(),
            dst.get(), chg.getTopic()));
 
@@ -154,7 +155,6 @@ public class ChangeInfoBlock extends Composite {
           new AlterTopicDialog(chg).center();
         }
       });
-      edit.addStyleName(Gerrit.RESOURCES.css().changeInfoBlockEdit());
       fp.add(edit);
     }
 

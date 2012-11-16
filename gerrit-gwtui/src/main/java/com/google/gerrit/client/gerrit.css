@@ -882,9 +882,13 @@
   margin-right: 15px;
 }
 
-.changeInfoBlockEdit {
+.changeInfoTopicPanel img {
   float: right;
   cursor: pointer;
+}
+
+.changeInfoTopicPanel a {
+  float: left;
 }
 
 .infoBlock {

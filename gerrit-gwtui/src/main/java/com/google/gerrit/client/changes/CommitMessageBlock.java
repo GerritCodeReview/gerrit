@@ -17,16 +17,22 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
+import com.google.gerrit.client.ui.CommentedActionDialog;
+import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.user.client.ui.Composite;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -60,12 +66,13 @@ public class CommitMessageBlock extends Composite {
   }
 
   public void display(final String commitMessage) {
-    display(null, null, commitMessage);
+    display(null, null, false, commitMessage);
   }
 
-  public void display(Change.Id changeId, Boolean starred, String commitMessage) {
+  public void display(final PatchSet.Id patchSetId,
+      Boolean starred, Boolean canEditCommitMessage, final String commitMessage) {
     starPanel.clear();
-
+    Change.Id changeId = patchSetId.getParentKey();
     if (changeId != null && starred != null && Gerrit.isSignedIn()) {
       StarredChanges.Icon star = StarredChanges.createIcon(changeId, starred);
       star.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());
@@ -79,7 +86,32 @@ public class CommitMessageBlock extends Composite {
     permalinkPanel.clear();
     if (changeId != null) {
       permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId));
-      permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId), false));
+      permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId),
+          false));
+      if (canEditCommitMessage) {
+        final Image edit = new Image(Gerrit.RESOURCES.edit());
+        edit.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
+            new CommentedActionDialog<ChangeDetail>(Util.C
+                .titleEditCommitMessage(), Util.C.headingEditCommitMessage(),
+                new ChangeDetailCache.IgnoreErrorCallback() {}) {
+              {
+                message.setText(commitMessage);
+              }
+
+              @Override
+              public void onSend() {
+                Util.MANAGE_SVC.createNewPatchSet(patchSetId, getMessageText(),
+                    createCallback());
+              }
+            }.center();
+          }
+        });
+
+        edit.addStyleName(Gerrit.RESOURCES.css().changeInfoBlockEdit());
+        permalinkPanel.add(edit);
+      }
     }
 
     String[] splitCommitMessage = commitMessage.split("\n", 2);

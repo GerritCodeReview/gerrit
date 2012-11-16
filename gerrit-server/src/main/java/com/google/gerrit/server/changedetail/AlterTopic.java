@@ -93,7 +93,7 @@ public class AlterTopic implements Callable<ReviewResult> {
     }
 
     final Change change = db.changes().get(changeId);
-    final String oldTopicName = change.getTopic();
+    final String oldTopicName = change.getTopic() != null ? change.getTopic() : "";
     if (!oldTopicName.equals(newTopicName)) {
       String summary;
       if (oldTopicName.isEmpty()) {

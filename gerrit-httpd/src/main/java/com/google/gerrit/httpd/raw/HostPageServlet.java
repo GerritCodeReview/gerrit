@@ -178,8 +178,8 @@ public class HostPageServlet extends HttpServlet {
       json(((IdentifiedUser) user).getAccount(), w);
       w.write(";");
 
-      w.write(HPD_ID + ".accessToken=");
-      json(session.get().getAccessToken(), w);
+      w.write(HPD_ID + ".authorization=");
+      json(session.get().getAuthorization(), w);
       w.write(";");
 
       w.write(HPD_ID + ".accountDiffPref=");

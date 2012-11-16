@@ -20,6 +20,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
+import com.google.gerrit.httpd.auth.AuthenticationServlet;
 import com.google.gerrit.httpd.auth.AuthorizationPage;
 import com.google.gerrit.httpd.auth.DefaultAuthorizationPage;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
@@ -47,6 +48,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
+import com.google.inject.servlet.ServletModule;
 
 import java.net.SocketAddress;
 
@@ -146,6 +148,12 @@ public class WebModule extends FactoryModule {
       @Override
       protected void configure() {
         listener().toInstance(registerInParentInjectors());
+      }
+    });
+    install(new ServletModule() {
+      @Override
+      protected void configureServlets() {
+        serve("/authenticate").with(AuthenticationServlet.class);
       }
     });
   }

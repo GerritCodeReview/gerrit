@@ -53,7 +53,7 @@ public class AlterTopic implements Callable<ReviewResult> {
   private String topic;
 
   public void setTopic(final String topic) {
-    this.topic = topic;
+    this.topic = topic.trim();
   }
 
   @Option(name = "--message", aliases = {"-m"},

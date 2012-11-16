@@ -482,6 +482,10 @@ public class ReceiveCommits {
     messages.add(new CommitValidationMessage(message, false));
   }
 
+  private void addMessages(final List<CommitValidationMessage> messages) {
+    this.messages.addAll(messages);
+  }
+
   void addError(String error) {
     messages.add(new CommitValidationMessage(error, true));
   }
@@ -2045,6 +2049,7 @@ public class ReceiveCommits {
       } else {
         addMessage(String.format("Validated by plugin %s", messageSuffix));
       }
+      addMessages(validationResult.getMessages());
     }
 
     if (!validated) {

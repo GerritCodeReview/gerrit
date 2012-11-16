@@ -18,6 +18,7 @@ import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -47,6 +48,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -62,6 +64,7 @@ public class ListDashboards {
   private final CurrentUser currentUser;
   private final ProjectCache projectCache;
   private final GitRepositoryManager repoManager;
+  private AllProjectsName allProjects;
 
   @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
   private OutputFormat format = OutputFormat.JSON;
@@ -74,10 +77,11 @@ public class ListDashboards {
 
   @Inject
   protected ListDashboards(CurrentUser currentUser, ProjectCache projectCache,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager, AllProjectsName allProjects) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
+    this.allProjects = allProjects;
   }
 
   public OutputFormat getFormat() {
@@ -117,14 +121,17 @@ public class ListDashboards {
         switch (level) {
           case PROJECT:
             final Project.NameKey projectName = new Project.NameKey(entityName);
+            final ProjectState projectState = projectCache.get(projectName);
+            DashboardInfo defaultInfo = findProjectDefaultDashboard(projectState);
             if (defaultDashboard) {
               dashboards = Maps.newTreeMap();
-              final DashboardInfo info = loadProjectDefaultDashboard(projectName);
-              if (info != null) {
-                dashboards.put(info.id, info);
+              if (defaultInfo != null) {
+                dashboards.put(defaultInfo.id, defaultInfo);
               }
             } else {
-              dashboards = projectDashboards(projectName);
+              dashboards =
+                  allDashboardsFor(projectState, defaultInfo != null
+                      ? defaultInfo.id : null);
             }
             break;
           default:
@@ -142,15 +149,43 @@ public class ListDashboards {
     }
   }
 
-  private Map<String, DashboardInfo> projectDashboards(final Project.NameKey projectName) {
+  private Map<String, DashboardInfo> allDashboardsFor(ProjectState projectState,
+        final String defaultId) {
+    final Project.NameKey projectName = projectState.getProject().getNameKey();
+    Project.NameKey parent;
+
+    Map<String, DashboardInfo> dashboards = Maps.newTreeMap();
+    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    seen.add(projectName);
+    do {
+      dashboards = addProjectDashboards(projectState, dashboards, defaultId);
+
+      parent =  projectState.getProject().getParent(allProjects);
+      projectState = projectCache.get(parent);
+    } while (projectState != null && seen.add(parent));
+
+    return dashboards;
+  }
+
+  private Map<String, DashboardInfo> addProjectDashboards(
+      final ProjectState projectState, Map<String, DashboardInfo> all,
+      final String defaultId) {
+    final Map<String, DashboardInfo> dashboards = projectDashboards(projectState,
+        defaultId);
+    dashboards.putAll(all);
+    return dashboards;
+  }
+
+  private Map<String, DashboardInfo> projectDashboards(
+      final ProjectState projectState, final String defaultId) {
     final Map<String, DashboardInfo> dashboards = Maps.newTreeMap();
 
-    final ProjectState projectState = projectCache.get(projectName);
     final ProjectControl projectControl = projectState.controlFor(currentUser);
     if (projectState == null || !projectControl.isVisible()) {
       return dashboards;
     }
 
+    final Project.NameKey projectName = projectState.getProject().getNameKey();
     Repository repo = null;
     RevWalk revWalk = null;
     try {
@@ -160,7 +195,7 @@ public class ListDashboards {
       for (final Ref ref : refs.values()) {
         if (projectControl.controlForRef(ref.getName()).canRead()) {
           dashboards.putAll(loadDashboards(projectControl.getProject(), repo,
-              revWalk, ref));
+              revWalk, ref, defaultId));
         }
       }
     } catch (IOException e) {
@@ -177,9 +212,9 @@ public class ListDashboards {
     return dashboards;
   }
 
-  private Map<String, DashboardInfo> loadDashboards(
-      final Project project, final Repository repo,
-      final RevWalk revWalk, final Ref ref) throws IOException {
+  private Map<String, DashboardInfo> loadDashboards(final Project project,
+      final Repository repo, final RevWalk revWalk, final Ref ref,
+      final String defaultId) throws IOException {
     final Map<String, DashboardInfo> dashboards = Maps.newTreeMap();
     TreeWalk treeWalk = new TreeWalk(repo);
     try {
@@ -192,7 +227,7 @@ public class ListDashboards {
         final ObjectLoader loader = repo.open(treeWalk.getObjectId(0));
         final DashboardInfo info =
             loadDashboard(project, ref.getName(), treeWalk.getPathString(),
-                loader);
+                defaultId, loader);
         dashboards.put(info.id, info);
       }
     } catch (ConfigInvalidException e) {
@@ -207,25 +242,48 @@ public class ListDashboards {
     return dashboards;
   }
 
-  private DashboardInfo loadProjectDefaultDashboard(final Project.NameKey projectName) {
-    final ProjectState projectState = projectCache.get(projectName);
+  private DashboardInfo findProjectDefaultDashboard(ProjectState projectState) {
+    final Project.NameKey projectName = projectState.getProject().getNameKey();
+    Project.NameKey parent;
+
+    DashboardInfo info;
+    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
+    seen.add(projectName);
+    boolean considerLocal = true;
+    do {
+      info = loadProjectDefaultDashboard(projectState, considerLocal);
+      if (info != null) {
+         return info;
+      }
+      considerLocal = false;
+
+      parent =  projectState.getProject().getParent(allProjects);
+      projectState = projectCache.get(parent);
+    } while (projectState != null && seen.add(parent));
+    return info;
+  }
+
+  private DashboardInfo loadProjectDefaultDashboard(final ProjectState projectState,
+      boolean considerLocal) {
     final ProjectControl projectControl = projectState.controlFor(currentUser);
     if (projectState == null || !projectControl.isVisible()) {
       return null;
     }
 
     final Project project = projectControl.getProject();
-    final String defaultDashboardId =
-        project.getLocalDefaultDashboard() != null ? project
-            .getLocalDefaultDashboard() : project.getDefaultDashboard();
+    String defaultDashboardId = project.getDefaultDashboard();
+    if (considerLocal && project.getLocalDefaultDashboard() != null) {
+      defaultDashboardId = project.getLocalDefaultDashboard();
+    }
+
     if (defaultDashboardId == null) {
       return null;
     }
-    return loadDashboard(projectControl, defaultDashboardId);
+    return loadDashboard(projectControl, defaultDashboardId, defaultDashboardId);
   }
 
   private DashboardInfo loadDashboard(final ProjectControl projectControl,
-      final String dashboardId) {
+      final String dashboardId, final String defaultId) {
     StringTokenizer t = new StringTokenizer(dashboardId, ":");
     if (t.countTokens() != 2) {
       throw new IllegalStateException("failed to load dashboard, invalid dashboard id: " + dashboardId);
@@ -259,7 +317,8 @@ public class ListDashboards {
       }
 
       final ObjectLoader loader = repo.open(treeWalk.getObjectId(0));
-      return loadDashboard(projectControl.getProject(), refName, path, loader);
+      return loadDashboard(projectControl.getProject(), refName, path,
+          defaultId, loader);
     } catch (IOException e) {
       log.warn("Failed to load default dashboard", e);
     } catch (ConfigInvalidException e) {
@@ -279,18 +338,15 @@ public class ListDashboards {
     return null;
   }
 
-  private DashboardInfo loadDashboard(final Project project,
-      final String refName, final String path, final ObjectLoader loader)
+  private DashboardInfo loadDashboard(final Project project, final String refName,
+      final String path, final String defaultId, final ObjectLoader loader)
       throws IOException, ConfigInvalidException {
     DashboardInfo info = new DashboardInfo();
     info.dashboardName = path;
     info.refName = refName;
     info.projectName = project.getName();
     info.id = createId(info.refName, info.dashboardName);
-    final String defaultDashboardId =
-        project.getLocalDefaultDashboard() != null ? project
-            .getLocalDefaultDashboard() : project.getDefaultDashboard();
-    info.isDefault = info.id.equals(defaultDashboardId);
+    info.isDefault = info.id.equals(defaultId);
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     loader.copyTo(out);

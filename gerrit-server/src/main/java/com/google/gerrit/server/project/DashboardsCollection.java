@@ -144,7 +144,7 @@ class DashboardsCollection implements
     return query.replace("${project}", project);
   }
 
-  private static String defaultOf(Project proj) {
+  public static String defaultOf(Project proj) {
     final String defaultId = Objects.firstNonNull(
         proj.getLocalDefaultDashboard(),
         Strings.nullToEmpty(proj.getDefaultDashboard()));

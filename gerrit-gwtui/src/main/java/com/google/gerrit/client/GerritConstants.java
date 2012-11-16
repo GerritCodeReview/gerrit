@@ -25,6 +25,8 @@ public interface GerritConstants extends Constants {
 
   String loadingPlugins();
 
+  String buttonSignIn();
+
   String signInDialogTitle();
 
   String signInDialogGoAnonymous();
@@ -196,4 +198,10 @@ public interface GerritConstants extends Constants {
   String searchDropdownChanges();
 
   String searchDropdownDoc();
+
+  String polyGerrit();
+
+  String emptyAuthPagesTitle();
+
+  String emptyAuthPagesMessage();
 }

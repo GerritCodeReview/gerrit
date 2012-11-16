@@ -64,6 +64,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationResult;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -218,16 +219,6 @@ public class ReceiveCommits {
     }
   }
 
-  private static class Message {
-    private final String message;
-    private final boolean isError;
-
-    private Message(final String message, final boolean isError) {
-      this.message = message;
-      this.isError = isError;
-    }
-  }
-
   private static final Function<Exception, OrmException> ORM_EXCEPTION =
       new Function<Exception, OrmException>() {
         @Override
@@ -286,7 +277,7 @@ public class ReceiveCommits {
 
   private final SubmoduleOp.Factory subOpFactory;
 
-  private final List<Message> messages = new ArrayList<Message>();
+  private final List<CommitValidationMessage> messages = new ArrayList<CommitValidationMessage>();
   private ListMultimap<Error, String> errors = LinkedListMultimap.create();
   private Task newProgress;
   private Task replaceProgress;
@@ -489,19 +480,19 @@ public class ReceiveCommits {
   }
 
   private void addMessage(String message) {
-    messages.add(new Message(message, false));
+    messages.add(new CommitValidationMessage(message, false));
   }
 
   void addError(String error) {
-    messages.add(new Message(error, true));
+    messages.add(new CommitValidationMessage(error, true));
   }
 
   void sendMessages() {
-    for (Message m : messages) {
-      if (m.isError) {
-        messageSender.sendError(m.message);
+    for (CommitValidationMessage m : messages) {
+      if (m.isError()) {
+        messageSender.sendError(m.getMessage());
       } else {
-        messageSender.sendMessage(m.message);
+        messageSender.sendMessage(m.getMessage());
       }
     }
   }

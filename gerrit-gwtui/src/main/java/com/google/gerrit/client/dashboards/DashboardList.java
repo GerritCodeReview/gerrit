@@ -16,6 +16,7 @@ package com.google.gerrit.client.dashboards;
 
 import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.http.client.URL;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -36,24 +37,13 @@ public class DashboardList extends NativeList<DashboardInfo> {
 
   public static void get(Project.NameKey project, String dashboardId,
       AsyncCallback<DashboardInfo> callback) {
-    new RestApi(base(project) + encodeDashboardId(dashboardId))
+    new RestApi(base(project) + PageLinks.encodeDashboardId(dashboardId))
         .get(callback);
   }
 
   private static String base(Project.NameKey project) {
     String name = URL.encodePathSegment(project.get());
     return "/projects/" + name + "/dashboards/";
-  }
-
-  private static String encodeDashboardId(String dashboardId) {
-    int c = dashboardId.indexOf(":");
-    if (0 <= c) {
-      final String ref = URL.encodePathSegment(dashboardId.substring(0, c));
-      final String path = URL.encodePathSegment(dashboardId.substring(c + 1));
-      return ref + ":" + path;
-    } else {
-      return URL.encodePathSegment(dashboardId);
-    }
   }
 
   protected DashboardList() {

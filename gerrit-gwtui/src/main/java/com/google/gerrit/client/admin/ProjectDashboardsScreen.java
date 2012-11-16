@@ -23,9 +23,11 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ProjectDashboardsScreen extends ProjectScreen {
   private DashboardsTable dashes;
+  Project.NameKey project;
 
-  public ProjectDashboardsScreen(final Project.NameKey toShow) {
-    super(toShow);
+  public ProjectDashboardsScreen(final Project.NameKey project) {
+    super(project);
+    this.project = project;
   }
 
   @Override
@@ -43,7 +45,7 @@ public class ProjectDashboardsScreen extends ProjectScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    dashes = new DashboardsTable();
+    dashes = new DashboardsTable(project);
     FlowPanel fp = new FlowPanel();
     fp.add(dashes);
     add(fp);

@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.rpc.changedetail;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeManageService;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSet.Id;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.inject.Inject;
@@ -29,6 +30,7 @@ class ChangeManageServiceImpl implements ChangeManageService {
   private final RevertChange.Factory revertChangeFactory;
   private final PublishAction.Factory publishAction;
   private final DeleteDraftChange.Factory deleteDraftChangeFactory;
+  private final EditCommitMessageHandler.Factory editCommitMessageHandlerFactory;
 
   @Inject
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
@@ -37,7 +39,8 @@ class ChangeManageServiceImpl implements ChangeManageService {
       final RestoreChangeHandler.Factory restoreChangeHandlerFactory,
       final RevertChange.Factory revertChangeFactory,
       final PublishAction.Factory publishAction,
-      final DeleteDraftChange.Factory deleteDraftChangeFactory) {
+      final DeleteDraftChange.Factory deleteDraftChangeFactory,
+      final EditCommitMessageHandler.Factory editCommitMessageHandler) {
     this.submitAction = patchSetAction;
     this.abandonChangeHandlerFactory = abandonChangeHandlerFactory;
     this.rebaseChangeFactory = rebaseChangeFactory;
@@ -45,6 +48,7 @@ class ChangeManageServiceImpl implements ChangeManageService {
     this.revertChangeFactory = revertChangeFactory;
     this.publishAction = publishAction;
     this.deleteDraftChangeFactory = deleteDraftChangeFactory;
+    this.editCommitMessageHandlerFactory = editCommitMessageHandler;
   }
 
   public void submit(final PatchSet.Id patchSetId,
@@ -80,5 +84,10 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void deleteDraftChange(final PatchSet.Id patchSetId,
       final AsyncCallback<VoidResult> callback) {
     deleteDraftChangeFactory.create(patchSetId).to(callback);
+  }
+
+  public void editCommitMessage(Id patchSetId, String message,
+      AsyncCallback<ChangeDetail> callback) {
+    editCommitMessageHandlerFactory.create(patchSetId, message).to(callback);
   }
 }

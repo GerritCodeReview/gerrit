@@ -21,6 +21,7 @@ import java.util.Map;
 public interface DashboardConstants extends Constants {
   String dashboardName();
   String dashboardDescription();
+  String dashboardInherited();
   String dashboardItem();
   String dashboardDefaultToolTip();
 }

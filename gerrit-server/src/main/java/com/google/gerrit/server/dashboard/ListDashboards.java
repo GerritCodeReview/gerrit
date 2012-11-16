@@ -147,29 +147,6 @@ public class ListDashboards {
     }
   }
 
-  private DashboardInfo findProjectDefaultDashboard(ProjectState projectState) {
-    final Project.NameKey projectName = projectState.getProject().getNameKey();
-    Project.NameKey parent;
-
-    DashboardInfo info;
-    Set<Project.NameKey> seen = new HashSet<Project.NameKey>();
-    seen.add(projectName);
-    boolean considerLocal = true;
-    do {
-      info = loadProjectDefaultDashboard(projectState, considerLocal);
-      if (info != null) {
-         replaceTokens(info, projectName.get());
-         return info;
-      }
-      considerLocal = false;
-
-      parent =  projectState.getProject().getParent(allProjects);
-      projectState = projectCache.get(parent);
-    } while (projectState != null && seen.add(parent));
-    replaceTokens(info, projectName.get());
-    return info;
-  }
-
   private Map<String, DashboardInfo> allDashboardsFor(ProjectState projectState,
       final String defaultId) {
     final Project.NameKey projectName = projectState.getProject().getNameKey();

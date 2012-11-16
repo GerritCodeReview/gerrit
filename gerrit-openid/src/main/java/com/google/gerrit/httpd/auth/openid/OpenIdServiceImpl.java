@@ -406,7 +406,7 @@ class OpenIdServiceImpl implements OpenIdService {
       switch (mode) {
         case REGISTER:
         case SIGN_IN:
-          arsp = accountManager.authenticate(areq);
+//          arsp = accountManager.authenticate(areq);
 
           final Cookie lastId = new Cookie(OpenIdUrls.LASTID_COOKIE, "");
           lastId.setPath(req.getContextPath() + "/");
@@ -417,16 +417,16 @@ class OpenIdServiceImpl implements OpenIdService {
             lastId.setMaxAge(0);
           }
           rsp.addCookie(lastId);
-          webSession.get().login(arsp, AuthMethod.COOKIE, remember);
-          if (arsp.isNew() && claimedIdentifier != null) {
-            final com.google.gerrit.server.account.AuthRequest linkReq =
-                new com.google.gerrit.server.account.AuthRequest(
-                    claimedIdentifier);
-            linkReq.setDisplayName(areq.getDisplayName());
-            linkReq.setEmailAddress(areq.getEmailAddress());
-            accountManager.link(arsp.getAccountId(), linkReq);
-          }
-          callback(arsp.isNew(), req, rsp);
+//          webSession.get().login(arsp, AuthMethod.COOKIE, remember);
+//          if (arsp.isNew() && claimedIdentifier != null) {
+//            final com.google.gerrit.server.account.AuthRequest linkReq =
+//                new com.google.gerrit.server.account.AuthRequest(
+//                    claimedIdentifier);
+//            linkReq.setDisplayName(areq.getDisplayName());
+//            linkReq.setEmailAddress(areq.getEmailAddress());
+//            accountManager.link(arsp.getAccountId(), linkReq);
+//          }
+//          callback(arsp.isNew(), req, rsp);
           break;
 
         case LINK_IDENTIY: {

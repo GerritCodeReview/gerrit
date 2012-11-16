@@ -83,7 +83,7 @@ public class ProjectListScreen extends Screen {
       @Override
       protected void populate(final int row, final ProjectInfo k) {
         FlowPanel fp = new FlowPanel();
-        fp.add(createSearchLink(k.name()));
+        fp.add(createSearchLink(k));
         fp.add(new InlineHyperlink(k.name(), link(k)));
         table.setWidget(row, 1, fp);
         table.setText(row, 2, k.description());
@@ -96,9 +96,16 @@ public class ProjectListScreen extends Screen {
         setRowItem(row, k);
       }
 
-      private Widget createSearchLink(String projectName) {
+      private Widget createSearchLink(final ProjectInfo projectInfo) {
         Image image = new Image(Gerrit.RESOURCES.queryProjectLink());
-        InlineHyperlink h = new InlineHyperlink(" ", PageLinks.toChangeQuery("project:" + projectName));
+        InlineHyperlink h;
+        if (projectInfo.defaultDashboard() != null) {
+          h = new InlineHyperlink(" ", PageLinks.toProjectDashboard(
+                  projectInfo.name_key(), projectInfo.defaultDashboard()));
+        } else {
+          h = new InlineHyperlink(" ", PageLinks.toChangeQuery(PageLinks
+                  .projectQuery(projectInfo.name_key())));
+        }
         h.setTitle(Util.C.projectListQueryLink());
         DOM.insertBefore(h.getElement(), image.getElement(),
             DOM.getFirstChild(h.getElement()));

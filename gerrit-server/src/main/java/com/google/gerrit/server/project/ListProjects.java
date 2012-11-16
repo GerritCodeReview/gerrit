@@ -284,6 +284,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           if (showDescription) {
             info.description = Strings.emptyToNull(e.getProject().getDescription());
           }
+          info.defaultDashboard =
+              Strings.emptyToNull(DashboardsCollection.defaultOf(e.getProject()));
 
           try {
             if (showBranch != null) {
@@ -452,6 +454,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     String id;
     String parent;
     String description;
+    String defaultDashboard;
     Map<String, String> branches;
 
     void setName(String name) {

@@ -40,6 +40,9 @@ public interface GitRepositoryManager {
   /** Configuration settings for a project {@code refs/meta/config} */
   public static final String REF_CONFIG = "refs/meta/config";
 
+  /** Configurations of project-specific dashboards (canned search queries). */
+  public static String REFS_DASHBOARDS = "refs/meta/dashboards/";
+
   /**
    * Prefix applied to merge commit base nodes.
    * <p>

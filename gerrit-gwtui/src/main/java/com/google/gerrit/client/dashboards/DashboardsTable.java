@@ -15,6 +15,7 @@
 package com.google.gerrit.client.dashboards;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.History;
@@ -22,9 +23,12 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.Image;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DashboardsTable extends NavigationTable<DashboardInfo> {
   Project.NameKey project;
@@ -47,12 +51,27 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     table.setText(0, 3, Util.C.dashboardInherited());
   }
 
-  public void display(DashboardMap dashes) {
+  public void display(DashboardList dashes) {
+    display(dashes.asList());
+  }
+
+  public void display(NativeList<DashboardList> in) {
+    Map<String, DashboardInfo> map = new HashMap<String, DashboardInfo>();
+    for (DashboardList list : in.asList()) {
+      for (DashboardInfo d : list.asList()) {
+        if (!map.containsKey(d.id())) {
+          map.put(d.id(), d);
+        }
+      }
+    }
+    display(new ArrayList<DashboardInfo>(map.values()));
+  }
+
+  public void display(List<DashboardInfo> list) {
     while (1 < table.getRowCount()) {
       table.removeRow(table.getRowCount() - 1);
     }
 
-    List<DashboardInfo> list = dashes.values().asList();
     Collections.sort(list, new Comparator<DashboardInfo>() {
       @Override
       public int compare(DashboardInfo a, DashboardInfo b) {
@@ -60,11 +79,11 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
       }
     });
 
-    String section = null;
+    String ref = null;
     for(DashboardInfo d : list) {
-      if (!d.section().equals(section)) {
-        section = d.section();
-        insertTitleRow(table.getRowCount(), section);
+      if (!d.ref().equals(ref)) {
+        ref = d.ref();
+        insertTitleRow(table.getRowCount(), ref);
       }
       insert(table.getRowCount(), d);
     }
@@ -102,18 +121,17 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.getElement(row, 1).setTitle(Util.C.dashboardDefaultToolTip());
     }
-    table.setWidget(row, 2, new Anchor(k.name(), "#" + link(k)));
+    table.setWidget(row, 2, new Anchor(k.path(), "#" + k.url()));
     table.setText(row, 3, k.description());
-    if (!project.get().equals(k.projectName())) {
-      table.setText(row, 4, k.projectName());
+    if (k.project() != null && !project.get().equals(k.project())) {
+      table.setText(row, 4, k.project());
     }
-
     setRowItem(row, k);
   }
 
   @Override
   protected Object getRowItemKey(final DashboardInfo item) {
-    return item.name();
+    return item.id();
   }
 
   @Override
@@ -121,10 +139,6 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     if (row > 0) {
       movePointerTo(row);
     }
-    History.newItem(link(getRowItem(row)));
-  }
-
-  private String link(final DashboardInfo item) {
-    return "/dashboard/?" + item.parameters();
+    History.newItem(getRowItem(row).url());
   }
 }

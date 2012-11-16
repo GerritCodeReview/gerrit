@@ -16,6 +16,24 @@
       "revId": "530de72f12890f7862925a040221bac4c5ebc1ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/AlterTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-16T20:12:49Z",
+      "side": 1,
+      "message": "That would be better, yes.\n\nHowever it would make it inconsistent with other messages, so maybe better to fix them all in a separate commit.",
+      "parentUuid": "AAALsn////I\u003d",
+      "revId": "530de72f12890f7862925a040221bac4c5ebc1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.TrackingId;
+import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
@@ -347,8 +348,15 @@ public class EventFactory {
           p.parents.add(a.getAncestorRevision().get());
         }
 
-        p.author = asAccountAttribute(//
-            psInfoFactory.get(db, pId).getAuthor().getAccount());
+        UserIdentity author = psInfoFactory.get(db, pId).getAuthor();
+        if (author.getAccount() == null) {
+          p.author = new AccountAttribute();
+          p.author.email = author.getEmail();
+          p.author.name = author.getName();
+          p.author.username = "";
+        } else {
+          p.author = asAccountAttribute(author.getAccount());
+        }
 
         Change change = db.changes().get(pId.getParentKey());
         List<Patch> list =

@@ -17,13 +17,17 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
+import com.google.gerrit.client.dashboards.DashboardMap;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
@@ -98,12 +102,14 @@ public class ProjectListScreen extends Screen {
 
       private Widget createSearchLink(String projectName) {
         Image image = new Image(Gerrit.RESOURCES.queryProjectLink());
-        InlineHyperlink h = new InlineHyperlink(" ", PageLinks.toChangeQuery("project:" + projectName));
-        h.setTitle(Util.C.projectListQueryLink());
-        DOM.insertBefore(h.getElement(), image.getElement(),
-            DOM.getFirstChild(h.getElement()));
+        ProjectSearchLink l =
+            new ProjectSearchLink(new Project.NameKey(projectName), " ",
+                PageLinks.toChangeQuery("project:" + projectName));
+        l.setTitle(Util.C.projectListQueryLink());
+        DOM.insertBefore(l.getElement(), image.getElement(),
+            DOM.getFirstChild(l.getElement()));
 
-        return h;
+        return l;
       }
     };
     projects.setSavePointerId(PageLinks.ADMIN_PROJECTS);
@@ -115,5 +121,30 @@ public class ProjectListScreen extends Screen {
   public void registerKeys() {
     super.registerKeys();
     projects.setRegisterKeys(true);
+  }
+
+  private class ProjectSearchLink extends InlineHyperlink {
+    private final NameKey projectName;
+
+    public ProjectSearchLink(final Project.NameKey projectName,
+        final String text, final String token) {
+      super(text, token);
+      this.projectName = projectName;
+    }
+
+    @Override
+    public void go() {
+      DashboardMap.projectDefault(projectName,
+          new GerritCallback<DashboardMap>() {
+            @Override
+            public void onSuccess(DashboardMap result) {
+              if (!result.isEmpty()) {
+                ProjectSearchLink.this.setTargetHistoryToken("/dashboard/?"
+                    + result.values().get(0).parameters());
+              }
+              ProjectSearchLink.super.go();
+            }
+          });
+    };
   }
 }

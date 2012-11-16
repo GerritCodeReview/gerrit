@@ -111,3 +111,7 @@ line-height: 30px !important;
 #gerrit_btmmenu > div {
 	color: rgba(0, 0, 0, 0.3) !important;
 }
+
+.gwt-PopupPanelGlass, .gwt-DialogBox {
+  z-index: 10;
+}

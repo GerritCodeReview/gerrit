@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.auth;
 
 public class DefaultAuthorizationPage implements AuthorizationPage {
-
   @Override
   public String getAuthName() {
     return "Default";
@@ -24,8 +23,11 @@ public class DefaultAuthorizationPage implements AuthorizationPage {
   @Override
   public String getAuthPageContent() {
     return "<div>"
-        + "<p>Username: <input name='username'/></p>"
-        + "<p>Password: <input name='password' type='password'/></p>"
+        + "<p><label for='username'>Username:</label>"
+        + "<input name='username' id='username' style='float:right;margin:0 5px;'></input></p>"
+        + "<p><label for='password'>Password:</label>"
+        + "<input name='password' id='password' type='password' style='float:right;margin:0 5px;'></input></p>"
+        + "<input type='hidden' name='redirect'></input>"
         + "</div>";
   }
 }

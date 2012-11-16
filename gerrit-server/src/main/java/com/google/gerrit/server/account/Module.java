@@ -12,20 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.plugins;
+package com.google.gerrit.server.account;
 
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.server.config.FactoryModule;
 
-/** Plugins available from {@code /plugins/}. */
-public class PluginMap extends NativeMap<PluginInfo> {
-  public static void all(AsyncCallback<PluginMap> callback) {
-    new RestApi("/plugins/")
-        .addParameterTrue("all")
-        .send(NativeMap.copyKeysIntoChildren(callback));
-  }
+public class Module extends FactoryModule {
+  @Override
+  protected void configure() {
+    DynamicMap.mapOf(binder(), AccountResource.ACCOUNT_KIND);
 
-  protected PluginMap() {
+    bind(AccountResource.ACCOUNT_KIND)
+      .annotatedWith(Exports.named("GET.capabilities"))
+      .to(Capabilities.class);
   }
 }

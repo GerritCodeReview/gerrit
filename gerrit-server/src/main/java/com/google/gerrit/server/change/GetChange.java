@@ -12,20 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.plugins;
+package com.google.gerrit.server.change;
 
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
-/** Plugins available from {@code /plugins/}. */
-public class PluginMap extends NativeMap<PluginInfo> {
-  public static void all(AsyncCallback<PluginMap> callback) {
-    new RestApi("/plugins/")
-        .addParameterTrue("all")
-        .send(NativeMap.copyKeysIntoChildren(callback));
+public class GetChange implements RestReadView<ChangeResource> {
+  private final ChangeJson json;
+
+  @Inject
+  GetChange(ChangeJson json) {
+    this.json = json;
   }
 
-  protected PluginMap() {
+  @Override
+  public Object apply(ChangeResource rsrc) throws OrmException {
+    return json.format(rsrc);
   }
 }

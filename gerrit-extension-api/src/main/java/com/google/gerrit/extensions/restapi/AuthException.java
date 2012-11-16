@@ -12,20 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.plugins;
+package com.google.gerrit.extensions.restapi;
 
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+/** Caller cannot perform the request operation (HTTP 403 Forbidden). */
+public class AuthException extends RestApiException {
+  private static final long serialVersionUID = 1L;
 
-/** Plugins available from {@code /plugins/}. */
-public class PluginMap extends NativeMap<PluginInfo> {
-  public static void all(AsyncCallback<PluginMap> callback) {
-    new RestApi("/plugins/")
-        .addParameterTrue("all")
-        .send(NativeMap.copyKeysIntoChildren(callback));
-  }
-
-  protected PluginMap() {
+  /** @param msg message to return to the client. */
+  public AuthException(String msg) {
+    super(msg);
   }
 }

@@ -12,20 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.plugins;
+package com.google.gerrit.server.project;
 
-import com.google.gerrit.client.rpc.NativeMap;
-import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.common.base.Strings;
+import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Project;
 
-/** Plugins available from {@code /plugins/}. */
-public class PluginMap extends NativeMap<PluginInfo> {
-  public static void all(AsyncCallback<PluginMap> callback) {
-    new RestApi("/plugins/")
-        .addParameterTrue("all")
-        .send(NativeMap.copyKeysIntoChildren(callback));
-  }
-
-  protected PluginMap() {
+class GetParent implements RestReadView<ProjectResource> {
+  @Override
+  public Object apply(ProjectResource resource) {
+    Project project = resource.getControl().getProject();
+    return Strings.nullToEmpty(project.getParentName());
   }
 }

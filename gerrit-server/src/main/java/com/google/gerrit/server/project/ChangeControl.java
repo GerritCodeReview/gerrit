@@ -291,12 +291,16 @@ public class ChangeControl {
 
   /** Can this user edit the topic name? */
   public boolean canEditTopicName() {
-    return isOwner() // owner (aka creator) of the change can edit topic
-        || getRefControl().isOwner() // branch owner can edit topic
-        || getProjectControl().isOwner() // project owner can edit topic
-        || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
-        || getRefControl().canEditTopicName() // user can edit topic on a specific ref
-    ;
+    if (change.getStatus().isOpen()) {
+      return isOwner() // owner (aka creator) of the change can edit topic
+          || getRefControl().isOwner() // branch owner can edit topic
+          || getProjectControl().isOwner() // project owner can edit topic
+          || getCurrentUser().getCapabilities().canAdministrateServer() // site administers are god
+          || getRefControl().canEditTopicName() // user can edit topic on a specific ref
+      ;
+    } else {
+      return getRefControl().canForceEditTopicName();
+    }
   }
 
   public List<SubmitRecord> getSubmitRecords(ReviewDb db, PatchSet patchSet) {

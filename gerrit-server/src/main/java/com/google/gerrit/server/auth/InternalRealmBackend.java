@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.auth.AuthUser.UUID;
 import com.google.gerrit.server.auth.UserData.Builder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -35,7 +34,7 @@ public class InternalRealmBackend implements RealmBackend {
   }
 
   @Override
-  public boolean handles(UUID uuid) {
+  public boolean handles(AuthUser.UUID uuid) {
     return uuid.uuid().startsWith(AccountExternalId.SCHEME_GERRIT);
   }
 

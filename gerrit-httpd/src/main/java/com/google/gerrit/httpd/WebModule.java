@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
+import com.google.gerrit.httpd.auth.AuthenticationServlet;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
+import com.google.inject.servlet.ServletModule;
 import java.net.SocketAddress;
 
 public class WebModule extends LifecycleModule {
@@ -77,6 +79,14 @@ public class WebModule extends LifecycleModule {
     listener().toInstance(registerInParentInjectors());
 
     install(UniversalWebLoginFilter.module());
+    install(
+        new ServletModule() {
+          @Override
+          protected void configureServlets() {
+            serve("/authenticate").with(AuthenticationServlet.class);
+            serve("/login/*").with(AuthenticationServlet.class);
+          }
+        });
   }
 
   private void installAuthModule() {

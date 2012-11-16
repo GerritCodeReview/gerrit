@@ -1511,3 +1511,9 @@ a:hover.downloadLink {
 .projectFilterLabel {
   margin-right: 5px;
 }
+
+/** AuthenticationDialog **/
+.signInFailedLabel {
+	color: red;
+	text-align: center;
+}

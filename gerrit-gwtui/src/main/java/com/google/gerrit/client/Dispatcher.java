@@ -19,6 +19,7 @@ import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
+import static com.google.gerrit.common.PageLinks.AUTH_DIALOG;
 import static com.google.gerrit.common.PageLinks.DASHBOARDS;
 import static com.google.gerrit.common.PageLinks.MINE;
 import static com.google.gerrit.common.PageLinks.PROJECTS;
@@ -228,6 +229,8 @@ public class Dispatcher {
         || matchPrefix("q,", token)) {
       redirectFromLegacyToken(token, legacySettings(token));
 
+    } else if (matchExact(AUTH_DIALOG, token)) {
+      Gerrit.showAuthDialog();
     } else {
       Gerrit.display(token, new NotFoundScreen());
     }

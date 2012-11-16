@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 
 import java.util.List;
-import java.util.Map;
 
 /** Data sent as part of the host page, to bootstrap the UI. */
 public class HostPageData {
@@ -28,7 +27,7 @@ public class HostPageData {
   public GerritConfig config;
   public Theme theme;
   public List<String> plugins;
-  public Map<String, String> authPages;
+  public List<String> authPages;
 
   public static class Theme {
     public String backgroundColor;

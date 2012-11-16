@@ -129,6 +129,10 @@ public interface ChangeConstants extends Constants {
   String headingRevertMessage();
   String revertChangeTitle();
 
+  String headingEditCommitMessage();
+  String titleEditCommitMessage();
+  String labelWarningEditCommitMessage();
+
   String buttonAbandonChangeBegin();
   String buttonAbandonChangeSend();
   String headingAbandonMessage();

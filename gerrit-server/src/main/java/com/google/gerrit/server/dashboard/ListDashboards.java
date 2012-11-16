@@ -352,6 +352,7 @@ public class ListDashboards {
       throws IOException, ConfigInvalidException {
     DashboardInfo info = new DashboardInfo();
     info.dashboardName = path;
+    info.section = refName.substring(REFS_DASHBOARDS.length());
     info.refName = refName;
     info.projectName = project.getName();
     info.id = createId(info.refName, info.dashboardName);
@@ -389,6 +390,7 @@ public class ListDashboards {
     final String kind = "gerritcodereview#dashboard";
     String id;
     String dashboardName;
+    String section;
     String refName;
     String projectName;
     String description;

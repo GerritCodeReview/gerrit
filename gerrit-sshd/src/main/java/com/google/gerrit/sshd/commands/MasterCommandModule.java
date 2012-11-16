@@ -42,5 +42,6 @@ public class MasterCommandModule extends CommandModule {
 
     command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
     command(testSubmit, "rule").to(TestSubmitRule.class);
+    command(testSubmit, "type").to(TestSubmitType.class);
   }
 }

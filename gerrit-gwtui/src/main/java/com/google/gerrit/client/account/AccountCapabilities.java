@@ -21,11 +21,9 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 /** Capabilities the caller has from {@code /accounts/self/capabilities}.  */
 public class AccountCapabilities extends JavaScriptObject {
   public static void all(AsyncCallback<AccountCapabilities> cb, String... filter) {
-    RestApi api = new RestApi("/accounts/self/capabilities");
-    for (String name : filter) {
-      api.addParameter("q", name);
-    }
-    api.send(cb);
+    new RestApi("/accounts/self/capabilities")
+      .addParameter("q", filter)
+      .get(cb);
   }
 
   protected AccountCapabilities() {

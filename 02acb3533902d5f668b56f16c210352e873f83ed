@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///+I\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-16T23:19:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsH///6M\u003d",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsH///6c\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
         "patchSetId": 4
@@ -84,6 +102,24 @@
       "writtenOn": "2012-11-16T19:33:41Z",
       "side": 1,
       "message": "Just name it \u0027headerSideA\u0027?",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///+E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-16T23:19:33Z",
+      "side": 1,
+      "message": "nice name! I like.\nDone",
+      "parentUuid": "AAALsH///6c\u003d",
       "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -107,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///+A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-16T23:19:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsH///6Y\u003d",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsH///6g\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
         "patchSetId": 4
@@ -118,6 +172,24 @@
       "writtenOn": "2012-11-16T19:33:41Z",
       "side": 1,
       "message": "Rename this method to \u0027initHeaders\u0027?",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///98\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-16T23:19:33Z",
+      "side": 1,
+      "message": "dry name! I like.\n\n\nDone",
+      "parentUuid": "AAALsH///6g\u003d",
       "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -141,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///94\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-16T23:19:33Z",
+      "side": 1,
+      "message": "this idea make the code more readable! \nI like.\n\nDone",
+      "parentUuid": "AAALsH///6k\u003d",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsH///6E\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
         "patchSetId": 4
@@ -152,6 +242,24 @@
       "writtenOn": "2012-11-16T20:27:15Z",
       "side": 1,
       "message": "Is there a reason to have a variable isFile once there is a function for it?",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///90\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-16T23:19:33Z",
+      "side": 1,
+      "message": "sorry to make you confused by creating this variable suddenly in this feature.\nthe background is In later features of this topic we will check in diff view if the table header\u0027s side \u0027A\u0027 or  \u0027B\u0027  is a file or not before trying to display that icon or trying to make the header clickable,  \n\"\nif (psListOfHeaderA.isFile) {\n\"\nso in the topic scope I think it is better to prepare a variable in this feature  thus in later feature reviewing context cores can save some times.  yeah if this is a single feature we really need not a variable.",
+      "parentUuid": "AAALsH///6E\u003d",
       "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

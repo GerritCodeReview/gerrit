@@ -17,10 +17,11 @@ package com.google.gerrit.httpd.auth.container;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
-import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.httpd.auth.AuthenticationServlet;
+import com.google.gerrit.httpd.auth.HttpAuthRequest;
 import com.google.gerrit.server.account.AccountManager;
-import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.auth.AuthException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtexpui.server.CacheHeaders;
@@ -115,11 +116,15 @@ class HttpLoginServlet extends HttpServlet {
       return;
     }
 
-    final AuthRequest areq = AuthRequest.forUser(user);
+    String password =
+        req.getParameter(AuthenticationServlet.PARAMETER_PASSWORD);
+    HttpAuthRequest areq =
+        new HttpAuthRequest(user, password, (HttpServletRequest) req,
+            (HttpServletResponse) req);
     final AuthResult arsp;
     try {
       arsp = accountManager.authenticate(areq);
-    } catch (AccountException e) {
+    } catch (AuthException e) {
       log.error("Unable to authenticate user \"" + user + "\"", e);
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
       return;

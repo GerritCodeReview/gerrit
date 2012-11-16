@@ -2030,6 +2030,7 @@ public class ReceiveCommits {
       }
     }
 
+    boolean validated = true;
     for (CommitValidationListener validator : commitValidators) {
       CommitValidationResult validationResult =
           validator.onCommitReceived(new CommitReceivedEvent(cmd, project, ctl
@@ -2039,14 +2040,18 @@ public class ReceiveCommits {
       final String messageSuffix = String.format("%s%s",
           pluginName, description.isEmpty() ? "" : ": " + description);
       if (!validationResult.isValidated()) {
-        reject(cmd, String.format("Rejected by plugin %s", messageSuffix));
-        return false;
+        addMessage(String.format("Rejected by plugin %s", messageSuffix));
+        validated = false;
       } else {
         addMessage(String.format("Validated by plugin %s", messageSuffix));
       }
     }
 
-    return true;
+    if (!validated) {
+      reject(cmd, "Commit validation failed");
+    }
+
+    return validated;
   }
 
   /**

@@ -37,15 +37,6 @@ public class DefaultRealm implements Realm {
   }
 
   @Override
-  public AuthRequest authenticate(final AuthRequest who) {
-    if (who.getEmailAddress() == null && who.getLocalUser() != null
-        && emailExpander.canExpand(who.getLocalUser())) {
-      who.setEmailAddress(emailExpander.expand(who.getLocalUser()));
-    }
-    return who;
-  }
-
-  @Override
   public AuthRequest link(ReviewDb db, Account.Id to, AuthRequest who) {
     return who;
   }

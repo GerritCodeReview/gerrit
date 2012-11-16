@@ -24,7 +24,6 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -2036,12 +2035,14 @@ public class ReceiveCommits {
           validator.onCommitReceived(new CommitReceivedEvent(cmd, project, ctl
               .getRefName(), c, currentUser));
       final String pluginName = pluginLoader.getPluginName(validator);
-      final String message = validationResult.getDescription();
+      final String description = validationResult.getDescription();
+      final String messageSuffix = String.format("%s%s",
+          pluginName, description.isEmpty() ? "" : ": " + description);
       if (!validationResult.isValidated()) {
-        reject(cmd, String.format("%s (rejected by plugin %s)", message, pluginName));
+        reject(cmd, String.format("Rejected by plugin %s", messageSuffix));
         return false;
-      } else if (!Strings.isNullOrEmpty(message)) {
-        addMessage(String.format("(W) %s (from plugin %s)", message, pluginName));
+      } else {
+        addMessage(String.format("Validated by plugin %s", messageSuffix));
       }
     }
 

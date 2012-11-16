@@ -73,8 +73,7 @@ class SshScope {
     public CurrentUser getCurrentUser() {
       final CurrentUser user = session.getCurrentUser();
       if (user instanceof IdentifiedUser) {
-        return userFactory.create(user.getAccessPath(), //
-            ((IdentifiedUser) user).getAccountId());
+        return userFactory.create(((IdentifiedUser) user).getAccountId());
       }
       return user;
     }

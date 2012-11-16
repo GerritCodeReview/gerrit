@@ -16,7 +16,6 @@ package com.google.gerrit.sshd;
 
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
@@ -116,14 +115,8 @@ public final class SuExec extends BaseCommand {
     } else {
       peer = peerAddress;
     }
-
-    return new SshSession(session.get(), peer, userFactory.create(
-        AccessPath.SSH_COMMAND, new Provider<SocketAddress>() {
-          @Override
-          public SocketAddress get() {
-            return peer;
-          }
-        }, accountId));
+    return new SshSession(session.get(), peer,
+        userFactory.create(peer, accountId));
   }
 
   private static String join(List<String> args) {

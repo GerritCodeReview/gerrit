@@ -21,7 +21,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -29,7 +28,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 
 import java.io.IOException;
-import java.net.SocketAddress;
 
 public abstract class AbstractGitCommand extends BaseCommand {
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
@@ -84,13 +82,10 @@ public abstract class AbstractGitCommand extends BaseCommand {
   }
 
   private SshSession newSession() {
-    return new SshSession(session, session.getRemoteAddress(), userFactory
-        .create(AccessPath.GIT, new Provider<SocketAddress>() {
-          @Override
-          public SocketAddress get() {
-            return session.getRemoteAddress();
-          }
-        }, user.getAccountId()));
+    SshSession n = new SshSession(session, session.getRemoteAddress(),
+        userFactory.create(session.getRemoteAddress(), user.getAccountId()));
+    n.setAccessPath(AccessPath.GIT);
+    return n;
   }
 
   private void service() throws IOException, Failure {

@@ -24,14 +24,9 @@ import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AuthRequest;
-import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.Realm;
-import com.google.gerrit.server.auth.AuthenticationUnavailableException;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.SchemaFactory;
@@ -47,7 +42,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -56,7 +50,6 @@ import javax.naming.CompositeName;
 import javax.naming.Name;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
-import javax.security.auth.login.LoginException;
 
 @Singleton
 class LdapRealm implements Realm {
@@ -64,29 +57,14 @@ class LdapRealm implements Realm {
   static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   static final String USERNAME = "username";
 
-  private final Helper helper;
-  private final AuthConfig authConfig;
-  private final EmailExpander emailExpander;
   private final LoadingCache<String, Optional<Account.Id>> usernameCache;
   private final Set<Account.FieldName> readOnlyAccountFields;
-  private final Config config;
-
-  private final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache;
 
   @Inject
   LdapRealm(
-      final Helper helper,
-      final AuthConfig authConfig,
-      final EmailExpander emailExpander,
-      @Named(LdapModule.GROUP_CACHE) final LoadingCache<String, Set<AccountGroup.UUID>> membershipCache,
       @Named(LdapModule.USERNAME_CACHE) final LoadingCache<String, Optional<Account.Id>> usernameCache,
       @GerritServerConfig final Config config) {
-    this.helper = helper;
-    this.authConfig = authConfig;
-    this.emailExpander = emailExpander;
     this.usernameCache = usernameCache;
-    this.membershipCache = membershipCache;
-    this.config = config;
 
     this.readOnlyAccountFields = new HashSet<Account.FieldName>();
 
@@ -181,70 +159,6 @@ class LdapRealm implements Realm {
 
     String r = p.replace(values);
     return r.isEmpty() ? null : r;
-  }
-
-  @Override
-  public AuthRequest authenticate(final AuthRequest who)
-      throws AccountException {
-    if (config.getBoolean("ldap", "localUsernameToLowerCase", false)) {
-      who.setLocalUser(who.getLocalUser().toLowerCase(Locale.US));
-    }
-
-    final String username = who.getLocalUser();
-    try {
-      final DirContext ctx;
-      if (authConfig.getAuthType() == AuthType.LDAP_BIND) {
-        ctx = helper.authenticate(username, who.getPassword());
-      } else {
-        ctx = helper.open();
-      }
-      try {
-        final Helper.LdapSchema schema = helper.getSchema(ctx);
-        final LdapQuery.Result m = helper.findAccount(schema, ctx, username);
-
-        if (authConfig.getAuthType() == AuthType.LDAP && !who.isSkipAuthentication()) {
-          // We found the user account, but we need to verify
-          // the password matches it before we can continue.
-          //
-          helper.authenticate(m.getDN(), who.getPassword());
-        }
-
-        who.setDisplayName(apply(schema.accountFullName, m));
-        who.setUserName(apply(schema.accountSshUserName, m));
-
-        if (schema.accountEmailAddress != null) {
-          who.setEmailAddress(apply(schema.accountEmailAddress, m));
-
-        } else if (emailExpander.canExpand(username)) {
-          // If LDAP cannot give us a valid email address for this user
-          // try expanding it through the older email expander code which
-          // assumes a user name within a domain.
-          //
-          who.setEmailAddress(emailExpander.expand(username));
-        }
-
-        // Fill the cache with the user's current groups. We've already
-        // spent the cost to open the LDAP connection, we might as well
-        // do one more call to get their group membership. Since we are
-        // in the middle of authenticating the user, its likely we will
-        // need to know what access rights they have soon.
-        //
-        membershipCache.put(username, helper.queryForGroups(ctx, username, m));
-        return who;
-      } finally {
-        try {
-          ctx.close();
-        } catch (NamingException e) {
-          log.warn("Cannot close LDAP query handle", e);
-        }
-      }
-    } catch (NamingException e) {
-      log.error("Cannot query LDAP to autenticate user", e);
-      throw new AuthenticationUnavailableException("Cannot query LDAP for account", e);
-    } catch (LoginException e) {
-      log.error("Cannot authenticate server via JAAS", e);
-      throw new AuthenticationUnavailableException("Cannot query LDAP for account", e);
-    }
   }
 
   @Override

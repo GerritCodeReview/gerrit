@@ -24,8 +24,8 @@ public class DefaultAuthorizationPage implements AuthorizationPage {
   @Override
   public String getAuthPageContent() {
     return "<div>" +
-             "<p>Username: <input name='username'/></p>" +
-             "<p>Password: <input name='password' type='password'/></p>" +
+             "<p>Username: <input name='username' id='username' ></input></p>" +
+             "<p>Password: <input name='password' type='password'></input></p>" +
            "</div>";
   }
 

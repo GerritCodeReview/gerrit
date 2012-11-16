@@ -40,7 +40,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
   private final ChangeJson json;
 
   public static class Input {
-    String message;
+    public String message;
   }
 
   @Inject

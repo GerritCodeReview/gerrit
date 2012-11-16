@@ -81,6 +81,14 @@ public class CommitValidationResult {
   }
 
   /**
+   * Default constructor.
+   */
+  public CommitValidationResult() {
+    this.validated = false;
+    this.message = "";
+  }
+
+  /**
    * Gets validation status.
    *
    * @return validation status.

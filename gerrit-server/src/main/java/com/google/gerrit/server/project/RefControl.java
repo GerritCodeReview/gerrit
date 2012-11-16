@@ -336,6 +336,19 @@ public class RefControl {
     return canPerform(Permission.EDIT_TOPIC_NAME);
   }
 
+  public boolean canForceEditTopicName() {
+    boolean result = false;
+    for (PermissionRule rule : access(Permission.EDIT_TOPIC_NAME)) {
+      if (rule.isBlock()) {
+        return false;
+      }
+      if (rule.getForce()) {
+        result = true;
+      }
+    }
+    return result;
+  }
+
   /** All value ranges of any allowed label permission. */
   public List<PermissionRange> getLabelRanges() {
     List<PermissionRange> r = new ArrayList<PermissionRange>();

@@ -146,7 +146,7 @@ public class ChangeInfoBlock extends Composite {
     ChangeDetailCache detailCache = ChangeCache.get(chg.getId()).getChangeDetailCache();
     ChangeDetail changeDetail = detailCache.get();
 
-    if (chg.getStatus().isOpen() && changeDetail.canEditTopicName()) {
+    if (changeDetail.canEditTopicName()) {
       final Image edit = new Image(Gerrit.RESOURCES.edit());
       edit.addClickHandler(new  ClickHandler() {
         @Override

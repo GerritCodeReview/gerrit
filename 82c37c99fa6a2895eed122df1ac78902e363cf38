@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsH///1A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T19:41:45Z",
+      "side": 1,
+      "message": "Intentional?",
+      "revId": "82c37c99fa6a2895eed122df1ac78902e363cf38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

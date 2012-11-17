@@ -41,6 +41,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.PutInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -247,7 +248,7 @@ public class RestApiServlet extends HttpServlet {
       replyError(res, SC_FORBIDDEN, e.getMessage());
     } catch (BadRequestException e) {
       replyError(res, SC_BAD_REQUEST, e.getMessage());
-    } catch (InvalidMethodException e) {
+    } catch (MethodNotAllowedException e) {
       replyError(res, SC_METHOD_NOT_ALLOWED, "Method not allowed");
     } catch (ResourceConflictException e) {
       replyError(res, SC_CONFLICT, e.getMessage());
@@ -265,7 +266,7 @@ public class RestApiServlet extends HttpServlet {
   private Object parseRequest(HttpServletRequest req, Class<Object> type)
       throws IOException, BadRequestException, SecurityException,
       IllegalArgumentException, NoSuchMethodException, IllegalAccessException,
-      InstantiationException, InvocationTargetException, InvalidMethodException {
+      InstantiationException, InvocationTargetException, MethodNotAllowedException {
     if (isType(JSON_TYPE, req.getContentType())) {
       BufferedReader br = req.getReader();
       try {
@@ -326,7 +327,7 @@ public class RestApiServlet extends HttpServlet {
   private Object parsePutInput(final HttpServletRequest req, Class<Object> type)
       throws SecurityException, NoSuchMethodException,
       IllegalArgumentException, InstantiationException, IllegalAccessException,
-      InvocationTargetException, InvalidMethodException {
+      InvocationTargetException, MethodNotAllowedException {
     Object obj = createInstance(type);
     for (Field f : type.getDeclaredFields()) {
       if (f.getType() == PutInput.class) {
@@ -350,7 +351,7 @@ public class RestApiServlet extends HttpServlet {
         return obj;
       }
     }
-    throw new InvalidMethodException();
+    throw new MethodNotAllowedException();
   }
 
   private Object parseString(String value, Class<Object> type)
@@ -513,7 +514,7 @@ public class RestApiServlet extends HttpServlet {
   private RestView<RestResource> view(
       RestCollection<RestResource, RestResource> rc,
       String method, List<String> path) throws ResourceNotFoundException,
-      InvalidMethodException, AmbiguousViewException {
+      MethodNotAllowedException, AmbiguousViewException {
     DynamicMap<RestView<RestResource>> views = rc.views();
     final String projection = path.isEmpty() ? "/" : path.remove(0);
     if (!path.isEmpty()) {
@@ -678,10 +679,6 @@ public class RestApiServlet extends HttpServlet {
 
   private static Heap heap(int max) {
     return new TemporaryBuffer.Heap(max);
-  }
-
-  @SuppressWarnings("serial")
-  private static class InvalidMethodException extends Exception {
   }
 
   @SuppressWarnings("serial")

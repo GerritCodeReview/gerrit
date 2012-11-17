@@ -14,22 +14,28 @@
 
 package com.google.gerrit.audit;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.server.CurrentUser;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class AuditEvent {
 
   public static final String UNKNOWN_SESSION_ID = "000000000000000000000000000";
   private static final Object UNKNOWN_RESULT = "N/A";
+  private static final Multimap<String, ?> EMPTY_PARAMS = HashMultimap.create();
 
   public final String sessionId;
   public final CurrentUser who;
   public final long when;
   public final String what;
-  public final List<?> params;
+  public final Multimap<String, ?> params;
   public final Object result;
   public final long timeAtStart;
   public final long elapsed;
@@ -80,7 +86,7 @@ public class AuditEvent {
    * @param what object of the event
    * @param params parameters of the event
    */
-  public AuditEvent(String sessionId, CurrentUser who, String what, List<?> params) {
+  public AuditEvent(String sessionId, CurrentUser who, String what, Multimap<String, ?> params) {
     this(sessionId, who, what, System.currentTimeMillis(), params,
         UNKNOWN_RESULT);
   }
@@ -96,26 +102,18 @@ public class AuditEvent {
    * @param result result of the event
    */
   public AuditEvent(String sessionId, CurrentUser who, String what, long when,
-      List<?> params, Object result) {
+      Multimap<String, ?> params, Object result) {
     Preconditions.checkNotNull(what, "what is a mandatory not null param !");
 
-    this.sessionId = getValueWithDefault(sessionId, UNKNOWN_SESSION_ID);
+    this.sessionId = Objects.firstNonNull(sessionId, UNKNOWN_SESSION_ID);
     this.who = who;
     this.what = what;
     this.when = when;
     this.timeAtStart = this.when;
-    this.params = getValueWithDefault(params, Collections.emptyList());
+    this.params = Objects.firstNonNull(params, EMPTY_PARAMS);
     this.uuid = new UUID();
     this.result = result;
     this.elapsed = System.currentTimeMillis() - timeAtStart;
-  }
-
-  private <T> T getValueWithDefault(T value, T defaultValueIfNull) {
-    if (value == null) {
-      return defaultValueIfNull;
-    } else {
-      return value;
-    }
   }
 
   @Override
@@ -153,11 +151,20 @@ public class AuditEvent {
       for (int i = 0; i < params.size(); i++) {
         if (i > 0) sb.append(',');
 
-        Object param = params.get(i);
-        if (param == null) {
-          sb.append("null");
-        } else {
-          sb.append(param);
+        if(params != null) {
+          Set<String> paramNames = params.keySet();
+          for (String paramName : paramNames) {
+            sb.append("name=");
+            sb.append(paramName);
+            int numValues = 0;
+            Collection<?> paramValues = params.get(paramName);
+            for (Object paramValue : paramValues) {
+              sb.append(Objects.firstNonNull(paramValue, "null"));
+              if(numValues++ > 0) {
+                sb.append(",");
+              }
+            }
+          }
         }
       }
       sb.append(']');

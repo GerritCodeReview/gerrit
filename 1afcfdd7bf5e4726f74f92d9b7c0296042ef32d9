@@ -16,6 +16,24 @@
       "revId": "1afcfdd7bf5e4726f74f92d9b7c0296042ef32d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///6o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-17T03:19:27Z",
+      "side": 1,
+      "message": "I agree, but I would prefer to do this in a follow-up change.",
+      "parentUuid": "AAALsn///7I\u003d",
+      "revId": "1afcfdd7bf5e4726f74f92d9b7c0296042ef32d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

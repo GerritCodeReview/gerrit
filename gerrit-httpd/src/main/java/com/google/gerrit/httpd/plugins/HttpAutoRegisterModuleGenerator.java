@@ -14,14 +14,20 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnnotation;
+
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.server.plugins.InvalidPluginException;
 import com.google.gerrit.server.plugins.ModuleGenerator;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
+import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.ServletModule;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
@@ -29,12 +35,23 @@ import javax.servlet.http.HttpServlet;
 class HttpAutoRegisterModuleGenerator extends ServletModule
     implements ModuleGenerator {
   private final Map<String, Class<HttpServlet>> serve = Maps.newHashMap();
+  private final Multimap<TypeLiteral<?>, Class<?>> listeners = LinkedListMultimap.create();
 
   @Override
   protected void configureServlets() {
     for (Map.Entry<String, Class<HttpServlet>> e : serve.entrySet()) {
       bind(e.getValue()).in(Scopes.SINGLETON);
       serve(e.getKey()).with(e.getValue());
+    }
+    for (Map.Entry<TypeLiteral<?>, Class<?>> e : listeners.entries()) {
+      @SuppressWarnings("unchecked")
+      TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
+
+      @SuppressWarnings("unchecked")
+      Class<Object> impl = (Class<Object>) e.getValue();
+
+      Annotation n = calculateBindAnnotation(impl);
+      bind(type).annotatedWith(n).to(impl);
     }
   }
 
@@ -60,6 +77,11 @@ class HttpAutoRegisterModuleGenerator extends ServletModule
           type.getName(), export.value(),
           HttpServlet.class.getName()));
     }
+  }
+
+  @Override
+  public void listen(TypeLiteral<?> tl, Class<?> clazz) {
+    listeners.put(tl, clazz);
   }
 
   @Override

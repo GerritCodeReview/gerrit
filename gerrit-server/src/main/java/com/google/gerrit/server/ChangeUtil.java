@@ -190,10 +190,11 @@ public class ChangeUtil {
     if (patch == null) {
       throw new NoSuchChangeException(changeId);
     }
+    final Change changeToRevert = db.changes().get(changeId);
 
     final Repository git;
     try {
-      git = gitManager.openRepository(db.changes().get(changeId).getProject());
+      git = gitManager.openRepository(changeToRevert.getProject());
     } catch (RepositoryNotFoundException e) {
       throw new NoSuchChangeException(changeId, e);
     }
@@ -234,8 +235,9 @@ public class ChangeUtil {
           new Change.Key("I" + computedChangeId.name()),
           new Change.Id(db.nextChangeId()),
           user.getAccountId(),
-          db.changes().get(changeId).getDest());
+          changeToRevert.getDest());
       change.nextPatchSetId();
+      change.setTopic(changeToRevert.getTopic());
 
       final PatchSet ps = new PatchSet(change.currPatchSetId());
       ps.setCreatedOn(change.getCreatedOn());

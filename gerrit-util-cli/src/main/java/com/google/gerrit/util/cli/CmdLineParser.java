@@ -328,7 +328,6 @@ public class CmdLineParser {
       return handler;
     }
 
-    @SuppressWarnings("rawtypes")
     private void ensureOptionsInitialized() {
       if (options == null) {
         help = new HelpOption();

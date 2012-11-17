@@ -15,8 +15,8 @@
 package com.google.gerrit.client;
 
 import static com.google.gerrit.common.data.GlobalCapability.ADMINISTRATE_SERVER;
-import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
+import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 
 import com.google.gerrit.client.account.AccountCapabilities;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;

@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
 
 public class Plugin {
   public static enum ApiType {
-    EXTENSION, PLUGIN;
+    EXTENSION, PLUGIN, JS;
   }
 
   /** Unique key that changes whenever a plugin reloads. */
@@ -74,6 +74,8 @@ public class Plugin {
       return ApiType.EXTENSION;
     } else if (ApiType.PLUGIN.name().equalsIgnoreCase(v)) {
       return ApiType.PLUGIN;
+    } else if (ApiType.JS.name().equalsIgnoreCase(v)) {
+      return ApiType.JS;
     } else {
       throw new InvalidPluginException("Invalid Gerrit-ApiType: " + v);
     }

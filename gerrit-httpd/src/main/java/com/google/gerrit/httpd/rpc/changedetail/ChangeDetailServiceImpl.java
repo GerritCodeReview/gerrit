@@ -30,19 +30,16 @@ class ChangeDetailServiceImpl implements ChangeDetailService {
   private final IncludedInDetailFactory.Factory includedInDetail;
   private final PatchSetDetailFactory.Factory patchSetDetail;
   private final PatchSetPublishDetailFactory.Factory patchSetPublishDetail;
-  private final AlterTopicHandler.Factory alterTopic;
 
   @Inject
   ChangeDetailServiceImpl(final ChangeDetailFactory.Factory changeDetail,
       final IncludedInDetailFactory.Factory includedInDetail,
       final PatchSetDetailFactory.Factory patchSetDetail,
-      final PatchSetPublishDetailFactory.Factory patchSetPublishDetail,
-      final AlterTopicHandler.Factory alterTopic) {
+      final PatchSetPublishDetailFactory.Factory patchSetPublishDetail) {
     this.changeDetail = changeDetail;
     this.includedInDetail = includedInDetail;
     this.patchSetDetail = patchSetDetail;
     this.patchSetPublishDetail = patchSetPublishDetail;
-    this.alterTopic = alterTopic;
   }
 
   public void changeDetail(final Change.Id id,
@@ -68,10 +65,5 @@ class ChangeDetailServiceImpl implements ChangeDetailService {
   public void patchSetPublishDetail(final PatchSet.Id id,
       final AsyncCallback<PatchSetPublishDetail> callback) {
     patchSetPublishDetail.create(id).to(callback);
-  }
-
-  public void alterTopic(final Change.Id id, final String topic,
-      final String message, final AsyncCallback<ChangeDetail> callback) {
-    alterTopic.create(id, topic, message).to(callback);
   }
 }

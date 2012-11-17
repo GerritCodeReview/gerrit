@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -39,5 +40,17 @@ public class ChangeApi {
     Message msg = new Message();
     msg.setMessage(message);
     new RestApi(URI + changeId + "/abandon").data(msg).post(callback);
+  }
+
+  private static class PutTopic extends JavaScriptObject {
+    final native void setTopic(String t) /*-{ this.topic = t; }-*/;
+    final native void setMessage(String m) /*-{ this.message = m; }-*/;
+  }
+
+  public static void topic(int id, String topic, String msg, AsyncCallback<String> cb) {
+    PutTopic t = new PutTopic();
+    t.setTopic(topic);
+    t.setMessage(msg != null && !msg.isEmpty() ? msg : null);
+    new RestApi(URI + id + "/topic").data(t).put(NativeString.unwrap(cb));
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsn///6E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T03:26:24Z",
+      "side": 1,
+      "message": "This feels like it belongs closer to the implementations in the subclasses (despite the fact that it might get duplicated).",
+      "revId": "ffdb0eb8d7a4e5b18b0a7ea27426936e145a3515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

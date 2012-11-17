@@ -17,6 +17,7 @@ package com.google.gerrit.client.dashboards;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
@@ -124,7 +125,9 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     table.setWidget(row, 2, new Anchor(k.path(), "#" + k.url()));
     table.setText(row, 3, k.description());
     if (k.project() != null && !project.get().equals(k.project())) {
-      table.setText(row, 4, k.project());
+      table.setWidget(row, 4, new Anchor(k.project(), "#"
+                  + PageLinks.toProjectDashboards(new Project.NameKey(k
+                      .project()))));
     }
     setRowItem(row, k);
   }

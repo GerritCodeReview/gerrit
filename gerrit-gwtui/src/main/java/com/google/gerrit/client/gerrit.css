@@ -640,6 +640,9 @@
 .patchContentTable tr.commentHolder .iconCell {
   background: white;
 }
+.patchContentTable tr.commentHolder .iconCellOfFileCommentRow {
+  background: trimColor;
+}
 .patchContentTable td.commentHolder {
   padding-left: 0;
   padding-right: 0;
@@ -763,6 +766,11 @@
   text-decoration: underline;
 }
 
+.patchContentTable td.cellsNextToFileComment {
+  background: trimColor;
+  border-top: trimColor;
+  border-bottom: trimColor;
+}
 .patchContentTable .activeRow .iconCell,
 .patchContentTable .activeRow .lineNumber {
   background: selectionColor;
@@ -775,6 +783,7 @@
 .patchContentTable .activeRow .wdc,
 .patchContentTable .activeRow .wdd,
 .patchContentTable .activeRow .wdi,
+.patchContentTable .activeRow .iconCellOfFileCommentRow,
 .patchContentTable .activeRow td.commentHolder.commentPanelLast  {
   border-bottom: 1px solid blue;
 }

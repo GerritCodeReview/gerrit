@@ -163,7 +163,7 @@ public class PatchSetSelectBox extends Composite {
     return anchor;
   }
 
-  private boolean isFile() {
+  public boolean isFile() {
     boolean isCommitMessage = Patch.COMMIT_MSG.equals(script.getNewName());
     return !(isCommitMessage || //
         (side == Side.A && 0 >= script.getA().size()) || //

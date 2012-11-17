@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsH///4E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T01:26:45Z",
+      "side": 1,
+      "message": "s/destory/destroy/  (same below on line 633)",
+      "revId": "e9b879fdaa0895768cd7ddec2ceddbf5c6be320a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsH///4I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T01:26:45Z",
+      "side": 1,
+      "message": "destroy",
+      "revId": "e9b879fdaa0895768cd7ddec2ceddbf5c6be320a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

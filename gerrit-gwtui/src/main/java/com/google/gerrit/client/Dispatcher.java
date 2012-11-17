@@ -409,7 +409,10 @@ public class Dispatcher {
               new GerritCallback<DashboardInfo>() {
                 @Override
                 public void onSuccess(DashboardInfo result) {
-                  select(result.url());
+                  if (matchPrefix("/dashboard/", result.url())) {
+                    String rest = skip(result.url());
+                    Gerrit.display(token, new CustomDashboardScreen(rest.substring(1)));
+                  }
                 }
               });
           return;

@@ -299,6 +299,24 @@
       "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///8c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-17T01:30:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///8o\u003d",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

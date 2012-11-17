@@ -263,6 +263,24 @@
       "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsH///5E\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/PatchSetSelectBox.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T00:02:26Z",
+      "side": 1,
+      "message": "OK, but is there a performance reason not to just do:  \n\n  if (psListOfHeaderA.isFile()) {\n\ninstead?  Having to maintain state and ensure that isFile() was called to set isFile seems like it adds an extra maintenance burden.",
+      "parentUuid": "AAALsn///90\u003d",
+      "revId": "02acb3533902d5f668b56f16c210352e873f83ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

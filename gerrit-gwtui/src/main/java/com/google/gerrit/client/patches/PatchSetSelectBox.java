@@ -23,10 +23,13 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -65,6 +68,7 @@ public class PatchSetSelectBox extends Composite {
   Side side;
   PatchScreen.Type screenType;
   Map<Integer, Anchor> links;
+  private Label patchSet;
 
   @UiField
   HTMLPanel linkPanel;
@@ -79,8 +83,8 @@ public class PatchSetSelectBox extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
   }
 
-  public void display(final PatchSetDetail detail, final PatchScript script, Patch.Key key,
-      PatchSet.Id idSideA, PatchSet.Id idSideB) {
+  public void display(final PatchSetDetail detail, final PatchScript script,
+      Patch.Key key, PatchSet.Id idSideA, PatchSet.Id idSideB) {
     this.script = script;
     this.patchKey = key;
     this.idSideA = idSideA;
@@ -90,7 +94,11 @@ public class PatchSetSelectBox extends Composite {
 
     linkPanel.clear();
 
-    Label patchSet = new Label(PatchUtil.C.patchSet());
+    if (isFile()) {
+      linkPanel.setTitle(PatchUtil.C.addFileCommentByDoubleClick());
+    }
+
+    patchSet = new Label(PatchUtil.C.patchSet());
     patchSet.addStyleName(style.patchSetLabel());
     linkPanel.add(patchSet);
 
@@ -133,6 +141,12 @@ public class PatchSetSelectBox extends Composite {
     if (downloadLink != null) {
       linkPanel.add(downloadLink);
     }
+  }
+
+  public void addDoubleClickHandler(DoubleClickHandler handler) {
+    linkPanel.sinkEvents(Event.ONDBLCLICK);
+    linkPanel.addHandler(handler, DoubleClickEvent.getType());
+    patchSet.addDoubleClickHandler(handler);
   }
 
   private Anchor createLink(String label, final PatchSet.Id id) {

@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsH///3Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T02:18:59Z",
+      "side": 1,
+      "message": "s/Add/Create/ ?",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsH///3U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T02:18:59Z",
+      "side": 1,
+      "message": "The patchSetId includes the changeId, so the public version of this method should probably only take one or the other (separate methods which call a private one with both if you need to be able to specify either).",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsH///3Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T02:18:59Z",
+      "side": 1,
+      "message": "Instead of getting a changeDetail, would it be simpler to just pass in canEditCommitMessage() to this widget?  Unless you were trying to wire this panel up explicitly to listen to the detailCache (so that it changes when the detail changes), but I don\u0027t see that being done?",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsH///3M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/EditCommitMessageHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T02:18:59Z",
+      "side": 1,
+      "message": "If the user gets past line 101 (validate), I believe they may see the change.  In that case I don\u0027t think we should obfuscate the error with a NoSuchChangeException.",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsH///3I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T02:18:59Z",
+      "side": 1,
+      "message": "Feels like obfuscation.",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsH///3E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T02:18:59Z",
+      "side": 1,
+      "message": "This is misses any exceptions thrown while creating a RevWalker (for git only)",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -21,6 +21,7 @@ import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.ProjectLink;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.SubmitTypeRecord;
@@ -39,6 +40,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 
 public class ChangeInfoBlock extends Composite {
   private static final int R_CHANGE_ID = 0;
@@ -185,9 +187,19 @@ public class ChangeInfoBlock extends Composite {
     @Override
     public void onSend() {
       String topic = newTopic.getText();
-      Util.DETAIL_SVC.alterTopic(change.getId(), topic,
-        getMessageText(), createCallback());
+      ChangeApi.topic(change.getId().get(), topic, getMessageText(),
+        new AsyncCallback<String>() {
+        @Override
+        public void onSuccess(String result) {
+          sent = true;
+          Gerrit.display(PageLinks.toChange(change.getId()));
+          hide();
+        }
+
+        @Override
+        public void onFailure(Throwable caught) {
+          enableButtons(true);
+        }});
     }
   }
-
 }

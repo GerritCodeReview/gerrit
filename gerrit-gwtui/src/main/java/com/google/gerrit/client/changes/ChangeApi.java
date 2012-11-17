@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwtjsonrpc.common.AsyncCallback;
@@ -25,10 +26,6 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 public class ChangeApi {
   private static final String URI = "/changes/";
 
-  protected static class Message extends JavaScriptObject {
-    public final native void setMessage(String value) /*-{ this.message = value; }-*/;
-  }
-
   /**
    * Sends a REST call to abandon a change and notify a callback. TODO: switch
    * to use the new id triplet (project~branch~change) once that data is
@@ -36,8 +33,24 @@ public class ChangeApi {
    */
   public static void abandon(int changeId, String message,
       AsyncCallback<ChangeInfo> callback) {
-    Message msg = (Message) JavaScriptObject.createObject();
-    msg.setMessage(message);
-    new RestApi(URI + changeId + "/abandon").data(msg).post(callback);
+    Input input = new Input();
+    input.setMessage(emptyToNull(message));
+    new RestApi(URI + changeId + "/abandon").data(input).post(callback);
+  }
+
+  public static void topic(int id, String topic, String msg, AsyncCallback<String> cb) {
+    Input input = new Input();
+    input.setTopic(emptyToNull(topic));
+    input.setMessage(emptyToNull(msg));
+    new RestApi(URI + id + "/topic").data(input).put(NativeString.unwrap(cb));
+  }
+
+  private static class Input extends JavaScriptObject {
+    final native void setTopic(String t) /*-{ this.topic = t; }-*/;
+    final native void setMessage(String m) /*-{ this.message = m; }-*/;
+  }
+
+  private static String emptyToNull(String str) {
+    return str == null || str.isEmpty() ? null : str;
   }
 }

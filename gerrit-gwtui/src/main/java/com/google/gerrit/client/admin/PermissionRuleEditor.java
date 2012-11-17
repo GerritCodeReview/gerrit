@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import static com.google.gerrit.common.data.Permission.EDIT_TOPIC_NAME;
 import static com.google.gerrit.common.data.Permission.PUSH;
 import static com.google.gerrit.common.data.Permission.PUSH_TAG;
 
@@ -137,8 +138,11 @@ public class PermissionRuleEditor extends Composite implements
     if (canForce) {
       String ref = section.getName();
       canForce = !ref.startsWith("refs/for/") && !ref.startsWith("^refs/for/");
+      force.setText(PermissionRule.FORCE_PUSH);
+    } else {
+      canForce = EDIT_TOPIC_NAME.equals(name);
+      force.setText(PermissionRule.FORCE_EDIT);
     }
-    force.setText(PermissionRule.FORCE_PUSH);
     force.setVisible(canForce);
     force.setEnabled(!readOnly);
 

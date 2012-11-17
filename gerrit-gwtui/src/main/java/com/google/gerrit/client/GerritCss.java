@@ -26,6 +26,7 @@ public interface GerritCss extends CssResource {
   String accountUsername();
   String accountPassword();
   String activeRow();
+  String fileCommentBorder();
   String addMemberTextBox();
   String addReviewer();
   String removeReviewer();

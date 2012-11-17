@@ -606,36 +606,43 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       }
     }
     if (removeRow) {
-      for (int r = row - 1; 0 <= r; r--) {
-        boolean data = false;
-        for (int c = 0; c < table.getCellCount(r); c++) {
-          data |= table.getWidget(r, c) != null;
-          final int s = table.getFlexCellFormatter().getRowSpan(r, c) - 1;
-          if (r + s == row) {
-            table.getFlexCellFormatter().setRowSpan(r, c, s);
-          }
-        }
-        if (!data) {
-          break;
-        }
-      }
-      table.removeRow(row);
+      destroyCommentRow(row);
     } else {
-      table.getFlexCellFormatter().setStyleName(//
-          row, col, Gerrit.RESOURCES.css().diffText());
-
-      if (span != 1) {
-        table.getFlexCellFormatter().setRowSpan(row, col, 1);
-        for (int r = row + 1; r < row + span; r++) {
-          table.insertCell(r, col);
-
-          table.getFlexCellFormatter().setStyleName(//
-              r, col, Gerrit.RESOURCES.css().diffText());
-        }
-      }
+      destroyComment(row, col, span);
     }
   }
 
+  protected void destroyCommentRow(int row) {
+    for (int r = row - 1; 0 <= r; r--) {
+      boolean data = false;
+      for (int c = 0; c < table.getCellCount(r); c++) {
+        data |= table.getWidget(r, c) != null;
+        final int s = table.getFlexCellFormatter().getRowSpan(r, c) - 1;
+        if (r + s == row) {
+          table.getFlexCellFormatter().setRowSpan(r, c, s);
+        }
+      }
+      if (!data) {
+        break;
+      }
+    }
+    table.removeRow(row);
+  }
+
+  private void destroyComment(int row, int col, int span) {
+    table.getFlexCellFormatter().setStyleName(//
+        row, col, Gerrit.RESOURCES.css().diffText());
+
+    if (span != 1) {
+      table.getFlexCellFormatter().setRowSpan(row, col, 1);
+      for (int r = row + 1; r < row + span; r++) {
+        table.insertCell(r, col);
+
+        table.getFlexCellFormatter().setStyleName(//
+            r, col, Gerrit.RESOURCES.css().diffText());
+      }
+    }
+  }
 
   protected void bindComment(final int row, final int col,
       final PatchLineComment line, final boolean isLast, boolean expandComment) {

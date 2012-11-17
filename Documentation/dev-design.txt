@@ -8,7 +8,7 @@ Gerrit is a web based code review system, facilitating online code
 reviews for projects using the Git version control system.
 
 Gerrit makes reviews easier by showing changes in a side-by-side
-display, and allowing inline comments to be added by any reviewer.
+display, and allowing inline/file comments to be added by any reviewer.
 
 Gerrit simplifies Git based project maintainership by permitting
 any authorized user to submit changes to the master Git repository,
@@ -99,11 +99,11 @@ selected by Gerrit by identifying users who have change approval
 permissions in the project.
 
 Reviewers use the web interface to read the side-by-side or unified
-diff of a change, and insert draft inline comments where appropriate.
-A draft comment is visible only to the reviewer, until they publish
-those comments.  Published comments are automatically emailed to
-the change author by Gerrit, and are CC'd to all other reviewers
-who have already commented on the change.
+diff of a change, and insert draft inline/file comments where
+appropriate. A draft comment is visible only to the reviewer, until
+they publish those comments.  Published comments are automatically
+emailed to the change author by Gerrit, and are CC'd to all other
+reviewers who have already commented on the change.
 
 When publishing comments reviewers are also given the opportunity
 to score the change, indicating whether they feel the change is
@@ -553,8 +553,8 @@ CPU Usage - Web UI
 
 Gerrit's web UI would require on average `4+F+F*C` HTTP requests to
 review a change and post comments.  Here `F` is the number of files
-modified by the change, and `C` is the number of inline comments left
-by the reviewer per file.  The constant 4 accounts for the request
+modified by the change, and `C` is the number of inline/file comments
+left by the reviewer per file.  The constant 4 accounts for the request
 to load the reviewer's dashboard, to load the change detail page,
 to publish the review comments, and to reload the change detail
 page after comments are published.

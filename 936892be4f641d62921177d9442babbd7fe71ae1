@@ -16,6 +16,24 @@
       "revId": "936892be4f641d62921177d9442babbd7fe71ae1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///8s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-17T02:20:14Z",
+      "side": 1,
+      "message": "yeah, I am very sorry .\nthese is old code seems cherry-pick get them out again.\n please do not stop review new patch-set  :)\n\nDone",
+      "parentUuid": "AAALsH///5M\u003d",
+      "revId": "936892be4f641d62921177d9442babbd7fe71ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

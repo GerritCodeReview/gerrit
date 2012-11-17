@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsH///40\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/PermissionRuleEditor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T01:01:22Z",
+      "side": 1,
+      "message": "nit: Maybe the text variable isn\u0027t really needed?  You could just set the text in each clause of the if.",
+      "revId": "0cc937d8c96bc195aab54ed4ac8bbd317925e989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsH///4s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T01:01:22Z",
+      "side": 1,
+      "message": "I know you didn\u0027t do this in this change, but maybe the admin shouldn\u0027t get this right?  And if he should, we probably should give a justification beyond \"god\" (I know that is used in many places in this file, we should fix it everywhere) in the comment.",
+      "revId": "0cc937d8c96bc195aab54ed4ac8bbd317925e989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

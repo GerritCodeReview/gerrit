@@ -14,9 +14,13 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.audit.AuditEvent;
 import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.audit.RpcAuditEvent;
 import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.common.errors.NotSignedInException;
@@ -37,6 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,7 +73,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   @Override
   protected GerritCall createActiveCall(final HttpServletRequest req,
       final HttpServletResponse rsp) {
-    final GerritCall call = new GerritCall(session.get(), req, rsp);
+    final GerritCall call = new GerritCall(session.get(), req, new AuditedHttpServletResponse(rsp));
     currentCall.set(call);
     return call;
   }
@@ -134,62 +139,86 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       if (note != null) {
         final String sid = call.getWebSession().getSessionId();
         final CurrentUser username = call.getWebSession().getCurrentUser();
-        final List<Object> args =
+        final Multimap<String, ?> args =
             extractParams(note, call);
-        final String what = extractWhat(note, method.getName());
+        final String what = extractWhat(note, call);
         final Object result = call.getResult();
 
-        audit.dispatch(new AuditEvent(sid, username, what, call.getWhen(), args,
-            result));
+        audit.dispatch(new RpcAuditEvent(sid, username, what, call.getWhen(),
+            args, call.getHttpServletRequest().getMethod(), call.getHttpServletRequest().getMethod(),
+            ((AuditedHttpServletResponse) (call.getHttpServletResponse()))
+                .getStatus(), result));
       }
     } catch (Throwable all) {
       log.error("Unable to log the call", all);
     }
   }
 
-  private List<Object> extractParams(final Audit note, final GerritCall call) {
-    List<Object> args = Lists.newArrayList(Arrays.asList(call.getParams()));
+  private Multimap<String, ?> extractParams(final Audit note, final GerritCall call) {
+    Multimap<String, Object> args = ArrayListMultimap.create();
+
+    Object[] params = call.getParams();
+    for (int i = 0; i < params.length; i++) {
+      args.put("$" + i, params[i]);
+    }
+
     for (int idx : note.obfuscate()) {
-      args.set(idx, "*****");
+      args.removeAll("$" + idx);
+      args.put("$" + idx, "*****");
     }
     return args;
   }
 
-  private String extractWhat(final Audit note, final String methodName) {
+  private String extractWhat(final Audit note, final GerritCall call) {
+    String methodClass = call.getMethodClass().getName();
+    methodClass = methodClass.substring(methodClass.lastIndexOf(".")+1);
     String what = note.action();
     if (what.length() == 0) {
-      boolean ccase = Character.isLowerCase(methodName.charAt(0));
-
-      StringBuilder sb = new StringBuilder();
-      for (int i = 0; i < methodName.length(); i++) {
-        char c = methodName.charAt(i);
-        if (ccase && !Character.isLowerCase(c)) {
-          sb.append(' ');
-        }
-        sb.append(Character.toLowerCase(c));
-      }
-      what = sb.toString();
+      what = call.getMethod().getName();
     }
 
-    return what;
+    return methodClass + "." + what;
   }
 
   static class GerritCall extends ActiveCall {
     private final WebSession session;
     private final long when;
     private static final Field resultField;
+    private static final Field methodField;
 
     // Needed to allow access to non-public result field in GWT/JSON-RPC
     static {
+      resultField = getPrivateField(ActiveCall.class, "result");
+      methodField = getPrivateField(MethodHandle.class, "method");
+    }
+
+    private static Field getPrivateField(Class<?> clazz, String fieldName) {
       Field declaredField = null;
       try {
-        declaredField = ActiveCall.class.getDeclaredField("result");
+        declaredField = clazz.getDeclaredField(fieldName);
         declaredField.setAccessible(true);
       } catch (Exception e) {
         log.error("Unable to expose RPS/JSON result field");
       }
+      return declaredField;
+    }
 
-      resultField = declaredField;
+    // Surrogate of the missing getMethodClass() in GWT/JSON-RPC
+    public Class<?> getMethodClass() {
+      if (methodField == null) {
+        return null;
+      }
+
+      try {
+        Method method = (Method) methodField.get(this.getMethod());
+        return method.getDeclaringClass();
+      } catch (IllegalArgumentException e) {
+        log.error("Cannot access result field");
+      } catch (IllegalAccessException e) {
+        log.error("No permissions to access result field");
+      }
+
+      return null;
     }
 
     // Surrogate of the missing getResult() in GWT/JSON-RPC

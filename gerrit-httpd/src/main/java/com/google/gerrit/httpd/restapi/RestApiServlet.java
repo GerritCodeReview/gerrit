@@ -37,6 +37,9 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.net.HttpHeaders;
+import com.google.gerrit.audit.AuditEvent;
+import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.audit.HttpAuditEvent;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
@@ -134,14 +137,17 @@ public class RestApiServlet extends HttpServlet {
     final Provider<CurrentUser> currentUser;
     final Provider<WebSession> webSession;
     final Provider<ParameterParser> paramParser;
+    final AuditService auditService;
 
     @Inject
     Globals(Provider<CurrentUser> currentUser,
         Provider<WebSession> webSession,
-        Provider<ParameterParser> paramParser) {
+        Provider<ParameterParser> paramParser,
+        AuditService auditService) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
+      this.auditService = auditService;
     }
   }
 
@@ -165,12 +171,16 @@ public class RestApiServlet extends HttpServlet {
   @Override
   protected final void service(HttpServletRequest req, HttpServletResponse res)
       throws ServletException, IOException {
+    long auditStartTs = System.currentTimeMillis();
     CacheHeaders.setNotCacheable(res);
     res.setHeader("Content-Disposition", "attachment");
     res.setHeader("X-Content-Type-Options", "nosniff");
+    int status = SC_OK;
+    Object result = null;
+    Multimap<String, String> params = LinkedHashMultimap.create();
+    Object inputRequestPayload = null;
 
     try {
-      int status = SC_OK;
       checkUserSession(req);
 
       List<String> path = splitPath(req);
@@ -252,19 +262,18 @@ public class RestApiServlet extends HttpServlet {
       }
 
       Multimap<String, String> config = LinkedHashMultimap.create();
-      Multimap<String, String> params = LinkedHashMultimap.create();
       ParameterParser.splitQueryString(req.getQueryString(), config, params);
       if (!globals.paramParser.get().parse(view, params, req, res)) {
         return;
       }
 
-      Object result;
       if (view instanceof RestModifyView<?, ?>) {
         @SuppressWarnings("unchecked")
         RestModifyView<RestResource, Object> m =
             (RestModifyView<RestResource, Object>) view;
 
-        result = m.apply(rsrc, parseRequest(req, m.inputType()));
+        inputRequestPayload = parseRequest(req, m.inputType());
+        result = m.apply(rsrc, inputRequestPayload);
       } else if (view instanceof RestReadView<?>) {
         result = ((RestReadView<RestResource>) view).apply(rsrc);
       } else {
@@ -290,21 +299,27 @@ public class RestApiServlet extends HttpServlet {
         }
       }
     } catch (AuthException e) {
-      replyError(res, SC_FORBIDDEN, e.getMessage());
+      replyError(res, status = SC_FORBIDDEN, e.getMessage());
     } catch (BadRequestException e) {
       replyError(res, SC_BAD_REQUEST, e.getMessage());
     } catch (MethodNotAllowedException e) {
       replyError(res, SC_METHOD_NOT_ALLOWED, "Method not allowed");
     } catch (ResourceConflictException e) {
-      replyError(res, SC_CONFLICT, e.getMessage());
+      replyError(res, status = SC_CONFLICT, e.getMessage());
     } catch (ResourceNotFoundException e) {
-      replyError(res, SC_NOT_FOUND, "Not found");
+      replyError(res, status = SC_NOT_FOUND, "Not found");
     } catch (AmbiguousViewException e) {
-      replyError(res, SC_NOT_FOUND, e.getMessage());
+      replyError(res, status = SC_NOT_FOUND, e.getMessage());
     } catch (JsonParseException e) {
-      replyError(res, SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
+      replyError(res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
     } catch (Exception e) {
+      status = SC_INTERNAL_SERVER_ERROR;
       handleException(e, req, res);
+    } finally {
+      globals.auditService.dispatch(new HttpAuditEvent(globals.webSession.get()
+          .getSessionId(), globals.currentUser.get(), req.getRequestURI(),
+          auditStartTs, params, req.getMethod(), inputRequestPayload, status,
+          result));
     }
   }
 

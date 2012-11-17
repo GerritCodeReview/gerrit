@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsH///2E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BackendSshAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-17T05:01:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALfX///4Q\u003d",
+      "revId": "783dd036273dcf774465187bc8db6fd170e5bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALfX///4M\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsH///2A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-17T05:01:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALfX///4M\u003d",
+      "revId": "783dd036273dcf774465187bc8db6fd170e5bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALfX///4I\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshModule.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-11-13T03:31:33Z",
       "side": 1,
       "message": "do we really need to bind DynamicSet\u003cAuthBackend\u003e once again. It should be already bind.",
+      "revId": "783dd036273dcf774465187bc8db6fd170e5bf91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsH///18\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/SshModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2012-11-17T05:01:47Z",
+      "side": 1,
+      "message": "If you don\u0027t bind to the DynamicSet, the legacy DatabasePubKeyAuth would not be available as Public Key authentication mechanism once migrated to the 2.6 release.\n\nAuthBackend.class is bound, but we need to register the legacy DataBasePubKeyAuth as \"legacy internal backend\".",
+      "parentUuid": "AAALfX///4I\u003d",
       "revId": "783dd036273dcf774465187bc8db6fd170e5bf91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

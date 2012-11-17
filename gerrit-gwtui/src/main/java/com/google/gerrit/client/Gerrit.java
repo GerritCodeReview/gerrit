@@ -81,7 +81,7 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
@@ -94,7 +94,7 @@ public class Gerrit implements EntryPoint {
   private static String myHost;
   private static GerritConfig myConfig;
   private static HostPageData.Theme myTheme;
-  private static Map<String, String> authPages;
+  private static List<String> authPages;
   private static Account myAccount;
   private static AccountDiffPreference myAccountDiffPref;
   private static String xsrfToken;

@@ -15,6 +15,8 @@
 package com.google.gerrit.client.auth;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -23,19 +25,17 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 
 public class AuthenticationDialog extends AutoCenterDialogBox {
-  private static final String AUTH_OK = "<pre>OK</pre>";
+  private static final String AUTH_OK = "OK</pre>";
 
-  public AuthenticationDialog(Map<String, String> authPages) {
+  public AuthenticationDialog(List<String> authPages) {
     super(true, true);
     if (authPages.size() > 1) {
       handleMultiAuthentication(authPages);
@@ -52,15 +52,15 @@ public class AuthenticationDialog extends AutoCenterDialogBox {
     GlobalKey.dialog(this);
   }
 
-  private void handleSingleAuthentication(Map<String, String> authPages) {
+  private void handleSingleAuthentication(List<String> authPages) {
     VerticalPanel container = new VerticalPanel();
-    FormPanel authForm = authForm(authPages.entrySet().iterator().next());
+    FormPanel authForm = authForm(authPages.get(0));
     container.add(authForm);
     container.add(submit(authForm));
     add(container);
   }
 
-  private void handleMultiAuthentication(Map<String, String> authPages) {
+  private void handleMultiAuthentication(List<String> authPages) {
     VerticalPanel container = new VerticalPanel();
     TabBar tabs = new TabBar();
     final VerticalPanel content = new VerticalPanel();
@@ -68,10 +68,10 @@ public class AuthenticationDialog extends AutoCenterDialogBox {
     container.add(tabs);
     container.add(content);
 
-    for (Entry<String, String> authPage : authPages.entrySet()) {
+    for (String authPage : authPages) {
       final VerticalPanel formContainer = new VerticalPanel();
       formContainer.setVisible(false);
-      Anchor tab = new Anchor(authPage.getKey());
+      Anchor tab = new Anchor(authPage);
       tab.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
@@ -95,14 +95,17 @@ public class AuthenticationDialog extends AutoCenterDialogBox {
     add(container);
   }
 
-  private FormPanel authForm(Entry<String, String> auth) {
+  private FormPanel authForm(String authName) {
     FormPanel form = new FormPanel();
     form.setAction("/authenticate");
-    form.add(new HTML(auth.getValue()));
+    form.setMethod(FormPanel.METHOD_POST);
+    Element authContainer = Document.get().getElementById("gerrit_auth_" + authName);
+    form.getElement().appendChild(authContainer);
     form.addSubmitCompleteHandler(new SubmitCompleteHandler() {
       @Override
       public void onSubmitComplete(SubmitCompleteEvent event) {
-        if (AUTH_OK.equals(event.getResults())) {
+        String results = event.getResults();
+        if (results != null && results.endsWith(AUTH_OK)) {
           Window.Location.reload();
         }
       }

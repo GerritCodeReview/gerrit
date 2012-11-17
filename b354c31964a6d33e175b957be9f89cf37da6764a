@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsH///4U\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeManageService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T01:21:37Z",
+      "side": 1,
+      "message": "Perhaps the focus of some of the implementation of this change should focus on the idea of \"creating new patchsets\" and editing the commit message is really just a piece of that bigger idea.  So, for example this method might be better off as createNewPatchset() and just happen to only take a commitMessage as a parameter.\n\nIt might be worth presenting this to the user that way a bit also, so instead of a popup with words about the commit message and a warning about the fact that it creates a new patchset, the popup could be titled \"Creating a New PatchSet\" and then you could dispense with the warning.  Eventually this popup might even get enhanced to be the final step of inline editing.",
+      "revId": "b354c31964a6d33e175b957be9f89cf37da6764a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

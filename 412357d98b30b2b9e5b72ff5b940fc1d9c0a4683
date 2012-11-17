@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsn///2U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-17T04:30:06Z",
+      "side": 1,
+      "message": "Could this variable be used to eliminate the need for \"isFileCommentBorderRowExist\"?",
+      "revId": "412357d98b30b2b9e5b72ff5b940fc1d9c0a4683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

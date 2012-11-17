@@ -14,13 +14,12 @@
 
 package ${package};
 
-import com.google.inject.AbstractModule;
-import com.google.gerrit.extensions.webui.WebUiPlugin;
+import com.google.gerrit.extensions.annotations.Listen;
 import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 
-class Module extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(WebUiPlugin.class).toInstance(new JavaScriptPlugin("hello-js-plugins.js"));
+@Listen
+public class MyJsExtension extends JavaScriptPlugin {
+  public MyJsExtension() {
+    super("hello-js-plugins.js");
   }
 }

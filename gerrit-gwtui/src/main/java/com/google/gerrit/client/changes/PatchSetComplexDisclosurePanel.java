@@ -13,7 +13,6 @@
 // limitations under the License.
 
 package com.google.gerrit.client.changes;
-
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
@@ -22,10 +21,10 @@ import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountLinkPanel;
-import com.google.gerrit.client.ui.CommentedActionDialog;
+import com.google.gerrit.client.ui.ActionDialog;
+import com.google.gerrit.client.ui.CherryPickDialog;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
-import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -44,12 +43,10 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
@@ -387,7 +384,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new CherryPickDialog(b) {
+          new CherryPickDialog(b, changeDetail.getChange().getProject()) {
             {
               sendButton.setText(Util.C.buttonCherryPickChangeSend());
               message.setText(Util.M.cherryPickedChangeDefaultMessage(
@@ -671,46 +668,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   public void setActive(boolean active) {
     if (patchTable != null) {
       patchTable.setActive(active);
-    }
-  }
-
-  private abstract class ActionDialog extends CommentedActionDialog<ChangeDetail> {
-    public ActionDialog(final FocusWidget enableOnFailure, final boolean redirect,
-        String dialogTitle, String dialogHeading) {
-      super(dialogTitle, dialogHeading, new ChangeDetailCache.IgnoreErrorCallback() {
-          @Override
-          public void onSuccess(ChangeDetail result) {
-            if (redirect) {
-              Gerrit.display(PageLinks.toChange(result.getChange().getId()));
-            } else {
-              super.onSuccess(result);
-            }
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            enableOnFailure.setEnabled(true);
-          }
-        });
-    }
-  }
-
-  private abstract class CherryPickDialog extends ActionDialog {
-    private TextBox newBranch;
-
-    CherryPickDialog(final FocusWidget enableOnFailure) {
-      super(enableOnFailure, true, Util.C.cherryPickTitle(), Util.C.cherryPickCommitMessage());
-
-      newBranch = new TextBox();
-      newBranch.setVisibleLength(65);
-      setFocusOn(newBranch);
-      message.setCharacterWidth(70);
-      panel.insert(newBranch, 0);
-      panel.insert(new SmallHeading(Util.C.headingCherryPickBranch()), 0);
-    }
-
-    public String getDestinationBranch() {
-      return newBranch.getText();
     }
   }
 }

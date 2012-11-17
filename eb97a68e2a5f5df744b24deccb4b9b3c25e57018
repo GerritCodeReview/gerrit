@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///6c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-17T03:32:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsH///3Y\u003d",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsH///3U\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-17T02:18:59Z",
       "side": 1,
       "message": "The patchSetId includes the changeId, so the public version of this method should probably only take one or the other (separate methods which call a private one with both if you need to be able to specify either).",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///6Q\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-17T03:32:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsH///3U\u003d",
       "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///6A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-17T03:32:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsH///3Q\u003d",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsH///3M\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/EditCommitMessageHandler.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2012-11-17T02:18:59Z",
       "side": 1,
       "message": "If the user gets past line 101 (validate), I believe they may see the change.  In that case I don\u0027t think we should obfuscate the error with a NoSuchChangeException.",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///5k\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/EditCommitMessageHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-17T03:32:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsH///3M\u003d",
       "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -98,6 +170,24 @@
       "writtenOn": "2012-11-17T02:18:59Z",
       "side": 1,
       "message": "This is misses any exceptions thrown while creating a RevWalker (for git only)",
+      "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///44\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-17T03:32:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsH///3E\u003d",
       "revId": "eb97a68e2a5f5df744b24deccb4b9b3c25e57018",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

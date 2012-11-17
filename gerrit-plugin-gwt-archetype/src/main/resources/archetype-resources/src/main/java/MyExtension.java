@@ -14,13 +14,12 @@
 
 package ${package};
 
-import com.google.inject.AbstractModule;
-import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.extensions.webui.GwtPlugin;
+import com.google.gerrit.extensions.annotations.Listen;
 
-class Module extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(WebUiPlugin.class).toInstance(new GwtPlugin("hello_gwt_plugins"));
+@Listen
+public class MyExtension extends GwtPlugin {
+  public MyExtension() {
+    super("hello_gwt_plugins");
   }
 }

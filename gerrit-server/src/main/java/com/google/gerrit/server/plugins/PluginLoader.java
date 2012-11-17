@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -473,6 +474,8 @@ public class PluginLoader implements LifecycleListener {
         return PluginName.class.getClassLoader();
       case PLUGIN:
         return PluginLoader.class.getClassLoader();
+      case JS:
+        return JavaScriptPlugin.class.getClassLoader();
       default:
         throw new InvalidPluginException("Unsupported ApiType " + type);
     }

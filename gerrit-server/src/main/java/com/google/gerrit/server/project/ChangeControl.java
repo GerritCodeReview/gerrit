@@ -456,11 +456,6 @@ public class ChangeControl {
   @SuppressWarnings("unchecked")
   public SubmitTypeRecord getSubmitTypeRecord(ReviewDb db, PatchSet patchSet,
       @Nullable ChangeData cd) {
-    if (!patchSet.getId().equals(change.currentPatchSetId())) {
-      return typeRuleError("Patch set " + patchSet.getPatchSetId()
-          + " is not current");
-    }
-
     try {
       if (change.getStatus() == Change.Status.DRAFT && !isDraftVisible(db, cd)) {
         return typeRuleError("Patch set " + patchSet.getPatchSetId()

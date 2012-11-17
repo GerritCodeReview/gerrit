@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnnotation;
 import static com.google.gerrit.server.plugins.PluginGuiceEnvironment.is;
 
 import com.google.common.collect.LinkedListMultimap;
@@ -26,7 +27,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
-import com.google.inject.internal.UniqueAnnotations;
 
 import org.eclipse.jgit.util.IO;
 import org.objectweb.asm.AnnotationVisitor;
@@ -116,16 +116,7 @@ class AutoRegisterModules {
           @SuppressWarnings("unchecked")
           Class<Object> impl = (Class<Object>) e.getValue();
 
-          Annotation n = impl.getAnnotation(Export.class);
-          if (n == null) {
-            n = impl.getAnnotation(javax.inject.Named.class);
-          }
-          if (n == null) {
-            n = impl.getAnnotation(com.google.inject.name.Named.class);
-          }
-          if (n == null) {
-            n = UniqueAnnotations.create();
-          }
+          Annotation n = calculateBindAnnotation(impl);
           bind(type).annotatedWith(n).to(impl);
         }
       }
@@ -248,6 +239,8 @@ class AutoRegisterModules {
         if (env.hasDynamicSet(tl)) {
           sysSingletons.add(clazz);
           sysListen.put(tl, clazz);
+          httpGen.listen(tl, clazz);
+          sshGen.listen(tl, clazz);
         } else if (env.hasDynamicMap(tl)) {
           if (clazz.getAnnotation(Export.class) == null) {
             throw new InvalidPluginException(String.format(
@@ -256,6 +249,8 @@ class AutoRegisterModules {
           }
           sysSingletons.add(clazz);
           sysListen.put(tl, clazz);
+          httpGen.listen(tl, clazz);
+          sshGen.listen(tl, clazz);
         } else {
           throw new InvalidPluginException(String.format(
               "Cannot register %s, server does not accept %s",

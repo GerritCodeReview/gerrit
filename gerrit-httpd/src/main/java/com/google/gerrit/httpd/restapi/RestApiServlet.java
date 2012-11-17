@@ -257,6 +257,7 @@ public class RestApiServlet extends HttpServlet {
     } catch (AmbiguousViewException e) {
       replyError(res, SC_NOT_FOUND, e.getMessage());
     } catch (JsonParseException e) {
+      e.printStackTrace();
       replyError(res, SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request");
     } catch (Exception e) {
       handleException(e, req, res);

@@ -16,20 +16,33 @@ package com.google.gerrit.server.change;
 
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
+import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.config.FactoryModule;
 
 public class Module extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
+    DynamicMap.mapOf(binder(), REVISION_KIND);
 
     get(CHANGE_KIND).to(GetChange.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
     child(CHANGE_KIND, "reviewers").to(Reviewers.class);
 
     get(REVIEWER_KIND).to(GetReviewer.class);
+
+    child(CHANGE_KIND, "revisions").to(Revisions.class);
+    post(REVISION_KIND, "review").to(PutReview.class);
+
+    install(new FactoryModule() {
+      @Override
+      protected void configure() {
+        factory(EmailReviewComments.Factory.class);
+      }
+    });
   }
 }

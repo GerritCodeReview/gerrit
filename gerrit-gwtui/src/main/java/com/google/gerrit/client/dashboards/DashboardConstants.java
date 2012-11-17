@@ -16,8 +16,6 @@ package com.google.gerrit.client.dashboards;
 
 import com.google.gwt.i18n.client.Constants;
 
-import java.util.Map;
-
 public interface DashboardConstants extends Constants {
   String dashboardName();
   String dashboardDescription();

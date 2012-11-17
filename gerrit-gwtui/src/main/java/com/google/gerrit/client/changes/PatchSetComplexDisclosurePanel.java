@@ -30,13 +30,16 @@ import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.ListBranchesResult;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -52,11 +55,15 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -387,7 +394,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          new CherryPickDialog(b) {
+          new CherryPickDialog(b, changeDetail.getChange().getProject()) {
             {
               sendButton.setText(Util.C.buttonCherryPickChangeSend());
               message.setText(Util.M.cherryPickedChangeDefaultMessage(
@@ -709,21 +716,67 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
   }
 
   private abstract class CherryPickDialog extends ActionDialog {
-    private TextBox newBranch;
+    private SuggestBox newBranch;
+    private List<Branch> branches;
 
-    CherryPickDialog(final FocusWidget enableOnFailure) {
-      super(enableOnFailure, true, Util.C.cherryPickTitle(), Util.C.cherryPickCommitMessage());
+    CherryPickDialog(final FocusWidget enableOnFailure, Project.NameKey project) {
+      super(enableOnFailure, true, Util.C.cherryPickTitle(), Util.C
+          .cherryPickCommitMessage());
+      com.google.gerrit.client.account.Util.PROJECT_SVC.listBranches(project,
+          new GerritCallback<ListBranchesResult>() {
+            @Override
+            public void onSuccess(ListBranchesResult result) {
+              branches = result.getBranches();
+            }
+          });
 
-      newBranch = new TextBox();
-      newBranch.setVisibleLength(65);
-      setFocusOn(newBranch);
+      newBranch = new SuggestBox(new HighlightSuggestOracle() {
+        @Override
+        protected void onRequestSuggestions(Request request, Callback done) {
+          LinkedList<BranchSuggestion> suggestions =
+              new LinkedList<BranchSuggestion>();
+          for (final Branch b : branches) {
+            if (b.getName().indexOf(request.getQuery()) >= 0) {
+              suggestions.add(new BranchSuggestion(b));
+            }
+          }
+          done.onSuggestionsReady(request, new Response(suggestions));
+        }
+      });
+
+      newBranch.setWidth("70ex");
       message.setCharacterWidth(70);
       panel.insert(newBranch, 0);
       panel.insert(new SmallHeading(Util.C.headingCherryPickBranch()), 0);
     }
 
+    @Override
+    public void center() {
+      super.center();
+      GlobalKey.dialog(this);
+      newBranch.setFocus(true);
+    }
+
     public String getDestinationBranch() {
       return newBranch.getText();
+    }
+
+    class BranchSuggestion implements Suggestion {
+      private Branch branch;
+
+      public BranchSuggestion(Branch branch) {
+        this.branch = branch;
+      }
+
+      @Override
+      public String getDisplayString() {
+        return branch.getName();
+      }
+
+      @Override
+      public String getReplacementString() {
+        return branch.getShortName();
+      }
     }
   }
 }

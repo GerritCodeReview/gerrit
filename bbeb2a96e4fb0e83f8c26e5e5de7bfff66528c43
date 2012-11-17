@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsn///zU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-17T17:10:45Z",
+      "side": 1,
+      "message": "Because of this change it\u0027s currently not possible anymore to create new branches through the ProjectBranchesScreen from the webui.",
+      "revId": "bbeb2a96e4fb0e83f8c26e5e5de7bfff66528c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

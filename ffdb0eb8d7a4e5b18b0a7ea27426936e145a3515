@@ -16,6 +16,24 @@
       "revId": "ffdb0eb8d7a4e5b18b0a7ea27426936e145a3515",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///4M\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-17T03:41:55Z",
+      "side": 1,
+      "message": "yes if this is a single feature it should not be here.\nin this topic scope  it is used by both   SideBySide table and Unified table \n so I abstract it to this class. please refer\nreference https://gerrit-review.googlesource.com/#/c/35820/10/gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java line 118.\n\nam I right? \n\nby the way,  thank a lot for your saving nearly all day time on this topic!  Martin.",
+      "parentUuid": "AAALsn///6E\u003d",
+      "revId": "ffdb0eb8d7a4e5b18b0a7ea27426936e145a3515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

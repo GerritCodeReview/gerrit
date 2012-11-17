@@ -447,7 +447,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   static class ProjectInfo {
-    @SuppressWarnings("unused")
     final String kind = "gerritcodereview#project";
 
     transient String name;

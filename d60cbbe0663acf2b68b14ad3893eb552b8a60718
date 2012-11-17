@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///24\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-17T04:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///3k\u003d",
+      "revId": "d60cbbe0663acf2b68b14ad3893eb552b8a60718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///38\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-17T03:50:30Z",
       "side": 1,
       "message": "I think you need a null check on the RevWalk now.",
+      "revId": "d60cbbe0663acf2b68b14ad3893eb552b8a60718",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///28\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-17T04:04:03Z",
+      "side": 1,
+      "message": "I went with deeper nesting instead (but only on the EditCommitMessage). Another patch for the other methods.",
+      "parentUuid": "AAALsn///38\u003d",
       "revId": "d60cbbe0663acf2b68b14ad3893eb552b8a60718",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

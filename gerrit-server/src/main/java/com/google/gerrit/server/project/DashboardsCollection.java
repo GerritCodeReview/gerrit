@@ -145,9 +145,14 @@ class DashboardsCollection implements
   }
 
   private static String defaultOf(Project proj) {
-    return Objects.firstNonNull(
+    final String defaultId = Objects.firstNonNull(
         proj.getLocalDefaultDashboard(),
         Strings.nullToEmpty(proj.getDefaultDashboard()));
+    if (defaultId.startsWith(REFS_DASHBOARDS)) {
+      return defaultId.substring(REFS_DASHBOARDS.length());
+    } else {
+      return defaultId;
+    }
   }
 
   static class DashboardInfo {

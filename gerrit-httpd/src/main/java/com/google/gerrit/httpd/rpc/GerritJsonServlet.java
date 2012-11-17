@@ -14,7 +14,10 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.audit.AuditEvent;
 import com.google.gerrit.audit.AuditService;
 import com.google.gerrit.common.audit.Audit;
@@ -133,7 +136,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       if (note != null) {
         final String sid = call.getWebSession().getSessionId();
         final CurrentUser username = call.getWebSession().getCurrentUser();
-        final List<Object> args =
+        final Multimap<String, ?> args =
             extractParams(note, call);
         final String what = extractWhat(note, method.getName());
         final Object result = call.getResult();
@@ -146,10 +149,17 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
     }
   }
 
-  private List<Object> extractParams(final Audit note, final GerritCall call) {
-    List<Object> args = Lists.newArrayList(Arrays.asList(call.getParams()));
+  private Multimap<String, ?> extractParams(final Audit note, final GerritCall call) {
+    Multimap<String, Object> args = ArrayListMultimap.create();
+
+    Object[] params = call.getParams();
+    for (int i = 0; i < params.length; i++) {
+      args.put("$" + i, params[i]);
+    }
+
     for (int idx : note.obfuscate()) {
-      args.set(idx, "*****");
+      args.removeAll("$" + idx);
+      args.put("$" + idx, "*****");
     }
     return args;
   }

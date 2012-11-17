@@ -14,9 +14,11 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.audit.AuditEvent;
 import com.google.gerrit.audit.AuditService;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
@@ -42,7 +44,6 @@ import org.eclipse.jgit.util.QuotedString;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -101,7 +102,7 @@ class SshLog implements LifecycleListener {
 
   void onLogin() {
     async.append(log("LOGIN FROM " + session.get().getRemoteAddressAsString()));
-    audit(context.get(), "0", "LOGIN", new String[] {});
+    audit(context.get(), "0", "LOGIN");
   }
 
   void onAuthFail(final SshSession sd) {
@@ -127,18 +128,14 @@ class SshLog implements LifecycleListener {
     }
 
     async.append(event);
-    audit(null, "FAIL", "AUTH", new String[] {sd.getRemoteAddressAsString()});
+    audit(null, "FAIL", "AUTH");
   }
 
-  void onExecute(int exitValue) {
+  void onExecute(DispatchCommand dcmd, int exitValue) {
     final Context ctx = context.get();
     ctx.finished = System.currentTimeMillis();
 
-    final String commandLine = ctx.getCommandLine();
-    String cmd = QuotedString.BOURNE.quote(commandLine);
-    if (cmd == commandLine) {
-      cmd = "'" + commandLine + "'";
-    }
+    String cmd = extractWhat(dcmd);
 
     final LoggingEvent event = log(cmd);
     event.setProperty(P_WAIT, (ctx.started - ctx.created) + "ms");
@@ -165,19 +162,41 @@ class SshLog implements LifecycleListener {
     event.setProperty(P_STATUS, status);
 
     async.append(event);
-    audit(context.get(), status, getCommand(commandLine),
-        CommandFactoryProvider.split(commandLine));
+    audit(context.get(), status, dcmd);
   }
 
-  private String getCommand(String commandLine) {
-    commandLine = commandLine.trim();
-    int spacePos = commandLine.indexOf(' ');
-    return (spacePos > 0 ? commandLine.substring(0, spacePos):commandLine);
+  private Multimap<String, ?> extractParameters(DispatchCommand dcmd) {
+    String[] cmdArgs = dcmd.getArguments();
+    String paramName = null;
+    int argPos = 0;
+    Multimap<String, String> parms = ArrayListMultimap.create();
+    for (int i = 2; i < cmdArgs.length; i++) {
+      String arg = cmdArgs[i];
+      if (arg.startsWith("-")) {
+        if (paramName != null) {
+          parms.put(paramName, null);
+        }
+        paramName = arg;
+      } else {
+        if (paramName == null) {
+          parms.put("$" + argPos++, arg);
+        } else {
+          parms.put(paramName, arg);
+          paramName = null;
+        }
+      }
+    }
+
+    if(paramName != null) {
+      parms.put(paramName, null);
+    }
+
+    return parms;
   }
 
   void onLogout() {
     async.append(log("LOGOUT"));
-    audit(context.get(), "0", "LOGOUT", new String[] {});
+    audit(context.get(), "0", "LOGOUT");
   }
 
   private LoggingEvent log(final String msg) {
@@ -416,21 +435,28 @@ class SshLog implements LifecycleListener {
     }
   }
 
-  void audit(Context ctx, Object result, String commandName, String[] args) {
+  void audit(Context ctx, Object result, String cmd) {
     final String sid = extractSessionId(ctx);
     final long created = extractCreated(ctx);
-    final String what = extractWhat(commandName, args);
     auditService.dispatch(new AuditEvent(sid, extractCurrentUser(ctx), "ssh:"
-        + what, created, Arrays.asList(args), result));
+        + cmd, created, null, result));
   }
 
-  private String extractWhat(String commandName, String[] args) {
-    String result = commandName;
-    if ("gerrit".equals(commandName)) {
-      if (args.length > 1)
-        result = "gerrit"+"."+args[1];
+  void audit(Context ctx, Object result, DispatchCommand cmd) {
+    final String sid = extractSessionId(ctx);
+    final long created = extractCreated(ctx);
+    auditService.dispatch(new AuditEvent(sid, extractCurrentUser(ctx), "ssh:"
+        + extractWhat(cmd), created, extractParameters(cmd), result));
+  }
+
+  private String extractWhat(DispatchCommand dcmd) {
+    String commandName = dcmd.getCommandName();
+    String[] args = dcmd.getArguments();
+    if (args.length > 1) {
+      return commandName + "." + args[1];
+    } else {
+      return commandName;
     }
-    return result;
   }
 
   private long extractCreated(final Context ctx) {

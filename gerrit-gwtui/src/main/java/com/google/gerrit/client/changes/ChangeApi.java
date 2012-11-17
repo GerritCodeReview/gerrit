@@ -25,7 +25,7 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 public class ChangeApi {
   private static final String URI = "/changes/";
 
-  private static class Message extends JavaScriptObject {
+  protected static class Message extends JavaScriptObject {
     public final native void setMessage(String value) /*-{ this.message = value; }-*/;
   }
 
@@ -36,7 +36,7 @@ public class ChangeApi {
    */
   public static void abandon(int changeId, String message,
       AsyncCallback<ChangeInfo> callback) {
-    Message msg = new Message();
+    Message msg = (Message) JavaScriptObject.createObject();
     msg.setMessage(message);
     new RestApi(URI + changeId + "/abandon").data(msg).post(callback);
   }

@@ -58,7 +58,7 @@ limitations under the License.
                    <pluginExecutionFilter>
                      <groupId>org.codehaus.mojo</groupId>
                      <artifactId>gwt-maven-plugin</artifactId>
-                     <versionRange>[2.4.0,)</versionRange>
+                     <versionRange>[2.5.0,)</versionRange>
                      <goals>
                        <goal>resources</goal>
                        <goal>compile</goal>
@@ -122,3 +122,4 @@ limitations under the License.
     </plugins>
   </build>
 </project>
+

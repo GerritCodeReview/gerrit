@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALtH///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-18T14:44:25Z",
+      "side": 1,
+      "message": "Is this check needed? I believe id should never be \u0027default\u0027 here since we are setting it above to either a dashboard-id (\u0027ref:name\u0027) or null.",
+      "revId": "8e6ccbcb68982bf688c7c6663fe49ea86a4bda29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALtH///+I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-18T14:44:25Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "8e6ccbcb68982bf688c7c6663fe49ea86a4bda29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

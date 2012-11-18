@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsn///xk\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-18T19:59:39Z",
+      "side": 1,
+      "message": "I suspect that you wanted to keep the same changeId after picking, but by putting the extra (non header line) after the changeid Gerrit ignores the changeid and creates a new one for the cherrypicked change.",
+      "revId": "da4a446983b8c41e77e72b00c2b017864f31c00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///xo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-18T19:59:39Z",
+      "side": 1,
+      "message": "You probably want to add \"refs/heads\" to the beginning of the string if the string does not start with \"refs\".  We do that in most places so that users can specify \"master\" as a shortcut.",
+      "revId": "da4a446983b8c41e77e72b00c2b017864f31c00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///xs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-18T19:59:39Z",
+      "side": 1,
+      "message": "s/exists/exist/\n\nIt might be better worded as \"Branch \"+dest..+\" does not exist.\"",
+      "revId": "da4a446983b8c41e77e72b00c2b017864f31c00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

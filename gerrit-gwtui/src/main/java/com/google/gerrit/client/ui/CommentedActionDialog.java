@@ -25,6 +25,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
@@ -38,6 +39,7 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
   protected final Button cancelButton;
   protected final FlowPanel buttonPanel;
   protected AsyncCallback<T> callback;
+  protected FocusWidget focusOn;
 
   protected boolean sent = false;
 
@@ -45,7 +47,6 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
       AsyncCallback<T> callback) {
     super(/* auto hide */false, /* modal */true);
     this.callback = callback;
-
     setGlassEnabled(true);
     setText(title);
 
@@ -55,7 +56,7 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
     message.setCharacterWidth(60);
     message.setVisibleLines(10);
     DOM.setElementPropertyBoolean(message.getElement(), "spellcheck", true);
-
+    setFocusOn(message);
     sendButton = new Button(Util.C.commentedActionButtonSend());
     sendButton.addClickHandler(new ClickHandler() {
       @Override
@@ -91,6 +92,10 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
     addCloseHandler(this);
   }
 
+  public void setFocusOn(FocusWidget focusWidget) {
+    focusOn = focusWidget;
+  }
+
   public void enableButtons(boolean enable) {
     sendButton.setEnabled(enable);
     cancelButton.setEnabled(enable);
@@ -100,7 +105,9 @@ public abstract class CommentedActionDialog<T> extends AutoCenterDialogBox
   public void center() {
     super.center();
     GlobalKey.dialog(this);
-    message.setFocus(true);
+    if (focusOn != null) {
+      focusOn.setFocus(true);
+    }
   }
 
   @Override

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsX///5c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-18T20:12:18Z",
+      "side": 1,
+      "message": "Maybe fileCommentHeader?",
+      "revId": "232bdea25a0e26e7bfa30f46f832c393bfd763db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

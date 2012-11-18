@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALsn///x0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-18T19:20:38Z",
+      "side": 1,
+      "message": "I know this is not part of your change, but I am just trying to understand some of this new code: doesn\u0027t this loop miss the All-Projects when ps \u003d\u003d null?",
+      "revId": "f39fec529f417314855c5856c89b88e9f9fc43f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALtH///+A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 1

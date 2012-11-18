@@ -171,14 +171,9 @@ public class ChangeInfoBlock extends Composite {
       change = chg;
 
       newTopic = new TextBox();
+      setFocusOn(newTopic);
       panel.insert(newTopic, 0);
       panel.insert(new InlineLabel(Util.C.alterTopicLabel()), 0);
-
-      Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-        public void execute () {
-          newTopic.setFocus(true);
-        }
-      });
     }
 
     @Override

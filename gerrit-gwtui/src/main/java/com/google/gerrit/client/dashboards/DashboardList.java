@@ -31,7 +31,9 @@ public class DashboardList extends NativeList<DashboardInfo> {
 
   public static void defaultDashboard(Project.NameKey project,
       AsyncCallback<DashboardInfo> callback) {
-    new RestApi(base(project) + "default").get(callback);
+    new RestApi(base(project) + "default")
+      .addParameterTrue("inherited")
+      .get(callback);
   }
 
   public static void get(Project.NameKey project, String dashboardId,

@@ -32,12 +32,16 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.kohsuke.args4j.Option;
 
 class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final DashboardsCollection dashboards;
   private final Provider<GetDashboard> get;
+
+  @Option(name = "--inherited", usage = "set dashboard inherited by children")
+  private boolean inherited;
 
   @Inject
   SetDefaultDashboard(ProjectCache cache,
@@ -84,7 +88,11 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
       try {
         ProjectConfig config = ProjectConfig.read(md);
         Project project = config.getProject();
-        project.setLocalDefaultDashboard(input.id);
+        if (inherited) {
+          project.setDefaultDashboard(input.id);
+        } else {
+          project.setLocalDefaultDashboard(input.id);
+        }
 
         String msg = Objects.firstNonNull(
           Strings.emptyToNull(input.commitMessage),
@@ -120,6 +128,9 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
       RestModifyView<ProjectResource, SetDashboard.Input> {
     private final Provider<SetDefaultDashboard> setDefault;
 
+    @Option(name = "--inherited", usage = "set dashboard inherited by children")
+    private boolean inherited;
+
     @Inject
     CreateDefault(Provider<SetDefaultDashboard> setDefault) {
       this.setDefault = setDefault;
@@ -134,9 +145,11 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
     public Object apply(ProjectResource resource, Input input)
         throws AuthException, BadRequestException, ResourceConflictException,
         Exception {
-      ProjectControl ctl = resource.getControl();
-      return setDefault.get().apply(
-          new DashboardResource(ctl, null, null, null, null, true), input);
+      SetDefaultDashboard set = setDefault.get();
+      set.inherited = inherited;
+      return set.apply(
+          DashboardResource.projectDefault(resource.getControl()),
+          input);
     }
   }
 }

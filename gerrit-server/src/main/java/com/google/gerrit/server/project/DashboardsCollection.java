@@ -36,6 +36,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.errors.AmbiguousObjectException;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -43,6 +44,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -84,12 +86,10 @@ class DashboardsCollection implements
 
   @Override
   public DashboardResource parse(ProjectResource parent, String id)
-      throws ResourceNotFoundException, Exception {
+      throws ResourceNotFoundException, IOException, ConfigInvalidException {
     ProjectControl ctl = parent.getControl();
-    boolean def = false;
     if ("default".equals(id)) {
-      id = defaultOf(ctl.getProject());
-      def = true;
+      return DashboardResource.projectDefault(ctl);
     }
 
     List<String> parts = Lists.newArrayList(
@@ -117,7 +117,7 @@ class DashboardsCollection implements
     try {
       ObjectId objId;
       try {
-        objId = git.resolve(Joiner.on(':').join(ref, path));
+        objId = git.resolve(ref + ':' + path);
       } catch (AmbiguousObjectException e) {
         throw new ResourceNotFoundException(id);
       } catch (IncorrectObjectTypeException e) {
@@ -127,7 +127,7 @@ class DashboardsCollection implements
         throw new ResourceNotFoundException();
       }
       BlobBasedConfig cfg = new BlobBasedConfig(null, git, objId);
-      return new DashboardResource(ctl, ref, path, objId, cfg, def);
+      return new DashboardResource(ctl, ref, path, cfg, false);
     } finally {
       git.close();
     }

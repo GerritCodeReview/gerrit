@@ -88,6 +88,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
+import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
@@ -401,20 +402,36 @@ public class Dispatcher {
       rest = rest.substring(c);
       if (matchPrefix(DASHBOARDS, rest)) {
         final String dashboardId = skip(rest);
+        GerritCallback<DashboardInfo> cb = new GerritCallback<DashboardInfo>() {
+          @Override
+          public void onSuccess(DashboardInfo result) {
+            if (matchPrefix("/dashboard/", result.url())) {
+              String rest = skip(result.url());
+              Gerrit.display(token, new CustomDashboardScreen(rest.substring(1)));
+            }
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            if ("default".equals(dashboardId)
+                && caught instanceof RemoteJsonException
+                && ((RemoteJsonException) caught).getCode() == 404) {
+              Gerrit.display(PageLinks.toChangeQuery(
+                  PageLinks.projectQuery(new Project.NameKey(project))));
+            } else {
+              super.onFailure(caught);
+            }
+          }
+        };
+        if ("default".equals(dashboardId)) {
+          DashboardList.getDefault(new Project.NameKey(project), cb);
+          return;
+        }
         c = dashboardId.indexOf(":");
         if (0 <= c) {
           final String ref = URL.decodePathSegment(dashboardId.substring(0, c));
           final String path = URL.decodePathSegment(dashboardId.substring(c + 1));
-          DashboardList.get(new Project.NameKey(project), ref + ":" + path,
-              new GerritCallback<DashboardInfo>() {
-                @Override
-                public void onSuccess(DashboardInfo result) {
-                  if (matchPrefix("/dashboard/", result.url())) {
-                    String rest = skip(result.url());
-                    Gerrit.display(token, new CustomDashboardScreen(rest.substring(1)));
-                  }
-                }
-              });
+          DashboardList.get(new Project.NameKey(project), ref + ":" + path, cb);
           return;
         }
       }

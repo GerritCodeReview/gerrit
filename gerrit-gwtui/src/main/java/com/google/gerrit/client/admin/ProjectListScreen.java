@@ -98,14 +98,8 @@ public class ProjectListScreen extends Screen {
 
       private Widget createSearchLink(final ProjectInfo projectInfo) {
         Image image = new Image(Gerrit.RESOURCES.queryProjectLink());
-        InlineHyperlink h;
-        if (projectInfo.defaultDashboard() != null) {
-          h = new InlineHyperlink(" ", PageLinks.toProjectDashboard(
-                  projectInfo.name_key(), projectInfo.defaultDashboard()));
-        } else {
-          h = new InlineHyperlink(" ", PageLinks.toChangeQuery(PageLinks
-                  .projectQuery(projectInfo.name_key())));
-        }
+        InlineHyperlink h = new InlineHyperlink(" ",
+            PageLinks.toProjectDashboard(projectInfo.name_key(), "default"));
         h.setTitle(Util.C.projectListQueryLink());
         DOM.insertBefore(h.getElement(), image.getElement(),
             DOM.getFirstChild(h.getElement()));

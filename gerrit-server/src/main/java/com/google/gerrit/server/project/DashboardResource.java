@@ -19,29 +19,29 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
 
 public class DashboardResource implements RestResource {
   public static final TypeLiteral<RestView<DashboardResource>> DASHBOARD_KIND =
       new TypeLiteral<RestView<DashboardResource>>() {};
 
+  static DashboardResource projectDefault(ProjectControl ctl) {
+    return new DashboardResource(ctl, null, null, null, true);
+  }
+
   private final ProjectControl control;
   private final String refName;
   private final String pathName;
-  private final ObjectId objId;
   private final Config config;
   private final boolean projectDefault;
 
   DashboardResource(ProjectControl control,
       String refName,
       String pathName,
-      ObjectId objId,
       Config config,
       boolean projectDefault) {
     this.control = control;
     this.refName = refName;
     this.pathName = pathName;
-    this.objId = objId;
     this.config = config;
     this.projectDefault = projectDefault;
   }
@@ -56,10 +56,6 @@ public class DashboardResource implements RestResource {
 
   public String getPathName() {
     return pathName;
-  }
-
-  public ObjectId getObjectId() {
-    return objId;
   }
 
   public Config getConfig() {

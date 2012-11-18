@@ -94,7 +94,12 @@ public class ChangesCollection implements
       }
       return Collections.emptyList();
     } else if (k.project == null && k.branch == null && k.changeId != null) {
-      return db.get().changes().byKey(new Change.Key(k.changeId)).toList();
+      Change.Key id = new Change.Key(k.changeId);
+      if (id.get().length() == 41) {
+        return db.get().changes().byKey(id).toList();
+      } else {
+        return db.get().changes().byKeyRange(id, id.max()).toList();
+      }
     }
     return db.get().changes().byBranchKey(
         k.branch(),
@@ -109,7 +114,7 @@ public class ChangesCollection implements
 
     ParsedId(String id) throws ResourceNotFoundException,
         UnsupportedEncodingException {
-      if (id.matches("^[0-9]+$")) {
+      if (id.matches("^[1-9][0-9]*$")) {
         legacyId = Change.Id.parse(id);
         return;
       }
@@ -117,7 +122,7 @@ public class ChangesCollection implements
       int t2 = id.lastIndexOf('~');
       int t1 = id.lastIndexOf('~', t2 - 1);
       if (t1 < 0 || t2 < 0) {
-        if (!id.matches("^I[0-9a-z]{40}$")) {
+        if (!id.matches("^I[0-9a-z]{4,40}$")) {
           throw new ResourceNotFoundException(id);
         }
         changeId = id;

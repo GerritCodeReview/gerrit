@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALtH///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-18T15:30:37Z",
+      "side": 1,
+      "message": "This fails with \u0027Contructor not ready\u0027. Any idea why? Am I doing anything wrong?\n\njava.lang.IllegalStateException: Constructor not ready\n\tat com.google.inject.internal.util.$Preconditions.checkState(Preconditions.java:142)\n\tat com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:246)\n\tat com.google.inject.internal.SingleParameterInjector.inject(SingleParameterInjector.java:38)\n\tat com.google.inject.internal.SingleParameterInjector.getAll(SingleParameterInjector.java:62)\n\tat com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:84)\n\tat com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:254)\n\tat com.google.inject.internal.InjectorImpl$4$1.call(InjectorImpl.java:978)\n\tat com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1024)\n\tat com.google.inject.internal.InjectorImpl$4.get(InjectorImpl.java:974)\n\tat com.google.gerrit.server.project.ListProjects.display(ListProjects.java:294)\n\tat com.google.gerrit.server.project.ListProjects.apply(ListProjects.java:196)\n\tat com.google.gerrit.server.project.ListProjects.apply(ListProjects.java:70)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:236)\n        ...",
+      "revId": "f39fec529f417314855c5856c89b88e9f9fc43f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

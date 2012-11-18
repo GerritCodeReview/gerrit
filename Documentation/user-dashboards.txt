@@ -1,8 +1,8 @@
-Gerrit Code Review - Custom Dashboards
-======================================
+Gerrit Code Review - Dashboards
+===============================
 
-Description
------------
+Custom Dashboards
+-----------------
 
 A custom dashboard is shown in a layout similar to the per-user
 dashboard, but the sections are entirely configured from the URL.

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///zE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///0Q\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///0M\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
         "patchSetId": 3
@@ -66,6 +84,24 @@
       "writtenOn": "2012-11-17T16:54:19Z",
       "side": 1,
       "message": "We don\u0027t have the \u0027...\u0027 for other buttons which open a dialog (e.g. abandon/restore buttons). So for consistency I would also have it here without the \u0027...\u0027.",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///zA\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "You are right.. I\u0027ll remove it, but I would probably prefer to have \"...\" everywhere we use a popup dialog (to allow us to get closer to the design guidelines of most OSes).\n\nIt is also serves as an hint to the user; that the action is not being carried out exactly when he press a button and that he will have the chance to cancel it. Motivates UI-exploration.",
+      "parentUuid": "AAALsn///0M\u003d",
       "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -125,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///y8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "I\u0027m trying to follow the \"git cherry-pick -x\" design.  Many CI systems relies on that naming convention. Not sure I want to change it. Is this a must? \n\nI did the same in the revert-button (We do not have a Reverted-From: \u003ccommit-id\u003e, but follow instead the cgit style).",
+      "parentUuid": "AAALsn///zg\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///zk\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 3
@@ -136,6 +190,24 @@
       "writtenOn": "2012-11-17T16:54:19Z",
       "side": 1,
       "message": "The focus should be automatically set in the branch field when the dialog is opened.",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///y4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///zk\u003d",
       "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -159,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///y0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Nice catch, went with canPushToAtLeastOneRef() though.",
+      "parentUuid": "AAALsn///0I\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///0E\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/CherryPickChange.java",
         "patchSetId": 3
@@ -170,6 +260,24 @@
       "writtenOn": "2012-11-17T16:54:19Z",
       "side": 1,
       "message": "nit: normally we have the assisted parameters as the last parameters in the constructor",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///yw\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///0E\u003d",
       "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -229,6 +337,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///ys\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///0A\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///z4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 3
@@ -240,6 +366,24 @@
       "writtenOn": "2012-11-17T16:54:19Z",
       "side": 1,
       "message": "unused import",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///yk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///z4\u003d",
       "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -263,6 +407,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///yo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///z0\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///z8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 3
@@ -274,6 +436,24 @@
       "writtenOn": "2012-11-17T16:54:19Z",
       "side": 1,
       "message": "Why was this changed?",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///yg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "It should not have been.",
+      "parentUuid": "AAALsn///z8\u003d",
       "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -333,6 +513,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///yc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///zw\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///zs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 3
@@ -344,6 +542,24 @@
       "writtenOn": "2012-11-17T16:54:19Z",
       "side": 1,
       "message": "The ObjectInserter needs to be released in the end.",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///yY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///zs\u003d",
       "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -367,6 +583,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///yU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///zo\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///zc\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 3
@@ -378,6 +612,24 @@
       "writtenOn": "2012-11-17T16:54:19Z",
       "side": 1,
       "message": "I\u0027m getting an NPE here (cherryPickCommit \u003d\u003d null) if I\u0027m trying to cherry-pick the commit to the same branch on which it is already. Not sure whether this is a needed use-case, but it should either work or fail with a proper error.",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///yQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-18T19:17:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsn///zc\u003d",
       "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

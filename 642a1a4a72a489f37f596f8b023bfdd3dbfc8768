@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALqH///xA\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-18T11:22:37Z",
+      "side": 1,
+      "message": "Actually \"to follow\" is correct in this context.",
+      "parentUuid": "AAALsn///0Q\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///0M\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
         "patchSetId": 3

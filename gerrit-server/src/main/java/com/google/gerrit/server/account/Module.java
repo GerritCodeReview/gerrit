@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import static com.google.gerrit.server.account.AccountResource.ACCOUNT_KIND;
+import static com.google.gerrit.server.account.AccountResource.CAPABILITY_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -23,7 +24,9 @@ public class Module extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
+    DynamicMap.mapOf(binder(), CAPABILITY_KIND);
 
-    get(ACCOUNT_KIND, "capabilities").to(Capabilities.class);
+    child(ACCOUNT_KIND, "capabilities").to(Capabilities.class);
+    get(CAPABILITY_KIND).to(GetCapabilities.CheckOne.class);
   }
 }

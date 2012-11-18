@@ -23,6 +23,9 @@ public class AccountResource implements RestResource {
   public static final TypeLiteral<RestView<AccountResource>> ACCOUNT_KIND =
       new TypeLiteral<RestView<AccountResource>>() {};
 
+  public static final TypeLiteral<RestView<Capability>> CAPABILITY_KIND =
+      new TypeLiteral<RestView<Capability>>() {};
+
   private final IdentifiedUser user;
 
   AccountResource(IdentifiedUser user) {
@@ -31,5 +34,27 @@ public class AccountResource implements RestResource {
 
   public IdentifiedUser getUser() {
     return user;
+  }
+
+  static class Capability implements RestResource {
+    private final IdentifiedUser user;
+    private final String capability;
+
+    Capability(IdentifiedUser user, String capability) {
+      this.user = user;
+      this.capability = capability;
+    }
+
+    public IdentifiedUser getUser() {
+      return user;
+    }
+
+    public String getCapability() {
+      return capability;
+    }
+
+    public boolean has() {
+      return user.getCapabilities().canPerform(getCapability());
+    }
   }
 }

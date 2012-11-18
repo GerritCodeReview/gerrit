@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALqH///yQ\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-18T04:46:34Z",
+      "side": 1,
+      "message": "This is the line of the file the comment will be placed on.",
+      "parentUuid": "AAALsn///yE\u003d",
+      "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///yM\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-18T03:25:15Z",
       "side": 1,
       "message": "I don\u0027t think we want this?",
+      "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///yM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-18T04:46:34Z",
+      "side": 1,
+      "message": "Good catch. Thanks.",
+      "parentUuid": "AAALsn///yM\u003d",
       "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALqH///yI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-18T04:46:34Z",
+      "side": 1,
+      "message": "Originally I was going to call bind this to PUT. But after thinking on it a little bit I decided on POST. So yes the class should be renamed.",
+      "parentUuid": "AAALsn///yI\u003d",
+      "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///x8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutReview.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAALqH///yE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-18T04:46:34Z",
+      "side": 1,
+      "message": "Documentation string added. Not sure it should be necessary, but sure, I\u0027ll document something once in a while. :-)",
+      "parentUuid": "AAALsn///x8\u003d",
+      "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///yA\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutReview.java",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2012-11-18T03:25:15Z",
       "side": 1,
       "message": "Is this intended?  Is rollback() a no-op after commit()?",
+      "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///yA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-18T04:46:34Z",
+      "side": 1,
+      "message": "Yes. Rollback is a no-op after commit as there is no transaction pending anymore. This was an intentional design feature of the way we put together the crude transaction system in gwtorm.",
+      "parentUuid": "AAALsn///yA\u003d",
       "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

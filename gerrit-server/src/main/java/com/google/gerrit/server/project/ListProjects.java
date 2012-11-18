@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -37,7 +38,9 @@ import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -105,6 +108,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private final GroupControl.Factory groupControlFactory;
   private final GitRepositoryManager repoManager;
   private final ProjectNode.Factory projectNodeFactory;
+  private final Provider<GetDashboard> getDashboardProvider;
 
   @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
@@ -141,13 +145,15 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   @Inject
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
       GroupCache groupCache, GroupControl.Factory groupControlFactory,
-      GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory) {
+      GitRepositoryManager repoManager, ProjectNode.Factory projectNodeFactory,
+      Provider<GetDashboard> getDashboardProvider) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.repoManager = repoManager;
     this.projectNodeFactory = projectNodeFactory;
+    this.getDashboardProvider = getDashboardProvider;
   }
 
   public List<String> getShowBranch() {
@@ -284,8 +290,18 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           if (showDescription) {
             info.description = Strings.emptyToNull(e.getProject().getDescription());
           }
-          info.defaultDashboard =
-              Strings.emptyToNull(DashboardsCollection.defaultOf(e.getProject()));
+          try {
+            final GetDashboard getDashboard = getDashboardProvider.get();
+            getDashboard.setInherited(true);
+            info.defaultDashboard =
+                getDashboard.apply(DashboardResource.projectDefault(pctl)).id;
+          } catch (ResourceNotFoundException ex) {
+            // all ok, no default dashboard was set
+          } catch (IOException ex) {
+            log.warn("failed to load default dashboard of project " + projectName, ex);
+          } catch (ConfigInvalidException ex) {
+            log.warn("default dashboard of project " + projectName + " is invalid", ex);
+          }
 
           try {
             if (showBranch != null) {

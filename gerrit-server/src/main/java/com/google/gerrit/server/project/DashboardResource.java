@@ -24,7 +24,7 @@ public class DashboardResource implements RestResource {
   public static final TypeLiteral<RestView<DashboardResource>> DASHBOARD_KIND =
       new TypeLiteral<RestView<DashboardResource>>() {};
 
-  static DashboardResource projectDefault(ProjectControl ctl) {
+  public static DashboardResource projectDefault(ProjectControl ctl) {
     return new DashboardResource(ctl, null, null, null, true);
   }
 

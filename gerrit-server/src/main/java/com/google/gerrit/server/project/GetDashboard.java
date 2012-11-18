@@ -41,6 +41,10 @@ class GetDashboard implements RestReadView<DashboardResource> {
     this.dashboards = dashboards;
   }
 
+  public void setInherited(final boolean inherited) {
+    this.inherited = inherited;
+  }
+
   @Override
   public DashboardInfo apply(DashboardResource resource)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {

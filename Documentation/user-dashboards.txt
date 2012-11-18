@@ -48,8 +48,9 @@ Project Dashboards
 
 It is possible to share custom dashboards at a project level. To do
 this define the dashboards in a `refs/meta/dashboards/*` branch of the
-project. For each dashboard create a config file. The file name will be
-used as name for the dashboard.
+project. For each dashboard create a config file. The file path/name
+will be used as name (equivalent to a title in a custom dashboard) for
+the dashboard.
 
 Example dashboard config file `MyProject Dashboard`:
 
@@ -70,12 +71,17 @@ like:
 ----
 
 Project dashboards are inherited from ancestor projects unless
-overridden by dashboards with the same ref and name.
+overridden by dashboards with the same ref and name.  This makes
+it easy to define common dashboards for every project by simply
+defining project dashboards on the All-Projects project.
 
 Project dashboard queries may contain the special `${project}` token
 which will be replaced with the project name to which the dashboard is
 being applied.  This is useful for defining dashboards designed to be
-inherited.
+inherited.  With this token, it is possible to cause a project
+dashboard to be restricted to only changes for the project in which
+an inherited dashboard is being applied by simply adding
+`project:${project}` to the queries in the dashboard.
 
 Section main
 ~~~~~~~~~~~~

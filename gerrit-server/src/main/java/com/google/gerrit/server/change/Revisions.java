@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -26,6 +27,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.util.Collections;
 import java.util.List;
 
 class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
@@ -52,36 +54,57 @@ class Revisions implements ChildCollection<ChangeResource, RevisionResource> {
   @Override
   public RevisionResource parse(ChangeResource change, String id)
       throws ResourceNotFoundException, Exception {
-    if (id.matches("^[1-9][0-9]{0,4}$")) {
+    List<PatchSet> match = Lists.newArrayListWithExpectedSize(2);
+    for (PatchSet ps : find(change, id)) {
+      Change.Id changeId = ps.getId().getParentKey();
+      if (changeId.equals(change.getChange().getId())
+          && change.getControl().isPatchVisible(ps, dbProvider.get())) {
+        match.add(ps);
+      }
+    }
+    if (match.size() != 1) {
+      throw new ResourceNotFoundException(id);
+    }
+    return new RevisionResource(change, match.get(0));
+  }
+
+  private List<PatchSet> find(ChangeResource change, String id)
+      throws OrmException {
+    ReviewDb db = dbProvider.get();
+
+    if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
+      // Legacy patch set number syntax.
       PatchSet ps = dbProvider.get().patchSets().get(new PatchSet.Id(
           change.getChange().getId(),
           Integer.parseInt(id)));
-      if (ps != null
-          && change.getControl().isPatchVisible(ps, dbProvider.get())) {
-        return new RevisionResource(change, ps);
+      if (ps != null) {
+        return Collections.singletonList(ps);
       }
-      throw new ResourceNotFoundException(id);
-    }
-
-    for (PatchSet ps : find(id)) {
-      Change.Id changeId = ps.getId().getParentKey();
-      if (changeId.equals(change.getChange().getId())) {
-        if (change.getControl().isPatchVisible(ps, dbProvider.get())) {
-          return new RevisionResource(change, ps);
-        }
-        break;
+      return Collections.emptyList();
+    } else if (id.length() < 4 || id.length() > RevId.LEN) {
+      // Require a minimum of 4 digits.
+      // Impossibly long identifier will never match.
+      return Collections.emptyList();
+    } else if (id.length() >= 8) {
+      // Commit names are rather unique. Query for the commit and later
+      // match to the change. This is most likely going to identify 1 or
+      // at most 2 patch sets to consider, which is smaller than looking
+      // for all patch sets in the change.
+      RevId revid = new RevId(id);
+      if (revid.isComplete()) {
+        return db.patchSets().byRevision(revid).toList();
+      } else {
+        return db.patchSets().byRevisionRange(revid, revid.max()).toList();
       }
-    }
-    throw new ResourceNotFoundException(id);
-  }
-
-  private List<PatchSet> find(String id) throws OrmException {
-    ReviewDb db = dbProvider.get();
-    RevId revid = new RevId(id);
-    if (revid.isComplete()) {
-      return db.patchSets().byRevision(revid).toList();
     } else {
-      return db.patchSets().byRevisionRange(revid, revid.max()).toList();
+      // Chance of collision rises; look at all patch sets on the change.
+      List<PatchSet> out = Lists.newArrayList();
+      for (PatchSet ps : db.patchSets().byChange(change.getChange().getId())) {
+        if (ps.getRevision() != null && ps.getRevision().get().startsWith(id)) {
+          out.add(ps);
+        }
+      }
+      return out;
     }
   }
 }

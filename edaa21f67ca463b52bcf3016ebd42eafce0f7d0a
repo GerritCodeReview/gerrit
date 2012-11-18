@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALsn///yE\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-11-18T03:25:15Z",
+      "side": 1,
+      "message": "What is the \u0027line\u0027 ID used for?",
+      "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///yM\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-11-18T03:25:15Z",
+      "side": 1,
+      "message": "I don\u0027t think we want this?",
+      "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///yI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Module.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-11-18T03:25:15Z",
+      "side": 1,
+      "message": "Should this be POST or PUT?  If it should be POST, should we rename PutReview to PostReview?",
+      "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///x8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-11-18T03:25:15Z",
+      "side": 1,
+      "message": "I was confused by the purpose of this.  The commit message makes it very clear, but maybe javadoc would be helpful long-term?",
+      "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///yA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PutReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-11-18T03:25:15Z",
+      "side": 1,
+      "message": "Is this intended?  Is rollback() a no-op after commit()?",
+      "revId": "edaa21f67ca463b52bcf3016ebd42eafce0f7d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

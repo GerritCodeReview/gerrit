@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALqH///xI\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-18T11:21:26Z",
+      "side": 1,
+      "message": "Nit: remove the hypen in \"edit-icon\"",
+      "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///xQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-18T11:21:26Z",
+      "side": 1,
+      "message": "What happens to the new ref if the update fails in the next section?",
+      "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///xU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-18T11:21:26Z",
+      "side": 1,
+      "message": "Can this be declared on one line:\n\n Change updatedChange \u003d db.changes() ...\n\n?",
+      "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///xY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-18T11:21:26Z",
+      "side": 1,
+      "message": "Nit: add a blank line before this block",
+      "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///xM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-18T11:21:26Z",
+      "side": 1,
+      "message": "Nit: new line",
+      "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

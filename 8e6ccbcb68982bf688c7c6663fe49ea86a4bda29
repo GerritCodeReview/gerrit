@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALqH///wc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-18T18:39:45Z",
+      "side": 1,
+      "message": "I think the check is needed to prevent an infinite recursion in the server caused by the user setting the default to \"default\". This is obviously wrong, and users shouldn\u0027t do it, but they can edit project.config behind Gerrit\u0027s back and force us to read something that might be bad.",
+      "parentUuid": "AAALtH///+M\u003d",
+      "revId": "8e6ccbcb68982bf688c7c6663fe49ea86a4bda29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALtH///+I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
         "patchSetId": 1

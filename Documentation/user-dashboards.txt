@@ -1,0 +1,113 @@
+Gerrit Code Review - Dashboards
+===============================
+
+Custom Dashboards
+-----------------
+
+A custom dashboard is shown in a layout similar to the per-user
+dashboard, but the sections are entirely configured from the URL.
+Because of this custom dashboards are stateless on the server side.
+Users or projects can simply trade URLs using an external system like
+a project wiki, or site administrators can put the links into the
+site's `GerritHeader.html` or `GerritFooter.html`.
+
+Dashboards are available via URLs like:
+----
+  /#/dashboard/?title=Custom+View&To+Review=reviewer:john.doe@example.com&Pending+In+myproject=project:myproject+is:open
+----
+This opens a view showing the title "Custom View" with two sections,
+"To Review" and "Pending in myproject":
+----
+  Custom View
+
+  To Review
+
+    Results of `reviewer:john.doe@example.com`
+
+  Pending In myproject
+
+    Results of `project:myproject is:open`
+----
+
+The dashboard URLs are easy to configure. All keys and values in the
+URL are encoded as query parameters. Set the page and window title
+using an optional `title=Text` parameter.
+
+Each section's title is defined by the parameter name, the section
+display order is defined by the order the parameters appear in the
+URL, and the query results are defined by the parameter value. To
+limit the number of rows in a query use `limit:N`, otherwise the
+entire result set will be shown (up to the user's query limit).
+
+Parameters may be separated from each other using any of the following
+characters, as some users may find one more readable than another:
+`&` or `;` or `,`
+
+Project Dashboards
+------------------
+
+It is possible to share custom dashboards at a project level. To do
+this define the dashboards in a `refs/meta/dashboards/*` branch of the
+project. For each dashboard create a config file. The file name will be
+used as name for the dashboard.
+
+Example dashboard config file `MyProject Dashboard`:
+
+----
+[main]
+  description = Most recent open and merged changes.
+[section "Open Changes"]
+  query = status:open project:myProject limit:15
+[section "Merged Changes"]
+  query = status:merged project:myProject limit:15
+----
+
+Project dashboards are inherited from ancestor projects unless
+overridden by dashboards with the same ref and name.
+
+Project dashboard queries may contain the special `${project}` token
+which will be replaced with the project name to which the dashboard is
+being applied.  This is useful for defining dashboards designed to be
+inherited.
+
+Section main
+~~~~~~~~~~~~
+
+main.description::
++
+The description of the dashboard.
+
+Section section
+~~~~~~~~~~~~~~~
+
+section.<name>.query::
++
+The change query that should be used to populate the section with the
+given name.
+
+Project Default Dashboard
+-------------------------
+
+It is possible to define a default dashboard for a project in the
+projects `project.config` file in the `refs/meta/config` branch:
+
+----
+[dashboard]
+  default = refs/meta/dashboards/main:default
+----
+
+The dashboard set as the default dashboard will be inherited as the
+default dashboard by child projects if they do not define their own
+default dashboard. The `local-default` entry makes it possible to
+define a different default dashboard that is only used by this project
+but not inherited to the child projects.
+
+----
+[dashboard]
+  default = refs/meta/dashboards/main:default
+  local-default = refs/meta/dashboards/main:local
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

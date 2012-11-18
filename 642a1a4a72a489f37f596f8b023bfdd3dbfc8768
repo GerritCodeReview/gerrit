@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAALqH///w4\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-18T11:31:08Z",
+      "side": 1,
+      "message": "The line \"(cherry picked from commit abc123)\" follows the format of the line that is added by git when you do \"git cherry-pick -x\"\n\nIs \"Cherry-Picked-From: \" used in other places?",
+      "parentUuid": "AAALsn///zg\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///zk\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 3
@@ -139,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "AAALqH///w0\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-18T11:31:08Z",
+      "side": 1,
+      "message": "Also, do we need to check that the given destination branch is not the same as the branch that the change is already on?",
+      "parentUuid": "AAALsn///0A\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///z4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 3
@@ -201,6 +237,24 @@
       "writtenOn": "2012-11-17T16:54:19Z",
       "side": 1,
       "message": "This returns null if the destinationBranch doesn\u0027t exist. You should probably check for this. E.g. this happens if you leave the field for the destination branch in the Cherry-Pick dialog empty.",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///ww\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-18T11:31:08Z",
+      "side": 1,
+      "message": "Might also be good to explicitly not allow the cherry pick operation to continue (i.e. don\u0027t call the action in the dialog handler) if the user has entered a blank branch.",
+      "parentUuid": "AAALsn///zw\u003d",
       "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

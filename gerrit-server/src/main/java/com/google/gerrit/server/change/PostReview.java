@@ -161,7 +161,7 @@ class PostReview implements RestModifyView<RevisionResource, Input> {
         message,
         comments).sendAsync();
     fireCommentAddedHook(revision);
-    return input;
+    return new Object();
   }
 
   private void checkLabels(RevisionResource revision, boolean strict,

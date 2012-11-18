@@ -62,6 +62,13 @@ Example dashboard config file `MyProject Dashboard`:
   query = status:merged project:myProject limit:15
 ----
 
+Once defined, project dashboards are accessible using stable URLs by
+using the project name, refname and pathname of the dashboard via URLs
+like:
+----
+  /#/projects/All-Projects,dashboards/Site:Main
+----
+
 Project dashboards are inherited from ancestor projects unless
 overridden by dashboards with the same ref and name.
 

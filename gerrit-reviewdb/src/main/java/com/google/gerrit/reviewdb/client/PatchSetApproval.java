@@ -146,6 +146,10 @@ public final class PatchSetApproval {
     granted = new Timestamp(System.currentTimeMillis());
   }
 
+  public void setGranted(Timestamp ts) {
+    granted = ts;
+  }
+
   public void cache(final Change c) {
     changeOpen = c.open;
     changeSortKey = c.sortKey;

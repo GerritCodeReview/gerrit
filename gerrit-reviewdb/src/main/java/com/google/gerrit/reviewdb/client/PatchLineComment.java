@@ -174,6 +174,10 @@ public final class PatchLineComment {
     writtenOn = new Timestamp(System.currentTimeMillis());
   }
 
+  public void setWrittenOn(Timestamp ts) {
+    writtenOn = ts;
+  }
+
   public String getParentUuid() {
     return parentUuid;
   }

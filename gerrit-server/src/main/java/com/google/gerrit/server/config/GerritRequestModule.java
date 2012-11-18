@@ -93,7 +93,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(RemoveReviewer.Factory.class);
     factory(RestoredSender.Factory.class);
     factory(RevertedSender.Factory.class);
-    factory(CommentSender.Factory.class);
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
     factory(PerformCreateGroup.Factory.class);

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAALtH////c\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-18T12:33:22Z",
+      "side": 1,
+      "message": "Ah, OK. Sorry then.",
+      "parentUuid": "AAALqH///xA\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///0M\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
         "patchSetId": 3
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "The line \"(cherry picked from commit abc123)\" follows the format of the line that is added by git when you do \"git cherry-pick -x\"\n\nIs \"Cherry-Picked-From: \" used in other places?",
       "parentUuid": "AAALsn///zg\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALtH////U\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-18T12:33:22Z",
+      "side": 1,
+      "message": "Ah ok, then this is fine. Maybe there should be a blank line between this message and the actual commit message?\n\nNo, \"Cherry-Picked-From: \"  is not used anywhere.",
+      "parentUuid": "AAALqH///w4\u003d",
       "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -175,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "AAALtH////M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-18T12:33:22Z",
+      "side": 1,
+      "message": "Yes, I think it makes sense to check for this.",
+      "parentUuid": "AAALqH///w0\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///z4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 3
@@ -255,6 +309,24 @@
       "side": 1,
       "message": "Might also be good to explicitly not allow the cherry pick operation to continue (i.e. don\u0027t call the action in the dialog handler) if the user has entered a blank branch.",
       "parentUuid": "AAALsn///zw\u003d",
+      "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALtH////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-18T12:33:22Z",
+      "side": 1,
+      "message": "At the moment there is nothing that prevents you from leaving the branch field empty in the Cherry-Pick-Dialog. I agree that it makes sense to check for this also earlier. E.g. the dialog could disable the \u0027Cherry Pick Change\u0027 button?",
+      "parentUuid": "AAALqH///ww\u003d",
       "revId": "642a1a4a72a489f37f596f8b023bfdd3dbfc8768",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

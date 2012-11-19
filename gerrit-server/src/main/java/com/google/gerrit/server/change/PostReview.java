@@ -82,13 +82,9 @@ class PostReview implements RestModifyView<RevisionResource, Input> {
     DELETE, PUBLISH, KEEP;
   }
 
-  static enum Side {
-    PARENT, REVISION;
-  }
-
   static class Comment {
     String id;
-    Side side;
+    GetDraft.Side side;
     int line;
     String message;
   }
@@ -273,7 +269,7 @@ class PostReview implements RestModifyView<RevisionResource, Input> {
         }
         e.setStatus(PatchLineComment.Status.PUBLISHED);
         e.setWrittenOn(timestamp);
-        e.setSide(c.side == Side.PARENT ? (short) 0 : (short) 1);
+        e.setSide(c.side == GetDraft.Side.PARENT ? (short) 0 : (short) 1);
         e.setMessage(c.message);
         (create ? ins : upd).add(e);
       }

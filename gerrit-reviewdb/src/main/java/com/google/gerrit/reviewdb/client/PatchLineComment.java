@@ -138,6 +138,10 @@ public final class PatchLineComment {
     return lineNbr;
   }
 
+  public void setLine(int line) {
+    lineNbr = line;
+  }
+
   public Account.Id getAuthor() {
     return author;
   }

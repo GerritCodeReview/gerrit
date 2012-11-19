@@ -54,7 +54,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private List<String> queries;
 
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "Maximum number of results to return")
-  void setLimit(int limit) {
+  public void setLimit(int limit) {
     imp.setLimit(limit);
   }
 
@@ -69,7 +69,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   }
 
   @Option(name = "-P", metaVar = "SORTKEY", usage = "Previous changes before SORTKEY")
-  void setSortKeyAfter(String key) {
+  public void setSortKeyAfter(String key) {
     // Querying for the prior page of changes requires sortkey_after predicate.
     // Changes are shown most recent->least recent. The previous page of
     // results contains changes that were updated after the given key.
@@ -78,7 +78,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   }
 
   @Option(name = "-N", metaVar = "SORTKEY", usage = "Next changes after SORTKEY")
-  void setSortKeyBefore(String key) {
+  public void setSortKeyBefore(String key) {
     // Querying for the next page of changes requires sortkey_before predicate.
     // Changes are shown most recent->least recent. The next page contains
     // changes that were updated before the given key.
@@ -96,6 +96,13 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     options = EnumSet.noneOf(ListChangesOption.class);
     json.setSshInfo(sshInfo);
     json.setChangeControlFactory(cf);
+  }
+
+  public void addQuery(String query) {
+    if (queries == null) {
+      queries = Lists.newArrayList();
+    }
+    queries.add(query);
   }
 
   @Override

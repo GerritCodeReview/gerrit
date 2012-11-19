@@ -45,7 +45,7 @@ public class AccountGroupUUIDHandler extends OptionHandler<AccountGroup.UUID> {
     final String n = params.getParameter(0);
     final GroupReference group = GroupBackends.findBestSuggestion(groupBackend, n);
     if (group == null) {
-      throw new CmdLineException(owner, "Group \"" + n + "\" does not exist");
+      throw new CmdLineException("Group \"" + n + "\" does not exist");
     }
     setter.addValue(group.getUUID());
     return 1;

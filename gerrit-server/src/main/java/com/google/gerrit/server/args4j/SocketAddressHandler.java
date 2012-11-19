@@ -42,7 +42,7 @@ public class SocketAddressHandler extends OptionHandler<SocketAddress> {
     try {
       setter.addValue(SocketUtil.parse(token, 0));
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, e.getMessage());
+      throw new CmdLineException(e.getMessage());
     }
     return 1;
   }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALtH///9U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-19T22:21:34Z",
+      "side": 1,
+      "message": "I believe that trying to inject DashboardsCollection here is causing the \u0027Constructor not ready\u0027 exception.\n\n[2012-11-19 23:13:34,917] ERROR com.google.gerrit.httpd.restapi.RestApiServlet : Error in GET /projects/T2/dashboards/mine:test\njava.lang.IllegalStateException: Constructor not ready\n\tat com.google.inject.internal.util.$Preconditions.checkState(Preconditions.java:142)\n\tat com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:246)\n\tat com.google.inject.internal.SingleParameterInjector.inject(SingleParameterInjector.java:38)\n\tat com.google.inject.internal.SingleParameterInjector.getAll(SingleParameterInjector.java:62)\n\tat com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:84)\n\tat com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:254)\n\tat com.google.inject.internal.FactoryProxy.get(FactoryProxy.java:54)\n\tat com.google.inject.internal.InjectorImpl$4$1.call(InjectorImpl.java:978)\n\tat com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1024)\n\tat com.google.inject.internal.InjectorImpl$4.get(InjectorImpl.java:974)\n\tat com.google.gerrit.extensions.registration.DynamicMap.get(DynamicMap.java:107)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.view(RestApiServlet.java:538)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:216)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:722)\n        ...",
+      "revId": "8e6ccbcb68982bf688c7c6663fe49ea86a4bda29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALtH///+M\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
         "patchSetId": 1

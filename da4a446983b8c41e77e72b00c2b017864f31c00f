@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "AAALqH///uk\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-19T07:44:11Z",
+      "side": 1,
+      "message": "I tested this by doing a \"git cherry-pick -x\" at the command line and then manually pushing for review on the target branch.\n\nThe resulting cherry-picked change in Gerrit has the same change-Id as the source commit.  I think the behaviour here should match that.",
+      "parentUuid": "AAALsX///40\u003d",
+      "revId": "da4a446983b8c41e77e72b00c2b017864f31c00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///xo\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 5

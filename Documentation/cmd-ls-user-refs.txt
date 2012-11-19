@@ -11,6 +11,7 @@ SYNOPSIS
 'ssh' -p <port> <host> 'gerrit ls-user-ref'
   [--project PROJECT> | -p <PROJECT>]
   [--user <USER> | -u <USER>]
+  [--only-refs-heads]
 
 DESCRIPTION
 -----------
@@ -37,6 +38,9 @@ OPTIONS
 	User for which the visible refs should be listed. Gerrit
 	will query the database to find matching users, so the
 	full identity/name does not need to be specified.
+
+--only-refs-heads::
+	Only list the refs found under refs/heads/*
 
 EXAMPLES
 --------

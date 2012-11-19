@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALqH///to\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-19T22:50:53Z",
+      "side": 1,
+      "message": "unrelated change",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///tc\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BackendSshAuth.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-19T22:50:53Z",
+      "side": 1,
+      "message": "could just pass this to the constructor",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///tY\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-19T22:50:53Z",
+      "side": 1,
+      "message": "use MissingCredentialsException",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///tU\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-19T22:50:53Z",
+      "side": 1,
+      "message": "just inline the strings in these exceptions",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///tg\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-19T22:50:53Z",
+      "side": 1,
+      "message": "Can\u0027t the PubKey just be taken here?",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///tQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-19T22:50:53Z",
+      "side": 1,
+      "message": "I\u0027m wondering if checkPassword should be renamed to checkCredentials().\n\nWe could take an \"Object\" and handle it similar to an equals() method.",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALqH///tk\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-19T22:50:53Z",
+      "side": 1,
+      "message": "this will need to be handled",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

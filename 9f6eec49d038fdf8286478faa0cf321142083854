@@ -16,6 +16,24 @@
       "revId": "9f6eec49d038fdf8286478faa0cf321142083854",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///ww\u003d",
+        "filename": "gerrit-gwtdebug/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-19T13:36:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALsH///zQ\u003d",
+      "revId": "9f6eec49d038fdf8286478faa0cf321142083854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

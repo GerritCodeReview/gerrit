@@ -17,7 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gwt.user.client.ui.Accessibility;
+import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -27,7 +27,7 @@ class DownloadCommandPanel extends FlowPanel {
 
   DownloadCommandPanel() {
     setStyleName(Gerrit.RESOURCES.css().downloadLinkList());
-    Accessibility.setRole(getElement(), Accessibility.ROLE_TABLIST);
+    Roles.getTablistRole().set(getElement());
   }
 
   boolean isEmpty() {

@@ -16,10 +16,10 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.common.VoidResult;
@@ -32,7 +32,7 @@ abstract class DownloadCommandLink extends Anchor implements ClickHandler {
     super(text);
     this.cmdType = cmdType;
     setStyleName(Gerrit.RESOURCES.css().downloadLink());
-    Accessibility.setRole(getElement(), Accessibility.ROLE_TAB);
+    Roles.getTabRole().set(getElement());
     addClickHandler(this);
   }
 

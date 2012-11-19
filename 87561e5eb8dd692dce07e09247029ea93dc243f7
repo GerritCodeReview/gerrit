@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALqH///tE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-19T23:46:45Z",
+      "side": 1,
+      "message": "Actually, these should probably just be editable fields, and I should get rid of the constructor.  I\u0027m trying to figure out how you (sop) arbitrate whether you should show a list or a single element in ChangeJson.java.",
+      "revId": "87561e5eb8dd692dce07e09247029ea93dc243f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

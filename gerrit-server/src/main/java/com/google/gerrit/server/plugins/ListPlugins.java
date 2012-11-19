@@ -17,6 +17,8 @@ package com.google.gerrit.server.plugins;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -41,6 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 /** List the installed plugins. */
+@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 public class ListPlugins implements RestReadView<TopLevelResource> {
   private final PluginLoader pluginLoader;
 

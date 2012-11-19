@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///xM\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-19T01:57:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALqH///xI\u003d",
+      "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALqH///xQ\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-18T11:21:26Z",
       "side": 1,
       "message": "What happens to the new ref if the update fails in the next section?",
+      "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///xY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-19T01:57:30Z",
+      "side": 1,
+      "message": "We will have a new ref without an updated change, which is better than the opposite. Following the practices I\u0027ve seen in Gerrit.",
+      "parentUuid": "AAALqH///xQ\u003d",
       "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsn///xU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-19T01:57:30Z",
+      "side": 1,
+      "message": "Done. Thanks!",
+      "parentUuid": "AAALqH///xU\u003d",
+      "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALqH///xY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2012-11-18T11:21:26Z",
       "side": 1,
       "message": "Nit: add a blank line before this block",
+      "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsn///xQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-19T01:57:30Z",
+      "side": 1,
+      "message": "David, I think it is awesome you are dedicating your time helping out ensuring Gerrits code-base is clean and nice. \n\nHowever, this style here is used all over. Check out abandon, mergeop, rebase, etc for the exact same database update. I think that if you want to help out with the nits, it is better to concentrate on either absolute truths (spelling) or stuff that really hinders code readability.\n\nThe preference of grouping between new lines will change between the 50+ devs we have. And if the code statement does not hinder the readability of the code (or is bug prone), I think it is best to not waste the effort trying to make everyone confirm to one persons specific taste in the most minor and atomic cases. \n\nIn this specific case, I have a preference to group the assignments with the validations.",
+      "parentUuid": "AAALqH///xY\u003d",
       "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

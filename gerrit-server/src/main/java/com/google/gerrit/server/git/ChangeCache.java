@@ -48,7 +48,7 @@ public class ChangeCache implements GitReferenceUpdatedListener {
         cache(ID_CACHE,
             Project.NameKey.class,
             new TypeLiteral<List<Change>>() {})
-          .maximumWeight(1024)
+          .maximumWeight(0)
           .loader(Loader.class);
       }
     };

@@ -77,14 +77,13 @@ public class PageLinks {
     return "/q/" + KeyUtil.encode(query) + "," + page;
   }
 
-  public static String toProjectDashboard(Project.NameKey projectName,
-      String dashboardId) {
-    return PROJECTS + projectName.get() + DASHBOARDS + dashboardId;
+  public static String toProjectDashboard(Project.NameKey name, String id) {
+    return PROJECTS + name.get() + DASHBOARDS + id;
   }
 
   public static String projectQuery(Project.NameKey proj) {
     return op("project", proj.get());
-}
+  }
 
   public static String projectQuery(Project.NameKey proj, Status status) {
       return status(status) + " " + op("project", proj.get());

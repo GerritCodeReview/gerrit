@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "AAALqH///vY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-19T02:02:09Z",
+      "side": 1,
+      "message": "OK, fair enough.  If this style is used in other places it\u0027s better to keep it consistent :)",
+      "parentUuid": "AAALsn///xQ\u003d",
+      "revId": "2c7a6019bdd51638e13cb8162b0660d550514419",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALqH///xM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 7

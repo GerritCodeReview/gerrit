@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gwt.http.client.URL;
 import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {

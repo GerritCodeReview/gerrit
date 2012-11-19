@@ -16,6 +16,24 @@
       "revId": "5367b8bab5bbc447901c85eb7debcf83868a50de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALtH///9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-19T23:31:35Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "AAALtH///9s\u003d",
+      "revId": "5367b8bab5bbc447901c85eb7debcf83868a50de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

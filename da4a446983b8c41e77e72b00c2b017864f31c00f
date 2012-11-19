@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "AAALsX///40\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-19T07:17:02Z",
+      "side": 1,
+      "message": "Perhaps I misunderstood Martins comment.\n\nBut yes. I create a new change-id in ChangeUtil, so this is expected (and by design), but it has nothing to do with the footers.\n\nI do not change the change-id in the commit message - since that is not expected (git would never do it). I personally do not want the new change to have the same change-id (internally) as the old change. Is that something you really want?",
+      "parentUuid": "AAALqH///us\u003d",
+      "revId": "da4a446983b8c41e77e72b00c2b017864f31c00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///xo\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 5

@@ -130,7 +130,7 @@ final class ApproveOption implements Option, Setter<Short> {
         final String e =
             "\"" + token + "\" must be in range " + min.formatValue() + ".."
                 + max.formatValue() + " for \"" + name + "\"";
-        throw new CmdLineException(owner, e);
+        throw new CmdLineException(e);
       }
       return value;
     }

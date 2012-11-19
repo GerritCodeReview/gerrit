@@ -66,11 +66,11 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
             accountId = createAccountByLdap(token);
             break;
           default:
-            throw new CmdLineException(owner, "user \"" + token + "\" not found");
+            throw new CmdLineException("user \"" + token + "\" not found");
         }
       }
     } catch (OrmException e) {
-      throw new CmdLineException(owner, "database is down");
+      throw new CmdLineException("database is down");
     }
     setter.addValue(accountId);
     return 1;
@@ -79,7 +79,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   private Account.Id createAccountByLdap(String user)
       throws CmdLineException {
     if (!user.matches(Account.USER_NAME_PATTERN)) {
-      throw new CmdLineException(owner, "user \"" + user + "\" not found");
+      throw new CmdLineException("user \"" + user + "\" not found");
     }
 
     try {
@@ -87,7 +87,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
       req.setSkipAuthentication(true);
       return accountManager.authenticate(req).getAccountId();
     } catch (AccountException e) {
-      throw new CmdLineException(owner, "user \"" + user + "\" not found");
+      throw new CmdLineException("user \"" + user + "\" not found");
     }
   }
 

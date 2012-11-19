@@ -42,7 +42,6 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.assistedinject.Assisted;
 
-import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.IllegalAnnotationError;
 import org.kohsuke.args4j.NamedOptionDef;
@@ -56,6 +55,7 @@ import org.kohsuke.args4j.spi.Setter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +70,19 @@ import java.util.ResourceBundle;
  * args4j style format prior to invoking args4j for parsing.
  */
 public class CmdLineParser {
+  private static final Method CMD_LINE_PARSER_ADD_OPTION;
+  static {
+    try {
+      CMD_LINE_PARSER_ADD_OPTION = CmdLineParser.class.getMethod("addOption", Setter.class, Option.class);
+    } catch (NoSuchMethodException e) {
+      throw new RuntimeException(e);
+    } catch (SecurityException e) {
+      throw new RuntimeException(e);
+    }
+    CMD_LINE_PARSER_ADD_OPTION.setAccessible(true);
+  }
+
+
   public interface Factory {
     CmdLineParser create(Object bean);
   }
@@ -94,10 +107,6 @@ public class CmdLineParser {
       throws IllegalAnnotationError {
     this.injector = injector;
     this.parser = new MyParser(bean);
-  }
-
-  public void addArgument(Setter<?> setter, Argument a) {
-    parser.addArgument(setter, a);
   }
 
   public void addOption(Setter<?> setter, Option o) {
@@ -286,11 +295,11 @@ public class CmdLineParser {
       return false;
     }
 
-    throw new CmdLineException(parser, String.format(
-        "invalid boolean \"%s=%s\"", name, value));
+    throw new CmdLineException(String.format("invalid boolean \"%s=%s\"", name,
+        value));
   }
 
-  private class MyParser extends org.kohsuke.args4j.CmdLineParser {
+  class MyParser extends org.kohsuke.args4j.CmdLineParser {
     @SuppressWarnings("rawtypes")
     private List<OptionHandler> options;
     private HelpOption help;
@@ -298,6 +307,14 @@ public class CmdLineParser {
     MyParser(final Object bean) {
       super(bean);
       ensureOptionsInitialized();
+    }
+
+    public void addOption(Setter<?> setter, Option o) {
+      try {
+        CMD_LINE_PARSER_ADD_OPTION.invoke((org.kohsuke.args4j.CmdLineParser) this, setter, o);
+      } catch (ReflectiveOperationException e) {
+        // ignore
+      }
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -332,7 +349,8 @@ public class CmdLineParser {
       if (options == null) {
         help = new HelpOption();
         options = Lists.newArrayList();
-        addOption(help, help);
+        // commented out due to illegal argument exception on args4j 2.0.12
+        // addOption(help, help);
       }
     }
 
@@ -349,7 +367,7 @@ public class CmdLineParser {
     }
   }
 
-  private static class HelpOption implements Option, Setter<Boolean> {
+  static class HelpOption implements Option, Setter<Boolean> {
     private boolean value;
 
     @Override

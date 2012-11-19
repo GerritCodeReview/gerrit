@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALqH///u0\u003d",
+        "filename": "Documentation/cmd-ls-user-refs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-19T06:39:43Z",
+      "side": 1,
+      "message": "remove \u0027-in\u0027",
+      "revId": "275516f8f46a580b2921c9352f72f55f1c7b358e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

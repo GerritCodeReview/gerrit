@@ -37,7 +37,6 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.mail.AddReviewerSender;
-import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;

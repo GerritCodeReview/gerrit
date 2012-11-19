@@ -191,7 +191,7 @@ class PostReview implements RestModifyView<RevisionResource, Input> {
         continue;
       }
 
-      if (!at.getValuesAsList().contains(ent.getValue())) {
+      if (at.getValue(ent.getValue()) == null) {
         if (strict) {
           throw new BadRequestException(String.format(
               "label \"%s\": %d is not a valid value",

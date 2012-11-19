@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALtH///8Y\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-19T23:45:44Z",
+      "side": 1,
+      "message": "[optional] I wonder if it should be rather named \u0027allQueries\u0027.\n\nIIRC we also want to allow to set this parameter in the \u0027main\u0027 section of the dashboard files (in the refs/meta/dashboards/... branches). In other config files (e.g. \u0027gerrit.config\u0027) we mostly use camel-case, maybe we should also use camel-case here?",
+      "revId": "d97a7b7b7f574e54bf8e13ef1be94bdf2ab53dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALtH///8U\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-19T23:45:44Z",
+      "side": 1,
+      "message": "s/all_queries:project/all_queries\u003dproject",
+      "revId": "d97a7b7b7f574e54bf8e13ef1be94bdf2ab53dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

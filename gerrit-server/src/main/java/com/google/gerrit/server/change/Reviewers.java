@@ -19,14 +19,23 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import java.util.List;
 
 public class Reviewers implements
     ChildCollection<ChangeResource, ReviewerResource> {
   private final DynamicMap<RestView<ReviewerResource>> views;
+  private final Provider<ReviewDb> dbProvider;
 
   @Inject
-  Reviewers(DynamicMap<RestView<ReviewerResource>> views) {
+  Reviewers(Provider<ReviewDb> dbProvider,
+            DynamicMap<RestView<ReviewerResource>> views) {
+    this.dbProvider = dbProvider;
     this.views = views;
   }
 
@@ -41,10 +50,25 @@ public class Reviewers implements
   }
 
   @Override
-  public ReviewerResource parse(ChangeResource change, String id)
+  public ReviewerResource parse(ChangeResource changeResource, String id)
       throws ResourceNotFoundException, Exception {
-    if (id.matches("^[0-9]+$")) {
-      return new ReviewerResource(change, Account.Id.parse(id));
+    // Get the account id
+    if (!id.matches("^[0-9]+$")) {
+      throw new ResourceNotFoundException(id);
+    }
+    Account.Id accountId = Account.Id.parse(id);
+
+    // Fetch the PatchSetApproval
+    ReviewDb db = dbProvider.get();
+    Change.Id changeId = changeResource.getChange().getId();
+    List<PatchSetApproval> patchSetApprovals =
+        db.patchSetApprovals().byChange(changeId).toList();
+    for (PatchSetApproval patchSetApproval : patchSetApprovals) {
+      System.out.println(id.toString() + " " + patchSetApproval.getAccountId());
+      if (patchSetApproval.getAccountId().equals(accountId)) {
+        Account account = db.accounts().get(accountId);
+        return new ReviewerResource(changeResource, account);
+      }
     }
     throw new ResourceNotFoundException(id);
   }

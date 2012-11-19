@@ -14,13 +14,20 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
 
 public class GetReviewer implements RestReadView<ReviewerResource> {
+  private final ReviewerJson json;
+
+  @Inject
+  GetReviewer(ReviewerJson json) {
+    this.json = json;
+  }
+
   @Override
-  public Object apply(ReviewerResource resource)
-      throws BadRequestException, Exception {
-    throw new BadRequestException("Not yet implemented");
+  public Object apply(ReviewerResource reviewerResource) throws OrmException {
+    return json.format(reviewerResource);
   }
 }

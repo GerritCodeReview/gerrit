@@ -26,7 +26,6 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
@@ -89,6 +88,10 @@ class PostReview implements RestModifyView<RevisionResource, Input> {
     String message;
   }
 
+  static class Output {
+    Map<String, Short> labels;
+  }
+
   private final ReviewDb db;
   private final ApprovalTypes approvalTypes;
   private final EmailReviewComments.Factory email;
@@ -120,8 +123,7 @@ class PostReview implements RestModifyView<RevisionResource, Input> {
 
   @Override
   public Object apply(RevisionResource revision, Input input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
+      throws AuthException, BadRequestException, OrmException {
     if (input.labels != null) {
       checkLabels(revision, input.strictLabels, input.labels);
     }
@@ -157,7 +159,10 @@ class PostReview implements RestModifyView<RevisionResource, Input> {
         message,
         comments).sendAsync();
     fireCommentAddedHook(revision);
-    return input;
+
+    Output output = new Output();
+    output.labels = input.labels;
+    return output;
   }
 
   private void checkLabels(RevisionResource revision, boolean strict,
@@ -418,7 +423,7 @@ class PostReview implements RestModifyView<RevisionResource, Input> {
   }
 
   @Deprecated
-  private void fireCommentAddedHook(RevisionResource rsrc) throws OrmException {
+  private void fireCommentAddedHook(RevisionResource rsrc) {
     IdentifiedUser user = (IdentifiedUser) rsrc.getControl().getCurrentUser();
     try {
       hooks.doCommentAddedHook(change,

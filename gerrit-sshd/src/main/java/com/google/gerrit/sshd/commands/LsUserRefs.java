@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
@@ -62,6 +63,9 @@ public class LsUserRefs extends SshCommand {
       usage = "user for which the groups should be listed")
   private String userName;
 
+  @Option(name = "--only-refs-heads", usage = "list only refs under refs/heads")
+  private boolean onlyRefsHeads;
+
   @Inject
   private GitRepositoryManager repoManager;
 
@@ -96,9 +100,10 @@ public class LsUserRefs extends SshCommand {
               db, true).filter(repo.getAllRefs(), false);
 
       for (final String ref : refsMap.keySet()) {
-        stdout.println(ref);
+        if (!onlyRefsHeads || ref.startsWith(Branch.R_HEADS)) {
+          stdout.println(ref);
+        }
       }
-
     } catch (RepositoryNotFoundException e) {
       throw new UnloggedFailure("fatal: '"
           + projectControl.getProject().getNameKey() + "': not a git archive");

@@ -28,6 +28,27 @@ project specific submit rules.
 link:http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/ReleaseNotes-2.2.2.html[Gerrit
 2.2.2 ReleaseNotes] introduces Prolog support in Gerrit.
 
+Submit Type
+-----------
+A 'Submit Type' is a strategy that is used on submit to integrate the
+change into the destination branch. Supported submit types are:
+
+* `Fast Forward Only`
+* `Merge If Necessary`
+* `Merge Always`
+* `Cherry Pick`
+* `Rebase If Necessary`
+
+'Submit Type' is a project global setting. This means that the same submit type
+is used for all changes of one project.
+
+Projects which need more flexibility in choosing, or enforcing, a submit type
+can use Prolog based submit type which replaces the project's default submit
+type.
+
+Prolog based submit type computes a submit type for each change. The computed
+submit type is shown on the change screen for each change.
+
 Prolog Language
 ---------------
 This document is not a complete Prolog tutorial.
@@ -76,6 +97,7 @@ file:
   $ git push origin HEAD:refs/meta/config
 ====
 
+[[HowToWriteSubmitRules]]
 How to write submit rules
 -------------------------
 Whenever Gerrit needs to evaluate submit rules for a change `C` from project `P` it
@@ -178,6 +200,7 @@ need a (global) voting category for each label contained in the result of
 label is met will probably not be made by explicit voting but, instead, by
 inspecting the facts about the change.
 
+[[SubmitFilter]]
 Submit Filter
 -------------
 Another mechanism of changing the default submit rules is to implement the
@@ -215,7 +238,6 @@ can avoid implementing the same `submit_rule` in all their projects.
 
 The following "drawing" illustrates the order of the invocation and the chaining
 of the results of the `submit_rule` and `submit_filter` predicates.
-
 ====
   All-Projects
   ^   submit_filter(B, S) :- ...  <4>
@@ -247,6 +269,33 @@ NOTE: If `MyProject` doesn't define its own `submit_rule` Gerrit will invoke the
 default implementation of submit rule that is named `gerrit:default_submit` and
 its result will be filtered as described above.
 
+How to write submit type
+------------------------
+Writing custom submit type logic in Prolog is the similar top
+xref:HowToWriteSubmitRules[writing submit rules]. The only difference is that
+one has to implement a `submit_type` predicate (instead of the `submit_rule`)
+and that the return result of the `submit_type` has to be an atom that
+represents one of the supported submit types:
+
+* `fast_forward_only`
+* `merge_if_necessary`
+* `merge_always`
+* `cherry_pick`
+* `rebase_if_necessary`
+
+Submit Type Filter
+------------------
+Submit type filter works the same way as the xref:SubmitFilter[Submit Filter]
+where the name of the filter predicate is `submit_type_filter`.
+
+====
+  submit_type_filter(In, Out).
+====
+
+Gerrit will invoke `submit_type_filter` with the `In` parameter containing a
+result of the `submit_type` and will take the value of the `Out` parameter as
+the result.
+
 [[TestingSubmitRules]]
 Testing submit rules
 --------------------
@@ -275,8 +324,8 @@ On the other hand, Prolog based submit rules get a limited amount of facts about
 the change exposed to them. Gerrit plugins get full access to Gerrit internals
 and can potentially check more things than Prolog based rules.
 
-Examples
---------
+Examples - Submit Rule
+----------------------
 The following examples should serve as a cookbook for developing own submit rules.
 Some of them are too trivial to be used in production and their only purpose is
 to provide step by step introduction and understanding.
@@ -744,6 +793,68 @@ author does not have permissions for submitting the change.
 
   only_allow_author_to_submit(S1, [label('Patchset-Author', need(_)) | S1]).
 ====
+
+Examples - Submit Type
+----------------------
+The following examples show how to implement own submit type rules.
+
+Example 1: Set a `Cherry Pick` submit type for all changes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This example sets the `Cherry Pick` submit type for all changes. It overrides
+whatever is set as project default submit type.
+
+rules.pl
+[caption=""]
+====
+  submit_type(cherry_pick).
+====
+
+
+Example 2: `Fast Forward Only` for all `refs/heads/stable*` branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For all `refs/heads/stable.*` branches we would like to enforce the `Fast
+Forward Only` submit type. A reason for this decision may be a need to never
+break the build in the stable branches.  For all other branches, those not
+matching the `refs/heads/stable.*` pattern, we would like to use the project's
+default submit type as defined on the project settings page.
+
+.rules.pl
+[caption=""]
+====
+  submit_type(fast_forward_only) :-
+    gerrit:change_branch(B), regex_matches('refs/heads/stable.*', B),
+    !.
+  submit_type(T) :- gerrit:project_default_submit_type(T)
+====
+
+The first `submit_type` predicate defines the `Fast Forward Only` submit type
+for `refs/heads/stable.*` branches. The second `submit_type` predicate returns
+the project's default submit type.
+
+Example 3: Don't require `Fast Forward Only` if only documentation was changed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Like in the previous example we want the `Fast Forward Only` submit type for
+the `refs/heads/stable*` branches.  However, if only documentation was changed
+(only `*.txt` files), then we allow project's default submit type for such
+changes.
+
+.rules.pl
+[caption=""]
+====
+  submit_type(fast_forward_only) :-
+    gerrit:commit_delta('(?<!\.txt)$'),
+    gerrit:change_branch(B), regex_matches('refs/heads/stable.*', B),
+    !.
+  submit_type(T) :- gerrit:project_default_submit_type(T)
+====
+
+The `gerrit:commit_delta('(?<!\.txt)$')` succeeds if the change contains a file
+whose name doesn't end with `.txt` The rest of this rule is same like in the
+previous example.
+
+If all file names in the change end with `.txt`, then the
+`gerrit:commit_delta('(?<!\.txt)$')` will fail as no file name will match this
+regular expression.
 
 GERRIT
 ------

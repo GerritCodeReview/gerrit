@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzn///+8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeManageService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T22:34:53Z",
+      "side": 1,
+      "message": "I would have preferred to build this on the new REST API stuff.",
+      "revId": "b7b8a3907a00085a9b7ba77aac1f1a30054129e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzn///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CodeReviewCommit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T22:34:53Z",
+      "side": 1,
+      "message": "Why does this need to be made public?",
+      "revId": "b7b8a3907a00085a9b7ba77aac1f1a30054129e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

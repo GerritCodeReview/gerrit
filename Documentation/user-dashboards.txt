@@ -114,6 +114,19 @@ main.description::
 +
 The description of the dashboard.
 
+main.allQueries::
++
+The allQueries parameter to use in every query in the dashboard.
+
+Example dashboard config section to constrain the entire dashboard to
+the project in which the dashboard is applied to:
+
+----
+[dashboard]
+  allQueries = project:${project}
+----
+
+
 Section section
 ~~~~~~~~~~~~~~~
 

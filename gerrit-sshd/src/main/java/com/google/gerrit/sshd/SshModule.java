@@ -14,16 +14,18 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.inject.Scopes.SINGLETON;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
+import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.collect.Maps;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
+import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -42,8 +44,10 @@ import com.google.inject.servlet.RequestScoped;
 
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.eclipse.jgit.lib.Config;
+
 import java.net.SocketAddress;
 import java.util.Map;
 
@@ -86,7 +90,9 @@ public class SshModule extends FactoryModule {
     bind(AccountManager.class);
     factory(ChangeUserName.Factory.class);
 
-    bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
+    DynamicSet.bind(binder(), AuthBackend.class).to(DatabasePubKeyAuth.class);
+    bind(PublickeyAuthenticator.class).to(BackendSshAuth.class);
+    bind(PasswordAuthenticator.class).to(BackendSshAuth.class);
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);
 
     install(new DefaultCommandModule());

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzn///+w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/ChangeManageService.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T22:53:51Z",
+      "side": 1,
+      "message": "I would prefer if this used the new REST API. :-)",
+      "revId": "fe063e42a667de19a1957e28cb2d2f7478f39327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzn///+s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T22:53:51Z",
+      "side": 1,
+      "message": "This editor opens at 60 characters wide. This is too narrow for most commit messages.",
+      "revId": "fe063e42a667de19a1957e28cb2d2f7478f39327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

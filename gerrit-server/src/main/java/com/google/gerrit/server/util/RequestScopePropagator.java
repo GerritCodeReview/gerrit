@@ -170,12 +170,12 @@ public abstract class RequestScopePropagator {
    */
   protected abstract <T> Callable<T> wrapImpl(final Callable<T> callable);
 
-  protected <T> Callable<T> context(RequestContext context,
+  protected <T> Callable<T> context(final RequestContext context,
       final Callable<T> callable) {
-    final CurrentUser user = context.getCurrentUser();
     return new Callable<T>() {
       @Override
       public T call() throws Exception {
+        final CurrentUser user = context.getCurrentUser();
         RequestContext old = local.setContext(new RequestContext() {
           @Override
           public CurrentUser getCurrentUser() {

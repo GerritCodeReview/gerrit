@@ -34,6 +34,23 @@
       "revId": "a875d30bffcaec9cfd1085ff0a5573451f82dee9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzn///9U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/RecentlyAccessedCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T23:29:57Z",
+      "side": 1,
+      "message": "As discussed at the hackathon, this should be a cookie and be completely client side state.",
+      "revId": "a875d30bffcaec9cfd1085ff0a5573451f82dee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

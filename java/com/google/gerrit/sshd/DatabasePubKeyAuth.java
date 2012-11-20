@@ -17,14 +17,22 @@ package com.google.gerrit.sshd;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Preconditions;
 import com.google.gerrit.common.FileUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.AccountSshKey;
+import com.google.gerrit.server.auth.AuthBackend;
+import com.google.gerrit.server.auth.AuthException;
+import com.google.gerrit.server.auth.AuthRequest;
+import com.google.gerrit.server.auth.AuthUser;
+import com.google.gerrit.server.auth.InvalidCredentialsException;
+import com.google.gerrit.server.auth.MissingCredentialsException;
+import com.google.gerrit.server.auth.UnknownUserException;
+import com.google.gerrit.server.auth.UserNotAllowedException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.sshd.auth.SshAuthRequest;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,41 +49,28 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
-import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
-import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Authenticates by public key through {@link AccountSshKey} entities. */
-class DatabasePubKeyAuth implements PublickeyAuthenticator {
+@Singleton
+class DatabasePubKeyAuth implements AuthBackend {
   private static final Logger log = LoggerFactory.getLogger(DatabasePubKeyAuth.class);
 
   private final SshKeyCacheImpl sshKeyCache;
-  private final SshLog sshLog;
-  private final IdentifiedUser.GenericFactory userFactory;
-  private final PeerDaemonUser.Factory peerFactory;
   private final Config config;
-  private final SshScope sshScope;
   private final Set<PublicKey> myHostKeys;
   private volatile PeerKeyCache peerKeyCache;
 
   @Inject
   DatabasePubKeyAuth(
-      SshKeyCacheImpl skc,
-      SshLog l,
-      IdentifiedUser.GenericFactory uf,
-      PeerDaemonUser.Factory pf,
-      SitePaths site,
-      KeyPairProvider hostKeyProvider,
-      @GerritServerConfig Config cfg,
-      SshScope s) {
+      final SshKeyCacheImpl skc,
+      final SitePaths site,
+      final KeyPairProvider hostKeyProvider,
+      final @GerritServerConfig Config cfg) {
     sshKeyCache = skc;
-    sshLog = l;
-    userFactory = uf;
-    peerFactory = pf;
     config = cfg;
-    sshScope = s;
     myHostKeys = myHostKeys(hostKeyProvider);
     peerKeyCache = new PeerKeyCache(site.peer_keys);
   }
@@ -97,60 +92,6 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     if (pair != null && pair.getPublic() != null) {
       out.add(pair.getPublic());
     }
-  }
-
-  @Override
-  public boolean authenticate(String username, PublicKey suppliedKey, ServerSession session) {
-    SshSession sd = session.getAttribute(SshSession.KEY);
-    Preconditions.checkState(sd.getUser() == null);
-    if (PeerDaemonUser.USER_NAME.equals(username)) {
-      if (myHostKeys.contains(suppliedKey) || getPeerKeys().contains(suppliedKey)) {
-        PeerDaemonUser user = peerFactory.create(sd.getRemoteAddress());
-        return SshUtil.success(username, session, sshScope, sshLog, sd, user);
-      }
-      sd.authenticationError(username, "no-matching-key");
-      return false;
-    }
-
-    if (config.getBoolean("auth", "userNameToLowerCase", false)) {
-      username = username.toLowerCase(Locale.US);
-    }
-
-    Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);
-    SshKeyCacheEntry key = find(keyList, suppliedKey);
-    if (key == null) {
-      String err;
-      if (keyList == SshKeyCacheImpl.NO_SUCH_USER) {
-        err = "user-not-found";
-      } else if (keyList == SshKeyCacheImpl.NO_KEYS) {
-        err = "key-list-empty";
-      } else {
-        err = "no-matching-key";
-      }
-      sd.authenticationError(username, err);
-      return false;
-    }
-
-    // Double check that all of the keys are for the same user account.
-    // This should have been true when the cache factory method loaded
-    // the list into memory, but we want to be extra paranoid about our
-    // security check to ensure there aren't two users sharing the same
-    // user name on the server.
-    //
-    for (SshKeyCacheEntry otherKey : keyList) {
-      if (!key.getAccount().equals(otherKey.getAccount())) {
-        sd.authenticationError(username, "keys-cross-accounts");
-        return false;
-      }
-    }
-
-    IdentifiedUser cu = SshUtil.createUser(sd, userFactory, key.getAccount());
-    if (!cu.getAccount().isActive()) {
-      sd.authenticationError(username, "inactive-account");
-      return false;
-    }
-
-    return SshUtil.success(username, session, sshScope, sshLog, sd, cu);
   }
 
   private Set<PublicKey> getPeerKeys() {
@@ -219,5 +160,69 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     PeerKeyCache reload() {
       return new PeerKeyCache(path);
     }
+  }
+
+  @Override
+  public String getDomain() {
+    return "gerrit";
+  }
+
+  @Override
+  public AuthUser authenticate(AuthRequest req)
+      throws MissingCredentialsException, InvalidCredentialsException, UnknownUserException,
+          UserNotAllowedException {
+
+    if (!(req instanceof SshAuthRequest)) {
+      throw new MissingCredentialsException(
+          String.format("Invalid authentication request type %s", req));
+    }
+
+    String username = req.getUsername().get();
+    PublicKey suppliedKey = ((SshAuthRequest) req).getPubKey();
+
+    if (PeerDaemonUser.USER_NAME.equals(username)) {
+      if (myHostKeys.contains(suppliedKey) || getPeerKeys().contains(suppliedKey)) {
+        return new AuthUser(AuthUser.UUID.create(username), username);
+      }
+      throw new InvalidCredentialsException(
+          String.format("No matching key for user: %s", username));
+    }
+
+    if (config.getBoolean("auth", "userNameToLowerCase", false)) {
+      username = username.toLowerCase(Locale.US);
+    }
+
+    final Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);
+    final SshKeyCacheEntry key = find(keyList, suppliedKey);
+    if (key == null) {
+      if (keyList == SshKeyCacheImpl.NO_SUCH_USER) {
+        throw new UnknownUserException(String.format("User '%s' not found", username));
+      } else if (keyList == SshKeyCacheImpl.NO_KEYS) {
+        throw new MissingCredentialsException(
+            String.format("Key list is empty for user %s", username));
+      } else {
+        throw new InvalidCredentialsException(
+            String.format("no-matching-key for user: %s", username));
+      }
+    }
+    try {
+      ((SshAuthRequest) req).checkPassword(key.getPublicKey());
+    } catch (AuthException e) {
+      throw new InvalidCredentialsException(e);
+    }
+
+    // Double check that all of the keys are for the same user account.
+    // This should have been true when the cache factory method loaded
+    // the list into memory, but we want to be extra paranoid about our
+    // security check to ensure there aren't two users sharing the same
+    // user name on the server.
+    //
+    for (final SshKeyCacheEntry otherKey : keyList) {
+      if (!key.getAccount().equals(otherKey.getAccount())) {
+        throw new InvalidCredentialsException("keys-cross-accounts");
+      }
+    }
+
+    return new AuthUser(AuthUser.UUID.create(username), username);
   }
 }

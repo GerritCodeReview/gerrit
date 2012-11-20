@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///9g\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-20T17:45:39Z",
+      "side": 1,
+      "message": "s/main/dashboard\n\nProbably you need to rebase this change to have the rename from main to dashboard in place.",
+      "revId": "bc34d4604a00aa9bd95df1286e54d15f2f00e818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///9s\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-20T17:45:39Z",
+      "side": 1,
+      "message": "here it should also be \u0027+\u0027 to get the correct indention of the following paragraph.",
+      "revId": "bc34d4604a00aa9bd95df1286e54d15f2f00e818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///9k\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-20T17:45:39Z",
+      "side": 1,
+      "message": "Is the \u0027to\u0027 in the end needed?",
+      "revId": "bc34d4604a00aa9bd95df1286e54d15f2f00e818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///9o\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-20T17:45:39Z",
+      "side": 1,
+      "message": "here it should also be \u0027+\u0027 to get the correct indention of the following paragraph.",
+      "revId": "bc34d4604a00aa9bd95df1286e54d15f2f00e818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

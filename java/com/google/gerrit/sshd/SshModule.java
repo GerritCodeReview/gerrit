@@ -27,6 +27,7 @@ import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.GerritConfigListener;
+import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
@@ -47,6 +48,7 @@ import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
+import org.apache.sshd.server.auth.password.PasswordAuthenticator;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
 import org.eclipse.jgit.lib.Config;
 
@@ -91,8 +93,10 @@ public class SshModule extends LifecycleModule {
         .in(SINGLETON);
     bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
 
+    DynamicSet.bind(binder(), AuthBackend.class).to(DatabasePubKeyAuth.class);
+    bind(PublickeyAuthenticator.class).to(BackendSshAuth.class);
     bind(GSSAuthenticator.class).to(GerritGSSAuthenticator.class);
-    bind(PublickeyAuthenticator.class).to(CachingPublicKeyAuthenticator.class);
+    bind(PasswordAuthenticator.class).to(BackendSshAuth.class);
 
     bind(ModuleGenerator.class).to(SshAutoRegisterModuleGenerator.class);
     bind(SshPluginStarterCallback.class);
@@ -134,7 +138,6 @@ public class SshModule extends LifecycleModule {
         .annotatedWith(RemotePeer.class)
         .toProvider(SshRemotePeerProvider.class)
         .in(SshScope.REQUEST);
-
     bind(ScheduledThreadPoolExecutor.class)
         .annotatedWith(CommandExecutor.class)
         .toProvider(CommandExecutorProvider.class)

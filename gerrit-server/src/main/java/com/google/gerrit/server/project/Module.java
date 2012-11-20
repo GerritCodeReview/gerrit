@@ -23,6 +23,9 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 public class Module extends RestApiModule {
   @Override
   protected void configure() {
+    bind(ProjectsCollection.class);
+    bind(DashboardsCollection.class);
+
     DynamicMap.mapOf(binder(), PROJECT_KIND);
     DynamicMap.mapOf(binder(), DASHBOARD_KIND);
 
@@ -34,9 +37,9 @@ public class Module extends RestApiModule {
     get(PROJECT_KIND, "parent").to(GetParent.class);
     put(PROJECT_KIND, "parent").to(SetParent.class);
 
+    child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);
     put(DASHBOARD_KIND).to(SetDashboard.class);
     delete(DASHBOARD_KIND).to(DeleteDashboard.class);
-    child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
   }
 }

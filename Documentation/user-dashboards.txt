@@ -55,7 +55,7 @@ the dashboard.
 Example dashboard config file `MyProject Dashboard`:
 
 ----
-[main]
+[dashboard]
   description = Most recent open and merged changes.
 [section "Open Changes"]
   query = status:open project:myProject limit:15
@@ -83,10 +83,17 @@ dashboard to be restricted to only changes for the project in which
 an inherited dashboard is being applied by simply adding
 `project:${project}` to the queries in the dashboard.
 
-Section main
-~~~~~~~~~~~~
+Section dashboard
+~~~~~~~~~~~~~~~~~
 
-main.description::
+dashboard.title::
++
+The title of the dashboard.
++
+If not specified the path of the dashboard config file is used as
+title.
+
+dashboard.description::
 +
 The description of the dashboard.
 

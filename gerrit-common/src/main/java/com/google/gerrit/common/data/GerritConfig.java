@@ -28,6 +28,7 @@ import java.util.Set;
 
 public class GerritConfig implements Cloneable {
   protected String registerUrl;
+  protected String registerText;
   protected String httpPasswordUrl;
   protected String reportBugUrl;
   protected String openIdSsoUrl;
@@ -59,6 +60,14 @@ public class GerritConfig implements Cloneable {
 
   public void setRegisterUrl(final String u) {
     registerUrl = u;
+  }
+
+  public String getRegisterText() {
+    return registerText;
+  }
+
+  public void setRegisterText(final String t) {
+    registerText = t;
   }
 
   public String getReportBugUrl() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALyH///+g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-20T15:21:45Z",
+      "side": 1,
+      "message": "Should the allQueries string really be given as an own parameter to the client? I was expecting it would be simply contained in the url field.",
+      "revId": "02a8517c05736258bda50e17efa1a52265356405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

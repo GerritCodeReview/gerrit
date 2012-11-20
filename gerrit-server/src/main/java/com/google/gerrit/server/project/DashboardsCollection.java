@@ -144,9 +144,13 @@ class DashboardsCollection implements
     info.title = config.getString("dashboard", null, "title");
     info.description = config.getString("dashboard", null, "description");
     info.isDefault = setDefault ? (info.id.equals(defaultOf(project)) ? true : null) : null;
+    info.foreach = config.getString("dashboard", null, "foreach");
 
     UrlEncoded u = new UrlEncoded("/dashboard/");
     u.put("title", Objects.firstNonNull(info.title, info.path));
+    if (info.foreach != null) {
+      u.put("foreach", replace(project.getName(), info.foreach));
+    }
     for (String name : config.getSubsections("section")) {
       Section s = new Section();
       s.name = name;
@@ -181,6 +185,7 @@ class DashboardsCollection implements
     String ref;
     String path;
     String description;
+    String foreach;
     String url;
 
     @SerializedName("default")

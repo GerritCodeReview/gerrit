@@ -42,8 +42,6 @@ class SearchPanel extends Composite {
     setStyleName(Gerrit.RESOURCES.css().searchPanel());
 
     searchBox = new HintTextBox();
-    searchBox.setVisibleLength(70);
-    searchBox.setHintText(Gerrit.C.searchHint());
     final MySuggestionDisplay suggestionDisplay = new MySuggestionDisplay();
     searchBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
@@ -59,6 +57,8 @@ class SearchPanel extends Composite {
     final SuggestBox suggestBox =
         new SuggestBox(new SearchSuggestOracle(), searchBox, suggestionDisplay);
     searchBox.setStyleName("gwt-TextBox");
+    searchBox.setVisibleLength(70);
+    searchBox.setHintText(Gerrit.C.searchHint());
 
     final Button searchButton = new Button(Gerrit.C.searchButton());
     searchButton.addClickHandler(new ClickHandler() {

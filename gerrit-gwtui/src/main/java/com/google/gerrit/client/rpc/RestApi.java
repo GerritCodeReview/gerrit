@@ -78,12 +78,9 @@ public class RestApi {
       }
 
       String json = res.getText();
-      if (!json.startsWith(JSON_MAGIC)) {
-        RpcStatus.INSTANCE.onRpcComplete();
-        cb.onFailure(new RemoteJsonException("Invalid JSON"));
-        return;
+      if (json.startsWith(JSON_MAGIC)) {
+        json = json.substring(JSON_MAGIC.length());
       }
-      json = json.substring(JSON_MAGIC.length());
 
       T data;
       try {

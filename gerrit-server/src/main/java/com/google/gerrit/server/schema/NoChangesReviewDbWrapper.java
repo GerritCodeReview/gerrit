@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ChangeMessageAccess;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
@@ -231,6 +232,11 @@ class NoChangesReviewDbWrapper extends ReviewDbWrapper {
 
     @Override
     public ResultSet<Change> all() {
+      return empty();
+    }
+
+    @Override
+    public ResultSet<Change> byProject(NameKey p) throws OrmException {
       return empty();
     }
   }

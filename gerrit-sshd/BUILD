@@ -13,6 +13,7 @@ java_library(
         "//gerrit-extension-api:api",
         "//gerrit-lucene:lucene",
         "//gerrit-patch-jgit:server",
+        "//gerrit-patch-commonsnet:commons-net",
         "//gerrit-reviewdb:server",
         "//gerrit-server:server",
         "//gerrit-util-cli:cli",

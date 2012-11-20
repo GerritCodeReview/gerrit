@@ -17,12 +17,14 @@ package com.google.gerrit.reviewdb.server;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.util.concurrent.CheckedFuture;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -248,6 +250,11 @@ public class ReviewDbWrapper implements ReviewDb {
     @Override
     public ResultSet<Change> all() throws OrmException {
       return delegate.all();
+    }
+
+    @Override
+    public ResultSet<Change> byProject(NameKey p) throws OrmException {
+      throw new NotImplementedException("Method not implemented");
     }
   }
 

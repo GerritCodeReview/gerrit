@@ -100,6 +100,8 @@ import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.UserAuth;
 import org.apache.sshd.server.auth.gss.GSSAuthenticator;
 import org.apache.sshd.server.auth.gss.UserAuthGSSFactory;
+import org.apache.sshd.server.auth.password.PasswordAuthenticator;
+import org.apache.sshd.server.auth.password.UserAuthPasswordFactory;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
 import org.apache.sshd.server.auth.pubkey.UserAuthPublicKeyFactory;
 import org.apache.sshd.server.forward.ForwardingFilter;
@@ -154,6 +156,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       final NoShell noShell,
       final PublickeyAuthenticator userAuth,
       final GerritGSSAuthenticator kerberosAuth,
+      final PasswordAuthenticator passAuth,
       final KeyPairProvider hostKeyProvider,
       final IdGenerator idGenerator,
       @GerritServerConfig final Config cfg,
@@ -231,7 +234,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initFileSystemFactory();
     initSubsystems();
     initCompression(enableCompression);
-    initUserAuth(userAuth, kerberosAuth, kerberosKeytab, kerberosPrincipal);
+    initUserAuth(userAuth, passAuth, kerberosAuth, kerberosKeytab, kerberosPrincipal);
     setKeyPairProvider(hostKeyProvider);
     setCommandFactory(commandFactory);
     setShellFactory(noShell);
@@ -667,6 +670,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   private void initUserAuth(
       final PublickeyAuthenticator pubkey,
+      final PasswordAuthenticator passAuth,
       final GSSAuthenticator kerberosAuthenticator,
       String kerberosKeytab,
       String kerberosPrincipal) {
@@ -698,8 +702,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       setGSSAuthenticator(kerberosAuthenticator);
     }
     authFactories.add(UserAuthPublicKeyFactory.INSTANCE);
+    authFactories.add(UserAuthPasswordFactory.INSTANCE);
     setUserAuthFactories(authFactories);
     setPublickeyAuthenticator(pubkey);
+    setPasswordAuthenticator(passAuth);
   }
 
   private void initForwarding() {

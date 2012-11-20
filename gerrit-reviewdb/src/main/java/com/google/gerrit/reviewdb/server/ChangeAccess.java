@@ -15,6 +15,7 @@
 package com.google.gerrit.reviewdb.server;
 
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.PrimaryKey;
@@ -25,6 +26,9 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Override
   @PrimaryKey("changeId")
   Change get(Change.Id id) throws OrmException;
+
+  @Query("WHERE dest.projectName = ?")
+  ResultSet<Change> byProject(Project.NameKey p) throws OrmException;
 
   @Query
   ResultSet<Change> all() throws OrmException;

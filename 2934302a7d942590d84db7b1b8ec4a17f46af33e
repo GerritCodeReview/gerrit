@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALuH///+0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T01:39:44Z",
+      "side": 1,
+      "message": "I wonder if adding:\n\n  bind(DashboardsCollection.class);\n\ninstead would fix the issue. We are exactly in the case they talk about, this code is inside of a child injector and the binding is currently a just-in-time binding. Making an explicit binding for DashboardsCollection might fix things.",
+      "revId": "2934302a7d942590d84db7b1b8ec4a17f46af33e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

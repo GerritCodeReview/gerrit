@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAALyH///+U\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-20T16:08:00Z",
+      "side": 1,
+      "message": "Should the allQueries parameter rather be described in this section (which is now renamed to \u0027dashboard\u0027), similar to how the \u0027title\u0027 and \u0027description\u0027 parameter are described?",
+      "revId": "02a8517c05736258bda50e17efa1a52265356405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALyH///+g\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
         "patchSetId": 1
@@ -31,6 +48,24 @@
       "side": 1,
       "message": "It is in both.  I added it as a field since a future UI editor would likely want to be able to see and edit the original allQueries parameter.",
       "parentUuid": "AAALyH///+g\u003d",
+      "revId": "02a8517c05736258bda50e17efa1a52265356405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-20T16:08:00Z",
+      "side": 1,
+      "message": "Ah ok, this makes sense :-)",
+      "parentUuid": "AAALun////M\u003d",
       "revId": "02a8517c05736258bda50e17efa1a52265356405",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

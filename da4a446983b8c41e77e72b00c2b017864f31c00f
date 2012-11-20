@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun////0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-20T03:51:07Z",
+      "side": 1,
+      "message": "I agree with David.  If this is not the desired behavior, someone could always simply delete the old change-Id from the message (which is easier than adding it back in when it is desired).   And just like the revert button: you likely want to add a changeid if they delete the old one in case the cherry pick needs to be amended.",
+      "parentUuid": "AAALqH///uk\u003d",
+      "revId": "da4a446983b8c41e77e72b00c2b017864f31c00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///xo\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 5
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "The git.getRef handles that for me.",
       "parentUuid": "AAALsn///xo\u003d",
+      "revId": "da4a446983b8c41e77e72b00c2b017864f31c00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALsX///5M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-20T03:51:07Z",
+      "side": 1,
+      "message": "Then perhaps there is an issue elsewhere, but when I tried using just \"dev\" it didn\u0027t work for me, when I used \"refs/heads/dev\", it worked.",
+      "parentUuid": "AAALsH///zo\u003d",
       "revId": "da4a446983b8c41e77e72b00c2b017864f31c00f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

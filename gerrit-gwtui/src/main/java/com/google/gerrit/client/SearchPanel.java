@@ -18,6 +18,9 @@ import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.ui.HintTextBox;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gwt.animation.client.Animation;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -33,25 +36,65 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 class SearchPanel extends Composite {
+  private static final int FULL_SIZE = 70;
+  private static final int SMALL_SIZE = 40;
+
+  private class SizeAnimation extends Animation {
+    int targetSize;
+    int startSize;
+    public void run(boolean expand) {
+      if(expand) {
+        targetSize = FULL_SIZE;
+        startSize = SMALL_SIZE;
+      } else {
+        targetSize = SMALL_SIZE;
+        startSize = FULL_SIZE;
+      }
+      super.run(300);
+    }
+    @Override
+    protected void onUpdate(double progress) {
+      int size = (int) (targetSize * progress + startSize * (1-progress));
+      searchBox.setVisibleLength(size);
+    }
+
+    @Override
+    protected void onComplete() {
+      searchBox.setVisibleLength(targetSize);
+    }
+  }
   private final HintTextBox searchBox;
   private HandlerRegistration regFocus;
+  private final SizeAnimation sizeAnimation;
 
   SearchPanel() {
     final FlowPanel body = new FlowPanel();
+    sizeAnimation = new SizeAnimation();
     initWidget(body);
     setStyleName(Gerrit.RESOURCES.css().searchPanel());
 
     searchBox = new HintTextBox();
-    searchBox.setVisibleLength(70);
+    searchBox.setVisibleLength(SMALL_SIZE);
     searchBox.setHintText(Gerrit.C.searchHint());
     final MySuggestionDisplay suggestionDisplay = new MySuggestionDisplay();
     searchBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
+        if(searchBox.getVisibleLength() == SMALL_SIZE) {
+          sizeAnimation.run(true);
+        }
         if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) {
           if (!suggestionDisplay.isSuggestionSelected) {
             doSearch();
           }
+        }
+      }
+    });
+    searchBox.addBlurHandler(new BlurHandler() {
+      @Override
+      public void onBlur(BlurEvent event) {
+        if (searchBox.getVisibleLength() != SMALL_SIZE) {
+          sizeAnimation.run(false);
         }
       }
     });

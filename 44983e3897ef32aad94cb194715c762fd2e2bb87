@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALuH////c\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T01:30:00Z",
+      "side": 1,
+      "message": "You have tabs throughout the newly added code. This file is indented with spaces.",
+      "revId": "44983e3897ef32aad94cb194715c762fd2e2bb87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALuH////Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gwt_override.css",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T01:30:00Z",
+      "side": 1,
+      "message": "tab",
+      "revId": "44983e3897ef32aad94cb194715c762fd2e2bb87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

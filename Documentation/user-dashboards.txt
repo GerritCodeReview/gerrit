@@ -55,7 +55,7 @@ the dashboard.
 Example dashboard config file `MyProject Dashboard`:
 
 ----
-[main]
+[dashboard]
   description = Most recent open and merged changes.
 [section "Open Changes"]
   query = status:open project:myProject limit:15

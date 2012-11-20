@@ -42,6 +42,12 @@ body {
   white-space: nowrap;
 }
 
+.gwt-TabBar .gwt-TabBarItem,
+.gwt-TabBar .gwt-TabBarRest,
+.gwt-TabPanelBottom {
+  background: transparent;
+}
+
 .gwt-TabBar {
   border-bottom: 1px solid black;
 }
@@ -49,16 +55,20 @@ body {
   display: none;
 }
 .gwt-TabBar .gwt-TabBarItem {
-  margin: 0px;
+  color: #353535;
+  margin: 0;
   background: trimColor;
   padding-top: 0.5em;
   padding-bottom: 1px;
   padding-left: 1em;
   padding-right: 1em;
-  border-right: 1px solid black;
+  border-bottom: 3px solid transparent;
+  border-right: 0;
 }
 .gwt-TabBar .gwt-TabBarItem-selected {
+  color: #990000;
   background: selectionColor;
+  border-bottom-color: #990000;
 }
 .gwt-TabBar .gwt-TabBarRest {
   background: trimColor;

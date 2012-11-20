@@ -36,26 +36,30 @@
   gwt-image: "greenCheck";
 }
 
+/** Override various GWT defaults */
 .gerritTopMenu {
   font-size: 9pt;
   padding-top: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  background: topMenuColor;
-}
-.gerritTopMenu .gwt-TabBar .gwt-TabBarItem,
-.gerritTopMenu .gwt-TabBar .gwt-TabBarRest,
-.gerritTopMenu .gwt-TabBar .gwt-TabPanelBottom {
-  background: topMenuColor;
-}
-.gerritTopMenu .gwt-TabBar .gwt-TabBarItem-selected {
-  background: selectionColor;
+  background: transparent;
 }
 
 .gerritBody {
   font-size: 11pt;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+a,
+a:visited {
+  color: #0654ac;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0654ac;
+  text-decoration: underline;
 }
 
 .version,
@@ -237,33 +241,46 @@
 .topmenuTDglue {
   width: 100%;
 }
+
 .topmenuMenuLeft {
   width: 300px;
-  border-left: 1px solid topMenuColor;
-  border-right: 1px solid topMenuColor;
-  border-bottom: 1px solid topMenuColor;
+  font-size: 9pt;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background: none;
+  position: relative;
+  top: 0;
+}
+.topmenuMenuLeft tbody tr td table {
+  border: 0;
+}
+.topmenuMenuLeft tbody tr td table.gwt-TabBar {
+  border-bottom: 1px solid #DDD;
+}
+.topmenuMenuLeft .gwt-TextBox {
+  width: 250px;
+}
+.topmenuMenuLeft .gwt-Button {
+  padding: 3px 6px;
 }
 .topmenuMenuLeft .gwt-TabBarFirst {
   display: none;
 }
 .topmenuMenuLeft .gwt-TabBarItem {
   margin: 0px;
-  background: topMenuColor;
+  background: transparent;
   padding-top: 0px;
   padding-bottom: 1px;
   padding-left: 1em;
   padding-right: 1em;
-  border-right: 1px solid black;
-}
-.topmenuMenuLeft .gwt-TabBarItem-selected {
-  background: selectionColor;
 }
 .topmenuMenuLeft .gwt-TabBarRest {
-  background: topMenuColor;
+  background: transparent;
   padding-top: 0px;
 }
 .topmenuMenuLeft .gwt-TabPanelBottom {
-  background: topMenuColor;
+  background: transparent;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -290,12 +307,12 @@
   white-space: nowrap;
 }
 .searchPanel .gwt-TextBox {
-  font-size: 7pt;
+  font-size: 9pt;
 }
 .searchPanel .gwt-Button {
-  font-size: 7pt;
+  font-size: 9pt;
   margin-left: 2px;
-  padding: 1px;
+  padding: 3px 6px;
 }
 
 /** RPC Status **/
@@ -474,6 +491,10 @@
   padding-right: 5px;
   border-right: 1px solid trimColor;
   border-bottom: 1px solid trimColor;
+}
+
+.changeTable a.gwt-InlineHyperlink {
+  color: #222 !important;
 }
 
 .accountDashboard.changeTable tr {

@@ -93,17 +93,12 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
   @Override
   protected void onRequestSuggestions(Request request, Callback done) {
     final String query = request.getQuery();
-    int lastSpace = query.lastIndexOf(' ');
-    final String lastWord;
-    // NOTE: this method is not called if the query is empty.
-    if (lastSpace == query.length() - 1) {
+
+    final String lastWord = getLastWord(query);
+    if (lastWord == null) {
       // Starting a new word - don't show suggestions yet.
       done.onSuggestionsReady(request, null);
       return;
-    } else if (lastSpace == -1) {
-      lastWord = query;
-    } else {
-      lastWord = query.substring(lastSpace + 1);
     }
 
     final ArrayList<SearchSuggestion> r = new ArrayList<SearchSuggestOracle.SearchSuggestion>();
@@ -116,6 +111,22 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
       }
     }
     done.onSuggestionsReady(request, new Response(r));
+  }
+
+  private String getLastWord(final String query) {
+    final int lastSpace = query.lastIndexOf(' ');
+    if (lastSpace == query.length() - 1) {
+      return null;
+    }
+    if (lastSpace == -1) {
+      return query;
+    }
+    return query.substring(lastSpace + 1);
+  }
+
+  @Override
+  protected String getQueryPattern(final String query) {
+    return super.getQueryPattern(getLastWord(query));
   }
 
   private static class SearchSuggestion implements SuggestOracle.Suggestion {

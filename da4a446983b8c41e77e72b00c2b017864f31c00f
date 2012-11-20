@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "AAALvX////0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ChangeMessages.properties",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-20T03:58:57Z",
+      "side": 1,
+      "message": "Yeah. I did some changes to get closer to the result that would happen if the user was to cherry pick the user manually and then push it:\n\n1. Change Key found on destination branch \u003d New patch set\n\n2. Not found \u003d New change\n\n3. Several changes with the same key on destination branch \u003d stop (we don\u0027t know which change should be the destination) Should not happen though\n\n4. Dest branch \u003d source branch, means you are practically doing a rebase.",
+      "parentUuid": "AAALqH///uk\u003d",
+      "revId": "da4a446983b8c41e77e72b00c2b017864f31c00f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALsn///xo\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 5

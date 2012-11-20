@@ -22,6 +22,7 @@ public class DashboardInfo extends JavaScriptObject {
   public final native String ref() /*-{ return this.ref; }-*/;
   public final native String path() /*-{ return this.path; }-*/;
   public final native String description() /*-{ return this.description; }-*/;
+  public final native String allQueries() /*-{ return this.all_queries; }-*/;
   public final native String url() /*-{ return this.url; }-*/;
   public final native boolean isDefault() /*-{ return this['default'] ? true : false; }-*/;
 

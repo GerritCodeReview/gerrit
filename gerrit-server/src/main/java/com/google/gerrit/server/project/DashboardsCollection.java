@@ -143,10 +143,14 @@ class DashboardsCollection implements
     DashboardInfo info = new DashboardInfo(refName, path);
     info.title = config.getString("dashboard", null, "title");
     info.description = config.getString("dashboard", null, "description");
+    info.allQueries = config.getString("dashboard", null, "allQueries");
     info.isDefault = info.id.equals(defaultOf(project)) ? true : null;
 
     UrlEncoded u = new UrlEncoded("/dashboard/");
     u.put("title", Objects.firstNonNull(info.title, info.path));
+    if (info.allQueries != null) {
+      u.put("allQueries", replace(project.getName(), info.allQueries));
+    }
     for (String name : config.getSubsections("section")) {
       Section s = new Section();
       s.name = name;
@@ -181,6 +185,7 @@ class DashboardsCollection implements
     String ref;
     String path;
     String description;
+    String allQueries;
     String url;
 
     @SerializedName("default")

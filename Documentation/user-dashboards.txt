@@ -87,6 +87,9 @@ Example dashboard config file `MyProject Dashboard`:
   query = status:merged project:myProject limit:15
 ----
 
+To use the `allQueries` parameter with a project dashboard, place it
+in the `[dashboard]` section of the dashboard config file.
+
 Once defined, project dashboards are accessible using stable URLs by
 using the project name, refname and pathname of the dashboard via URLs
 like:
@@ -106,6 +109,14 @@ inherited.  With this token, it is possible to cause a query in a
 project dashboard to be restricted to only changes for the project in
 which an inherited dashboard is being applied by simply adding
 `project:${project}` to the query in the dashboard.
+
+Example dashboard config section to constrain the entire dashboard to
+the project in which the dashboard is applied to:
+
+----
+[dashboard]
+  allQueries = project:${project}
+----
 
 Section main
 ~~~~~~~~~~~~

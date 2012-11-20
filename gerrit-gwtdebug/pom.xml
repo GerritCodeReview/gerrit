@@ -34,11 +34,6 @@ limitations under the License.
 
   <dependencies>
     <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-gwtui</artifactId>
       <version>${project.version}</version>
@@ -93,6 +88,13 @@ limitations under the License.
       <artifactId>validation-api</artifactId>
       <classifier>sources</classifier>
       <scope>provided</scope>
+    </dependency>
+
+     <!-- Workaround for overwriting our dependencies (like args4j) by additional
+      classes put in gwt-dev.jar -->
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
     </dependency>
   </dependencies>
 </project>

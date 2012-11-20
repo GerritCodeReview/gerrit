@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALzn////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-20T21:29:32Z",
+      "side": 1,
+      "message": "ps.getParentState() onlys return null if ps is the All-Projects project.\nThe special case of direct children of the All-Projects project returning null as their parent is handled within the getParentState() method.",
+      "parentUuid": "AAALsn///x0\u003d",
+      "revId": "f39fec529f417314855c5856c89b88e9f9fc43f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALtH///+A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListProjects.java",
         "patchSetId": 1

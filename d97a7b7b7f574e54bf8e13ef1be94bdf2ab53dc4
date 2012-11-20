@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun////s\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-20T04:15:16Z",
+      "side": 1,
+      "message": "Hmm, that\u0027s a hard one.  It feels a bit more like a search parameter than a config value to me.  We have some underscore examples for search parameters, notably resume_sortkey, sortkey_before, and sortkey_after, and confusingly enough there is the visibleto which is neither underscore nor camelCase.  We use local-default below which is once again different.  Argh, but then underscores are actually illegal in gitconfigs.  I will switch it since it is illegal.",
+      "parentUuid": "AAALtH///8Y\u003d",
+      "revId": "d97a7b7b7f574e54bf8e13ef1be94bdf2ab53dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALtH///8U\u003d",
         "filename": "Documentation/user-dashboards.txt",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-19T23:45:44Z",
       "side": 1,
       "message": "s/all_queries:project/all_queries\u003dproject",
+      "revId": "d97a7b7b7f574e54bf8e13ef1be94bdf2ab53dc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun////w\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-20T04:15:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALtH///8U\u003d",
       "revId": "d97a7b7b7f574e54bf8e13ef1be94bdf2ab53dc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

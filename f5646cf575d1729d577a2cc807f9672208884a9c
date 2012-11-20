@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALuH///+s\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-20T08:25:17Z",
+      "side": 1,
+      "message": "Will this query really work? Do you mean allQueries\u003downer:self?",
+      "revId": "f5646cf575d1729d577a2cc807f9672208884a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALuH///+o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CustomDashboardScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-20T08:25:17Z",
+      "side": 1,
+      "message": "This will fail when parenthesis comes in an order like: \"()())\".",
+      "revId": "f5646cf575d1729d577a2cc807f9672208884a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -105,8 +105,11 @@ public class DigestHttpAuthProtocolHandler implements HttpAuthProtocolHandler {
 
     return new DigestHttpAuthRequest(user, response, req, new Response(req, resp)) {
       @Override
-      public void checkPassword(String password) throws AuthException {
-        final String A1 = user + ":" + realm + ":" + password;
+      public void checkCredentials(Object credentials) throws AuthException {
+        if (!(credentials instanceof String)) {
+          return;
+        }
+        final String A1 = user + ":" + realm + ":" + credentials;
         final String A2 = method + ":" + uri;
         final String expect =
             KD(H(A1), nonce + ":" + nc + ":" + cnonce + ":" + qop + ":" + H(A2));

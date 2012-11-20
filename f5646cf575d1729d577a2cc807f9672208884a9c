@@ -69,6 +69,24 @@
       "revId": "f5646cf575d1729d577a2cc807f9672208884a9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL0n////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CustomDashboardScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-20T23:26:29Z",
+      "side": 1,
+      "message": "Perhaps I did not fully grasp how this method was supposed to be used, but I figured that if I enter something like:\n  \n  magicParens(\"(status:merged) OR (owner:self) allQueriesParam)\");\n\nI got the impression that you wanted it to return \"(\", to match the dangling \")\". Which it don\u0027t.",
+      "parentUuid": "AAALun////A\u003d",
+      "revId": "f5646cf575d1729d577a2cc807f9672208884a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

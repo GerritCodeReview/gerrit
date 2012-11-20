@@ -23,6 +23,9 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 public class Module extends RestApiModule {
   @Override
   protected void configure() {
+    bind(AccountsCollection.class);
+    bind(Capabilities.class);
+
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
 

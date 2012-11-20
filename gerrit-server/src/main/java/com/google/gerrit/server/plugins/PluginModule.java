@@ -28,6 +28,7 @@ public class PluginModule extends RestApiModule {
     bind(ServerInformation.class).to(ServerInformationImpl.class);
 
     bind(PluginCleanerTask.class);
+    bind(PluginsCollection.class);
     bind(PluginGuiceEnvironment.class);
     bind(PluginLoader.class);
     bind(CopyConfigModule.class);

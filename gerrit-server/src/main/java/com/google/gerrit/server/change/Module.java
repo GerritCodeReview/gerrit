@@ -26,6 +26,10 @@ import com.google.gerrit.server.config.FactoryModule;
 public class Module extends RestApiModule {
   @Override
   protected void configure() {
+    bind(Revisions.class);
+    bind(Reviewers.class);
+    bind(Drafts.class);
+
     DynamicMap.mapOf(binder(), CHANGE_KIND);
     DynamicMap.mapOf(binder(), DRAFT_KIND);
     DynamicMap.mapOf(binder(), REVIEWER_KIND);

@@ -50,8 +50,8 @@ public abstract class AuthRequest {
     return password;
   }
 
-  public void checkPassword(String pwd) throws AuthException {
-    if (!Objects.equal(getPassword(), pwd)) {
+  public void checkCredentials(Object credentials) throws AuthException {
+    if (!Objects.equal(getPassword(), credentials)) {
       throw new InvalidCredentialsException();
     }
   }

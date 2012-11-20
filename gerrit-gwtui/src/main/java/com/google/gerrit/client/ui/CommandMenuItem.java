@@ -15,10 +15,10 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Anchor;
 
 public class CommandMenuItem extends Anchor implements ClickHandler {
@@ -27,7 +27,7 @@ public class CommandMenuItem extends Anchor implements ClickHandler {
   public CommandMenuItem(final String text, final Command cmd) {
     super(text);
     setStyleName(Gerrit.RESOURCES.css().menuItem());
-    Accessibility.setRole(getElement(), Accessibility.ROLE_MENUITEM);
+    Roles.getMenuitemRole().set(getElement());
     addClickHandler(this);
     command = cmd;
   }

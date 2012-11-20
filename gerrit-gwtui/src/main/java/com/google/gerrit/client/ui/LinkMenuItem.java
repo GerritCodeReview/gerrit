@@ -15,14 +15,14 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gwt.aria.client.Roles;
 import com.google.gwt.dom.client.AnchorElement;
-import com.google.gwt.user.client.ui.Accessibility;
 
 public class LinkMenuItem extends InlineHyperlink {
   public LinkMenuItem(final String text, final String targetHistoryToken) {
     super(text, targetHistoryToken);
     setStyleName(Gerrit.RESOURCES.css().menuItem());
-    Accessibility.setRole(getElement(), Accessibility.ROLE_MENUITEM);
+    Roles.getMenuitemRole().set(getElement());
   }
 
   @Override

@@ -42,6 +42,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -58,7 +59,6 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -769,7 +769,7 @@ public class Gerrit implements EntryPoint {
   private static Anchor anchor(final String text, final String to) {
     final Anchor a = new Anchor(text, to);
     a.setStyleName(RESOURCES.css().menuItem());
-    Accessibility.setRole(a.getElement(), Accessibility.ROLE_MENUITEM);
+    Roles.getMenuitemRole().set(a.getElement());
     return a;
   }
 

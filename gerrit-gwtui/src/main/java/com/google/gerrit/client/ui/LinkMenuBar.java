@@ -15,8 +15,8 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,7 +28,7 @@ public class LinkMenuBar extends Composite {
     body = new FlowPanel();
     initWidget(body);
     setStyleName(Gerrit.RESOURCES.css().linkMenuBar());
-    Accessibility.setRole(getElement(), Accessibility.ROLE_MENUBAR);
+    Roles.getMenubarRole().set(getElement());
   }
 
   public void addItem(final String text, final Command imp) {

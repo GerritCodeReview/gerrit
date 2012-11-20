@@ -71,9 +71,11 @@ import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.FileSystemFactory;
 import org.apache.sshd.server.FileSystemView;
 import org.apache.sshd.server.ForwardingFilter;
+import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.SshFile;
 import org.apache.sshd.server.UserAuth;
+import org.apache.sshd.server.auth.UserAuthPassword;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.channel.ChannelDirectTcpip;
 import org.apache.sshd.server.channel.ChannelSession;
@@ -87,6 +89,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.PasswordAuthentication;
 import java.net.SocketAddress;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -129,6 +132,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   @Inject
   SshDaemon(final CommandFactory commandFactory, final NoShell noShell,
       final PublickeyAuthenticator userAuth,
+      final PasswordAuthenticator passAuth,
       final KeyPairProvider hostKeyProvider, final IdGenerator idGenerator,
       @GerritServerConfig final Config cfg, final SshLog sshLog,
       @SshListenAddresses final List<SocketAddress> listen,
@@ -172,7 +176,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initFileSystemFactory();
     initSubsystems();
     initCompression();
-    initUserAuth(userAuth);
+    initUserAuth(userAuth, passAuth);
     setKeyPairProvider(hostKeyProvider);
     setCommandFactory(commandFactory);
     setShellFactory(noShell);
@@ -458,10 +462,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SuppressWarnings("unchecked")
-  private void initUserAuth(final PublickeyAuthenticator pubkey) {
+  private void initUserAuth(final PublickeyAuthenticator pubkey, final PasswordAuthenticator passauth) {
     setUserAuthFactories(Arrays
-        .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
+        .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory(),
+            new UserAuthPassword.Factory()));
     setPublickeyAuthenticator(pubkey);
+    setPasswordAuthenticator(passauth);
   }
 
   private void initForwardingFilter() {

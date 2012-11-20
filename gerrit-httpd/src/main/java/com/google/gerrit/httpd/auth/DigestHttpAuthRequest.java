@@ -29,5 +29,6 @@ public abstract class DigestHttpAuthRequest extends HttpAuthRequest {
     super(username, password, req, resp);
   }
 
-  public abstract void checkPassword(String password) throws AuthException;
+  public abstract void checkCredentials(Object credentials)
+      throws AuthException;
 }

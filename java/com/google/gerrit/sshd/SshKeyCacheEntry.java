@@ -33,4 +33,8 @@ class SshKeyCacheEntry {
   boolean match(PublicKey inkey) {
     return publicKey.equals(inkey);
   }
+
+  PublicKey getPublicKey() {
+    return publicKey;
+  }
 }

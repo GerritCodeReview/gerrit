@@ -139,11 +139,11 @@ class DashboardsCollection implements
   }
 
   static DashboardInfo parse(Project project, String refName, String path,
-      Config config) throws UnsupportedEncodingException {
+      Config config, boolean setDefault) throws UnsupportedEncodingException {
     DashboardInfo info = new DashboardInfo(refName, path);
     info.title = config.getString("dashboard", null, "title");
     info.description = config.getString("dashboard", null, "description");
-    info.isDefault = info.id.equals(defaultOf(project)) ? true : null;
+    info.isDefault = setDefault ? (info.id.equals(defaultOf(project)) ? true : null) : null;
 
     UrlEncoded u = new UrlEncoded("/dashboard/");
     u.put("title", Objects.firstNonNull(info.title, info.path));

@@ -58,7 +58,8 @@ class GetDashboard implements RestReadView<DashboardResource> {
         resource.getControl().getProject(),
         resource.getRefName().substring(REFS_DASHBOARDS.length()),
         resource.getPathName(),
-        resource.getConfig());
+        resource.getConfig(),
+        true);
   }
 
   private DashboardResource defaultOf(ProjectControl ctl)

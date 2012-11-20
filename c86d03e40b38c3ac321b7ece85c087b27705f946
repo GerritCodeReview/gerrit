@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH////s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/WebModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-20T14:06:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALqH///to\u003d",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALqH///tc\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BackendSshAuth.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-19T22:50:53Z",
       "side": 1,
       "message": "could just pass this to the constructor",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH////o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BackendSshAuth.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-20T14:06:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALqH///tc\u003d",
       "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH////k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-20T14:06:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALqH///tY\u003d",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALqH///tU\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2012-11-19T22:50:53Z",
       "side": 1,
       "message": "just inline the strings in these exceptions",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH////g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-20T14:06:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALqH///tU\u003d",
       "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH////c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-20T14:06:01Z",
+      "side": 1,
+      "message": "Done, added two new constructors, one with public key and one with password and public key",
+      "parentUuid": "AAALqH///tg\u003d",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALqH///tQ\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
         "patchSetId": 2
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "AAALyH////Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-20T14:06:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALqH///tQ\u003d",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALqH///tk\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
         "patchSetId": 2
@@ -115,6 +223,24 @@
       "writtenOn": "2012-11-19T22:50:53Z",
       "side": 1,
       "message": "this will need to be handled",
+      "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALyH////U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/auth/SshAuthRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-20T14:06:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALqH///tk\u003d",
       "revId": "c86d03e40b38c3ac321b7ece85c087b27705f946",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

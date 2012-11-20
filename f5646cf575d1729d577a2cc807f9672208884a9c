@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAALun////Q\u003d",
+        "filename": "Documentation/user-dashboards.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-20T17:20:54Z",
+      "side": 1,
+      "message": "No, you are right.  Fixed.",
+      "parentUuid": "AAALuH///+s\u003d",
+      "revId": "f5646cf575d1729d577a2cc807f9672208884a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALuH///+o\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CustomDashboardScreen.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-20T08:25:17Z",
       "side": 1,
       "message": "This will fail when parenthesis comes in an order like: \"()())\".",
+      "revId": "f5646cf575d1729d577a2cc807f9672208884a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALun////A\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CustomDashboardScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-20T17:20:54Z",
+      "side": 1,
+      "message": "It seems to work for me, maybe you can paste the failed allQueries string (and a query to go with it)?",
+      "parentUuid": "AAALuH///+o\u003d",
       "revId": "f5646cf575d1729d577a2cc807f9672208884a9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

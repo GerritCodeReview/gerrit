@@ -314,8 +314,9 @@ public class ChangeScreen extends Screen
     boolean depsOpen = false;
     int outdated = 0;
     if (!detail.getChange().getStatus().isClosed()) {
-      if (detail.getDependsOn() != null) {
-        for (final ChangeInfo ci : detail.getDependsOn()) {
+      final List<ChangeInfo> dependsOn = detail.getDependsOn();
+      if (dependsOn != null) {
+        for (final ChangeInfo ci : dependsOn) {
           if (!ci.isLatest()) {
             depsOpen = true;
             outdated++;
@@ -325,8 +326,9 @@ public class ChangeScreen extends Screen
         }
       }
     }
-    if (detail.getNeededBy() != null) {
-      for (final ChangeInfo ci : detail.getNeededBy()) {
+    final List<ChangeInfo> neededBy = detail.getNeededBy();
+    if (neededBy != null) {
+      for (final ChangeInfo ci : neededBy) {
         if ((ci.getStatus() == Change.Status.NEW) ||
             (ci.getStatus() == Change.Status.SUBMITTED) ||
             (ci.getStatus() == Change.Status.DRAFT)) {

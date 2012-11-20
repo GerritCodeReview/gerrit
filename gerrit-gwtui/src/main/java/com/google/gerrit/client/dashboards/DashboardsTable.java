@@ -126,7 +126,9 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
             + PageLinks.toProjectDashboard(new Project.NameKey(k.project()), k.id())));
     table.setText(row, 3, k.description());
     if (k.project() != null && !project.get().equals(k.project())) {
-      table.setText(row, 4, k.project());
+      table.setWidget(row, 4, new Anchor(k.project(), "#"
+                  + PageLinks.toProjectDashboards(new Project.NameKey(k
+                      .project()))));
     }
     setRowItem(row, k);
   }

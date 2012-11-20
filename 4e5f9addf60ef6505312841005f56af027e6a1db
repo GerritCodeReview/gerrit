@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAALzn////s\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CustomDashboardScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T21:02:33Z",
+      "side": 1,
+      "message": "camelCaseStyleVariableNames",
+      "revId": "4e5f9addf60ef6505312841005f56af027e6a1db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzn////o\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CustomDashboardScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T21:02:33Z",
+      "side": 1,
+      "message": "I actually dislike the name of this parameter. Maybe all or append instead?",
+      "revId": "4e5f9addf60ef6505312841005f56af027e6a1db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAALzn////k\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CustomDashboardScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-20T21:02:33Z",
+      "side": 1,
+      "message": "The magic paren thing is actually pretty damn confusing. I don\u0027t think its really worth the complexity to explain to a user that tries to use it.",
+      "revId": "4e5f9addf60ef6505312841005f56af027e6a1db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

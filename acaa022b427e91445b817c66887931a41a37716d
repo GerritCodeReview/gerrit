@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL13////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-21T21:04:11Z",
+      "side": 1,
+      "message": "id should be opaque to the client. For maximum flexibility we should just declare it String.",
+      "revId": "acaa022b427e91445b817c66887931a41a37716d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-21T21:04:11Z",
+      "side": 1,
+      "message": "Since you are testing membership in a set now, you don\u0027t need to loop through the collection. Just do:\n\n  Set\u003cAccount.Id\u003e ids \u003d fetchAccountIds(changeResource);\n  if (ids.contains(accountId)) {\n    return new ReviewerResource(changeResource, account);\n  }\n  throw new ResourceNotFoundException(id);",
+      "revId": "acaa022b427e91445b817c66887931a41a37716d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-21T21:04:11Z",
+      "side": 1,
+      "message": "Set\u003cAccount.id\u003e accountIds \u003d Sets.newHashSet();",
+      "revId": "acaa022b427e91445b817c66887931a41a37716d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

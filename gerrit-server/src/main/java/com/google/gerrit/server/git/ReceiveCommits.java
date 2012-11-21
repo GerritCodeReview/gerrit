@@ -23,6 +23,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.Capable;
@@ -586,6 +587,20 @@ public class ReceiveCommits {
           || cmd.getRefName().contains("//")) {
         reject(cmd, "not valid ref");
         continue;
+      }
+
+      HookResult result = hooks.doRefUpdateHook(project,
+                                                cmd.getRefName(),
+                                                currentUser.getAccount(),
+                                                cmd.getOldId(),
+                                                cmd.getNewId());
+
+      if (result != null) {
+        if (result.getExitValue() != 0) {
+          reject(cmd, result.toString());
+          continue;
+        }
+        rp.sendMessage(result.toString());
       }
 
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {

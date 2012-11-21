@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL13////w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-21T20:15:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALuH////I\u003d",
+      "revId": "87561e5eb8dd692dce07e09247029ea93dc243f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALqH///tE\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
         "patchSetId": 2
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL13////s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-21T20:15:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALuH////E\u003d",
+      "revId": "87561e5eb8dd692dce07e09247029ea93dc243f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALuH////A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
         "patchSetId": 2
@@ -89,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL13////o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-21T20:15:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALuH////A\u003d",
+      "revId": "87561e5eb8dd692dce07e09247029ea93dc243f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALuH///+8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
         "patchSetId": 2
@@ -100,6 +154,24 @@
       "writtenOn": "2012-11-20T01:36:33Z",
       "side": 1,
       "message": "Consider using the AccountCache instead. Get it by injection in the constructor and call get(Account.Id) to get information about the account as an AccountState. That has a getAccount() method that returns the cached in local RAM Account object.",
+      "revId": "87561e5eb8dd692dce07e09247029ea93dc243f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13////k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-21T20:15:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAALuH///+8\u003d",
       "revId": "87561e5eb8dd692dce07e09247029ea93dc243f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -73,6 +73,7 @@ import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
@@ -406,8 +407,10 @@ public class Dispatcher {
           @Override
           public void onSuccess(DashboardInfo result) {
             if (matchPrefix("/dashboard/", result.url())) {
-              String rest = skip(result.url());
-              Gerrit.display(token, new CustomDashboardScreen(rest.substring(1)));
+              String params = skip(result.url()).substring(1);
+              CustomDashboardScreen dash = new CustomDashboardScreen(params);
+              dash.setTitle(new InlineHyperlink(dash.getTitle(), PageLinks.toCustomDashboard(params)));
+              Gerrit.display(token, dash);
             }
           }
 

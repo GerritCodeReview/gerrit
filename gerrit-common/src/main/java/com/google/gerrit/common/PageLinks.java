@@ -69,6 +69,10 @@ public class PageLinks {
     return toChangeQuery(op("owner", fullname) + " " + status(status), TOP);
   }
 
+  public static String toCustomDashboard(final String params) {
+    return "/dashboard/?" + params;
+  }
+
   public static String toProjectDashboards(Project.NameKey proj) {
     return ADMIN_PROJECTS + proj.get() + ",dashboards";
   }

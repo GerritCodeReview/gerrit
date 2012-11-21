@@ -39,6 +39,7 @@ public abstract class Screen extends View {
   private String token;
   private boolean requiresSignIn;
   private String windowTitle;
+  private Widget titleWidget;
 
   protected Screen() {
     initWidget(new FlowPanel());
@@ -65,8 +66,12 @@ public abstract class Screen extends View {
     me.add(header = new Grid(1, Cols.values().length));
     me.add(body = new FlowPanel());
 
+    headerText = new InlineLabel();
+    if (titleWidget == null) {
+      titleWidget = headerText;
+    }
     FlowPanel title = new FlowPanel();
-    title.add(headerText = new InlineLabel());
+    title.add(titleWidget);
     title.setStyleName(Gerrit.RESOURCES.css().screenHeader());
     header.setWidget(0, Cols.Title.ordinal(), title);
 
@@ -97,6 +102,10 @@ public abstract class Screen extends View {
 
   protected void setHeaderVisible(boolean value) {
     header.setVisible(value);
+  }
+
+  public void setTitle(final Widget w) {
+    titleWidget = w;
   }
 
   protected void setTitleEast(final Widget w) {

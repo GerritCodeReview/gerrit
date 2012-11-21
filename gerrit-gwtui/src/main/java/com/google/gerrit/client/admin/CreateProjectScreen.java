@@ -95,7 +95,7 @@ public class CreateProjectScreen extends Screen {
       @Override
       protected void onMovePointerTo(String projectName) {
         // prevent user input from being overwritten by simply poping up
-        if (!projectsPopup.isPopingUp() || "".equals(sugestParent.getText())) {
+        if (!projectsPopup.isPoppingUp() || "".equals(sugestParent.getText())) {
           sugestParent.setText(projectName);
         }
       }

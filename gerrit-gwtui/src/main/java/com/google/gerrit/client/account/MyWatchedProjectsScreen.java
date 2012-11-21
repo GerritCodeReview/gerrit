@@ -90,7 +90,7 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
       @Override
       protected void onMovePointerTo(String projectName) {
         // prevent user input from being overwritten by simply poping up
-        if (!projectsPopup.isPopingUp() || "".equals(nameBox.getText())) {
+        if (!projectsPopup.isPoppingUp() || "".equals(nameBox.getText())) {
           nameBox.setText(projectName);
         }
       }

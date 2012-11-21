@@ -38,7 +38,7 @@ public class ProjectListPopup {
   private PopupPanel.PositionCallback popupPosition;
   private int preferredTop;
   private int preferredLeft;
-  private boolean popingUp;
+  private boolean poppingUp;
   private boolean firstPopupLoad = true;
 
   public void initPopup(final String popupText, final String currentPageLink) {
@@ -84,8 +84,8 @@ public class ProjectListPopup {
   protected void openRow(String projectName) {
   }
 
-  public boolean isPopingUp() {
-    return popingUp;
+  public boolean isPoppingUp() {
+    return poppingUp;
   }
 
   private void createWidgets(final String popupText,
@@ -119,7 +119,7 @@ public class ProjectListPopup {
   }
 
   public void displayPopup() {
-    popingUp = true;
+    poppingUp = true;
     if (firstPopupLoad) { // For sizing/positioning, delay display until loaded
       populateProjects();
     } else {
@@ -132,7 +132,7 @@ public class ProjectListPopup {
       }
       projectsTab.setRegisterKeys(true);
       projectsTab.finishDisplay();
-      popingUp = false;
+      poppingUp = false;
     }
   }
 

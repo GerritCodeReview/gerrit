@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL13///+Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ReviewerJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-21T22:13:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL13////I\u003d",
+      "revId": "acaa022b427e91445b817c66887931a41a37716d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13////A\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL13///+M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-21T22:13:28Z",
+      "side": 1,
+      "message": "Ah yea...that part of why I split this out in another method.  Forgot to change this.",
+      "parentUuid": "AAAL13////A\u003d",
+      "revId": "acaa022b427e91445b817c66887931a41a37716d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL13////E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2012-11-21T21:04:11Z",
       "side": 1,
       "message": "Set\u003cAccount.id\u003e accountIds \u003d Sets.newHashSet();",
+      "revId": "acaa022b427e91445b817c66887931a41a37716d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL13///+A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Reviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-21T22:13:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAL13////E\u003d",
       "revId": "acaa022b427e91445b817c66887931a41a37716d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

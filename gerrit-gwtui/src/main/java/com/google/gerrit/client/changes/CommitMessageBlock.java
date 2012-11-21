@@ -72,8 +72,8 @@ public class CommitMessageBlock extends Composite {
   public void display(final PatchSet.Id patchSetId,
       Boolean starred, Boolean canEditCommitMessage, final String commitMessage) {
     starPanel.clear();
-    Change.Id changeId = patchSetId.getParentKey();
-    if (changeId != null && starred != null && Gerrit.isSignedIn()) {
+    if (patchSetId != null && starred != null && Gerrit.isSignedIn()) {
+      Change.Id changeId = patchSetId.getParentKey();
       StarredChanges.Icon star = StarredChanges.createIcon(changeId, starred);
       star.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());
       starPanel.add(star);
@@ -84,7 +84,8 @@ public class CommitMessageBlock extends Composite {
     }
 
     permalinkPanel.clear();
-    if (changeId != null) {
+    if (patchSetId != null) {
+      Change.Id changeId = patchSetId.getParentKey();
       permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId));
       permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId),
           false));

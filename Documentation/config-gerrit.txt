@@ -1330,6 +1330,15 @@ Optional filename for the reviewer added hook, if not specified then
 Optional filename for the CLA signed hook, if not specified then
 `cla-signed` will be used.
 
+[[hooks.refUpdateHook]]hooks.refUpdateHook::
++
+Optional filename for the ref update hook, if not specified then
+`ref-update` will be used.
+
+[[hooks.syncHookTimeout]]hooks.syncHookTimeout::
++ Optional timeout value in seconds for synchronous hooks, if not specified
+then 30 seconds will be used.
+
 [[http]]Section http
 ~~~~~~~~~~~~~~~~~~~~
 

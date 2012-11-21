@@ -35,6 +35,7 @@ import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.Capable;
@@ -758,6 +759,20 @@ public class ReceiveCommits {
           || cmd.getRefName().contains("//")) {
         reject(cmd, "not valid ref");
         continue;
+      }
+
+      HookResult result = hooks.doRefUpdateHook(project,
+                                                cmd.getRefName(),
+                                                currentUser.getAccount(),
+                                                cmd.getOldId(),
+                                                cmd.getNewId());
+
+      if (result != null) {
+        if (result.getExitValue() != 0) {
+          reject(cmd, result.toString());
+          continue;
+        }
+        rp.sendMessage(result.toString());
       }
 
       if (MagicBranch.isMagicBranch(cmd.getRefName())) {

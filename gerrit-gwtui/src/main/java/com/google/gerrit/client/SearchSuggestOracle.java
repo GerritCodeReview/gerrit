@@ -145,6 +145,11 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
   }
 
   @Override
+  protected String getQueryPattern(final String query) {
+    return super.getQueryPattern(getLastWord(query));
+  }
+
+  @Override
   protected boolean isHTML() {
     return true;
   }

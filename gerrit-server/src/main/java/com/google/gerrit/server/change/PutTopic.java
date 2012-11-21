@@ -64,8 +64,6 @@ class PutTopic implements RestModifyView<ChangeResource, Input> {
     Change change = req.getChange();
     if (!control.canEditTopicName()) {
       throw new AuthException("changing topic not permitted");
-    } else if (!change.getStatus().isOpen()) {
-      throw new ResourceConflictException("change is " + status(change));
     }
 
     ReviewDb db = dbProvider.get();
@@ -94,27 +92,16 @@ class PutTopic implements RestModifyView<ChangeResource, Input> {
       }
       cmsg.setMessage(msgBuf.toString());
 
-      Change updatedChange = db.changes().atomicUpdate(change.getId(),
+      db.changes().atomicUpdate(change.getId(),
         new AtomicUpdate<Change>() {
           @Override
           public Change update(Change change) {
-            if (change.getStatus().isOpen()) {
-              change.setTopic(Strings.emptyToNull(newTopicName));
-              return change;
-            }
-            return null;
+            change.setTopic(Strings.emptyToNull(newTopicName));
+            return change;
           }
         });
-      if (updatedChange == null) {
-        change = db.changes().get(change.getId());
-        throw new ResourceConflictException("change is " + status(change));
-      }
       db.changeMessages().insert(Collections.singleton(cmsg));
     }
     return Strings.nullToEmpty(newTopicName);
-  }
-
-  private static String status(Change change) {
-    return change != null ? change.getStatus().name().toLowerCase() : "deleted";
   }
 }

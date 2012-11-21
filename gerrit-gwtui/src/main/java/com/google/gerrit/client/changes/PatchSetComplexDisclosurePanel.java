@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
@@ -542,6 +543,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
                     @Override
                     public void onFailure(Throwable caught) {
                       enableButtons(true);
+                      new ErrorDialog(caught.getMessage()).center();
                     }
                   });
             }

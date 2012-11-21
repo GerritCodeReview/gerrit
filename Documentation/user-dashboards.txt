@@ -110,6 +110,20 @@ dashboard.description::
 +
 The description of the dashboard.
 
+dashboard.foreach::
++
+The value of the foreach parameter gets appended to every query in the
+dashboard.
++
+Example dashboard config section to constrain the entire dashboard to
+the project to which it is applied:
++
+----
+[dashboard]
+  foreach = project:${project}
+----
+
+
 Section section
 ~~~~~~~~~~~~~~~
 

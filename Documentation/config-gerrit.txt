@@ -1236,6 +1236,10 @@ Optional filename for the ref updated hook, if not specified then
 Optional filename for the CLA signed hook, if not specified then
 `cla-signed` will be used.
 
+[[hooks.syncHookTimeout]]hooks.syncHookTimeout::
++ Optional timeout value in seconds for synchronous hooks, if not specified
+then 30 seconds will be used.
+
 [[http]]Section http
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -1248,13 +1252,13 @@ should be `http://`'hostname'`:`'port'.
 [[http.proxyUsername]]http.proxyUsername::
 +
 Optional username to authenticate to the HTTP proxy with.
-This property is honored only if the username does not 
+This property is honored only if the username does not
 appear in the http.proxy property above.
 
 [[http.proxyPassword]]http.proxyPassword::
 +
 Optional password to authenticate to the HTTP proxy with.
-This property is honored only if the password does not 
+This property is honored only if the password does not
 appear in the http.proxy property above.
 
 

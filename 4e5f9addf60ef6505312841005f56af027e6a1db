@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL23////8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CustomDashboardScreen.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-21T14:24:14Z",
+      "side": 1,
+      "message": "How about \"foreach\" instead\"?",
+      "parentUuid": "AAALzn////o\u003d",
+      "revId": "4e5f9addf60ef6505312841005f56af027e6a1db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAALzn////k\u003d",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CustomDashboardScreen.java",
         "patchSetId": 7

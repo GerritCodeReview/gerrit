@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.CommentedActionDialog;
@@ -195,8 +196,9 @@ public class ChangeInfoBlock extends Composite {
         }
 
         @Override
-        public void onFailure(Throwable caught) {
+        public void onFailure(final Throwable caught) {
           enableButtons(true);
+          new ErrorDialog(caught.getMessage()).center();
         }});
     }
   }

@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.Widget;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -292,9 +293,9 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   public void addSection(final Section s) {
     assert s.parent == null;
 
-    if (s.titleText != null) {
-      s.titleRow = table.getRowCount();
-      table.setText(s.titleRow, 0, s.titleText);
+    s.parent = this;
+    s.titleRow = table.getRowCount();
+    if (s.displayTitle()) {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.setColSpan(s.titleRow, 0, columns);
       fmt.addStyleName(s.titleRow, 0, Gerrit.RESOURCES.css().sectionHeader());
@@ -302,7 +303,6 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
       s.titleRow = -1;
     }
 
-    s.parent = this;
     s.dataBegin = table.getRowCount();
     insertNoneRow(s.dataBegin);
     sections.add(s);
@@ -362,6 +362,7 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
   public static class Section {
     ChangeTable2 parent;
     String titleText;
+    Widget titleWidget;
     int titleRow = -1;
     int dataBegin;
     int rows;
@@ -373,9 +374,29 @@ public class ChangeTable2 extends NavigationTable<ChangeInfo> {
 
     public void setTitleText(final String text) {
       titleText = text;
+      titleWidget = null;
       if (titleRow >= 0) {
         parent.table.setText(titleRow, 0, titleText);
       }
+    }
+
+    public void setTitleWidget(final Widget title) {
+      titleWidget = title;
+      titleText = null;
+      if (titleRow >= 0) {
+        parent.table.setWidget(titleRow, 0, title);
+      }
+    }
+
+    public boolean displayTitle() {
+      if (titleText != null) {
+        setTitleText(titleText);
+        return true;
+      } else if(titleWidget != null) {
+        setTitleWidget(titleWidget);
+        return true;
+      }
+      return false;
     }
 
     public void display(ChangeList changeList) {

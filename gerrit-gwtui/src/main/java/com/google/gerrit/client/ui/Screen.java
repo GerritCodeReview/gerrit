@@ -51,7 +51,6 @@ public abstract class Screen extends View {
     if (header == null) {
       onInitUI();
     }
-    Gerrit.setQueryString(null);
   }
 
   public void registerKeys() {
@@ -156,6 +155,7 @@ public abstract class Screen extends View {
       Gerrit.setWindowTitle(this, windowTitle);
     }
     Gerrit.updateMenus(this);
+    Gerrit.setQueryString(null);
     registerKeys();
   }
 }

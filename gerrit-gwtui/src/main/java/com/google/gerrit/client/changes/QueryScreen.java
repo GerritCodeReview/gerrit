@@ -57,13 +57,18 @@ public class QueryScreen extends PagedSingleListScreen implements
             Change.Id id = c.legacy_id();
             Gerrit.display(PageLinks.toChange(id), new ChangeScreen(id));
           } else {
-            Gerrit.setQueryString(query);
             display(result);
             QueryScreen.this.display();
           }
         }
       }
     };
+  }
+
+  @Override
+  public void onShowView() {
+    super.onShowView();
+    Gerrit.setQueryString(query);
   }
 
   @Override

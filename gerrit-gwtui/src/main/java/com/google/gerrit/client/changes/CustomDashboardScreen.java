@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.PageLinks;
 import com.google.gwt.http.client.URL;
 
 import java.util.ArrayList;
@@ -72,9 +73,11 @@ public class CustomDashboardScreen extends Screen implements ChangeListScreen {
     table.addStyleName(Gerrit.RESOURCES.css().accountDashboard());
 
     sections = new ArrayList<ChangeTable2.Section>();
+    int i = 0;
     for (String title : titles) {
       ChangeTable2.Section s = new ChangeTable2.Section();
       s.setTitleText(title);
+      s.setTitleText(new InlineLink(title, PageLinks.toChangeQuery(queries.get(i++))));
       table.addSection(s);
       sections.add(s);
     }

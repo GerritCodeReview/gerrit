@@ -30,7 +30,10 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.ServerUnavailableException;
@@ -73,7 +76,9 @@ public class RestApi {
 
       if (!isJsonBody(res)) {
         RpcStatus.INSTANCE.onRpcComplete();
-        cb.onFailure(new RemoteJsonException("Invalid JSON"));
+        cb.onFailure(new RemoteJsonException("Expected "
+            + JsonConstants.JSON_TYPE + "; received Content-Type: "
+            + res.getHeader("Content-Type")));
         return;
       }
 
@@ -81,19 +86,38 @@ public class RestApi {
       if (json.startsWith(JSON_MAGIC)) {
         json = json.substring(JSON_MAGIC.length());
       }
+      if (json.isEmpty()) {
+        RpcStatus.INSTANCE.onRpcComplete();
+        cb.onFailure(new RemoteJsonException("JSON response was empty"));
+        return;
+      }
 
       T data;
       try {
-        // javac generics bug
-        data = Natives.<T> parseJSON(json);
-      } catch (RuntimeException e) {
+        data = cast(JSONParser.parseStrict(json));
+      } catch (JSONException e) {
         RpcStatus.INSTANCE.onRpcComplete();
-        cb.onFailure(new RemoteJsonException("Invalid JSON"));
+        cb.onFailure(new RemoteJsonException("Invalid JSON: " + e.getMessage()));
         return;
       }
 
       cb.onSuccess(data);
       RpcStatus.INSTANCE.onRpcComplete();
+    }
+
+    @SuppressWarnings("unchecked")
+    private T cast(JSONValue val) {
+      if (val.isObject() != null) {
+        return (T) val.isObject().getJavaScriptObject();
+      } else if (val.isArray() != null) {
+        return (T) val.isArray().getJavaScriptObject();
+      } else if (val.isString() != null) {
+        return (T) NativeString.wrap(val.isString().stringValue());
+      } else if (val.isNull() != null) {
+        return null;
+      } else {
+        throw new JSONException("Unsupported JSON response type");
+      }
     }
 
     @Override

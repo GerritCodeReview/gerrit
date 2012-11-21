@@ -11,14 +11,30 @@ affected git repository so that git commands can be easily run.
 
 Make sure your hook scripts are executable if running on *nix.
 
-Hooks are run in the background after the relevant change has
-taken place so are unable to affect the outcome of any given
-change. Because of the fact the hooks are run in the background
-after the activity, a hook might not be notified about an event if
-the server is shutdown before the hook can be invoked.
+With the exception of ref-update hook, hooks are run in the background
+after the relevant change has taken place so are unable to affect
+the outcome of any given change. Because of the fact the hooks are
+run in the background after the activity, a hook might not be notified
+about an event if the server is shutdown before the hook can be invoked.
 
 Supported Hooks
 ---------------
+
+ref-update
+~~~~~~~~~~
+
+This is called when a push request is received by gerrit. It allows
+a push to be rejected before it is commited to the gerrit repository.
+If the script exits with non zero return code the push will be rejected,
+and the output of the script will be returned to the user as the reason
+for the rejection.  This hook is called synchronously so it is recommended that
+it not block.  A default timeout on the hook is set to 30 seconds to avoid
+"runaway" hooks using up server threads.  See link:config-gerrit.html#hooks.syncHookTimeout[hooks.syncHookTimeout]
+for configuration details.
+
+====
+  ref-update --project <project name> --refname <refname> --uploader <uploader> --oldrev <sha1> --newrev <sha1>
+====
 
 patchset-created
 ~~~~~~~~~~~~~~~~

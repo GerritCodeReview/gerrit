@@ -32,16 +32,20 @@ public class Natives {
     return Collections.emptySet();
   }
 
+  @SuppressWarnings("unchecked")
   public static <T extends JavaScriptObject> T parseJSON(String json) {
-    if (parser == null) {
-      parser = bestJsonParser();
+    if (json.startsWith("\"")) {
+      return (T) NativeString.wrap(parseString(parser, json));
     }
-    // javac generics bug
-    return Natives.<T>parse0(parser, json);
+    return Natives.<T> parseObject(parser, json); // javac generics bug
   }
 
   private static native <T extends JavaScriptObject>
-  T parse0(JavaScriptObject p, String s)
+  T parseObject(JavaScriptObject p, String s)
+  /*-{ return p(s); }-*/;
+
+  private static native
+  String parseString(JavaScriptObject p, String s)
   /*-{ return p(s); }-*/;
 
   private static JavaScriptObject parser;
@@ -51,6 +55,10 @@ public class Natives {
       return $wnd.JSON.parse;
     return function(s) { return eval('(' + s + ')'); };
   }-*/;
+
+  static {
+    parser = bestJsonParser();
+  }
 
   private Natives() {
   }

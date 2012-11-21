@@ -19,7 +19,14 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
 
 /** Wraps a String that was returned from a JSON API. */
 public final class NativeString extends JavaScriptObject {
-  public final native String asString() /*-{ return this; }-*/;
+  static NativeString wrap(String value) {
+    NativeString ns = (NativeString) createObject();
+    ns.set(value);
+    return ns;
+  }
+
+  public final native String asString() /*-{ return this.s; }-*/;
+  private final native void set(String v) /*-{ this.s = v; }-*/;
 
   public static final AsyncCallback<NativeString>
   unwrap(final AsyncCallback<String> cb) {

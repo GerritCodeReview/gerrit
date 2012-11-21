@@ -22,14 +22,14 @@ public class ReviewerResource extends ChangeResource {
   public static final TypeLiteral<RestView<ReviewerResource>> REVIEWER_KIND =
       new TypeLiteral<RestView<ReviewerResource>>() {};
 
-  private final Account.Id id;
+  private final Account account;
 
-  public ReviewerResource(ChangeResource rsrc, Account.Id id) {
-    super(rsrc);
-    this.id = id;
+  public ReviewerResource(ChangeResource changeResource, Account account) {
+    super(changeResource);
+    this.account = account;
   }
 
-  public Account.Id getAccountId() {
-    return id;
+  public Account getAccount() {
+    return account;
   }
 }

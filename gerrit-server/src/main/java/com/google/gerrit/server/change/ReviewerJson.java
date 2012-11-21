@@ -14,20 +14,25 @@
 
 package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gwtorm.server.OrmException;
-import com.google.inject.Inject;
+import com.google.gerrit.reviewdb.client.Account;
 
-public class GetReviewer implements RestReadView<ReviewerResource> {
-  private final ReviewerJson json;
-
-  @Inject
-  GetReviewer(ReviewerJson json) {
-    this.json = json;
+public class ReviewerJson {
+  ReviewerJson() {
   }
 
-  @Override
-  public Object apply(ReviewerResource reviewerResource) throws OrmException {
-    return json.format(reviewerResource);
+  public ReviewerInfo format(ReviewerResource reviewerResource) {
+    ReviewerInfo reviewerInfo = new ReviewerInfo();
+    Account account = reviewerResource.getAccount();
+    reviewerInfo.id = account.getId().toString();
+    reviewerInfo.email = account.getPreferredEmail();
+    reviewerInfo.name = account.getFullName();
+    return reviewerInfo;
+  }
+
+  public static class ReviewerInfo {
+    final String kind = "gerritcodereview#reviewer";
+    String id;
+    String email;
+    String name;
   }
 }

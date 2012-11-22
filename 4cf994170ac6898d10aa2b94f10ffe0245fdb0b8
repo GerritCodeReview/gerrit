@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3X////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritRequestModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-22T09:17:07Z",
+      "side": 1,
+      "message": "RestoredSender is no longer used.",
+      "revId": "4cf994170ac6898d10aa2b94f10ffe0245fdb0b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

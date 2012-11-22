@@ -18,7 +18,6 @@ import com.google.common.cache.Cache;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.CacheModule;
@@ -190,7 +189,6 @@ public class GitOverHttpServlet extends GitServlet {
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(config.getPackConfig());
       up.setTimeout(config.getTimeout());
-      session.get().setAccessPath(AccessPath.GIT);
       return up;
     }
   }
@@ -266,7 +264,6 @@ public class GitOverHttpServlet extends GitServlet {
       rp.setTimeout(config.getTimeout());
       rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
       req.setAttribute(ATT_RC, rc);
-      session.get().setAccessPath(AccessPath.GIT);
       return rp;
     }
   }

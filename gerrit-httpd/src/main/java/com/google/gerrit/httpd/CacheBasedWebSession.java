@@ -34,6 +34,8 @@ import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
 
+import org.eclipse.jgit.http.server.GitSmartHttpTools;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,7 +67,7 @@ public final class CacheBasedWebSession implements WebSession {
   private final AuthConfig authConfig;
   private final Provider<AnonymousUser> anonymousProvider;
   private final IdentifiedUser.RequestFactory identified;
-  private AccessPath accessPath = AccessPath.WEB_UI;
+  private AccessPath accessPath;
   private Cookie outCookie;
   private AuthMethod authMethod;
 
@@ -84,6 +86,12 @@ public final class CacheBasedWebSession implements WebSession {
     this.authConfig = authConfig;
     this.anonymousProvider = anonymousProvider;
     this.identified = identified;
+
+    if (GitSmartHttpTools.isGitClient(request)) {
+      accessPath = AccessPath.GIT;
+    } else {
+      accessPath = AccessPath.WEB_UI;
+    }
 
     final String cookie = readCookie();
     if (cookie != null) {
@@ -159,11 +167,6 @@ public final class CacheBasedWebSession implements WebSession {
     saveCookie();
 
     authMethod = meth;
-  }
-
-  /** Change the access path from the default of {@link AccessPath#WEB_UI}. */
-  public void setAccessPath(AccessPath path) {
-    accessPath = path;
   }
 
   /** Set the user account for this current request only. */

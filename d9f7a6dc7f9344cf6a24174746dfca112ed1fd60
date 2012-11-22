@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3X////8\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-22T02:27:12Z",
+      "side": 1,
+      "message": "s/an/a",
+      "revId": "d9f7a6dc7f9344cf6a24174746dfca112ed1fd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3X////4\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-22T02:27:12Z",
+      "side": 1,
+      "message": "s/gits/git\u0027s",
+      "revId": "d9f7a6dc7f9344cf6a24174746dfca112ed1fd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3X////s\u003d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-22T02:27:12Z",
+      "side": 1,
+      "message": "s/gerrit/Gerrit",
+      "revId": "d9f7a6dc7f9344cf6a24174746dfca112ed1fd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3X////o\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1239,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-22T02:27:12Z",
+      "side": 1,
+      "message": "Documentation of the new ref update hook filename is missing.\n\n [[hooks.refUpdateHook]]hooks.refUpdateHook::\n +\n Optional filename for the ref update hook, if not specified then `ref-update` will be used.",
+      "revId": "d9f7a6dc7f9344cf6a24174746dfca112ed1fd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3X////0\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-22T02:27:12Z",
+      "side": 1,
+      "message": "s/gerrit/Gerrit",
+      "revId": "d9f7a6dc7f9344cf6a24174746dfca112ed1fd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3X////w\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-22T02:27:12Z",
+      "side": 1,
+      "message": "s/gerrit/Gerrit",
+      "revId": "d9f7a6dc7f9344cf6a24174746dfca112ed1fd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3X////k\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-22T02:27:12Z",
+      "side": 1,
+      "message": "s/non zero/non-zero",
+      "revId": "d9f7a6dc7f9344cf6a24174746dfca112ed1fd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3X////g\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-22T02:27:12Z",
+      "side": 1,
+      "message": "This would be a bit easier to read with \"This hook ...\" in a new paragraph.",
+      "revId": "d9f7a6dc7f9344cf6a24174746dfca112ed1fd60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

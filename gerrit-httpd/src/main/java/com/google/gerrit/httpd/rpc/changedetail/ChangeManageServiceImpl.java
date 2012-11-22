@@ -26,7 +26,6 @@ class ChangeManageServiceImpl implements ChangeManageService {
   private final SubmitAction.Factory submitAction;
   private final RebaseChangeHandler.Factory rebaseChangeFactory;
   private final RestoreChangeHandler.Factory restoreChangeHandlerFactory;
-  private final RevertChange.Factory revertChangeFactory;
   private final PublishAction.Factory publishAction;
   private final DeleteDraftChange.Factory deleteDraftChangeFactory;
   private final EditCommitMessageHandler.Factory editCommitMessageHandlerFactory;
@@ -35,14 +34,12 @@ class ChangeManageServiceImpl implements ChangeManageService {
   ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
       final RebaseChangeHandler.Factory rebaseChangeFactory,
       final RestoreChangeHandler.Factory restoreChangeHandlerFactory,
-      final RevertChange.Factory revertChangeFactory,
       final PublishAction.Factory publishAction,
       final DeleteDraftChange.Factory deleteDraftChangeFactory,
       final EditCommitMessageHandler.Factory editCommitMessageHandler) {
     this.submitAction = patchSetAction;
     this.rebaseChangeFactory = rebaseChangeFactory;
     this.restoreChangeHandlerFactory = restoreChangeHandlerFactory;
-    this.revertChangeFactory = revertChangeFactory;
     this.publishAction = publishAction;
     this.deleteDraftChangeFactory = deleteDraftChangeFactory;
     this.editCommitMessageHandlerFactory = editCommitMessageHandler;
@@ -56,11 +53,6 @@ class ChangeManageServiceImpl implements ChangeManageService {
   public void rebaseChange(final PatchSet.Id patchSetId,
       final AsyncCallback<ChangeDetail> callback) {
     rebaseChangeFactory.create(patchSetId).to(callback);
-  }
-
-  public void revertChange(final PatchSet.Id patchSetId, final String message,
-      final AsyncCallback<ChangeDetail> callback) {
-    revertChangeFactory.create(patchSetId, message).to(callback);
   }
 
   public void restoreChange(final PatchSet.Id patchSetId, final String message,

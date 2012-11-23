@@ -68,13 +68,14 @@ class ListDashboards implements RestReadView<ProjectResource> {
 
     List<List<DashboardInfo>> all = Lists.newArrayList();
     ProjectControl ctl = resource.getControl();
+    String myProject = ctl.getProject().getName();
     Set<Project.NameKey> seen = Sets.newHashSet();
     boolean setDefault = true;
     for (;;) {
       if (ctl.isVisible()) {
         List<DashboardInfo> list = scan(ctl, setDefault);
         for (DashboardInfo d : list) {
-          d.project = ctl.getProject().getName();
+          d.project = myProject;
           if (d.isDefault != null && Boolean.TRUE.equals(d.isDefault)) {
             setDefault = false;
           }

@@ -40,10 +40,17 @@ public class ChangeApi {
 
   /** Update the topic of a change. */
   public static void topic(int id, String topic, String msg, AsyncCallback<String> cb) {
-    Input input = Input.create();
-    input.topic(emptyToNull(topic));
-    input.message(emptyToNull(msg));
-    api(id, "topic").data(input).put(NativeString.unwrap(cb));
+    RestApi call = api(id, "topic");
+    topic = emptyToNull(topic);
+    msg = emptyToNull(msg);
+    if (topic != null || msg != null) {
+      Input input = Input.create();
+      input.topic(topic);
+      input.message(msg);
+      call.data(input).put(NativeString.unwrap(cb));
+    } else {
+      call.delete(NativeString.unwrap(cb));
+    }
   }
 
   private static class Input extends JavaScriptObject {

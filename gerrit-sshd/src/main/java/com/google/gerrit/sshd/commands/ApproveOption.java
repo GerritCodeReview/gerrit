@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.ApprovalType;
-import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -100,8 +99,8 @@ final class ApproveOption implements Option, Setter<Short> {
     return false;
   }
 
-  ApprovalCategory.Id getCategoryId() {
-    return type.getCategory().getId();
+  String getLabelName() {
+    return type.getCategory().getLabelName();
   }
 
   public static class Handler extends OneArgumentOptionHandler<Short> {

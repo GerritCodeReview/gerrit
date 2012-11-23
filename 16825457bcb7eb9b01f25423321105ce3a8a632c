@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAL3X///+I\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-23T20:54:29Z",
+      "side": 1,
+      "message": "Although the values are assigned by the admin and therefore probably safe to use as raw HTML, I am a little worried about this change. If an admin had text before of \"Code \u003c Ideal\" or \"OK\u0026Valid\" in a value this may not render correctly anymore, where it had in the past.\n\nWe might be fine, maybe nobody has crazy values like this. A small mention in the release notes might be sufficient.",
+      "revId": "16825457bcb7eb9b01f25423321105ce3a8a632c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

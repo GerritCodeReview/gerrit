@@ -45,7 +45,10 @@ import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PushbackReader;
+import java.io.Reader;
 import java.io.StringReader;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -146,6 +149,15 @@ public class RulesCache {
     return pcm;
   }
 
+  public PrologMachineCopy loadMachine(String name, InputStream in)
+      throws CompileException {
+    PrologMachineCopy pmc = consultRules(name, new InputStreamReader(in));
+    if (pmc == null) {
+      throw new CompileException("Cannot consult rules from the stream " + name);
+    }
+    return pmc;
+  }
+
   private void gc() {
     Reference<?> ref;
     while ((ref = dead.poll()) != null) {
@@ -172,16 +184,21 @@ public class RulesCache {
     // Dynamically consult the rules into the machine's internal database.
     //
     String rules = read(project, rulesId);
-    BufferingPrologControl ctl = newEmptyMachine(systemLoader);
-    PushbackReader in = new PushbackReader(
-        new StringReader(rules),
-        Prolog.PUSHBACK_SIZE);
+    PrologMachineCopy pmc = consultRules("rules.pl", new StringReader(rules));
+    if (pmc == null) {
+      throw new CompileException("Cannot consult rules of " + project);
+    }
+    return pmc;
+  }
 
+  private PrologMachineCopy consultRules(String name, Reader rules) {
+    BufferingPrologControl ctl = newEmptyMachine(systemLoader);
+    PushbackReader in = new PushbackReader(rules, Prolog.PUSHBACK_SIZE);
     if (!ctl.execute(
         Prolog.BUILTIN, "consult_stream",
-        SymbolTerm.intern("rules.pl"),
+        SymbolTerm.intern(name),
         new JavaObjectTerm(in))) {
-      throw new CompileException("Cannot consult rules of " + project);
+      return null;
     }
     return save(ctl);
   }

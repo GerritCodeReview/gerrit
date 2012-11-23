@@ -108,6 +108,7 @@ public class RestApiServlet extends HttpServlet {
 
   /** MIME type used for a JSON response body. */
   private static final String JSON_TYPE = JsonConstants.JSON_TYPE;
+  private static final String FORM_TYPE = "application/x-www-form-urlencoded";
   private static final String UTF_8 = "UTF-8";
 
   /**
@@ -303,6 +304,11 @@ public class RestApiServlet extends HttpServlet {
       } finally {
         br.close();
       }
+    } else if ("POST".equals(req.getMethod())
+        && isType(FORM_TYPE, req.getContentType())) {
+      return OutputFormat.JSON.newGson().fromJson(
+          ParameterParser.formToJson(req),
+          type);
     } else {
       throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
     }
@@ -312,7 +318,7 @@ public class RestApiServlet extends HttpServlet {
     int len = req.getContentLength();
     String type = req.getContentType();
     return (len <= 0 && type == null)
-        || (len == 0 && isType("application/x-www-form-urlencoded", type));
+        || (len == 0 && isType(FORM_TYPE, type));
   }
 
   private static boolean acceptsPutInput(Class<Object> type) {

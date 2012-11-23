@@ -36,6 +36,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.mail.MergeFailSender;
@@ -168,6 +169,7 @@ public class MergeOp {
   private final SubmoduleOp.Factory subOpFactory;
   private final WorkQueue workQueue;
   private final RequestScopePropagator requestScopePropagator;
+  private final AllProjectsName allProjectsName;
 
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
@@ -184,7 +186,8 @@ public class MergeOp {
       final TagCache tagCache, final CreateCodeReviewNotes.Factory crnf,
       final SubmoduleOp.Factory subOpFactory,
       final WorkQueue workQueue,
-      final RequestScopePropagator requestScopePropagator) {
+      final RequestScopePropagator requestScopePropagator,
+      final AllProjectsName allProjectsName) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -205,6 +208,7 @@ public class MergeOp {
     this.subOpFactory = subOpFactory;
     this.workQueue = workQueue;
     this.requestScopePropagator = requestScopePropagator;
+    this.allProjectsName = allProjectsName;
     this.myIdent = myIdent;
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
@@ -449,6 +453,50 @@ public class MergeOp {
         commits.put(changeId, CodeReviewCommit
             .error(CommitMergeStatus.REVISION_GONE));
         continue;
+      }
+
+      if (GitRepositoryManager.REF_CONFIG.equals(branchUpdate.getName())) {
+        final Project.NameKey newParent;
+        try {
+          ProjectConfig cfg = new ProjectConfig(destProject.getNameKey());
+          cfg.load(repo, commit);
+          newParent = cfg.getProject().getParent(allProjectsName);
+        } catch (Exception e) {
+          commits.put(changeId, CodeReviewCommit
+              .error(CommitMergeStatus.INVALID_PROJECT_CONFIGURATION));
+          continue;
+        }
+        final Project.NameKey oldParent = destProject.getParent(allProjectsName);
+        if (oldParent == null) {
+          // update of the 'All-Projects' project
+          if (newParent != null) {
+            commits.put(changeId, CodeReviewCommit
+                .error(CommitMergeStatus.INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT));
+            continue;
+          }
+        } else {
+          if (!oldParent.equals(newParent)) {
+            final PatchSetApproval psa = getSubmitter(db, ps.getId());
+            if (psa == null) {
+              commits.put(changeId, CodeReviewCommit
+                  .error(CommitMergeStatus.SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN));
+              continue;
+            }
+            final IdentifiedUser submitter =
+                identifiedUserFactory.create(psa.getAccountId());
+            if (!submitter.getCapabilities().canAdministrateServer()) {
+              commits.put(changeId, CodeReviewCommit
+                  .error(CommitMergeStatus.SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN));
+              continue;
+            }
+
+            if (projectCache.get(newParent) == null) {
+              commits.put(changeId, CodeReviewCommit
+                  .error(CommitMergeStatus.INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND));
+              continue;
+            }
+          }
+        }
       }
 
       commit.change = chg;
@@ -1148,7 +1196,11 @@ public class MergeOp {
         case PATH_CONFLICT:
         case CRISS_CROSS_MERGE:
         case CANNOT_CHERRY_PICK_ROOT:
-        case NOT_FAST_FORWARD: {
+        case NOT_FAST_FORWARD:
+        case INVALID_PROJECT_CONFIGURATION:
+        case INVALID_PROJECT_CONFIGURATION_PARENT_PROJECT_NOT_FOUND:
+        case INVALID_PROJECT_CONFIGURATION_ROOT_PROJECT_CANNOT_HAVE_PARENT:
+        case SETTING_PARENT_PROJECT_ONLY_ALLOWED_BY_ADMIN: {
           setNew(c, message(c, txt));
           break;
         }

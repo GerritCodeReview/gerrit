@@ -51,6 +51,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -231,6 +232,7 @@ public class ReceiveCommits {
   private final TagCache tagCache;
   private final WorkQueue workQueue;
   private final RequestScopePropagator requestScopePropagator;
+  private final AllProjectsName allProjectsName;
 
   private final ProjectControl projectControl;
   private final Project project;
@@ -281,6 +283,7 @@ public class ReceiveCommits {
       final TrackingFooters trackingFooters,
       final WorkQueue workQueue,
       final RequestScopePropagator requestScopePropagator,
+      final AllProjectsName allProjectsName,
 
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
@@ -303,6 +306,7 @@ public class ReceiveCommits {
     this.tagCache = tagCache;
     this.workQueue = workQueue;
     this.requestScopePropagator = requestScopePropagator;
+    this.allProjectsName = allProjectsName;
 
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
@@ -767,6 +771,26 @@ public class ReceiveCommits {
                     + " tried to push invalid project configuration "
                     + cmd.getNewId().name() + " for " + project.getName());
                 continue;
+              }
+              Project.NameKey newParent = cfg.getProject().getParent(allProjectsName);
+              Project.NameKey oldParent = project.getParent(allProjectsName);
+              if (oldParent == null) {
+                // update of the 'All-Projects' project
+                if (newParent != null) {
+                  reject(cmd, "invalid project configuration: root project cannot have parent");
+                  continue;
+                }
+              } else {
+                if (!oldParent.equals(newParent)
+                    && !currentUser.getCapabilities().canAdministrateServer()) {
+                  reject(cmd, "invalid project configuration: only Gerrit admin can set parent");
+                  continue;
+                }
+
+                if (projectCache.get(newParent) == null) {
+                  reject(cmd, "invalid project configuration: parent does not exist");
+                  continue;
+                }
               }
             } catch (Exception e) {
               reject(cmd, "invalid project configuration");

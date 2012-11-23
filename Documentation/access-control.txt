@@ -850,6 +850,10 @@ The new column will appear at the end of the table (in position 3),
 and `-1 Do not have copyright` will block submit, while `+1 Copyright
 clear` is required to enable submit.
 
+link:config-gerrit.html#commentlink[Comment link] processing is applied to the
+text description of the approval categories (the `name` column). This can be
+used to display HTML links in the approval category value descriptions.
+
 [[restart_changes]]
 [NOTE]
 Restart the Gerrit web application and reload all browsers after

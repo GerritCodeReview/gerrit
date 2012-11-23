@@ -23,6 +23,9 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -35,6 +38,9 @@ import javax.servlet.ServletResponse;
 /** Executes any pending {@link RequestCleanup} at the end of a request. */
 @Singleton
 public class RequestContextFilter implements Filter {
+  private static final Logger log =
+      LoggerFactory.getLogger(RequestContextFilter.class);
+
   public static Module module() {
     return new ServletModule() {
       @Override
@@ -73,6 +79,14 @@ public class RequestContextFilter implements Filter {
     try {
       try {
         chain.doFilter(request, response);
+      } catch (Throwable e) {
+        log.error("---- RequestContextFilter.doFilter caught exception ----", e);
+        if (e instanceof IOException) {
+          throw (IOException) e;
+        } else if (e instanceof ServletException) {
+          throw (ServletException) e;
+        }
+        throw new RuntimeException(e);
       } finally {
         cleanup.get().run();
       }

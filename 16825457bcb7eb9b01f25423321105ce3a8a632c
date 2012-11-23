@@ -16,6 +16,24 @@
       "revId": "16825457bcb7eb9b01f25423321105ce3a8a632c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n////Y\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-11-23T21:30:08Z",
+      "side": 1,
+      "message": "I was a little concerned about this as well. I actually have another version of the patch that instead allow the commentlinks rewriting to be applied to the approval values. The functionality I am looking for is to be able to have HTML links in approval values. I think another problem with the current patch is as the values are added to patch comments the wikify() will probably screw up the links, I will check this ...",
+      "parentUuid": "AAAL3X///+I\u003d",
+      "revId": "16825457bcb7eb9b01f25423321105ce3a8a632c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

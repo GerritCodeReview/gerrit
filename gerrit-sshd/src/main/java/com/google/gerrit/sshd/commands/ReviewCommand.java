@@ -14,11 +14,14 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.data.ReviewResult.Error.Type;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
@@ -28,11 +31,12 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.Abandon;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.PostReview;
+import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
 import com.google.gerrit.server.changedetail.RestoreChange;
 import com.google.gerrit.server.changedetail.Submit;
-import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -124,7 +128,7 @@ public class ReviewCommand extends SshCommand {
   private Provider<Abandon> abandonProvider;
 
   @Inject
-  private PublishComments.Factory publishCommentsFactory;
+  private Provider<PostReview> reviewProvider;
 
   @Inject
   private PublishDraft.Factory publishDraftFactory;
@@ -195,23 +199,29 @@ public class ReviewCommand extends SshCommand {
       changeComment = "";
     }
 
-    Set<ApprovalCategoryValue.Id> aps = new HashSet<ApprovalCategoryValue.Id>();
+    PostReview.Input review = new PostReview.Input();
+    review.message = Strings.emptyToNull(changeComment);
+    review.labels = Maps.newTreeMap();
+    review.drafts = PostReview.DraftHandling.PUBLISH;
+    review.strictLabels = false;
     for (ApproveOption ao : optionList) {
       Short v = ao.value();
       if (v != null) {
-        aps.add(new ApprovalCategoryValue.Id(ao.getCategoryId(), v));
+        review.labels.put(ao.getLabelName(), v);
       }
     }
 
     try {
-      publishCommentsFactory.create(patchSetId, changeComment, aps, forceMessage).call();
+      ChangeControl ctl =
+          changeControlFactory.controlFor(patchSetId.getParentKey());
+      reviewProvider.get().apply(new RevisionResource(
+          new ChangeResource(ctl),
+          db.patchSets().get(patchSetId)), review);
 
       if (abandonChange) {
         final Abandon abandon = abandonProvider.get();
         final Abandon.Input input = new Abandon.Input();
         input.message = changeComment;
-        ChangeControl ctl =
-            changeControlFactory.controlFor(patchSetId.getParentKey());
         try {
           abandon.apply(new ChangeResource(ctl), input);
         } catch(AuthException e) {
@@ -233,6 +243,10 @@ public class ReviewCommand extends SshCommand {
     } catch (InvalidChangeOperationException e) {
       throw error(e.getMessage());
     } catch (IllegalStateException e) {
+      throw error(e.getMessage());
+    } catch (AuthException e) {
+      throw error(e.getMessage());
+    } catch (BadRequestException e) {
       throw error(e.getMessage());
     }
 

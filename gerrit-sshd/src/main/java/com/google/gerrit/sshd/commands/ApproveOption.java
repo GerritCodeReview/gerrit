@@ -104,6 +104,10 @@ final class ApproveOption implements Option, Setter<Short> {
     return type.getCategory().getId();
   }
 
+  String getLabelName() {
+    return type.getCategory().getLabelName();
+  }
+
   public static class Handler extends OneArgumentOptionHandler<Short> {
     private final ApproveOption cmdOption;
 

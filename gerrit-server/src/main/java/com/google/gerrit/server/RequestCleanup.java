@@ -34,12 +34,14 @@ public class RequestCleanup implements Runnable {
 
   private final List<Runnable> cleanup = new LinkedList<Runnable>();
   private boolean ran;
+  private String cleanupThreadInfo;
 
   /** Register a task to be completed after the request ends. */
   public void add(final Runnable task) {
     synchronized (cleanup) {
       if (ran) {
-        throw new IllegalStateException("Request has already been cleaned up");
+        throw new IllegalStateException("Request has already been cleaned up"
+            + "\n ====\n" + cleanupThreadInfo + "\n====");
       }
       cleanup.add(task);
     }
@@ -48,6 +50,9 @@ public class RequestCleanup implements Runnable {
   public void run() {
     synchronized (cleanup) {
       ran = true;
+
+      cleanupThreadInfo = collectCleanupThreadInfo();
+
       for (final Iterator<Runnable> i = cleanup.iterator(); i.hasNext();) {
         try {
           i.next().run();
@@ -57,5 +62,19 @@ public class RequestCleanup implements Runnable {
         i.remove();
       }
     }
+  }
+
+  private static String collectCleanupThreadInfo() {
+      // collect info about the caller
+      StringBuffer s = new StringBuffer();
+      s.append("Cleanup Calling Thread: " + Thread.currentThread().getName());
+      s.append("\n");
+
+      StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+      for (StackTraceElement ste : stackTrace) {
+        s.append(ste.toString()).append("\n");
+      }
+
+      return s.toString();
   }
 }

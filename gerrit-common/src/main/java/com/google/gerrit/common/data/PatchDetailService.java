@@ -18,17 +18,16 @@ import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
 import com.google.gwtjsonrpc.common.RpcImpl;
-import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.gwtjsonrpc.common.RpcImpl.Version;
+import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.List;
 import java.util.Set;
@@ -64,12 +63,6 @@ public interface PatchDetailService extends RemoteJsonService {
   @Audit
   @SignInRequired
   void deleteDraftPatchSet(PatchSet.Id psid, AsyncCallback<ChangeDetail> callback);
-
-  @Audit
-  @SignInRequired
-  void publishComments(PatchSet.Id psid, String message,
-      Set<ApprovalCategoryValue.Id> approvals,
-      AsyncCallback<VoidResult> callback);
 
   @Audit
   @SignInRequired

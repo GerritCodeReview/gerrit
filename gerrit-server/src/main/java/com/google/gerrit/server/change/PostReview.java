@@ -51,14 +51,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-class PostReview implements RestModifyView<RevisionResource, Input> {
+public class PostReview implements RestModifyView<RevisionResource, Input> {
   private static final Logger log = LoggerFactory.getLogger(PostReview.class);
 
-  static class Input {
+  public static class Input {
     @DefaultInput
-    String message;
+    public String message;
 
-    Map<String, Short> labels;
+    public Map<String, Short> labels;
     Map<String, List<Comment>> comments;
 
     /**
@@ -68,16 +68,16 @@ class PostReview implements RestModifyView<RevisionResource, Input> {
      * execute anyway, but the proposed labels given by the user will be
      * modified to be the "best" value allowed by the access controls.
      */
-    boolean strictLabels = true;
+    public boolean strictLabels = true;
 
     /**
      * How to process draft comments already in the database that were not also
      * described in this input request.
      */
-    DraftHandling drafts = DraftHandling.DELETE;
+    public DraftHandling drafts = DraftHandling.DELETE;
   }
 
-  static enum DraftHandling {
+  public static enum DraftHandling {
     DELETE, PUBLISH, KEEP;
   }
 

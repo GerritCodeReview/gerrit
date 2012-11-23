@@ -67,7 +67,7 @@ public class ChangeApi {
     }
   }
 
-  private static String emptyToNull(String str) {
+  public static String emptyToNull(String str) {
     return str == null || str.isEmpty() ? null : str;
   }
 }

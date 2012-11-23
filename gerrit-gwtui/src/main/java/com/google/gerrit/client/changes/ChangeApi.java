@@ -24,40 +24,31 @@ import com.google.gwtjsonrpc.common.AsyncCallback;
  * changes.
  */
 public class ChangeApi {
-  private static final String URI = "/changes/";
-
-  /**
-   * Sends a REST call to abandon a change and notify a callback. TODO: switch
-   * to use the new id triplet (project~branch~change) once that data is
-   * available to the UI.
-   */
-  public static void abandon(int changeId, String message,
-      AsyncCallback<ChangeInfo> callback) {
+  /** Abandon the change, ending its review. */
+  public static void abandon(int id, String msg, AsyncCallback<ChangeInfo> cb) {
     Input input = Input.create();
-    input.setMessage(emptyToNull(message));
-    new RestApi(URI + changeId + "/abandon").data(input).post(callback);
+    input.message(emptyToNull(msg));
+    api(id, "abandon").data(input).post(cb);
   }
 
-  /**
-   * Sends a REST call to revert a change.
-   */
-  public static void revert(int changeId, String message,
-      AsyncCallback<ChangeInfo> callback) {
+  /** Create a new change that reverts the delta caused by this change. */
+  public static void revert(int id, String msg, AsyncCallback<ChangeInfo> cb) {
     Input input = Input.create();
-    input.setMessage(emptyToNull(message));
-    new RestApi(URI + changeId + "/revert").data(input).post(callback);
+    input.message(emptyToNull(msg));
+    api(id, "revert").data(input).post(cb);
   }
 
+  /** Update the topic of a change. */
   public static void topic(int id, String topic, String msg, AsyncCallback<String> cb) {
     Input input = Input.create();
-    input.setTopic(emptyToNull(topic));
-    input.setMessage(emptyToNull(msg));
-    new RestApi(URI + id + "/topic").data(input).put(NativeString.unwrap(cb));
+    input.topic(emptyToNull(topic));
+    input.message(emptyToNull(msg));
+    api(id, "topic").data(input).put(NativeString.unwrap(cb));
   }
 
   private static class Input extends JavaScriptObject {
-    final native void setTopic(String t) /*-{ this.topic = t; }-*/;
-    final native void setMessage(String m) /*-{ this.message = m; }-*/;
+    final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
+    final native void message(String m) /*-{ if(m)this.message=m; }-*/;
 
     static Input create() {
       return (Input) JavaScriptObject.createObject();
@@ -65,6 +56,11 @@ public class ChangeApi {
 
     protected Input() {
     }
+  }
+
+  private static RestApi api(int id, String action) {
+    // TODO Switch to triplet project~branch~id format in URI.
+    return new RestApi("/changes/" + id + "/" + action);
   }
 
   private static String emptyToNull(String str) {

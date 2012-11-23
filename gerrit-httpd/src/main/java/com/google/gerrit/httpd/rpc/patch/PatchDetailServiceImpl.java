@@ -24,25 +24,22 @@ import com.google.gerrit.common.data.ReviewResult;
 import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
-import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.httpd.rpc.changedetail.ChangeDetailFactory;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountPatchReview;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
-import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.workflow.FunctionState;
@@ -71,7 +68,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory;
   private final RemoveReviewerHandler.Factory removeReviewerHandlerFactory;
   private final FunctionState.Factory functionStateFactory;
-  private final PublishComments.Factory publishCommentsFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
   private final ChangeDetailFactory.Factory changeDetailFactory;
@@ -87,7 +83,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final DeleteDraftPatchSet.Factory deleteDraftPatchSetFactory,
       final FunctionState.Factory functionStateFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
-      final PublishComments.Factory publishCommentsFactory,
       final SaveDraft.Factory saveDraftFactory,
       final ChangeDetailFactory.Factory changeDetailFactory) {
     super(schema, currentUser);
@@ -100,7 +95,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.deleteDraftPatchSetFactory = deleteDraftPatchSetFactory;
     this.functionStateFactory = functionStateFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
-    this.publishCommentsFactory = publishCommentsFactory;
     this.saveDraftFactory = saveDraftFactory;
     this.changeDetailFactory = changeDetailFactory;
   }
@@ -176,12 +170,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         }
       }
     });
-  }
-
-  public void publishComments(final PatchSet.Id psid, final String msg,
-      final Set<ApprovalCategoryValue.Id> tags,
-      final AsyncCallback<VoidResult> cb) {
-    Handler.wrap(publishCommentsFactory.create(psid, msg, tags, false)).to(cb);
   }
 
   /**

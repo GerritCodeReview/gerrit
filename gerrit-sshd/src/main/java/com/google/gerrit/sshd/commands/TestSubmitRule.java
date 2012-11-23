@@ -19,125 +19,75 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.rules.PrologEnvironment;
-import com.google.gerrit.server.OutputFormat;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.events.AccountAttribute;
 import com.google.gerrit.server.events.SubmitLabelAttribute;
 import com.google.gerrit.server.events.SubmitRecordAttribute;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.sshd.SshCommand;
 import com.google.gson.reflect.TypeToken;
-import com.google.inject.Inject;
 
+import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Term;
-
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Option;
 
 import java.util.LinkedList;
 import java.util.List;
 
 /** Command that allows testing of prolog submit-rules in a live instance. */
-final class TestSubmitRule extends SshCommand {
-  @Inject
-  private ReviewDb db;
+final class TestSubmitRule extends BaseTestSubmit {
 
-  @Inject
-  private PrologEnvironment.Factory envFactory;
-
-  @Inject
-  private ChangeControl.Factory ccFactory;
-
-  @Inject
-  private AccountCache accountCache;
-
-  final @AnonymousCowardName String anonymousCowardName;
-
-  @Argument(index = 0, required = true, usage = "ChangeId to load in prolog environment")
-  private String changeId;
-
-  @Option(name = "-s",
-      usage = "Read prolog script from stdin instead of reading rules.pl from the refs/meta/config branch")
-  private boolean useStdin;
-
-  @Option(name = "--format", metaVar = "FMT", usage = "Output display format")
-  private OutputFormat format = OutputFormat.TEXT;
-
-  @Option(name = "--no-filters", aliases = {"-n"},
-      usage = "Don't run the submit_filter/2 from the parent projects")
-  private boolean skipSubmitFilters;
-
-  @Inject
-  public TestSubmitRule(@AnonymousCowardName String anonymous) {
-    anonymousCowardName = anonymous;
+  protected SubmitRuleEvaluator createEvaluator(PatchSet ps) throws Exception {
+    ChangeControl cc = getChangeControl();
+    return new SubmitRuleEvaluator(
+        db, ps, cc.getProjectControl(), cc, getChange(), null,
+        false, "locate_submit_rule", "can_submit",
+        "locate_submit_filter", "filter_submit_results",
+        skipSubmitFilters, useStdin ? in : null);
   }
 
-  @Override
-  protected void run() throws UnloggedFailure {
-    try {
-      List<Change> changeList =
-          db.changes().byKey(new Change.Key(changeId)).toList();
-      if (changeList.size() != 1)
-        throw new UnloggedFailure(1, "Invalid ChangeId");
+  protected void processResults(ListTerm results, Term submitRule) throws Exception {
+    @SuppressWarnings("unchecked")
+    List<SubmitRecord> res = getChangeControl().resultsToSubmitRecord(submitRule,
+        results.toJava());
+    if (res.isEmpty()) {
+      // Should never occur for a well written rule
+      Change c = getChange();
+      stderr.print("Submit rule " + submitRule + " for change " + c.getChangeId()
+          + " of " + c.getProject().get() + " has no solution");
+      return;
+    }
+    for (SubmitRecord r : res) {
+      if (format.isJson()) {
+        SubmitRecordAttribute submitRecord = new SubmitRecordAttribute();
+        submitRecord.status = r.status.name();
 
-      Change c = changeList.get(0);
-      PatchSet ps = db.patchSets().get(c.currentPatchSetId());
-      // Will throw exception if current user can not access this change, and
-      // thus will leak information that a change-id is valid even though the
-      // user are not allowed to see the change.
-      // See http://code.google.com/p/gerrit/issues/detail?id=1586
-      ChangeControl cc = ccFactory.controlFor(c);
-
-      SubmitRuleEvaluator evaluator = new SubmitRuleEvaluator(
-          db, ps, cc.getProjectControl(), cc, c, null,
-          false, "locate_submit_rule", "can_submit",
-          "locate_submit_filter", "filter_submit_results",
-          skipSubmitFilters, useStdin ? in : null);
-      @SuppressWarnings("unchecked")
-      List<Term> results = evaluator.evaluate().toJava();
-
-      List<SubmitRecord> res = cc.resultsToSubmitRecord(evaluator.getSubmitRule(),
-          results);
-      for (SubmitRecord r : res) {
-        if (format.isJson()) {
-          SubmitRecordAttribute submitRecord = new SubmitRecordAttribute();
-          submitRecord.status = r.status.name();
-
-          List<SubmitLabelAttribute> submitLabels = new LinkedList<SubmitLabelAttribute>();
-          for(SubmitRecord.Label l : r.labels) {
-            SubmitLabelAttribute label = new SubmitLabelAttribute();
-            label.label = l.label;
-            label.status= l.status.name();
-            if(l.appliedBy != null) {
-              Account a = accountCache.get(l.appliedBy).getAccount();
-              label.by = new AccountAttribute();
-              label.by.email = a.getPreferredEmail();
-              label.by.name = a.getFullName();
-              label.by.username = a.getUserName();
-            }
-            submitLabels.add(label);
+        List<SubmitLabelAttribute> submitLabels = new LinkedList<SubmitLabelAttribute>();
+        for(SubmitRecord.Label l : r.labels) {
+          SubmitLabelAttribute label = new SubmitLabelAttribute();
+          label.label = l.label;
+          label.status= l.status.name();
+          if(l.appliedBy != null) {
+            Account a = accountCache.get(l.appliedBy).getAccount();
+            label.by = new AccountAttribute();
+            label.by.email = a.getPreferredEmail();
+            label.by.name = a.getFullName();
+            label.by.username = a.getUserName();
           }
-          submitRecord.labels = submitLabels;
-          format.newGson().toJson(submitRecord, new TypeToken<SubmitRecordAttribute>() {}.getType(), stdout);
-          stdout.print('\n');
-        } else {
-          for(SubmitRecord.Label l : r.labels) {
-            stdout.print(l.label + ": " + l.status);
-            if(l.appliedBy != null) {
-              AccountInfo a = new AccountInfo(accountCache.get(l.appliedBy).getAccount());
-              stdout.print(" by " + a.getNameEmail(anonymousCowardName));
-            }
-            stdout.print('\n');
-          }
-          stdout.print("\n" + r.status.name() + "\n");
+          submitLabels.add(label);
         }
+        submitRecord.labels = submitLabels;
+        format.newGson().toJson(submitRecord, new TypeToken<SubmitRecordAttribute>() {}.getType(), stdout);
+        stdout.print('\n');
+      } else {
+        for(SubmitRecord.Label l : r.labels) {
+          stdout.print(l.label + ": " + l.status);
+          if(l.appliedBy != null) {
+            AccountInfo a = new AccountInfo(accountCache.get(l.appliedBy).getAccount());
+            stdout.print(" by " + a.getNameEmail(anonymousCowardName));
+          }
+          stdout.print('\n');
+        }
+        stdout.print("\n" + r.status.name() + "\n");
       }
-    } catch (Exception e) {
-      throw new UnloggedFailure("Processing of prolog script failed: " + e);
     }
   }
 }

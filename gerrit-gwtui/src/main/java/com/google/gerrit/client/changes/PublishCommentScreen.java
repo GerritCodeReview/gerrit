@@ -17,8 +17,8 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.CommentEditorContainer;
 import com.google.gerrit.client.patches.CommentEditorPanel;
-import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.PatchLink;
@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -53,7 +54,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +62,7 @@ public class PublishCommentScreen extends AccountScreen implements
   private static SavedState lastState;
 
   private final PatchSet.Id patchSetId;
+  private String revision;
   private Collection<ValueRadioButton> approvalButtons;
   private ChangeDescriptionBlock descBlock;
   private ApprovalTable approvals;
@@ -252,8 +253,7 @@ public class PublishCommentScreen extends AccountScreen implements
         continue;
       }
 
-      final ValueRadioButton b =
-          new ValueRadioButton(buttonValue, ct.getCategory().getName());
+      ValueRadioButton b = new ValueRadioButton(ct.getCategory(), buttonValue);
       b.setText(buttonValue.format());
 
       if (lastState != null && patchSetId.equals(lastState.patchSetId)
@@ -292,6 +292,7 @@ public class PublishCommentScreen extends AccountScreen implements
 
     draftsPanel.clear();
     commentEditors = new ArrayList<CommentEditorPanel>();
+    revision = r.getPatchSetInfo().getRevId();
 
     if (!r.getDrafts().isEmpty()) {
       draftsPanel.add(new SmallHeading(Util.C.headingPatchComments()));
@@ -348,20 +349,23 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   private void onSend2(final boolean submit) {
-    final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> values =
-        new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
+    ReviewInput data = ReviewInput.create();
+    data.message(ChangeApi.emptyToNull(message.getText().trim()));
+    data.init();
     for (final ValueRadioButton b : approvalButtons) {
       if (b.getValue()) {
-        values.put(b.value.getCategoryId(), b.value.getId());
+        data.label(b.category.getLabelName(), b.value.getValue());
       }
     }
 
     enableForm(false);
-    PatchUtil.DETAIL_SVC.publishComments(patchSetId, message.getText().trim(),
-        new HashSet<ApprovalCategoryValue.Id>(values.values()),
-        new GerritCallback<VoidResult>() {
-          public void onSuccess(final VoidResult result) {
-            if(submit) {
+    new RestApi("/changes/" + patchSetId.getParentKey().get()
+        + "/revisions/" + revision + "/review")
+      .data(data)
+      .post(new GerritCallback<ReviewInput>() {
+          @Override
+          public void onSuccess(ReviewInput result) {
+            if (submit) {
               submit();
             } else {
               saveStateOnUnload = false;
@@ -375,6 +379,23 @@ public class PublishCommentScreen extends AccountScreen implements
             enableForm(true);
           }
         });
+  }
+
+  private static class ReviewInput extends JavaScriptObject {
+    static ReviewInput create() {
+      return (ReviewInput) createObject();
+    }
+
+    final native void message(String m) /*-{ if(m)this.message=m; }-*/;
+    final native void label(String n, short v) /*-{ this.labels[n]=v; }-*/;
+    final native void init() /*-{
+      this.labels = {};
+      this.strict_labels = true;
+      this.drafts = 'PUBLISH';
+    }-*/;
+
+    protected ReviewInput() {
+    }
   }
 
   private void submit() {
@@ -399,10 +420,12 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   private static class ValueRadioButton extends RadioButton {
+    final ApprovalCategory category;
     final ApprovalCategoryValue value;
 
-    ValueRadioButton(final ApprovalCategoryValue v, final String label) {
-      super(label);
+    ValueRadioButton(ApprovalCategory c, ApprovalCategoryValue v) {
+      super(c.getLabelName());
+      category = c;
       value = v;
     }
   }

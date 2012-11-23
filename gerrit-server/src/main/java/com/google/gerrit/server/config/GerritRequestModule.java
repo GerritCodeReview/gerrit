@@ -44,7 +44,6 @@ import com.google.gerrit.server.mail.RebasedPatchSetSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.RestoredSender;
 import com.google.gerrit.server.patch.AddReviewer;
-import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.patch.RemoveReviewer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.CreateProject;
@@ -81,7 +80,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(AddReviewerSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
     factory(DeleteDraftPatchSet.Factory.class);
-    factory(PublishComments.Factory.class);
     factory(PublishDraft.Factory.class);
     factory(RebaseChange.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);

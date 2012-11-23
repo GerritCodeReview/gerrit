@@ -70,7 +70,7 @@ public class ChangeApi {
     return new RestApi("/changes/" + id + "/" + action);
   }
 
-  private static String emptyToNull(String str) {
+  public static String emptyToNull(String str) {
     return str == null || str.isEmpty() ? null : str;
   }
 }

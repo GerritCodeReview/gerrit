@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAL4n////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-23T23:27:33Z",
+      "side": 1,
+      "message": "Good point.  I only catch the few I think should probably cause a walkup now.",
+      "parentUuid": "AAAL3X///9U\u003d",
+      "revId": "ce6244e07114dfdee6be7542bf6166f6a186fa9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAL3X///9Y\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-23T22:46:32Z",
       "side": 1,
       "message": "This lost the refs/dashboards prefix, which may cause it to fail to resolve because JGit won\u0027t look for \"foo:bar\" in refs/dashboards/foo\".",
+      "revId": "ce6244e07114dfdee6be7542bf6166f6a186fa9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL4n///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-23T23:27:33Z",
+      "side": 1,
+      "message": "Doh, fixed.",
+      "parentUuid": "AAAL3X///9Y\u003d",
       "revId": "ce6244e07114dfdee6be7542bf6166f6a186fa9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

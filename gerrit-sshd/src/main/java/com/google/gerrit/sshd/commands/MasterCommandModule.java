@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
+import com.google.gerrit.sshd.DispatchCommandProvider;
 
 
 /** Register the commands a Gerrit server in master mode supports. */
@@ -24,6 +25,7 @@ public class MasterCommandModule extends CommandModule {
   @Override
   protected void configure() {
     final CommandName gerrit = Commands.named("gerrit");
+    final CommandName testSubmit = Commands.named(gerrit, "test-submit");
 
     command(gerrit, "approve").to(ReviewCommand.class);
     command(gerrit, "create-account").to(CreateAccountCommand.class);
@@ -31,12 +33,14 @@ public class MasterCommandModule extends CommandModule {
     command(gerrit, "rename-group").to(RenameGroupCommand.class);
     command(gerrit, "create-project").to(CreateProjectCommand.class);
     command(gerrit, "gsql").to(AdminQueryShell.class);
-    command(gerrit, "test-submit-rule").to(TestSubmitRule.class);
     command(gerrit, "set-reviewers").to(SetReviewersCommand.class);
     command(gerrit, "receive-pack").to(Receive.class);
     command(gerrit, "set-project-parent").to(AdminSetParent.class);
     command(gerrit, "review").to(ReviewCommand.class);
     command(gerrit, "set-account").to(SetAccountCommand.class);
     command(gerrit, "set-project").to(SetProjectCommand.class);
+
+    command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
+    command(testSubmit, "rule").to(TestSubmitRule.class);
   }
 }

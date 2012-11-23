@@ -22,7 +22,10 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.util.cli.CmdLineParser;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -32,6 +35,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -96,5 +100,42 @@ class ParameterParser {
 
   private static String decode(String value) throws UnsupportedEncodingException {
     return URLDecoder.decode(value, "UTF-8");
+  }
+
+  static JsonObject formToJson(HttpServletRequest req)
+      throws BadRequestException {
+    @SuppressWarnings("unchecked")
+    Map<String, String[]> map = req.getParameterMap();
+    JsonObject obj = new JsonObject();
+    for (Map.Entry<String, String[]> ent : map.entrySet()) {
+      String key = ent.getKey();
+      String[] values = ent.getValue();
+      int dot = key.indexOf('.');
+      if (dot < 0) {
+        for (String v : values) {
+          obj.addProperty(key, v);
+        }
+        continue;
+      }
+
+      String name = key.substring(0, dot);
+      JsonElement m = obj.get(name);
+      JsonObject o;
+      if (m == null) {
+        o = new JsonObject();
+        obj.add(name, o);
+      } else if (m.isJsonObject()) {
+        o = m.getAsJsonObject();
+      } else {
+        throw new BadRequestException(String.format(
+            "key %s conflicts with %s", key, name));
+      }
+
+      String n = key.substring(dot + 1);
+      for (String v : values) {
+        o.addProperty(n, v);
+      }
+    }
+    return obj;
   }
 }

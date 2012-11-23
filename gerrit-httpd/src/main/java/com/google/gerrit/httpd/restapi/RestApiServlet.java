@@ -488,20 +488,19 @@ public class RestApiServlet extends HttpServlet {
         boolean gzip = bin.canGzip() && acceptsGzip(req);
         if (gzip && 256 <= len && len <= (10 << 20)) {
           TemporaryBuffer.Heap buf = compress(bin);
-          res.setContentLength((int) buf.length());
-          res.setHeader("Content-Encoding", "gzip");
-          buf.writeTo(dst, null);
+          if (buf.length() < len) {
+            res.setContentLength((int) buf.length());
+            res.setHeader("Content-Encoding", "gzip");
+            buf.writeTo(dst, null);
+          } else {
+            replyUncompressed(res, dst, bin, len);
+          }
         } else if (gzip) {
           res.setHeader("Content-Encoding", "gzip");
           dst = new GZIPOutputStream(dst);
           bin.writeTo(dst);
         } else {
-          if (0 <= len && len < Integer.MAX_VALUE) {
-            res.setContentLength((int) len);
-          } else if (0 <= len) {
-            res.setHeader("Content-Length", Long.toString(len));
-          }
-          bin.writeTo(dst);
+          replyUncompressed(res, dst, bin, len);
         }
       } finally {
         dst.close();
@@ -509,6 +508,16 @@ public class RestApiServlet extends HttpServlet {
     } finally {
       bin.close();
     }
+  }
+
+  private static void replyUncompressed(HttpServletResponse res,
+      OutputStream dst, BinaryResult bin, long len) throws IOException {
+    if (0 <= len && len < Integer.MAX_VALUE) {
+      res.setContentLength((int) len);
+    } else if (0 <= len) {
+      res.setHeader("Content-Length", Long.toString(len));
+    }
+    bin.writeTo(dst);
   }
 
   private RestView<RestResource> view(

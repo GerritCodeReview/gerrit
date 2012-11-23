@@ -34,6 +34,24 @@
       "revId": "16825457bcb7eb9b01f25423321105ce3a8a632c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAL3X///9g\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-23T21:38:11Z",
+      "side": 1,
+      "message": "You are right, currently the values are added to the comments as-is, so yes the HTML in the value would confuse the comment parser.\n\nAnd values are written into plain text email, which again would confuse email clients if there was HTML present. Or at least confuse the human reading the email.",
+      "parentUuid": "AAAL4n////Y\u003d",
+      "revId": "16825457bcb7eb9b01f25423321105ce3a8a632c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

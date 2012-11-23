@@ -254,7 +254,7 @@ public class PublishCommentScreen extends AccountScreen implements
 
       final ValueRadioButton b =
           new ValueRadioButton(buttonValue, ct.getCategory().getName());
-      b.setText(buttonValue.format());
+      b.setHTML(buttonValue.format());
 
       if (lastState != null && patchSetId.equals(lastState.patchSetId)
           && lastState.approvals.containsKey(buttonValue.getCategoryId())) {

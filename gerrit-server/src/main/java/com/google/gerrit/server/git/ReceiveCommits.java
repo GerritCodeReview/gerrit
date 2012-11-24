@@ -107,9 +107,13 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.revwalk.filter.RevFilter;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.AdvertiseRefsHookChain;
+import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.ServiceMayNotContinueException;
+import org.eclipse.jgit.transport.UploadPack;
+import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -272,6 +276,7 @@ public class ReceiveCommits {
 
   private Collection<ObjectId> existingObjects;
   private Map<ObjectId, Ref> refsById;
+  private Map<String, Ref> allRefs;
 
   private String destTopicName;
 
@@ -358,7 +363,23 @@ public class ReceiveCommits {
       rp.setCheckReferencedObjectsAreReachable(true);
       rp.setAdvertiseRefsHook(new VisibleRefFilter(tagCache, changeCache, repo, projectControl, db, false));
     }
-    List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(2);
+    List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(3);
+    advHooks.add(new AdvertiseRefsHook() {
+      @Override
+      public void advertiseRefs(BaseReceivePack rp)
+          throws ServiceMayNotContinueException {
+        allRefs = rp.getAdvertisedRefs();
+        if (allRefs == null) {
+          allRefs = rp.getRepository().getAllRefs();
+        }
+        rp.setAdvertisedRefs(allRefs, rp.getAdvertisedObjects());
+      }
+
+      @Override
+      public void advertiseRefs(UploadPack uploadPack)
+          throws ServiceMayNotContinueException {
+      }
+    });
     advHooks.add(rp.getAdvertiseRefsHook());
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
@@ -1132,7 +1153,7 @@ public class ReceiveCommits {
     try {
       Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(newChange.getNewId()));
-      for (Ref ref : repo.getAllRefs().values()) {
+      for (Ref ref : allRefs.values()) {
         if (ref.getObjectId() == null) {
           continue;
         } else if (ref.getName().startsWith("refs/changes/")) {
@@ -1398,7 +1419,6 @@ public class ReceiveCommits {
     try {
       readChangesForReplace();
       readPatchSetsForReplace();
-
       for (ReplaceRequest req : replaceByChange.values()) {
         if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
           req.validate(false);
@@ -1591,7 +1611,13 @@ public class ReceiveCommits {
       }
 
       change.nextPatchSetId();
-      newPatchSet = new PatchSet(change.currPatchSetId());
+      PatchSet.Id id = change.currPatchSetId();
+      while (allRefs.containsKey(id.toRefName())) {
+        change.nextPatchSetId();
+        id = change.currPatchSetId();
+      }
+
+      newPatchSet = new PatchSet(id);
       newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
       newPatchSet.setUploader(currentUser.getAccountId());
       newPatchSet.setRevision(toRevId(newCommit));
@@ -1904,9 +1930,8 @@ public class ReceiveCommits {
 
   private Collection<ObjectId> existingObjects() {
     if (existingObjects == null) {
-      Map<String, Ref> refs = repo.getAllRefs();
-      existingObjects = new ArrayList<ObjectId>(refs.size());
-      for (Ref r : refs.values()) {
+      existingObjects = new ArrayList<ObjectId>(allRefs.size());
+      for (Ref r : allRefs.values()) {
         existingObjects.add(r.getObjectId());
       }
     }

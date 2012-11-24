@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PutDraft.Input;
+import com.google.gerrit.server.util.Url;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -60,7 +61,7 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
             ChangeUtil.messageUUID(db.get())),
         in.line != null ? in.line : 0,
         rsrc.getAuthorId(),
-        null);
+        Url.decode(in.inReplyTo));
     c.setStatus(Status.DRAFT);
     c.setSide(in.side == GetDraft.Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());

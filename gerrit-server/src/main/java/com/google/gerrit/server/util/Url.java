@@ -38,20 +38,26 @@ public final class Url {
    * @return a string with all invalid URL characters escaped.
    */
   public static String encode(String component) {
-    try {
-      return URLEncoder.encode(component, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("JVM must support UTF-8", e);
+    if (component != null) {
+      try {
+        return URLEncoder.encode(component, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        throw new RuntimeException("JVM must support UTF-8", e);
+      }
     }
+    return null;
   }
 
   /** Decode a URL encoded string, e.g. from {@code "%2F"} to {@code "/"}. */
   public static String decode(String str) {
-    try {
-      return URLDecoder.decode(str, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("JVM must support UTF-8", e);
+    if (str != null) {
+      try {
+        return URLDecoder.decode(str, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        throw new RuntimeException("JVM must support UTF-8", e);
+      }
     }
+    return null;
   }
 
   private Url() {

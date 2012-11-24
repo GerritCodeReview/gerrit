@@ -41,6 +41,7 @@ class GetDraft implements RestReadView<DraftResource> {
     String path;
     Side side;
     Integer line;
+    String inReplyTo;
     String message;
     Timestamp updated;
 
@@ -53,6 +54,7 @@ class GetDraft implements RestReadView<DraftResource> {
       if (c.getLine() > 0) {
         line = c.getLine();
       }
+      inReplyTo = Url.encode(c.getParentUuid());
       message = Strings.emptyToNull(c.getMessage());
       updated = c.getWrittenOn();
     }

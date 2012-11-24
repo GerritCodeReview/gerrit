@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -60,7 +61,10 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     grid = new Grid(2, 2);
     grid.setStyleName(Gerrit.RESOURCES.css().infoBlock());
     grid.setText(0, 0, Util.C.watchedProjectName());
-    grid.setWidget(0, 1, nameTxt);
+    final HorizontalPanel hp = new HorizontalPanel();
+    hp.add(nameTxt);
+    hp.add(browse);
+    grid.setWidget(0, 1, hp);
 
     grid.setText(1, 0, Util.C.watchedProjectFilter());
     grid.setWidget(1, 1, filterTxt);
@@ -76,7 +80,6 @@ public class MyWatchedProjectsScreen extends SettingsScreen {
     fp.setStyleName(Gerrit.RESOURCES.css().addWatchPanel());
     fp.add(grid);
     fp.add(addNew);
-    fp.add(browse);
     add(fp);
 
 

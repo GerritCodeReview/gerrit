@@ -243,14 +243,30 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
   }
 
-  private static void setBool(ListBox box, InheritedBoolean inheritedBoolean) {
+  private void setBool(ListBox box, InheritedBoolean inheritedBoolean) {
+    int inheritedIndex = -1;
     for (int i = 0; i < box.getItemCount(); i++) {
       if (box.getValue(i).startsWith(InheritableBoolean.INHERIT.name())) {
-        box.setItemText(i, InheritableBoolean.INHERIT.name() + " ("
-            + inheritedBoolean.inheritedValue + ")");
+        inheritedIndex = i;
       }
       if (box.getValue(i).startsWith(inheritedBoolean.value.name())) {
         box.setSelectedIndex(i);
+      }
+    }
+    if (inheritedIndex >= 0) {
+      if (project.getParent(Gerrit.getConfig().getWildProject()) == null) {
+        if (box.getSelectedIndex() == inheritedIndex) {
+          for (int i = 0; i < box.getItemCount(); i++) {
+            if (box.getValue(i).equals(InheritableBoolean.FALSE.name())) {
+              box.setSelectedIndex(i);
+              break;
+            }
+          }
+        }
+        box.removeItem(inheritedIndex);
+      } else {
+        box.setItemText(inheritedIndex, InheritableBoolean.INHERIT.name() + " ("
+            + inheritedBoolean.inheritedValue + ")");
       }
     }
   }

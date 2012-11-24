@@ -17,7 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
+import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.State;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -52,55 +52,55 @@ final class SetProjectCommand extends SshCommand {
   private SubmitType submitType;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
-  private InheritedBoolean contributorAgreements;
+  private InheritableBoolean contributorAgreements;
 
   @Option(name = "--signed-off-by", usage = "if signed-off-by is required")
-  private InheritedBoolean signedOffBy;
+  private InheritableBoolean signedOffBy;
 
   @Option(name = "--content-merge", usage = "allow automatic conflict resolving within files")
-  private InheritedBoolean contentMerge;
+  private InheritableBoolean contentMerge;
 
   @Option(name = "--change-id", usage = "if change-id is required")
-  private InheritedBoolean requireChangeID;
+  private InheritableBoolean requireChangeID;
 
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
   void setUseContributorArgreements(boolean on) {
-    contributorAgreements = InheritedBoolean.TRUE;
+    contributorAgreements = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--no-contributor-agreements", aliases = {"--nca"}, usage = "if contributor agreement is not required")
   void setNoContributorArgreements(boolean on) {
-    contributorAgreements = InheritedBoolean.FALSE;
+    contributorAgreements = InheritableBoolean.FALSE;
   }
 
   @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
   void setUseSignedOffBy(boolean on) {
-    signedOffBy = InheritedBoolean.TRUE;
+    signedOffBy = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--no-signed-off-by", aliases = {"--nso"}, usage = "if signed-off-by is not required")
   void setNoSignedOffBy(boolean on) {
-    signedOffBy = InheritedBoolean.FALSE;
+    signedOffBy = InheritableBoolean.FALSE;
   }
 
   @Option(name = "--use-content-merge", usage = "allow automatic conflict resolving within files")
   void setUseContentMerge(boolean on) {
-    contentMerge = InheritedBoolean.TRUE;
+    contentMerge = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--no-content-merge", usage = "don't allow automatic conflict resolving within files")
   void setNoContentMerge(boolean on) {
-    contentMerge = InheritedBoolean.FALSE;
+    contentMerge = InheritableBoolean.FALSE;
   }
 
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
   void setRequireChangeId(boolean on) {
-    requireChangeID = InheritedBoolean.TRUE;
+    requireChangeID = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--no-change-id", aliases = {"--nid"}, usage = "if change-id is not required")
   void setNoChangeId(boolean on) {
-    requireChangeID = InheritedBoolean.FALSE;
+    requireChangeID = InheritableBoolean.FALSE;
   }
 
   @Option(name = "--project-state", aliases = {"--ps"}, usage = "project's visibility state")

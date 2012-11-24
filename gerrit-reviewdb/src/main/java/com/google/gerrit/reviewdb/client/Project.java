@@ -85,7 +85,7 @@ public final class Project {
     HIDDEN;
   }
 
-  public static enum InheritedBoolean {
+  public static enum InheritableBoolean {
     TRUE,
     FALSE,
     INHERIT;
@@ -95,9 +95,9 @@ public final class Project {
 
   protected String description;
 
-  protected InheritedBoolean useContributorAgreements;
+  protected InheritableBoolean useContributorAgreements;
 
-  protected InheritedBoolean useSignedOffBy;
+  protected InheritableBoolean useSignedOffBy;
 
   protected SubmitType submitType;
 
@@ -105,9 +105,9 @@ public final class Project {
 
   protected NameKey parent;
 
-  protected InheritedBoolean requireChangeID;
+  protected InheritableBoolean requireChangeID;
 
-  protected InheritedBoolean useContentMerge;
+  protected InheritableBoolean useContentMerge;
 
   protected String defaultDashboardId;
 
@@ -120,10 +120,10 @@ public final class Project {
     name = nameKey;
     submitType = SubmitType.MERGE_IF_NECESSARY;
     state = State.ACTIVE;
-    useContributorAgreements = InheritedBoolean.INHERIT;
-    useSignedOffBy = InheritedBoolean.INHERIT;
-    requireChangeID = InheritedBoolean.INHERIT;
-    useContentMerge = InheritedBoolean.INHERIT;
+    useContributorAgreements = InheritableBoolean.INHERIT;
+    useSignedOffBy = InheritableBoolean.INHERIT;
+    requireChangeID = InheritableBoolean.INHERIT;
+    useContentMerge = InheritableBoolean.INHERIT;
   }
 
   public Project.NameKey getNameKey() {
@@ -142,35 +142,35 @@ public final class Project {
     description = d;
   }
 
-  public InheritedBoolean getUseContributorAgreements() {
+  public InheritableBoolean getUseContributorAgreements() {
     return useContributorAgreements;
   }
 
-  public InheritedBoolean getUseSignedOffBy() {
+  public InheritableBoolean getUseSignedOffBy() {
     return useSignedOffBy;
   }
 
-  public InheritedBoolean getUseContentMerge() {
+  public InheritableBoolean getUseContentMerge() {
     return useContentMerge;
   }
 
-  public InheritedBoolean getRequireChangeID() {
+  public InheritableBoolean getRequireChangeID() {
     return requireChangeID;
   }
 
-  public void setUseContributorAgreements(final InheritedBoolean u) {
+  public void setUseContributorAgreements(final InheritableBoolean u) {
     useContributorAgreements = u;
   }
 
-  public void setUseSignedOffBy(final InheritedBoolean sbo) {
+  public void setUseSignedOffBy(final InheritableBoolean sbo) {
     useSignedOffBy = sbo;
   }
 
-  public void setUseContentMerge(final InheritedBoolean cm) {
+  public void setUseContentMerge(final InheritableBoolean cm) {
     useContentMerge = cm;
   }
 
-  public void setRequireChangeID(final InheritedBoolean cid) {
+  public void setRequireChangeID(final InheritableBoolean cid) {
     requireChangeID = cid;
   }
 

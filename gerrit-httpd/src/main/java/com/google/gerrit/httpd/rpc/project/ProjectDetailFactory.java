@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -67,6 +68,28 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setCanModifyDescription(userIsOwner);
     detail.setCanModifyMergeType(userIsOwner);
     detail.setCanModifyState(userIsOwner);
+
+    final InheritedBoolean useContributorAgreements = new InheritedBoolean();
+    final InheritedBoolean useSignedOffBy = new InheritedBoolean();
+    final InheritedBoolean useContentMerge = new InheritedBoolean();
+    final InheritedBoolean requireChangeID = new InheritedBoolean();
+    useContributorAgreements.setValue(projectState.getProject()
+        .getUseContributorAgreements());
+    useSignedOffBy.setValue(projectState.getProject().getUseSignedOffBy());
+    useContentMerge.setValue(projectState.getProject().getUseContentMerge());
+    requireChangeID.setValue(projectState.getProject().getRequireChangeID());
+    final ProjectState parentState = projectState.getParentState();
+    if (parentState != null) {
+      useContributorAgreements.setInheritedValue(parentState
+          .isUseContributorAgreements());
+      useSignedOffBy.setInheritedValue(parentState.isUseSignedOffBy());
+      useContentMerge.setInheritedValue(parentState.isUseContentMerge());
+      requireChangeID.setInheritedValue(parentState.isRequireChangeID());
+    }
+    detail.setUseContributorAgreements(useContributorAgreements);
+    detail.setUseSignedOffBy(useSignedOffBy);
+    detail.setUseContentMerge(useContentMerge);
+    detail.setRequireChangeID(requireChangeID);
 
     final Project.NameKey projectName = projectState.getProject().getNameKey();
     Repository git;

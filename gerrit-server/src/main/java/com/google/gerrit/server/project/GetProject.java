@@ -17,13 +17,11 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import com.google.gerrit.server.util.Url;
 
 class GetProject implements RestReadView<ProjectResource> {
   @Override
-  public Object apply(ProjectResource resource) throws UnsupportedEncodingException {
+  public Object apply(ProjectResource resource) {
     Project project = resource.getControl().getProject();
     ProjectInfo info = new ProjectInfo();
     info.name = resource.getName();
@@ -40,8 +38,8 @@ class GetProject implements RestReadView<ProjectResource> {
     String parent;
     String description;
 
-    void finish() throws UnsupportedEncodingException {
-      id = URLEncoder.encode(name, "UTF-8");
+    void finish() {
+      id = Url.encode(name);
     }
   }
 }

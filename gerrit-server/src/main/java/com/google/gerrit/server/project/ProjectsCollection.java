@@ -22,11 +22,9 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.util.Url;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 public class ProjectsCollection implements
     RestCollection<TopLevelResource, ProjectResource> {
@@ -56,7 +54,9 @@ public class ProjectsCollection implements
       throws ResourceNotFoundException {
     ProjectControl ctl;
     try {
-      ctl = controlFactory.controlFor(decode(id), user.get());
+      ctl = controlFactory.controlFor(
+          new Project.NameKey(Url.decode(id)),
+          user.get());
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(id);
     }
@@ -64,14 +64,6 @@ public class ProjectsCollection implements
       throw new ResourceNotFoundException(id);
     }
     return new ProjectResource(ctl);
-  }
-
-  private static Project.NameKey decode(String id) {
-    try {
-      return new Project.NameKey(URLDecoder.decode(id, "UTF-8"));
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("JVM does not support UTF-8", e);
-    }
   }
 
   @Override

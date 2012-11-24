@@ -23,12 +23,10 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.util.Url;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 class Drafts implements ChildCollection<RevisionResource, DraftResource> {
   private final DynamicMap<RestView<DraftResource>> views;
@@ -60,10 +58,9 @@ class Drafts implements ChildCollection<RevisionResource, DraftResource> {
 
   @Override
   public DraftResource parse(RevisionResource rev, String id)
-      throws ResourceNotFoundException, UnsupportedEncodingException,
-      OrmException, AuthException {
+      throws ResourceNotFoundException, OrmException, AuthException {
     checkIdentifiedUser();
-    String uuid = URLDecoder.decode(id, "UTF-8");
+    String uuid = Url.decode(id);
     for (PatchLineComment c : dbProvider.get().patchComments()
         .draftByPatchSetAuthor(
             rev.getPatchSet().getId(),

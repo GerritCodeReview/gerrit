@@ -39,6 +39,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.util.Url;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -58,10 +59,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -397,8 +396,7 @@ class GitWebServlet extends HttpServlet {
     }
   }
 
-  private static Map<String, String> getParameters(final HttpServletRequest req)
-      throws UnsupportedEncodingException {
+  private static Map<String, String> getParameters(HttpServletRequest req) {
     final Map<String, String> params = new HashMap<String, String>();
     for (final String pair : req.getQueryString().split("[&;]")) {
       final int eq = pair.indexOf('=');
@@ -406,8 +404,8 @@ class GitWebServlet extends HttpServlet {
         String name = pair.substring(0, eq);
         String value = pair.substring(eq + 1);
 
-        name = URLDecoder.decode(name, "UTF-8");
-        value = URLDecoder.decode(value, "UTF-8");
+        name = Url.decode(name);
+        value = Url.decode(value);
         params.put(name, value);
       }
     }

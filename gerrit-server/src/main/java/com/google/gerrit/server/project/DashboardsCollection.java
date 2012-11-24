@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.util.Url;
 import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,8 +48,6 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Set;
 
@@ -100,8 +99,8 @@ class DashboardsCollection implements
       throw new ResourceNotFoundException(id);
     }
 
-    String ref = URLDecoder.decode(parts.get(0), "UTF-8");
-    String path = URLDecoder.decode(parts.get(1), "UTF-8");
+    String ref = Url.decode(parts.get(0));
+    String path = Url.decode(parts.get(1));
     ProjectControl ctl = myCtl;
     Set<Project.NameKey> seen = Sets.newHashSet(ctl.getProject().getNameKey());
     for (;;) {
@@ -219,9 +218,7 @@ class DashboardsCollection implements
         throws UnsupportedEncodingException {
       this.ref = ref;
       this.path = name;
-      this.id = Joiner.on(':').join(
-          URLEncoder.encode(ref,"UTF-8"),
-          URLEncoder.encode(path, "UTF-8"));
+      this.id = Joiner.on(':').join(Url.encode(ref), Url.encode(path));
     }
   }
 

@@ -15,8 +15,8 @@
 
 package com.google.gerrit.server;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import com.google.gerrit.server.util.Url;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -46,21 +46,13 @@ public class UrlEncoded extends LinkedHashMap<String, String> {
       if (separator != 0) {
         buffer.append(separator);
       }
-      buffer.append(encode(key));
+      buffer.append(Url.encode(key));
       buffer.append('=');
       if (val != null) {
-        buffer.append(encode(val));
+        buffer.append(Url.encode(val));
       }
       separator = '&';
     }
     return buffer.toString();
-  }
-
-  private static String encode(final String str) {
-    try {
-      return URLEncoder.encode(str, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
   }
 }

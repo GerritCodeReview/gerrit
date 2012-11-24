@@ -34,6 +34,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.util.TreeFormatter;
+import com.google.gerrit.server.util.Url;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -53,7 +54,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -453,13 +453,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     String description;
     Map<String, String> branches;
 
-    void setName(String name) {
-      try {
-        this.name = name;
-        id = URLEncoder.encode(name, "UTF-8");
-      } catch (UnsupportedEncodingException e) {
-        log.warn("Cannot UTF-8 encode project id", e);
-      }
+    void setName(String n) {
+      name = n;
+      id = Url.encode(n);
     }
   }
 }

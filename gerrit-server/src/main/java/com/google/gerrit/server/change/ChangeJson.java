@@ -57,6 +57,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.util.Url;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -68,8 +69,6 @@ import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
@@ -548,14 +547,10 @@ public class ChangeJson {
     public Boolean _moreChanges;
 
     void finish() {
-      try {
-        id = Joiner.on('~').join(
-            URLEncoder.encode(project, "UTF-8"),
-            URLEncoder.encode(branch, "UTF-8"),
-            URLEncoder.encode(changeId, "UTF-8"));
-      } catch (UnsupportedEncodingException e) {
-        log.error("Cannot encode components for id", e);
-      }
+      id = Joiner.on('~').join(
+          Url.encode(project),
+          Url.encode(branch),
+          Url.encode(changeId));
     }
   }
 

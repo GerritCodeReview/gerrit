@@ -22,6 +22,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import com.google.gerrit.server.util.Url;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
 
@@ -29,8 +30,6 @@ import org.kohsuke.args4j.CmdLineException;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,13 +77,12 @@ class ParameterParser {
 
   static void splitQueryString(String queryString,
       Multimap<String, String> config,
-      Multimap<String, String> params)
-      throws UnsupportedEncodingException {
+      Multimap<String, String> params) {
     if (!Strings.isNullOrEmpty(queryString)) {
       for (String kvPair : Splitter.on('&').split(queryString)) {
         Iterator<String> i = Splitter.on('=').limit(2).split(kvPair).iterator();
-        String key = decode(i.next());
-        String val = i.hasNext() ? decode(i.next()) : "";
+        String key = Url.decode(i.next());
+        String val = i.hasNext() ? Url.decode(i.next()) : "";
         if (RESERVED_KEYS.contains(key)) {
           config.put(key, val);
         } else {
@@ -92,9 +90,5 @@ class ParameterParser {
         }
       }
     }
-  }
-
-  private static String decode(String value) throws UnsupportedEncodingException {
-    return URLDecoder.decode(value, "UTF-8");
   }
 }

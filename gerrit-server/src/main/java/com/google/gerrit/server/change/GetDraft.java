@@ -20,9 +20,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.server.util.Url;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.sql.Timestamp;
 
 class GetDraft implements RestReadView<DraftResource> {
@@ -46,11 +45,7 @@ class GetDraft implements RestReadView<DraftResource> {
     Timestamp updated;
 
     Comment(PatchLineComment c) {
-      try {
-        id = URLEncoder.encode(c.getKey().get(), "UTF-8");
-      } catch (UnsupportedEncodingException e) {
-        throw new RuntimeException("UTF-8 encoding not supported", e);
-      }
+      id = Url.encode(c.getKey().get());
       path = c.getKey().getParentKey().getFileName();
       if (c.getSide() == 0) {
         side = Side.PARENT;

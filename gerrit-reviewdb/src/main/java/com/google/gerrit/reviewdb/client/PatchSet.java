@@ -61,6 +61,22 @@ public final class PatchSet {
       patchSetId = newValue;
     }
 
+    public String toRefName() {
+      StringBuilder r = new StringBuilder();
+      r.append(REFS_CHANGES);
+      int change = changeId.get();
+      int m = change % 100;
+      if (m < 10) {
+        r.append('0');
+      }
+      r.append(m);
+      r.append('/');
+      r.append(change);
+      r.append('/');
+      r.append(patchSetId);
+      return r.toString();
+    }
+
     /** Parse a PatchSet.Id out of a string representation. */
     public static Id parse(final String str) {
       final Id r = new Id();
@@ -148,19 +164,7 @@ public final class PatchSet {
   }
 
   public String getRefName() {
-    final StringBuilder r = new StringBuilder();
-    r.append(REFS_CHANGES);
-    final int changeId = id.getParentKey().get();
-    final int m = changeId % 100;
-    if (m < 10) {
-      r.append('0');
-    }
-    r.append(m);
-    r.append('/');
-    r.append(changeId);
-    r.append('/');
-    r.append(id.get());
-    return r.toString();
+    return id.toRefName();
   }
 
   @Override

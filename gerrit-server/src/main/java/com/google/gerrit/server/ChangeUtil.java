@@ -83,7 +83,13 @@ public class ChangeUtil {
   public static String messageUUID(final ReviewDb db) throws OrmException {
     final byte[] raw = new byte[8];
     fill(raw, db);
-    return Base64.encodeBytes(raw);
+
+    // Make the resulting base64 string more URL friendly.
+    String r = Base64.encodeBytes(raw);
+    while (r.endsWith("=")) {
+      r = r.substring(0, r.length() - 1);
+    }
+    return r.replace('+', '.').replace('/', '-');
   }
 
   private static synchronized void fill(byte[] raw, ReviewDb db)

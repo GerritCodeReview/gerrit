@@ -20,11 +20,9 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.util.Url;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 public class PluginsCollection implements
     RestCollection<TopLevelResource, PluginResource>,
@@ -50,7 +48,7 @@ public class PluginsCollection implements
   @Override
   public PluginResource parse(TopLevelResource parent, String id)
       throws ResourceNotFoundException, Exception {
-    Plugin p = loader.get(decode(id));
+    Plugin p = loader.get(Url.decode(id));
     if (p == null) {
       throw new ResourceNotFoundException(id);
     }
@@ -61,19 +59,11 @@ public class PluginsCollection implements
   @Override
   public InstallPlugin create(TopLevelResource parent, String id)
       throws ResourceNotFoundException {
-    return new InstallPlugin(loader, decode(id));
+    return new InstallPlugin(loader, Url.decode(id));
   }
 
   @Override
   public DynamicMap<RestView<PluginResource>> views() {
     return views;
-  }
-
-  private static String decode(String id) {
-    try {
-      return URLDecoder.decode(id, "UTF-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("JVM does not support UTF-8", e);
-    }
   }
 }

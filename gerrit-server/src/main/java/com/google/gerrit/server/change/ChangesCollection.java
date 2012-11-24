@@ -17,9 +17,9 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.QueryChanges;
+import com.google.gerrit.server.util.Url;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,7 +35,6 @@ import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Constants;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.List;
 
@@ -112,8 +112,7 @@ public class ChangesCollection implements
     String branch;
     String changeId;
 
-    ParsedId(String id) throws ResourceNotFoundException,
-        UnsupportedEncodingException {
+    ParsedId(String id) throws ResourceNotFoundException {
       if (id.matches("^[1-9][0-9]*$")) {
         legacyId = Change.Id.parse(id);
         return;
@@ -129,9 +128,9 @@ public class ChangesCollection implements
         return;
       }
 
-      project = URLDecoder.decode(id.substring(0, t1), "UTF-8");
-      branch = URLDecoder.decode(id.substring(t1 + 1, t2), "UTF-8");
-      changeId = URLDecoder.decode(id.substring(t2 + 1), "UTF-8");
+      project = Url.decode(id.substring(0, t1));
+      branch = Url.decode(id.substring(t1 + 1, t2));
+      changeId = Url.decode(id.substring(t2 + 1));
 
       if (!branch.startsWith(Constants.R_REFS)) {
         branch = Constants.R_HEADS + branch;

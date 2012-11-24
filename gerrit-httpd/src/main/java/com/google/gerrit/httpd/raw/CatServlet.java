@@ -23,6 +23,7 @@ import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.Url;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -44,7 +45,6 @@ import org.eclipse.jgit.util.NB;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.zip.ZipEntry;
@@ -95,7 +95,7 @@ public class CatServlet extends HttpServlet {
     // rather than escaped as "%252F", which makes me feel really really
     // uncomfortable with a blind decode right here.
     //
-    keyStr = URLDecoder.decode(keyStr, "UTF-8");
+    keyStr = Url.decode(keyStr);
 
     if (!keyStr.startsWith("/")) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);

@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.OutputFormat;
+import com.google.gerrit.server.util.Url;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -36,7 +37,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -132,12 +132,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     Boolean disabled;
 
     PluginInfo(Plugin p) {
-      try {
-        id = URLEncoder.encode(p.getName(), "UTF-8");
-      } catch (UnsupportedEncodingException e) {
-        throw new RuntimeException("Cannot encode plugin id", e);
-      }
-
+      id = Url.encode(p.getName());
       version = p.getVersion();
       disabled = p.isDisabled() ? true : null;
     }

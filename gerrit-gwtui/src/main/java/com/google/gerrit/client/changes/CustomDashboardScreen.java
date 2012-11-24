@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class CustomDashboardScreen extends Screen implements ChangeListScreen {
-  private String params;
   private String title;
   private List<String> titles;
   private List<String> queries;
@@ -35,7 +34,6 @@ public class CustomDashboardScreen extends Screen implements ChangeListScreen {
   private List<ChangeTable2.Section> sections;
 
   public CustomDashboardScreen(String params) {
-    this.params = params;
     titles = new ArrayList<String>();
     queries = new ArrayList<String>();
     String foreach = null;

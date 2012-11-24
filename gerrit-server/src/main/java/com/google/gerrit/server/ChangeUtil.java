@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -83,7 +84,11 @@ public class ChangeUtil {
   public static String messageUUID(final ReviewDb db) throws OrmException {
     final byte[] raw = new byte[8];
     fill(raw, db);
-    return Base64.encodeBytes(raw);
+
+    // Make the resulting base64 string more URL friendly.
+    return CharMatcher.is('=').trimTrailingFrom(Base64.encodeBytes(raw))
+        .replace('+', '.')
+        .replace('/', '-');
   }
 
   private static synchronized void fill(byte[] raw, ReviewDb db)

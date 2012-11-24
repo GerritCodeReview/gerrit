@@ -39,6 +39,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.PostReview.Input;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.util.Url;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 
@@ -85,6 +86,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     String id;
     GetDraft.Side side;
     int line;
+    String inReplyTo;
     String message;
   }
 
@@ -261,6 +263,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     for (Map.Entry<String, List<Comment>> ent : in.entrySet()) {
       String path = ent.getKey();
       for (Comment c : ent.getValue()) {
+        String parent = Url.decode(c.inReplyTo);
         PatchLineComment e = drafts.remove(c.id);
         boolean create = e == null;
         if (create) {
@@ -270,7 +273,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
                   ChangeUtil.messageUUID(db)),
               c.line,
               rsrc.getAuthorId(),
-              null);
+              parent);
+        } else if (parent != null) {
+          e.setParentUuid(parent);
         }
         e.setStatus(PatchLineComment.Status.PUBLISHED);
         e.setWrittenOn(timestamp);

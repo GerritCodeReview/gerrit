@@ -945,6 +945,11 @@ a:hover {
   white-space: nowrap;
 }
 
+.infoBlock td td {
+  padding-left: 0px;
+  border-right: 0px;
+}
+
 .infoBlock td.topmost {
   border-top: 1px solid trimColor;
 }

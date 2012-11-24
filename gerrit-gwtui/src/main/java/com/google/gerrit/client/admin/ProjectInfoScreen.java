@@ -20,8 +20,9 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
+import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -164,7 +165,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   private static ListBox newInheritedBooleanBox() {
     ListBox box = new ListBox();
-    for (InheritedBoolean b : InheritedBoolean.values()) {
+    for (InheritableBoolean b : InheritableBoolean.values()) {
       box.addItem(b.name(), b.name());
     }
     return box;
@@ -180,7 +181,9 @@ public class ProjectInfoScreen extends ProjectScreen {
     if (SubmitType.FAST_FORWARD_ONLY.equals(Project.SubmitType
         .valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
       contentMerge.setEnabled(false);
-      setBool(contentMerge, InheritedBoolean.FALSE);
+      final InheritedBoolean inheritedBoolean = new InheritedBoolean();
+      inheritedBoolean.setValue(InheritableBoolean.FALSE);
+      setBool(contentMerge, inheritedBoolean);
     } else {
       contentMerge.setEnabled(submitType.isEnabled());
     }
@@ -234,31 +237,38 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
   }
 
-  private static void setBool(ListBox box, InheritedBoolean val) {
+  private static void setBool(ListBox box, InheritedBoolean inheritedBoolean) {
     for (int i = 0; i < box.getItemCount(); i++) {
-      if (val.name().equals(box.getValue(i))) {
+      if (box.getValue(i).startsWith(InheritableBoolean.INHERIT.name())) {
+        box.setItemText(i, InheritableBoolean.INHERIT.name() + " ("
+            + inheritedBoolean.inheritedValue + ")");
+      }
+      if (box.getValue(i).startsWith(inheritedBoolean.value.name())) {
         box.setSelectedIndex(i);
-        break;
       }
     }
   }
 
-  private static InheritedBoolean getBool(ListBox box) {
+  private static InheritableBoolean getBool(ListBox box) {
     int i = box.getSelectedIndex();
     if (i >= 0) {
-      return InheritedBoolean.valueOf(box.getValue(i));
+      final String selectedValue = box.getValue(i);
+      if (selectedValue.startsWith(InheritableBoolean.INHERIT.name())) {
+        return InheritableBoolean.INHERIT;
+      }
+      return InheritableBoolean.valueOf(selectedValue);
     }
-    return InheritedBoolean.INHERIT;
+    return InheritableBoolean.INHERIT;
   }
 
   void display(final ProjectDetail result) {
     project = result.project;
 
     descTxt.setText(project.getDescription());
-    setBool(contributorAgreements, project.getUseContributorAgreements());
-    setBool(signedOffBy, project.getUseSignedOffBy());
-    setBool(contentMerge, project.getUseContentMerge());
-    setBool(requireChangeID, project.getRequireChangeID());
+    setBool(contributorAgreements, result.useContributorAgreements);
+    setBool(signedOffBy, result.useSignedOffBy);
+    setBool(contentMerge, result.useContentMerge);
+    setBool(requireChangeID, result.requireChangeID);
     setSubmitType(project.getSubmitType());
     setState(project.getState());
 

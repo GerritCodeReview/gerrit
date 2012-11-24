@@ -25,7 +25,7 @@ import com.google.gerrit.reviewdb.client.ApprovalCategory;
 import com.google.gerrit.reviewdb.client.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
+import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -210,10 +210,10 @@ public class SchemaCreator {
       ProjectConfig config = ProjectConfig.read(md);
       Project p = config.getProject();
       p.setDescription("Rights inherited by all other projects");
-      p.setRequireChangeID(InheritedBoolean.TRUE);
-      p.setUseContentMerge(InheritedBoolean.FALSE);
-      p.setUseContributorAgreements(InheritedBoolean.FALSE);
-      p.setUseSignedOffBy(InheritedBoolean.FALSE);
+      p.setRequireChangeID(InheritableBoolean.TRUE);
+      p.setUseContentMerge(InheritableBoolean.FALSE);
+      p.setUseContributorAgreements(InheritableBoolean.FALSE);
+      p.setUseSignedOffBy(InheritableBoolean.FALSE);
 
       AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
       AccessSection all = config.getAccessSection(AccessSection.ALL, true);

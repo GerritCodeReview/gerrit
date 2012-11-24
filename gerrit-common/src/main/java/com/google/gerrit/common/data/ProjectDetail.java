@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.reviewdb.client.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project;
 
 public class ProjectDetail {
@@ -24,6 +25,10 @@ public class ProjectDetail {
   public boolean canModifyAccess;
   public boolean canModifyState;
   public boolean isPermissionOnly;
+  public InheritedBoolean useContributorAgreements;
+  public InheritedBoolean useSignedOffBy;
+  public InheritedBoolean useContentMerge;
+  public InheritedBoolean requireChangeID;
 
   public ProjectDetail() {
   }
@@ -54,5 +59,21 @@ public class ProjectDetail {
 
   public void setPermissionOnly(final boolean ipo) {
     isPermissionOnly = ipo;
+  }
+
+  public void setUseContributorAgreements(final InheritedBoolean uca) {
+    useContributorAgreements = uca;
+  }
+
+  public void setUseSignedOffBy(final InheritedBoolean usob) {
+    useSignedOffBy = usob;
+  }
+
+  public void setUseContentMerge(final InheritedBoolean ucm) {
+    useContentMerge = ucm;
+  }
+
+  public void setRequireChangeID(final InheritedBoolean rcid) {
+    requireChangeID = rcid;
   }
 }

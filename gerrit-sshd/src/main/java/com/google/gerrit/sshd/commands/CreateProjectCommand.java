@@ -19,7 +19,7 @@ import com.google.gerrit.common.errors.ProjectCreationFailedException;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
+import com.google.gerrit.reviewdb.client.Project.InheritableBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
 import com.google.gerrit.server.project.CreateProject;
 import com.google.gerrit.server.project.CreateProjectArgs;
@@ -66,35 +66,35 @@ final class CreateProjectCommand extends SshCommand {
   private SubmitType submitType = SubmitType.MERGE_IF_NECESSARY;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
-  private InheritedBoolean contributorAgreements = InheritedBoolean.INHERIT;
+  private InheritableBoolean contributorAgreements = InheritableBoolean.INHERIT;
 
   @Option(name = "--signed-off-by", usage = "if signed-off-by is required")
-  private InheritedBoolean signedOffBy = InheritedBoolean.INHERIT;
+  private InheritableBoolean signedOffBy = InheritableBoolean.INHERIT;
 
   @Option(name = "--content-merge", usage = "allow automatic conflict resolving within files")
-  private InheritedBoolean contentMerge = InheritedBoolean.INHERIT;
+  private InheritableBoolean contentMerge = InheritableBoolean.INHERIT;
 
   @Option(name = "--change-id", usage = "if change-id is required")
-  private InheritedBoolean requireChangeID = InheritedBoolean.INHERIT;
+  private InheritableBoolean requireChangeID = InheritableBoolean.INHERIT;
 
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
   void setUseContributorArgreements(boolean on) {
-    contributorAgreements = InheritedBoolean.TRUE;
+    contributorAgreements = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
   void setUseSignedOffBy(boolean on) {
-    signedOffBy = InheritedBoolean.TRUE;
+    signedOffBy = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--use-content-merge", usage = "allow automatic conflict resolving within files")
   void setUseContentMerge(boolean on) {
-    contentMerge = InheritedBoolean.TRUE;
+    contentMerge = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
   void setRequireChangeId(boolean on) {
-    requireChangeID = InheritedBoolean.TRUE;
+    requireChangeID = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--branch", aliases = {"-b"}, metaVar = "BRANCH", usage = "initial branch name\n"

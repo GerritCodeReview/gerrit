@@ -287,12 +287,12 @@ public class ProjectConfig extends VersionedMetaData {
     }
     p.setParentName(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
 
-    p.setUseContributorAgreements(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, Project.InheritedBoolean.INHERIT));
-    p.setUseSignedOffBy(getEnum(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, Project.InheritedBoolean.INHERIT));
-    p.setRequireChangeID(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, Project.InheritedBoolean.INHERIT));
+    p.setUseContributorAgreements(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, Project.InheritableBoolean.INHERIT));
+    p.setUseSignedOffBy(getEnum(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, Project.InheritableBoolean.INHERIT));
+    p.setRequireChangeID(getEnum(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, Project.InheritableBoolean.INHERIT));
 
     p.setSubmitType(getEnum(rc, SUBMIT, null, KEY_ACTION, defaultSubmitAction));
-    p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, Project.InheritedBoolean.INHERIT));
+    p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, Project.InheritableBoolean.INHERIT));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
 
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
@@ -536,12 +536,12 @@ public class ProjectConfig extends VersionedMetaData {
     }
     set(rc, ACCESS, null, KEY_INHERIT_FROM, p.getParentName());
 
-    set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.getUseContributorAgreements(), Project.InheritedBoolean.INHERIT);
-    set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.getUseSignedOffBy(), Project.InheritedBoolean.INHERIT);
-    set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.getRequireChangeID(), Project.InheritedBoolean.INHERIT);
+    set(rc, RECEIVE, null, KEY_REQUIRE_CONTRIBUTOR_AGREEMENT, p.getUseContributorAgreements(), Project.InheritableBoolean.INHERIT);
+    set(rc, RECEIVE, null, KEY_REQUIRE_SIGNED_OFF_BY, p.getUseSignedOffBy(), Project.InheritableBoolean.INHERIT);
+    set(rc, RECEIVE, null, KEY_REQUIRE_CHANGE_ID, p.getRequireChangeID(), Project.InheritableBoolean.INHERIT);
 
     set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), defaultSubmitAction);
-    set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), Project.InheritedBoolean.INHERIT);
+    set(rc, SUBMIT, null, KEY_MERGE_CONTENT, p.getUseContentMerge(), Project.InheritableBoolean.INHERIT);
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), null);
 

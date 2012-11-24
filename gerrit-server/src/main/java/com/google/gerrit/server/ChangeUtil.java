@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.common.base.CharMatcher;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.util.IdGenerator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
@@ -66,7 +68,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 public class ChangeUtil {
-
   private static final Logger log = LoggerFactory.getLogger(ChangeUtil.class);
 
   private static int uuidPrefix;
@@ -83,7 +84,12 @@ public class ChangeUtil {
   public static String messageUUID(final ReviewDb db) throws OrmException {
     final byte[] raw = new byte[8];
     fill(raw, db);
-    return Base64.encodeBytes(raw);
+
+    // Make the resulting base64 string more URL friendly.
+    return CharMatcher.is('A').trimLeadingFrom(
+           CharMatcher.is('=').trimTrailingFrom(Base64.encodeBytes(raw)))
+        .replace('+', '.')
+        .replace('/', '-');
   }
 
   private static synchronized void fill(byte[] raw, ReviewDb db)
@@ -93,7 +99,7 @@ public class ChangeUtil {
       uuidSeq = Integer.MAX_VALUE;
     }
     NB.encodeInt32(raw, 0, uuidPrefix);
-    NB.encodeInt32(raw, 4, uuidSeq--);
+    NB.encodeInt32(raw, 4, IdGenerator.mix(uuidPrefix, uuidSeq--));
   }
 
   public static void touch(final Change change, ReviewDb db)

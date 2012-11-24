@@ -185,4 +185,8 @@ public final class PatchLineComment {
   public String getParentUuid() {
     return parentUuid;
   }
+
+  public void setParentUuid(String inReplyTo) {
+    parentUuid = inReplyTo;
+  }
 }

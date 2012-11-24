@@ -28,6 +28,7 @@ import com.google.gerrit.server.change.PutDraft.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.net.URLDecoder;
 import java.util.Collections;
 
 class CreateDraft implements RestModifyView<RevisionResource, Input> {
@@ -60,7 +61,9 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
             ChangeUtil.messageUUID(db.get())),
         in.line != null ? in.line : 0,
         rsrc.getAuthorId(),
-        null);
+        in.inReplyTo != null
+          ? URLDecoder.decode(in.inReplyTo, "UTF-8")
+          : null);
     c.setStatus(Status.DRAFT);
     c.setSide(in.side == GetDraft.Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());

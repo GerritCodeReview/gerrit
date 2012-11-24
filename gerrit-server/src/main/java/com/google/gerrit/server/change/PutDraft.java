@@ -24,9 +24,12 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.GetDraft.Side;
 import com.google.gerrit.server.change.PutDraft.Input;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.Collections;
 
@@ -37,6 +40,7 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
     String path;
     Side side;
     Integer line;
+    String inReplyTo;
     Timestamp updated; // Accepted but ignored.
 
     @DefaultInput
@@ -58,9 +62,10 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
   }
 
   @Override
-  public Object apply(DraftResource rsrc, Input in)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
+  public Object apply(DraftResource rsrc, Input in) throws AuthException,
+      BadRequestException, ResourceConflictException, OrmException,
+      UnsupportedEncodingException {
+    PatchLineComment c = rsrc.getComment();
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.get().apply(rsrc, null);
     } else if (in.kind != null && !"gerritcodereview#comment".equals(in.kind)) {
@@ -69,32 +74,35 @@ class PutDraft implements RestModifyView<DraftResource, Input> {
       throw new BadRequestException("line must be >= 0");
     }
 
-    PatchLineComment c = rsrc.getComment();
     if (in.path != null
         && !in.path.equals(c.getKey().getParentKey().getFileName())) {
       // Updating the path alters the primary key, which isn't possible.
       // Delete then recreate the comment instead of an update.
       db.get().patchComments().delete(Collections.singleton(c));
-      c = update(new PatchLineComment(
+      c = new PatchLineComment(
           new PatchLineComment.Key(
               new Patch.Key(rsrc.getPatchSet().getId(), in.path),
               c.getKey().get()),
           c.getLine(),
           rsrc.getAuthorId(),
-          c.getParentUuid()), in);
-      db.get().patchComments().insert(Collections.singleton(c));
+          c.getParentUuid());
+      db.get().patchComments().insert(Collections.singleton(update(c, in)));
     } else {
       db.get().patchComments().update(Collections.singleton(update(c, in)));
     }
     return new GetDraft.Comment(c);
   }
 
-  private PatchLineComment update(PatchLineComment e, Input in) {
+  private PatchLineComment update(PatchLineComment e, Input in)
+      throws UnsupportedEncodingException {
     if (in.side != null) {
       e.setSide(in.side == GetDraft.Side.PARENT ? (short) 0 : (short) 1);
     }
     if (in.line != null) {
       e.setLine(in.line);
+    }
+    if (in.inReplyTo != null) {
+      e.setParentUuid(URLDecoder.decode(in.inReplyTo, "UTF-8"));
     }
     e.setMessage(in.message.trim());
     e.updated();

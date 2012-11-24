@@ -42,12 +42,16 @@ class GetDraft implements RestReadView<DraftResource> {
     String path;
     Side side;
     Integer line;
+    String inReplyTo;
     String message;
     Timestamp updated;
 
     Comment(PatchLineComment c) {
       try {
         id = URLEncoder.encode(c.getKey().get(), "UTF-8");
+        if (c.getParentUuid() != null) {
+          inReplyTo = URLEncoder.encode(c.getParentUuid(), "UTF-8");
+        }
       } catch (UnsupportedEncodingException e) {
         throw new RuntimeException("UTF-8 encoding not supported", e);
       }

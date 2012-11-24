@@ -45,6 +45,8 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Iterator;
@@ -85,6 +87,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     String id;
     GetDraft.Side side;
     int line;
+    String inReplyTo;
     String message;
   }
 
@@ -123,7 +126,8 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   @Override
   public Object apply(RevisionResource revision, Input input)
-      throws AuthException, BadRequestException, OrmException {
+      throws AuthException, BadRequestException, OrmException,
+      UnsupportedEncodingException {
     if (input.labels != null) {
       checkLabels(revision, input.strictLabels, input.labels);
     }
@@ -252,7 +256,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   private void insertComments(RevisionResource rsrc,
       Map<String, List<Comment>> in, DraftHandling draftsHandling)
-      throws OrmException {
+      throws OrmException, UnsupportedEncodingException {
     Map<String, PatchLineComment> drafts = scanDraftComments(rsrc);
     List<PatchLineComment> del = Lists.newArrayList();
     List<PatchLineComment> ins = Lists.newArrayList();
@@ -261,6 +265,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     for (Map.Entry<String, List<Comment>> ent : in.entrySet()) {
       String path = ent.getKey();
       for (Comment c : ent.getValue()) {
+        String parent = c.inReplyTo != null
+            ? URLDecoder.decode(c.inReplyTo, "UTF-8")
+            : null;
         PatchLineComment e = drafts.remove(c.id);
         boolean create = e == null;
         if (create) {
@@ -270,7 +277,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
                   ChangeUtil.messageUUID(db)),
               c.line,
               rsrc.getAuthorId(),
-              null);
+              parent);
+        } else if (parent != null) {
+          e.setParentUuid(parent);
         }
         e.setStatus(PatchLineComment.Status.PUBLISHED);
         e.setWrittenOn(timestamp);

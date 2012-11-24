@@ -43,10 +43,14 @@ public class IdGenerator {
 
   /** Produce the next identifier. */
   public int next() {
-    return mix(salt, gen.getAndIncrement());
+    return mix(gen.getAndIncrement());
   }
 
   private static final int salt = 0x9e3779b9;
+
+  static int mix(int in) {
+    return mix(salt, in);
+  }
 
   /** A very simple bit permutation to mask a simple incrementer. */
   public static int mix(final int salt, final int in) {

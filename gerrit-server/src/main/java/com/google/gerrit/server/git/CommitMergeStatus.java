@@ -30,7 +30,7 @@ enum CommitMergeStatus {
   /** */
   PATH_CONFLICT("Your change could not be merged due to a path conflict.\n"
                   + "\n"
-                  + "Please merge (or rebase) the change locally and upload the resolution for review."),
+                  + "Please rebase the change locally and upload the rebased commit for review."),
 
   /** */
   MISSING_DEPENDENCY(""),

@@ -21,6 +21,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -49,6 +50,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Set;
 
 class DashboardsCollection implements
     ChildCollection<ProjectResource, DashboardResource>,
@@ -87,9 +89,9 @@ class DashboardsCollection implements
   @Override
   public DashboardResource parse(ProjectResource parent, String id)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {
-    ProjectControl ctl = parent.getControl();
+    ProjectControl myCtl = parent.getControl();
     if ("default".equals(id)) {
-      return DashboardResource.projectDefault(ctl);
+      return DashboardResource.projectDefault(myCtl);
     }
 
     List<String> parts = Lists.newArrayList(
@@ -100,6 +102,32 @@ class DashboardsCollection implements
 
     String ref = URLDecoder.decode(parts.get(0), "UTF-8");
     String path = URLDecoder.decode(parts.get(1), "UTF-8");
+    ProjectControl ctl = myCtl;
+    Set<Project.NameKey> seen = Sets.newHashSet(ctl.getProject().getNameKey());
+    for (;;) {
+      try {
+        return parse(ctl, ref, path, myCtl);
+      } catch (AmbiguousObjectException e) {
+        throw new ResourceNotFoundException(id);
+      } catch (IncorrectObjectTypeException e) {
+        throw new ResourceNotFoundException(id);
+      } catch (ResourceNotFoundException e) {
+        ProjectState ps = ctl.getProjectState().getParentState();
+        if (ps != null && seen.add(ps.getProject().getNameKey())) {
+          ctl = ps.controlFor(ctl.getCurrentUser());
+          continue;
+        }
+        throw new ResourceNotFoundException(id);
+      }
+    }
+  }
+
+
+  private DashboardResource parse(ProjectControl ctl, String ref, String path,
+      ProjectControl myCtl)
+      throws ResourceNotFoundException, IOException, AmbiguousObjectException,
+          IncorrectObjectTypeException, ConfigInvalidException {
+    String id = ref + ":" + path;
     if (!ref.startsWith(REFS_DASHBOARDS)) {
       ref = REFS_DASHBOARDS + ref;
     }
@@ -110,24 +138,17 @@ class DashboardsCollection implements
 
     Repository git;
     try {
-      git = gitManager.openRepository(parent.getNameKey());
+      git = gitManager.openRepository(ctl.getProject().getNameKey());
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(id);
     }
     try {
-      ObjectId objId;
-      try {
-        objId = git.resolve(ref + ':' + path);
-      } catch (AmbiguousObjectException e) {
-        throw new ResourceNotFoundException(id);
-      } catch (IncorrectObjectTypeException e) {
-        throw new ResourceNotFoundException(id);
-      }
+      ObjectId objId = git.resolve(ref + ":" + path);
       if (objId == null) {
-        throw new ResourceNotFoundException();
+        throw new ResourceNotFoundException(id);
       }
       BlobBasedConfig cfg = new BlobBasedConfig(null, git, objId);
-      return new DashboardResource(ctl, ref, path, cfg, false);
+      return new DashboardResource(myCtl, ref, path, cfg, false);
     } finally {
       git.close();
     }

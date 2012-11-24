@@ -22,7 +22,6 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
  *
  * Invoked by Gerrit when a new commit is received, has passed basic Gerrit
  * validation and can be then subject to extra validation checks.
- *
  */
 @ExtensionPoint
 public interface CommitValidationListener {

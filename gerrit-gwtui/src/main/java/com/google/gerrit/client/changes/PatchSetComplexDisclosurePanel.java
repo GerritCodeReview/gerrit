@@ -19,10 +19,7 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
-import com.google.gerrit.client.download.DownloadCommandLink;
-import com.google.gerrit.client.download.DownloadCommandPanel;
-import com.google.gerrit.client.download.DownloadUrlLink;
-import com.google.gerrit.client.download.DownloadUrlPanel;
+import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentedActionDialog;
@@ -33,16 +30,13 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
@@ -56,7 +50,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 
@@ -204,74 +197,50 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     }
   }
 
+  public class ChangeDownloadPanel extends DownloadPanel {
+    public ChangeDownloadPanel(String project, String ref, boolean allowAnonymous) {
+      super(project, ref, allowAnonymous);
+    }
+
+    @Override
+    public void populateDownloadCommandLinks() {
+      // This site prefers usage of the 'repo' tool, so suggest
+      // that for easy fetch.
+      //
+      if (allowedSchemes.contains(DownloadScheme.REPO_DOWNLOAD)) {
+        commands.add(cmdLinkfactory.new RepoCommandLink(projectName,
+            changeDetail.getChange().getChangeId() + "/"
+            + patchSet.getPatchSetId()));
+      }
+
+      if (!urls.isEmpty()) {
+        if (allowedCommands.contains(DownloadCommand.CHECKOUT)
+            || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
+          commands.add(cmdLinkfactory.new CheckoutCommandLink());
+        }
+        if (allowedCommands.contains(DownloadCommand.PULL)
+            || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
+          commands.add(cmdLinkfactory.new PullCommandLink());
+        }
+        if (allowedCommands.contains(DownloadCommand.CHERRY_PICK)
+            || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
+          commands.add(cmdLinkfactory.new CherryPickCommandLink());
+        }
+        if (allowedCommands.contains(DownloadCommand.FORMAT_PATCH)
+            || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
+          commands.add(cmdLinkfactory.new FormatPatchCommandLink());
+        }
+      }
+    }
+  }
+
   private void displayDownload() {
-    final Project.NameKey projectKey = changeDetail.getChange().getProject();
-    final String projectName = projectKey.get();
-    final CopyableLabel copyLabel = new CopyableLabel("");
-    final DownloadCommandPanel commands = new DownloadCommandPanel();
-    final DownloadUrlPanel urls = new DownloadUrlPanel(commands);
-    Set<DownloadScheme> allowedSchemes = Gerrit.getConfig().getDownloadSchemes();
-    Set<DownloadCommand> allowedCommands = Gerrit.getConfig().getDownloadCommands();
-    DownloadCommandLink.CopyableCommandLinkFactory cmdLinkfactory =
-        new DownloadCommandLink.CopyableCommandLinkFactory(copyLabel, urls);
+    ChangeDownloadPanel dp = new ChangeDownloadPanel(
+      changeDetail.getChange().getProject().get(),
+      patchSet.getRefName(),
+      changeDetail.isAllowsAnonymous());
 
-    copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadLinkCopyLabel());
-
-    urls.add(DownloadUrlLink.createDownloadUrlLinks(projectName,
-        patchSet.getRefName(), changeDetail.isAllowsAnonymous()));
-
-    // This site prefers usage of the 'repo' tool, so suggest
-    // that for easy fetch.
-    //
-    if (allowedSchemes.contains(DownloadScheme.REPO_DOWNLOAD)) {
-      commands.add(cmdLinkfactory.new RepoCommandLink(projectName,
-          changeDetail.getChange().getChangeId() + "/"
-          + patchSet.getPatchSetId()));
-    }
-
-    if (!urls.isEmpty()) {
-      if (allowedCommands.contains(DownloadCommand.CHECKOUT)
-          || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-        commands.add(cmdLinkfactory.new CheckoutCommandLink());
-      }
-      if (allowedCommands.contains(DownloadCommand.PULL)
-          || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-        commands.add(cmdLinkfactory.new PullCommandLink());
-      }
-      if (allowedCommands.contains(DownloadCommand.CHERRY_PICK)
-          || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-        commands.add(cmdLinkfactory.new CherryPickCommandLink());
-      }
-      if (allowedCommands.contains(DownloadCommand.FORMAT_PATCH)
-          || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-        commands.add(cmdLinkfactory.new FormatPatchCommandLink());
-      }
-    }
-
-    final FlowPanel fp = new FlowPanel();
-    if (!commands.isEmpty()) {
-      final AccountGeneralPreferences pref;
-      if (Gerrit.isSignedIn()) {
-        pref = Gerrit.getUserAccount().getGeneralPreferences();
-      } else {
-        pref = new AccountGeneralPreferences();
-        pref.resetToDefaults();
-      }
-      commands.select(pref.getDownloadCommand());
-      urls.select(pref.getDownloadUrl());
-
-      FlowPanel p = new FlowPanel();
-      p.setStyleName(Gerrit.RESOURCES.css().downloadLinkHeader());
-      p.add(commands);
-      final InlineLabel glue = new InlineLabel();
-      glue.setStyleName(Gerrit.RESOURCES.css().downloadLinkHeaderGap());
-      p.add(glue);
-      p.add(urls);
-
-      fp.add(p);
-      fp.add(copyLabel);
-    }
-    infoTable.setWidget(R_DOWNLOAD, 1, fp);
+    infoTable.setWidget(R_DOWNLOAD, 1, dp);
   }
 
   private void displayUserIdentity(final int row, final UserIdentity who) {

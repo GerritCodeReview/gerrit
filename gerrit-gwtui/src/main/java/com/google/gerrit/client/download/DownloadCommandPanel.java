@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
@@ -21,20 +21,20 @@ import com.google.gwt.aria.client.Roles;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-class DownloadCommandPanel extends FlowPanel {
+public class DownloadCommandPanel extends FlowPanel {
   private DownloadCommandLink currentCommand;
   private DownloadUrlLink currentUrl;
 
-  DownloadCommandPanel() {
+  public DownloadCommandPanel() {
     setStyleName(Gerrit.RESOURCES.css().downloadLinkList());
     Roles.getTablistRole().set(getElement());
   }
 
-  boolean isEmpty() {
+  public boolean isEmpty() {
     return getWidgetCount() == 0;
   }
 
-  void select(AccountGeneralPreferences.DownloadCommand cmdType) {
+  public void select(AccountGeneralPreferences.DownloadCommand cmdType) {
     DownloadCommandLink first = null;
 
     for (Widget w : this) {

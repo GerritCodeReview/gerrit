@@ -16,18 +16,114 @@ package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 public abstract class DownloadCommandLink extends Anchor implements ClickHandler {
-  final AccountGeneralPreferences.DownloadCommand cmdType;
+  public static class CopyableCommandLinkFactory {
+    protected CopyableLabel copyLabel = null;
+    protected Widget widget;
 
-  public DownloadCommandLink(AccountGeneralPreferences.DownloadCommand cmdType,
+    public class CheckoutCommandLink extends DownloadCommandLink {
+      public CheckoutCommandLink () {
+        super(DownloadCommand.CHECKOUT, "checkout");
+      }
+
+      @Override
+      protected void setCurrentUrl(DownloadUrlLink link) {
+        widget.setVisible(true);
+        copyLabel.setText("git fetch " + link.urlData
+            + " && git checkout FETCH_HEAD");
+      }
+    }
+
+    public class PullCommandLink extends DownloadCommandLink {
+      public PullCommandLink() {
+        super(DownloadCommand.PULL, "pull");
+      }
+
+      @Override
+      protected void setCurrentUrl(DownloadUrlLink link) {
+        widget.setVisible(true);
+        copyLabel.setText("git pull " + link.urlData);
+      }
+    }
+
+    public class CherryPickCommandLink extends DownloadCommandLink {
+      public CherryPickCommandLink() {
+        super(DownloadCommand.CHERRY_PICK, "cherry-pick");
+      }
+
+      @Override
+      protected void setCurrentUrl(DownloadUrlLink link) {
+        widget.setVisible(true);
+        copyLabel.setText("git fetch " + link.urlData
+            + " && git cherry-pick FETCH_HEAD");
+      }
+    }
+
+    public class FormatPatchCommandLink extends DownloadCommandLink {
+      public FormatPatchCommandLink() {
+        super(DownloadCommand.FORMAT_PATCH, "patch");
+      }
+
+      @Override
+      protected void setCurrentUrl(DownloadUrlLink link) {
+        widget.setVisible(true);
+        copyLabel.setText("git fetch " + link.urlData
+            + " && git format-patch -1 --stdout FETCH_HEAD");
+      }
+    }
+
+    public class RepoCommandLink extends DownloadCommandLink {
+      String projectName;
+      String ref;
+      public RepoCommandLink(String project, String ref) {
+        super(DownloadCommand.REPO_DOWNLOAD, "checkout");
+        this.projectName = project;
+        this.ref = ref;
+      }
+
+      @Override
+      protected void setCurrentUrl(DownloadUrlLink link) {
+        widget.setVisible(false);
+        final StringBuilder r = new StringBuilder();
+        r.append("repo download ");
+        r.append(projectName);
+        r.append(" ");
+        r.append(ref);
+        copyLabel.setText(r.toString());
+      }
+    }
+
+    public class CloneCommandLink extends DownloadCommandLink {
+      public CloneCommandLink() {
+        super(DownloadCommand.CHECKOUT, "clone");
+      }
+
+      @Override
+      protected void setCurrentUrl(DownloadUrlLink link) {
+        widget.setVisible(true);
+        copyLabel.setText("git clone " + link.getUrlData());
+      }
+    }
+
+    public CopyableCommandLinkFactory(CopyableLabel label, Widget widget) {
+      copyLabel = label;
+      this.widget = widget;
+    }
+  }
+
+  final DownloadCommand cmdType;
+
+  public DownloadCommandLink(DownloadCommand cmdType,
       String text) {
     super(text);
     this.cmdType = cmdType;
@@ -62,7 +158,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
     }
   }
 
-  public AccountGeneralPreferences.DownloadCommand getCmdType() {
+  public DownloadCommand getCmdType() {
     return cmdType;
   }
 

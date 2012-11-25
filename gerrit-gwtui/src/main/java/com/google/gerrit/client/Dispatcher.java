@@ -67,6 +67,7 @@ import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.CustomDashboardScreen;
 import com.google.gerrit.client.changes.PatchTable;
+import com.google.gerrit.client.changes.ProjectDashboardScreen;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.QueryScreen;
 import com.google.gerrit.client.dashboards.DashboardInfo;
@@ -408,8 +409,8 @@ public class Dispatcher {
           public void onSuccess(DashboardInfo result) {
             if (matchPrefix("/dashboard/", result.url())) {
               String params = skip(result.url()).substring(1);
-              CustomDashboardScreen dash = new CustomDashboardScreen(params);
-              dash.setTitle(new InlineHyperlink(dash.getTitle(), PageLinks.toCustomDashboard(params)));
+              ProjectDashboardScreen dash = new ProjectDashboardScreen(
+                  new Project.NameKey(project), params);
               Gerrit.display(token, dash);
             }
           }

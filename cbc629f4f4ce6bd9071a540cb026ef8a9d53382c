@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L5txPzWA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-25T21:51:49Z",
+      "side": 1,
+      "message": "I always find this to be the oddest syntax in Java... :-)",
+      "revId": "cbc629f4f4ce6bd9071a540cb026ef8a9d53382c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -12,27 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.download;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 
-class DownloadUrlLink extends Anchor implements ClickHandler {
-  final AccountGeneralPreferences.DownloadScheme urlType;
-  final String urlData;
+public abstract class DownloadCommandLink extends Anchor implements ClickHandler {
+  final AccountGeneralPreferences.DownloadCommand cmdType;
 
-  DownloadUrlLink(AccountGeneralPreferences.DownloadScheme urlType, String text,
-      String urlData) {
+  public DownloadCommandLink(AccountGeneralPreferences.DownloadCommand cmdType,
+      String text) {
     super(text);
-    this.urlType = urlType;
-    this.urlData = urlData;
+    this.cmdType = cmdType;
     setStyleName(Gerrit.RESOURCES.css().downloadLink());
     Roles.getTabRole().set(getElement());
     addClickHandler(this);
@@ -50,7 +48,7 @@ class DownloadUrlLink extends Anchor implements ClickHandler {
       //
       AccountGeneralPreferences pref =
           Gerrit.getUserAccount().getGeneralPreferences();
-      pref.setDownloadUrl(urlType);
+      pref.setDownloadCommand(cmdType);
       com.google.gerrit.client.account.Util.ACCOUNT_SVC.changePreferences(pref,
           new AsyncCallback<VoidResult>() {
             @Override
@@ -64,14 +62,20 @@ class DownloadUrlLink extends Anchor implements ClickHandler {
     }
   }
 
+  public AccountGeneralPreferences.DownloadCommand getCmdType() {
+    return cmdType;
+  }
+
   void select() {
-    DownloadUrlPanel parent = (DownloadUrlPanel) getParent();
+    DownloadCommandPanel parent = (DownloadCommandPanel) getParent();
     for (Widget w : parent) {
-      if (w != this && w instanceof DownloadUrlLink) {
+      if (w != this && w instanceof DownloadCommandLink) {
         w.removeStyleName(Gerrit.RESOURCES.css().downloadLink_Active());
       }
     }
-    parent.setCurrentUrl(this);
+    parent.setCurrentCommand(this);
     addStyleName(Gerrit.RESOURCES.css().downloadLink_Active());
   }
+
+  protected abstract void setCurrentUrl(DownloadUrlLink link);
 }

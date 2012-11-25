@@ -15,11 +15,13 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.download.DownloadPanel;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.Project.InheritedBoolean;
 import com.google.gerrit.reviewdb.client.Project.SubmitType;
@@ -37,6 +39,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 
 public class ProjectInfoScreen extends ProjectScreen {
+  private String projectName;
   private Project project;
 
   private Panel projectOptionsPanel;
@@ -56,6 +59,7 @@ public class ProjectInfoScreen extends ProjectScreen {
 
   public ProjectInfoScreen(final Project.NameKey toShow) {
     super(toShow);
+    projectName = toShow.get();
   }
 
   @Override
@@ -69,6 +73,8 @@ public class ProjectInfoScreen extends ProjectScreen {
         doSave();
       }
     });
+
+    add(new ProjectDownloadPanel(projectName, true));
 
     initDescription();
     initProjectOptions();
@@ -290,5 +296,21 @@ public class ProjectInfoScreen extends ProjectScreen {
             display(result);
           }
         });
+  }
+
+  public class ProjectDownloadPanel extends DownloadPanel {
+    public ProjectDownloadPanel(String project, boolean isAllowsAnonymous) {
+      super(project, null, isAllowsAnonymous);
+    }
+
+    @Override
+    public void populateDownloadCommandLinks() {
+      if (!urls.isEmpty()) {
+        if (allowedCommands.contains(DownloadCommand.CHECKOUT)
+            || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
+          commands.add(cmdLinkfactory.new CloneCommandLink());
+        }
+      }
+    }
   }
 }

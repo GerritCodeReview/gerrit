@@ -212,80 +212,39 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     final DownloadUrlPanel urls = new DownloadUrlPanel(commands);
     final Set<DownloadScheme> allowedSchemes = Gerrit.getConfig().getDownloadSchemes();
     final Set<DownloadCommand> allowedCommands = Gerrit.getConfig().getDownloadCommands();
+    DownloadCommandLink.CopyableCommandLinkFactory cmdLinkfactory =
+        new DownloadCommandLink.CopyableCommandLinkFactory(copyLabel, urls);
 
     copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadLinkCopyLabel());
 
     urls.add(DownloadUrlLink.createDownloadUrlLinks(projectName,
         patchSet.getRefName(), changeDetail.isAllowsAnonymous()));
 
+    // This site prefers usage of the 'repo' tool, so suggest
+    // that for easy fetch.
+    //
     if (allowedSchemes.contains(DownloadScheme.REPO_DOWNLOAD)) {
-      // This site prefers usage of the 'repo' tool, so suggest
-      // that for easy fetch.
-      //
-      final StringBuilder r = new StringBuilder();
-      r.append("repo download ");
-      r.append(projectName);
-      r.append(" ");
-      r.append(changeDetail.getChange().getChangeId());
-      r.append("/");
-      r.append(patchSet.getPatchSetId());
-      final String cmd = r.toString();
-      commands.add(new DownloadCommandLink(DownloadCommand.REPO_DOWNLOAD,
-          "repo download") {
-        @Override
-        protected void setCurrentUrl(DownloadUrlLink link) {
-          urls.setVisible(false);
-          copyLabel.setText(cmd);
-        }
-      });
+      commands.add(cmdLinkfactory.new RepoCommandLink(projectName,
+          changeDetail.getChange().getChangeId() + "/"
+          + patchSet.getPatchSetId()));
     }
 
     if (!urls.isEmpty()) {
       if (allowedCommands.contains(DownloadCommand.CHECKOUT)
           || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-        commands.add(new DownloadCommandLink(DownloadCommand.CHECKOUT,
-            "checkout") {
-          @Override
-          protected void setCurrentUrl(DownloadUrlLink link) {
-            urls.setVisible(true);
-            copyLabel.setText("git fetch " + link.getUrlData()
-                + " && git checkout FETCH_HEAD");
-          }
-        });
+        commands.add(cmdLinkfactory.new CheckoutCommandLink());
       }
       if (allowedCommands.contains(DownloadCommand.PULL)
           || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-        commands.add(new DownloadCommandLink(DownloadCommand.PULL, "pull") {
-          @Override
-          protected void setCurrentUrl(DownloadUrlLink link) {
-            urls.setVisible(true);
-            copyLabel.setText("git pull " + link.getUrlData());
-          }
-        });
+        commands.add(cmdLinkfactory.new PullCommandLink());
       }
       if (allowedCommands.contains(DownloadCommand.CHERRY_PICK)
           || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-        commands.add(new DownloadCommandLink(DownloadCommand.CHERRY_PICK,
-            "cherry-pick") {
-          @Override
-          protected void setCurrentUrl(DownloadUrlLink link) {
-            urls.setVisible(true);
-            copyLabel.setText("git fetch " + link.getUrlData()
-                + " && git cherry-pick FETCH_HEAD");
-          }
-        });
+        commands.add(cmdLinkfactory.new CherryPickCommandLink());
       }
       if (allowedCommands.contains(DownloadCommand.FORMAT_PATCH)
           || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
-        commands.add(new DownloadCommandLink(DownloadCommand.FORMAT_PATCH,
-            "patch") {
-          @Override
-          protected void setCurrentUrl(DownloadUrlLink link) {
-            urls.setVisible(true);
-            copyLabel.setText("git fetch " + link.getUrlData()
-                + " && git format-patch -1 --stdout FETCH_HEAD");
-          }
-        });
+        commands.add(cmdLinkfactory.new FormatPatchCommandLink());
       }
     }
 

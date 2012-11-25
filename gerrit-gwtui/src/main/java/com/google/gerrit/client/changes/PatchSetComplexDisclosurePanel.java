@@ -19,6 +19,10 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
+import com.google.gerrit.client.download.DownloadCommandLink;
+import com.google.gerrit.client.download.DownloadCommandPanel;
+import com.google.gerrit.client.download.DownloadUrlLink;
+import com.google.gerrit.client.download.DownloadUrlPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentedActionDialog;
@@ -30,7 +34,6 @@ import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gerrit.reviewdb.client.AuthType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -44,7 +47,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -213,93 +215,8 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
 
     copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadLinkCopyLabel());
 
-    if (changeDetail.isAllowsAnonymous()
-        && Gerrit.getConfig().getGitDaemonUrl() != null
-        && (allowedSchemes.contains(DownloadScheme.ANON_GIT) ||
-            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
-      StringBuilder r = new StringBuilder();
-      r.append(Gerrit.getConfig().getGitDaemonUrl());
-      r.append(projectName);
-      r.append(" ");
-      r.append(patchSet.getRefName());
-      urls.add(new DownloadUrlLink(DownloadScheme.ANON_GIT, Util.M
-          .anonymousDownload("Git"), r.toString()));
-    }
-
-    String hostPageUrl = GWT.getHostPageBaseURL();
-    if (!hostPageUrl.endsWith("/")) {
-      hostPageUrl += "/";
-    }
-
-    if (changeDetail.isAllowsAnonymous()
-        && (allowedSchemes.contains(DownloadScheme.ANON_HTTP) ||
-            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
-      StringBuilder r = new StringBuilder();
-      if (Gerrit.getConfig().getGitHttpUrl() != null) {
-        r.append(Gerrit.getConfig().getGitHttpUrl());
-      } else {
-        r.append(hostPageUrl);
-      }
-      r.append(projectName);
-      r.append(" ");
-      r.append(patchSet.getRefName());
-      urls.add(new DownloadUrlLink(DownloadScheme.ANON_HTTP, Util.M
-          .anonymousDownload("HTTP"), r.toString()));
-    }
-
-    if (Gerrit.getConfig().getSshdAddress() != null
-        && hasUserName()
-        && (allowedSchemes.contains(DownloadScheme.SSH) ||
-            allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
-      String sshAddr = Gerrit.getConfig().getSshdAddress();
-      final StringBuilder r = new StringBuilder();
-      r.append("ssh://");
-      r.append(Gerrit.getUserAccount().getUserName());
-      r.append("@");
-      if (sshAddr.startsWith("*:") || "".equals(sshAddr)) {
-        r.append(Window.Location.getHostName());
-      }
-      if (sshAddr.startsWith("*")) {
-        sshAddr = sshAddr.substring(1);
-      }
-      r.append(sshAddr);
-      r.append("/");
-      r.append(projectName);
-      r.append(" ");
-      r.append(patchSet.getRefName());
-      urls.add(new DownloadUrlLink(DownloadScheme.SSH, "SSH", r.toString()));
-    }
-
-    if ((hasUserName() || siteReliesOnHttp())
-        && (allowedSchemes.contains(DownloadScheme.HTTP)
-            || allowedSchemes.contains(DownloadScheme.DEFAULT_DOWNLOADS))) {
-      final StringBuilder r = new StringBuilder();
-      if (Gerrit.getConfig().getGitHttpUrl() != null
-          && (changeDetail.isAllowsAnonymous() || siteReliesOnHttp())) {
-        r.append(Gerrit.getConfig().getGitHttpUrl());
-      } else {
-        String base = hostPageUrl;
-        int p = base.indexOf("://");
-        int s = base.indexOf('/', p + 3);
-        if (s < 0) {
-          s = base.length();
-        }
-        String host = base.substring(p + 3, s);
-        if (host.contains("@")) {
-          host = host.substring(host.indexOf('@') + 1);
-        }
-
-        r.append(base.substring(0, p + 3));
-        r.append(Gerrit.getUserAccount().getUserName());
-        r.append('@');
-        r.append(host);
-        r.append(base.substring(s));
-      }
-      r.append(projectName);
-      r.append(" ");
-      r.append(patchSet.getRefName());
-      urls.add(new DownloadUrlLink(DownloadScheme.HTTP, "HTTP", r.toString()));
-    }
+    urls.add(DownloadUrlLink.createDownloadUrlLinks(projectName,
+        patchSet.getRefName(), changeDetail.isAllowsAnonymous()));
 
     if (allowedSchemes.contains(DownloadScheme.REPO_DOWNLOAD)) {
       // This site prefers usage of the 'repo' tool, so suggest
@@ -316,7 +233,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       commands.add(new DownloadCommandLink(DownloadCommand.REPO_DOWNLOAD,
           "repo download") {
         @Override
-        void setCurrentUrl(DownloadUrlLink link) {
+        protected void setCurrentUrl(DownloadUrlLink link) {
           urls.setVisible(false);
           copyLabel.setText(cmd);
         }
@@ -329,9 +246,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         commands.add(new DownloadCommandLink(DownloadCommand.CHECKOUT,
             "checkout") {
           @Override
-          void setCurrentUrl(DownloadUrlLink link) {
+          protected void setCurrentUrl(DownloadUrlLink link) {
             urls.setVisible(true);
-            copyLabel.setText("git fetch " + link.urlData
+            copyLabel.setText("git fetch " + link.getUrlData()
                 + " && git checkout FETCH_HEAD");
           }
         });
@@ -340,9 +257,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
           || allowedCommands.contains(DownloadCommand.DEFAULT_DOWNLOADS)) {
         commands.add(new DownloadCommandLink(DownloadCommand.PULL, "pull") {
           @Override
-          void setCurrentUrl(DownloadUrlLink link) {
+          protected void setCurrentUrl(DownloadUrlLink link) {
             urls.setVisible(true);
-            copyLabel.setText("git pull " + link.urlData);
+            copyLabel.setText("git pull " + link.getUrlData());
           }
         });
       }
@@ -351,9 +268,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         commands.add(new DownloadCommandLink(DownloadCommand.CHERRY_PICK,
             "cherry-pick") {
           @Override
-          void setCurrentUrl(DownloadUrlLink link) {
+          protected void setCurrentUrl(DownloadUrlLink link) {
             urls.setVisible(true);
-            copyLabel.setText("git fetch " + link.urlData
+            copyLabel.setText("git fetch " + link.getUrlData()
                 + " && git cherry-pick FETCH_HEAD");
           }
         });
@@ -363,9 +280,9 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         commands.add(new DownloadCommandLink(DownloadCommand.FORMAT_PATCH,
             "patch") {
           @Override
-          void setCurrentUrl(DownloadUrlLink link) {
+          protected void setCurrentUrl(DownloadUrlLink link) {
             urls.setVisible(true);
-            copyLabel.setText("git fetch " + link.urlData
+            copyLabel.setText("git fetch " + link.getUrlData()
                 + " && git format-patch -1 --stdout FETCH_HEAD");
           }
         });
@@ -396,18 +313,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       fp.add(copyLabel);
     }
     infoTable.setWidget(R_DOWNLOAD, 1, fp);
-  }
-
-  private static boolean siteReliesOnHttp() {
-    return Gerrit.getConfig().getGitHttpUrl() != null
-        && Gerrit.getConfig().getAuthType() == AuthType.CUSTOM_EXTENSION
-        && !Gerrit.getConfig().siteHasUsernames();
-  }
-
-  private static boolean hasUserName() {
-    return Gerrit.isSignedIn()
-        && Gerrit.getUserAccount().getUserName() != null
-        && Gerrit.getUserAccount().getUserName().length() > 0;
   }
 
   private void displayUserIdentity(final int row, final UserIdentity who) {

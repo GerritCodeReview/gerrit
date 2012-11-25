@@ -56,6 +56,4 @@ public interface ChangeMessages extends Messages {
   String groupIsNotAllowed(String group);
   String groupHasTooManyMembers(String group);
   String groupManyMembersConfirmation(String group, int memberCount);
-
-  String anonymousDownload(String protocol);
 }

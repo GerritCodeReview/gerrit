@@ -15,116 +15,40 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.rpc.NativeList;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.common.PageLinks;
-import com.google.gwt.http.client.URL;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
 
 public class CustomDashboardScreen extends Screen implements ChangeListScreen {
-  private String title;
-  private List<String> titles;
-  private List<String> queries;
-  private ChangeTable2 table;
-  private List<ChangeTable2.Section> sections;
+  private DashboardTable table;
+  private String params;
 
   public CustomDashboardScreen(String params) {
-    titles = new ArrayList<String>();
-    queries = new ArrayList<String>();
-    String foreach = null;
-    for (String kvPair : params.split("[,;&]")) {
-      String[] kv = kvPair.split("=", 2);
-      if (kv.length != 2 || kv[0].isEmpty()) {
-        continue;
-      }
-
-      if ("title".equals(kv[0])) {
-        title = URL.decodeQueryString(kv[1]);
-      } else if ("foreach".equals(kv[0])) {
-        foreach = URL.decodeQueryString(kv[1]);
-      } else {
-        titles.add(URL.decodeQueryString(kv[0]));
-        queries.add(URL.decodeQueryString(kv[1]));
-      }
-    }
-
-    if (foreach != null) {
-      ListIterator<String> it = queries.listIterator();
-      while (it.hasNext()) {
-        it.set(it.next() + " " + foreach);
-      }
-    }
+    this.params = params;
   }
 
   @Override
   protected void onInitUI() {
+    table = new DashboardTable(params) {
+      @Override
+      protected void onLoad() {
+        super.onLoad();
+        display();
+      }
+    };
+
     super.onInitUI();
 
+    String title = table.getTitle();
     if (title != null) {
       setWindowTitle(title);
       setPageTitle(title);
     }
 
-    table = new ChangeTable2();
-    table.addStyleName(Gerrit.RESOURCES.css().accountDashboard());
-
-    sections = new ArrayList<ChangeTable2.Section>();
-    int i = 0;
-    for (String title : titles) {
-      ChangeTable2.Section s = new ChangeTable2.Section();
-      s.setTitleWidget(new InlineHyperlink(title, PageLinks.toChangeQuery(queries.get(i++))));
-      table.addSection(s);
-      sections.add(s);
-    }
     add(table);
-  }
-
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-
-    if (queries.isEmpty()) {
-      display();
-    } else if (queries.size() == 1) {
-      ChangeList.next(queries.get(0),
-          0, PagedSingleListScreen.MAX_SORTKEY,
-          new ScreenLoadCallback<ChangeList>(this) {
-            @Override
-            protected void preDisplay(ChangeList result) {
-              table.updateColumnsForLabels(result);
-              sections.get(0).display(result);
-              table.finishDisplay();
-            }
-        });
-    } else {
-      ChangeList.query(
-          new ScreenLoadCallback<NativeList<ChangeList>>(this) {
-            @Override
-            protected void preDisplay(NativeList<ChangeList> result) {
-              table.updateColumnsForLabels(
-                  result.asList().toArray(new ChangeList[result.size()]));
-              for (int i = 0; i < result.size(); i++) {
-                sections.get(i).display(result.get(i));
-              }
-              table.finishDisplay();
-            }
-          },
-          queries.toArray(new String[queries.size()]));
-    }
   }
 
   @Override
   public void registerKeys() {
     super.registerKeys();
     table.setRegisterKeys(true);
-  }
-
-  public String getTitle() {
-    return title;
   }
 }

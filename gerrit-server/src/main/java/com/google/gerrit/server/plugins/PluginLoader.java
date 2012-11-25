@@ -521,30 +521,4 @@ public class PluginLoader implements LifecycleListener {
     }
     return Arrays.asList(matches);
   }
-
-  public String getPluginName(Object pluginObject) {
-    ClassLoader pluginClassLoader = pluginObject.getClass().getClassLoader();
-    if (!(pluginClassLoader instanceof URLClassLoader)) {
-      throw new IllegalArgumentException("Object does not belong to a plugin");
-    }
-
-    String loaderFileName =
-        ((URLClassLoader) pluginClassLoader).getURLs()[0].getFile();
-    int pluginPrefixPos = loaderFileName.indexOf(PLUGIN_TMP_PREFIX);
-    if (pluginPrefixPos < 0) {
-      throw new IllegalArgumentException(
-          "Object does not belong to a plugin (loaded from " + loaderFileName
-              + ")");
-    }
-
-    loaderFileName =
-        removeSuffix(
-            loaderFileName.substring(pluginPrefixPos + PLUGIN_TMP_PREFIX.length()), '_');
-    loaderFileName = removeSuffix(loaderFileName, '_');
-    return removeSuffix(loaderFileName, '_');
-  }
-
-  private String removeSuffix(String loaderFileName, char suffixTerm) {
-    return loaderFileName.substring(0, loaderFileName.lastIndexOf(suffixTerm));
-  }
 }

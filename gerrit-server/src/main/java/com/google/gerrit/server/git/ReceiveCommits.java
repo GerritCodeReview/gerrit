@@ -62,14 +62,13 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
-import com.google.gerrit.server.git.validators.CommitValidationResult;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
+import com.google.gerrit.server.git.validators.CommitValidationResult;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.plugins.PluginLoader;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -291,7 +290,6 @@ public class ReceiveCommits {
   private MessageSender messageSender;
   private BatchRefUpdate batch;
   private final DynamicSet<CommitValidationListener> commitValidators;
-  private final PluginLoader pluginLoader;
 
   @Inject
   ReceiveCommits(final ReviewDb db,
@@ -318,8 +316,7 @@ public class ReceiveCommits {
       final DynamicSet<CommitValidationListener> commitValidationListeners,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
-      final SubmoduleOp.Factory subOpFactory,
-      final PluginLoader pluginLoader) throws IOException {
+      final SubmoduleOp.Factory subOpFactory) throws IOException {
     this.currentUser = (IdentifiedUser) projectControl.getCurrentUser();
     this.db = db;
     this.schemaFactory = schemaFactory;
@@ -345,7 +342,6 @@ public class ReceiveCommits {
     this.projectControl = projectControl;
     this.project = projectControl.getProject();
     this.repo = repo;
-    this.pluginLoader = pluginLoader;
     this.rp = new ReceivePack(repo);
     this.rejectCommits = loadRejectCommitsMap();
 
@@ -2060,13 +2056,12 @@ public class ReceiveCommits {
       CommitValidationResult validationResult =
           validator.onCommitReceived(new CommitReceivedEvent(cmd, project, ctl
               .getRefName(), c, currentUser));
-      final String pluginName = pluginLoader.getPluginName(validator);
       final String message = validationResult.getValidationReason();
       if (!validationResult.isValidated()) {
-        reject(cmd, String.format("%s (rejected by plugin %s)", message, pluginName));
+        reject(cmd, message);
         return false;
       } else if (!Strings.isNullOrEmpty(message)) {
-        addMessage(String.format("(W) %s (from plugin %s)", message, pluginName));
+        addMessage(String.format("(W) %s", message));
       }
     }
 

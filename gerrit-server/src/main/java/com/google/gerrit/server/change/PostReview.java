@@ -139,9 +139,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       ChangeUtil.updated(change);
       timestamp = change.getLastUpdatedOn();
 
-      if (input.comments != null) {
-        insertComments(revision, input.comments, input.drafts);
-      }
+      insertComments(revision, input.comments, input.drafts);
       if (change.getStatus().isOpen() && input.labels != null) {
         // TODO Allow updating some labels even when closed.
         updateLabels(revision, input.labels);
@@ -255,7 +253,15 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
   private void insertComments(RevisionResource rsrc,
       Map<String, List<Comment>> in, DraftHandling draftsHandling)
       throws OrmException {
-    Map<String, PatchLineComment> drafts = scanDraftComments(rsrc);
+    if (in == null) {
+      in = Collections.emptyMap();
+    }
+
+    Map<String, PatchLineComment> drafts = Collections.emptyMap();
+    if (!in.isEmpty() || draftsHandling != DraftHandling.KEEP) {
+      drafts = scanDraftComments(rsrc);
+    }
+
     List<PatchLineComment> del = Lists.newArrayList();
     List<PatchLineComment> ins = Lists.newArrayList();
     List<PatchLineComment> upd = Lists.newArrayList();

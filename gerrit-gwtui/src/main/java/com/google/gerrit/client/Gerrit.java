@@ -19,6 +19,7 @@ import static com.google.gerrit.common.data.GlobalCapability.CREATE_PROJECT;
 import static com.google.gerrit.common.data.GlobalCapability.CREATE_GROUP;
 
 import com.google.gerrit.client.account.AccountCapabilities;
+import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.openid.OpenIdSsoPanel;
 import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
@@ -26,6 +27,7 @@ import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.HidingMenuBar;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
@@ -42,6 +44,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.client.AuthType;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
@@ -98,12 +101,14 @@ public class Gerrit implements EntryPoint {
   private static MorphingTabPanel menuLeft;
   private static LinkMenuBar menuRight;
   private static LinkMenuBar diffBar;
+  private static HidingMenuBar projectsBar;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
   private static SearchPanel searchPanel;
   private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
   private static PatchScreen patchScreen;
+  private static Project.NameKey projectKey;
   private static String lastChangeListToken;
 
   static {
@@ -181,12 +186,18 @@ public class Gerrit implements EntryPoint {
       patchScreen = (PatchScreen) view;
       menuLeft.setVisible(diffBar, true);
       menuLeft.selectTab(menuLeft.getWidgetIndex(diffBar));
+    } else if (view instanceof ProjectScreen) {
+      projectKey = ((ProjectScreen) view).getProjectKey();
+      menuLeft.selectTab(menuLeft.getWidgetIndex(projectsBar));
+      projectsBar.setHideableItemsVisible(true);
     } else {
       if (patchScreen != null && menuLeft.getSelectedWidget() == diffBar) {
         menuLeft.selectTab(isSignedIn() ? 1 : 0);
       }
       patchScreen = null;
       menuLeft.setVisible(diffBar, false);
+      projectKey = null;
+      projectsBar.setHideableItemsVisible(false);
     }
   }
 
@@ -653,8 +664,14 @@ public class Gerrit implements EntryPoint {
     addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
     addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
 
-    final LinkMenuBar projectsBar = new LinkMenuBar();
+    projectKey = null;
+    projectsBar = new HidingMenuBar();
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
+    addProjectLink(projectsBar, C.menuProjectsInfo(), ProjectScreen.INFO);
+    addProjectLink(projectsBar, C.menuProjectsBranches(), ProjectScreen.BRANCH);
+    addProjectLink(projectsBar, C.menuProjectsAccess(), ProjectScreen.ACCESS);
+    addProjectLink(projectsBar, C.menuProjectsDashboards(), ProjectScreen.DASHBOARDS);
+    projectsBar.setHideableItemsVisible(false);
     menuLeft.add(projectsBar, C.menuProjects());
 
     if (signedIn) {
@@ -786,6 +803,19 @@ public class Gerrit implements EntryPoint {
         public void go() {
           if (patchScreen != null) {
             patchScreen.setTopView(tv);
+          }
+          AnchorElement.as(getElement()).blur();
+        }
+      });
+  }
+
+  private static void addProjectLink(final HidingMenuBar m, final String text,
+      final String panel) {
+    m.addHideableItem(new LinkMenuItem(text, "") {
+        @Override
+        public void go() {
+          if (projectKey != null) {
+            display(Dispatcher.toProjectAdmin(projectKey, panel));
           }
           AnchorElement.as(getElement()).blur();
         }

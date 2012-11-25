@@ -14,12 +14,10 @@
 
 package com.google.gerrit.client.admin;
 
-import static com.google.gerrit.client.Dispatcher.toProjectAdmin;
-
-import com.google.gerrit.client.ui.MenuScreen;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.Project;
 
-public abstract class ProjectScreen extends MenuScreen {
+public abstract class ProjectScreen extends Screen {
   public static final String INFO = "info";
   public static final String BRANCH = "branches";
   public static final String ACCESS = "access";
@@ -29,14 +27,9 @@ public abstract class ProjectScreen extends MenuScreen {
 
   public ProjectScreen(final Project.NameKey toShow) {
     name = toShow;
-
-    link(Util.C.projectAdminTabGeneral(), toProjectAdmin(name, INFO));
-    link(Util.C.projectAdminTabBranches(), toProjectAdmin(name, BRANCH));
-    link(Util.C.projectAdminTabAccess(), toProjectAdmin(name, ACCESS));
-    link(Util.C.projectAdminTabDashboards(), toProjectAdmin(name, DASHBOARDS));
   }
 
-  protected Project.NameKey getProjectKey() {
+  public Project.NameKey getProjectKey() {
     return name;
   }
 

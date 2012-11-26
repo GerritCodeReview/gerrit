@@ -19,6 +19,7 @@ import com.google.gerrit.client.admin.ProjectScreen;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ProjectDashboardScreen extends ProjectScreen implements ChangeListScreen {
   private DashboardTable table;
@@ -39,12 +40,15 @@ public class ProjectDashboardScreen extends ProjectScreen implements ChangeListS
       }
     };
 
+    super.onInitUI();
+
     String title = table.getTitle();
     if (title != null) {
-      setTitle(new InlineHyperlink(title, PageLinks.toCustomDashboard(params)));
+      FlowPanel fp = new FlowPanel();
+      fp.setStyleName(Gerrit.RESOURCES.css().screenHeader());
+      fp.add(new InlineHyperlink(title, PageLinks.toCustomDashboard(params)));
+      add(fp);
     }
-
-    super.onInitUI();
 
     add(table);
   }

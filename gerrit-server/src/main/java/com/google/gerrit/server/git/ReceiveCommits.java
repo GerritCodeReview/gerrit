@@ -25,7 +25,6 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -64,9 +63,9 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
-import com.google.gerrit.server.git.validators.CommitValidationResult;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -2049,16 +2048,14 @@ public class ReceiveCommits {
       }
     }
 
+    // Execute commit validation plugins
     for (CommitValidationListener validator : commitValidators) {
-      CommitValidationResult validationResult =
-          validator.onCommitReceived(new CommitReceivedEvent(cmd, project, ctl
-              .getRefName(), c, currentUser));
-      final String message = validationResult.getValidationReason();
-      if (!validationResult.isValidated()) {
-        reject(cmd, message);
+      try {
+        messages.addAll(validator.onCommitReceived(new CommitReceivedEvent(
+            cmd, project, ctl.getRefName(), c, currentUser)));
+      } catch (CommitValidationException error) {
+        reject(cmd, error.getMessage());
         return false;
-      } else if (!Strings.isNullOrEmpty(message)) {
-        addMessage(String.format("(W) %s", message));
       }
     }
 

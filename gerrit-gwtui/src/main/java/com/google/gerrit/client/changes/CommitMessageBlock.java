@@ -105,8 +105,10 @@ public class CommitMessageBlock extends Composite {
 
               @Override
               public void onSend() {
-                Util.MANAGE_SVC.createNewPatchSet(patchSetId, getMessageText(),
+                final String newCommitMessage = getMessageText();
+                Util.MANAGE_SVC.createNewPatchSet(patchSetId, newCommitMessage,
                     createCallback());
+                display(newCommitMessage);
               }
             }.center();
           }

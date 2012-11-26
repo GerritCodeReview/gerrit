@@ -16,6 +16,24 @@
       "revId": "feeb578a237c7428320205121c07e34d56234137",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L7fVUmPU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-26T19:44:56Z",
+      "side": 1,
+      "message": "This isn\u0027t right. The id in JSON should be encoded to be safe as a path component in the URL. If the UI wants to show this id it should instead show the values of ref and path joined together.\n\nThe point of the id property in our JSON interface is that clients can take the string as-is and drop it into a URL string with no encoding and it Just Works.",
+      "parentUuid": "L8NL95Pw",
+      "revId": "feeb578a237c7428320205121c07e34d56234137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

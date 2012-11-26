@@ -21,8 +21,6 @@ import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gwt.user.client.ui.Composite;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.dom.client.Style.Display;
@@ -30,6 +28,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -98,9 +97,11 @@ public class CommitMessageBlock extends Composite {
                 .titleEditCommitMessage(), Util.C.headingEditCommitMessage(),
                 new ChangeDetailCache.IgnoreErrorCallback() {}) {
               {
-                message.setCharacterWidth(80);
+                message.setCharacterWidth(72);
                 message.setVisibleLines(20);
                 message.setText(commitMessage);
+                message.addStyleName(Gerrit.RESOURCES.css()
+                    .changeScreenDescription());
               }
 
               @Override

@@ -23,18 +23,27 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Abandon.Input;
 import com.google.gerrit.server.mail.AbandonedSender;
+import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.server.AtomicUpdate;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
+
 public class Abandon implements RestModifyView<ChangeResource, Input> {
+  private static final Logger log = LoggerFactory.getLogger(Abandon.class);
+
   private final ChangeHooks hooks;
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final Provider<ReviewDb> dbProvider;
@@ -66,6 +75,7 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
       throws BadRequestException, AuthException,
       ResourceConflictException, Exception {
     ChangeControl control = req.getControl();
+    IdentifiedUser caller = (IdentifiedUser) control.getCurrentUser();
     Change change = req.getChange();
     if (!control.canAbandon()) {
       throw new AuthException("abandon not permitted");
@@ -73,46 +83,68 @@ public class Abandon implements RestModifyView<ChangeResource, Input> {
       throw new ResourceConflictException("change is " + status(change));
     }
 
-    // Create a message to accompany the abandoned change
+    ChangeMessage message;
     ReviewDb db = dbProvider.get();
-    PatchSet.Id patchSetId = change.currentPatchSetId();
-    IdentifiedUser currentUser = (IdentifiedUser) control.getCurrentUser();
-    String message = Strings.emptyToNull(input.message);
-    ChangeMessage cmsg = new ChangeMessage(
-        new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
-        currentUser.getAccountId(), patchSetId);
-    StringBuilder msg = new StringBuilder();
-    msg.append(String.format("Patch Set %d: Abandoned", patchSetId.get()));
-    if (message != null) {
-      msg.append("\n\n");
-      msg.append(message);
-    }
-    cmsg.setMessage(msg.toString());
-
-    // Abandon the change
-    Change updatedChange = db.changes().atomicUpdate(
-      change.getId(),
-      new AtomicUpdate<Change>() {
-        @Override
-        public Change update(Change change) {
-          if (change.getStatus().isOpen()) {
-            change.setStatus(Change.Status.ABANDONED);
-            ChangeUtil.updated(change);
-            return change;
+    db.changes().beginTransaction(change.getId());
+    try {
+      change = db.changes().atomicUpdate(
+        change.getId(),
+        new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change change) {
+            if (change.getStatus().isOpen()) {
+              change.setStatus(Change.Status.ABANDONED);
+              ChangeUtil.updated(change);
+              return change;
+            }
+            return null;
           }
-          return null;
-        }
-      });
-    if (updatedChange == null) {
-      throw new ResourceConflictException("change is "
-          + status(db.changes().get(change.getId())));
+        });
+      if (change == null) {
+        throw new ResourceConflictException("change is "
+            + status(db.changes().get(req.getChange().getId())));
+      }
+      message = newMessage(input, caller, change);
+      db.changeMessages().insert(Collections.singleton(message));
+      new ApprovalsUtil(db, null).syncChangeStatus(change);
+      db.commit();
+    } finally {
+      db.rollback();
     }
 
-    ChangeUtil.updatedChange(db, currentUser, updatedChange, cmsg,
-                             abandonedSenderFactory);
-    hooks.doChangeAbandonedHook(updatedChange, currentUser.getAccount(),
-                                message, db);
-    return json.format(change.getId());
+    try {
+      ReplyToChangeSender cm = abandonedSenderFactory.create(change);
+      cm.setFrom(caller.getAccountId());
+      cm.setChangeMessage(message);
+      cm.send();
+    } catch (Exception e) {
+      log.error("Cannot email update for change " + change.getChangeId(), e);
+    }
+    hooks.doChangeAbandonedHook(change,
+        caller.getAccount(),
+        Strings.emptyToNull(input.message),
+        db);
+    return json.format(change);
+  }
+
+  private ChangeMessage newMessage(Input input, IdentifiedUser caller,
+      Change change) throws OrmException {
+    StringBuilder msg = new StringBuilder();
+    msg.append("Abandoned");
+    if (!Strings.nullToEmpty(input.message).trim().isEmpty()) {
+      msg.append("\n\n");
+      msg.append(input.message.trim());
+    }
+
+    ChangeMessage message = new ChangeMessage(
+        new ChangeMessage.Key(
+            change.getId(),
+            ChangeUtil.messageUUID(dbProvider.get())),
+        caller.getAccountId(),
+        change.getLastUpdatedOn(),
+        change.currentPatchSetId());
+    message.setMessage(msg.toString());
+    return message;
   }
 
   private static String status(Change change) {

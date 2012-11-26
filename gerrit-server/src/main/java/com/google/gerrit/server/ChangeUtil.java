@@ -60,8 +60,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -331,19 +333,20 @@ public class ChangeUtil {
     try {
       final RevWalk revWalk = new RevWalk(git);
       try {
+        Date now = myIdent.getWhen();
         Change change = db.changes().get(changeId);
 
         RevCommit commit =
             revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
         PersonIdent authorIdent =
-            user.newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
+            user.newCommitterIdent(now, myIdent.getTimeZone());
 
         CommitBuilder commitBuilder = new CommitBuilder();
         commitBuilder.setTreeId(commit.getTree());
         commitBuilder.setParentIds(commit.getParents());
-        commitBuilder.setAuthor(authorIdent);
-        commitBuilder.setCommitter(myIdent);
+        commitBuilder.setAuthor(commit.getAuthorIdent());
+        commitBuilder.setCommitter(authorIdent);
         commitBuilder.setMessage(message);
 
         RevCommit newCommit;
@@ -359,10 +362,9 @@ public class ChangeUtil {
         change.nextPatchSetId();
 
         final PatchSet originalPS = db.patchSets().get(patchSetId);
-
         final PatchSet newPatchSet = new PatchSet(change.currPatchSetId());
-        newPatchSet.setCreatedOn(change.getCreatedOn());
-        newPatchSet.setUploader(change.getOwner());
+        newPatchSet.setCreatedOn(new Timestamp(now.getTime()));
+        newPatchSet.setUploader(user.getAccountId());
         newPatchSet.setRevision(new RevId(newCommit.name()));
         newPatchSet.setDraft(originalPS.isDraft());
 

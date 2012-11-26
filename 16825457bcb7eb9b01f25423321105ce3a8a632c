@@ -52,6 +52,24 @@
       "revId": "16825457bcb7eb9b01f25423321105ce3a8a632c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L8ZHzXDM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-11-26T12:17:37Z",
+      "side": 1,
+      "message": "So it looks like allowing link rewriting to be applied to these values is the best thing to do. Do you see any problems with doing that? If not I will push my alternative patch.",
+      "parentUuid": "AAAL3X///9g\u003d",
+      "revId": "16825457bcb7eb9b01f25423321105ce3a8a632c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

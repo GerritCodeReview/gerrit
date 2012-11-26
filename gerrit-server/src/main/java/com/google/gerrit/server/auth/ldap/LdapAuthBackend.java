@@ -91,7 +91,7 @@ public class LdapAuthBackend implements AuthBackend {
           //
           helper.authenticate(m.getDN(), req.getPassword());
         }
-        return new AuthUser(new AuthUser.UUID(username), username);
+        return new AuthUser(new AuthUser.UUID(getDomain(), username), username);
       } finally {
         try {
           ctx.close();

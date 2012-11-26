@@ -14,10 +14,12 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentedActionDialog;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -38,6 +40,7 @@ import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 
 public class CommitMessageBlock extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitMessageBlock> {
@@ -85,7 +88,7 @@ public class CommitMessageBlock extends Composite {
 
     permalinkPanel.clear();
     if (patchSetId != null) {
-      Change.Id changeId = patchSetId.getParentKey();
+      final Change.Id changeId = patchSetId.getParentKey();
       permalinkPanel.add(new ChangeLink(Util.C.changePermalink(), changeId));
       permalinkPanel.add(new CopyableLabel(ChangeLink.permalink(changeId),
           false));
@@ -106,7 +109,19 @@ public class CommitMessageBlock extends Composite {
               @Override
               public void onSend() {
                 Util.MANAGE_SVC.createNewPatchSet(patchSetId, getMessageText(),
-                    createCallback());
+                    new AsyncCallback<ChangeDetail>() {
+                    @Override
+                    public void onSuccess(ChangeDetail result) {
+                      Gerrit.display(PageLinks.toChange(changeId));
+                      hide();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                      enableButtons(true);
+                      new ErrorDialog(caught.getMessage()).center();
+                    }
+                });
               }
             }.center();
           }

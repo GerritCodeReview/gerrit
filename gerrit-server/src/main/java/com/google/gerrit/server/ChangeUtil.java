@@ -340,8 +340,8 @@ public class ChangeUtil {
             user.newCommitterIdent(myIdent.getWhen(), myIdent.getTimeZone());
 
         CommitBuilder commitBuilder = new CommitBuilder();
-        commitBuilder.addParentId(commit);
         commitBuilder.setTreeId(commit.getTree());
+        commitBuilder.setParentIds(commit.getParents());
         commitBuilder.setAuthor(authorIdent);
         commitBuilder.setCommitter(myIdent);
         commitBuilder.setMessage(message);

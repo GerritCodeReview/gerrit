@@ -16,6 +16,91 @@
       "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L7TUuEJg",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-26T18:51:26Z",
+      "side": 1,
+      "message": "recommended",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L7VUrjIY",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-26T18:51:26Z",
+      "side": 1,
+      "message": "Not sure we want to name a specific version here. The latest is actually 2.5 at this point. :-(",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L7bVKIFI",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-26T18:51:26Z",
+      "side": 1,
+      "message": "This API is only needed if you want to use a normal SSH host key format. Above on Windows when you opted to not install it we made our own SSH host key and stored it in a nonstandard Java serialization stream to work around the missing API. Providing it at this point isn\u0027t really useful unless you are going to recreate the host key using the normal tools.",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L7XUoiIk",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-26T18:51:26Z",
+      "side": 1,
+      "message": "DOS line endings? We normally have everything UNIX format.",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L7ZVFJEc",
+        "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/postgresql-ROOT.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-26T18:51:26Z",
+      "side": 1,
+      "message": "DOS line endings? We normally have everything UNIX format.",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

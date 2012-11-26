@@ -853,7 +853,8 @@ a:hover {
   margin-left: 10px;
 }
 
-.changeScreenDescription {
+.changeScreenDescription,
+.changeScreenDescription textarea {
   white-space: pre;
   font-family: mono-font;
   font-size: 8pt;

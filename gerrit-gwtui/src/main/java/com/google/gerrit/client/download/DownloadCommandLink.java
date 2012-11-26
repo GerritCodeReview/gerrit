@@ -39,7 +39,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
       @Override
       protected void setCurrentUrl(DownloadUrlLink link) {
         widget.setVisible(true);
-        copyLabel.setText("git fetch " + link.urlData
+        copyLabel.setText("git fetch " + link.getUrlData()
             + " && git checkout FETCH_HEAD");
       }
     }
@@ -52,7 +52,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
       @Override
       protected void setCurrentUrl(DownloadUrlLink link) {
         widget.setVisible(true);
-        copyLabel.setText("git pull " + link.urlData);
+        copyLabel.setText("git pull " + link.getUrlData());
       }
     }
 
@@ -64,7 +64,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
       @Override
       protected void setCurrentUrl(DownloadUrlLink link) {
         widget.setVisible(true);
-        copyLabel.setText("git fetch " + link.urlData
+        copyLabel.setText("git fetch " + link.getUrlData()
             + " && git cherry-pick FETCH_HEAD");
       }
     }
@@ -77,7 +77,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
       @Override
       protected void setCurrentUrl(DownloadUrlLink link) {
         widget.setVisible(true);
-        copyLabel.setText("git fetch " + link.urlData
+        copyLabel.setText("git fetch " + link.getUrlData()
             + " && git format-patch -1 --stdout FETCH_HEAD");
       }
     }

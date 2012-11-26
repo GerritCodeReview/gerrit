@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "L8FIS1F4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-26T20:26:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this go to the ChangeApi class?",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L8LL4YA4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 10
@@ -13,6 +30,41 @@
       "writtenOn": "2012-11-26T20:04:07Z",
       "side": 1,
       "message": "I wonder if it is correct (\"RESTful\") to use URI like this for the purpose of cherry-pick:\n\n PUT /changes/C/revisions/R/cherrypick\n\nSince the effect of this request will be creation of a new change,\nmaybe a more RESTful option is to use a POST request on an URI like:\n\n POST /changes/new\n\n?",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L8BIITC8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-26T20:26:30Z",
+      "side": 1,
+      "message": "Hmm... looking at the ChangeApi class I see that we use\n\n POST /changes/C/revert\n\nfor creation of a new change by reverting an existing one.\nSo, your choice of URI seems to be consistent with already existing URI schema. Forget the comment above.",
+      "parentUuid": "L8LL4YA4",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L8DIFUBg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-26T20:26:30Z",
+      "side": 1,
+      "message": "Is there any reason to use PUT instead of POST?",
       "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

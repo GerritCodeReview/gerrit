@@ -17,6 +17,8 @@ package com.google.gerrit.server.git.validators;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 
+import java.util.List;
+
 /**
  * Listener to provide validation on received commits.
  *
@@ -29,7 +31,9 @@ public interface CommitValidationListener {
    * Commit validation.
    *
    * @param received commit event details
-   * @return validation result
+   * @return list of validation messages
+   * @throws CommitValidationException if validation fails
    */
-  public CommitValidationResult onCommitReceived(CommitReceivedEvent receiveEvent);
+  public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+      throws CommitValidationException;
 }

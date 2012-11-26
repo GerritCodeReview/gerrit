@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
@@ -38,6 +39,7 @@ import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gwtjsonrpc.common.AsyncCallback;
 
 public class CommitMessageBlock extends Composite {
   interface Binder extends UiBinder<HTMLPanel, CommitMessageBlock> {
@@ -106,7 +108,19 @@ public class CommitMessageBlock extends Composite {
               @Override
               public void onSend() {
                 Util.MANAGE_SVC.createNewPatchSet(patchSetId, getMessageText(),
-                    createCallback());
+                    new AsyncCallback<ChangeDetail>() {
+                    @Override
+                    public void onSuccess(ChangeDetail result) {
+                      display(getMessageText());
+                      hide();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                      enableButtons(true);
+                      new ErrorDialog(caught.getMessage()).center();
+                    }
+                });
               }
             }.center();
           }

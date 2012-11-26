@@ -342,7 +342,7 @@ public class ChangeUtil {
         CommitBuilder commitBuilder = new CommitBuilder();
         commitBuilder.addParentId(commit.getParent(0));
         commitBuilder.setTreeId(commit.getTree());
-        commitBuilder.setAuthor(authorIdent);
+        commitBuilder.setAuthor(commit.getAuthorIdent());
         commitBuilder.setCommitter(myIdent);
         commitBuilder.setMessage(message);
 

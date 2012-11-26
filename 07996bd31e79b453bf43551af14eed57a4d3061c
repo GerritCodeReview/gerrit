@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L9E4SM18",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-26T22:06:19Z",
+      "side": 1,
+      "message": "This loop iterates many times for the same reviewer. Consider someone that scores both +1 code review and +1 verified on a single patch set... you get two iterations for them.\n\nIt also covers every patch set. Consider a change that I constantly say -1 on. 15 iterations later, I am listed 15 times.\n\nI think you want to base your work on a map or something like:\n\n  Map\u003cAccount.Id, Object\u003e reviewers \u003d Maps.newLinkedHashMap();\n  for (...) {\n    if (!reviewers.containsKey(approval.getAccountId()) {\n      reviewers.put(...);\n    }\n  }\n  return reviewers.values();\n\nThe order will be stable with the database iteration order, and you\u0027ll only get one record for each reviewer.",
+      "revId": "07996bd31e79b453bf43551af14eed57a4d3061c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L8LL4YA4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-26T20:04:07Z",
+      "side": 1,
+      "message": "I wonder if it is correct (\"RESTful\") to use URI like this for the purpose of cherry-pick:\n\n PUT /changes/C/revisions/R/cherrypick\n\nSince the effect of this request will be creation of a new change,\nmaybe a more RESTful option is to use a POST request on an URI like:\n\n POST /changes/new\n\n?",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

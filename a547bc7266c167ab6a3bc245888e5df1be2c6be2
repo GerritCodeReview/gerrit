@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L8vAC4BE",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/ParameterParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-26T21:03:41Z",
+      "side": 1,
+      "message": "This is the kind of textual transforms that seem complex from reading the code that might be greatly simplified for future readers/debuggers if the function provided minor (1 or 2 lines) example input and outputs showing parsing intent.",
+      "revId": "a547bc7266c167ab6a3bc245888e5df1be2c6be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

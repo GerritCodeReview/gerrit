@@ -35,14 +35,17 @@ public class Reviewers implements
   private final DynamicMap<RestView<ReviewerResource>> views;
   private final Provider<ReviewDb> dbProvider;
   private final AccountCache accountCache;
+  private final Provider<ListReviewers> list;
 
   @Inject
   Reviewers(Provider<ReviewDb> dbProvider,
             DynamicMap<RestView<ReviewerResource>> views,
-            AccountCache accountCache) {
+            AccountCache accountCache,
+            Provider<ListReviewers> list) {
     this.dbProvider = dbProvider;
     this.views = views;
     this.accountCache = accountCache;
+    this.list = list;
   }
 
   @Override
@@ -51,8 +54,8 @@ public class Reviewers implements
   }
 
   @Override
-  public RestView<ChangeResource> list() throws ResourceNotFoundException {
-    throw new ResourceNotFoundException();
+  public RestView<ChangeResource> list() {
+    return list.get();
   }
 
   @Override

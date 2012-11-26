@@ -218,7 +218,7 @@ class DashboardsCollection implements
         throws UnsupportedEncodingException {
       this.ref = ref;
       this.path = name;
-      this.id = Joiner.on(':').join(Url.encode(ref), Url.encode(path));
+      this.id = Joiner.on(':').join(ref, path);
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L7JbzbDM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-26T04:43:52Z",
+      "side": 1,
+      "message": "If this was a merge, we need to add all of the parents.",
+      "revId": "9c63f72ce496cc1f148d459e2006fd184f6896cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

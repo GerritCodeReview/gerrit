@@ -48,6 +48,7 @@ public class ApprovalsUtil {
   private final ApprovalTypes approvalTypes;
 
   @Inject
+  public
   ApprovalsUtil(ReviewDb db, ApprovalTypes approvalTypes) {
     this.db = db;
     this.approvalTypes = approvalTypes;

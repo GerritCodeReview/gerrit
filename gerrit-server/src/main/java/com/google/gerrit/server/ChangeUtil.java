@@ -30,7 +30,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.mail.EmailException;
-import com.google.gerrit.server.mail.ReplyToChangeSender;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -56,8 +55,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.ChangeIdUtil;
 import org.eclipse.jgit.util.NB;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -70,8 +67,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 public class ChangeUtil {
-  private static final Logger log = LoggerFactory.getLogger(ChangeUtil.class);
-
   private static int uuidPrefix;
   private static int uuidSeq;
 
@@ -511,25 +506,6 @@ public class ChangeUtil {
     db.patchSetAncestors().delete(db.patchSetAncestors().byPatchSet(patchSetId));
 
     db.patchSets().delete(Collections.singleton(patch));
-  }
-
-  public static <T extends ReplyToChangeSender> void updatedChange(
-      final ReviewDb db, final IdentifiedUser user, final Change change,
-      final ChangeMessage cmsg, ReplyToChangeSender.Factory<T> senderFactory)
-      throws OrmException {
-    db.changeMessages().insert(Collections.singleton(cmsg));
-
-    new ApprovalsUtil(db, null).syncChangeStatus(change);
-
-    // Email the reviewers
-    try {
-      final ReplyToChangeSender cm = senderFactory.create(change);
-      cm.setFrom(user.getAccountId());
-      cm.setChangeMessage(cmsg);
-      cm.send();
-    } catch (Exception e) {
-      log.error("Cannot email update for change " + change.getChangeId(), e);
-    }
   }
 
   public static String sortKey(long lastUpdated, int id){

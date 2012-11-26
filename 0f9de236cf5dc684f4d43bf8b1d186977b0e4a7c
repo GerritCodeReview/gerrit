@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L9M4WI00",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-26T23:16:37Z",
+      "side": 1,
+      "message": "I couldn\u0027t find any other place in our code with formatting like this :-)",
+      "revId": "0f9de236cf5dc684f4d43bf8b1d186977b0e4a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

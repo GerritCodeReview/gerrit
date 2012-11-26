@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L8NL95Pw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-26T17:12:06Z",
+      "side": 1,
+      "message": "Is it safe to assume that there is no \u0027:\u0027 in any of these strings?\nThe line 181 above has special handling for decoding %3A into \u0027:\u0027. Seems like there is an expectation that client will send encoded strings?",
+      "revId": "feeb578a237c7428320205121c07e34d56234137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

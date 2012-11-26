@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L7Nb95Pw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-26T04:44:29Z",
+      "side": 1,
+      "message": "This is now unused.",
+      "revId": "b5a6317c6cc0e1bcbf1c902fdb3a7193fe18f27c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

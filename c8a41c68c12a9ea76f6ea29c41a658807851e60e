@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L9I7zOzM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-26T20:59:18Z",
+      "side": 0,
+      "message": "No, I really do still mean deleting labels with a score of 0.\n\nWhat\u0027s missing here is a hack to say if a reviewer has no scores now as a result of this update, force them to have at least one at 0 to keep them as a reviewer. :-(",
+      "revId": "c8a41c68c12a9ea76f6ea29c41a658807851e60e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

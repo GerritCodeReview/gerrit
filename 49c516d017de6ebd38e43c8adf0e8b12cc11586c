@@ -16,6 +16,24 @@
       "revId": "49c516d017de6ebd38e43c8adf0e8b12cc11586c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L7dUWvEw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-26T10:02:37Z",
+      "side": 1,
+      "message": "Thanks. Done.",
+      "parentUuid": "L7ZUcRG8",
+      "revId": "49c516d017de6ebd38e43c8adf0e8b12cc11586c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

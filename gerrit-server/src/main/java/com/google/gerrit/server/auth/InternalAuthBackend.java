@@ -67,6 +67,6 @@ public class InternalAuthBackend implements AuthBackend {
     if (!who.checkPassword(req.getPassword(), username)) {
       throw new InvalidCredentialsException();
     }
-    return new AuthUser(AuthUser.UUID.create(username), username);
+    return new AuthUser(AuthUser.UUID.create(getDomain(), username), username);
   }
 }

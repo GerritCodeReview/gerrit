@@ -28,10 +28,11 @@ public class AuthUser {
     /**
      * A new unique identifier.
      *
+     * @param domain
      * @param uuid the unique identifier.
      * @return identifier instance.
      */
-    public static UUID create(String uuid) {
+    public static UUID create(String domain, String uuid) {
       return new AutoValue_AuthUser_UUID(uuid);
     }
 

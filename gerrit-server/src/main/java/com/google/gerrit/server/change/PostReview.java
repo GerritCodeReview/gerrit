@@ -336,16 +336,13 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       String name = at.getCategory().getLabelName();
       PatchSetApproval c = current.get(name);
 
-      if (ent.getValue() == null || ent.getValue() == 0) {
-        // User requested delete of this label.
+      if (ent.getValue() == null) {
         if (c != null) {
+          // User requested delete of this label.
           del.add(c);
           labelDelta.add("-" + name);
         }
-        continue;
-      }
-
-      if (c != null && c.getValue() != ent.getValue()) {
+      } else if (c != null && c.getValue() != ent.getValue()) {
         c.setValue(ent.getValue());
         c.setGranted(timestamp);
         c.cache(change);

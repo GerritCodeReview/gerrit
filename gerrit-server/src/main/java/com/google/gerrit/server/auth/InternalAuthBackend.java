@@ -62,7 +62,7 @@ public class InternalAuthBackend implements AuthBackend {
     }
 
     req.checkCredentials(who.getPassword(username));
-    return new AuthUser(new AuthUser.UUID(username), username);
+    return new AuthUser(new AuthUser.UUID(getDomain(), username), username);
   }
 
 }

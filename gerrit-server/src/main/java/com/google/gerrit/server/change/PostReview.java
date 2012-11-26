@@ -140,10 +140,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       timestamp = change.getLastUpdatedOn();
 
       insertComments(revision, input.comments, input.drafts);
-      if (change.getStatus().isOpen() && input.labels != null) {
-        // TODO Allow updating some labels even when closed.
-        updateLabels(revision, input.labels);
-      }
+      updateLabels(revision, input.labels);
 
       insertMessage(revision, input.message);
       db.changes().update(Collections.singleton(change));
@@ -326,26 +323,32 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
 
   private void updateLabels(RevisionResource rsrc, Map<String, Short> labels)
       throws OrmException {
+    if (labels == null) {
+      labels = Collections.emptyMap();
+    }
+
     List<PatchSetApproval> del = Lists.newArrayList();
     List<PatchSetApproval> ins = Lists.newArrayList();
     List<PatchSetApproval> upd = Lists.newArrayList();
     Map<String, PatchSetApproval> current = scanLabels(rsrc, del);
+
     for (Map.Entry<String, Short> ent : labels.entrySet()) {
       // TODO Support arbitrary label names.
       ApprovalType at = approvalTypes.byLabel(ent.getKey());
       String name = at.getCategory().getLabelName();
-      PatchSetApproval c = current.get(name);
+      if (change.getStatus().isClosed()) {
+        // TODO Allow updating some labels even when closed.
+        continue;
+      }
 
+      PatchSetApproval c = current.remove(name);
       if (ent.getValue() == null || ent.getValue() == 0) {
         // User requested delete of this label.
         if (c != null) {
           del.add(c);
           labelDelta.add("-" + name);
         }
-        continue;
-      }
-
-      if (c != null && c.getValue() != ent.getValue()) {
+      } else if (c != null && c.getValue() != ent.getValue()) {
         c.setValue(ent.getValue());
         c.setGranted(timestamp);
         c.cache(change);
@@ -354,6 +357,8 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         categories.put(
             at.getCategory().getId(),
             at.getValue(c.getValue()).getId());
+      } else if (c != null && c.getValue() == ent.getValue()) {
+        current.put(name, c);
       } else if (c == null) {
         c = new PatchSetApproval(new PatchSetApproval.Key(
                 rsrc.getPatchSet().getId(),
@@ -370,9 +375,39 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       }
     }
 
+    forceCallerAsReviewer(rsrc, current, ins, upd, del);
     db.patchSetApprovals().delete(del);
     db.patchSetApprovals().insert(ins);
     db.patchSetApprovals().update(upd);
+  }
+
+  private void forceCallerAsReviewer(RevisionResource rsrc,
+      Map<String, PatchSetApproval> current, List<PatchSetApproval> ins,
+      List<PatchSetApproval> upd, List<PatchSetApproval> del) {
+    if (current.isEmpty() && ins.isEmpty() && upd.isEmpty()) {
+      // TODO Find another way to link reviewers to changes.
+      if (del.isEmpty()) {
+        // If no existing label is being set to 0, hack in the caller
+        // as a reviewer by picking the first server-wide ApprovalType.
+        PatchSetApproval c = new PatchSetApproval(new PatchSetApproval.Key(
+            rsrc.getPatchSet().getId(),
+            rsrc.getAuthorId(),
+            approvalTypes.getApprovalTypes().get(0).getCategory().getId()),
+            (short) 0);
+        c.setGranted(timestamp);
+        c.cache(change);
+        ins.add(c);
+      } else {
+        // Pick a random label that is about to be deleted and keep it.
+        Iterator<PatchSetApproval> i = del.iterator();
+        PatchSetApproval c = i.next();
+        c.setValue((short) 0);
+        c.setGranted(timestamp);
+        c.cache(change);
+        i.remove();
+        upd.add(c);
+      }
+    }
   }
 
   private Map<String, PatchSetApproval> scanLabels(RevisionResource rsrc,

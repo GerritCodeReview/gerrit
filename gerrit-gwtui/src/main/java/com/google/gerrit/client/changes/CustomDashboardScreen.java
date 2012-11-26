@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.Screen;
 
 public class CustomDashboardScreen extends Screen implements ChangeListScreen {

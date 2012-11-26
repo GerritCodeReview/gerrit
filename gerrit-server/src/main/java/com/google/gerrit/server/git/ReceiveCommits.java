@@ -112,7 +112,6 @@ import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
-import org.eclipse.jgit.util.RefList;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

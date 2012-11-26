@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L828P8TU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RestRemoveReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-26T23:27:20Z",
+      "side": 1,
+      "message": "No implementation bound...I\u0027m not sure why I can define the implementation.  RestApiModule isn\u0027t a FactoryModule so I can\u0027t throw it there.",
+      "revId": "8752076dd676bbfae6e59debbe8ae255a6fe8055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

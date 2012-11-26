@@ -28,19 +28,27 @@ public class AuthUser {
    */
   public final static class UUID {
     private final String uuid;
+    private final String domain;
 
     /**
      * A new unique identifier.
      *
+     * @param domain
      * @param uuid the unique identifier.
      */
-    public UUID(String uuid) {
-      this.uuid = checkNotNull(uuid);
+    public UUID(String domain, String uuid) {
+      this.domain = checkNotNull(domain);
+      this.uuid = String.format("%s:%s", domain, checkNotNull(uuid));
     }
 
     /** @return the globally unique identifier. */
     public String get() {
       return uuid;
+    }
+
+    /** @return the domain name */
+    public String getDomain() {
+      return domain;
     }
 
     @Override

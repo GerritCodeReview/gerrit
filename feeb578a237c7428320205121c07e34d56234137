@@ -34,6 +34,24 @@
       "revId": "feeb578a237c7428320205121c07e34d56234137",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L9Y3zQTM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-26T21:11:58Z",
+      "side": 1,
+      "message": "Ok, then the dashboard id should stay encoded here. But at the moment something is not working :-(\n\nLet\u0027s say we have\n - the file \u0027My Dashboard\u0027\n - then in the encoded id it is \u0027...:My+Dashboard\u0027\n - in DashboardsTable we make this URL \u0027/projects/.../dashboards/...:My+Dashboard\u0027\n - in the Dispatcher we do URL.decodePathSegment(...), after which \u0027My+Dashboard\u0027 stays \u0027My+Dashboard\u0027\n - in DashboardList we do URL.encodePathSegment(...) which results in \u0027/projects/.../dashboards/...:My%2BDashboard\u0027\n - on the server in DashboardsCollection we do Url.decode(...), now we have \u0027My+Dashboard\u0027\n - looking up \u0027My+Dashboard\u0027 fails with Not Found because the file name is actually \u0027My Dashboard\u0027 :-(\n\nI\u0027m confused, too much of encoding and decoding :-(",
+      "parentUuid": "L7fVUmPU",
+      "revId": "feeb578a237c7428320205121c07e34d56234137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

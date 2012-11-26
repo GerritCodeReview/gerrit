@@ -182,7 +182,7 @@ class DatabasePubKeyAuth implements AuthBackend {
 
     if (PeerDaemonUser.USER_NAME.equals(username)) {
       if (myHostKeys.contains(suppliedKey) || getPeerKeys().contains(suppliedKey)) {
-        return new AuthUser(AuthUser.UUID.create(username), username);
+        return new AuthUser(AuthUser.UUID.create(getDomain(), username), username);
       }
       throw new InvalidCredentialsException(
           String.format("No matching key for user: %s", username));
@@ -223,6 +223,6 @@ class DatabasePubKeyAuth implements AuthBackend {
       }
     }
 
-    return new AuthUser(AuthUser.UUID.create(username), username);
+    return new AuthUser(AuthUser.UUID.create(getDomain(), username), username);
   }
 }

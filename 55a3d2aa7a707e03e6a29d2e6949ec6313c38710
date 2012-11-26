@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "L73MPwDU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapAuthBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-26T17:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L7-MC8BE",
+      "revId": "55a3d2aa7a707e03e6a29d2e6949ec6313c38710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L7xMITC8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-26T13:24:32Z",
       "side": 1,
       "message": "Do we need to bind the LdapAuthBackend here too?",
+      "revId": "55a3d2aa7a707e03e6a29d2e6949ec6313c38710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L75McXG8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-11-26T17:06:12Z",
+      "side": 1,
+      "message": "IMO, yes. We shouldn\u0027t change current Gerrit functionality and behavior.",
+      "parentUuid": "L7xMITC8",
       "revId": "55a3d2aa7a707e03e6a29d2e6949ec6313c38710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

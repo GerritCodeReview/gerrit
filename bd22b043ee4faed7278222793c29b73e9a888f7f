@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "L.EpE00I",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "ChangeApi contains methods like: abandon, restore, revert, topic, ...\n\nIf revert belongs to ChangeApi why would cherrypick not belong there? Both create a new change out of an existing change.",
+      "parentUuid": "L.OoC5xE",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L8LL4YA4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 10
@@ -90,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "L.GpBlzE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "Googling about this question one can find both recommendations: use POST for creating new resources and use PUT for creating new resources. I still think that POST is a better choice in this case because ChangeApi.revert uses the POST method and it does a similar thing like cherry-pick: create a new change out of an existing change.\n\nOn the other side ChaneApi.topic uses PUT for updating the topic of an existing change.\n\n*It would really help if Shawn publishes the guidelines for Gerrits REST API design.*\n\nMaybe the best explanation of POST vs PUT in REST is this sentence from [1]:\n\n\u003cquote\u003e\n\nBy this argument, PUT is for creating when you know the URL of the thing you will create. POST can be used to create when you know the URL of the \"factory\" or manager for the category of things you want to create.\n\nso:\n\nPOST /expense-report\n\nor:\n\nPUT /expense-report/10929\n\n\u003c/quote\u003e\n\nSince we don\u0027t know the URL of the change that will be created I think using POST is more appropriate.\n\n[1] http://stackoverflow.com/questions/630453/put-vs-post-in-rest",
+      "parentUuid": "L.AoIGy8",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L8DIFUBg",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 10
@@ -119,6 +155,227 @@
       "side": 1,
       "message": "See comment above.",
       "parentUuid": "L8DIFUBg",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.KqUb54",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "Is this enough?\n\nI think we should also check the read permission for the change being cherry-picked?",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.IqPq4s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "The only class using this class is gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java\n\nDoes it make sense to delete this class and move its body into the CherryPick class like it was done for the Submit class in [1]? This seem to be a common implementation pattern for REST implementations of Change API.\n\n[1] https://gerrit-review.googlesource.com/39794",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.Ipuy8I",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "This factory doesn\u0027t seem to be used and is also not registered in any Guice module.",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.MqZo9U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "This could be done two lines above",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.Equk.8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "s/authotIdent/committerIdent\n\nThis will be identity of the committer of the newly created commit.",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.CqhXwA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "Initialization to null is not needed",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.Aqkmw8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "This could be done two lines above",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.GqrV94",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "Initialization to null is not needed",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.Kp9T2Y",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "We are computing changeId for the (new) cherryPickCommit here. I think we should use the tree of the cherryPickCommit.",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.Ip4i3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "1. I am not sure about the commitToCherryPick parameter here.\nThe computeChangeId method names this parameter \u0027firstParent\u0027. If it expects the first parent of the cherryPickCommit then it is actually the mergeTip. Right?\n\n2. The authorIdent here is actually the committerIdent.\nI think we should use cherryPickCommit.getAuthorIdent() instead.",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.Mpyg5U",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "The \"db.changes().get(changeId).getProject()\" was already computed at the line 107. Store the result there and reuse it here?",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.Op3R4I",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "initialization to null not needed",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.AqNe4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T16:36:39Z",
+      "side": 1,
+      "message": "don\u0027t initialize, instead set it to false inside the \"else if\" block.",
       "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

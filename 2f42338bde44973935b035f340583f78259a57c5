@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L.GqEN2I",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T22:24:38Z",
+      "side": 1,
+      "message": "[optional] s/warning/compiler warning/",
+      "revId": "2f42338bde44973935b035f340583f78259a57c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.Irhay8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T22:24:38Z",
+      "side": 1,
+      "message": "s/status/statuses/\n\nor\n\ns/status/values/",
+      "revId": "2f42338bde44973935b035f340583f78259a57c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.KrmL0I",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T22:24:38Z",
+      "side": 1,
+      "message": "s/does//\n\nor\n\ns/breaks/break",
+      "revId": "2f42338bde44973935b035f340583f78259a57c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

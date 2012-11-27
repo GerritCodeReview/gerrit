@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L9K6Ud54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T12:40:36Z",
+      "side": 1,
+      "message": "s/plugable/pluggable",
+      "revId": "7c5976804c9dc9cc6b4edcc3d95df7ee357f6a1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L9M6Zw9U",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T12:40:36Z",
+      "side": 1,
+      "message": "s/incomming/incoming",
+      "revId": "7c5976804c9dc9cc6b4edcc3d95df7ee357f6a1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L82.EUWI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T12:40:36Z",
+      "side": 1,
+      "message": "Formatting of this paragraph could be improved...",
+      "revId": "7c5976804c9dc9cc6b4edcc3d95df7ee357f6a1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

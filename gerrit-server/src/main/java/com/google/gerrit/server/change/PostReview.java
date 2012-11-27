@@ -139,12 +139,14 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       ChangeUtil.updated(change);
       timestamp = change.getLastUpdatedOn();
 
-      insertComments(revision, input.comments, input.drafts);
-      updateLabels(revision, input.labels);
-
-      insertMessage(revision, input.message);
-      db.changes().update(Collections.singleton(change));
-      db.commit();
+      boolean dirty = false;
+      dirty |= insertComments(revision, input.comments, input.drafts);
+      dirty |= updateLabels(revision, input.labels);
+      dirty |= insertMessage(revision, input.message);
+      if (dirty) {
+        db.changes().update(Collections.singleton(change));
+        db.commit();
+      }
     } finally {
       db.rollback();
     }
@@ -247,7 +249,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     }
   }
 
-  private void insertComments(RevisionResource rsrc,
+  private boolean insertComments(RevisionResource rsrc,
       Map<String, List<Comment>> in, DraftHandling draftsHandling)
       throws OrmException {
     if (in == null) {
@@ -308,6 +310,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     db.patchComments().update(upd);
     comments.addAll(ins);
     comments.addAll(upd);
+    return !del.isEmpty() || !ins.isEmpty() || !upd.isEmpty();
   }
 
   private Map<String, PatchLineComment> scanDraftComments(
@@ -321,7 +324,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     return drafts;
   }
 
-  private void updateLabels(RevisionResource rsrc, Map<String, Short> labels)
+  private boolean updateLabels(RevisionResource rsrc, Map<String, Short> labels)
       throws OrmException {
     if (labels == null) {
       labels = Collections.emptyMap();
@@ -379,6 +382,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     db.patchSetApprovals().delete(del);
     db.patchSetApprovals().insert(ins);
     db.patchSetApprovals().update(upd);
+    return !del.isEmpty() || !ins.isEmpty() || !upd.isEmpty();
   }
 
   private void forceCallerAsReviewer(RevisionResource rsrc,
@@ -439,14 +443,11 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     return sb.toString();
   }
 
-  private void insertMessage(RevisionResource rsrc, String msg)
+  private boolean insertMessage(RevisionResource rsrc, String msg)
       throws OrmException {
     msg = Strings.nullToEmpty(msg).trim();
 
     StringBuilder buf = new StringBuilder();
-    buf.append(String.format(
-        "Patch Set %d:",
-        rsrc.getPatchSet().getPatchSetId()));
     for (String d : labelDelta) {
       buf.append(" ").append(d);
     }
@@ -458,14 +459,21 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     if (!msg.isEmpty()) {
       buf.append("\n\n").append(msg);
     }
+    if (buf.length() == 0) {
+      return false;
+    }
 
     message = new ChangeMessage(
         new ChangeMessage.Key(change.getId(), ChangeUtil.messageUUID(db)),
         rsrc.getAuthorId(),
         timestamp,
         rsrc.getPatchSet().getId());
-    message.setMessage(buf.toString());
+    message.setMessage(String.format(
+        "Patch Set %d:%s",
+        rsrc.getPatchSet().getPatchSetId(),
+        buf.toString()));
     db.changeMessages().insert(Collections.singleton(message));
+    return true;
   }
 
   @Deprecated

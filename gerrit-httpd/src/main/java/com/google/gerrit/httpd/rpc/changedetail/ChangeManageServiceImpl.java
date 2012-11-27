@@ -23,28 +23,21 @@ import com.google.gwtjsonrpc.common.VoidResult;
 import com.google.inject.Inject;
 
 class ChangeManageServiceImpl implements ChangeManageService {
-  private final SubmitAction.Factory submitAction;
   private final RebaseChangeHandler.Factory rebaseChangeFactory;
   private final PublishAction.Factory publishAction;
   private final DeleteDraftChange.Factory deleteDraftChangeFactory;
   private final EditCommitMessageHandler.Factory editCommitMessageHandlerFactory;
 
   @Inject
-  ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
+  ChangeManageServiceImpl(
       final RebaseChangeHandler.Factory rebaseChangeFactory,
       final PublishAction.Factory publishAction,
       final DeleteDraftChange.Factory deleteDraftChangeFactory,
       final EditCommitMessageHandler.Factory editCommitMessageHandler) {
-    this.submitAction = patchSetAction;
     this.rebaseChangeFactory = rebaseChangeFactory;
     this.publishAction = publishAction;
     this.deleteDraftChangeFactory = deleteDraftChangeFactory;
     this.editCommitMessageHandlerFactory = editCommitMessageHandler;
-  }
-
-  public void submit(final PatchSet.Id patchSetId,
-      final AsyncCallback<ChangeDetail> cb) {
-    submitAction.create(patchSetId).to(cb);
   }
 
   public void rebaseChange(final PatchSet.Id patchSetId,

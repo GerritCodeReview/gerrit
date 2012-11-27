@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "L8494lXc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-27T06:55:33Z",
+      "side": 1,
+      "message": "It doesn\u0027t tell you, but I think it tries to wait for it to merge before returning. In both cases if the queue is busy the code always returned early.",
+      "parentUuid": "L9gwINy8",
+      "revId": "230343b94d0d69a89f9743f6f357e97de913f1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L9uwCCxI",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-27T06:17:24Z",
       "side": 1,
       "message": "Does this no longer put the change in the queue if it fails to merge?",
+      "revId": "230343b94d0d69a89f9743f6f357e97de913f1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L8699WWY",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-27T06:55:33Z",
+      "side": 1,
+      "message": "Same as the old behavior. It goes on the queue, and we try to run the queue once on this thread. If the queue is busy on another thread we don\u0027t wait.\n\nLonger term I want to define a maximum wait time too that the client is willing to wait around on a reply from the server, and let the admin cap how long that wait time is, and then have the implementation code in Submit try to work with MergeQueue to wait up to that time and keep trying to process the branch\u0027s queue before anything is told to the client.\n\nSo eventually this will really mean something. Right now it just means \"and try to run the queue right now\", instead of the default behavior of \"toss it in the queue, let it process at some unknown time in the near future, return right away\".",
+      "parentUuid": "L9uwCCxI",
       "revId": "230343b94d0d69a89f9743f6f357e97de913f1df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "L8w9jxdo",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011847
+      },
+      "writtenOn": "2012-11-27T03:43:56Z",
+      "side": 1,
+      "message": "Whoops, didn\u0027t realize they were supposed to line up. Thanks.",
+      "parentUuid": "L9E5E80I",
+      "revId": "044aed047f99ed465c0526f37ca50dff47506b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L9C43p.M",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-27T03:14:39Z",
       "side": 1,
       "message": "`[[approval.type.stickThroughRebase]]` should be `[[approval.stickThroughRebase]]`",
+      "revId": "044aed047f99ed465c0526f37ca50dff47506b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L8y9gics",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011847
+      },
+      "writtenOn": "2012-11-27T03:43:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L9C43p.M",
       "revId": "044aed047f99ed465c0526f37ca50dff47506b42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

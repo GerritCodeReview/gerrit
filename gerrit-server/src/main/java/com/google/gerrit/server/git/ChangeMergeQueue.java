@@ -119,9 +119,9 @@ public class ChangeMergeQueue implements MergeQueue {
   }
 
   @Override
-  public void merge(MergeOp.Factory mof, Branch.NameKey branch) {
+  public void merge(Branch.NameKey branch) {
     if (start(branch)) {
-      mergeImpl(mof, branch);
+      mergeImpl(branch);
     }
   }
 
@@ -197,16 +197,6 @@ public class ChangeMergeQueue implements MergeQueue {
   private synchronized void unschedule(final MergeEntry e) {
     e.jobScheduled = false;
     e.needMerge = false;
-  }
-
-  private void mergeImpl(MergeOp.Factory opFactory, Branch.NameKey branch) {
-    try {
-      opFactory.create(branch).merge();
-    } catch (Throwable e) {
-      log.error("Merge attempt for " + branch + " failed", e);
-    } finally {
-      finish(branch);
-    }
   }
 
   private void mergeImpl(final Branch.NameKey branch) {

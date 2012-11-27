@@ -26,7 +26,6 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetPublishDetail;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.reviewdb.client.ApprovalCategory;
@@ -399,17 +398,21 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   private void submit() {
-    Util.MANAGE_SVC.submit(patchSetId,
-        new GerritCallback<ChangeDetail>() {
-          public void onSuccess(ChangeDetail result) {
+    ChangeApi.submit(patchSetId.getParentKey().get(), revision,
+      new GerritCallback<SubmitInfo>() {
+          public void onSuccess(SubmitInfo result) {
             saveStateOnUnload = false;
             goChange();
           }
 
           @Override
-          public void onFailure(Throwable caught) {
+          public void onFailure(Throwable err) {
+            if (SubmitFailureDialog.isConflict(err)) {
+              new SubmitFailureDialog(err.getMessage()).center();
+            } else {
+              super.onFailure(err);
+            }
             goChange();
-            super.onFailure(caught);
           }
         });
   }

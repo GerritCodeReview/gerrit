@@ -43,11 +43,13 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "restore").to(Restore.class);
     child(CHANGE_KIND, "reviewers").to(Reviewers.class);
     post(CHANGE_KIND, "revert").to(Revert.class);
+    post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
 
     get(REVIEWER_KIND).to(GetReviewer.class);
 
     child(CHANGE_KIND, "revisions").to(Revisions.class);
     post(REVISION_KIND, "review").to(PostReview.class);
+    post(REVISION_KIND, "submit").to(Submit.class);
 
     child(REVISION_KIND, "drafts").to(Drafts.class);
     put(REVISION_KIND, "drafts").to(CreateDraft.class);

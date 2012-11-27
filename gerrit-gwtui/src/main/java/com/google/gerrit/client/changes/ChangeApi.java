@@ -60,21 +60,44 @@ public class ChangeApi {
     }
   }
 
+  /** Submit a specific revision of a change. */
+  public static void submit(int id, String commit, AsyncCallback<SubmitInfo> cb) {
+    SubmitInput in = SubmitInput.create();
+    in.wait_for_merge(true);
+    api(id, commit, "submit").data(in).post(cb);
+  }
+
   private static class Input extends JavaScriptObject {
     final native void topic(String t) /*-{ if(t)this.topic=t; }-*/;
     final native void message(String m) /*-{ if(m)this.message=m; }-*/;
 
     static Input create() {
-      return (Input) JavaScriptObject.createObject();
+      return (Input) createObject();
     }
 
     protected Input() {
     }
   }
 
+  private static class SubmitInput extends JavaScriptObject {
+    final native void wait_for_merge(boolean b) /*-{ this.wait_for_merge=b; }-*/;
+
+    static SubmitInput create() {
+      return (SubmitInput) createObject();
+    }
+
+    protected SubmitInput() {
+    }
+  }
+
   private static RestApi api(int id, String action) {
     // TODO Switch to triplet project~branch~id format in URI.
     return new RestApi("/changes/" + id + "/" + action);
+  }
+
+  private static RestApi api(int id, String commit, String action) {
+    // TODO Switch to triplet project~branch~id format in URI.
+    return new RestApi("/changes/" + id + "/revisions/" + commit + "/" + action);
   }
 
   public static String emptyToNull(String str) {

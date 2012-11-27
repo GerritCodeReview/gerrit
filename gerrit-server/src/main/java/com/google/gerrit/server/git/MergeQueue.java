@@ -19,9 +19,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import java.util.concurrent.TimeUnit;
 
 public interface MergeQueue {
-  void merge(MergeOp.Factory mof, Branch.NameKey branch);
-
+  void merge(Branch.NameKey branch);
   void schedule(Branch.NameKey branch);
-
   void recheckAfter(Branch.NameKey branch, long delay, TimeUnit delayUnit);
 }

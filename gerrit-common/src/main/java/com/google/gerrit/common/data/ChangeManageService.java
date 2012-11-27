@@ -27,10 +27,6 @@ import com.google.gwtjsonrpc.common.RpcImpl.Version;
 public interface ChangeManageService extends RemoteJsonService {
   @Audit
   @SignInRequired
-  void submit(PatchSet.Id patchSetId, AsyncCallback<ChangeDetail> callback);
-
-  @Audit
-  @SignInRequired
   void createNewPatchSet(final PatchSet.Id patchSetId, final String newCommitMessage,
       final AsyncCallback<ChangeDetail> callback);
 

@@ -33,6 +33,23 @@
       "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.CrTH1w",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-27T23:17:37Z",
+      "side": 1,
+      "message": "nit: we don\u0027t use this formatting style for wrapped lines. Look around for an example.",
+      "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "L86-PGao",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006257
+      },
+      "writtenOn": "2012-11-27T17:10:08Z",
+      "side": 1,
+      "message": "Ugh, yea I could have sworn I put localhost here.",
+      "parentUuid": "L9C4ux5c",
+      "revId": "8752076dd676bbfae6e59debbe8ae255a6fe8055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L9A4xC-c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

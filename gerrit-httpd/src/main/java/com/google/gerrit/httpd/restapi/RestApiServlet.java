@@ -659,7 +659,7 @@ public class RestApiServlet extends HttpServlet {
 
   static void replyText(@Nullable HttpServletRequest req,
       HttpServletResponse res, String text) throws IOException {
-    if (isMaybeHTML(text)) {
+    if ((req == null || "GET".equals(req.getMethod())) && isMaybeHTML(text)) {
       replyJson(req, res, ImmutableMultimap.of("pp", "0"), new JsonPrimitive(text));
     } else {
       if (!text.endsWith("\n")) {

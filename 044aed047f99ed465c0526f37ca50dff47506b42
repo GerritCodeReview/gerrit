@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L9E5E80I",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T03:14:39Z",
+      "side": 1,
+      "message": "Too many ~ characters?",
+      "revId": "044aed047f99ed465c0526f37ca50dff47506b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L9C43p.M",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T03:14:39Z",
+      "side": 1,
+      "message": "`[[approval.type.stickThroughRebase]]` should be `[[approval.stickThroughRebase]]`",
+      "revId": "044aed047f99ed465c0526f37ca50dff47506b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "0b1c89049f5eab491b2be194fbe0fede1eba0ac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L84.PtYs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListDrafts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-27T06:45:01Z",
+      "side": 1,
+      "message": "Clarity in the reply. We use the same type when you get a draft by itself as when you get the map of drafts under a revision. But when getting the map of drafts the path is implied by the key the draft is indexed under in the map, so repeating it inside of the draft itself is unnecessary.\n\nGiven that we gzip responses for many clients the extra path doesn\u0027t matter during transit, but it does use extra memory in a browser or client when it parses the drafts and sees every path string multiple times.\n\nI find it hideously ugly to repeat the data twice in the drafts map. It makes one looking at the data wonder how they could disagree, and what you should do if they don\u0027t match. Seems cleaner to not offer that option.",
+      "parentUuid": "L9kwSP18",
+      "revId": "0b1c89049f5eab491b2be194fbe0fede1eba0ac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

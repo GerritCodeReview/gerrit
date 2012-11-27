@@ -169,6 +169,7 @@ public class RestApiServlet extends HttpServlet {
     res.setHeader("Pragma", "no-cache");
     res.setHeader("Cache-Control", "no-cache, must-revalidate");
     res.setHeader("Content-Disposition", "attachment");
+    res.setHeader("X-Content-Type-Options", "nosniff");
 
     try {
       int status = SC_OK;

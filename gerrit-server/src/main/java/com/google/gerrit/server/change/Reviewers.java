@@ -14,20 +14,23 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class Reviewers implements
@@ -56,30 +59,38 @@ public class Reviewers implements
   }
 
   @Override
-  public ReviewerResource parse(ChangeResource changeResource, String id)
-      throws OrmException, ResourceNotFoundException {
-    // Get the account id
-    if (!id.matches("^[0-9]+$")) {
+  public ReviewerResource parse(ChangeResource rsrc, String id)
+      throws OrmException, ResourceNotFoundException, AuthException {
+    Account.Id accountId;
+    if (id.equals("self")) {
+      CurrentUser user = rsrc.getControl().getCurrentUser();
+      if (user instanceof IdentifiedUser) {
+        accountId = ((IdentifiedUser)user).getAccountId();
+      } else if (user instanceof AnonymousUser) {
+        throw new AuthException("Authentication required");
+      } else {
+        throw new ResourceNotFoundException(id);
+      }
+    } else if (id.matches("^[0-9]+$")) {
+      accountId = Account.Id.parse(id);
+    } else {
       throw new ResourceNotFoundException(id);
     }
-    Account.Id accountId = Account.Id.parse(id);
 
     // See if the id exists as a reviewer for this change
-    if (fetchAccountIds(changeResource).contains(accountId)) {
+    if (fetchAccountIds(rsrc).contains(accountId)) {
       Account account = accountCache.get(accountId).getAccount();
-      return new ReviewerResource(changeResource, account);
+      return new ReviewerResource(rsrc, account);
     }
     throw new ResourceNotFoundException(id);
   }
 
-  private Set<Account.Id> fetchAccountIds(ChangeResource changeResource)
+  private Set<Account.Id> fetchAccountIds(ChangeResource rsrc)
       throws OrmException {
-    ReviewDb db = dbProvider.get();
-    Change.Id changeId = changeResource.getChange().getId();
-    Set<Account.Id> accountIds = new HashSet<Account.Id>();
-    for (PatchSetApproval patchSetApproval
-         : db.patchSetApprovals().byChange(changeId)) {
-      accountIds.add(patchSetApproval.getAccountId());
+    Set<Account.Id> accountIds = Sets.newHashSet();
+    for (PatchSetApproval a
+         : dbProvider.get().patchSetApprovals().byChange(rsrc.getChange().getId())) {
+      accountIds.add(a.getAccountId());
     }
     return accountIds;
   }

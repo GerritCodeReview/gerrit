@@ -15,10 +15,12 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
@@ -38,15 +40,19 @@ public class AccountsCollection implements
 
   @Override
   public AccountResource parse(TopLevelResource root, String id)
-      throws ResourceNotFoundException {
+      throws ResourceNotFoundException, AuthException {
     if ("self".equals(id)) {
       CurrentUser user = self.get();
       if (user instanceof IdentifiedUser) {
         return new AccountResource((IdentifiedUser) user);
+      } else if (user instanceof AnonymousUser) {
+        throw new AuthException("Authentication required");
+      } else {
+        throw new ResourceNotFoundException(id);
       }
+    } else {
       throw new ResourceNotFoundException(id);
     }
-    throw new ResourceNotFoundException(id);
   }
 
   @Override

@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Change;
@@ -102,6 +103,8 @@ class PutTopic implements RestModifyView<ChangeResource, Input> {
         });
       db.changeMessages().insert(Collections.singleton(cmsg));
     }
-    return Strings.nullToEmpty(newTopicName);
+    return Strings.isNullOrEmpty(newTopicName)
+        ? Response.none()
+        : newTopicName;
   }
 }

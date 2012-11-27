@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
@@ -26,6 +27,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.PutDraft.Input;
 import com.google.gerrit.server.util.Url;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -45,8 +47,8 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
   }
 
   @Override
-  public Object apply(RevisionResource rsrc, Input in) throws AuthException,
-      BadRequestException, ResourceConflictException, Exception {
+  public Response<GetDraft.Comment> apply(RevisionResource rsrc, Input in)
+      throws AuthException, BadRequestException, ResourceConflictException, OrmException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
     } else if (in.message == null || in.message.trim().isEmpty()) {
@@ -66,6 +68,6 @@ class CreateDraft implements RestModifyView<RevisionResource, Input> {
     c.setSide(in.side == GetDraft.Side.PARENT ? (short) 0 : (short) 1);
     c.setMessage(in.message.trim());
     db.get().patchComments().insert(Collections.singleton(c));
-    return new GetDraft.Comment(c);
+    return Response.created(new GetDraft.Comment(c));
   }
 }

@@ -16,11 +16,10 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.PutInput;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.plugins.InstallPlugin.Input;
@@ -44,10 +43,12 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
 
   private final PluginLoader loader;
   private final String name;
+  private final boolean created;
 
-  InstallPlugin(PluginLoader loader, String name) {
+  InstallPlugin(PluginLoader loader, String name, boolean created) {
     this.loader = loader;
     this.name = name;
+    this.created = created;
   }
 
   @Override
@@ -56,9 +57,8 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
   }
 
   @Override
-  public Object apply(TopLevelResource resource, Input input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-      Exception {
+  public Response<ListPlugins.PluginInfo> apply(TopLevelResource resource,
+      Input input) throws BadRequestException, IOException {
     try {
       InputStream in;
       if (input.raw != null) {
@@ -91,7 +91,9 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
       }
       throw new BadRequestException(buf.toString());
     }
-    return new ListPlugins.PluginInfo(loader.get(name));
+
+    ListPlugins.PluginInfo info = new ListPlugins.PluginInfo(loader.get(name));
+    return created ? Response.created(info) : Response.ok(info);
   }
 
   @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -109,10 +111,9 @@ class InstallPlugin implements RestModifyView<TopLevelResource, Input> {
     }
 
     @Override
-    public Object apply(PluginResource resource, Input input)
-        throws AuthException, BadRequestException, ResourceConflictException,
-        Exception {
-      return new InstallPlugin(loader, resource.getName())
+    public Response<ListPlugins.PluginInfo> apply(PluginResource resource,
+        Input input) throws BadRequestException, IOException {
+      return new InstallPlugin(loader, resource.getName(), false)
         .apply(TopLevelResource.INSTANCE, input);
     }
   }

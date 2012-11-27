@@ -72,12 +72,14 @@ public class CommitMessageBlock extends Composite {
   }
 
   private abstract class CommitMessageEditDialog extends CommentedActionDialog<ChangeDetail> {
+    private final String commitMessage;
     public CommitMessageEditDialog(final String title, final String heading,
         final String commitMessage, AsyncCallback<ChangeDetail> callback) {
       super(title, heading, callback);
+      this.commitMessage = commitMessage;
       message.setCharacterWidth(72);
       message.setVisibleLines(20);
-      message.setText(commitMessage);
+      message.setText(this.commitMessage);
       message.addStyleName(Gerrit.RESOURCES.css().changeScreenDescription());
     }
 
@@ -121,20 +123,25 @@ public class CommitMessageBlock extends Composite {
 
               @Override
               public void onSend() {
-                Util.MANAGE_SVC.createNewPatchSet(patchSetId, getMessageText(),
-                    new AsyncCallback<ChangeDetail>() {
-                    @Override
-                    public void onSuccess(ChangeDetail result) {
-                      Gerrit.display(PageLinks.toChange(changeId));
-                      hide();
-                    }
+                final String newMessage = getMessageText();
+                if (!newMessage.equals(commitMessage)) {
+                  Util.MANAGE_SVC.createNewPatchSet(patchSetId, newMessage,
+                      new AsyncCallback<ChangeDetail>() {
+                      @Override
+                      public void onSuccess(ChangeDetail result) {
+                        Gerrit.display(PageLinks.toChange(changeId));
+                        hide();
+                      }
 
-                    @Override
-                    public void onFailure(Throwable caught) {
-                      enableButtons(true);
-                      new ErrorDialog(caught.getMessage()).center();
-                    }
-                });
+                      @Override
+                      public void onFailure(Throwable caught) {
+                        enableButtons(true);
+                        new ErrorDialog(caught.getMessage()).center();
+                      }
+                  });
+                } else {
+                  hide();
+                }
               }
             }.center();
           }

@@ -34,6 +34,24 @@
       "revId": "0b1c89049f5eab491b2be194fbe0fede1eba0ac3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L9owcJ28",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListDrafts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-27T06:52:12Z",
+      "side": 1,
+      "message": "I wasn\u0027t thinking of humans reading the output, I get it now thanks, I agree.",
+      "parentUuid": "L84.PtYs",
+      "revId": "0b1c89049f5eab491b2be194fbe0fede1eba0ac3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

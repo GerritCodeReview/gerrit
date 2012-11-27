@@ -69,13 +69,16 @@ public class RestApi {
         if (isTextBody(res)) {
           msg = res.getText().trim();
         } else if (isJsonBody(res)) {
+          JSONValue v;
           try {
-            ErrorMessage error = parseJson(res);
-            msg = error.message() != null
-                ? error.message()
-                : res.getText().trim();
+            v = parseJson(res);
           } catch (JSONException e) {
-            msg = res.getText().trim();
+            v = null;
+          }
+          if (v != null && v.isString() != null) {
+            msg = v.isString().stringValue();
+          } else {
+            msg = trimJsonMagic(res.getText()).trim();
           }
         } else {
           msg = res.getStatusText();
@@ -102,7 +105,7 @@ public class RestApi {
 
       T data;
       try {
-        data = parseJson(res);
+        data = cast(parseJson(res));
       } catch (JSONException e) {
         RpcStatus.INSTANCE.onRpcComplete();
         cb.onFailure(new RemoteJsonException("Invalid JSON: " + e.getMessage()));
@@ -262,16 +265,20 @@ public class RestApi {
     return want.equals(type);
   }
 
-  private static <T extends JavaScriptObject> T parseJson(Response res)
+  private static JSONValue parseJson(Response res)
       throws JSONException {
-    String json = res.getText();
-    if (json.startsWith(JSON_MAGIC)) {
-      json = json.substring(JSON_MAGIC.length());
-    }
+    String json = trimJsonMagic(res.getText());
     if (json.isEmpty()) {
       throw new JSONException("response was empty");
     }
-    return cast(JSONParser.parseStrict(json));
+    return JSONParser.parseStrict(json);
+  }
+
+  private static String trimJsonMagic(String json) {
+    if (json.startsWith(JSON_MAGIC)) {
+      json = json.substring(JSON_MAGIC.length());
+    }
+    return json;
   }
 
   @SuppressWarnings("unchecked")
@@ -286,13 +293,6 @@ public class RestApi {
       return null;
     } else {
       throw new JSONException("unsupported JSON type");
-    }
-  }
-
-  private static class ErrorMessage extends JavaScriptObject {
-    final native String message() /*-{ return this.message; }-*/;
-
-    protected ErrorMessage() {
     }
   }
 }

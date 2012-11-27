@@ -64,8 +64,8 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gwtjsonrpc.common.JsonConstants;
@@ -660,9 +660,7 @@ public class RestApiServlet extends HttpServlet {
   static void replyText(@Nullable HttpServletRequest req,
       HttpServletResponse res, String text) throws IOException {
     if (isMaybeHTML(text)) {
-      JsonObject obj = new JsonObject();
-      obj.addProperty("message", text);
-      replyJson(req, res, ImmutableMultimap.of("pp", "0"), obj);
+      replyJson(req, res, ImmutableMultimap.of("pp", "0"), new JsonPrimitive(text));
     } else {
       if (!text.endsWith("\n")) {
         text += "\n";

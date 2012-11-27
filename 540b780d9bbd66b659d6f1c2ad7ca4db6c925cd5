@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L8y-TKVw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T14:59:07Z",
+      "side": 1,
+      "message": "s/no/not",
+      "revId": "540b780d9bbd66b659d6f1c2ad7ca4db6c925cd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L8w-WZUs",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2078,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T14:59:07Z",
+      "side": 1,
+      "message": "s/chagne/change",
+      "revId": "540b780d9bbd66b659d6f1c2ad7ca4db6c925cd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

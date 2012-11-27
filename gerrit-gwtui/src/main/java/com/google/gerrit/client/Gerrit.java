@@ -675,9 +675,9 @@ public class Gerrit implements EntryPoint {
     menuLeft.add(projectsBar, C.menuProjects());
 
     if (signedIn) {
-      final LinkMenuBar groupsBar = new LinkMenuBar();
-      addLink(groupsBar, C.menuGroupsList(), PageLinks.ADMIN_GROUPS);
-      menuLeft.add(groupsBar, C.menuGroups());
+      final LinkMenuBar peopleBar = new LinkMenuBar();
+      addLink(peopleBar, C.menuPeopleGroupsList(), PageLinks.ADMIN_GROUPS);
+      menuLeft.add(peopleBar, C.menuPeople());
 
       final LinkMenuBar pluginsBar = new LinkMenuBar();
       AccountCapabilities.all(new GerritCallback<AccountCapabilities>() {
@@ -687,12 +687,12 @@ public class Gerrit implements EntryPoint {
             addLink(projectsBar, C.menuProjectsCreate(), PageLinks.ADMIN_CREATE_PROJECT);
           }
           if (result.canPerform(CREATE_GROUP)) {
-            addLink(groupsBar, C.menuGroupsCreate(), PageLinks.ADMIN_CREATE_GROUP);
+            addLink(peopleBar, C.menuPeopleGroupsCreate(), PageLinks.ADMIN_CREATE_GROUP);
           }
           if (result.canPerform(ADMINISTRATE_SERVER)) {
             addLink(pluginsBar, C.menuPluginsInstalled(), PageLinks.ADMIN_PLUGINS);
             menuLeft.insert(pluginsBar, C.menuPlugins(),
-                menuLeft.getWidgetIndex(groupsBar) + 1);
+                menuLeft.getWidgetIndex(peopleBar) + 1);
           }
         }
       }, CREATE_PROJECT, CREATE_GROUP, ADMINISTRATE_SERVER);

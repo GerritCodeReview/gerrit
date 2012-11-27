@@ -432,8 +432,8 @@ public class Dispatcher {
         }
         c = dashboardId.indexOf(":");
         if (0 <= c) {
-          final String ref = URL.decodePathSegment(dashboardId.substring(0, c));
-          final String path = URL.decodePathSegment(dashboardId.substring(c + 1));
+          final String ref = URL.decode(dashboardId.substring(0, c));
+          final String path = URL.decode(dashboardId.substring(c + 1));
           DashboardList.get(new Project.NameKey(project), ref + ":" + path, cb);
           return;
         }

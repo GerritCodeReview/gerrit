@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L-4PzHjM",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T22:54:45Z",
+      "side": 1,
+      "message": "Missing \"the\"\n\n  With the exception of THE ref-update hook",
+      "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L-6P4Gg4",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T22:54:45Z",
+      "side": 1,
+      "message": "Is it worth to mention that even on success, the hook\u0027s output will be returned to the client.",
+      "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

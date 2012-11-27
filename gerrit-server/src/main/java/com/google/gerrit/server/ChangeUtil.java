@@ -341,6 +341,10 @@ public class ChangeUtil {
         RevCommit commit =
             revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
 
+        if (commit.getFullMessage().equals(newMessage)) {
+          throw new InvalidChangeOperationException("The commit message is unchanged");
+        }
+
         PersonIdent authorIdent =
             user.newCommitterIdent(now, myIdent.getTimeZone());
 

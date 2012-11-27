@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L9gwINy8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-27T06:17:24Z",
+      "side": 1,
+      "message": "I am not I understand this, the old ssh behavior does not let you know whether a change was merged or put in the queue.",
+      "revId": "230343b94d0d69a89f9743f6f357e97de913f1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L9uwCCxI",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-27T06:17:24Z",
+      "side": 1,
+      "message": "Does this no longer put the change in the queue if it fails to merge?",
+      "revId": "230343b94d0d69a89f9743f6f357e97de913f1df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

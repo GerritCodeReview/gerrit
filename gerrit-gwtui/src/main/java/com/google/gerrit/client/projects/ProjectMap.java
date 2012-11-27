@@ -16,7 +16,7 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Projects available from {@code /projects/}. */
 public class ProjectMap extends NativeMap<ProjectInfo> {

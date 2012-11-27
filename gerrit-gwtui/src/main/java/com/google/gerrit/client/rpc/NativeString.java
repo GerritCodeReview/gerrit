@@ -15,7 +15,7 @@
 package com.google.gerrit.client.rpc;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Wraps a String that was returned from a JSON API. */
 public final class NativeString extends JavaScriptObject {

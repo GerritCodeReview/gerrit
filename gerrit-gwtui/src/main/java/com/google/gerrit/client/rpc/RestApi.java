@@ -34,14 +34,16 @@ import com.google.gwt.json.client.JSONException;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.StatusCodeException;
-import com.google.gwtjsonrpc.client.RemoteJsonException;
-import com.google.gwtjsonrpc.client.ServerUnavailableException;
-import com.google.gwtjsonrpc.common.AsyncCallback;
-import com.google.gwtjsonrpc.common.JsonConstants;
 
 /** Makes a REST API call to the server. */
 public class RestApi {
+  private static final int SC_UNAVAILABLE = 2;
+  private static final int SC_TRANSPORT = 3;
+  private static final String JSON_TYPE = "application/json";
+  private static final String TEXT_TYPE = "text/plain";
+
   /**
    * Expected JSON content body prefix that prevents XSSI.
    * <p>
@@ -53,8 +55,53 @@ public class RestApi {
    */
   private static final String JSON_MAGIC = ")]}'\n";
 
-  private class MyRequestCallback<T extends JavaScriptObject> implements
-      RequestCallback {
+  /** True if err is a StatusCodeException reporting Not Found. */
+  public static boolean isNotFound(Throwable err) {
+    return isStatus(err, Response.SC_NOT_FOUND);
+  }
+
+  /** True if err is describing a user that is currently anonymous. */
+  public static boolean isNotSignedIn(Throwable err) {
+    if (err instanceof StatusCodeException) {
+      StatusCodeException sce = (StatusCodeException) err;
+      if (sce.getStatusCode() == Response.SC_UNAUTHORIZED) {
+        return true;
+      }
+      return sce.getStatusCode() == Response.SC_FORBIDDEN
+          && (sce.getEncodedResponse().equals("Authentication required")
+              || sce.getEncodedResponse().startsWith("Must be signed-in"));
+    }
+    return false;
+  }
+
+  /** True if err is a StatusCodeException with a specific HTTP code. */
+  public static boolean isStatus(Throwable err, int status) {
+    return err instanceof StatusCodeException
+        && ((StatusCodeException) err).getStatusCode() == status;
+  }
+
+  /** Is the Gerrit Code Review server likely to return this status? */
+  public static boolean isExpected(int statusCode) {
+    switch (statusCode) {
+      case SC_UNAVAILABLE:
+      case 400: // Bad Request
+      case 401: // Unauthorized
+      case 403: // Forbidden
+      case 404: // Not Found
+      case 405: // Method Not Allowed
+      case 409: // Conflict
+      case 429: // Too Many Requests (RFC 6585)
+        return true;
+
+      default:
+        // Assume any other code is not expected. These may be
+        // local proxy server errors outside of our control.
+        return false;
+    }
+  }
+
+  private static class MyRequestCallback<T extends JavaScriptObject>
+      implements RequestCallback {
     private final AsyncCallback<T> cb;
 
     MyRequestCallback(AsyncCallback<T> cb) {
@@ -81,21 +128,15 @@ public class RestApi {
           msg = res.getStatusText();
         }
 
-        Throwable error;
-        if (400 <= status && status < 600) {
-          error = new RemoteJsonException(msg, status, null);
-        } else {
-          error = new StatusCodeException(status, res.getStatusText());
-        }
         RpcStatus.INSTANCE.onRpcComplete();
-        cb.onFailure(error);
+        cb.onFailure(new StatusCodeException(status, msg));
         return;
       }
 
       if (!isJsonBody(res)) {
         RpcStatus.INSTANCE.onRpcComplete();
-        cb.onFailure(new RemoteJsonException("Expected "
-            + JsonConstants.JSON_TYPE + "; received Content-Type: "
+        cb.onFailure(new StatusCodeException(200, "Expected "
+            + JSON_TYPE + "; received Content-Type: "
             + res.getHeader("Content-Type")));
         return;
       }
@@ -105,7 +146,8 @@ public class RestApi {
         data = parseJson(res);
       } catch (JSONException e) {
         RpcStatus.INSTANCE.onRpcComplete();
-        cb.onFailure(new RemoteJsonException("Invalid JSON: " + e.getMessage()));
+        cb.onFailure(new StatusCodeException(200,
+            "Invalid JSON: " + e.getMessage()));
         return;
       }
 
@@ -117,9 +159,11 @@ public class RestApi {
     public void onError(Request req, Throwable err) {
       RpcStatus.INSTANCE.onRpcComplete();
       if (err.getMessage().contains("XmlHttpRequest.status")) {
-        cb.onFailure(new ServerUnavailableException());
+        cb.onFailure(new StatusCodeException(
+            SC_UNAVAILABLE,
+            RpcConstants.C.errorServerUnavailable()));
       } else {
-        cb.onFailure(err);
+        cb.onFailure(new StatusCodeException(SC_TRANSPORT, err.getMessage()));
       }
     }
   }
@@ -194,13 +238,13 @@ public class RestApi {
   }
 
   public RestApi data(JSONObject obj) {
-    contentType = JsonConstants.JSON_REQ_CT;
+    contentType = JSON_TYPE + "; charset=utf-8";
     contentData = obj.toString();
     return this;
   }
 
   public RestApi data(String data) {
-    contentType = "text/plain; charset=utf-8";
+    contentType = TEXT_TYPE + "; charset=utf-8";
     contentData = data;
     return this;
   }
@@ -226,28 +270,28 @@ public class RestApi {
       Method method,
       final AsyncCallback<T> cb) {
     RequestBuilder req = new RequestBuilder(method, url.toString());
-    req.setHeader("Accept", JsonConstants.JSON_TYPE);
+    req.setHeader("Accept", JSON_TYPE);
     if (Gerrit.getAuthorization() != null) {
       req.setHeader("Authorization", Gerrit.getAuthorization());
     }
     if (contentData != null) {
       req.setHeader("Content-Type", contentType);
     }
+    MyRequestCallback<T> httpCallback = new MyRequestCallback<T>(cb);
     try {
       RpcStatus.INSTANCE.onRpcStart();
-      req.sendRequest(contentData, new MyRequestCallback<T>(cb));
+      req.sendRequest(contentData, httpCallback);
     } catch (RequestException e) {
-      RpcStatus.INSTANCE.onRpcComplete();
-      cb.onFailure(e);
+      httpCallback.onError(null, e);
     }
   }
 
   private static boolean isJsonBody(Response res) {
-    return isContentType(res, JsonConstants.JSON_TYPE);
+    return isContentType(res, JSON_TYPE);
   }
 
   private static boolean isTextBody(Response res) {
-    return isContentType(res, "text/plain");
+    return isContentType(res, TEXT_TYPE);
   }
 
   private static boolean isContentType(Response res, String want) {

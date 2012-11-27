@@ -16,7 +16,7 @@ package com.google.gerrit.client.plugins;
 
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Plugins available from {@code /plugins/}. */
 public class PluginMap extends NativeMap<PluginInfo> {

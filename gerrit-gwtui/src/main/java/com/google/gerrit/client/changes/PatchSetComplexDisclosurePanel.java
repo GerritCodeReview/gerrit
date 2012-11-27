@@ -15,7 +15,6 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Dispatcher;
-import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
@@ -30,13 +29,13 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.UserIdentity;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
@@ -50,7 +49,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
@@ -338,7 +336,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
             @Override
             public void onSend() {
               ChangeApi.revert(changeDetail.getChange().getChangeId(),
-                  getMessageText(), new AsyncCallback<ChangeInfo>() {
+                  getMessageText(), new GerritCallback<ChangeInfo>() {
                     @Override
                     public void onSuccess(ChangeInfo result) {
                       sent = true;
@@ -350,7 +348,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
                     @Override
                     public void onFailure(Throwable caught) {
                       enableButtons(true);
-                      new ErrorDialog(caught.getMessage()).center();
+                      super.onFailure(caught);
                     }
                   });
             }
@@ -378,7 +376,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
               // REST APIs, we can use createCallback() rather than providing
               // them directly.
               ChangeApi.abandon(changeDetail.getChange().getChangeId(),
-                  getMessageText(), new AsyncCallback<ChangeInfo>() {
+                  getMessageText(), new GerritCallback<ChangeInfo>() {
                     @Override
                     public void onSuccess(ChangeInfo result) {
                       sent = true;
@@ -390,7 +388,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
                     @Override
                     public void onFailure(Throwable caught) {
                       enableButtons(true);
-                      new ErrorDialog(caught.getMessage()).center();
+                      super.onFailure(caught);
                     }
                   });
             }
@@ -439,7 +437,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
             @Override
             public void onSend() {
               ChangeApi.restore(changeDetail.getChange().getChangeId(),
-                  getMessageText(), new AsyncCallback<ChangeInfo>() {
+                  getMessageText(), new GerritCallback<ChangeInfo>() {
                     @Override
                     public void onSuccess(ChangeInfo result) {
                       sent = true;
@@ -451,7 +449,7 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
                     @Override
                     public void onFailure(Throwable caught) {
                       enableButtons(true);
-                      new ErrorDialog(caught.getMessage()).center();
+                      super.onFailure(caught);
                     }
                   });
             }

@@ -330,6 +330,8 @@ public class ChangeUtil {
       throw new NoSuchChangeException(changeId, e);
     }
 
+    final String newMessage = message + '\n';
+
     try {
       final RevWalk revWalk = new RevWalk(git);
       try {
@@ -347,7 +349,7 @@ public class ChangeUtil {
         commitBuilder.setParentIds(commit.getParents());
         commitBuilder.setAuthor(commit.getAuthorIdent());
         commitBuilder.setCommitter(authorIdent);
-        commitBuilder.setMessage(message);
+        commitBuilder.setMessage(newMessage);
 
         RevCommit newCommit;
         final ObjectInserter oi = git.newObjectInserter();

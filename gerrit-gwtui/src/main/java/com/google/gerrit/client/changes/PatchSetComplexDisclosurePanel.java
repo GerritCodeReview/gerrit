@@ -30,13 +30,12 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.AccountDiffPreference;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.UserIdentity;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadCommand;
-import com.google.gerrit.reviewdb.client.AccountGeneralPreferences.DownloadScheme;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
@@ -308,11 +307,29 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          Util.MANAGE_SVC.submit(patchSet.getId(),
-              new ChangeDetailCache.GerritWidgetCallback(b) {
-                public void onSuccess(ChangeDetail result) {
-                  onSubmitResult(result);
-                }
+          ChangeApi.submit(
+              patchSet.getId().getParentKey().get(),
+              patchSet.getRevision().get(),
+              new GerritCallback<SubmitInfo>() {
+                  public void onSuccess(SubmitInfo result) {
+                    redisplay();
+                  }
+
+                  public void onFailure(Throwable err) {
+                    if (SubmitFailureDialog.isConflict(err)) {
+                      new SubmitFailureDialog(err.getMessage()).center();
+                      redisplay();
+                    } else {
+                      b.setEnabled(true);
+                      super.onFailure(err);
+                    }
+                  }
+
+                  private void redisplay() {
+                    Gerrit.display(
+                        PageLinks.toChange(patchSet.getId().getParentKey()),
+                        new ChangeScreen(patchSet.getId().getParentKey()));
+                  }
               });
         }
       });
@@ -586,28 +603,6 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
     infoTable.setText(row, 0, name);
     infoTable.getCellFormatter().addStyleName(row, 0,
         Gerrit.RESOURCES.css().header());
-  }
-
-  private void onSubmitResult(final ChangeDetail result) {
-    if (result.getChange().getStatus() == Change.Status.NEW) {
-      // The submit failed. Try to locate the message and display
-      // it to the user, it should be the last one created by Gerrit.
-      //
-      ChangeMessage msg = null;
-      if (result.getMessages() != null && result.getMessages().size() > 0) {
-        for (int i = result.getMessages().size() - 1; i >= 0; i--) {
-          if (result.getMessages().get(i).getAuthor() == null) {
-            msg = result.getMessages().get(i);
-            break;
-          }
-        }
-      }
-
-      if (msg != null) {
-        new SubmitFailureDialog(result, msg).center();
-      }
-    }
-    detailCache.set(result);
   }
 
   public PatchSet getPatchSet() {

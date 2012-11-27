@@ -307,6 +307,10 @@ public class ChangeControl {
     return canSubmit(db, patchSet, null, false, true);
   }
 
+  public boolean canSubmit() {
+    return getRefControl().canSubmit();
+  }
+
   public List<SubmitRecord> canSubmit(ReviewDb db, PatchSet patchSet) {
     return canSubmit(db, patchSet, null, false, false);
   }

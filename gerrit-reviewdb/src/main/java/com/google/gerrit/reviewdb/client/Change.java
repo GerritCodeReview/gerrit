@@ -428,6 +428,10 @@ public final class Change {
     return lastUpdatedOn;
   }
 
+  public void setLastUpdatedOn(Timestamp now) {
+    lastUpdatedOn = now;
+  }
+
   public void resetLastUpdatedOn() {
     lastUpdatedOn = new Timestamp(System.currentTimeMillis());
   }

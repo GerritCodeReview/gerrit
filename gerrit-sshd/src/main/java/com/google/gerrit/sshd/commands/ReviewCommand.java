@@ -36,7 +36,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.Restore;
 import com.google.gerrit.server.changedetail.DeleteDraftPatchSet;
 import com.google.gerrit.server.changedetail.PublishDraft;
-import com.google.gerrit.server.changedetail.Submit;
+import com.google.gerrit.server.change.Submit;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -137,7 +137,7 @@ public class ReviewCommand extends SshCommand {
   private Provider<Restore> restoreProvider;
 
   @Inject
-  private Submit.Factory submitFactory;
+  private Provider<Submit> submitProvider;
 
   private List<ApproveOption> optionList;
 
@@ -242,8 +242,13 @@ public class ReviewCommand extends SshCommand {
         }
       }
       if (submitChange) {
-        final ReviewResult result = submitFactory.create(patchSetId).call();
-        handleReviewResultErrors(result);
+        Submit submit = submitProvider.get();
+        Submit.Input input = new Submit.Input();
+        input.waitForMerge = true;
+        submit.apply(new RevisionResource(
+            new ChangeResource(ctl),
+            db.patchSets().get(patchSetId)),
+          input);
       }
     } catch (InvalidChangeOperationException e) {
       throw error(e.getMessage());
@@ -252,6 +257,8 @@ public class ReviewCommand extends SshCommand {
     } catch (AuthException e) {
       throw error(e.getMessage());
     } catch (BadRequestException e) {
+      throw error(e.getMessage());
+    } catch (ResourceConflictException e) {
       throw error(e.getMessage());
     }
 

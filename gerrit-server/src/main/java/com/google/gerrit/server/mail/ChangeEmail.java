@@ -46,9 +46,15 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.SingleGroupUser;
 import com.google.gwtorm.server.OrmException;
 
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.internal.JGitText;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.TemporaryBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -575,5 +581,51 @@ public abstract class ChangeEmail extends OutgoingEmail {
         projectState != null ? projectState.getProject().getName() : null);
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);
+  }
+
+  public boolean getIncludeDiff() {
+    return args.settings.includeDiff;
+  }
+
+  /** Show patch set as unified difference. */
+  public String getUnifiedDiff() {
+    PatchList patchList;
+    try {
+      patchList = getPatchList();
+      if (patchList.getOldId() == null) {
+        // Octopus merges are not well supported for diff output by Gerrit.
+        // Currently these always have a null oldId in the PatchList.
+        return "";
+      }
+    } catch (PatchListNotAvailableException e) {
+      log.error("Cannot format patch", e);
+      return "";
+    }
+
+    TemporaryBuffer.Heap buf =
+        new TemporaryBuffer.Heap(args.settings.maximumDiffSize);
+    DiffFormatter fmt = new DiffFormatter(buf);
+    Repository git;
+    try {
+      git = args.server.openRepository(change.getProject());
+    } catch (IOException e) {
+      log.error("Cannot open repository to format patch", e);
+      return "";
+    }
+    try {
+      fmt.setRepository(git);
+      fmt.setDetectRenames(true);
+      fmt.format(patchList.getOldId(), patchList.getNewId());
+      return RawParseUtils.decode(buf.toByteArray());
+    } catch (IOException e) {
+      if (JGitText.get().inMemoryBufferLimitExceeded.equals(e.getMessage())) {
+        return "";
+      }
+      log.error("Cannot format patch", e);
+      return "";
+    } finally {
+      fmt.release();
+      git.close();
+    }
   }
 }

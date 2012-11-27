@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L9I54m3c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RestRemoveReviewer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-27T19:41:11Z",
+      "side": 1,
+      "message": "Don\u0027t return null. We typically return new Object() when the thing is gone.",
+      "revId": "53db826d5ccf078b9bdfda515fec49de714ba748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

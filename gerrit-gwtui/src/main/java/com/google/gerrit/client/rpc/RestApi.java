@@ -65,12 +65,30 @@ public class RestApi {
     public void onResponseReceived(Request req, Response res) {
       int status = res.getStatusCode();
       if (status != 200) {
-        RpcStatus.INSTANCE.onRpcComplete();
-        if ((400 <= status && status < 600) && isTextBody(res)) {
-          cb.onFailure(new RemoteJsonException(res.getText(), status, null));
+        String msg;
+        if (isTextBody(res)) {
+          msg = res.getText().trim();
+        } else if (isJsonBody(res)) {
+          try {
+            ErrorMessage error = parseJson(res);
+            msg = error.message() != null
+                ? error.message()
+                : res.getText().trim();
+          } catch (JSONException e) {
+            msg = res.getText().trim();
+          }
         } else {
-          cb.onFailure(new StatusCodeException(status, res.getStatusText()));
+          msg = res.getStatusText();
         }
+
+        Throwable error;
+        if (400 <= status && status < 600) {
+          error = new RemoteJsonException(msg, status, null);
+        } else {
+          error = new StatusCodeException(status, res.getStatusText());
+        }
+        RpcStatus.INSTANCE.onRpcComplete();
+        cb.onFailure(error);
         return;
       }
 
@@ -82,19 +100,9 @@ public class RestApi {
         return;
       }
 
-      String json = res.getText();
-      if (json.startsWith(JSON_MAGIC)) {
-        json = json.substring(JSON_MAGIC.length());
-      }
-      if (json.isEmpty()) {
-        RpcStatus.INSTANCE.onRpcComplete();
-        cb.onFailure(new RemoteJsonException("JSON response was empty"));
-        return;
-      }
-
       T data;
       try {
-        data = cast(JSONParser.parseStrict(json));
+        data = parseJson(res);
       } catch (JSONException e) {
         RpcStatus.INSTANCE.onRpcComplete();
         cb.onFailure(new RemoteJsonException("Invalid JSON: " + e.getMessage()));
@@ -103,21 +111,6 @@ public class RestApi {
 
       cb.onSuccess(data);
       RpcStatus.INSTANCE.onRpcComplete();
-    }
-
-    @SuppressWarnings("unchecked")
-    private T cast(JSONValue val) {
-      if (val.isObject() != null) {
-        return (T) val.isObject().getJavaScriptObject();
-      } else if (val.isArray() != null) {
-        return (T) val.isArray().getJavaScriptObject();
-      } else if (val.isString() != null) {
-        return (T) NativeString.wrap(val.isString().stringValue());
-      } else if (val.isNull() != null) {
-        return null;
-      } else {
-        throw new JSONException("Unsupported JSON response type");
-      }
     }
 
     @Override
@@ -267,5 +260,39 @@ public class RestApi {
       type = type.substring(0, semi).trim();
     }
     return want.equals(type);
+  }
+
+  private static <T extends JavaScriptObject> T parseJson(Response res)
+      throws JSONException {
+    String json = res.getText();
+    if (json.startsWith(JSON_MAGIC)) {
+      json = json.substring(JSON_MAGIC.length());
+    }
+    if (json.isEmpty()) {
+      throw new JSONException("response was empty");
+    }
+    return cast(JSONParser.parseStrict(json));
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T extends JavaScriptObject> T cast(JSONValue val) {
+    if (val.isObject() != null) {
+      return (T) val.isObject().getJavaScriptObject();
+    } else if (val.isArray() != null) {
+      return (T) val.isArray().getJavaScriptObject();
+    } else if (val.isString() != null) {
+      return (T) NativeString.wrap(val.isString().stringValue());
+    } else if (val.isNull() != null) {
+      return null;
+    } else {
+      throw new JSONException("unsupported JSON type");
+    }
+  }
+
+  private static class ErrorMessage extends JavaScriptObject {
+    final native String message() /*-{ return this.message; }-*/;
+
+    protected ErrorMessage() {
+    }
   }
 }

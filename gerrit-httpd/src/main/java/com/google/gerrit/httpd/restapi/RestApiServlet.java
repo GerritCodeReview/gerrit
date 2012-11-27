@@ -28,6 +28,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
@@ -63,6 +64,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -93,6 +95,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
 import javax.annotation.Nullable;
@@ -389,9 +392,10 @@ public class RestApiServlet extends HttpServlet {
     return c.newInstance();
   }
 
-  private static void replyJson(HttpServletRequest req,
+  private static void replyJson(@Nullable HttpServletRequest req,
       HttpServletResponse res,
-      Multimap<String, String> config, Object result)
+      Multimap<String, String> config,
+      Object result)
       throws IOException {
     final TemporaryBuffer.Heap buf = heap(Integer.MAX_VALUE);
     buf.write(JSON_MAGIC);
@@ -422,7 +426,7 @@ public class RestApiServlet extends HttpServlet {
       FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 
   private static Gson newGson(Multimap<String, String> config,
-      HttpServletRequest req) {
+      @Nullable HttpServletRequest req) {
     GsonBuilder gb = OutputFormat.JSON_COMPACT.newGsonBuilder()
       .setFieldNamingPolicy(NAMING);
 
@@ -433,11 +437,12 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static void enablePrettyPrint(GsonBuilder gb,
-      Multimap<String, String> config, HttpServletRequest req) {
+      Multimap<String, String> config,
+      @Nullable HttpServletRequest req) {
     String pp = Iterables.getFirst(config.get("pp"), null);
     if (pp == null) {
       pp = Iterables.getFirst(config.get("prettyPrint"), null);
-      if (pp == null) {
+      if (pp == null && req != null) {
         pp = acceptsJson(req) ? "0" : "1";
       }
     }
@@ -485,8 +490,10 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static void replyBinaryResult(HttpServletRequest req,
-      HttpServletResponse res, BinaryResult bin) throws IOException {
+  private static void replyBinaryResult(
+      @Nullable HttpServletRequest req,
+      HttpServletResponse res,
+      BinaryResult bin) throws IOException {
     try {
       res.setContentType(bin.getContentType());
       OutputStream dst = res.getOutputStream();
@@ -652,11 +659,22 @@ public class RestApiServlet extends HttpServlet {
 
   static void replyText(@Nullable HttpServletRequest req,
       HttpServletResponse res, String text) throws IOException {
-    if (!text.endsWith("\n")) {
-      text += "\n";
+    if (isMaybeHTML(text)) {
+      JsonObject obj = new JsonObject();
+      obj.addProperty("message", text);
+      replyJson(req, res, ImmutableMultimap.of("pp", "0"), obj);
+    } else {
+      if (!text.endsWith("\n")) {
+        text += "\n";
+      }
+      replyBinaryResult(req, res,
+          BinaryResult.create(text).setContentType("text/plain"));
     }
-    replyBinaryResult(req, res,
-        BinaryResult.create(text).setContentType("text/plain"));
+  }
+
+  private static final Pattern IS_HTML = Pattern.compile("[<&]");
+  private static boolean isMaybeHTML(String text) {
+    return IS_HTML.matcher(text).find();
   }
 
   private static boolean acceptsJson(HttpServletRequest req) {

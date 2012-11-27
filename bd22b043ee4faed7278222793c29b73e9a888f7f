@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "L.OoC5xE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-27T08:42:26Z",
+      "side": 1,
+      "message": "No. I do not think so. This is more aimed at revisions/patchsets than actual changes. I left it out for the same reason  (I would guess) reviewer RestApi was left out from change api.",
+      "parentUuid": "L8FIS1F4",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L8LL4YA4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 10
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "L.AoIGy8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-27T08:42:26Z",
+      "side": 1,
+      "message": "I looked at parts of the HTTP/1.1 [1] and got the impression that PUT was more suitable.\n\nPUT should be used when a new entity is supposed to be created at the server, while POST is more suitable when data is added to an entity (like when adding a new review comment).\n\n[1] http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html",
+      "parentUuid": "L8LL4YA4",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L8DIFUBg",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 10
@@ -65,6 +101,24 @@
       "writtenOn": "2012-11-26T20:26:30Z",
       "side": 1,
       "message": "Is there any reason to use PUT instead of POST?",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L.CoF3xc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-27T08:42:26Z",
+      "side": 1,
+      "message": "See comment above.",
+      "parentUuid": "L8DIFUBg",
       "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

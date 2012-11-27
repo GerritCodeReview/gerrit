@@ -56,6 +56,7 @@ class ListDrafts implements RestReadView<RevisionResource> {
         list = Lists.newArrayList();
         out.put(o.path, list);
       }
+      o.path = null;
       list.add(o);
     }
     for (List<Comment> list : out.values()) {

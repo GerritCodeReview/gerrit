@@ -16,21 +16,10 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.patch.PatchList;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.ssh.SshInfo;
 
 import com.jcraft.jsch.HostKey;
 
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.internal.JGitText;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.util.RawParseUtils;
-import org.eclipse.jgit.util.TemporaryBuffer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -39,9 +28,6 @@ import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
 public abstract class NewChangeSender extends ChangeEmail {
-  private static final Logger log =
-      LoggerFactory.getLogger(NewChangeSender.class);
-
   private final SshInfo sshInfo;
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
@@ -98,51 +84,5 @@ public abstract class NewChangeSender extends ChangeEmail {
       return getGerritHost() + host.substring(1);
     }
     return host;
-  }
-
-  public boolean getIncludeDiff() {
-    return args.settings.includeDiff;
-  }
-
-  /** Show patch set as unified difference.  */
-  public String getUnifiedDiff() {
-    PatchList patchList;
-    try {
-      patchList = getPatchList();
-      if (patchList.getOldId() == null) {
-        // Octopus merges are not well supported for diff output by Gerrit.
-        // Currently these always have a null oldId in the PatchList.
-        return "";
-      }
-    } catch (PatchListNotAvailableException e) {
-      log.error("Cannot format patch", e);
-      return "";
-    }
-
-    TemporaryBuffer.Heap buf =
-        new TemporaryBuffer.Heap(args.settings.maximumDiffSize);
-    DiffFormatter fmt = new DiffFormatter(buf);
-    Repository git;
-    try {
-      git = args.server.openRepository(change.getProject());
-    } catch (IOException e) {
-      log.error("Cannot open repository to format patch", e);
-      return "";
-    }
-    try {
-      fmt.setRepository(git);
-      fmt.setDetectRenames(true);
-      fmt.format(patchList.getOldId(), patchList.getNewId());
-      return RawParseUtils.decode(buf.toByteArray());
-    } catch (IOException e) {
-      if (JGitText.get().inMemoryBufferLimitExceeded.equals(e.getMessage())) {
-        return "";
-      }
-      log.error("Cannot format patch", e);
-      return "";
-    } finally {
-      fmt.release();
-      git.close();
-    }
   }
 }

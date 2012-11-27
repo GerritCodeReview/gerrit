@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "L9C4ux5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T00:42:36Z",
+      "side": 1,
+      "message": "Not sure if you want to put the name of an actual host in the commit message?",
+      "revId": "8752076dd676bbfae6e59debbe8ae255a6fe8055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L9A4xC-c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-27T00:42:36Z",
+      "side": 1,
+      "message": "Does this have to be the account ID?  It might be more usable (I\u0027m thinking of scripts) to be able to specify the email address here",
+      "revId": "8752076dd676bbfae6e59debbe8ae255a6fe8055",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L828P8TU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/RestRemoveReviewer.java",
         "patchSetId": 1

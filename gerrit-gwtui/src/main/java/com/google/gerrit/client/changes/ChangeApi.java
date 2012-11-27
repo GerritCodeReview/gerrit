@@ -17,7 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.rpc.NativeString;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * A collection of static methods which work on the Gerrit REST API for specific

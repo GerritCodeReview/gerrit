@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.restapi;
 
+import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
@@ -35,6 +36,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
@@ -68,8 +70,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
-import com.google.gwtjsonrpc.common.JsonConstants;
-import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
@@ -86,7 +86,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -110,9 +109,8 @@ public class RestApiServlet extends HttpServlet {
       .getLogger(RestApiServlet.class);
 
   /** MIME type used for a JSON response body. */
-  private static final String JSON_TYPE = JsonConstants.JSON_TYPE;
+  private static final String JSON_TYPE = "application/json";
   private static final String FORM_TYPE = "application/x-www-form-urlencoded";
-  private static final String UTF_8 = "UTF-8";
 
   /**
    * Garbage prefix inserted before JSON output to prevent XSSI.
@@ -126,11 +124,7 @@ public class RestApiServlet extends HttpServlet {
   private static final byte[] JSON_MAGIC;
 
   static {
-    try {
-      JSON_MAGIC = ")]}'\n".getBytes(UTF_8);
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException("UTF-8 not supported", e);
-    }
+    JSON_MAGIC = ")]}'\n".getBytes(UTF_8);
   }
 
   public static class Globals {
@@ -419,7 +413,7 @@ public class RestApiServlet extends HttpServlet {
       public void writeTo(OutputStream os) throws IOException {
         buf.writeTo(os, null);
       }
-    }.setContentType(JSON_TYPE).setCharacterEncoding(UTF_8));
+    }.setContentType(JSON_TYPE).setCharacterEncoding(UTF_8.name()));
   }
 
   private static final FieldNamingPolicy NAMING =
@@ -676,11 +670,15 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static boolean acceptsJson(HttpServletRequest req) {
-    return req != null && isType(JSON_TYPE, req.getHeader("Accept"));
+    return req != null && isType(JSON_TYPE, req.getHeader(HttpHeaders.ACCEPT));
   }
 
   private static boolean acceptsGzip(HttpServletRequest req) {
-    return req != null && RPCServletUtils.acceptsGzipEncoding(req);
+    if (req != null) {
+      String accepts = req.getHeader(HttpHeaders.ACCEPT_ENCODING);
+      return accepts != null && accepts.indexOf("gzip") != -1;
+    }
+    return false;
   }
 
   private static boolean isType(String expect, String given) {

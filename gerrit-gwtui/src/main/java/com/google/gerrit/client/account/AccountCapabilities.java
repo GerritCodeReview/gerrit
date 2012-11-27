@@ -16,7 +16,7 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Capabilities the caller has from {@code /accounts/self/capabilities}.  */
 public class AccountCapabilities extends JavaScriptObject {

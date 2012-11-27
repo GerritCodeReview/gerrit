@@ -17,7 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.common.changes.ListChangesOption;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 import java.util.EnumSet;

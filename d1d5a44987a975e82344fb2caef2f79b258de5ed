@@ -33,6 +33,24 @@
       "revId": "d1d5a44987a975e82344fb2caef2f79b258de5ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L-4NF3kY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-28T00:58:38Z",
+      "side": 1,
+      "message": "Tried it like this:\n\n      if (result !\u003d null) {\n        final String message \u003d result.toString().trim();\n        if (result.getExitValue() !\u003d 0) {\n          reject(cmd, message);\n          continue;\n        }\n        rp.sendMessage(message);\n      }\n\nAnd the output looks better:\n\n To ssh://david.pursehouse@localhost:29418/test-project\n  ! [remote rejected] HEAD -\u003e refs/for/master (rejected by ref-update hook)",
+      "parentUuid": "L-0Mr5oY",
+      "revId": "d1d5a44987a975e82344fb2caef2f79b258de5ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MDPZboB8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2038,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-28T14:35:03Z",
+      "side": 1,
+      "message": "The ReceiveCommand \u0027cmd\u0027 was already successfully handled and it has the status OK. autoCloseChanges(...) is only invoked afterwards to close changes if necessary.",
+      "revId": "e6298f7216db0ea489cf9e28352ae1d9205cb190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MDBZnPOE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2045,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-28T14:35:03Z",
+      "side": 1,
+      "message": "req.validate(true) is always returning false here since the status of \u0027cmd\u0027 contained in \u0027req\u0027 is already set to OK and the first check in the req.validate(true) method that expects status NOT_ATTEMPTED fails. Also req.change and req.patchSets are not initialized.\n\nI\u0027ve uploaded a fix for review:\n  https://gerrit-review.googlesource.com/39851",
+      "revId": "e6298f7216db0ea489cf9e28352ae1d9205cb190",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

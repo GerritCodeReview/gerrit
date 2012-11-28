@@ -68,38 +68,25 @@ public class ApprovalsUtil {
   }
 
   /**
-   * Moves the PatchSetApprovals to the last PatchSet on the change while
-   * keeping the vetos.
-   *
-   * @param change Change to update
-   * @throws OrmException
-   * @return List<PatchSetApproval> The previous approvals
-   */
-  public List<PatchSetApproval> copyVetosToLatestPatchSet(Change change)
-      throws OrmException {
-    return copyVetosToLatestPatchSet(db, change);
-  }
-
-  /**
-   * Moves the PatchSetApprovals to the last PatchSet on the change while
-   * keeping the vetos.
+   * Moves the PatchSetApprovals to the specified PatchSet on the change from
+   * the prior PatchSet, while keeping the vetos.
    *
    * @param db database connection to use for updates.
-   * @param change Change to update
+   * @param dest PatchSet to copy to
    * @throws OrmException
    * @return List<PatchSetApproval> The previous approvals
    */
-  public List<PatchSetApproval> copyVetosToLatestPatchSet(ReviewDb db,
-      Change change) throws OrmException {
+  public List<PatchSetApproval> copyVetosToPatchSet(ReviewDb db,
+      PatchSet.Id dest) throws OrmException {
     PatchSet.Id source;
-    if (change.getNumberOfPatchSets() > 1) {
-      source = new PatchSet.Id(change.getId(), change.getNumberOfPatchSets() - 1);
+    if (dest.get() > 1) {
+      source = new PatchSet.Id(dest.getParentKey(), dest.get() - 1);
     } else {
       throw new OrmException("Previous patch set could not be found");
     }
 
-    PatchSet.Id dest = change.currPatchSetId();
-    List<PatchSetApproval> patchSetApprovals = db.patchSetApprovals().byChange(change.getId()).toList();
+    List<PatchSetApproval> patchSetApprovals =
+        db.patchSetApprovals().byChange(dest.getParentKey()).toList();
     for (PatchSetApproval a : patchSetApprovals) {
       // ApprovalCategory.SUBMIT is still in db but not relevant in git-store
       if (!ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {

@@ -226,6 +226,24 @@
       "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAkAUzkk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-28T09:33:33Z",
+      "side": 1,
+      "message": "--------------------------------------------------------------------------------\n [ There is no diff output.\n Reason: This change has more than two parents.\n Gerrit does not support for generating diff output\n between this kind change and its parents by far.]\n---------------------------------------------------------------------------------",
+      "parentUuid": "MAoAa1nc",
+      "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

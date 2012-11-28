@@ -595,7 +595,10 @@ public abstract class ChangeEmail extends OutgoingEmail {
       if (patchList.getOldId() == null) {
         // Octopus merges are not well supported for diff output by Gerrit.
         // Currently these always have a null oldId in the PatchList.
-        return "";
+        return "[Octopus merge, cannot be formatted as a diff.]\n"
+             + " Reason: This change has more than two parents.\n"
+             + " Gerrit does not currently support generating\n"
+             + " diff output for this kind of change.]";
       }
     } catch (PatchListNotAvailableException e) {
       log.error("Cannot format patch", e);

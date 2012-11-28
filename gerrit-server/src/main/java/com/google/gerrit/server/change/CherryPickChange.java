@@ -40,7 +40,6 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gerrit.server.ssh.NoSshInfo;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 

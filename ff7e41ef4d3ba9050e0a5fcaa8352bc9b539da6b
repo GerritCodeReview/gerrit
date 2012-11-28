@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MBxtQewM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/GerritCss.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T06:21:39Z",
+      "side": 1,
+      "message": "projectFilterPanel?",
+      "revId": "ff7e41ef4d3ba9050e0a5fcaa8352bc9b539da6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MB-s0r90",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T06:21:39Z",
+      "side": 1,
+      "message": "projectFilter?",
+      "revId": "ff7e41ef4d3ba9050e0a5fcaa8352bc9b539da6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MB9sx8.s",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T06:21:39Z",
+      "side": 1,
+      "message": "We don\u0027t usually use colons in the Gerrit UI.",
+      "revId": "ff7e41ef4d3ba9050e0a5fcaa8352bc9b539da6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MB7s.J7o",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AllProjectsScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T06:21:39Z",
+      "side": 1,
+      "message": "CSS?",
+      "revId": "ff7e41ef4d3ba9050e0a5fcaa8352bc9b539da6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

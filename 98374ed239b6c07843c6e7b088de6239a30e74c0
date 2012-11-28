@@ -208,6 +208,24 @@
       "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAoAa1nc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-28T09:30:29Z",
+      "side": 1,
+      "message": "I think it is better to avoid bringing in the word \u0027octopus\u0027 . \n\nhow about make it easy to read for user like: \n--------------------------------------------------------------------------------\n[ There is no diff output.\n  Reason: This change has more than two parents.\n  Gerrit does not support for generating diff output\n  between this kind change and this parents by far.]\n---------------------------------------------------------------------------------",
+      "parentUuid": "MDLYQiFo",
+      "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

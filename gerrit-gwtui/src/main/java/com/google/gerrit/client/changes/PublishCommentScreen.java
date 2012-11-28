@@ -22,6 +22,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
@@ -48,6 +49,8 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.ArrayList;
@@ -254,7 +257,9 @@ public class PublishCommentScreen extends AccountScreen implements
       }
 
       ValueRadioButton b = new ValueRadioButton(ct.getCategory(), buttonValue);
-      b.setText(buttonValue.format());
+      SafeHtml buf = new SafeHtmlBuilder().append(buttonValue.format());
+      buf = CommentLinkProcessor.apply(buf);
+      SafeHtml.set(b, buf);
 
       if (lastState != null && patchSetId.equals(lastState.patchSetId)
           && lastState.approvals.containsKey(buttonValue.getCategoryId())) {

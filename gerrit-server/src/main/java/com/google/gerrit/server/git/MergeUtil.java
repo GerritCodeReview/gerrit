@@ -180,8 +180,8 @@ public class MergeUtil {
     return submitter;
   }
 
-  public CodeReviewCommit createCherryPickFromCommit(Repository repo,
-      ObjectInserter inserter, CodeReviewCommit mergeTip, CodeReviewCommit originalCommit,
+  public RevCommit createCherryPickFromCommit(Repository repo,
+      ObjectInserter inserter, RevCommit mergeTip, RevCommit originalCommit,
       PersonIdent cherryPickCommitterIdent, String commitMsg, RevWalk rw)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
 
@@ -199,10 +199,8 @@ public class MergeUtil {
       mergeCommit.setMessage(commitMsg);
 
       final ObjectId id = commit(inserter, mergeCommit);
-      final CodeReviewCommit newCommit =
-          (CodeReviewCommit) rw.parseCommit(id);
 
-      return newCommit;
+      return rw.parseCommit(id);
     } else {
       return null;
     }

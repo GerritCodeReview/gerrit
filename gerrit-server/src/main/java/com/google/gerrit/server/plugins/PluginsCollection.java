@@ -59,7 +59,7 @@ public class PluginsCollection implements
   @Override
   public InstallPlugin create(TopLevelResource parent, String id)
       throws ResourceNotFoundException {
-    return new InstallPlugin(loader, Url.decode(id));
+    return new InstallPlugin(loader, Url.decode(id), true /* created */);
   }
 
   @Override

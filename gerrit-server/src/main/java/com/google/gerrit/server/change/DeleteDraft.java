@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.DeleteDraft.Input;
@@ -42,6 +43,6 @@ class DeleteDraft implements RestModifyView<DraftResource, Input> {
   @Override
   public Object apply(DraftResource rsrc, Input input) throws OrmException {
     db.get().patchComments().delete(Collections.singleton(rsrc.getComment()));
-    return new Object();
+    return Response.none();
   }
 }

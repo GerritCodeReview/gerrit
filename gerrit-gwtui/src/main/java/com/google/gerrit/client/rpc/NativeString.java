@@ -33,7 +33,7 @@ public final class NativeString extends JavaScriptObject {
     return new AsyncCallback<NativeString>() {
       @Override
       public void onSuccess(NativeString result) {
-        cb.onSuccess(result.asString());
+        cb.onSuccess(result != null ? result.asString() : null);
       }
 
       @Override

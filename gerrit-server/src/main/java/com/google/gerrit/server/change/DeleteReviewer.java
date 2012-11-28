@@ -18,6 +18,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Change;
@@ -71,7 +72,7 @@ class DeleteReviewer implements RestModifyView<ReviewerResource, Input> {
     } finally {
       db.rollback();
     }
-    return new Object();
+    return Response.none();
   }
 
   private Iterable<PatchSetApproval> approvals(ReviewDb db,

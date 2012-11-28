@@ -43,6 +43,7 @@ import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.PutInput;
@@ -237,11 +238,20 @@ public class RestApiServlet extends HttpServlet {
         throw new ResourceNotFoundException();
       }
 
+      if (result instanceof Response) {
+        @SuppressWarnings("rawtypes")
+        Response r = (Response) result;
+        status = r.statusCode();
+      }
       res.setStatus(status);
-      if (result instanceof BinaryResult) {
-        replyBinaryResult(req, res, (BinaryResult) result);
-      } else {
-        replyJson(req, res, config, result);
+
+      if (result != Response.none()) {
+        result = Response.unwrap(result);
+        if (result instanceof BinaryResult) {
+          replyBinaryResult(req, res, (BinaryResult) result);
+        } else {
+          replyJson(req, res, config, result);
+        }
       }
     } catch (AuthException e) {
       replyError(res, SC_FORBIDDEN, e.getMessage());

@@ -40,7 +40,8 @@ import com.google.gwt.user.client.rpc.StatusCodeException;
 /** Makes a REST API call to the server. */
 public class RestApi {
   private static final int SC_UNAVAILABLE = 2;
-  private static final int SC_TRANSPORT = 3;
+  private static final int SC_BAD_TRANSPORT = 3;
+  private static final int SC_BAD_RESPONSE = 4;
   private static final String JSON_TYPE = "application/json";
   private static final String TEXT_TYPE = "text/plain";
 
@@ -111,7 +112,33 @@ public class RestApi {
     @Override
     public void onResponseReceived(Request req, Response res) {
       int status = res.getStatusCode();
-      if (status != 200) {
+      if (status == Response.SC_NO_CONTENT) {
+        cb.onSuccess(null);
+        RpcStatus.INSTANCE.onRpcComplete();
+
+      } else if (200 <= status && status < 300) {
+        if (!isJsonBody(res)) {
+          RpcStatus.INSTANCE.onRpcComplete();
+          cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE, "Expected "
+              + JSON_TYPE + "; received Content-Type: "
+              + res.getHeader("Content-Type")));
+          return;
+        }
+
+        T data;
+        try {
+          data = cast(parseJson(res));
+        } catch (JSONException e) {
+          RpcStatus.INSTANCE.onRpcComplete();
+          cb.onFailure(new StatusCodeException(SC_BAD_RESPONSE,
+              "Invalid JSON: " + e.getMessage()));
+          return;
+        }
+
+        cb.onSuccess(data);
+        RpcStatus.INSTANCE.onRpcComplete();
+
+      } else {
         String msg;
         if (isTextBody(res)) {
           msg = res.getText().trim();
@@ -133,29 +160,7 @@ public class RestApi {
 
         RpcStatus.INSTANCE.onRpcComplete();
         cb.onFailure(new StatusCodeException(status, msg));
-        return;
       }
-
-      if (!isJsonBody(res)) {
-        RpcStatus.INSTANCE.onRpcComplete();
-        cb.onFailure(new StatusCodeException(200, "Expected "
-            + JSON_TYPE + "; received Content-Type: "
-            + res.getHeader("Content-Type")));
-        return;
-      }
-
-      T data;
-      try {
-        data = cast(parseJson(res));
-      } catch (JSONException e) {
-        RpcStatus.INSTANCE.onRpcComplete();
-        cb.onFailure(new StatusCodeException(200,
-            "Invalid JSON: " + e.getMessage()));
-        return;
-      }
-
-      cb.onSuccess(data);
-      RpcStatus.INSTANCE.onRpcComplete();
     }
 
     @Override
@@ -166,7 +171,7 @@ public class RestApi {
             SC_UNAVAILABLE,
             RpcConstants.C.errorServerUnavailable()));
       } else {
-        cb.onFailure(new StatusCodeException(SC_TRANSPORT, err.getMessage()));
+        cb.onFailure(new StatusCodeException(SC_BAD_TRANSPORT, err.getMessage()));
       }
     }
   }

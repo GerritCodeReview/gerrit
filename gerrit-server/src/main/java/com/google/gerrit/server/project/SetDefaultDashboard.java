@@ -18,6 +18,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -112,7 +113,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
           info.isDefault = true;
           return info;
         }
-        return new Object();
+        return Response.none();
       } finally {
         md.close();
       }
@@ -147,9 +148,9 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
         Exception {
       SetDefaultDashboard set = setDefault.get();
       set.inherited = inherited;
-      return set.apply(
+      return Response.created(set.apply(
           DashboardResource.projectDefault(resource.getControl()),
-          input);
+          input));
     }
   }
 }

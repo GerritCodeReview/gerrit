@@ -38,6 +38,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.RefControl;
+import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.server.OrmException;
@@ -194,16 +195,16 @@ public class CherryPickChange {
                         destRef.getName()), changeKey).toList();
 
         Change change;
+        boolean createNewChange;
         if (destChanges.size() > 1) {
           throw new InvalidChangeOperationException("Several changes with key "
               + changeKey + " resides on the same branch. "
               + "Cannot create a new patch set.");
         } else if (destChanges.size() == 1) {
-          // The change key exists on the destination branch.
-          throw new InvalidChangeOperationException(
-              "Change with same change-id: " + changeKey
-                  + " already resides on the same branch. "
-                  + "Cannot create a new change.");
+          // The change key exists on the destination branch. The cherry pick
+          // will be added as a new patch set.
+          change = destChanges.get(0);
+          createNewChange = false;
         } else {
           // Change key not found on destination branch. We can create a new
           // change.
@@ -211,6 +212,7 @@ public class CherryPickChange {
               new Change(changeKey, new Change.Id(db.nextChangeId()),
                   currentUser.getAccountId(), new Branch.NameKey(project,
                       destRef.getName()));
+          createNewChange = true;
         }
 
         change.nextPatchSetId();
@@ -232,7 +234,11 @@ public class CherryPickChange {
 
         db.changes().beginTransaction(change.getId());
         try {
-          cherryPickToNewChange(change, newPatchSet, cherryPickCommit);
+          if (createNewChange) {
+            cherryPickToNewChange(change, newPatchSet, cherryPickCommit);
+          } else {
+            cherryPickToNewPatchSet(change, newPatchSet, cherryPickCommit);
+          }
 
           final ChangeMessage cmsg =
               new ChangeMessage(new ChangeMessage.Key(changeId,
@@ -260,6 +266,61 @@ public class CherryPickChange {
       }
     } finally {
       git.close();
+    }
+  }
+
+  private void cherryPickToNewPatchSet(Change change, final PatchSet patchSet,
+      final RevCommit cherryPickCommit) throws OrmException,
+      InvalidChangeOperationException {
+    final PatchSet.Id currentPatchSetId = change.currentPatchSetId();
+
+    Change updatedChange =
+        db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change change) {
+            if (change.getStatus().isOpen()) {
+              change.updateNumberOfPatchSets(patchSet.getPatchSetId());
+              return change;
+            } else {
+              return null;
+            }
+          }
+        });
+    if (updatedChange != null) {
+      change = updatedChange;
+    } else {
+      throw new InvalidChangeOperationException(String.format(
+          "Change %s is closed", change.getId()));
+    }
+
+    ChangeUtil.insertAncestors(db, patchSet.getId(), cherryPickCommit);
+    db.patchSets().insert(Collections.singleton(patchSet));
+
+    updatedChange =
+        db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change change) {
+            if (change.getStatus().isClosed()) {
+              return null;
+            }
+            if (!change.currentPatchSetId().equals(currentPatchSetId)) {
+              return null;
+            }
+            if (change.getStatus() != Change.Status.DRAFT) {
+              change.setStatus(Change.Status.NEW);
+            }
+            change.setLastSha1MergeTested(null);
+            change.setCurrentPatchSet(patchSetInfoFactory.get(cherryPickCommit,
+                patchSet.getId()));
+            ChangeUtil.updated(change);
+            return change;
+          }
+        });
+    if (updatedChange != null) {
+      change = updatedChange;
+    } else {
+      throw new InvalidChangeOperationException(String.format(
+          "Change %s was modified", change.getId()));
     }
   }
 

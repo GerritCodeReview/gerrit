@@ -190,6 +190,24 @@
       "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L-wO-LgM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-28T09:17:28Z",
+      "side": 1,
+      "message": "*an* octopus merge",
+      "parentUuid": "MDLYQiFo",
+      "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

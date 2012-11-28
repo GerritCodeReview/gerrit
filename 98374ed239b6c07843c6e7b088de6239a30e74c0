@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "MDPYGACY",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-11-28T09:08:51Z",
+      "side": 1,
+      "message": "s/out/output/",
+      "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L-yPTSlw",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -31,6 +48,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "L-yPTSlw",
+      "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MDNYDBBQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-11-28T09:08:51Z",
+      "side": 1,
+      "message": "s/out/output/",
       "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -136,6 +170,23 @@
       "side": 1,
       "message": "refer line 604, 615, 624,627",
       "parentUuid": "L-wPWTks",
+      "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MDLYQiFo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-11-28T09:08:51Z",
+      "side": 1,
+      "message": "Suggestion for wording:\n\nReason: This change belongs to a octopus merge, a merge with more than two parents. This type of merge is currently not supported by Gerrit for generating diff output between the changes.",
       "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

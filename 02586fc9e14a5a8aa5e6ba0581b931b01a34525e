@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MAGLqNgQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T20:10:44Z",
+      "side": 1,
+      "message": "These aren\u0027t requirements to run Tomcat (I suspect it runs on Solaris), I don\u0027t think we should state that they are.",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAELvMhI",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T20:10:44Z",
+      "side": 1,
+      "message": "Instead of using a hardcoded location, can we make this similar to the other install docs where we put a token in place?",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAALZKoA",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T20:10:44Z",
+      "side": 1,
+      "message": "I suspect most enterprise users will not set a password on a system account but will rather use \"sudo -u gerrit\" to do things as gerrit because using a password for such accounts give less traceability.",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAOLVJkQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T20:10:44Z",
+      "side": 1,
+      "message": "It might be better to suggest:\n\n  sudo chmod 770 /usr/local/review_site/tomcat/bin/*\n\nto avoid using -R with octal mode.",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAELGEpo",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T20:10:44Z",
+      "side": 1,
+      "message": "Maybe this should be moved to the normal install?  It feels odd to be suggesting that in a doc aimed either at tomcat or at enterprise installations.",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAKK2-ic",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T20:10:44Z",
+      "side": 1,
+      "message": "It is not clear to me when you are using usr/local/review_site/gerrit-X.X+ versus /var/data/review_site?",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAII7.qA",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T20:10:44Z",
+      "side": 1,
+      "message": "/var/data seems like a strange place for binaries and configs?",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

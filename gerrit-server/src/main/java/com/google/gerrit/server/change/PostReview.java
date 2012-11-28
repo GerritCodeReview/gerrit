@@ -348,8 +348,10 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       if (ent.getValue() == null || ent.getValue() == 0) {
         // User requested delete of this label.
         if (c != null) {
+          if (c.getValue() != 0) {
+            labelDelta.add("-" + name);
+          }
           del.add(c);
-          labelDelta.add("-" + name);
         }
       } else if (c != null && c.getValue() != ent.getValue()) {
         c.setValue(ent.getValue());

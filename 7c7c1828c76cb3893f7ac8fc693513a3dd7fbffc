@@ -16,6 +16,24 @@
       "revId": "7c7c1828c76cb3893f7ac8fc693513a3dd7fbffc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L-wM6zso",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-28T01:14:34Z",
+      "side": 1,
+      "message": "The old code didn\u0027t do this either. Bruce just moved it up in the class hierarchy to make the logic available to more templates.\n\nThis may be a good idea, but if its done it should be in a different change.",
+      "parentUuid": "L.OrwJ-Y",
+      "revId": "7c7c1828c76cb3893f7ac8fc693513a3dd7fbffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -42,3 +42,7 @@ Change subject: $change.subject
 
 
 $email.changeDetail$email.approvals
+
+#if($email.includeDiff)
+$email.UnifiedDiff
+#end

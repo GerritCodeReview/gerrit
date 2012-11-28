@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MB7sQZ1o",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T05:26:53Z",
+      "side": 1,
+      "message": "Sp. \"faliure\"",
+      "revId": "48534e95807639694d01feb8679d90c64b739daa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MB-sG7yU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2053,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T05:26:53Z",
+      "side": 1,
+      "message": "The comment seems a bit redundant with the code.",
+      "revId": "48534e95807639694d01feb8679d90c64b739daa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

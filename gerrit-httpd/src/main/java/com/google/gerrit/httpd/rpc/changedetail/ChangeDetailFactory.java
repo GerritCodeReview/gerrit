@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -135,6 +136,8 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
         changeId));
 
     detail.setCanRevert(change.getStatus() == Change.Status.MERGED && control.canAddPatchSet());
+
+    detail.setCanCherryPick(control.getProjectControl().canPushToAtLeastOneRef() == Capable.OK);
 
     detail.setCanEdit(control.getRefControl().canWrite());
     detail.setCanEditCommitMessage(change.getStatus().isOpen() && control.canAddPatchSet());

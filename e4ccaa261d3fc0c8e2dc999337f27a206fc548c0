@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "L-4Nk-rU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-28T15:27:12Z",
+      "side": 1,
+      "message": "Add \" in change emails\".",
+      "revId": "e4ccaa261d3fc0c8e2dc999337f27a206fc548c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L-2NXAsU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-28T15:27:12Z",
+      "side": 1,
+      "message": "\"Gerrit does not currently support generating diff output for this kind of change.\"",
+      "revId": "e4ccaa261d3fc0c8e2dc999337f27a206fc548c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MDHZ.cGM",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 2

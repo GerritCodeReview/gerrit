@@ -1516,8 +1516,8 @@ public class ReceiveCommits {
       this.checkMergedInto = checkMergedInto;
     }
 
-    boolean validate(boolean ignoreNoChanges) throws IOException {
-      if (inputCommand.getResult() != NOT_ATTEMPTED) {
+    boolean validate(boolean autoClose) throws IOException {
+      if (!autoClose && inputCommand.getResult() != NOT_ATTEMPTED) {
         return false;
       }
 
@@ -1590,7 +1590,7 @@ public class ReceiveCommits {
             final boolean parentsEq = parentsEqual(newCommit, prior);
             final boolean authorEq = authorEqual(newCommit, prior);
 
-            if (messageEq && parentsEq && authorEq && !ignoreNoChanges) {
+            if (messageEq && parentsEq && authorEq && !autoClose) {
               reject(inputCommand, "no changes made");
               return false;
             } else {
@@ -2281,7 +2281,10 @@ public class ReceiveCommits {
         for (final String changeId : c.getFooterLines(CHANGE_ID)) {
           final Change.Id onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
-            toClose.add(new ReplaceRequest(onto, c, cmd, false));
+            final ReplaceRequest req = new ReplaceRequest(onto, c, cmd, false);
+            req.change = db.changes().get(onto);
+            req.patchSets = db.patchSets().byChange(onto).toList();
+            toClose.add(req);
             break;
           }
         }

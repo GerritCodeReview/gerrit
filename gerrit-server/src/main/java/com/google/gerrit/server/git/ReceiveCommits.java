@@ -1663,7 +1663,7 @@ public class ReceiveCommits {
               }
             }
           } finally {
-            synchronized (newProgress) {
+            synchronized (replaceProgress) {
               replaceProgress.update(1);
             }
           }

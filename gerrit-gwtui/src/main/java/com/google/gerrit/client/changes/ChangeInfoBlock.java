@@ -16,11 +16,11 @@ package com.google.gerrit.client.changes;
 
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
-import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountLink;
-import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.BranchLink;
+import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfoCache;
@@ -39,7 +39,6 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
-import com.google.gwtjsonrpc.common.AsyncCallback;
 
 public class ChangeInfoBlock extends Composite {
   private static final int R_CHANGE_ID = 0;
@@ -187,7 +186,7 @@ public class ChangeInfoBlock extends Composite {
     public void onSend() {
       String topic = newTopic.getText();
       ChangeApi.topic(change.getId().get(), topic, getMessageText(),
-        new AsyncCallback<String>() {
+        new GerritCallback<String>() {
         @Override
         public void onSuccess(String result) {
           sent = true;
@@ -198,7 +197,7 @@ public class ChangeInfoBlock extends Composite {
         @Override
         public void onFailure(final Throwable caught) {
           enableButtons(true);
-          new ErrorDialog(caught.getMessage()).center();
+          super.onFailure(caught);
         }});
     }
   }

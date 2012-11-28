@@ -19,7 +19,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 
 public class QueryScreen extends PagedSingleListScreen implements

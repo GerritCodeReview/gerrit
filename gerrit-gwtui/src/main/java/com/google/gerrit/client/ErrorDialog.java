@@ -14,11 +14,13 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.rpc.RpcConstants;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.StatusCodeException;
@@ -104,34 +106,54 @@ public class ErrorDialog extends PluginSafePopupPanel {
   public ErrorDialog(final Throwable what) {
     this();
 
-    String cn;
-    if (what instanceof RemoteJsonException) {
-      cn = RpcConstants.C.errorRemoteJsonException();
+    String hdr;
+    String msg;
 
-    } else if (what instanceof StatusCodeException) {
-      cn = RpcConstants.C.errorServerUnavailable();
+    if (what instanceof StatusCodeException) {
+      StatusCodeException sc = (StatusCodeException) what;
+      if (RestApi.isExpected(sc.getStatusCode())) {
+        hdr = null;
+        msg = sc.getEncodedResponse();
+      } else if (sc.getStatusCode() == Response.SC_INTERNAL_SERVER_ERROR) {
+        hdr = null;
+        msg = what.getMessage();
+      } else {
+        hdr = RpcConstants.C.errorServerUnavailable();
+        msg = what.getMessage();
+      }
+
+    } else if (what instanceof RemoteJsonException) {
+      // TODO Remove RemoteJsonException from Gerrit sources.
+      hdr = RpcConstants.C.errorRemoteJsonException();
+      msg = what.getMessage();
 
     } else {
-      cn = what.getClass().getName();
-      if (cn.startsWith("java.lang.")) {
-        cn = cn.substring("java.lang.".length());
-      } else if (cn.startsWith("com.google.gerrit.")) {
-        cn = cn.substring(cn.lastIndexOf('.') + 1);
+      // TODO Fix callers of ErrorDialog to stop passing random types.
+      hdr = what.getClass().getName();
+      if (hdr.startsWith("java.lang.")) {
+        hdr = hdr.substring("java.lang.".length());
+      } else if (hdr.startsWith("com.google.gerrit.")) {
+        hdr = hdr.substring(hdr.lastIndexOf('.') + 1);
       }
-      if (cn.endsWith("Exception")) {
-        cn = cn.substring(0, cn.length() - "Exception".length());
-      } else if (cn.endsWith("Error")) {
-        cn = cn.substring(0, cn.length() - "Error".length());
+      if (hdr.endsWith("Exception")) {
+        hdr = hdr.substring(0, hdr.length() - "Exception".length());
+      } else if (hdr.endsWith("Error")) {
+        hdr = hdr.substring(0, hdr.length() - "Error".length());
       }
+      msg = what.getMessage();
     }
 
-    final Label r = new Label(cn);
-    r.setStyleName(Gerrit.RESOURCES.css().errorDialogErrorType());
-    body.add(r);
+    if (hdr != null) {
+      final Label r = new Label(hdr);
+      r.setStyleName(Gerrit.RESOURCES.css().errorDialogErrorType());
+      body.add(r);
+    }
 
-    final Label m = new Label(what.getMessage());
-    DOM.setStyleAttribute(m.getElement(),"whiteSpace","pre");
-    body.add(m);
+    if (msg != null) {
+      final Label m = new Label(msg);
+      DOM.setStyleAttribute(m.getElement(), "whiteSpace", "pre");
+      body.add(m);
+    }
   }
 
   public void setText(final String t) {

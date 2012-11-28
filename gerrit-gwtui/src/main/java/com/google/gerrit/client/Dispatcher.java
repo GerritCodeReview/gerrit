@@ -17,8 +17,8 @@ package com.google.gerrit.client;
 import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_GROUP;
 import static com.google.gerrit.common.PageLinks.ADMIN_CREATE_PROJECT;
 import static com.google.gerrit.common.PageLinks.ADMIN_GROUPS;
-import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.ADMIN_PLUGINS;
+import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
 import static com.google.gerrit.common.PageLinks.DASHBOARDS;
 import static com.google.gerrit.common.PageLinks.MINE;
 import static com.google.gerrit.common.PageLinks.PROJECTS;
@@ -74,6 +74,7 @@ import com.google.gerrit.client.dashboards.DashboardInfo;
 import com.google.gerrit.client.dashboards.DashboardList;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
@@ -89,7 +90,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
-import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtorm.client.KeyUtil;
 
 public class Dispatcher {
@@ -416,9 +416,7 @@ public class Dispatcher {
 
           @Override
           public void onFailure(Throwable caught) {
-            if ("default".equals(dashboardId)
-                && caught instanceof RemoteJsonException
-                && ((RemoteJsonException) caught).getCode() == 404) {
+            if ("default".equals(dashboardId) && RestApi.isNotFound(caught)) {
               Gerrit.display(PageLinks.toChangeQuery(
                   PageLinks.projectQuery(new Project.NameKey(project))));
             } else {

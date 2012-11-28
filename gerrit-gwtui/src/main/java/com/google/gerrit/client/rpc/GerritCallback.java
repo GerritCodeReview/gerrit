@@ -24,14 +24,17 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gwt.core.client.GWT;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.rpc.InvocationException;
+import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.ServerUnavailableException;
 import com.google.gwtjsonrpc.common.JsonConstants;
 
 /** Abstract callback handling generic error conditions automatically */
-public abstract class GerritCallback<T> implements AsyncCallback<T> {
+public abstract class GerritCallback<T> implements
+    com.google.gwtjsonrpc.common.AsyncCallback<T>,
+    com.google.gwt.user.client.rpc.AsyncCallback<T> {
   public void onFailure(final Throwable caught) {
     if (isNotSignedIn(caught) || isInvalidXSRF(caught)) {
       new NotSignedInDialog().center();
@@ -76,14 +79,16 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
         && caught.getMessage().equals(JsonConstants.ERROR_INVALID_XSRF);
   }
 
-  private static boolean isNotSignedIn(final Throwable caught) {
-    return caught instanceof RemoteJsonException
-        && caught.getMessage().equals(NotSignedInException.MESSAGE);
+  private static boolean isNotSignedIn(Throwable caught) {
+    return RestApi.isNotSignedIn(caught)
+        || (caught instanceof RemoteJsonException
+           && caught.getMessage().equals(NotSignedInException.MESSAGE));
   }
 
-  protected static boolean isNoSuchEntity(final Throwable caught) {
-    return caught instanceof RemoteJsonException
-        && caught.getMessage().equals(NoSuchEntityException.MESSAGE);
+  protected static boolean isNoSuchEntity(Throwable caught) {
+    return RestApi.isNotFound(caught)
+        || (caught instanceof RemoteJsonException
+            && caught.getMessage().equals(NoSuchEntityException.MESSAGE));
   }
 
   protected static boolean isInactiveAccount(final Throwable caught) {

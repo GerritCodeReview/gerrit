@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.rpc;
 
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Transforms a value and passes it on to another callback. */
 public abstract class TransformCallback<I, O> implements AsyncCallback<I>{

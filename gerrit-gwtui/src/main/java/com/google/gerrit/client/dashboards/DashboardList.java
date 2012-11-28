@@ -18,7 +18,7 @@ import com.google.gerrit.client.rpc.NativeList;
 import com.google.gerrit.client.rpc.RestApi;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.http.client.URL;
-import com.google.gwtjsonrpc.common.AsyncCallback;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /** Project dashboards from {@code /projects/<name>/dashboards/}. */
 public class DashboardList extends NativeList<DashboardInfo> {

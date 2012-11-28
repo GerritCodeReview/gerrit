@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MB3uXf6k",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T06:58:29Z",
+      "side": 1,
+      "message": "I think disabling the send button until it changes is probably a better user experience.  I believe there is a validating text box in the Gerrit UI package to help you do that.",
+      "revId": "ab468a21426e7a4147b1ca63e884df901d20505c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

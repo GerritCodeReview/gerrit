@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "MASEZzoE",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-11-28T19:21:53Z",
+      "side": 1,
+      "message": "It\u0027s been a while since I\u0027ve run through this. At the time, I believe I encountered a few errors upon startup as a result of these libraries missing. I\u0027m not sure I want to remove them at this stage, unless somebody is willing to test this.",
+      "parentUuid": "L7bVKIFI",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L-8PENpE",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -87,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "MAQEuypM",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-11-28T19:21:53Z",
+      "side": 1,
+      "message": "You are missing the dependent changes in your branch. There are several which come before this change you need to cherry pick or merge into your working tree before this change.",
+      "parentUuid": "L-8PENpE",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L-8NFFhQ",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 6
@@ -98,6 +134,24 @@
       "writtenOn": "2012-11-28T09:38:33Z",
       "side": 1,
       "message": "This needs to be changed to \"config-login-register\"",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAeEqxn0",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1011007
+      },
+      "writtenOn": "2012-11-28T19:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L-8NFFhQ",
       "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

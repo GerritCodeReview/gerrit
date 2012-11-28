@@ -87,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "L-8NFFhQ",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-28T09:38:33Z",
+      "side": 1,
+      "message": "This needs to be changed to \"config-login-register\"",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L7XUoiIk",
         "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
         "patchSetId": 6

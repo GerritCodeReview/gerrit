@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "MDLYnaLQ",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "The CherryPick RESTApi acts on revisions (e.g. patchsets), not Changes. Just like the review RestApi does. Hence I don\u0027t think that it should go into ChangeApi. Look at the REST-url, and you will see it differs quite from the other RESTFul commands in ChangeApi. If you still want me to add it to ChangeApi, I can do that. But this is how I reasoned about where to put it.",
+      "parentUuid": "L.EpE00I",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L8LL4YA4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 10
@@ -126,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "MDJYkbLA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Ok. I\u0027ll go with Post.",
+      "parentUuid": "L.GpBlzE",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L8DIFUBg",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 10
@@ -178,6 +214,24 @@
     },
     {
       "key": {
+        "uuid": "MDDZiONE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPick.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.KqUb54",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L.IqPq4s",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
         "patchSetId": 10
@@ -212,6 +266,24 @@
     },
     {
       "key": {
+        "uuid": "MDNZYpCU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.Ipuy8I",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L.MqZo9U",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
         "patchSetId": 10
@@ -223,6 +295,24 @@
       "writtenOn": "2012-11-27T16:36:39Z",
       "side": 1,
       "message": "This could be done two lines above",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MDHZB0Dg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.MqZo9U",
       "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -246,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "MDFZG1FI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.Equk.8",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L.CqhXwA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
         "patchSetId": 10
@@ -257,6 +365,24 @@
       "writtenOn": "2012-11-27T16:36:39Z",
       "side": 1,
       "message": "Initialization to null is not needed",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MDDZLWFs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.CqhXwA",
       "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -280,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "MDBZQXAM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.Aqkmw8",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L.GqrV94",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
         "patchSetId": 10
@@ -291,6 +435,24 @@
       "writtenOn": "2012-11-27T16:36:39Z",
       "side": 1,
       "message": "Initialization to null is not needed",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MDNYxxOs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.GqrV94",
       "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -314,6 +476,24 @@
     },
     {
       "key": {
+        "uuid": "MDPY0wN0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.Kp9T2Y",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L.Ip4i3c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
         "patchSetId": 10
@@ -325,6 +505,24 @@
       "writtenOn": "2012-11-27T16:36:39Z",
       "side": 1,
       "message": "1. I am not sure about the commitToCherryPick parameter here.\nThe computeChangeId method names this parameter \u0027firstParent\u0027. If it expects the first parent of the cherryPickCommit then it is actually the mergeTip. Right?\n\n2. The authorIdent here is actually the committerIdent.\nI think we should use cherryPickCommit.getAuthorIdent() instead.",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MDLY.SLo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.Ip4i3c",
       "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -348,6 +546,24 @@
     },
     {
       "key": {
+        "uuid": "MDJY7TMo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.Mpyg5U",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L.Op3R4I",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
         "patchSetId": 10
@@ -365,6 +581,24 @@
     },
     {
       "key": {
+        "uuid": "MDHZosLI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.Op3R4I",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L.AqNe4c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
         "patchSetId": 10
@@ -376,6 +610,24 @@
       "writtenOn": "2012-11-27T16:36:39Z",
       "side": 1,
       "message": "don\u0027t initialize, instead set it to false inside the \"else if\" block.",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MDFZttMA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/changedetail/CherryPickChange.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-28T14:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.AqNe4c",
       "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

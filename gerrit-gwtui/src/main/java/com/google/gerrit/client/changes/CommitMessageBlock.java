@@ -71,6 +71,24 @@ public class CommitMessageBlock extends Composite {
     display(null, null, false, commitMessage);
   }
 
+  private abstract class CommitMessageEditDialog extends CommentedActionDialog<ChangeDetail> {
+    public CommitMessageEditDialog(final String title, final String heading,
+        final String commitMessage, AsyncCallback<ChangeDetail> callback) {
+      super(title, heading, callback);
+      message.setCharacterWidth(72);
+      message.setVisibleLines(20);
+      message.setText(commitMessage);
+      message.addStyleName(Gerrit.RESOURCES.css().changeScreenDescription());
+    }
+
+    public String getMessageText() {
+      // The commit message should be trimmed to remove any excess
+      // newlines at the end, but we need to make sure it still has
+      // at least one trailing newline.
+      return message.getText().trim() + '\n';
+    }
+  }
+
   public void display(final PatchSet.Id patchSetId,
       Boolean starred, Boolean canEditCommitMessage, final String commitMessage) {
     starPanel.clear();
@@ -96,16 +114,10 @@ public class CommitMessageBlock extends Composite {
         edit.addClickHandler(new ClickHandler() {
           @Override
           public void onClick(final ClickEvent event) {
-            new CommentedActionDialog<ChangeDetail>(Util.C
-                .titleEditCommitMessage(), Util.C.headingEditCommitMessage(),
+            new CommitMessageEditDialog(Util.C.titleEditCommitMessage(),
+                Util.C.headingEditCommitMessage(),
+                commitMessage,
                 new ChangeDetailCache.IgnoreErrorCallback() {}) {
-              {
-                message.setCharacterWidth(72);
-                message.setVisibleLines(20);
-                message.setText(commitMessage);
-                message.addStyleName(Gerrit.RESOURCES.css()
-                    .changeScreenDescription());
-              }
 
               @Override
               public void onSend() {

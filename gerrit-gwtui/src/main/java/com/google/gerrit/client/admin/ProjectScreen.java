@@ -16,6 +16,9 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public abstract class ProjectScreen extends Screen {
   public static final String INFO = "info";
@@ -24,9 +27,11 @@ public abstract class ProjectScreen extends Screen {
   public static final String DASHBOARDS = "dashboards";
 
   private final Project.NameKey name;
+  private final FlowPanel body;
 
   public ProjectScreen(final Project.NameKey toShow) {
     name = toShow;
+    body = new FlowPanel();
   }
 
   public Project.NameKey getProjectKey() {
@@ -34,8 +39,18 @@ public abstract class ProjectScreen extends Screen {
   }
 
   @Override
+  protected void add(final Widget w) {
+    body.add(w);
+  }
+
+
+  @Override
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.M.project(name.get()));
+
+    HorizontalPanel hp = new HorizontalPanel();
+    hp.add(body);
+    super.add(hp);
   }
 }

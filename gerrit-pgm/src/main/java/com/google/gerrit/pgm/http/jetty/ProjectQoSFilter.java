@@ -71,7 +71,7 @@ public class ProjectQoSFilter implements Filter {
   private static final String CANCEL = ATT_SPACE + "/CANCEL";
 
   private static final String FILTER_RE =
-      "^/p/(.*)/(git-upload-pack|git-receive-pack)$";
+      "^/(.*)/(git-upload-pack|git-receive-pack)$";
   private static final Pattern URI_PATTERN = Pattern.compile(FILTER_RE);
 
   public static class Module extends ServletModule {

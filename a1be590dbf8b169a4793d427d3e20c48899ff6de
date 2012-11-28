@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MAGIf1mk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-28T14:50:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MDFaclMs",
+      "revId": "a1be590dbf8b169a4793d427d3e20c48899ff6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MDDahGPw",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2012-11-28T14:32:46Z",
       "side": 1,
       "message": "I think this is clearer:\n\n\"Gerrit does not currently support generating diff output between this kind of changes.\"",
+      "revId": "a1be590dbf8b169a4793d427d3e20c48899ff6de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAEIU0kk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-28T14:50:29Z",
+      "side": 1,
+      "message": "hmm, I still think \"between this kind change and its parents\" is easy to understand",
+      "parentUuid": "MDBamHBQ",
       "revId": "a1be590dbf8b169a4793d427d3e20c48899ff6de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

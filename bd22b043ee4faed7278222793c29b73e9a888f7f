@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "MDDZ4.HE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-28T17:08:42Z",
+      "side": 1,
+      "message": "Since 230343b9 ChangeApi also works with revisions, see ChangeApi.submit.",
+      "parentUuid": "MDLYnaLQ",
+      "revId": "bd22b043ee4faed7278222793c29b73e9a888f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L8LL4YA4",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
         "patchSetId": 10

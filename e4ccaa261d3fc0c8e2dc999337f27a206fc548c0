@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MDHZ.cGM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-11-28T15:26:53Z",
+      "side": 1,
+      "message": "Ok, but then do:\n\n\"between this kind of change and its parents.\"\n\nI didn\u0027t understand the ending with \"by far.\"",
+      "revId": "e4ccaa261d3fc0c8e2dc999337f27a206fc548c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

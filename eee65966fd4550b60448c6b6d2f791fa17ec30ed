@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "L-8PENpE",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-28T07:49:29Z",
+      "side": 1,
+      "message": "This seems to break asciidoc.  It tries to load the image at line 664 from ../contrib/images, which does not exist and causes make to fail.\n\n user@localhost:~/work/gerrit/Documentation$ make\n FORMAT install-tomcat.html\n sh: cannot open /home/user/work/gerrit/contrib/images/service.png: No such file\nasciidoc: WARNING: install-tomcat.txt: line 663: {sys:python -uc \"import base64,sys; base64.encode(sys.stdin,sys.stdout)\" \u003c \"/home/user/work/gerrit/contrib/images/service.png\"}: non-zero exit status",
+      "revId": "eee65966fd4550b60448c6b6d2f791fa17ec30ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L7XUoiIk",
         "filename": "gerrit-war/src/main/webapp/WEB-INF/extra/tomcat/mysql-ROOT.xml",
         "patchSetId": 6

@@ -148,8 +148,9 @@ public class CherryPick extends SubmitStrategy {
     final String cherryPickCmtMsg = args.mergeUtil.createCherryPickCommitMessage(n);
 
     final CodeReviewCommit newCommit =
-        args.mergeUtil.createCherryPickFromCommit(args.repo, args.inserter, mergeTip, n,
-            cherryPickCommitterIdent, cherryPickCmtMsg, args.rw);
+        (CodeReviewCommit) args.mergeUtil.createCherryPickFromCommit(args.repo,
+            args.inserter, mergeTip, n, cherryPickCommitterIdent,
+            cherryPickCmtMsg, args.rw);
 
     if (newCommit == null) {
         return null;

@@ -300,6 +300,8 @@ public class ChangeJson {
             case REJECT:
               n.rejected = asAccountAttribute(r.appliedBy);
               break;
+            default:
+              break;
           }
           n.optional = n._status == SubmitRecord.Label.Status.MAY ? true : null;
           labels.put(r.label, n);

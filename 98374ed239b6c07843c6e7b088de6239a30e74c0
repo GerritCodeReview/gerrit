@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "L-yPTSlw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-28T05:46:46Z",
+      "side": 1,
+      "message": "\"an empty string\"",
+      "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L-0PgRiM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-28T05:46:46Z",
+      "side": 1,
+      "message": "\"replaces\"",
+      "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L-2PdQmI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-28T05:46:46Z",
+      "side": 1,
+      "message": "s/by/with",
+      "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "L-wPWTks",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-28T05:46:46Z",
+      "side": 1,
+      "message": "Would it not be better to include this in the template?",
+      "revId": "98374ed239b6c07843c6e7b088de6239a30e74c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

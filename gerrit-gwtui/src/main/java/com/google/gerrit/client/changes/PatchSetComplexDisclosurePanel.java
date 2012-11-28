@@ -25,6 +25,7 @@ import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.CommentedActionDialog;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ListenableAccountDiffPreference;
+import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -48,6 +49,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtjsonrpc.common.VoidResult;
 
 import java.util.HashSet;
@@ -379,6 +381,48 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
       actionsPanel.add(b);
     }
 
+    if (changeDetail.canCherryPick()) {
+      final Button b = new Button(Util.C.buttonCherryPickChangeBegin());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          b.setEnabled(false);
+          new CherryPickDialog(b) {
+            {
+              sendButton.setText(Util.C.buttonCherryPickChangeSend());
+              message.setText(Util.M.cherryPickedChangeDefaultMessage(
+                  detail.getInfo().getMessage().trim(),
+                  detail.getPatchSet().getRevision().get()));
+            }
+
+            @Override
+            public void onSend() {
+              ChangeApi.cherrypick(changeDetail.getChange().getChangeId(),
+                  patchSet.getRevision().get(),
+                  getDestinationBranch(),
+                  getMessageText(),
+                  new GerritCallback<ChangeInfo>() {
+                    @Override
+                    public void onSuccess(ChangeInfo result) {
+                      sent = true;
+                      Gerrit.display(PageLinks.toChange(new Change.Id(result
+                          ._number())));
+                      hide();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                      enableButtons(true);
+                      super.onFailure(caught);
+                    }
+                  });
+            }
+          }.center();
+        }
+      });
+      actionsPanel.add(b);
+    }
+
     if (changeDetail.canAbandon()) {
       final Button b = new Button(Util.C.buttonAbandonChangeBegin());
       b.addClickHandler(new ClickHandler() {
@@ -648,6 +692,25 @@ class PatchSetComplexDisclosurePanel extends ComplexDisclosurePanel
             enableOnFailure.setEnabled(true);
           }
         });
+    }
+  }
+
+  private abstract class CherryPickDialog extends ActionDialog {
+    private TextBox newBranch;
+
+    CherryPickDialog(final FocusWidget enableOnFailure) {
+      super(enableOnFailure, true, Util.C.cherryPickTitle(), Util.C.cherryPickCommitMessage());
+
+      newBranch = new TextBox();
+      newBranch.setVisibleLength(65);
+      setFocusOn(newBranch);
+      message.setCharacterWidth(70);
+      panel.insert(newBranch, 0);
+      panel.insert(new SmallHeading(Util.C.headingCherryPickBranch()), 0);
+    }
+
+    public String getDestinationBranch() {
+      return newBranch.getText();
     }
   }
 }

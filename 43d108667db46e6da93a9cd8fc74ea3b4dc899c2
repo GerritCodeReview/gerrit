@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MB3vz-zA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T04:46:19Z",
+      "side": 1,
+      "message": "It would be nice if the UI also prevented this from being submitted in the first place.",
+      "revId": "43d108667db46e6da93a9cd8fc74ea3b4dc899c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "L9sxPD2E",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-11-28T01:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L-4PzHjM",
+      "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L-4Mc-m4",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-28T00:20:35Z",
       "side": 1,
       "message": "s/commited/committed",
+      "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAWH49gs",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-11-28T01:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L-4Mc-m4",
       "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "L9uxUy-U",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-11-28T01:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L-6P4Gg4",
+      "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L.CrTH1w",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 11
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "MAYHz.i8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-11-28T01:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L.CrTH1w",
+      "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L-.Mb8nE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 11
@@ -81,6 +153,24 @@
       "writtenOn": "2012-11-28T00:48:35Z",
       "side": 1,
       "message": "I think we need to trim the result, otherwise we get an unwanted newline on the output:\n\n $ cat ref-update \n #!/bin/bash -e\n echo \"rejected by ref-update hook\"\n exit 1\n\n $ git push origin HEAD:refs/for/master\n Counting objects: 5, done.\n Delta compression using up to 8 threads.\n Compressing objects: 100% (2/2), done.\n Writing objects: 100% (3/3), 307 bytes, done.\n Total 3 (delta 1), reused 0 (delta 0)\n remote: Resolving deltas: 100% (1/1)\n remote: Processing changes: refs: 1, done    \n To ssh://david.pursehouse@localhost:29418/test-project\n  ! [remote rejected] HEAD -\u003e refs/for/master (rejected by ref-update hook\n )",
+      "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MAUH98vk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-11-28T01:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L-.Mb8nE",
       "revId": "9870be3a1172bde0fd20ea15ea0a99f79401f8b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

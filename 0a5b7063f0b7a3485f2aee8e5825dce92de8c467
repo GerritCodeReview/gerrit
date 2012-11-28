@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "MB1tGA1M",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T05:46:40Z",
+      "side": 1,
+      "message": "This should probably be fixed so that it only ensures that a single parent meets this criteria to allow merge commits.",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAI5H///0c\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
         "patchSetId": 1
@@ -150,6 +167,23 @@
       "writtenOn": "2012-08-24T08:46:12Z",
       "side": 1,
       "message": "nit: unused import",
+      "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAI1n///5w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-28T05:46:40Z",
+      "side": 1,
+      "message": "Use the interfaces here.",
       "revId": "0a5b7063f0b7a3485f2aee8e5825dce92de8c467",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MGmjzQzE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-29T01:57:57Z",
+      "side": 1,
+      "message": "that would be too long, beyond the header string length limit.",
+      "parentUuid": "L-4Nk-rU",
+      "revId": "e4ccaa261d3fc0c8e2dc999337f27a206fc548c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "L-2NXAsU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "MGkj4fws",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-29T01:57:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "L-2NXAsU",
+      "revId": "e4ccaa261d3fc0c8e2dc999337f27a206fc548c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MDHZ.cGM",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2012-11-28T15:26:53Z",
       "side": 1,
       "message": "Ok, but then do:\n\n\"between this kind of change and its parents.\"\n\nI didn\u0027t understand the ending with \"by far.\"",
+      "revId": "e4ccaa261d3fc0c8e2dc999337f27a206fc548c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MGij9S-s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-29T01:57:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MDHZ.cGM",
       "revId": "e4ccaa261d3fc0c8e2dc999337f27a206fc548c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -34,6 +34,24 @@
       "revId": "cd6b6f7e80166b5c48ec3649dc2e6e12e13a729a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MNQ390fo",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-11-29T07:43:13Z",
+      "side": 1,
+      "message": "Right, that\u0027s what I was trying to say, which output do we get when the merge fails? And this goes for both cases, what\u0027s the output afterwards from a fail?\n\nThanks for being a lot clearer than I was. :)",
+      "parentUuid": "MMTECcBQ",
+      "revId": "cd6b6f7e80166b5c48ec3649dc2e6e12e13a729a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

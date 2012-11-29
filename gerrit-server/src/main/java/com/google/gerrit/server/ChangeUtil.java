@@ -328,12 +328,14 @@ public class ChangeUtil {
     try {
       final RevWalk revWalk = new RevWalk(git);
       try {
-        Date now = myIdent.getWhen();
-        Change change = db.changes().get(changeId);
-
         RevCommit commit =
             revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+        if (commit.getFullMessage().equals(message)) {
+          throw new InvalidChangeOperationException("New commit message cannot be same as existing commit message");
+        }
 
+        Date now = myIdent.getWhen();
+        Change change = db.changes().get(changeId);
         PersonIdent authorIdent =
             user.newCommitterIdent(now, myIdent.getTimeZone());
 

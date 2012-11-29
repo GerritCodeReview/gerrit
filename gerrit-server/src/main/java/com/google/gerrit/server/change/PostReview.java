@@ -455,11 +455,38 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     for (String d : labelDelta) {
       buf.append(" ").append(d);
     }
-    if (comments.size() == 1) {
-      buf.append("\n\n(1 inline comment)");
-    } else if (comments.size() > 1) {
-      buf.append(String.format("\n\n(%d inline comments)", comments.size()));
+
+    if (comments.size() >= 1) {
+      int inlineCommentCount = 0;
+      int fileCommentsCount = 0;
+      for (PatchLineComment c : comments) {
+        if (c.getLine() == 0) {
+          fileCommentsCount++;
+        } else {
+          inlineCommentCount++;
+        }
+      }
+      buf.append("\n\n(");
+      if (fileCommentsCount != 0) {
+        if (fileCommentsCount == 1) {
+          buf.append("1 file comment");
+        } else {
+          buf.append(String.format("%d file comments", fileCommentsCount));
+        }
+      }
+      if (inlineCommentCount != 0) {
+        if (fileCommentsCount != 0) {
+          buf.append(", ");
+        }
+        if (inlineCommentCount == 1) {
+          buf.append("1 inline comment");
+        } else {
+          buf.append(String.format("%d inline comments", inlineCommentCount));
+        }
+      }
+      buf.append(")");
     }
+
     if (!msg.isEmpty()) {
       buf.append("\n\n").append(msg);
     }

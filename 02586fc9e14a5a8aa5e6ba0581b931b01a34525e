@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "MGCpi39A",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T03:26:11Z",
+      "side": 1,
+      "message": "s/off-line/offline",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MAELvMhI",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -47,6 +64,23 @@
       "writtenOn": "2012-11-28T20:10:44Z",
       "side": 1,
       "message": "Instead of using a hardcoded location, can we make this similar to the other install docs where we put a token in place?",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MGApnG.E",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T03:26:11Z",
+      "side": 1,
+      "message": "Does this need to be indented and enclosed in `+` like at line 186?",
       "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -115,6 +149,23 @@
       "writtenOn": "2012-11-28T20:10:44Z",
       "side": 1,
       "message": "It is not clear to me when you are using usr/local/review_site/gerrit-X.X+ versus /var/data/review_site?",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MGGpo17I",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T03:26:11Z",
+      "side": 1,
+      "message": "Don\u0027t we need quote marks around the directory name?  Also on Windows the prompt is generally not a $",
       "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

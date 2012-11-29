@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MMTFQMAQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011727
+      },
+      "writtenOn": "2012-11-29T18:31:41Z",
+      "side": 1,
+      "message": "FWIW, since you\u0027re already using Guava, you could also use ComparisonChain: http://code.google.com/p/guava-libraries/wiki/CommonObjectUtilitiesExplained#compare/compareTo  This would be something like:\n\n  return ComparisonChain.start()\n      .compare(path(a), path(b))\n      // 0 is ancestor, 1 is revision. Sort ancestor first.\n      .compare(a.getSide(), b.getSide())\n      .compare(a.getLine(), b.getLine())\n      .result();",
+      "revId": "f6ce5cc010bf6665a8f2a704e7983e0c2ac8f144",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

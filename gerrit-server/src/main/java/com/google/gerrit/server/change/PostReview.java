@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -351,7 +352,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         // User requested delete of this label.
         if (c != null) {
           if (c.getValue() != 0) {
-            labelDelta.add("-" + name);
+            labelDelta.add(format(name, at.getValue((short)0)));
           }
           del.add(c);
         }
@@ -360,7 +361,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         c.setGranted(timestamp);
         c.cache(change);
         upd.add(c);
-        labelDelta.add(format(name, c.getValue()));
+        labelDelta.add(format(name, at.getValue(c)));
         categories.put(
             at.getCategory().getId(),
             at.getValue(c.getValue()).getId());
@@ -375,7 +376,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         c.setGranted(timestamp);
         c.cache(change);
         ins.add(c);
-        labelDelta.add(format(name, c.getValue()));
+        labelDelta.add(format(name, at.getValue(c)));
         categories.put(
             at.getCategory().getId(),
             at.getValue(c.getValue()).getId());
@@ -437,13 +438,27 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     return current;
   }
 
-  private static String format(String name, short value) {
-    StringBuilder sb = new StringBuilder(name.length() + 2);
-    sb.append(name);
-    if (value >= 0) {
+  private static String format(String categoryName, ApprovalCategoryValue val) {
+    String valName = val.getName();
+
+    if (!Strings.isNullOrEmpty(valName)) {
+      return valName;
+    }
+
+    StringBuilder sb = new StringBuilder(categoryName.length() + 2);
+    if (val.getValue() == 0) {
+      sb.append('-');
+    }
+
+    sb.append(categoryName);
+
+    if (val.getValue() > 0) {
       sb.append('+');
     }
-    sb.append(value);
+    if (val.getValue() != 0) {
+      sb.append(val.getValue());
+    }
+
     return sb.toString();
   }
 
@@ -452,9 +467,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     msg = Strings.nullToEmpty(msg).trim();
 
     StringBuilder buf = new StringBuilder();
-    for (String d : labelDelta) {
-      buf.append(" ").append(d);
-    }
+    buf.append(Joiner.on("; ").join(labelDelta));
 
     if (comments.size() >= 1) {
       int inlineCommentCount = 0;
@@ -500,7 +513,7 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
         timestamp,
         rsrc.getPatchSet().getId());
     message.setMessage(String.format(
-        "Patch Set %d:%s",
+        "Patch Set %d: %s",
         rsrc.getPatchSet().getPatchSetId(),
         buf.toString()));
     db.changeMessages().insert(Collections.singleton(message));

@@ -16,6 +16,24 @@
       "revId": "cd6b6f7e80166b5c48ec3649dc2e6e12e13a729a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MMTECcBQ",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T07:38:29Z",
+      "side": 1,
+      "message": "If I understand it correctly, in this case it won\u0027t get queued because \"wait for merge\" is set.  So the response will either be \"MERGED\" or whatever the status is when the merge fails.\n\nIt would be useful to also give an example of the output when the merge fails.",
+      "parentUuid": "MNU3z2TA",
+      "revId": "cd6b6f7e80166b5c48ec3649dc2e6e12e13a729a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

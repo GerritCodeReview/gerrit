@@ -16,6 +16,24 @@
       "revId": "be43be64b1adfe911ccfc30f9d06fceeddb3c307",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MGKon77M",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T02:02:28Z",
+      "side": 1,
+      "message": "No, you get a message like:\n\n Patch Set 3: -Code-Review",
+      "parentUuid": "MGCoUH0k",
+      "revId": "be43be64b1adfe911ccfc30f9d06fceeddb3c307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

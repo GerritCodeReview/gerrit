@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MGGoaF3s",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T01:44:07Z",
+      "side": 1,
+      "message": "Can we move the unrelated cleanup to a separate change, or changes?",
+      "revId": "c627bc54d0f6863f35155b120be80d3382249c2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

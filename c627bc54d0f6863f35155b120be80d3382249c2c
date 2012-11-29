@@ -16,6 +16,23 @@
       "revId": "c627bc54d0f6863f35155b120be80d3382249c2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MLVXzTDA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-29T06:53:06Z",
+      "side": 1,
+      "message": "Could you explain how getNumberOfPatchSets and currPatchSetId are equivalent?  I don\u0027t know the history behind having two fields which seem equivalent.  I assume there was a reason for each since they are actual fields in the db.  Does one of them not include drafts?",
+      "revId": "c627bc54d0f6863f35155b120be80d3382249c2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

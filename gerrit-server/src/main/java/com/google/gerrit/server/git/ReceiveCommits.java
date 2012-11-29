@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.reviewdb.client.Change.INITIAL_PATCH_SET_ID;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
@@ -1304,9 +1305,8 @@ public class ReceiveCommits {
           currentUser.getAccountId(),
           destBranch);
       change.setTopic(destTopicName);
-      change.nextPatchSetId();
 
-      ps = new PatchSet(change.currPatchSetId());
+      ps = new PatchSet(new PatchSet.Id(change.getId(), INITIAL_PATCH_SET_ID));
       ps.setCreatedOn(change.getCreatedOn());
       ps.setUploader(change.getOwner());
       ps.setRevision(toRevId(c));
@@ -1616,13 +1616,8 @@ public class ReceiveCommits {
         }
       }
 
-      change.nextPatchSetId();
-      PatchSet.Id id = change.currPatchSetId();
-      while (allRefs.containsKey(id.toRefName())) {
-        change.nextPatchSetId();
-        id = change.currPatchSetId();
-      }
-
+      PatchSet.Id id =
+          ChangeUtil.nextPatchSetId(allRefs, change.currentPatchSetId());
       newPatchSet = new PatchSet(id);
       newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
       newPatchSet.setUploader(currentUser.getAccountId());
@@ -1694,19 +1689,8 @@ public class ReceiveCommits {
 
       db.changes().beginTransaction(change.getId());
       try {
-        change =
-          db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-            @Override
-            public Change update(Change change) {
-              if (change.getStatus().isClosed()) {
-                return null;
-              }
-
-              change.updateNumberOfPatchSets(newPatchSet.getPatchSetId());
-              return change;
-            }
-          });
-        if (change == null) {
+        change = db.changes().get(change.getId());
+        if (change == null || change.getStatus().isClosed()) {
           reject(inputCommand, "change is closed");
           return null;
         }

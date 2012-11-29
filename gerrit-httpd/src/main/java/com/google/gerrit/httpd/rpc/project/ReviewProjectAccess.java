@@ -83,7 +83,8 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   protected Change.Id updateProjectConfig(ProjectConfig config, MetaDataUpdate md)
       throws IOException, OrmException {
     Change.Id changeId = new Change.Id(db.nextChangeId());
-    PatchSet ps = new PatchSet(new PatchSet.Id(changeId, 1));
+    PatchSet ps =
+        new PatchSet(new PatchSet.Id(changeId, Change.INITIAL_PATCH_SET_ID));
     RevCommit commit = config.commitToNewRef(md, ps.getRefName());
     if (commit.getId().equals(base)) {
       return null;
@@ -96,7 +97,6 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
         new Branch.NameKey(
             config.getProject().getNameKey(),
             GitRepositoryManager.REF_CONFIG));
-    change.nextPatchSetId();
 
     ps.setCreatedOn(change.getCreatedOn());
     ps.setUploader(change.getOwner());

@@ -320,8 +320,8 @@ public class RebaseChange {
 
     rebasedCommit = revWalk.parseCommit(newId);
 
-    change.nextPatchSetId();
-    final PatchSet newPatchSet = new PatchSet(change.currPatchSetId());
+    PatchSet.Id id = ChangeUtil.nextPatchSetId(git, change.currentPatchSetId());
+    final PatchSet newPatchSet = new PatchSet(id);
     newPatchSet.setCreatedOn(new Timestamp(System.currentTimeMillis()));
     newPatchSet.setUploader(uploader);
     newPatchSet.setRevision(new RevId(rebasedCommit.name()));
@@ -343,21 +343,8 @@ public class RebaseChange {
 
     db.changes().beginTransaction(change.getId());
     try {
-      Change updatedChange;
-
-      updatedChange =
-          db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-            @Override
-            public Change update(Change change) {
-              if (change.getStatus().isOpen()) {
-                change.updateNumberOfPatchSets(newPatchSet.getPatchSetId());
-                return change;
-              } else {
-                return null;
-              }
-            }
-          });
-      if (updatedChange != null) {
+      Change updatedChange = db.changes().get(change.getId());
+      if (updatedChange != null && change.getStatus().isOpen()) {
         change = updatedChange;
       } else {
         throw new InvalidChangeOperationException(String.format(

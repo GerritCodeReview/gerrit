@@ -39,10 +39,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.ChangeHooks;
-import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -66,8 +64,8 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.validators.CommitValidationException;
-import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.MergedSender;
@@ -87,8 +85,6 @@ import com.google.gwtorm.server.ResultSet;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-
-import com.jcraft.jsch.HostKey;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -115,13 +111,10 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.UploadPack;
-import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -251,7 +244,7 @@ public class ReceiveCommits {
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
   private final String canonicalWebUrl;
-  private final PersonIdent gerritIdent;
+  private final CommitValidators.Factory commitValidatorsFactory;
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
   private final WorkQueue workQueue;
@@ -290,7 +283,6 @@ public class ReceiveCommits {
   private Task commandProgress;
   private MessageSender messageSender;
   private BatchRefUpdate batch;
-  private final DynamicSet<CommitValidationListener> commitValidators;
 
   @Inject
   ReceiveCommits(final ReviewDb db,
@@ -307,6 +299,7 @@ public class ReceiveCommits {
       final GitRepositoryManager repoManager,
       final TagCache tagCache,
       final ChangeCache changeCache,
+      final CommitValidators.Factory commitValidatorsFactory,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
@@ -314,7 +307,6 @@ public class ReceiveCommits {
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
       final SshInfo sshInfo,
-      final DynamicSet<CommitValidationListener> commitValidationListeners,
       final AllProjectsName allProjectsName,
       @Assisted final ProjectControl projectControl,
       @Assisted final Repository repo,
@@ -333,9 +325,9 @@ public class ReceiveCommits {
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.canonicalWebUrl = canonicalWebUrl;
-    this.gerritIdent = gerritIdent;
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
+    this.commitValidatorsFactory = commitValidatorsFactory;
     this.workQueue = workQueue;
     this.changeUpdateExector = changeUpdateExector;
     this.requestScopePropagator = requestScopePropagator;
@@ -349,7 +341,6 @@ public class ReceiveCommits {
     this.rejectCommits = loadRejectCommitsMap();
 
     this.subOpFactory = subOpFactory;
-    this.commitValidators = commitValidationListeners;
 
     this.messageSender = new ReceivePackMessageSender();
 
@@ -1193,6 +1184,7 @@ public class ReceiveCommits {
           //
           continue;
         }
+
         if (!validCommit(destBranchCtl, newChange, c)) {
           // Not a change the user can propose? Abort as early as possible.
           //
@@ -1535,6 +1527,7 @@ public class ReceiveCommits {
       }
 
       rp.getRevWalk().parseBody(newCommit);
+
       if (!validCommit(changeCtl.getRefControl(), inputCommand, newCommit)) {
         return false;
       }
@@ -1888,277 +1881,20 @@ public class ReceiveCommits {
 
   private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
       final RevCommit c) throws MissingObjectException, IOException {
-    rp.getRevWalk().parseBody(c);
-    final PersonIdent committer = c.getCommitterIdent();
-    final PersonIdent author = c.getAuthorIdent();
 
-    // Require permission to upload merges.
-    if (c.getParentCount() > 1 && !ctl.canUploadMerges()) {
-      reject(cmd, "you are not allowed to upload merges");
+    CommitReceivedEvent receiveEvent =
+        new CommitReceivedEvent(cmd, project, ctl.getRefName(), c, currentUser);
+    CommitValidators commitValidators =
+        commitValidatorsFactory.create(ctl, sshInfo, repo);
+
+    try {
+      messages.addAll(commitValidators.validateForReceiveCommits(receiveEvent));
+    } catch (CommitValidationException e) {
+      messages.addAll(e.getMessages());
+      reject(cmd, e.getMessage());
       return false;
     }
-
-    // Don't allow the user to amend a merge created by Gerrit Code Review.
-    // This seems to happen all too often, due to users not paying any
-    // attention to what they are doing.
-    //
-    if (c.getParentCount() > 1
-        && author.getName().equals(gerritIdent.getName())
-        && author.getEmailAddress().equals(gerritIdent.getEmailAddress())
-        && !ctl.canForgeGerritServerIdentity()) {
-      reject(cmd, "do not amend merges not made by you");
-      return false;
-    }
-
-    // Require that author matches the uploader.
-    //
-    if (!currentUser.getEmailAddresses().contains(author.getEmailAddress())
-        && !ctl.canForgeAuthor()) {
-      sendInvalidEmailError(c, "author", author);
-      reject(cmd, "invalid author");
-      return false;
-    }
-
-    // Require that committer matches the uploader.
-    //
-    if (!currentUser.getEmailAddresses().contains(committer.getEmailAddress())
-        && !ctl.canForgeCommitter()) {
-      sendInvalidEmailError(c, "committer", committer);
-      reject(cmd, "invalid committer");
-      return false;
-    }
-
-    if (projectControl.getProjectState().isUseSignedOffBy()) {
-      // If the project wants Signed-off-by / Acked-by lines, verify we
-      // have them for the blamable parties involved on this change.
-      //
-      boolean sboAuthor = false, sboCommitter = false, sboMe = false;
-      for (final FooterLine footer : c.getFooterLines()) {
-        if (footer.matches(FooterKey.SIGNED_OFF_BY)) {
-          final String e = footer.getEmailAddress();
-          if (e != null) {
-            sboAuthor |= author.getEmailAddress().equals(e);
-            sboCommitter |= committer.getEmailAddress().equals(e);
-            sboMe |= currentUser.getEmailAddresses().contains(e);
-          }
-        }
-      }
-      if (!sboAuthor && !sboCommitter && !sboMe && !ctl.canForgeCommitter()) {
-        reject(cmd, "not Signed-off-by author/committer/uploader in commit message footer");
-        return false;
-      }
-    }
-
-    final List<String> idList = c.getFooterLines(CHANGE_ID);
-    if (MagicBranch.isMagicBranch(cmd.getRefName()) || NEW_PATCHSET.matcher(cmd.getRefName()).matches()) {
-      if (idList.isEmpty()) {
-        if (projectControl.getProjectState().isRequireChangeID()) {
-          String errMsg = "missing Change-Id in commit message footer";
-          reject(cmd, errMsg);
-          addMessage(getFixedCommitMsgWithChangeId(errMsg, c));
-          return false;
-        }
-      } else if (idList.size() > 1) {
-        reject(cmd, "multiple Change-Id lines in commit message footer");
-        return false;
-      } else {
-        final String v = idList.get(idList.size() - 1).trim();
-        if (!v.matches("^I[0-9a-f]{8,}.*$")) {
-          final String errMsg =
-              "missing or invalid Change-Id line format in commit message footer";
-          reject(cmd, errMsg);
-          addMessage(getFixedCommitMsgWithChangeId(errMsg, c));
-          return false;
-        }
-      }
-    }
-
-    // Check for banned commits to prevent them from entering the tree again.
-    if (rejectCommits.contains(c)) {
-      reject(cmd, "contains banned commit " + c.getName());
-      return false;
-    }
-
-    // If this is the special project configuration branch, validate the config.
-    if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
-      try {
-        ProjectConfig cfg = new ProjectConfig(project.getNameKey());
-        cfg.load(repo, cmd.getNewId());
-        if (!cfg.getValidationErrors().isEmpty()) {
-          addError("Invalid project configuration:");
-          for (ValidationError err : cfg.getValidationErrors()) {
-            addError("  " + err.getMessage());
-          }
-          reject(cmd, "invalid project configuration");
-          log.error("User " + currentUser.getUserName()
-              + " tried to push invalid project configuration "
-              + cmd.getNewId().name() + " for " + project.getName());
-          return false;
-        }
-      } catch (Exception e) {
-        reject(cmd, "invalid project configuration");
-        log.error("User " + currentUser.getUserName()
-            + " tried to push invalid project configuration "
-            + cmd.getNewId().name() + " for " + project.getName(), e);
-        return false;
-      }
-    }
-
-    // Execute commit validation plugins
-    for (CommitValidationListener validator : commitValidators) {
-      try {
-        messages.addAll(validator.onCommitReceived(new CommitReceivedEvent(
-            cmd, project, ctl.getRefName(), c, currentUser)));
-      } catch (CommitValidationException error) {
-        messages.addAll(error.getMessages());
-        reject(cmd, error.getMessage());
-        return false;
-      }
-    }
-
     return true;
-  }
-
-  /**
-   * Get the Gerrit hostname.
-   * @return the hostname from the canonical URL if it is configured,
-   * otherwise whatever the OS says the hostname is.
-   */
-  private String getGerritHost() {
-    String host;
-    if (canonicalWebUrl != null) {
-      try {
-        host = new URL(canonicalWebUrl).getHost();
-      } catch (MalformedURLException e) {
-        host = SystemReader.getInstance().getHostname();
-      }
-    } else {
-      host = SystemReader.getInstance().getHostname();
-    }
-    return host;
-  }
-
-  /**
-   * Get the Gerrit URL.
-   * @return the canonical URL (with any trailing slash removed) if it is
-   * configured, otherwise fall back to "http://hostname" where hostname is
-   * the value returned by {@link #getGerritHost()}.
-   */
-  private String getGerritUrl() {
-    if (canonicalWebUrl != null) {
-      if (canonicalWebUrl.endsWith("/")) {
-        return canonicalWebUrl.substring(0, canonicalWebUrl.lastIndexOf("/"));
-      }
-      return canonicalWebUrl;
-    } else {
-      return "http://" + getGerritHost();
-    }
-  }
-
-  /**
-   * Get the text with instructions for installing the commit-msg hook, specific
-   * to the server hostname and transport protocol.
-   * @return commit-msg hook installation instructions as a String.
-   */
-  private String getCommitMessageHookInstallationHint() {
-    final List<HostKey> hostKeys = sshInfo.getHostKeys();
-
-    // If there are no SSH keys, the commit-msg hook must be installed via HTTP(S)
-    if (hostKeys.isEmpty()) {
-      String p = ".git/hooks/commit-msg";
-      return String.format(
-          "  curl -o %s %s/tools/hooks/commit-msg ; chmod +x %s",
-          p, getGerritUrl(), p);
-    }
-
-    // SSH keys exist, so the hook can be installed with scp.
-    String sshHost;
-    int sshPort;
-    String host = hostKeys.get(0).getHost();
-    int c = host.lastIndexOf(':');
-    if (0 <= c) {
-      if (host.startsWith("*:")) {
-        sshHost = getGerritHost();
-      } else {
-        sshHost = host.substring(0, c);
-      }
-      sshPort = Integer.parseInt(host.substring(c+1));
-    } else {
-      sshHost = host;
-      sshPort = 22;
-    }
-
-    return String.format(
-        "  scp -p -P %d %s@%s:hooks/commit-msg .git/hooks/",
-        sshPort, currentUser.getUserName(), sshHost);
-  }
-
-  private String getFixedCommitMsgWithChangeId(String errMsg, RevCommit c) {
-    // We handle 3 cases:
-    // 1. No change id in the commit message at all.
-    // 2. change id last in the commit message but missing empty line to create the footer.
-    // 3. there is a change-id somewhere in the commit message, but we ignore it.
-    final String changeId = "Change-Id:";
-    StringBuilder sb = new StringBuilder();
-    sb.append("ERROR: ").append(errMsg);
-    sb.append('\n');
-    sb.append("Suggestion for commit message:\n");
-
-    if (c.getFullMessage().indexOf(changeId)==-1) {
-      sb.append(c.getFullMessage());
-      sb.append('\n');
-      sb.append(changeId).append(" I").append(c.name());
-    } else {
-      String lines[] = c.getFullMessage().trim().split("\n");
-      String lastLine = lines.length > 0 ? lines[lines.length - 1] : "";
-
-      if (lastLine.indexOf(changeId)==0) {
-        for (int i = 0; i < lines.length - 1; i++) {
-          sb.append(lines[i]);
-          sb.append('\n');
-        }
-
-        sb.append('\n');
-        sb.append(lastLine);
-      } else {
-        sb.append(c.getFullMessage());
-        sb.append('\n');
-        sb.append(changeId).append(" I").append(c.name());
-        sb.append('\n');
-        sb.append("Hint: A potential Change-Id was found, but it was not in the footer of the commit message.");
-      }
-    }
-    sb.append('\n');
-    sb.append('\n');
-    sb.append("Hint: To automatically insert Change-Id, install the hook:\n");
-    sb.append(getCommitMessageHookInstallationHint()).append('\n');
-    sb.append('\n');
-
-    return sb.toString();
-  }
-
-  private void sendInvalidEmailError(RevCommit c, String type, PersonIdent who) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("\n");
-    sb.append("ERROR:  In commit " + c.name() + "\n");
-    sb.append("ERROR:  " + type + " email address " + who.getEmailAddress() + "\n");
-    sb.append("ERROR:  does not match your user account.\n");
-    sb.append("ERROR:\n");
-    if (currentUser.getEmailAddresses().isEmpty()) {
-      sb.append("ERROR:  You have not registered any email addresses.\n");
-    } else {
-      sb.append("ERROR:  The following addresses are currently registered:\n");
-      for (String address : currentUser.getEmailAddresses()) {
-        sb.append("ERROR:    " + address + "\n");
-      }
-    }
-    sb.append("ERROR:\n");
-    if (canonicalWebUrl != null) {
-      sb.append("ERROR:  To register an email address, please visit:\n");
-      sb.append("ERROR:  " + canonicalWebUrl + "#" + PageLinks.SETTINGS_CONTACT + "\n");
-    }
-    sb.append("\n");
-    addMessage(sb.toString());
   }
 
   private void warnMalformedMessage(RevCommit c) {

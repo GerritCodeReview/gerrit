@@ -33,6 +33,7 @@ import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.SubmoduleOp;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -91,5 +92,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(CreateProject.Factory.class);
     factory(SuggestParentCandidates.Factory.class);
     factory(BanCommit.Factory.class);
+    factory(CommitValidators.Factory.class);
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MNU3z2TA",
+        "filename": "Documentation/rest-api.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1003706
+      },
+      "writtenOn": "2012-11-29T07:17:19Z",
+      "side": 1,
+      "message": "Is there a need to provide example output for when the change doesn\u0027t merge, but just gets queued?",
+      "revId": "cd6b6f7e80166b5c48ec3649dc2e6e12e13a729a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

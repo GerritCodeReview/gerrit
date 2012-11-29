@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MMZEnnLQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-29T17:40:54Z",
+      "side": 1,
+      "message": "Hmm, maybe this is shorter?\n\n  return \"[Octopus merge, cannot be formatted as a diff.]\\n\";",
+      "revId": "1741ad7bef85aa7e1bb0945b42c88e911695ba7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

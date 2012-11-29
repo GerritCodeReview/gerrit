@@ -471,6 +471,49 @@ default. Optional fields are:
   ]
 ----
 
+/changes/*/revisions/*/submit (Submit Change)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Submit a change to its branch.
+
+Changes can be submitted by sending an empty POST request.  The first
+resource in the URL identifies the change and is typically the `id`
+property, the second resource identifies which revision, and is
+typically the Git commit SHA-1.
+
+----
+  POST /changes/project~master~Ic0ffee.../revisions/375f8a818c.../submit HTTP/1.0
+  Content-Length: 0
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "status": "SUBMITTED"
+  }
+----
+
+Submitted changes are queued for processing in the background.
+To attempt the merge immediately and get a more accurate result
+request waiting for the merge:
+
+----
+  POST /changes/project~master~Ic0ffee.../revisions/375f8a818c.../submit HTTP/1.0
+  Content-Type: application/json;charset=UTF-8
+  Content-Length: 25
+
+  {"wait_for_merge": true}
+
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json;charset=UTF-8
+
+  )]}'
+  {
+    "status": "MERGED"
+  }
+----
 
 GERRIT
 ------

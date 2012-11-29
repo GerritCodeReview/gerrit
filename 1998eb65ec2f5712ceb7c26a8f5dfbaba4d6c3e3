@@ -16,6 +16,24 @@
       "revId": "1998eb65ec2f5712ceb7c26a8f5dfbaba4d6c3e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTjTzEDI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1010550
+      },
+      "writtenOn": "2012-11-29T22:53:46Z",
+      "side": 1,
+      "message": "It\u0027s the name of the category value 0 that is added, not the previous value contained in c.\n\nIn your example, \"No score\" will be added on the cover message, I\u0027ve verified it.\n\nThe code that used to build that part of the cover message [1] behaved in the same way.\n\nLooking at the code though, it looks like it tried to handle empty category value names. I have updated the patch to do that too.\n\n[1] https://gerrit.googlesource.com/gerrit/+/8c850ece6096e2298a9b6ecca9207c0a993bd665%5E/gerrit-server/src/main/java/com/google/gerrit/server/patch/PublishComments.java , lines 222 to 244",
+      "parentUuid": "MGOot55c",
+      "revId": "1998eb65ec2f5712ceb7c26a8f5dfbaba4d6c3e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

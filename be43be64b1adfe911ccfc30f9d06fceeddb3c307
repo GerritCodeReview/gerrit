@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MGCoUH0k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-29T01:53:18Z",
+      "side": 1,
+      "message": "Will this be blank when an approval changes, even when a +1 goes to 0?",
+      "revId": "be43be64b1adfe911ccfc30f9d06fceeddb3c307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

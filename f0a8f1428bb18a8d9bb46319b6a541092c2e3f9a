@@ -16,6 +16,24 @@
       "revId": "f0a8f1428bb18a8d9bb46319b6a541092c2e3f9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTTXzEDI",
+        "filename": "Documentation/user-submodules.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-11-29T21:37:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MMXEfmGk",
+      "revId": "f0a8f1428bb18a8d9bb46319b6a541092c2e3f9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

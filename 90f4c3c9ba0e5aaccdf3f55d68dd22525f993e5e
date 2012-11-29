@@ -52,6 +52,24 @@
       "revId": "90f4c3c9ba0e5aaccdf3f55d68dd22525f993e5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MNa0NnUE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-11-29T15:12:37Z",
+      "side": 1,
+      "message": "I will then await your next patch set before continuing review of this (and follow-up) changes.",
+      "parentUuid": "MNuwDqxM",
+      "revId": "90f4c3c9ba0e5aaccdf3f55d68dd22525f993e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

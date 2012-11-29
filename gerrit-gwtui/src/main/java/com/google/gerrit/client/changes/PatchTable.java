@@ -460,8 +460,10 @@ public class PatchTable extends Composite {
     }
 
     private void openWindow(String token) {
-      String url = Window.Location.getPath() + "#" + token;
-      Window.open(url, "_blank", null);
+      Window.open(
+          Window.Location.getPath() + "#" + token,
+          "_blank",
+          "location=1,menubar=1,resizable=1,scrollbars=1,status=1");
     }
 
     void appendHeader(final SafeHtmlBuilder m) {

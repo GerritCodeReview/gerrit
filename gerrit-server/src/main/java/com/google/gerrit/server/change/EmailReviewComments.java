@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -36,6 +37,8 @@ import com.google.inject.assistedinject.Assisted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 class EmailReviewComments implements Runnable, RequestContext {
@@ -60,7 +63,7 @@ class EmailReviewComments implements Runnable, RequestContext {
   private final PatchSet patchSet;
   private final Account.Id authorId;
   private final ChangeMessage message;
-  private final List<PatchLineComment> comments;
+  private List<PatchLineComment> comments;
   private ReviewDb db;
 
   @Inject
@@ -95,6 +98,30 @@ class EmailReviewComments implements Runnable, RequestContext {
   public void run() {
     try {
       requestContext.setContext(this);
+
+      comments = Lists.newArrayList(comments);
+      Collections.sort(comments, new Comparator<PatchLineComment>() {
+        @Override
+        public int compare(PatchLineComment a, PatchLineComment b) {
+          int cmp = path(a).compareTo(path(b));
+          if (cmp != 0) {
+            return cmp;
+          }
+
+          // 0 is ancestor, 1 is revision. Sort ancestor first.
+          cmp = a.getSide() - b.getSide();
+          if (cmp != 0) {
+            return cmp;
+          }
+
+          return a.getLine() - b.getLine();
+        }
+
+        private String path(PatchLineComment c) {
+          return c.getKey().getParentKey().getFileName();
+        }
+      });
+
       CommentSender cm = commentSenderFactory.create(change);
       cm.setFrom(authorId);
       cm.setPatchSet(patchSet, patchSetInfoFactory.get(change, patchSet));

@@ -34,6 +34,24 @@
       "revId": "ab468a21426e7a4147b1ca63e884df901d20505c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MN0vzxTA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-29T17:04:13Z",
+      "side": 1,
+      "message": "Add a TextBoxBaseListener to the textBox and override onTextChange to do your validation.  If this file doesn\u0027t exist yet, just grab it from here: \nhttps://gerrit-review.googlesource.com/#/c/21771/1/gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxBaseListener.java",
+      "parentUuid": "MMVHzdDA",
+      "revId": "ab468a21426e7a4147b1ca63e884df901d20505c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

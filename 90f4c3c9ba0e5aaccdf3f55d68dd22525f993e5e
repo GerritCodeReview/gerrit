@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MLRX91Po",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-29T07:20:57Z",
+      "side": 1,
+      "message": "Yay, file comment! :)\n\nThere seems to be a lot of duplicated code between here and ReceiveCommits.  Could you refactor creating a new change out of ReceiveCommits so that the implementation can be shared with this service?",
+      "revId": "90f4c3c9ba0e5aaccdf3f55d68dd22525f993e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

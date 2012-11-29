@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
@@ -63,6 +64,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 
@@ -243,10 +245,10 @@ public class ChangeUtil {
           new Change.Id(db.nextChangeId()),
           user.getAccountId(),
           changeToRevert.getDest());
-      change.nextPatchSetId();
       change.setTopic(changeToRevert.getTopic());
 
-      final PatchSet ps = new PatchSet(change.currPatchSetId());
+      PatchSet.Id id = nextPatchSetId(git, change.currentPatchSetId());
+      final PatchSet ps = new PatchSet(id);
       ps.setCreatedOn(change.getCreatedOn());
       ps.setUploader(change.getOwner());
       ps.setRevision(new RevId(revertCommit.name()));
@@ -356,10 +358,9 @@ public class ChangeUtil {
           oi.release();
         }
 
-        change.nextPatchSetId();
-
         final PatchSet originalPS = db.patchSets().get(patchSetId);
-        final PatchSet newPatchSet = new PatchSet(change.currPatchSetId());
+        PatchSet.Id id = nextPatchSetId(git, change.currentPatchSetId());
+        final PatchSet newPatchSet = new PatchSet(id);
         newPatchSet.setCreatedOn(new Timestamp(now.getTime()));
         newPatchSet.setUploader(user.getAccountId());
         newPatchSet.setRevision(new RevId(newCommit.name()));
@@ -381,19 +382,8 @@ public class ChangeUtil {
 
         db.changes().beginTransaction(change.getId());
         try {
-          Change updatedChange =
-              db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-                @Override
-                public Change update(Change change) {
-                  if (change.getStatus().isOpen()) {
-                    change.updateNumberOfPatchSets(newPatchSet.getPatchSetId());
-                    return change;
-                  } else {
-                    return null;
-                  }
-                }
-              });
-          if (updatedChange != null) {
+          Change updatedChange = db.changes().get(change.getId());
+          if (updatedChange != null && updatedChange.getStatus().isOpen()) {
             change = updatedChange;
           } else {
             throw new InvalidChangeOperationException(String.format(
@@ -526,6 +516,23 @@ public class ChangeUtil {
     long lastUpdated = c.getLastUpdatedOn().getTime();
     int id = c.getId().get();
     c.setSortKey(sortKey(lastUpdated, id));
+  }
+
+  public static PatchSet.Id nextPatchSetId(Map<String, Ref> allRefs,
+      PatchSet.Id id) {
+    PatchSet.Id next = nextPatchSetId(id);
+    while (allRefs.containsKey(next.toRefName())) {
+      next = nextPatchSetId(next);
+    }
+    return next;
+  }
+
+  public static PatchSet.Id nextPatchSetId(Repository git, PatchSet.Id id) {
+    return nextPatchSetId(git.getAllRefs(), id);
+  }
+
+  private static PatchSet.Id nextPatchSetId(PatchSet.Id id) {
+    return new PatchSet.Id(id.getParentKey(), id.get() + 1);
   }
 
   private static final char[] hexchar =

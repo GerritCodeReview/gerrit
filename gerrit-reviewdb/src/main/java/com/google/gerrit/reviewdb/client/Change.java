@@ -193,6 +193,9 @@ public final class Change {
   /** Database constant for {@link Status#MERGED}. */
   public static final char STATUS_MERGED = 'M';
 
+  /** ID number of the first patch set in a change. */
+  public static final int INITIAL_PATCH_SET_ID = 1;
+
   /**
    * Current state within the basic workflow of the change.
    *
@@ -359,10 +362,6 @@ public final class Change {
   @Column(id = 10)
   protected char status;
 
-  /** The total number of {@link PatchSet} children in this Change. */
-  @Column(id = 11)
-  protected int nbrPatchSets;
-
   /** The current patch set. */
   @Column(id = 12)
   protected int currentPatchSetId;
@@ -471,23 +470,6 @@ public final class Change {
   public void setCurrentPatchSet(final PatchSetInfo ps) {
     currentPatchSetId = ps.getKey().get();
     subject = ps.getSubject();
-  }
-
-  /**
-   * Allocate a new PatchSet id within this change.
-   * <p>
-   * <b>Note: This makes the change dirty. Call update() after.</b>
-   */
-  public void nextPatchSetId() {
-    ++nbrPatchSets;
-  }
-
-  public void updateNumberOfPatchSets(int max) {
-    nbrPatchSets = Math.max(nbrPatchSets, max);
-  }
-
-  public PatchSet.Id currPatchSetId() {
-    return new PatchSet.Id(changeId, nbrPatchSets);
   }
 
   public Status getStatus() {

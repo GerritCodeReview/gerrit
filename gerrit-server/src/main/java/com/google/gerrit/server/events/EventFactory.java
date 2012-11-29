@@ -214,7 +214,7 @@ public class EventFactory {
 
   private DependencyAttribute newDependsOn(Change c, PatchSet ps) {
     DependencyAttribute d = newDependencyAttribute(c, ps);
-    d.isCurrentPatchSet = c.currPatchSetId().equals(ps.getId());
+    d.isCurrentPatchSet = ps.getId().equals(c.currentPatchSetId());
     return d;
   }
 

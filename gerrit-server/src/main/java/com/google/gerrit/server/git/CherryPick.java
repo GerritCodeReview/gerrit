@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.server.OrmException;
@@ -37,6 +38,7 @@ import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -148,7 +150,7 @@ public class CherryPick extends SubmitStrategy {
     args.rw.parseBody(n);
 
     final PatchSetApproval submitAudit =
-        getSubmitter(args.db, n.change.currPatchSetId());
+        getSubmitter(args.db, n.change.currentPatchSetId());
 
     PersonIdent cherryPickCommitterIdent = null;
     if (submitAudit != null) {
@@ -172,9 +174,9 @@ public class CherryPick extends SubmitStrategy {
         return null;
     }
 
-    n.change.nextPatchSetId();
-
-    final PatchSet ps = new PatchSet(n.change.currPatchSetId());
+    PatchSet.Id id =
+        ChangeUtil.nextPatchSetId(args.repo, n.change.currentPatchSetId());
+    final PatchSet ps = new PatchSet(id);
     ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
     ps.setUploader(submitAudit.getAccountId());
     ps.setRevision(new RevId(newCommit.getId().getName()));

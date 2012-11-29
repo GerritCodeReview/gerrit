@@ -50,7 +50,7 @@ public class ChangeInfo {
     lastUpdatedOn = c.getLastUpdatedOn();
     sortKey = c.getSortKey();
     patchSetId = patchId;
-    latest = patchSetId == null || c.currPatchSetId().equals(patchSetId);
+    latest = patchSetId == null || patchSetId.equals(c.currentPatchSetId());
   }
 
   public ChangeInfo(final Change c) {

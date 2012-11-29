@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MGOot55c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T02:01:25Z",
+      "side": 1,
+      "message": "In this case the label has been removed, so it does not make sense to add its name.\n\nFor example if I\u0027ve previously reviewed the change and scored +1 code review, and am now reviewing again and removing that score, the message \"looks good to me but someone else must approve\" will be added on the cover message.",
+      "revId": "1998eb65ec2f5712ceb7c26a8f5dfbaba4d6c3e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

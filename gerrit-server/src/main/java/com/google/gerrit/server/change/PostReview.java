@@ -151,13 +151,15 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       db.rollback();
     }
 
-    email.create(
-        change,
-        revision.getPatchSet(),
-        revision.getAuthorId(),
-        message,
-        comments).sendAsync();
-    fireCommentAddedHook(revision);
+    if (message != null) {
+      email.create(
+          change,
+          revision.getPatchSet(),
+          revision.getAuthorId(),
+          message,
+          comments).sendAsync();
+      fireCommentAddedHook(revision);
+    }
 
     Output output = new Output();
     output.labels = input.labels;

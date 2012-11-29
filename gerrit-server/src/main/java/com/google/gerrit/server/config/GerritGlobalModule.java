@@ -61,6 +61,7 @@ import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;

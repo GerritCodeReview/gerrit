@@ -16,6 +16,24 @@
       "revId": "ab468a21426e7a4147b1ca63e884df901d20505c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MMVHzdDA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/CommitMessageBlock.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T06:53:19Z",
+      "side": 1,
+      "message": "That would be better, but I can\u0027t find a good way to do it.\n\nI\u0027ve found `OnEditEnabler` which is used in a couple of other inputs, but that doesn\u0027t work well for this case.  It will enable the button on any edit, even if the resulting text is the same as the original.  I\u0027m trying to rework it a bit, but it\u0027s getting quite messy...",
+      "parentUuid": "MB3uXf6k",
+      "revId": "ab468a21426e7a4147b1ca63e884df901d20505c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

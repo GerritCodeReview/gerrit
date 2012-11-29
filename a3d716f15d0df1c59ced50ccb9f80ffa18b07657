@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MGOo0x90",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T02:43:18Z",
+      "side": 1,
+      "message": "\"regarding\" is missing",
+      "revId": "a3d716f15d0df1c59ced50ccb9f80ffa18b07657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

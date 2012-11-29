@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "MGGrzNzE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T00:52:14Z",
+      "side": 1,
+      "message": "Please format the author and committer name properly.",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MAGLqNgQ",
         "filename": "Documentation/install-tomcat.txt",
         "patchSetId": 7
@@ -115,6 +132,23 @@
       "writtenOn": "2012-11-28T20:10:44Z",
       "side": 1,
       "message": "/var/data seems like a strange place for binaries and configs?",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MGEr4cws",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-29T00:52:14Z",
+      "side": 1,
+      "message": "What other dependency changes are needed to make this work properly?  This change is based on the latest head of master.",
       "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

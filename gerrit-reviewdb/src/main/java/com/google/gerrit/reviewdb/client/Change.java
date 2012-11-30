@@ -482,15 +482,6 @@ public final class Change {
     ++nbrPatchSets;
   }
 
-  /**
-   * Reverts to an older PatchSet id within this change.
-   * <p>
-   * <b>Note: This makes the change dirty. Call update() after.</b>
-   */
-  public void removeLastPatchSetId() {
-    --nbrPatchSets;
-  }
-
   public void updateNumberOfPatchSets(int max) {
     nbrPatchSets = Math.max(nbrPatchSets, max);
   }

@@ -16,6 +16,24 @@
       "revId": "7b7f67b6e244ac184178c4217bdadfcc84773d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTbWqgNU",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/EditCommitMessageHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-30T16:11:26Z",
+      "side": 1,
+      "message": "I thought about it when creating the CommitUtil-class. But in the end I wanted to keep it static like most other util classes in Gerrit. Guice:ifying it brings some complexity which should probably be avoided in a helper class.",
+      "parentUuid": "MVytB.Tk",
+      "revId": "7b7f67b6e244ac184178c4217bdadfcc84773d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

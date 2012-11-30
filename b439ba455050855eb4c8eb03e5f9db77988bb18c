@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MTDYa.Hk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-30T01:26:29Z",
+      "side": 1,
+      "message": "Throwing this panel is a Grid(1,1) also seemed to work if you didn\u0027t want to harcode the size here.  Is there a better way to just tell the FlowPanel to not fill everything?",
+      "revId": "b439ba455050855eb4c8eb03e5f9db77988bb18c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

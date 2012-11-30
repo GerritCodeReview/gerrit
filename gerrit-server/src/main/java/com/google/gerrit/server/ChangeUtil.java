@@ -190,14 +190,16 @@ public class ChangeUtil {
     db.patchSetAncestors().insert(toInsert);
   }
 
-  public static Change.Id revert(final PatchSet.Id patchSetId,
-      final IdentifiedUser user, final String message, final ReviewDb db,
+  public static Change.Id revert(final RefControl refControl,
+      final PatchSet.Id patchSetId, final IdentifiedUser user,
+      final String message, final ReviewDb db,
       final RevertedSender.Factory revertedSenderFactory,
       final ChangeHooks hooks, GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated replication, PersonIdent myIdent)
-      throws NoSuchChangeException, EmailException, OrmException,
-      MissingObjectException, IncorrectObjectTypeException, IOException {
+      final GitReferenceUpdated replication, PersonIdent myIdent,
+      String canonicalWebUrl) throws NoSuchChangeException, EmailException,
+      OrmException, MissingObjectException, IncorrectObjectTypeException,
+      IOException, InvalidChangeOperationException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSet patch = db.patchSets().get(patchSetId);
     if (patch == null) {
@@ -242,6 +244,25 @@ public class ChangeUtil {
         revertCommit = revWalk.parseCommit(id);
       } finally {
         oi.release();
+      }
+
+      final LinkedList<String> rejectMsg = new LinkedList<String>();
+      if (!CommitUtil.validateCommitSettings(refControl, revertCommit,
+          revWalk, true, canonicalWebUrl, new NoSshInfo(), myIdent,
+          user, new LinkedList<CommitValidationMessage>(),
+          new CommitValidationCallback() {
+
+            @Override
+            public void onRejected(String rejectReason,
+                List<CommitValidationMessage> messages) {
+              rejectMsg.add(rejectReason);
+            }
+
+            @Override
+            public void onAccepted(List<CommitValidationMessage> messages) {
+            }
+          })) {
+        throw new InvalidChangeOperationException(rejectMsg.get(0));
       }
 
       final Change change = new Change(

@@ -607,6 +607,11 @@ a:hover {
   margin-right: 1em;
 }
 
+.reviewedPanelBottom {
+  float: right;
+  font-size: small;
+}
+
 
 /** PatchContentTable **/
 .patchContentTable {

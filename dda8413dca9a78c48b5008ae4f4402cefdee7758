@@ -16,6 +16,24 @@
       "revId": "dda8413dca9a78c48b5008ae4f4402cefdee7758",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTXWhCPs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-11-30T15:55:45Z",
+      "side": 1,
+      "message": "Hmm.. Not sure I agree that it has to be done right now.. But I\u0027ll look into it, though. Worst case I have to put this feature on ice for a bit.",
+      "parentUuid": "MV.sn8bI",
+      "revId": "dda8413dca9a78c48b5008ae4f4402cefdee7758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

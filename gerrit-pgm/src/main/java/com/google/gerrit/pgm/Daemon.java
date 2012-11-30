@@ -354,6 +354,9 @@ public class Daemon extends SiteProgram {
 
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<Module>();
+    if (sshd) {
+      modules.add(new ProjectQoSFilter.Module());
+    }
     modules.add(RequestContextFilter.module());
     modules.add(AllRequestFilter.module());
     modules.add(CacheBasedWebSession.module());
@@ -363,7 +366,6 @@ public class Daemon extends SiteProgram {
     modules.add(new HttpPluginModule());
     if (sshd) {
       modules.add(sshInjector.getInstance(WebSshGlueModule.class));
-      modules.add(new ProjectQoSFilter.Module());
     } else {
       modules.add(new NoSshModule());
     }

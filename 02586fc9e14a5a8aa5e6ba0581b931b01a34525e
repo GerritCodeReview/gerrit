@@ -203,6 +203,23 @@
       "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTPZVIOs",
+        "filename": "Documentation/install-tomcat.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T07:36:58Z",
+      "side": 1,
+      "message": "asciidoc fails with:\n\n FORMAT install-tomcat.html\n sh: cannot open /home/user/work/gerrit/contrib/images/service.png: No such file",
+      "revId": "02586fc9e14a5a8aa5e6ba0581b931b01a34525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

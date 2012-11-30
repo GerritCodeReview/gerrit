@@ -80,12 +80,17 @@ public abstract class RequestScopePropagator {
    * @return a new Callable which will execute in the current request scope.
    */
   public final <T> Callable<T> wrap(final Callable<T> callable) {
+    final Thread caller = Thread.currentThread();
     final Callable<T> wrapped =
         wrapImpl(context(local.getContext(), cleanup(callable)));
     return new Callable<T>() {
       @Override
       public T call() throws Exception {
-        return wrapped.call();
+        if (caller == Thread.currentThread()) {
+          return callable.call();
+        } else {
+          return wrapped.call();
+        }
       }
 
       @Override

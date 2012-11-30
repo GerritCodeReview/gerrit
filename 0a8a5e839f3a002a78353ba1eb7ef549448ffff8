@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "MZtwQLVw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsExecutorModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-30T23:20:47Z",
+      "side": 1,
+      "message": "right so you are in a hard spot.  I would probably not change the way the ExecutorService is constructed. Instead, I would add a method to RequestScopePropagator that can \"wrap\" an ExecutorService and call it in the constructor of this class.\n\nIn the implementation of submit you will need to save off the current thread and the wrapped callable.\n\n  public \u003cT\u003e ListenableFuture\u003cT\u003e submit(final Callable\u003cT\u003e task) {\n    final Thread caller \u003d Thread.currentThread();\n    final Callable\u003cT\u003e wrapped \u003d requestScopePropagator.wrap(task);\n    return super.submit(new Callable\u003cT\u003e() {\n      public T call() throws Exception {\n        if (caller \u003d\u003d Thread.currentThread()) {\n          return task.call();\n        } else {\n          return wrapped.call();\n        }\n      }\n    });\n  }\n\n\nnote this could also replace the default implementation of wrap(), if this sort of behavior is desired in general (which it may).",
+      "parentUuid": "MZxvzezE",
+      "revId": "0a8a5e839f3a002a78353ba1eb7ef549448ffff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MZpwGpSU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsExecutorModule.java",
         "patchSetId": 1

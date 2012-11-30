@@ -1934,7 +1934,7 @@ public class ReceiveCommits {
           throws MissingObjectException, IOException {
     return CommitUtil.validateCommit(ctl, cmd, c,
         rp.getRevWalk(), gerritIdent, currentUser, canonicalWebUrl,
-        projectControl, rejectCommits, repo, commitValidators, sshInfo,
+        rejectCommits, repo, commitValidators, sshInfo,
         new CommitValidationCallback() {
 
           public void onRejected(String rejectReason,

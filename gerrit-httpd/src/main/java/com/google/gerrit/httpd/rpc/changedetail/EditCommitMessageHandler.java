@@ -26,19 +26,23 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
@@ -60,6 +64,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   private final String message;
 
   private final ChangeHooks hooks;
+  private final CommitValidators.Factory commitValidatorsFactory;
 
   private final GitRepositoryManager gitManager;
   private final PatchSetInfoFactory patchSetInfoFactory;
@@ -72,6 +77,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message, final ChangeHooks hooks,
+      final CommitValidators.Factory commitValidatorsFactory,
       final GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated replication,
@@ -84,6 +90,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.patchSetId = patchSetId;
     this.message = message;
     this.hooks = hooks;
+    this.commitValidatorsFactory = commitValidatorsFactory;
     this.gitManager = gitManager;
 
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -104,9 +111,22 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
           "Not allowed to add new Patch Sets to: " + changeId.toString());
     }
 
-    ChangeUtil.editCommitMessage(patchSetId, currentUser, message, db,
-        hooks, gitManager, patchSetInfoFactory, replication, myIdent);
+    final Repository git;
+    try {
+      git = gitManager.openRepository(db.changes().get(changeId).getProject());
+    } catch (RepositoryNotFoundException e) {
+      throw new NoSuchChangeException(changeId, e);
+    }
+    try {
+      CommitValidators commitValidators =
+          commitValidatorsFactory.create(control.getRefControl(), new NoSshInfo(), git);
 
-    return changeDetailFactory.create(changeId).call();
+      ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(), commitValidators, currentUser, message, db,
+          hooks, git, patchSetInfoFactory, replication, myIdent);
+
+      return changeDetailFactory.create(changeId).call();
+    } finally {
+      git.close();
+    }
   }
 }

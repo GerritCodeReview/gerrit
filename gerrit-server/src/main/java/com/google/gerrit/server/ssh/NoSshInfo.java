@@ -19,7 +19,7 @@ import com.jcraft.jsch.HostKey;
 import java.util.Collections;
 import java.util.List;
 
-class NoSshInfo implements SshInfo {
+public class NoSshInfo implements SshInfo {
   @Override
   public List<HostKey> getHostKeys() {
     return Collections.emptyList();

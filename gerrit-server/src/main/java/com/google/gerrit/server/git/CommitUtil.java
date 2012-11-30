@@ -58,21 +58,17 @@ public class CommitUtil {
 
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
-  public static boolean validateCommit(final RefControl ctl,
-      final ReceiveCommand cmd, final RevCommit c, final RevWalk rw,
+  public static boolean validateCommitSettings(final RefControl ctl,
+      final RevCommit c, final RevWalk rw, boolean checkChangeId,
+      final String canonicalWebUrl, final SshInfo sshInfo,
       final PersonIdent gerritIdent, final IdentifiedUser currentUser,
-      final String canonicalWebUrl, final ProjectControl projectControl,
-      final NoteMap rejectCommits, final Repository repo,
-      final DynamicSet<CommitValidationListener> commitValidators,
-      final SshInfo sshInfo, CommitValidationCallback callback)
+      List<CommitValidationMessage> messages, CommitValidationCallback callback)
       throws MissingObjectException, IOException {
-
     rw.parseBody(c);
-    List<CommitValidationMessage> messages =
-        new LinkedList<CommitValidationMessage>();
+
     final PersonIdent committer = c.getCommitterIdent();
     final PersonIdent author = c.getAuthorIdent();
-    final Project project = projectControl.getProject();
+    final ProjectControl projectControl = ctl.getProjectControl();
 
     // Require permission to upload merges.
     if (c.getParentCount() > 1 && !ctl.canUploadMerges()) {
@@ -137,8 +133,7 @@ public class CommitUtil {
     }
 
     final List<String> idList = c.getFooterLines(CHANGE_ID);
-    if (MagicBranch.isMagicBranch(cmd.getRefName())
-        || NEW_PATCHSET.matcher(cmd.getRefName()).matches()) {
+    if (checkChangeId) {
       if (idList.isEmpty()) {
         if (projectControl.getProjectState().isRequireChangeID()) {
           String errMsg = "missing Change-Id in commit message footer";
@@ -162,6 +157,32 @@ public class CommitUtil {
           return false;
         }
       }
+    }
+
+    return true;
+  }
+
+  public static boolean validateCommit(final RefControl ctl,
+      final ReceiveCommand cmd, final RevCommit c, final RevWalk rw,
+      final PersonIdent gerritIdent, final IdentifiedUser currentUser,
+      final String canonicalWebUrl, final NoteMap rejectCommits,
+      final Repository repo,
+      final DynamicSet<CommitValidationListener> commitValidators,
+      final SshInfo sshInfo, CommitValidationCallback callback)
+      throws MissingObjectException, IOException {
+
+    List<CommitValidationMessage> messages =
+        new LinkedList<CommitValidationMessage>();
+    final ProjectControl projectControl = ctl.getProjectControl();
+    final Project project = projectControl.getProject();
+
+    boolean isMagicBranch =
+        MagicBranch.isMagicBranch(cmd.getRefName())
+            || NEW_PATCHSET.matcher(cmd.getRefName()).matches();
+
+    if (!validateCommitSettings(ctl, c, rw, isMagicBranch, canonicalWebUrl,
+        sshInfo, gerritIdent, currentUser, messages, callback)) {
+      return false;
     }
 
     // Check for banned commits to prevent them from entering the tree again.

@@ -96,7 +96,9 @@ public class ProjectConfig extends VersionedMetaData {
 
   private static final String DASHBOARD = "dashboard";
   private static final String KEY_DEFAULT = "default";
+  private static final String KEY_CHANGE = "change";
   private static final String KEY_LOCAL_DEFAULT = "local-default";
+  private static final String KEY_LOCAL_CHANGE = "local-change";
 
   private static final SubmitType defaultSubmitAction =
       SubmitType.MERGE_IF_NECESSARY;
@@ -297,6 +299,9 @@ public class ProjectConfig extends VersionedMetaData {
 
     p.setDashboard(Project.DashboardType.DEFAULT, rc.getString(DASHBOARD, null, KEY_DEFAULT));
     p.setLocalDashboard(Project.DashboardType.DEFAULT, rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
+
+    p.setDashboard(Project.DashboardType.CHANGE, rc.getString(DASHBOARD, null, KEY_CHANGE));
+    p.setLocalDashboard(Project.DashboardType.CHANGE, rc.getString(DASHBOARD, null, KEY_LOCAL_CHANGE));
 
     loadAccountsSection(rc, groupsByName);
     loadContributorAgreements(rc, groupsByName);
@@ -547,6 +552,9 @@ public class ProjectConfig extends VersionedMetaData {
 
     set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDashboard(Project.DashboardType.DEFAULT));
     set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDashboard(Project.DashboardType.DEFAULT));
+
+    set(rc, DASHBOARD, null, KEY_CHANGE, p.getDashboard(Project.DashboardType.CHANGE));
+    set(rc, DASHBOARD, null, KEY_LOCAL_CHANGE, p.getLocalDashboard(Project.DashboardType.CHANGE));
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<AccountGroup.UUID>();
     saveAccountsSection(rc, keepGroups);

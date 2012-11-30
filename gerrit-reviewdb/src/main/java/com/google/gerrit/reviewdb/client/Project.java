@@ -100,7 +100,8 @@ public final class Project {
   }
 
   public static enum DashboardType {
-    DEFAULT("default");
+    DEFAULT("default"),
+    CHANGE("change");
 
     public final String id;
 

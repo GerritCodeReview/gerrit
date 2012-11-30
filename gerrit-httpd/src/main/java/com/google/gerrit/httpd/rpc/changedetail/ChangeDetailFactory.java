@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.errors.NoSuchEntityException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -29,6 +30,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetAncestor;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -56,6 +58,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 
@@ -85,6 +88,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
   private final AnonymousUser anonymousUser;
   private final ReviewDb db;
   private final GitRepositoryManager repoManager;
+  private final Provider<GetDashboard> dashboardProvider;
 
   private final Change.Id changeId;
 
@@ -110,6 +114,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final AnonymousUser anonymousUser,
       final MergeOp.Factory opFactory,
+      final Provider<GetDashboard> dashboardProvider,
       @GerritServerConfig final Config cfg,
       @Assisted final Change.Id id) {
     this.approvalTypes = approvalTypes;
@@ -125,7 +130,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     this.opFactory = opFactory;
     this.testMerge = cfg.getBoolean("changeMerge", "test", false);
-
+    this.dashboardProvider = dashboardProvider;
     this.changeId = id;
   }
 
@@ -192,7 +197,24 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
         RebaseChange.canDoRebase(db, change, repoManager,
             currentPatchSetAncestors, currentDepPatchSets, currentDepChanges));
     detail.setAccounts(aic.create());
+    loadDashboard();
     return detail;
+  }
+
+  private void loadDashboard() {
+    GetDashboard getDashboard = dashboardProvider.get();
+    DashboardResource resource = DashboardResource.projectTyped(
+        control.getProjectControl(), Project.DashboardType.CHANGE);
+    try {
+      DashboardInfo info = getDashboard.apply(resource);
+      detail.setDashboardTitle(info.title);
+      detail.setDashboardParameters(info.parameters);
+
+      // Exceptions loading dashboard, ignore so we can still load a change.
+    } catch (IOException e) {
+    } catch (ConfigInvalidException e) {
+    } catch (ResourceNotFoundException e) {
+    }
   }
 
   private void loadPatchSets() throws OrmException {

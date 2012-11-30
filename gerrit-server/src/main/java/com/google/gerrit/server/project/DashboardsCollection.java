@@ -169,7 +169,9 @@ public class DashboardsCollection implements
     DashboardInfo info = new DashboardInfo(refName, path);
     info.project = project;
     info.definingProject = definingProject.getName();
-    info.title = config.getString("dashboard", null, "title");
+    info.title = Objects.firstNonNull(
+        config.getString("dashboard", null, "title"),
+        info.path);
     info.description = config.getString("dashboard", null, "description");
     info.foreach = config.getString("dashboard", null, "foreach");
 
@@ -181,7 +183,7 @@ public class DashboardsCollection implements
     }
 
     UrlEncoded u = new UrlEncoded("/dashboard/");
-    u.put("title", Objects.firstNonNull(info.title, info.path)
+    u.put("title", info.title);
     if (info.foreach != null) {
       u.put("foreach", replace(project, info.foreach));
     }

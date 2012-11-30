@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MTXUUaEo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-30T10:23:02Z",
+      "side": 1,
+      "message": "I can\u0027t reproduce this issue. For me in Chrome it opens new tabs which look fine. However I don\u0027t get tabs for all files, but only for the first, see issue 1570, but this is unrelated to this change.",
+      "revId": "1b39da028af65ec1180d6e83d4ed174a805df5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTVUZbIA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-30T10:23:02Z",
+      "side": 1,
+      "message": "It changes the behaviour in Firefox. It was opening a new tab for each file and now I got a new window for each file. Though not sure if this is important.",
+      "revId": "1b39da028af65ec1180d6e83d4ed174a805df5b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

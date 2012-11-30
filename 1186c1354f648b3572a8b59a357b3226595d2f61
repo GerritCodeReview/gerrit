@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MV2sUoUo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-30T06:13:57Z",
+      "side": 1,
+      "message": "Even though not merged yet, the date probably shouldn\u0027t get updated.",
+      "revId": "1186c1354f648b3572a8b59a357b3226595d2f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MVwsf3Wk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-30T06:13:57Z",
+      "side": 1,
+      "message": "Nit: extra line",
+      "revId": "1186c1354f648b3572a8b59a357b3226595d2f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

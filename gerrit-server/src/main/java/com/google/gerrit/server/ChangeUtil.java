@@ -27,14 +27,19 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.CommitUtil;
+import com.google.gerrit.server.git.CommitUtil.CommitValidationCallback;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.RefControl;
+import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmConcurrencyException;
@@ -62,6 +67,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -301,6 +307,7 @@ public class ChangeUtil {
   }
 
   public static Change.Id editCommitMessage(final PatchSet.Id patchSetId,
+      final RefControl refControl, final String canonicalWebUrl,
       final IdentifiedUser user, final String message, final ReviewDb db,
       final ChangeHooks hooks, GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
@@ -352,6 +359,25 @@ public class ChangeUtil {
           newCommit = revWalk.parseCommit(id);
         } finally {
           oi.release();
+        }
+
+        final LinkedList<String> rejectMsg = new LinkedList<String>();
+        if (!CommitUtil.validateCommitSettings(refControl, newCommit,
+            revWalk, true, canonicalWebUrl, new NoSshInfo(), myIdent,
+            user, new LinkedList<CommitValidationMessage>(),
+            new CommitValidationCallback() {
+
+              @Override
+              public void onRejected(String rejectReason,
+                  List<CommitValidationMessage> messages) {
+                rejectMsg.add(rejectReason);
+              }
+
+              @Override
+              public void onAccepted(List<CommitValidationMessage> messages) {
+              }
+            })) {
+          throw new InvalidChangeOperationException(rejectMsg.get(0));
         }
 
         change.nextPatchSetId();

@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.EmailException;
@@ -59,6 +60,8 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   @Nullable
   private final String message;
 
+  final String canonicalWebUrl;
+
   private final ChangeHooks hooks;
 
   private final GitRepositoryManager gitManager;
@@ -72,6 +75,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message, final ChangeHooks hooks,
+      @CanonicalWebUrl @Nullable final String canonicalWebUrl,
       final GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated replication,
@@ -83,6 +87,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
 
     this.patchSetId = patchSetId;
     this.message = message;
+    this.canonicalWebUrl = canonicalWebUrl;
     this.hooks = hooks;
     this.gitManager = gitManager;
 
@@ -104,7 +109,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
           "Not allowed to add new Patch Sets to: " + changeId.toString());
     }
 
-    ChangeUtil.editCommitMessage(patchSetId, currentUser, message, db,
+    ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(), canonicalWebUrl, currentUser, message, db,
         hooks, gitManager, patchSetInfoFactory, replication, myIdent);
 
     return changeDetailFactory.create(changeId).call();

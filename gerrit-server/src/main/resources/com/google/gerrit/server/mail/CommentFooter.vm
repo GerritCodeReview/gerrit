@@ -34,7 +34,7 @@
 ##
 ## See ChangeSubject.vm and ChangeFooter.vm.
 #if($email.hasInlineComments())
-Gerrit-HasInlineComments: Yes
+Gerrit-HasComments: Yes
 #else
-Gerrit-HasInlineComments: No
+Gerrit-HasComments: No
 #end

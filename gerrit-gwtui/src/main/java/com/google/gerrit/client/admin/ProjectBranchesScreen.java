@@ -106,6 +106,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
 
     addPanel = new FlowPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
+    addPanel.setWidth("35em");
 
     final Grid addGrid = new Grid(2, 2);
 

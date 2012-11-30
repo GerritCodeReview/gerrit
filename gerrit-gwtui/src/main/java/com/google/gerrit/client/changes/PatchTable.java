@@ -23,10 +23,10 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.reviewdb.client.Patch.Key;
 import com.google.gerrit.reviewdb.client.Patch.PatchType;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -35,8 +35,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -436,32 +436,27 @@ public class PatchTable extends Composite {
     }
 
     void initializeLastRow(int row) {
-      table.setWidget(
-          row,
-          C_SIDEBYSIDE - 2,
-          new InlineHyperlink(Util.C.buttonDiffAllSideBySide(), History
-              .getToken()) {
-            @Override
-            public void go() {
-              for (Patch p : detail.getPatches()) {
-                openWindow(Dispatcher.toPatchSideBySide(base, p.getKey()));
-              }
-            }
-          });
+      Anchor sideBySide = new Anchor(Util.C.buttonDiffAllSideBySide());
+      sideBySide.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          for (Patch p : detail.getPatches()) {
+            openWindow(Dispatcher.toPatchSideBySide(base, p.getKey()));
+          }
+        }
+      });
+      table.setWidget(row, C_SIDEBYSIDE - 2, sideBySide);
 
       int C_UNIFIED = C_SIDEBYSIDE - 2 + 1;
-      table.setWidget(
-          row,
-          C_UNIFIED,
-          new InlineHyperlink(Util.C.buttonDiffAllUnified(), History
-              .getToken()) {
-            @Override
-            public void go() {
-              for (Patch p : detail.getPatches()) {
-                openWindow(Dispatcher.toPatchUnified(base, p.getKey()));
-              }
-            }
-          });
+      Anchor unified = new Anchor(Util.C.buttonDiffAllUnified());
+      unified.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
+          for (Patch p : detail.getPatches()) {
+            openWindow(Dispatcher.toPatchUnified(base, p.getKey()));
+          }
+        };
+      });
+      table.setWidget(row, C_UNIFIED, unified);
     }
 
     private void openWindow(String token) {

@@ -23,6 +23,7 @@ matches the search, the change will be presented instead of a list.
 |Open changes in Foo  | status:open project:Foo
 |=================================================
 
+
 Basic Change Search
 -------------------
 
@@ -108,7 +109,6 @@ Changes occurring in 'PROJECT'. If 'PROJECT' starts with `^` it
 matches project names by regular expression.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
 library] is used for evaluation of such patterns.
-
 
 [[branch]]
 branch:'BRANCH'::
@@ -271,6 +271,17 @@ status:abandoned::
 Change has been abandoned.
 
 
+Argument Quoting
+----------------
+
+Operator values that are not bare words (roughly A-Z, a-z, 0-9, @,
+hypen, dot and underscore) must be quoted for the query parser.
+
+Quoting is accepted as either double quotes
+(e.g.  `message:"the value"`) or as matched
+curly braces (e.g. `message:{the value}`).
+
+
 Boolean Operators
 -----------------
 
@@ -426,6 +437,7 @@ Restart the low level scan routine from 'KEY'.  This is automatically
 set by the pagination system as the user navigates through results
 of a query.  Including either value in a web query may lead to
 unpredictable results.
+
 
 GERRIT
 ------

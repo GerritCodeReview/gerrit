@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.TypeLiteral;
 
 import org.eclipse.jgit.lib.Config;
@@ -24,26 +25,34 @@ public class DashboardResource implements RestResource {
   public static final TypeLiteral<RestView<DashboardResource>> DASHBOARD_KIND =
       new TypeLiteral<RestView<DashboardResource>>() {};
 
-  static DashboardResource projectDefault(ProjectControl ctl) {
-    return new DashboardResource(ctl, null, null, null, true);
+  public static DashboardResource projectTyped(ProjectControl ctl,
+      Project.DashboardType type) {
+    return new DashboardResource(ctl, null, null, null, type);
   }
 
   private final ProjectControl control;
   private final String refName;
   private final String pathName;
   private final Config config;
-  private final boolean projectDefault;
+  private Project.DashboardType type;
+
+  DashboardResource(ProjectControl control,
+      String refName,
+      String pathName,
+      Config config) {
+    this(control, refName, pathName, config, null);
+  }
 
   DashboardResource(ProjectControl control,
       String refName,
       String pathName,
       Config config,
-      boolean projectDefault) {
+      Project.DashboardType type) {
     this.control = control;
     this.refName = refName;
     this.pathName = pathName;
     this.config = config;
-    this.projectDefault = projectDefault;
+    this.type = type;
   }
 
   public ProjectControl getControl() {
@@ -62,7 +71,7 @@ public class DashboardResource implements RestResource {
     return config;
   }
 
-  public boolean isProjectDefault() {
-    return projectDefault;
+  public Project.DashboardType getType() {
+    return type;
   }
 }

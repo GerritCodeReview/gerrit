@@ -22,17 +22,18 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.project.DeleteDashboard.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.gerrit.reviewdb.client.Project;
 
 class DeleteDashboard implements RestModifyView<DashboardResource, Input> {
   static class Input {
     String commitMessage;
   }
 
-  private final Provider<SetDefaultDashboard> defaultSetter;
+  private final Provider<SetTypedDashboard> typedSetter;
 
   @Inject
-  DeleteDashboard(Provider<SetDefaultDashboard> defaultSetter) {
-    this.defaultSetter = defaultSetter;
+  DeleteDashboard(Provider<SetTypedDashboard> typedSetter) {
+    this.typedSetter = typedSetter;
   }
 
   @Override
@@ -44,10 +45,11 @@ class DeleteDashboard implements RestModifyView<DashboardResource, Input> {
   public Object apply(DashboardResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
       Exception {
-    if (resource.isProjectDefault()) {
+    Project.DashboardType type = resource.getType();
+    if (type != null) {
       SetDashboard.Input in = new SetDashboard.Input();
       in.commitMessage = input != null ? input.commitMessage : null;
-      return defaultSetter.get().apply(resource, in);
+      return typedSetter.get().apply(resource, in);
     }
 
     // TODO: Implement delete of dashboards by API.

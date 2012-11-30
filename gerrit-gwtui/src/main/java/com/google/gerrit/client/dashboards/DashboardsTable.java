@@ -22,14 +22,18 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class DashboardsTable extends NavigationTable<DashboardInfo> {
   Project.NameKey project;
@@ -117,11 +121,7 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
   }
 
   protected void populate(final int row, final DashboardInfo k) {
-    if (k.isDefault()) {
-      table.setWidget(row, 1, new Image(Gerrit.RESOURCES.greenCheck()));
-      final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.getElement(row, 1).setTitle(Util.C.dashboardDefaultToolTip());
-    }
+    table.setWidget(row, 1, createTypesWidget(k.types()));
     table.setWidget(row, 2, new Anchor(k.path(), "#"
             + PageLinks.toProjectDashboard(new Project.NameKey(k.project()), k.id())));
     table.setText(row, 3, k.description());
@@ -130,6 +130,16 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
           + PageLinks.toProjectDashboards(new Project.NameKey(k.definingProject()))));
     }
     setRowItem(row, k);
+  }
+
+  private Widget createTypesWidget(Collection<Project.DashboardType> types) {
+    FlowPanel fp = new FlowPanel();
+    for (Project.DashboardType type : types) {
+      Label l = new Label(type.toString().substring(0, 1));
+      l.setTitle(type.toString());
+      fp.add(l);
+    }
+    return fp;
   }
 
   @Override

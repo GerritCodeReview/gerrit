@@ -21,5 +21,4 @@ public interface DashboardConstants extends Constants {
   String dashboardDescription();
   String dashboardInherited();
   String dashboardItem();
-  String dashboardDefaultToolTip();
 }

@@ -29,6 +29,7 @@ limitations under the License.
   @eval trimColor com.google.gerrit.client.Gerrit.getTheme().trimColor;
 
   .panel {
+    width: 50em;
     position: relative;
   }
 

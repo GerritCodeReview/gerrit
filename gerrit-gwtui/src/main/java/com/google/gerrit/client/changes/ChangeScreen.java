@@ -69,6 +69,7 @@ public class ChangeScreen extends Screen
   private ChangeTable dependencies;
   private ChangeTable.Section dependsOn;
   private ChangeTable.Section neededBy;
+  private FlowPanel dashboardPanel;
 
   private PatchSetsBlock patchSetsBlock;
 
@@ -167,6 +168,10 @@ public class ChangeScreen extends Screen
 
     descriptionBlock = new ChangeDescriptionBlock(keysAction);
     add(descriptionBlock);
+
+    dashboardPanel = new FlowPanel();
+    dashboardPanel.setVisible(false);
+    add(dashboardPanel);
 
     approvals = new ApprovalTable();
     add(approvals);
@@ -274,6 +279,17 @@ public class ChangeScreen extends Screen
       includedInPanel.addOpenHandler(includedInTable);
     } else {
       includedInPanel.setVisible(false);
+    }
+
+    String params = detail.getDashboardParameters();
+    if (params != null) {
+      DisclosurePanel dp = new DisclosurePanel(
+          detail.getDashboardTitle());
+      DashboardTable dt = new DashboardTable(params);
+      dt.setWidth("99%");
+      dp.setContent(dt);
+      dashboardPanel.add(dp);
+      dashboardPanel.setVisible(true);
     }
 
     dependencies.setAccountInfoCache(detail.getAccounts());

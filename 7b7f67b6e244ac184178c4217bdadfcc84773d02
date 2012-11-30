@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MVytB.Tk",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/EditCommitMessageHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-30T15:52:40Z",
+      "side": 1,
+      "message": "Perhaps this should just get injected into the commitUtil directly? It sould save a parameter here and in your other two uses.",
+      "revId": "7b7f67b6e244ac184178c4217bdadfcc84773d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

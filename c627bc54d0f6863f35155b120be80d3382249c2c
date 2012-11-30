@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MTHbvUBI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-30T17:26:39Z",
+      "side": 1,
+      "message": "It is only a one line change in one file and are 3 line change in another file.  It is pretty minor cleanup.  In my opinion, it is OK to include this small cleanups like this with the code, since it doesn\u0027t interfere with the understanding of the change too much and improves the code.  Splitting out these really small changes becomes tedious quickly and would likely discourage the fixes in the end.  However, if consensus on the project is that these should always be split out, I can oblige.",
+      "parentUuid": "MGGoaF3s",
+      "revId": "c627bc54d0f6863f35155b120be80d3382249c2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MLVXzTDA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-11-29T06:53:06Z",
       "side": 1,
       "message": "Could you explain how getNumberOfPatchSets and currPatchSetId are equivalent?  I don\u0027t know the history behind having two fields which seem equivalent.  I assume there was a reason for each since they are actual fields in the db.  Does one of them not include drafts?",
+      "revId": "c627bc54d0f6863f35155b120be80d3382249c2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTBbqXAI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002517
+      },
+      "writtenOn": "2012-11-30T17:26:39Z",
+      "side": 1,
+      "message": "In the end, I would like to remove both of them.\n\ngetNumberOfPatchSets() was used to quickly determine the next PatchSet ID. However, this can get out of sync with references for the Change e.g. we also insert the PatchSet reference first and then update the counters in the change.\n\ncurrentPatchSetId is the ID of the latest PatchSet i.e. the one that should be submitted.  In general, it is used to quickly find the patchSetId and determine which of the PatchSets should be submitted. With recent changes to the UI RPC format that include the patchSetId for the patchSet that should be submitted, we can just allow any valid patchSet to be submitted and not necessarily the current one.",
+      "parentUuid": "MLVXzTDA",
       "revId": "c627bc54d0f6863f35155b120be80d3382249c2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

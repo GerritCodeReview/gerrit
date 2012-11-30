@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MTFamlBQ",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/CommentFooter.vm",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T10:29:04Z",
+      "side": 1,
+      "message": "Should probably also change the email method names.",
+      "revId": "8558c012299e71e96f0ac72d789d6ea0357b21b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

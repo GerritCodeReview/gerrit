@@ -111,7 +111,6 @@ import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
-import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
@@ -362,8 +361,7 @@ public class ReceiveCommits {
     List<AdvertiseRefsHook> advHooks = new ArrayList<AdvertiseRefsHook>(3);
     advHooks.add(new AdvertiseRefsHook() {
       @Override
-      public void advertiseRefs(BaseReceivePack rp)
-          throws ServiceMayNotContinueException {
+      public void advertiseRefs(BaseReceivePack rp) {
         allRefs = rp.getAdvertisedRefs();
         if (allRefs == null) {
           allRefs = rp.getRepository().getAllRefs();
@@ -372,8 +370,7 @@ public class ReceiveCommits {
       }
 
       @Override
-      public void advertiseRefs(UploadPack uploadPack)
-          throws ServiceMayNotContinueException {
+      public void advertiseRefs(UploadPack uploadPack) {
       }
     });
     advHooks.add(rp.getAdvertiseRefsHook());
@@ -1723,7 +1720,7 @@ public class ReceiveCommits {
         }
 
         List<PatchSetApproval> patchSetApprovals =
-            approvalsUtil.copyVetosToLatestPatchSet(db, change);
+            approvalsUtil.copyVetosToPatchSet(db, newPatchSet.getId());
 
         final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
         oldReviewers.clear();

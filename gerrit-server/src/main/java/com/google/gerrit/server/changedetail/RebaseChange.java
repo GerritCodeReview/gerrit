@@ -189,7 +189,6 @@ public class RebaseChange {
    * @param db the ReviewDb
    * @param destBranch the destination branch
    * @param git the repository
-   * @param rw the RevWalk
    * @param patchSetAncestors the original PatchSetAncestor of the given patch
    *        set that should be based
    * @param depPatchSetList the original patch set list on which the rebased
@@ -393,7 +392,7 @@ public class RebaseChange {
             "Change %s was modified", change.getId()));
       }
 
-      approvalsUtil.copyVetosToLatestPatchSet(change);
+      approvalsUtil.copyVetosToPatchSet(db, change.currentPatchSetId());
 
       final ChangeMessage cmsg =
           new ChangeMessage(new ChangeMessage.Key(change.getId(),

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MTDZ.eGI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T12:10:16Z",
+      "side": 1,
+      "message": "s/is/are",
+      "revId": "a9b3af852c9d82114ca6365686f22c7665287255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTBaDfGI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T12:10:16Z",
+      "side": 1,
+      "message": "s/incomming/incoming",
+      "revId": "a9b3af852c9d82114ca6365686f22c7665287255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTHZ48HI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T12:10:16Z",
+      "side": 1,
+      "message": "- s/is/are\n\n- s/incomming/incoming",
+      "revId": "a9b3af852c9d82114ca6365686f22c7665287255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

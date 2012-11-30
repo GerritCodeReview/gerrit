@@ -163,7 +163,8 @@ class DashboardsCollection implements
     DashboardInfo info = new DashboardInfo(refName, path);
     info.title = config.getString("dashboard", null, "title");
     info.description = config.getString("dashboard", null, "description");
-    info.isDefault = setDefault ? (info.id.equals(defaultOf(project)) ? true : null) : null;
+    String id = refName + ":" + path;
+    info.isDefault = setDefault ? (id.equals(defaultOf(project)) ? true : null) : null;
     info.foreach = config.getString("dashboard", null, "foreach");
 
     UrlEncoded u = new UrlEncoded("/dashboard/");

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MVwv4fQo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-30T04:00:40Z",
+      "side": 1,
+      "message": "Can you keep a method named validCommit and put this new block in it so you don\u0027t need to repeat it 3 times?",
+      "revId": "c2467233e1a93e731247e356465eae323baaf487",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

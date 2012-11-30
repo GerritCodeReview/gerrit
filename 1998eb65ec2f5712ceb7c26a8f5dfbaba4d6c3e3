@@ -34,6 +34,24 @@
       "revId": "1998eb65ec2f5712ceb7c26a8f5dfbaba4d6c3e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTLYGCCU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T01:01:27Z",
+      "side": 1,
+      "message": "Ah, I see.  My misunderstanding, sorry.",
+      "parentUuid": "MTjTzEDI",
+      "revId": "1998eb65ec2f5712ceb7c26a8f5dfbaba4d6c3e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "MZxvzezE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsExecutorModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-11-30T22:50:12Z",
+      "side": 1,
+      "message": "Actually the initial idea was to inject RequestScopePropagator directly, but this fails because the ReceiveCommitsExecutorModule is added in the system injector and at this time RequestScopePropagator is not bound yet. We can\u0027t bind RequestScopePropagator in a system injector module because the binding needs to be different for HTTP (GuiceRequestScopePropagator) and SSH (SshScope.Propagator). Injecting Provider\u003cRequestScopePropagator\u003e has the same problem, hasn\u0027t it? Any idea how to make this injection work?",
+      "parentUuid": "MZlz9-fk",
+      "revId": "0a8a5e839f3a002a78353ba1eb7ef549448ffff8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MZpwGpSU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommitsExecutorModule.java",
         "patchSetId": 1

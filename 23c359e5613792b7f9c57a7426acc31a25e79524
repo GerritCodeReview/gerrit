@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MV8sN1UE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/PatchSetComplexDisclosurePanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-30T04:57:00Z",
+      "side": 1,
+      "message": "This class (disclosurePanel) is getting huge.  Maybe you could make a BranchSuggestionWidget in a separate file?",
+      "revId": "23c359e5613792b7f9c57a7426acc31a25e79524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

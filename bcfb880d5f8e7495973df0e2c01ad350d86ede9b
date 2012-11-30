@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MTPYn4LI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T04:24:09Z",
+      "side": 1,
+      "message": "The comma looks odd to me.  I suggest either removing it or replacing it with a semi-colon.",
+      "revId": "bcfb880d5f8e7495973df0e2c01ad350d86ede9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

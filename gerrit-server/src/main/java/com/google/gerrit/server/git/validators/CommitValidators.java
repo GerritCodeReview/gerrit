@@ -56,7 +56,7 @@ public class CommitValidators {
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   private static final Pattern NEW_PATCHSET = Pattern
-      .compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
+      .compile("^refs/changes/(?:[0-9][0-9])?(/[1-9][0-9]*){1,2}(?:/new)?$");
 
   public interface Factory {
     CommitValidators create(RefControl refControl, SshInfo sshInfo,

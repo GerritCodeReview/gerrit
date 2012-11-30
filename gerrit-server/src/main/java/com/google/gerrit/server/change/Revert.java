@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Change;
@@ -26,15 +27,19 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.Revert.Input;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.PersonIdent;
+
+import javax.annotation.Nullable;
 
 public class Revert implements RestModifyView<ChangeResource, Input> {
   private final ChangeHooks hooks;
@@ -45,6 +50,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
   private final PersonIdent myIdent;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final GitReferenceUpdated replication;
+  private final String canonicalWebUrl;
 
   public static class Input {
     public String message;
@@ -58,7 +64,8 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
       GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated replication,
-      @GerritPersonIdent final PersonIdent myIdent) {
+      @GerritPersonIdent final PersonIdent myIdent,
+      @CanonicalWebUrl @Nullable final String canonicalWebUrl) {
     this.hooks = hooks;
     this.revertedSenderFactory = revertedSenderFactory;
     this.dbProvider = dbProvider;
@@ -67,6 +74,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
     this.myIdent = myIdent;
     this.replication = replication;
     this.patchSetInfoFactory = patchSetInfoFactory;
+    this.canonicalWebUrl = canonicalWebUrl;
   }
 
   @Override
@@ -75,8 +83,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
   }
 
   @Override
-  public Object apply(ChangeResource req, Input input)
-      throws Exception {
+  public Object apply(ChangeResource req, Input input) throws Exception {
     ChangeControl control = req.getControl();
     Change change = req.getChange();
     if (!control.canAddPatchSet()) {
@@ -85,14 +92,19 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
       throw new ResourceConflictException("change is " + status(change));
     }
 
-    Change.Id revertedChangeId = ChangeUtil.revert(
-        change.currentPatchSetId(),
-        (IdentifiedUser) control.getCurrentUser(),
-        Strings.emptyToNull(input.message),
-        dbProvider.get(),
-        revertedSenderFactory, hooks, gitManager,
-        patchSetInfoFactory, replication, myIdent);
-    return json.format(revertedChangeId);
+    try {
+      Change.Id revertedChangeId =
+          ChangeUtil.revert(
+
+          control.getRefControl(), change.currentPatchSetId(),
+              (IdentifiedUser) control.getCurrentUser(),
+              Strings.emptyToNull(input.message), dbProvider.get(),
+              revertedSenderFactory, hooks, gitManager, patchSetInfoFactory,
+              replication, myIdent, canonicalWebUrl);
+      return json.format(revertedChangeId);
+    } catch (InvalidChangeOperationException e) {
+      throw new BadRequestException(e.getMessage());
+    }
   }
 
   private static String status(Change change) {

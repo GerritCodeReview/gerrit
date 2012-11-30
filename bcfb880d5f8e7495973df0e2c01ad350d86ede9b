@@ -16,6 +16,24 @@
       "revId": "bcfb880d5f8e7495973df0e2c01ad350d86ede9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTvQQeFs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-11-30T05:14:48Z",
+      "side": 1,
+      "message": "semi-colon will looks odd to me.\nhowever I am not sure about it as English is not my mother lauguage.\n\nthe output message seems very hard to get every one satisfied.\nI am tired and hard have time continue to trace this patch if it will still  get new comment from anyone as this is not a requirement from SOMC end user who have a lot of new features waiting me to carry them out. sorry for that, no problem for me if anyone like to add new patch to make it better in the feeling from his point of view",
+      "parentUuid": "MTPYn4LI",
+      "revId": "bcfb880d5f8e7495973df0e2c01ad350d86ede9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

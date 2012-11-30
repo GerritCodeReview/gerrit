@@ -81,7 +81,7 @@ public class SubmoduleSectionParser {
           && branch != null && branch.length() > 0) {
         // All required fields filled.
 
-        boolean urlIsRelative = url.startsWith("/");
+        boolean urlIsRelative = url.startsWith("../");
         String server = null;
         if (!urlIsRelative) {
           // It is actually an URI. It could be ssh://localhost/project-a.

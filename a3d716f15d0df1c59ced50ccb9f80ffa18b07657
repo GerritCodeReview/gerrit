@@ -16,6 +16,24 @@
       "revId": "a3d716f15d0df1c59ced50ccb9f80ffa18b07657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTDZBWDo",
+        "filename": "Documentation/database-setup.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T04:29:07Z",
+      "side": 1,
+      "message": "Done.\n\nAlso added a trailing newline which was missing.",
+      "parentUuid": "MGOo0x90",
+      "revId": "a3d716f15d0df1c59ced50ccb9f80ffa18b07657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

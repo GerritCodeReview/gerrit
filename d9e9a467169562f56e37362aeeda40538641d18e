@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MTFZKFCU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectDashboardsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-30T17:58:48Z",
+      "side": 1,
+      "message": "I actually didn\u0027t do this because Projects \u003e List uses the full screen, because of the possibly long Description column.\n\nI felt this was the same case.",
+      "revId": "d9e9a467169562f56e37362aeeda40538641d18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

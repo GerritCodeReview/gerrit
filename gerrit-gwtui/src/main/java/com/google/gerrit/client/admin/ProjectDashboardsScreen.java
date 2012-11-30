@@ -47,6 +47,7 @@ public class ProjectDashboardsScreen extends ProjectScreen {
     super.onInitUI();
     dashes = new DashboardsTable(project);
     FlowPanel fp = new FlowPanel();
+    fp.setWidth("50em");
     fp.add(dashes);
     add(fp);
     dashes.setSavePointerId("dashboards/project/" + getProjectKey().get());

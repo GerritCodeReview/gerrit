@@ -155,6 +155,22 @@ but not inherited to the child projects.
   local-default = refs/meta/dashboards/main:local
 ----
 
+Change Dashboard
+----------------
+
+A change dashboard may be defined which will be displayed on each
+change in a project.  Similarly to defining a project default
+dashboard, the change dashboard will be inherited by child projects if
+they do not define their own.  Likewise it is possible to define a
+`local-change` that is only used by this project but not inherited to
+the child projects.
+
+----
+[dashboard]
+  change = refs/meta/dashboards/main:change
+  local-change = refs/meta/dashboards/main:local_change
+----
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

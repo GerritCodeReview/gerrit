@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.util.concurrent.ForwardingListeningExecutorService;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -25,6 +28,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -48,20 +52,57 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @ChangeUpdateExecutor
-  public ListeningExecutorService createChangeUpdateExecutor(@GerritServerConfig Config config) {
+  public RequestScopeAwareListeningExecutorService createChangeUpdateExecutor(
+      @GerritServerConfig Config config) {
+    ListeningExecutorService e;
     int poolSize = config.getInt("receive", null, "changeUpdateThreads", 1);
     if (poolSize <= 1) {
-      return MoreExecutors.sameThreadExecutor();
+      e = MoreExecutors.sameThreadExecutor();
+    } else {
+      e = MoreExecutors.listeningDecorator(
+          MoreExecutors.getExitingExecutorService(
+            new ThreadPoolExecutor(1, poolSize,
+                10, TimeUnit.MINUTES,
+                new ArrayBlockingQueue<Runnable>(poolSize),
+                new ThreadFactoryBuilder()
+                  .setNameFormat("ChangeUpdate-%d")
+                  .setDaemon(true)
+                  .build(),
+                new ThreadPoolExecutor.CallerRunsPolicy())));
     }
-    return MoreExecutors.listeningDecorator(
-        MoreExecutors.getExitingExecutorService(
-          new ThreadPoolExecutor(1, poolSize,
-              10, TimeUnit.MINUTES,
-              new ArrayBlockingQueue<Runnable>(poolSize),
-              new ThreadFactoryBuilder()
-                .setNameFormat("ChangeUpdate-%d")
-                .setDaemon(true)
-                .build(),
-              new ThreadPoolExecutor.CallerRunsPolicy())));
+    return new RequestScopeAwareListeningExecutorService(e, poolSize > 1);
+  }
+
+  public class RequestScopeAwareListeningExecutorService extends
+      ForwardingListeningExecutorService {
+    private ListeningExecutorService e;
+    private boolean applyRequestScope;
+    private RequestScopePropagator requestScopePropagator;
+
+    public RequestScopeAwareListeningExecutorService(
+        final ListeningExecutorService e, boolean applyRequestScope) {
+      this.e = e;
+      this.applyRequestScope = applyRequestScope;
+    }
+
+    public RequestScopeAwareListeningExecutorService setRequestScopePropagator(
+        final RequestScopePropagator requestScopePropagator) {
+      this.requestScopePropagator = requestScopePropagator;
+      return this;
+    }
+
+    @Override
+    protected ListeningExecutorService delegate() {
+      return e;
+    }
+
+    @Override
+    public <T> ListenableFuture<T> submit(Callable<T> task) {
+      if (applyRequestScope) {
+        return super.submit(requestScopePropagator.wrap(task));
+      } else {
+        return super.submit(task);
+      }
+    }
   }
 }

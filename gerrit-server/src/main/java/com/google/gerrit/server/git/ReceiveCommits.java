@@ -34,7 +34,6 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.ChangeHookRunner.HookResult;
 import com.google.gerrit.common.ChangeHooks;
 import com.google.gerrit.common.PageLinks;
@@ -63,6 +62,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
+import com.google.gerrit.server.git.ReceiveCommitsExecutorModule.RequestScopeAwareListeningExecutorService;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidationResult;
@@ -253,7 +253,7 @@ public class ReceiveCommits {
   private final TrackingFooters trackingFooters;
   private final TagCache tagCache;
   private final WorkQueue workQueue;
-  private final ListeningExecutorService changeUpdateExector;
+  private final RequestScopeAwareListeningExecutorService changeUpdateExector;
   private final RequestScopePropagator requestScopePropagator;
   private final SshInfo sshInfo;
 
@@ -309,7 +309,7 @@ public class ReceiveCommits {
       @GerritPersonIdent final PersonIdent gerritIdent,
       final TrackingFooters trackingFooters,
       final WorkQueue workQueue,
-      @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
+      @ChangeUpdateExecutor RequestScopeAwareListeningExecutorService changeUpdateExector,
       final RequestScopePropagator requestScopePropagator,
       final SshInfo sshInfo,
       final DynamicSet<CommitValidationListener> commitValidationListeners,
@@ -334,7 +334,8 @@ public class ReceiveCommits {
     this.trackingFooters = trackingFooters;
     this.tagCache = tagCache;
     this.workQueue = workQueue;
-    this.changeUpdateExector = changeUpdateExector;
+    this.changeUpdateExector =
+        changeUpdateExector.setRequestScopePropagator(requestScopePropagator);
     this.requestScopePropagator = requestScopePropagator;
     this.sshInfo = sshInfo;
 
@@ -1328,7 +1329,7 @@ public class ReceiveCommits {
 
       final Thread caller = Thread.currentThread();
       ListenableFuture<Void> future = changeUpdateExector.submit(
-          requestScopePropagator.wrap(new Callable<Void>() {
+          new Callable<Void>() {
         @Override
         public Void call() throws OrmException {
           if (caller == Thread.currentThread()) {
@@ -1346,7 +1347,7 @@ public class ReceiveCommits {
           }
           return null;
         }
-      }));
+      });
       return Futures.makeChecked(future, ORM_EXCEPTION);
     }
 
@@ -1645,7 +1646,7 @@ public class ReceiveCommits {
 
       final Thread caller = Thread.currentThread();
       ListenableFuture<PatchSet.Id> future = changeUpdateExector.submit(
-          requestScopePropagator.wrap(new Callable<PatchSet.Id>() {
+          new Callable<PatchSet.Id>() {
         @Override
         public PatchSet.Id call() throws OrmException {
           try {
@@ -1665,7 +1666,7 @@ public class ReceiveCommits {
             }
           }
         }
-      }));
+      });
       return Futures.makeChecked(future, ORM_EXCEPTION);
     }
 

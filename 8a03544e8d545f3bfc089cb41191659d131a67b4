@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MVgz4lwo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-30T01:19:26Z",
+      "side": 1,
+      "message": "This was an intentional change on my part. We are trying to get rid of the ApprovalTypes information and the database records that define them, and allow the Prolog rules for a project to define \"labels\" on the fly of any string they want. The label name is what will be shown to the user for selection, and is the column headers you see in tables.\n\nSo I am trying to ween users off the \"Hi, I like this code, but I don\u0027t have permission to approve it, but I\u0027m going to say I like it anyway so here is my +1 me too!\" strings in favor of the more terse label names that will be more easily supported by the Prolog rules.",
+      "revId": "8a03544e8d545f3bfc089cb41191659d131a67b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

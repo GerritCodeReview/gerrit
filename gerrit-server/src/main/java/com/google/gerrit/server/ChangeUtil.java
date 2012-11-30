@@ -27,15 +27,19 @@ import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.config.TrackingFooter;
 import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmConcurrencyException;
@@ -54,6 +58,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.ChangeIdUtil;
 import org.eclipse.jgit.util.NB;
@@ -305,9 +310,10 @@ public class ChangeUtil {
   }
 
   public static Change.Id editCommitMessage(final PatchSet.Id patchSetId,
+      final RefControl refControl, CommitValidators commitValidators,
       final IdentifiedUser user, final String message, final ReviewDb db,
       final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
-      final ChangeHooks hooks, GitRepositoryManager gitManager,
+      final ChangeHooks hooks, Repository git,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated replication, PersonIdent myIdent)
       throws NoSuchChangeException, EmailException, OrmException,
@@ -323,128 +329,129 @@ public class ChangeUtil {
       throw new InvalidChangeOperationException("The commit message cannot be empty");
     }
 
-    final Repository git;
+    final RevWalk revWalk = new RevWalk(git);
     try {
-      git = gitManager.openRepository(db.changes().get(changeId).getProject());
-    } catch (RepositoryNotFoundException e) {
-      throw new NoSuchChangeException(changeId, e);
-    }
+      RevCommit commit =
+          revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
+      if (commit.getFullMessage().equals(message)) {
+        throw new InvalidChangeOperationException("New commit message cannot be same as existing commit message");
+      }
 
-    try {
-      final RevWalk revWalk = new RevWalk(git);
+      Date now = myIdent.getWhen();
+      Change change = db.changes().get(changeId);
+      PersonIdent authorIdent =
+          user.newCommitterIdent(now, myIdent.getTimeZone());
+
+      CommitBuilder commitBuilder = new CommitBuilder();
+      commitBuilder.setTreeId(commit.getTree());
+      commitBuilder.setParentIds(commit.getParents());
+      commitBuilder.setAuthor(commit.getAuthorIdent());
+      commitBuilder.setCommitter(authorIdent);
+      commitBuilder.setMessage(message);
+
+      RevCommit newCommit;
+      final ObjectInserter oi = git.newObjectInserter();
       try {
-        RevCommit commit =
-            revWalk.parseCommit(ObjectId.fromString(patch.getRevision().get()));
-        if (commit.getFullMessage().equals(message)) {
-          throw new InvalidChangeOperationException("New commit message cannot be same as existing commit message");
+        ObjectId id = oi.insert(commitBuilder);
+        oi.flush();
+        newCommit = revWalk.parseCommit(id);
+      } finally {
+        oi.release();
+      }
+
+      final PatchSet originalPS = db.patchSets().get(patchSetId);
+      PatchSet.Id id = nextPatchSetId(git, change.currentPatchSetId());
+      final PatchSet newPatchSet = new PatchSet(id);
+      newPatchSet.setCreatedOn(new Timestamp(now.getTime()));
+      newPatchSet.setUploader(user.getAccountId());
+      newPatchSet.setRevision(new RevId(newCommit.name()));
+      newPatchSet.setDraft(originalPS.isDraft());
+
+      final PatchSetInfo info =
+          patchSetInfoFactory.get(newCommit, newPatchSet.getId());
+
+      CommitReceivedEvent commitReceivedEvent =
+          new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
+              newCommit.getId(), newPatchSet.getRefName()), refControl
+              .getProjectControl().getProject(), refControl.getRefName(),
+              newCommit, user);
+
+      try {
+        commitValidators.validateForReceiveCommits(commitReceivedEvent);
+      } catch (CommitValidationException e) {
+        throw new InvalidChangeOperationException(e.getMessage());
+      }
+
+      final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
+      ru.setExpectedOldObjectId(ObjectId.zeroId());
+      ru.setNewObjectId(newCommit);
+      ru.disableRefLog();
+      if (ru.update(revWalk) != RefUpdate.Result.NEW) {
+        throw new IOException(String.format(
+            "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
+            change.getDest().getParentKey().get(), ru.getResult()));
+      }
+      replication.fire(change.getProject(), ru.getName());
+
+      db.changes().beginTransaction(change.getId());
+      try {
+        Change updatedChange = db.changes().get(change.getId());
+        if (updatedChange != null && updatedChange.getStatus().isOpen()) {
+          change = updatedChange;
+        } else {
+          throw new InvalidChangeOperationException(String.format(
+              "Change %s is closed", change.getId()));
         }
 
-        Date now = myIdent.getWhen();
-        Change change = db.changes().get(changeId);
-        PersonIdent authorIdent =
-            user.newCommitterIdent(now, myIdent.getTimeZone());
-
-        CommitBuilder commitBuilder = new CommitBuilder();
-        commitBuilder.setTreeId(commit.getTree());
-        commitBuilder.setParentIds(commit.getParents());
-        commitBuilder.setAuthor(commit.getAuthorIdent());
-        commitBuilder.setCommitter(authorIdent);
-        commitBuilder.setMessage(message);
-
-        RevCommit newCommit;
-        final ObjectInserter oi = git.newObjectInserter();
-        try {
-          ObjectId id = oi.insert(commitBuilder);
-          oi.flush();
-          newCommit = revWalk.parseCommit(id);
-        } finally {
-          oi.release();
-        }
-
-        final PatchSet originalPS = db.patchSets().get(patchSetId);
-        PatchSet.Id id = nextPatchSetId(git, change.currentPatchSetId());
-        final PatchSet newPatchSet = new PatchSet(id);
-        newPatchSet.setCreatedOn(new Timestamp(now.getTime()));
-        newPatchSet.setUploader(user.getAccountId());
-        newPatchSet.setRevision(new RevId(newCommit.name()));
-        newPatchSet.setDraft(originalPS.isDraft());
-
-        final PatchSetInfo info =
-            patchSetInfoFactory.get(newCommit, newPatchSet.getId());
-
-        final RefUpdate ru = git.updateRef(newPatchSet.getRefName());
-        ru.setExpectedOldObjectId(ObjectId.zeroId());
-        ru.setNewObjectId(newCommit);
-        ru.disableRefLog();
-        if (ru.update(revWalk) != RefUpdate.Result.NEW) {
-          throw new IOException(String.format(
-              "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
-              change.getDest().getParentKey().get(), ru.getResult()));
-        }
-        replication.fire(change.getProject(), ru.getName());
-
-        db.changes().beginTransaction(change.getId());
-        try {
-          Change updatedChange = db.changes().get(change.getId());
-          if (updatedChange != null && updatedChange.getStatus().isOpen()) {
-            change = updatedChange;
-          } else {
-            throw new InvalidChangeOperationException(String.format(
-                "Change %s is closed", change.getId()));
-          }
-
-          ChangeUtil.insertAncestors(db, newPatchSet.getId(), commit);
-          db.patchSets().insert(Collections.singleton(newPatchSet));
-          updatedChange =
-              db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
-                @Override
-                public Change update(Change change) {
-                  if (change.getStatus().isClosed()) {
-                    return null;
-                  }
-                  if (!change.currentPatchSetId().equals(patchSetId)) {
-                    return null;
-                  }
-                  if (change.getStatus() != Change.Status.DRAFT) {
-                    change.setStatus(Change.Status.NEW);
-                  }
-                  change.setLastSha1MergeTested(null);
-                  change.setCurrentPatchSet(info);
-                  ChangeUtil.updated(change);
-                  return change;
+        ChangeUtil.insertAncestors(db, newPatchSet.getId(), commit);
+        db.patchSets().insert(Collections.singleton(newPatchSet));
+        updatedChange =
+            db.changes().atomicUpdate(change.getId(), new AtomicUpdate<Change>() {
+              @Override
+              public Change update(Change change) {
+                if (change.getStatus().isClosed()) {
+                  return null;
                 }
-              });
-          if (updatedChange != null) {
-            change = updatedChange;
-          } else {
-            throw new InvalidChangeOperationException(String.format(
-                "Change %s was modified", change.getId()));
-          }
+                if (!change.currentPatchSetId().equals(patchSetId)) {
+                  return null;
+                }
+                if (change.getStatus() != Change.Status.DRAFT) {
+                  change.setStatus(Change.Status.NEW);
+                }
+                change.setLastSha1MergeTested(null);
+                change.setCurrentPatchSet(info);
+                ChangeUtil.updated(change);
+                return change;
+              }
+            });
+        if (updatedChange != null) {
+          change = updatedChange;
+        } else {
+          throw new InvalidChangeOperationException(String.format(
+              "Change %s was modified", change.getId()));
+        }
 
-          final ChangeMessage cmsg =
-              new ChangeMessage(new ChangeMessage.Key(changeId,
-                  ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
-          final String msg = "Patch Set " + newPatchSet.getPatchSetId() + ": Commit message was updated";
-          cmsg.setMessage(msg);
-          db.changeMessages().insert(Collections.singleton(cmsg));
-          db.commit();
+        final ChangeMessage cmsg =
+            new ChangeMessage(new ChangeMessage.Key(changeId,
+                ChangeUtil.messageUUID(db)), user.getAccountId(), patchSetId);
+        final String msg = "Patch Set " + newPatchSet.getPatchSetId() + ": Commit message was updated";
+        cmsg.setMessage(msg);
+        db.changeMessages().insert(Collections.singleton(cmsg));
+        db.commit();
 
           final CommitMessageEditedSender cm = commitMessageEditedSenderFactory.create(change);
           cm.setFrom(user.getAccountId());
           cm.setChangeMessage(cmsg);
           cm.send();
-        } finally {
-          db.rollback();
-        }
-
-        hooks.doPatchsetCreatedHook(change, newPatchSet, db);
-
-        return change.getId();
       } finally {
-        revWalk.release();
+        db.rollback();
       }
+
+      hooks.doPatchsetCreatedHook(change, newPatchSet, db);
+
+      return change.getId();
     } finally {
-      git.close();
+      revWalk.release();
     }
   }
 

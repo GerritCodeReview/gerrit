@@ -50,6 +50,8 @@ public class ChangeDetail {
   protected PatchSetDetail currentDetail;
   protected boolean canEdit;
   protected boolean canEditTopicName;
+  protected String dashboardTitle;
+  protected String dashboardParams;
 
   public ChangeDetail() {
   }
@@ -258,5 +260,21 @@ public class ChangeDetail {
 
   public boolean canEdit() {
     return canEdit;
+  }
+
+  public String getDashboardTitle() {
+    return dashboardTitle;
+  }
+
+  public void setDashboardTitle(String dashboardTitle) {
+    this.dashboardTitle = dashboardTitle;
+  }
+
+  public String getDashboardParameters() {
+    return dashboardParams;
+  }
+
+  public void setDashboardParameters(String dashboardParams) {
+    this.dashboardParams = dashboardParams;
   }
 }

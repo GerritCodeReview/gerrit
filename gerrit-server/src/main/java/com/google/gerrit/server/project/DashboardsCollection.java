@@ -166,7 +166,9 @@ public class DashboardsCollection implements
     DashboardInfo info = new DashboardInfo(refName, path);
     info.project = project;
     info.definingProject = definingProject.getName();
-    info.title = config.getString("dashboard", null, "title");
+    info.title = Objects.firstNonNull(
+        config.getString("dashboard", null, "title"),
+        info.path);
     info.description = config.getString("dashboard", null, "description");
     info.foreach = config.getString("dashboard", null, "foreach");
 
@@ -189,6 +191,7 @@ public class DashboardsCollection implements
       u.put(s.name, replace(project, s.query));
       info.sections.add(s);
     }
+    info.parameters = u.getParameters().replace("%3A", ":");
     info.url = u.toString().replace("%3A", ":");
 
     return info;
@@ -224,6 +227,7 @@ public class DashboardsCollection implements
     String path;
     String description;
     String foreach;
+    public String parameters;
     String url;
     List<Project.DashboardType> types = Lists.newArrayList();
 

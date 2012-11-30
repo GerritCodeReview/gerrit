@@ -17,6 +17,14 @@ package com.google.gerrit.reviewdb.client;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /** Projects match a source code repository managed by Gerrit */
 public final class Project {
   /** Project name key */
@@ -91,6 +99,36 @@ public final class Project {
     INHERIT;
   }
 
+  public static enum DashboardType {
+    DEFAULT("default");
+
+    public final String id;
+
+    DashboardType(String id) {
+      this.id = id;
+    }
+
+    public static DashboardType fromId(String id) {
+      for (DashboardType type: values()) {
+        if (type.id.equals(id)) {
+          return type;
+        }
+      }
+      return null;
+    }
+
+    public static Set<Project.DashboardType> asSet() {
+      Set<Project.DashboardType> types = new HashSet<Project.DashboardType>();
+      Collections.addAll(types, values());
+      return types;
+    }
+
+    public static List<Project.DashboardType> asList() {
+      return Arrays.asList(values());
+    }
+  }
+
+
   protected NameKey name;
 
   protected String description;
@@ -109,9 +147,9 @@ public final class Project {
 
   protected InheritableBoolean useContentMerge;
 
-  protected String defaultDashboardId;
+  protected Map<DashboardType,String> dashboardIdByType;
 
-  protected String localDefaultDashboardId;
+  protected Map<DashboardType,String> localDashboardIdByType;
 
   protected Project() {
   }
@@ -190,20 +228,43 @@ public final class Project {
     state = newState;
   }
 
-  public String getDefaultDashboard() {
-    return defaultDashboardId;
+  public void setDashboard(final DashboardType type, final String dashboardId) {
+    if (dashboardIdByType == null) {
+      dashboardIdByType = new HashMap<DashboardType,String>();
+    }
+    if (dashboardId == null) {
+      dashboardIdByType.remove(type);
+      return;
+    }
+    dashboardIdByType.put(type, dashboardId);
   }
 
-  public void setDefaultDashboard(final String defaultDashboardId) {
-    this.defaultDashboardId = defaultDashboardId;
+  public String getDashboard(DashboardType type) {
+    return dashboardIdByType != null ? dashboardIdByType.get(type) : null;
   }
 
-  public String getLocalDefaultDashboard() {
-    return localDefaultDashboardId;
+  public Map<DashboardType,String> getDashboardIdByType() {
+    return dashboardIdByType;
   }
 
-  public void setLocalDefaultDashboard(final String localDefaultDashboardId) {
-    this.localDefaultDashboardId = localDefaultDashboardId;
+  public void setLocalDashboard(final DashboardType type,
+      final String dashboardId) {
+    if (localDashboardIdByType == null) {
+      localDashboardIdByType = new HashMap<DashboardType,String>();
+    }
+    if (dashboardId == null) {
+      localDashboardIdByType.remove(type);
+      return;
+    }
+    localDashboardIdByType.put(type, dashboardId);
+  }
+
+  public String getLocalDashboard(DashboardType type) {
+    return localDashboardIdByType != null ? localDashboardIdByType.get(type) : null;
+  }
+
+  public Map<DashboardType,String> getLocalDashboardIdByType() {
+    return localDashboardIdByType;
   }
 
   public void copySettingsFrom(final Project update) {

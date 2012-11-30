@@ -295,8 +295,8 @@ public class ProjectConfig extends VersionedMetaData {
     p.setUseContentMerge(getEnum(rc, SUBMIT, null, KEY_MERGE_CONTENT, Project.InheritableBoolean.INHERIT));
     p.setState(getEnum(rc, PROJECT, null, KEY_STATE, defaultStateValue));
 
-    p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
-    p.setLocalDefaultDashboard(rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
+    p.setDashboard(Project.DashboardType.DEFAULT, rc.getString(DASHBOARD, null, KEY_DEFAULT));
+    p.setLocalDashboard(Project.DashboardType.DEFAULT, rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
 
     loadAccountsSection(rc, groupsByName);
     loadContributorAgreements(rc, groupsByName);
@@ -545,8 +545,8 @@ public class ProjectConfig extends VersionedMetaData {
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), null);
 
-    set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDefaultDashboard());
-    set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDefaultDashboard());
+    set(rc, DASHBOARD, null, KEY_DEFAULT, p.getDashboard(Project.DashboardType.DEFAULT));
+    set(rc, DASHBOARD, null, KEY_LOCAL_DEFAULT, p.getLocalDashboard(Project.DashboardType.DEFAULT));
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<AccountGroup.UUID>();
     saveAccountsSection(rc, keepGroups);

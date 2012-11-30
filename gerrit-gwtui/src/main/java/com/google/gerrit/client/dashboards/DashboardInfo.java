@@ -14,7 +14,12 @@
 
 package com.google.gerrit.client.dashboards;
 
+import com.google.gerrit.client.rpc.NativeList;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.core.client.JavaScriptObject;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class DashboardInfo extends JavaScriptObject {
   public final native String id() /*-{ return this.id; }-*/;
@@ -25,8 +30,21 @@ public class DashboardInfo extends JavaScriptObject {
   public final native String description() /*-{ return this.description; }-*/;
   public final native String foreach() /*-{ return this.foreach; }-*/;
   public final native String url() /*-{ return this.url; }-*/;
-  public final native boolean isDefault() /*-{ return this['default'] ? true : false; }-*/;
+  private final native NativeList<DashboardType> types0() /*-{ return this.types; }-*/;
 
   protected DashboardInfo() {
+  }
+
+  public static class DashboardType extends JavaScriptObject {
+    protected DashboardType() {
+    }
+  }
+
+  public final Set<Project.DashboardType> types() {
+    Set<Project.DashboardType> dts = new HashSet<Project.DashboardType>();
+    for (DashboardType t : types0().asList()) {
+      dts.add(Project.DashboardType.valueOf(t.toString()));
+    }
+    return dts;
   }
 }

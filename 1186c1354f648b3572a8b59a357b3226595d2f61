@@ -19,6 +19,92 @@
     },
     {
       "key": {
+        "uuid": "MTPY.wLo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T06:26:54Z",
+      "side": 1,
+      "message": "I\u0027ve based this off the one you mentioned in that other review, but it\u0027s not completely the same.  I\u0027ve changed a few parts - see comments below.",
+      "parentUuid": "MV2sUoUo",
+      "revId": "1186c1354f648b3572a8b59a357b3226595d2f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTNY7xMg",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T06:26:54Z",
+      "side": 1,
+      "message": "Class name is different, and is abstract.",
+      "revId": "1186c1354f648b3572a8b59a357b3226595d2f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTFZntN8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T06:26:54Z",
+      "side": 1,
+      "message": "Handling the event directly in the `on` method rather than calling another `onTextBoxBase`.",
+      "revId": "1186c1354f648b3572a8b59a357b3226595d2f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTHZisNE",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T06:26:54Z",
+      "side": 1,
+      "message": "DeferredCommand is deprecated, so replaced with Scheduler/ScheduledCommand",
+      "revId": "1186c1354f648b3572a8b59a357b3226595d2f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTDZoOLI",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T06:26:54Z",
+      "side": 1,
+      "message": "Handler method only sends the new text, rather than both old and new.",
+      "revId": "1186c1354f648b3572a8b59a357b3226595d2f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MVwsf3Wk",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxChangeListener.java",
         "patchSetId": 1
@@ -30,6 +116,24 @@
       "writtenOn": "2012-11-30T06:13:57Z",
       "side": 1,
       "message": "Nit: extra line",
+      "revId": "1186c1354f648b3572a8b59a357b3226595d2f61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTBZtPMI",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/TextBoxChangeListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-11-30T06:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MVwsf3Wk",
       "revId": "1186c1354f648b3572a8b59a357b3226595d2f61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

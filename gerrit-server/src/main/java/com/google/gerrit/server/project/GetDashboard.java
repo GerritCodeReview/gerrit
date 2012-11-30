@@ -28,31 +28,33 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Set;
 
-class GetDashboard implements RestReadView<DashboardResource> {
+public class GetDashboard implements RestReadView<DashboardResource> {
   private final DashboardsCollection dashboards;
 
   @Option(name = "--inherited", usage = "include inherited dashboards")
   private boolean inherited;
 
   @Inject
-  GetDashboard(DashboardsCollection dashboards) {
+  public GetDashboard(DashboardsCollection dashboards) {
     this.dashboards = dashboards;
   }
 
   @Override
   public DashboardInfo apply(DashboardResource resource)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {
-    if (inherited && !resource.isProjectDefault()) {
-      // inherited flag can only be used with default.
+    Project.DashboardType type = resource.getType();
+    if (inherited && type == null) {
+      // inherited flag can only be used with types.
       throw new ResourceNotFoundException("inherited");
     }
 
     String project = resource.getControl().getProject().getName();
-    if (resource.isProjectDefault()) {
-      // The default is not resolved to a definition yet.
-      resource = defaultOf(resource.getControl());
+    if (type != null) {
+      // The type is not resolved to a definition yet.
+      resource = typeOf(resource.getControl(), type);
     }
 
     return DashboardsCollection.parse(
@@ -61,16 +63,17 @@ class GetDashboard implements RestReadView<DashboardResource> {
         resource.getPathName(),
         resource.getConfig(),
         project,
-        true);
+        Collections.singleton(type));
   }
 
-  private DashboardResource defaultOf(ProjectControl ctl)
+  private DashboardResource typeOf(ProjectControl ctl, Project.DashboardType type)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {
-    String id = ctl.getProject().getLocalDefaultDashboard();
+    String id = ctl.getProject().getLocalDashboard(type);
     if (Strings.isNullOrEmpty(id)) {
-      id = ctl.getProject().getDefaultDashboard();
+      id = ctl.getProject().getDashboard(type);
     }
-    if ("default".equals(id)) {
+    type = Project.DashboardType.fromId(id);
+    if (type != null) {
       throw new ResourceNotFoundException();
     } else if (!Strings.isNullOrEmpty(id)) {
       return dashboards.parse(new ProjectResource(ctl), id);
@@ -82,8 +85,9 @@ class GetDashboard implements RestReadView<DashboardResource> {
     seen.add(ctl.getProject().getNameKey());
     ProjectState ps = ctl.getProjectState().getParentState();
     while (ps != null && seen.add(ps.getProject().getNameKey())) {
-      id = ps.getProject().getDefaultDashboard();
-      if ("default".equals(id)) {
+      id = ps.getProject().getDashboard(type);
+      type = Project.DashboardType.fromId(id);
+      if (type != null) {
         throw new ResourceNotFoundException();
       } else if (!Strings.isNullOrEmpty(id)) {
         ctl = ps.controlFor(ctl.getCurrentUser());

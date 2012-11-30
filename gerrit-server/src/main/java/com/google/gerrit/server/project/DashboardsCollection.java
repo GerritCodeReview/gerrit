@@ -48,26 +48,29 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-class DashboardsCollection implements
+public class DashboardsCollection implements
     ChildCollection<ProjectResource, DashboardResource>,
     AcceptsCreate<ProjectResource>{
   private final GitRepositoryManager gitManager;
   private final DynamicMap<RestView<DashboardResource>> views;
   private final Provider<ListDashboards> list;
-  private final Provider<SetDefaultDashboard.CreateDefault> createDefault;
+  private final Provider<SetTypedDashboard.CreateTyped> createTyped;
 
   @Inject
-  DashboardsCollection(GitRepositoryManager gitManager,
+  public DashboardsCollection(GitRepositoryManager gitManager,
       DynamicMap<RestView<DashboardResource>> views,
       Provider<ListDashboards> list,
-      Provider<SetDefaultDashboard.CreateDefault> createDefault) {
+      Provider<SetTypedDashboard.CreateTyped> createTyped) {
     this.gitManager = gitManager;
     this.views = views;
     this.list = list;
-    this.createDefault = createDefault;
+    this.createTyped = createTyped;
   }
 
   @Override
@@ -79,8 +82,9 @@ class DashboardsCollection implements
   @Override
   public RestModifyView<ProjectResource, ?> create(ProjectResource parent,
       String id) throws RestApiException {
-    if ("default".equals(id)) {
-      return createDefault.get();
+    Project.DashboardType type = Project.DashboardType.fromId(id);
+    if (type != null) {
+      return createTyped.get().setType(type);
     }
     throw new ResourceNotFoundException(id);
   }
@@ -89,8 +93,9 @@ class DashboardsCollection implements
   public DashboardResource parse(ProjectResource parent, String id)
       throws ResourceNotFoundException, IOException, ConfigInvalidException {
     ProjectControl myCtl = parent.getControl();
-    if ("default".equals(id)) {
-      return DashboardResource.projectDefault(myCtl);
+    Project.DashboardType type = Project.DashboardType.fromId(id);
+    if (type != null) {
+      return DashboardResource.projectTyped(myCtl, type);
     }
 
     List<String> parts = Lists.newArrayList(
@@ -146,7 +151,7 @@ class DashboardsCollection implements
         throw new ResourceNotFoundException(id);
       }
       BlobBasedConfig cfg = new BlobBasedConfig(null, git, objId);
-      return new DashboardResource(myCtl, ref, path, cfg, false);
+      return new DashboardResource(myCtl, ref, path, cfg);
     } finally {
       git.close();
     }
@@ -158,7 +163,8 @@ class DashboardsCollection implements
   }
 
   static DashboardInfo parse(Project definingProject, String refName,
-      String path, Config config, String project, boolean setDefault)
+      String path, Config config, String project,
+      Set<Project.DashboardType> setTypes)
       throws UnsupportedEncodingException {
     DashboardInfo info = new DashboardInfo(refName, path);
     info.project = project;
@@ -167,13 +173,15 @@ class DashboardsCollection implements
     info.description = config.getString("dashboard", null, "description");
     info.foreach = config.getString("dashboard", null, "foreach");
 
-    if (setDefault) {
-      String id = refName + ":" + path;
-      info.isDefault = id.equals(defaultOf(definingProject)) ? true : null;
+    String id = refName + ":" + path;
+    for (Project.DashboardType type : types(definingProject, id)) {
+      if (setTypes.contains(type)) {
+        info.types.add(type);
+      }
     }
 
     UrlEncoded u = new UrlEncoded("/dashboard/");
-    u.put("title", Objects.firstNonNull(info.title, info.path));
+    u.put("title", Objects.firstNonNull(info.title, info.path)
     if (info.foreach != null) {
       u.put("foreach", replace(project, info.foreach));
     }
@@ -184,6 +192,7 @@ class DashboardsCollection implements
       u.put(s.name, replace(project, s.query));
       info.sections.add(s);
     }
+    info.parameters = u.getParameters().replace("%3A", ":");
     info.url = u.toString().replace("%3A", ":");
 
     return info;
@@ -193,18 +202,24 @@ class DashboardsCollection implements
     return query.replace("${project}", project);
   }
 
-  private static String defaultOf(Project proj) {
-    final String defaultId = Objects.firstNonNull(
-        proj.getLocalDefaultDashboard(),
-        Strings.nullToEmpty(proj.getDefaultDashboard()));
-    if (defaultId.startsWith(REFS_DASHBOARDS)) {
-      return defaultId.substring(REFS_DASHBOARDS.length());
-    } else {
-      return defaultId;
+  private static Set<Project.DashboardType> types(Project proj, String myId) {
+    Map<Project.DashboardType,String> all = proj.getDashboardIdByType();
+    all.putAll(proj.getLocalDashboardIdByType());
+
+    Set<Project.DashboardType> types = new HashSet<Project.DashboardType>();
+    for (Map.Entry<Project.DashboardType,String> e : all.entrySet()) {
+      String id = e.getValue();
+      if (id.startsWith(REFS_DASHBOARDS)) {
+        id = id.substring(REFS_DASHBOARDS.length());
+      }
+      if (myId.equals(id)) {
+        types.add(e.getKey());
+      }
     }
+    return types;
   }
 
-  static class DashboardInfo {
+  public static class DashboardInfo {
     final String kind = "gerritcodereview#dashboard";
     String id;
     String project;
@@ -213,12 +228,11 @@ class DashboardsCollection implements
     String path;
     String description;
     String foreach;
+    public String parameters;
     String url;
+    List<Project.DashboardType> types = Lists.newArrayList();
 
-    @SerializedName("default")
-    Boolean isDefault;
-
-    String title;
+    public String title;
     List<Section> sections = Lists.newArrayList();
 
     DashboardInfo(String ref, String name)

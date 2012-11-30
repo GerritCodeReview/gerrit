@@ -407,6 +407,7 @@ public class Dispatcher {
       rest = rest.substring(c);
       if (matchPrefix(DASHBOARDS, rest)) {
         final String dashboardId = skip(rest);
+        final Project.DashboardType type = Project.DashboardType.fromId(dashboardId);
         GerritCallback<DashboardInfo> cb = new GerritCallback<DashboardInfo>() {
           @Override
           public void onSuccess(DashboardInfo result) {
@@ -420,7 +421,7 @@ public class Dispatcher {
 
           @Override
           public void onFailure(Throwable caught) {
-            if ("default".equals(dashboardId) && RestApi.isNotFound(caught)) {
+            if (Project.DashboardType.DEFAULT == type && RestApi.isNotFound(caught)) {
               Gerrit.display(PageLinks.toChangeQuery(
                   PageLinks.projectQuery(new Project.NameKey(project))));
             } else {
@@ -428,8 +429,8 @@ public class Dispatcher {
             }
           }
         };
-        if ("default".equals(dashboardId)) {
-          DashboardList.getDefault(new Project.NameKey(project), cb);
+        if (type != null) {
+          DashboardList.getType(new Project.NameKey(project), type, cb);
           return;
         }
         c = dashboardId.indexOf(":");

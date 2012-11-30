@@ -31,11 +31,11 @@ class SetDashboard implements RestModifyView<DashboardResource, Input> {
     String commitMessage;
   }
 
-  private final Provider<SetDefaultDashboard> defaultSetter;
+  private final Provider<SetTypedDashboard> typedSetter;
 
   @Inject
-  SetDashboard(Provider<SetDefaultDashboard> defaultSetter) {
-    this.defaultSetter = defaultSetter;
+  SetDashboard(Provider<SetTypedDashboard> typedSetter) {
+    this.typedSetter = typedSetter;
   }
 
   @Override
@@ -47,8 +47,8 @@ class SetDashboard implements RestModifyView<DashboardResource, Input> {
   public Object apply(DashboardResource resource, Input input)
       throws AuthException, BadRequestException, ResourceConflictException,
       Exception {
-    if (resource.isProjectDefault()) {
-      return defaultSetter.get().apply(resource, input);
+    if (resource.getType() != null) {
+      return typedSetter.get().apply(resource, input);
     }
 
     // TODO: Implement creation/update of dashboards by API.

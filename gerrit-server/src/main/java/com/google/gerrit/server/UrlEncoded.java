@@ -35,11 +35,17 @@ public class UrlEncoded extends LinkedHashMap<String, String> {
   @Override
   public String toString() {
     final StringBuilder buffer = new StringBuilder();
-    char separator = 0;
     if (url != null) {
-      separator = '?';
       buffer.append(url);
+      buffer.append("?");
     }
+    buffer.append(getParameters());
+    return buffer.toString();
+  }
+
+  public String getParameters() {
+    final StringBuilder buffer = new StringBuilder();
+    char separator = 0;
     for (final Map.Entry<String, String> entry : entrySet()) {
       final String key = entry.getKey();
       final String val = entry.getValue();

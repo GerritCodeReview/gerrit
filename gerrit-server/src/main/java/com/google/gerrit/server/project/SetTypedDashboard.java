@@ -35,7 +35,9 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Option;
 
-class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
+import java.util.Set;
+
+class SetTypedDashboard implements RestModifyView<DashboardResource, Input> {
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
   private final DashboardsCollection dashboards;
@@ -45,7 +47,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
   private boolean inherited;
 
   @Inject
-  SetDefaultDashboard(ProjectCache cache,
+  SetTypedDashboard(ProjectCache cache,
       MetaDataUpdate.Server updateFactory,
       DashboardsCollection dashboards,
       Provider<GetDashboard> get) {
@@ -90,16 +92,17 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
         ProjectConfig config = ProjectConfig.read(md);
         Project project = config.getProject();
         if (inherited) {
-          project.setDefaultDashboard(input.id);
+          project.setDashboard(resource.getType(), input.id);
         } else {
-          project.setLocalDefaultDashboard(input.id);
+          project.setLocalDashboard(resource.getType(), input.id);
         }
 
+        String type = resource.getType().toString();
         String msg = Objects.firstNonNull(
           Strings.emptyToNull(input.commitMessage),
           input.id == null
-            ? "Removed default dashboard.\n"
-            : String.format("Changed default dashboard to %s.\n", input.id));
+            ? String.format("Removed %s dashboard.\n", type)
+            : String.format("Changed %s dashboard to %s.\n", type, input.id));
         if (!msg.endsWith("\n")) {
           msg += "\n";
         }
@@ -110,7 +113,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
 
         if (target != null) {
           DashboardInfo info = get.get().apply(target);
-          info.isDefault = true;
+          info.types.add(resource.getType());
           return info;
         }
         return Response.none();
@@ -125,16 +128,22 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
     }
   }
 
-  static class CreateDefault implements
+  static class CreateTyped implements
       RestModifyView<ProjectResource, SetDashboard.Input> {
-    private final Provider<SetDefaultDashboard> setDefault;
+    private final Provider<SetTypedDashboard> setTyped;
+    private Project.DashboardType type;
 
     @Option(name = "--inherited", usage = "set dashboard inherited by children")
     private boolean inherited;
 
     @Inject
-    CreateDefault(Provider<SetDefaultDashboard> setDefault) {
-      this.setDefault = setDefault;
+    CreateTyped(Provider<SetTypedDashboard> setTyped) {
+      this.setTyped = setTyped;
+    }
+
+    public CreateTyped setType(Project.DashboardType type) {
+      this.type = type;
+      return this;
     }
 
     @Override
@@ -146,10 +155,10 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, Input> {
     public Object apply(ProjectResource resource, Input input)
         throws AuthException, BadRequestException, ResourceConflictException,
         Exception {
-      SetDefaultDashboard set = setDefault.get();
+      SetTypedDashboard set = setTyped.get();
       set.inherited = inherited;
       return Response.created(set.apply(
-          DashboardResource.projectDefault(resource.getControl()),
+          DashboardResource.projectTyped(resource.getControl(), type),
           input));
     }
   }

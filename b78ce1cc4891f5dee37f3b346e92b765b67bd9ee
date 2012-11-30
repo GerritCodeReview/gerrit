@@ -67,6 +67,23 @@
       "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MTPZv4IM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupDetailFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-11-30T19:33:37Z",
+      "side": 1,
+      "message": "The NPE is here Chad. The cache returned back null because it couldn\u0027t find the group. This causes the \"n\" method below to NPE.",
+      "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

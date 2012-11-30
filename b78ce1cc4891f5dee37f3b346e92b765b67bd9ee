@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "MWyfz.jE",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/account/GroupAdminServiceImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-11-30T19:06:39Z",
+      "side": 1,
+      "message": "This line is giving me a NPE I\u0027ve been unable to track down the cause of (stacktrace: http://p.defau.lt/?dITooqUYes3xJlzfrIlgaA)",
+      "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MTHZccOs",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
         "patchSetId": 5

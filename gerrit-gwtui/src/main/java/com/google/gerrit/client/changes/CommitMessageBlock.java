@@ -19,6 +19,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.CommentLinkProcessor;
 import com.google.gerrit.client.ui.CommentedActionDialog;
+import com.google.gerrit.client.ui.TextBoxChangeListener;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.client.Change;
@@ -72,13 +73,24 @@ public class CommitMessageBlock extends Composite {
   }
 
   private abstract class CommitMessageEditDialog extends CommentedActionDialog<ChangeDetail> {
+    private final String originalMessage;
     public CommitMessageEditDialog(final String title, final String heading,
         final String commitMessage, AsyncCallback<ChangeDetail> callback) {
       super(title, heading, callback);
+      originalMessage = commitMessage.trim();
       message.setCharacterWidth(72);
       message.setVisibleLines(20);
-      message.setText(commitMessage);
+      message.setText(originalMessage);
       message.addStyleName(Gerrit.RESOURCES.css().changeScreenDescription());
+      sendButton.setEnabled(false);
+
+      new TextBoxChangeListener(message) {
+        public void onTextChanged(String newText) {
+          // Trim the new text so we don't consider trailing
+          // newlines as changes
+          sendButton.setEnabled(!newText.trim().equals(originalMessage));
+        }
+      };
     }
 
     public String getMessageText() {

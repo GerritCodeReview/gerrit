@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MV.sn8bI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CherryPickChange.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-11-30T15:43:57Z",
+      "side": 1,
+      "message": "The stuff from here down really needs to be shared with ReceiveCommits.  Ordering in here is very important.  We have our own internal patches that took some of this code out of ReceiveCommits only 1 release ago and it has diverged already from upstream.  This is one reason we have not submitted this code upstream for inclusion yet: because it does not have a clean refactoring.  This is critical Gerrit code which we cannot afford to have duplicated, the maintenance will be too difficult, it is already hard for me to track the ordering of the inserts between the original code and this.",
+      "revId": "dda8413dca9a78c48b5008ae4f4402cefdee7758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

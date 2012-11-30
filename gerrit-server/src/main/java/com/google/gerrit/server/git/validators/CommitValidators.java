@@ -117,6 +117,36 @@ public class CommitValidators {
     return messages;
   }
 
+  public List<CommitValidationMessage> validateForRevertCommits(
+      CommitReceivedEvent receiveEvent) throws CommitValidationException {
+
+    List<CommitValidationListener> validators =
+        new LinkedList<CommitValidationListener>();
+
+    validators.add(new UploadMergesPermissionValidator(refControl));
+    validators.add(new AmendedGerritMergeCommitValidationListener(
+        refControl, gerritIdent));
+    validators.add(new AuthorUploaderValidator(refControl, canonicalWebUrl));
+    validators.add(new SignedOffByValidator(refControl, canonicalWebUrl));
+    validators.add(new ChangeIdValidator(refControl, canonicalWebUrl, sshInfo));
+    validators.add(new ConfigValidator(refControl, repo));
+    validators.add(new PluginCommitValidationListener(commitValidationListeners));
+
+    List<CommitValidationMessage> messages =
+        new LinkedList<CommitValidationMessage>();
+
+    try {
+      for (CommitValidationListener commitValidator : validators) {
+        messages.addAll(commitValidator.onCommitReceived(receiveEvent));
+      }
+    } catch (CommitValidationException e) {
+      // Keep the old messages (and their order) in case of an exception
+      messages.addAll(e.getMessages());
+      throw new CommitValidationException(e.getMessage(), messages);
+    }
+    return messages;
+  }
+
   public static class ChangeIdValidator implements CommitValidationListener {
     private final RefControl refControl;
     private final String canonicalWebUrl;

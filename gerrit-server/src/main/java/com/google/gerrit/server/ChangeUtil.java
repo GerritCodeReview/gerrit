@@ -31,6 +31,8 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
@@ -192,27 +194,23 @@ public class ChangeUtil {
     db.patchSetAncestors().insert(toInsert);
   }
 
-  public static Change.Id revert(final PatchSet.Id patchSetId,
-      final IdentifiedUser user, final String message, final ReviewDb db,
+  public static Change.Id revert(final RefControl refControl,
+      final PatchSet.Id patchSetId, final IdentifiedUser user,
+      final CommitValidators commitValidators,
+      final String message, final ReviewDb db,
       final RevertedSender.Factory revertedSenderFactory,
-      final ChangeHooks hooks, GitRepositoryManager gitManager,
+      final ChangeHooks hooks, Repository git,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated replication, PersonIdent myIdent)
-      throws NoSuchChangeException, EmailException, OrmException,
-      MissingObjectException, IncorrectObjectTypeException, IOException {
+      final GitReferenceUpdated replication, PersonIdent myIdent,
+      String canonicalWebUrl) throws NoSuchChangeException, EmailException,
+      OrmException, MissingObjectException, IncorrectObjectTypeException,
+      IOException, InvalidChangeOperationException {
     final Change.Id changeId = patchSetId.getParentKey();
     final PatchSet patch = db.patchSets().get(patchSetId);
     if (patch == null) {
       throw new NoSuchChangeException(changeId);
     }
     final Change changeToRevert = db.changes().get(changeId);
-
-    final Repository git;
-    try {
-      git = gitManager.openRepository(changeToRevert.getProject());
-    } catch (RepositoryNotFoundException e) {
-      throw new NoSuchChangeException(changeId, e);
-    }
 
     final RevWalk revWalk = new RevWalk(git);
     try {
@@ -260,6 +258,18 @@ public class ChangeUtil {
       ps.setUploader(change.getOwner());
       ps.setRevision(new RevId(revertCommit.name()));
 
+      CommitReceivedEvent commitReceivedEvent =
+          new CommitReceivedEvent(new ReceiveCommand(ObjectId.zeroId(),
+              revertCommit.getId(), ps.getRefName()), refControl
+              .getProjectControl().getProject(), refControl.getRefName(),
+              revertCommit, user);
+
+      try {
+        commitValidators.validateForRevertCommits(commitReceivedEvent);
+      } catch (CommitValidationException e) {
+        throw new InvalidChangeOperationException(e.getMessage());
+      }
+
       change.setCurrentPatchSet(patchSetInfoFactory.get(revertCommit, ps.getId()));
       ChangeUtil.updated(change);
 
@@ -305,7 +315,6 @@ public class ChangeUtil {
       return change.getId();
     } finally {
       revWalk.release();
-      git.close();
     }
   }
 

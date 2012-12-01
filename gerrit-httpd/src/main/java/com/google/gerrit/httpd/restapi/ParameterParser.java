@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd.restapi;
 
+import static com.google.gerrit.httpd.restapi.RestApiServlet.replyBinaryResult;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyError;
-import static com.google.gerrit.httpd.restapi.RestApiServlet.replyText;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -26,6 +26,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.server.util.Url;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gson.JsonArray;
@@ -78,7 +79,8 @@ class ParameterParser {
       msg.write('\n');
       clp.printUsage(msg, null);
       msg.write('\n');
-      replyText(req, res, msg.toString());
+      replyBinaryResult(req, res,
+          BinaryResult.create(msg.toString()).setContentType("text/plain"));
       return false;
     }
 

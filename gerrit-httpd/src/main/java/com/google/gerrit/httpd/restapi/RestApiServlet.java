@@ -494,7 +494,7 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static void replyBinaryResult(
+  static void replyBinaryResult(
       @Nullable HttpServletRequest req,
       HttpServletResponse res,
       BinaryResult bin) throws IOException {

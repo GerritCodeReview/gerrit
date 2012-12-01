@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "MX.MnErM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-01T14:39:34Z",
+      "side": 1,
+      "message": "s/edit/editing",
+      "revId": "a1c9f07d49ab57efa729e66934f5e765909d8d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MX8MklrE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-01T14:39:34Z",
+      "side": 1,
+      "message": "s/edit/editing",
+      "revId": "a1c9f07d49ab57efa729e66934f5e765909d8d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MX8MNtkE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 3

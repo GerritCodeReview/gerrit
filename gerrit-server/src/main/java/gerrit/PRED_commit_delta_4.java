@@ -169,6 +169,8 @@ public class PRED_commit_delta_4 extends Predicate.P4 {
         return rename;
       case COPIED:
         return copy;
+      case REWRITE:
+        break;
     }
     throw new IllegalArgumentException("ChangeType not recognized");
   }

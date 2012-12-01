@@ -169,9 +169,13 @@ public class ChangeData {
           case COPIED:
             r.add(e.getNewName());
             break;
+
           case RENAMED:
             r.add(e.getOldName());
             r.add(e.getNewName());
+            break;
+
+          case REWRITE:
             break;
         }
       }

@@ -687,13 +687,18 @@ public class PatchTable extends Composite {
           case ADDED:
             m.append(Util.M.patchTableSize_Lines(ins));
             break;
+
           case DELETED:
             m.nbsp();
             break;
+
           case MODIFIED:
           case COPIED:
           case RENAMED:
             m.append(Util.M.patchTableSize_Modify(ins, dels));
+            break;
+
+          case REWRITE:
             break;
         }
       } else {

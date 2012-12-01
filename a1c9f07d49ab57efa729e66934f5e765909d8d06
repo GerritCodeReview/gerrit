@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MX8MNtkE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-01T14:38:33Z",
+      "side": 1,
+      "message": "Merge conflict here because this line has been removed in I06bcf52798f1dad1ea602f914784dfcbc7d97086",
+      "revId": "a1c9f07d49ab57efa729e66934f5e765909d8d06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

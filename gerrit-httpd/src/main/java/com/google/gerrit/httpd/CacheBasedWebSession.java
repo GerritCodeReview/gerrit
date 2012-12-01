@@ -73,6 +73,7 @@ public final class CacheBasedWebSession implements WebSession {
 
   private Key key;
   private Val val;
+  private CurrentUser user;
 
   @Inject
   CacheBasedWebSession(final HttpServletRequest request,
@@ -162,10 +163,14 @@ public final class CacheBasedWebSession implements WebSession {
 
   @Override
   public CurrentUser getCurrentUser() {
-    if (isSignedIn()) {
-      return identified.create(val.getAccountId());
+    if (user == null) {
+      if (isSignedIn()) {
+        user = identified.create(val.getAccountId());
+      } else {
+        user = anonymousProvider.get();
+      }
     }
-    return anonymousProvider.get();
+    return user;
   }
 
   @Override

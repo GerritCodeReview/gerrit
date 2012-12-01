@@ -22,6 +22,9 @@ public enum AccessPath {
   /** Access through the REST API. */
   REST_API,
 
+  /** Access through the old JSON-RPC interface. */
+  JSON_RPC,
+
   /** Access by a web cookie. This path is not protected like REST_API. */
   WEB_BROWSER,
 

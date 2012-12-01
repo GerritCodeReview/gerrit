@@ -239,6 +239,7 @@ public class RefControl {
     boolean owner;
     switch (getCurrentUser().getAccessPath()) {
       case REST_API:
+      case JSON_RPC:
         owner = isOwner();
         break;
 
@@ -306,6 +307,7 @@ public class RefControl {
 
     switch (getCurrentUser().getAccessPath()) {
       case REST_API:
+      case JSON_RPC:
         return isOwner() || canPushWithForce();
 
       case GIT:

@@ -21,6 +21,7 @@ import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.httpd.WebSession;
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.common.RemoteJsonService;
@@ -246,11 +247,13 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
         //
         return !session.isSignedIn();
 
-      } else {
+      } else if (session.isSignedIn() && session.isValidAuthorization(keyIn)) {
         // The session must exist, and must be using this token.
         //
-        return session.isSignedIn() && session.isValidAuthorization(keyIn);
+        session.getCurrentUser().setAccessPath(AccessPath.JSON_RPC);
+        return true;
       }
+      return false;
     }
 
     public WebSession getWebSession() {

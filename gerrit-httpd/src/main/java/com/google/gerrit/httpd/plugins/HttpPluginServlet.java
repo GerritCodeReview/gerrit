@@ -602,7 +602,8 @@ class HttpPluginServlet extends HttpServlet
 
     @Override
     public String getServletPath() {
-      return ((HttpServletRequest) getRequest()).getRequestURI();
+      return ((HttpServletRequest) getRequest()).getRequestURI().substring(
+          contextPath.length());
     }
   }
 }

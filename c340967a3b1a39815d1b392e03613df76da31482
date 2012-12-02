@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MdS34DQs",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-02T20:31:11Z",
+      "side": 1,
+      "message": "It is not clear to me that we would not want this validation, could you add your justifications for each specific difference in the commit message?",
+      "revId": "c340967a3b1a39815d1b392e03613df76da31482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "McRHzbDE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-02T20:31:11Z",
+      "side": 1,
+      "message": "I don\u0027t think that this is going to be a sustainable approach to pass in a new flag everytime we want to control whether a specific validation is performed.  I can\u0027t help but think that each one of these tests is really just a commitValidator.  So perhaps a better approach is to turn each one of the tests into a commitValidator (I am not sure that we can make that work with all the different parameters they might need)?  But if we had a bunch of commit validatiors, then each caller (receiveCommits and cherryPick) could just assemble a list of validators and then call them.  The actual validators would be defined outside of those 2 classes so that they could be shared.",
+      "revId": "c340967a3b1a39815d1b392e03613df76da31482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

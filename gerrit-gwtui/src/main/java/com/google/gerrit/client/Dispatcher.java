@@ -176,6 +176,7 @@ public class Dispatcher {
         wasStartedByReloadUI = false;
       }
     } catch (RuntimeException err) {
+      err.printStackTrace();
       GWT.log("Error parsing history token: " + token, err);
       Gerrit.display(token, new NotFoundScreen());
     }

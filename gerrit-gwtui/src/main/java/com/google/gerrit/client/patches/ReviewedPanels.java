@@ -127,19 +127,19 @@ public class ReviewedPanels {
       }
     };
 
-    InlineHyperlink reviewedLink = null;
-    int nextUnreviewedPatchIndex =
-        fileList.getNextPatch(patchIndex, true, unreviewedValidator,
-            fileList.PREFERENCE_VALIDATOR);
+    InlineHyperlink reviewedLink = new ChangeLink("", patchKey.getParentKey());
+    if (fileList != null) {
+      int nextUnreviewedPatchIndex =
+          fileList.getNextPatch(patchIndex, true, unreviewedValidator,
+              fileList.PREFERENCE_VALIDATOR);
 
-    if (nextUnreviewedPatchIndex > -1) {
-      // Create invisible patch link to change page
-      reviewedLink =
-          fileList.createLink(nextUnreviewedPatchIndex, patchScreenType,
-              null, null);
-      reviewedLink.setText("");
-    } else {
-      reviewedLink = new ChangeLink("", patchKey.getParentKey());
+      if (nextUnreviewedPatchIndex > -1) {
+        // Create invisible patch link to change page
+        reviewedLink =
+            fileList.createLink(nextUnreviewedPatchIndex, patchScreenType,
+                null, null);
+        reviewedLink.setText("");
+      }
     }
     return reviewedLink;
   }

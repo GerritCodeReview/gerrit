@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MX4OnPg0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-03T10:57:47Z",
+      "side": 1,
+      "message": "s/plugable/pluggable",
+      "revId": "4162e431295ac19cbe36ddd01c4eeaf907c32977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MX.O0Mjw",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/DigestHttpAuthProtocolHandler.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-03T10:57:47Z",
+      "side": 1,
+      "message": "Is \u003cp\u003e needed here?",
+      "revId": "4162e431295ac19cbe36ddd01c4eeaf907c32977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

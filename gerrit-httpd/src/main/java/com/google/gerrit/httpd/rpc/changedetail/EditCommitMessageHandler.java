@@ -26,6 +26,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
@@ -53,6 +54,8 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
   private final ChangeDetailFactory.Factory changeDetailFactory;
+  private final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory;
+
   private final GitReferenceUpdated replication;
 
   private final PatchSet.Id patchSetId;
@@ -70,6 +73,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   EditCommitMessageHandler(final ChangeControl.Factory changeControlFactory,
       final ReviewDb db, final IdentifiedUser currentUser,
       final ChangeDetailFactory.Factory changeDetailFactory,
+      final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message, final ChangeHooks hooks,
       final GitRepositoryManager gitManager,
@@ -80,6 +84,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.db = db;
     this.currentUser = currentUser;
     this.changeDetailFactory = changeDetailFactory;
+    this.commitMessageEditedSenderFactory = commitMessageEditedSenderFactory;
 
     this.patchSetId = patchSetId;
     this.message = message;
@@ -105,7 +110,8 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     }
 
     ChangeUtil.editCommitMessage(patchSetId, currentUser, message, db,
-        hooks, gitManager, patchSetInfoFactory, replication, myIdent);
+        commitMessageEditedSenderFactory, hooks, gitManager, patchSetInfoFactory,
+        replication, myIdent);
 
     return changeDetailFactory.create(changeId).call();
   }

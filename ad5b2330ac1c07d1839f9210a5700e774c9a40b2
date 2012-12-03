@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MZlxiXdE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-12-03T18:37:42Z",
+      "side": 1,
+      "message": "Yes, but for keeping backward compatibility we need to bind it here. Also for now we keep LDAP auth-backend as a part of Gerrit, when we\u0027ll finish with auth-plugin-api we can move it to separate module/project and give users possibility to choose proper auth-backend during init process.",
+      "parentUuid": "MX2PvohI",
+      "revId": "ad5b2330ac1c07d1839f9210a5700e774c9a40b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MXwPqLgI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-03T18:27:01Z",
       "side": 1,
       "message": "We can\u0027t always bind the LdapGroupBackend. Not every server is running LDAP.",
+      "revId": "ad5b2330ac1c07d1839f9210a5700e774c9a40b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MZnxnGeA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-12-03T18:37:42Z",
+      "side": 1,
+      "message": "Same as above, this is temporary solution in future LDAP will be separate plugin and this binding will be done in plugin module.",
+      "parentUuid": "MXwPqLgI",
       "revId": "ad5b2330ac1c07d1839f9210a5700e774c9a40b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

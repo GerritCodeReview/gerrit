@@ -16,6 +16,24 @@
       "revId": "d9e9a467169562f56e37362aeeda40538641d18e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MZ1sUI0o",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectDashboardsScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-03T12:47:26Z",
+      "side": 1,
+      "message": "Hmm, maybe yes. At the moment this table looks a bit too much strechted on my screen if it takes the full horizontal space, but I also don\u0027t have any real-life dashboards with long descriptions defined on my test system. I will abandon this change for now until I have a better impression how it looks like with live data.",
+      "parentUuid": "MTFZKFCU",
+      "revId": "d9e9a467169562f56e37362aeeda40538641d18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

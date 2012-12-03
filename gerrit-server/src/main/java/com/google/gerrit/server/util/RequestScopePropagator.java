@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.util;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Throwables;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -58,11 +60,15 @@ public abstract class RequestScopePropagator {
   }
 
   /**
-   * Wraps callable in a new {@link Callable} that propagates the current
-   * request state when the callable is invoked. The method must be called in a
-   * request scope and the returned Callable may only be invoked in a thread
-   * that is not already in a request scope. The returned Callable will inherit
-   * toString() from the passed in Callable. A
+   * Ensures that the current request state is available when the passed in
+   * Callable is invoked.
+   *
+   * If needed wraps the passed in Callable in a new {@link Callable} that
+   * propagates the current request state when the returned Callable is invoked.
+   * The method must be called in a request scope and the returned Callable may
+   * only be invoked in a thread that is not already in a request scope or is in
+   * the same request scope. The returned Callable will inherit toString() from
+   * the passed in Callable. A
    * {@link com.google.gerrit.server.git.WorkQueue.Executor} does not accept a
    * Callable, so there is no ProjectCallable implementation. Implementations of
    * this method must be consistent with Guice's
@@ -80,12 +86,17 @@ public abstract class RequestScopePropagator {
    * @return a new Callable which will execute in the current request scope.
    */
   public final <T> Callable<T> wrap(final Callable<T> callable) {
+    final RequestContext callerContext = checkNotNull(local.getContext());
     final Callable<T> wrapped =
-        wrapImpl(context(local.getContext(), cleanup(callable)));
+        wrapImpl(context(callerContext, cleanup(callable)));
     return new Callable<T>() {
       @Override
       public T call() throws Exception {
-        return wrapped.call();
+        if (callerContext == local.getContext()) {
+          return callable.call();
+        } else {
+          return wrapped.call();
+        }
       }
 
       @Override

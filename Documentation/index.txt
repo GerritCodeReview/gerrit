@@ -45,6 +45,7 @@ Configuration
 * link:config-reverseproxy.html[Reverse Proxy]
 * link:config-hooks.html[Hooks]
 * link:config-mail.html[Mail Templates]
+* link:config-cla.html[Contributor Agreements]
 
 Developer Documentation
 -----------------------

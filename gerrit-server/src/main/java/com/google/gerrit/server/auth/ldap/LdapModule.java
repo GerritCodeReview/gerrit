@@ -22,9 +22,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 
 import java.util.Set;
@@ -60,7 +58,6 @@ public class LdapModule extends CacheModule {
         new TypeLiteral<ImmutableSet<String>>() {})
       .expireAfterWrite(1, HOURS);
 
-    bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
     bind(Helper.class);
 
     DynamicSet.bind(binder(), GroupBackend.class).to(LdapGroupBackend.class);

@@ -72,6 +72,16 @@ public class MyIdentitiesScreen extends SettingsScreen {
         add(linkIdentity);
         break;
       }
+
+      case CLIENT_SSL_CERT_LDAP:
+      case CUSTOM_EXTENSION:
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case HTTP:
+      case HTTP_LDAP:
+      case LDAP:
+      case LDAP_BIND:
+      case OPENID_SSO:
+        break;
     }
   }
 

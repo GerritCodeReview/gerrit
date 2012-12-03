@@ -16,6 +16,24 @@
       "revId": "507b85b48e445128535d0feb1092d09c17eaf29e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MXwNGrlE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-03T01:09:41Z",
+      "side": 1,
+      "message": "OK.  I\u0027ll continue the cleanup of the remaining warnings when I have time.",
+      "parentUuid": "McZE0vN0",
+      "revId": "507b85b48e445128535d0feb1092d09c17eaf29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MXyNoCrI",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/git/SubmoduleOpTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-03T09:51:20Z",
+      "side": 1,
+      "message": "It looks like the only change here is in the formatting.  Is this really necessary?",
+      "revId": "99c7e8a5c4d08c23914061dbf57ca55ca6cdb283",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

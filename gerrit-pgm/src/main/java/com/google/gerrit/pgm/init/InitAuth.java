@@ -54,6 +54,15 @@ class InitAuth implements InitStep {
         auth.string("SSO logout URL", "logoutUrl", null);
         break;
       }
+
+      case CLIENT_SSL_CERT_LDAP:
+      case CUSTOM_EXTENSION:
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case LDAP:
+      case LDAP_BIND:
+      case OPENID:
+      case OPENID_SSO:
+        break;
     }
 
     switch (auth_type) {
@@ -80,6 +89,14 @@ class InitAuth implements InitStep {
         ldap.string("Group BaseDN", "groupBase", aBase);
         break;
       }
+
+      case CLIENT_SSL_CERT_LDAP:
+      case CUSTOM_EXTENSION:
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case HTTP:
+      case OPENID:
+      case OPENID_SSO:
+        break;
     }
 
     if (auth.getSecure("registerEmailPrivateKey") == null) {

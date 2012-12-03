@@ -107,6 +107,12 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         config.setEditFullNameUrl(cfg.getString("auth", null, "editFullNameUrl"));
         config.setHttpPasswordUrl(cfg.getString("auth", null, "httpPasswordUrl"));
         break;
+
+      case CLIENT_SSL_CERT_LDAP:
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case HTTP:
+      case HTTP_LDAP:
+        break;
     }
     config.setUseContributorAgreements(cfg.getBoolean("auth",
         "contributoragreements", false));

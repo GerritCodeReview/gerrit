@@ -46,7 +46,7 @@ public class LdapAuthBackend implements AuthBackend {
 
   private final Helper helper;
   private final AuthConfig authConfig;
-  private final Config config;
+  private final boolean lowerCaseUsername;
 
   @Inject
   public LdapAuthBackend(Helper helper,
@@ -54,7 +54,8 @@ public class LdapAuthBackend implements AuthBackend {
       @GerritServerConfig Config config) {
     this.helper = helper;
     this.authConfig = authConfig;
-    this.config = config;
+    this.lowerCaseUsername =
+        config.getBoolean("ldap", "localUsernameToLowerCase", false);
   }
 
   @Override
@@ -70,13 +71,9 @@ public class LdapAuthBackend implements AuthBackend {
       throw new MissingCredentialsException();
     }
 
-    final String username;
-    if (config.getBoolean("ldap", "localUsernameToLowerCase", false)) {
-      username = req.getUsername().toLowerCase(Locale.US);
-    } else {
-      username = req.getUsername();
-    }
-
+    final String username = lowerCaseUsername
+        ? req.getUsername().toLowerCase(Locale.US)
+        : req.getUsername();
     try {
       final DirContext ctx;
       if (authConfig.getAuthType() == AuthType.LDAP_BIND) {

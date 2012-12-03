@@ -640,6 +640,10 @@ a:hover {
   border-left: thin solid #b0bdcc;
 }
 
+.patchContentTable .diffTextForBinaryInSideBySide {
+ width: 50%;
+}
+
 .patchContentTable .diffTextFileHeader {
   color: grey;
   font-weight: bold;
@@ -897,6 +901,14 @@ a:hover {
 
 .rightmost  {
   border-right: 1px solid trimColor;
+}
+
+.sideBySideTableBinaryHeader {
+  border-right: thin solid #b0bdcc;
+  border-left:  thin solid #b0bdcc;
+  width: 100%;
+  color: grey;
+  font-weight: bold;
 }
 
 .infoTable td.approvalrole {

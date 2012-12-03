@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "McZE0vN0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-03T01:03:28Z",
+      "side": 1,
+      "message": "Seems like a good idea to me to continue with this cleanup. We have gotten a bit lazy as a project and allowed more warnings to creep in. At one of the hackathons Nasser went on a warning killing spree and cleaned up many of the warnings, but we got lazy and some crept back in. In some cases the compilers have gotten better and are giving us more interesting feedback.",
+      "revId": "507b85b48e445128535d0feb1092d09c17eaf29e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

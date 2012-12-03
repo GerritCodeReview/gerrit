@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MX4Mx-uw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 9
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-03T09:37:10Z",
+      "side": 1,
+      "message": "Typo:  s/Sidy/Side",
+      "revId": "7543330fba03858306838f8a65b949e7de050371",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

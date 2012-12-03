@@ -436,7 +436,7 @@ public class PatchTable extends Composite {
     }
 
     void initializeLastRow(int row) {
-      Anchor sideBySide = new Anchor(Util.C.buttonDiffAllSideBySide());
+      Anchor sideBySide = new Anchor(Util.C.diffAllSideBySide());
       sideBySide.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {
@@ -448,7 +448,7 @@ public class PatchTable extends Composite {
       table.setWidget(row, C_SIDEBYSIDE - 2, sideBySide);
 
       int C_UNIFIED = C_SIDEBYSIDE - 2 + 1;
-      Anchor unified = new Anchor(Util.C.buttonDiffAllUnified());
+      Anchor unified = new Anchor(Util.C.diffAllUnified());
       unified.addClickHandler(new ClickHandler() {
         public void onClick(ClickEvent event) {
           for (Patch p : detail.getPatches()) {

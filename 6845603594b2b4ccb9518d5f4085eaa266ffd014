@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MZ-sN70A",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-03T12:29:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MZhwalXk",
+      "revId": "6845603594b2b4ccb9518d5f4085eaa266ffd014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MZjwfUWo",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-01T19:27:17Z",
       "side": 1,
       "message": "so the only way this can fail is if we are scheduling multiple tasks in a single thread executor, from the single thread executor.  I wonder if the better way to check this would be to save off the callerContext:\n\n  final RequestContext callerContext \u003d checkNotNull(local.getContext());\n\nand then in the callable:\n\n  if (callerContext \u003d\u003d local.getContext()) {\n    return callable.call();\n  } else {\n    return wrapped.call();\n  }\n\nThen we are really detecting whether the thread is the same and the context is the same (both conditions needed to execute the callable safely).",
+      "revId": "6845603594b2b4ccb9518d5f4085eaa266ffd014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MZxsam3k",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/RequestScopePropagator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-03T12:29:10Z",
+      "side": 1,
+      "message": "I agree, it\u0027s safer to check that the context is the same.\n\nDone.",
+      "parentUuid": "MZjwfUWo",
       "revId": "6845603594b2b4ccb9518d5f4085eaa266ffd014",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

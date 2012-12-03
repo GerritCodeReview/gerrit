@@ -80,7 +80,7 @@ public class LdapGroupBackend implements GroupBackend {
   }
 
   private boolean isLdapUUID(AccountGroup.UUID uuid) {
-    return helper.hasLdapConfiguration() && uuid.get().startsWith(LDAP_UUID);
+    return uuid.get().startsWith(LDAP_UUID);
   }
 
   private static GroupReference groupReference(ParameterizedString p,
@@ -153,9 +153,6 @@ public class LdapGroupBackend implements GroupBackend {
 
   @Override
   public Collection<GroupReference> suggest(String name) {
-    if (!helper.hasLdapConfiguration()) {
-      return Collections.emptySet();
-    }
     AccountGroup.UUID uuid = new AccountGroup.UUID(name);
     if (isLdapUUID(uuid)) {
       GroupDescription.Basic g = get(uuid);
@@ -171,9 +168,6 @@ public class LdapGroupBackend implements GroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    if (!helper.hasLdapConfiguration()) {
-      return GroupMembership.EMPTY;
-    }
     String id = findId(user.state().getExternalIds());
     if (id == null) {
       return GroupMembership.EMPTY;

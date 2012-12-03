@@ -52,9 +52,7 @@ import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.InternalAuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
-import com.google.gerrit.server.auth.ldap.LdapGroupBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
-import com.google.gerrit.server.auth.ldap.LdapRealmModule;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -110,7 +108,7 @@ public class GerritGlobalModule extends FactoryModule {
       case LDAP:
       case LDAP_BIND:
       case CLIENT_SSL_CERT_LDAP:
-        install(new LdapRealmModule());
+        install(new LdapModule());
         break;
 
       case CUSTOM_EXTENSION:
@@ -118,6 +116,7 @@ public class GerritGlobalModule extends FactoryModule {
 
       default:
         bind(Realm.class).to(DefaultRealm.class);
+        DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);
         break;
     }
 
@@ -143,7 +142,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(new GitModule());
     install(new PrologModule());
     install(ThreadLocalRequestContext.module());
-    install(new LdapModule());
 
     bind(AccountResolver.class);
     bind(ChangeQueryRewriter.class);
@@ -162,14 +160,12 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);
-    DynamicSet.bind(binder(), AuthBackend.class).to(InternalAuthBackend.class);
 
     bind(GroupControl.Factory.class).in(SINGLETON);
     factory(IncludingGroupMembership.Factory.class);
     bind(GroupBackend.class).to(UniversalGroupBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), GroupBackend.class);
     DynamicSet.bind(binder(), GroupBackend.class).to(InternalGroupBackend.class);
-    DynamicSet.bind(binder(), GroupBackend.class).to(LdapGroupBackend.class);
 
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(ToolsCatalog.class);

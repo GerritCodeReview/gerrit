@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
@@ -103,10 +102,6 @@ import javax.security.auth.login.LoginException;
       env.put("com.sun.jndi.ldap.read.timeout", readTimeOutMillis);
     }
     return env;
-  }
-
-  boolean hasLdapConfiguration() {
-    return !Strings.isNullOrEmpty(server);
   }
 
   DirContext open() throws NamingException, LoginException {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MZ7sqh3w",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/HostPageServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2012-12-03T16:32:36Z",
+      "side": 1,
+      "message": "missing: set button title to Constants.buttonSignIn",
+      "revId": "b491efb489c457cbfacb0a4e518946596aadfb0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

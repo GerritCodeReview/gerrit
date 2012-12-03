@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MfAbzOjE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-03T23:12:01Z",
+      "side": 1,
+      "message": "GroupBackend?",
+      "revId": "ca578c8d304ec1e3f54957ef0d1ab9c40ed7b282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfCb4Ngs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-03T23:12:01Z",
+      "side": 1,
+      "message": "Group backends shouldn\u0027t really know about a project. Why are we telling the backend a project name here?",
+      "revId": "ca578c8d304ec1e3f54957ef0d1ab9c40ed7b282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

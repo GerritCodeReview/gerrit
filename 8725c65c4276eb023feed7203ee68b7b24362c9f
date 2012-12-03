@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MZnwZ2YA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-12-03T10:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MX2NiAtI",
+      "revId": "8725c65c4276eb023feed7203ee68b7b24362c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MX0NnBuA",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/InternalAuthBackend.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-03T10:02:09Z",
       "side": 1,
       "message": "Nit: extra blank line",
+      "revId": "8725c65c4276eb023feed7203ee68b7b24362c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MZpwtxZk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/InternalAuthBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-12-03T10:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MX0NnBuA",
       "revId": "8725c65c4276eb023feed7203ee68b7b24362c9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "MZrwqgXw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/MissingCredentialsException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-12-03T10:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MX6NbWiA",
+      "revId": "8725c65c4276eb023feed7203ee68b7b24362c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MX4NY3iQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapAuthBackend.java",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "MZtwnTbM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapAuthBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-12-03T10:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MX4NY3iQ",
+      "revId": "8725c65c4276eb023feed7203ee68b7b24362c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MX.NVUus",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapAuthBackend.java",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2012-12-03T10:02:09Z",
       "side": 1,
       "message": "s/autenticate/authenticate",
+      "revId": "8725c65c4276eb023feed7203ee68b7b24362c9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MZvwkCbE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapAuthBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-12-03T10:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MX.NVUus",
       "revId": "8725c65c4276eb023feed7203ee68b7b24362c9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

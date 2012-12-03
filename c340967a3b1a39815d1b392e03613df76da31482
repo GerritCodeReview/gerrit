@@ -51,6 +51,24 @@
       "revId": "c340967a3b1a39815d1b392e03613df76da31482",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MclAUDEo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-03T15:50:18Z",
+      "side": 1,
+      "message": "I have started to break out the various commit validation logic to separate classes implementing a new interface: CommitValidator.\n\nI chose not to use the CommitValidationListener interface since I want to be able to control the order of the validators more clearly, and most of the validation logic in ReceiveCommits does not really fit the CommitValidationListener interface.\n\nFor instance there is a difference on rejection reason and error message. And much of the validation logic in ReceiveCommit also returns several CommitValidationMessage responses, while the CommitValidationListener.onCommitReceived() just want one CommitValidationMessage back.\n\nThis way I can easy supply the validation methods to various other parts of Gerrit; like revert, cherry-pick and rebase with ease.\n\nDoes this seem like a reasonable way to handle it?",
+      "parentUuid": "MchAahHk",
+      "revId": "c340967a3b1a39815d1b392e03613df76da31482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -305,8 +305,9 @@ Controls whether or not the contributor agreement features are
 enabled for the Gerrit site.  If enabled a user must complete a
 contributor agreement before they can upload changes.
 +
-If enabled, the admin must also insert one or more rows into
-`contributor_agreements` and create agreement files under
+If enabled, the admin must also add one or more
+link:config-cla.html[contributor-agreement sections]
+in project.config and create agreement files under
 `'$site_path'/static`, so users can actually complete one or
 more agreements.
 +

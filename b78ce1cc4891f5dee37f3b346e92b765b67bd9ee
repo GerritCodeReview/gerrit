@@ -105,6 +105,23 @@
     },
     {
       "key": {
+        "uuid": "MX4OOHoU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupInfoCacheFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-03T18:05:30Z",
+      "side": 1,
+      "message": "This is the source of the NPE you see below. The cache couldn\u0027t find this UUID.",
+      "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "McbFY4CQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupInfoCacheFactory.java",
         "patchSetId": 5

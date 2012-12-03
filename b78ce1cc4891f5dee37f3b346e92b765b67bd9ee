@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "McVGhdPo",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-03T21:42:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MTHZccOs",
+      "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MTFZhdJk",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
         "patchSetId": 5
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "McXGmeBU",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/server/ReviewDb.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-03T21:42:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MTFZhdJk",
+      "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MTDZi.KI",
         "filename": "gerrit-reviewdb/src/main/resources/com/google/gerrit/reviewdb/server/index_postgres.sql",
         "patchSetId": 5
@@ -64,6 +100,24 @@
       "writtenOn": "2012-11-30T18:54:31Z",
       "side": 1,
       "message": "This should be in the generic file too.",
+      "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "McTGc8Ms",
+        "filename": "gerrit-reviewdb/src/main/resources/com/google/gerrit/reviewdb/server/index_postgres.sql",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-03T21:42:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MTDZi.KI",
       "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

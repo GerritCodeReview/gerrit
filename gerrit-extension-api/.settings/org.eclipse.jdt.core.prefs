@@ -7,6 +7,7 @@ org.eclipse.jdt.core.compiler.compliance=1.6
 org.eclipse.jdt.core.compiler.debug.lineNumber=generate
 org.eclipse.jdt.core.compiler.debug.localVariable=generate
 org.eclipse.jdt.core.compiler.debug.sourceFile=generate
+org.eclipse.jdt.core.compiler.problem.annotationSuperInterface=ignore
 org.eclipse.jdt.core.compiler.problem.assertIdentifier=error
 org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
 org.eclipse.jdt.core.compiler.problem.forbiddenReference=warning

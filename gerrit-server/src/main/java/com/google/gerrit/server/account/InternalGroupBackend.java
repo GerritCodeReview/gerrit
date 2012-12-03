@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -71,7 +72,8 @@ public class InternalGroupBackend implements GroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(final String name) {
+  public Collection<GroupReference> suggest(final String name,
+      final Project project) {
     Iterable<AccountGroup> filtered = Iterables.filter(groupCache.all(),
         new Predicate<AccountGroup>() {
           @Override

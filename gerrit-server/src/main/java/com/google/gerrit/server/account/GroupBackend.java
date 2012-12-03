@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 
 import java.util.Collection;
@@ -44,7 +45,7 @@ public interface GroupBackend {
   GroupDescription.Basic get(AccountGroup.UUID uuid);
 
   /** @return suggestions for the group name sorted by name. */
-  Collection<GroupReference> suggest(String name);
+  Collection<GroupReference> suggest(String name, @Nullable Project project);
 
   /** @return the group membership checker for the backend. */
   GroupMembership membershipsOf(IdentifiedUser user);

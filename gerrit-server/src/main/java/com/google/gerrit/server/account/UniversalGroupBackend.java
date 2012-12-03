@@ -25,6 +25,7 @@ import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -82,10 +83,10 @@ public class UniversalGroupBackend implements GroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(String name) {
+  public Collection<GroupReference> suggest(String name, Project project) {
     Set<GroupReference> groups = Sets.newTreeSet(GROUP_REF_NAME_COMPARATOR);
     for (GroupBackend g : backends) {
-      groups.addAll(g.suggest(name));
+      groups.addAll(g.suggest(name, project));
     }
     return groups;
   }

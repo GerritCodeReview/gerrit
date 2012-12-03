@@ -26,6 +26,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountExternalId;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
@@ -164,7 +165,7 @@ public class LdapGroupBackend implements GroupBackend {
   }
 
   @Override
-  public Collection<GroupReference> suggest(String name) {
+  public Collection<GroupReference> suggest(String name, Project project) {
     AccountGroup.UUID uuid = new AccountGroup.UUID(name);
     if (isLdapUUID(uuid)) {
       GroupDescription.Basic g = get(uuid);

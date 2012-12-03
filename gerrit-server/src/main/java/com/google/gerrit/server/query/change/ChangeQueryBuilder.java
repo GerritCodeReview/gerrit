@@ -367,7 +367,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
     // If its not an account, maybe its a group?
     //
-    Collection<GroupReference> suggestions = args.groupBackend.suggest(who);
+    Collection<GroupReference> suggestions = args.groupBackend.suggest(who, null);
     if (!suggestions.isEmpty()) {
       HashSet<AccountGroup.UUID> ids = new HashSet<AccountGroup.UUID>();
       for (GroupReference ref : suggestions) {

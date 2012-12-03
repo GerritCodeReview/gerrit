@@ -84,6 +84,41 @@
       "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "McZFb3CA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupDetailFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-03T15:08:03Z",
+      "side": 1,
+      "message": "Indeed. The NPE only happens when the external group is first added, subsequent reloads populates gic properly. Reloading gives a different NPE, which I\u0027ll point out there.",
+      "parentUuid": "MTPZv4IM",
+      "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "McbFY4CQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupInfoCacheFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-03T15:08:03Z",
+      "side": 1,
+      "message": "AccountGroup ends up being null with the following stacktrace: http://p.defau.lt/?XmR6FcFQLPeCpgg8tyXsCA.",
+      "revId": "b78ce1cc4891f5dee37f3b346e92b765b67bd9ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

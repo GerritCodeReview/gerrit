@@ -37,10 +37,14 @@ results beyond the limit, the 'resume_sortkey:' operator can be used
 to resume the query at the change that follows the last change of
 the prior result set.
 
-Non-option arguments to this command are joined with spaces and then
-parsed as a query.  This simplifies calling conventions over SSH
-by permitting operators to appear in different arguments without
-multiple levels of quoting required.
+Non-option arguments to this command are joined with spaces and
+then parsed as a query. This simplifies calling conventions over
+SSH by permitting operators to appear in different arguments.
+
+Query operators may quote values using matched curly braches
+(e.g. `reviewerin:{Developer Group}`) to sidestep issues with 2
+levels of shell quoting (caller shell invoking SSH, and the SSH
+command line parser in the server).
 
 OPTIONS
 -------

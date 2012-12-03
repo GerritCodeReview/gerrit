@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MZztGd1I",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-12-03T20:20:56Z",
+      "side": 1,
+      "message": "project.config",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MZ1tLQ1k",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-12-03T20:20:56Z",
+      "side": 1,
+      "message": "config-cla.txt , also missing \".\" in the end.",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MZ3tQ-wQ",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1010033
+      },
+      "writtenOn": "2012-12-03T20:20:56Z",
+      "side": 1,
+      "message": "Maybe note the gerrit access right needed to perform this?",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

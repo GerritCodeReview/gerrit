@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth;
 
-import static org.parboiled.common.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nullable;
 

@@ -201,8 +201,9 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
   private List<GroupReference> suggestAccountGroup(
       @Nullable final ProjectControl projectControl, final String query, final int limit) {
-    final int n = limit <= 0 ? 10 : Math.min(limit, 10);
-    return Lists.newArrayList(Iterables.limit(groupBackend.suggest(query), n));
+    return Lists.newArrayList(Iterables.limit(
+        groupBackend.suggest(query, projectControl),
+        limit <= 0 ? 10 : Math.min(limit, 10)));
   }
 
   @Override

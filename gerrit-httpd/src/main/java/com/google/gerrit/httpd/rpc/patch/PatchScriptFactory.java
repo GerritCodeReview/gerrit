@@ -241,6 +241,12 @@ class PatchScriptFactory extends Handler<PatchScript> {
               name = oldName;
             }
             break;
+
+          case MODIFIED:
+          case DELETED:
+          case ADDED:
+          case REWRITE:
+            break;
         }
       }
 
@@ -266,6 +272,9 @@ class PatchScriptFactory extends Handler<PatchScript> {
         }
         loadPublished(byKey, aic, newName);
         break;
+
+      case REWRITE:
+        break;
     }
 
     final CurrentUser user = control.getCurrentUser();
@@ -287,6 +296,9 @@ class PatchScriptFactory extends Handler<PatchScript> {
             loadDrafts(byKey, aic, me, oldName);
           }
           loadDrafts(byKey, aic, me, newName);
+          break;
+
+        case REWRITE:
           break;
       }
     }

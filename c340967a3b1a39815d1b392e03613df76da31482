@@ -69,6 +69,24 @@
       "revId": "c340967a3b1a39815d1b392e03613df76da31482",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "McfFSaAA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-03T15:54:10Z",
+      "side": 1,
+      "message": "Yes, good luck.  You\u0027ll probably know when you try to use it from all 3 places whether it looks better or not.",
+      "parentUuid": "MclAUDEo",
+      "revId": "c340967a3b1a39815d1b392e03613df76da31482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

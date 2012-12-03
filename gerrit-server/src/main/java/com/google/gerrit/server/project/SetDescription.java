@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.project.SetDescription.Input;
@@ -41,11 +42,15 @@ class SetDescription implements RestModifyView<ProjectResource, Input> {
 
   private final ProjectCache cache;
   private final MetaDataUpdate.Server updateFactory;
+  private final GitRepositoryManager gitMgr;
 
   @Inject
-  SetDescription(ProjectCache cache, MetaDataUpdate.Server updateFactory) {
+  SetDescription(ProjectCache cache,
+      MetaDataUpdate.Server updateFactory,
+      GitRepositoryManager gitMgr) {
     this.cache = cache;
     this.updateFactory = updateFactory;
+    this.gitMgr = gitMgr;
   }
 
   @Override
@@ -84,6 +89,9 @@ class SetDescription implements RestModifyView<ProjectResource, Input> {
         md.setMessage(msg);
         config.commit(md);
         cache.evict(ctl.getProject());
+        gitMgr.setProjectDescription(
+            resource.getNameKey(),
+            project.getDescription());
 
         ListProjects.ProjectInfo info = new ListProjects.ProjectInfo();
         info.setName(resource.getName());

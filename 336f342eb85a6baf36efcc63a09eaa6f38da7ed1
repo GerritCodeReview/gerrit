@@ -50,6 +50,91 @@
       "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfGYCLhU",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-04T01:02:09Z",
+      "side": 1,
+      "message": "- s/appears/appear\n\n- s/will select/selects",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfIYGSiU",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-04T01:02:09Z",
+      "side": 1,
+      "message": "s/schemes/scheme",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfKYDRhQ",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-04T01:02:09Z",
+      "side": 1,
+      "message": "s/on-line/online",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfMYQQlw",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-04T01:02:09Z",
+      "side": 1,
+      "message": "Nit: Extra blank line at the end",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfOYNPkE",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-04T01:02:09Z",
+      "side": 1,
+      "message": "Add an extra new line before here?  Or, maybe better to put this as a hyperlink on \"contributor-agreement sections\" at line 308?",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

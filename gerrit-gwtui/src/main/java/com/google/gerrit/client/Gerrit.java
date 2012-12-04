@@ -53,6 +53,11 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.URL;
@@ -66,6 +71,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
@@ -508,8 +514,8 @@ public class Gerrit implements EntryPoint {
     gTopMenu.add(menuLine);
     final FlowPanel menuRightPanel = new FlowPanel();
     menuRightPanel.setStyleName(RESOURCES.css().topmenuMenuRight());
-    menuRightPanel.add(menuRight);
     menuRightPanel.add(searchPanel);
+    menuRightPanel.add(menuRight);
     menuLine.setWidget(0, 0, menuLeft);
     menuLine.setWidget(0, 1, new FlowPanel());
     menuLine.setWidget(0, 2, menuRightPanel);
@@ -708,11 +714,7 @@ public class Gerrit implements EntryPoint {
     }
 
     if (signedIn) {
-      whoAmI();
-      addLink(menuRight, C.menuSettings(), PageLinks.SETTINGS);
-      if (cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP) {
-        menuRight.add(anchor(C.menuSignOut(), selfRedirect("/logout")));
-      }
+      whoAmI(cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP);
     } else {
       switch (cfg.getAuthType()) {
         case HTTP:
@@ -777,11 +779,39 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static void whoAmI() {
-    final String name = FormatUtil.nameEmail(getUserAccount());
-    final InlineLabel l = new InlineLabel(name);
+  private static void whoAmI(boolean canLogOut) {
+    Account account = getUserAccount();
+    final CurrentUserPopupPanel userPopup =
+        new CurrentUserPopupPanel(account, canLogOut);
+    final InlineLabel l = new InlineLabel(FormatUtil.name(account) + " ▾");
     l.setStyleName(RESOURCES.css().menuBarUserName());
-    menuRight.add(l);
+    l.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        if (userPopup.isShowing()) {
+          userPopup.hide();
+        } else {
+          userPopup.showRelativeTo(l);
+        }
+      }
+    });
+    userPopup.addAutoHidePartner(l.getElement());
+    FocusPanel fp = new FocusPanel(l);
+    fp.setStyleName(RESOURCES.css().menuBarUserNameFocusPanel());
+    fp.addKeyDownHandler(new KeyDownHandler() {
+      @Override
+      public void onKeyDown(KeyDownEvent event) {
+        if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+          if (userPopup.isShowing()) {
+            userPopup.hide();
+          } else {
+            userPopup.showRelativeTo(l);
+          }
+          event.preventDefault();
+        }
+      }
+    });
+    menuRight.add(fp);
   }
 
   private static Anchor anchor(final String text, final String to) {

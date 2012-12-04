@@ -33,5 +33,10 @@ public class LinkMenuItem extends InlineHyperlink implements ScreenLoadHandler {
   }
 
   public void onScreenLoad(ScreenLoadEvent event) {
+    if (event.getScreen().getToken().equals(getTargetHistoryToken())){
+      addStyleName(Gerrit.RESOURCES.css().activeRow());
+    } else {
+      removeStyleName(Gerrit.RESOURCES.css().activeRow());
+    }
   }
 }

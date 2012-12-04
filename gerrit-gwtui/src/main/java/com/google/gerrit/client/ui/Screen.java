@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.View;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
   *  A Screen layout with a header and a body.
@@ -164,7 +165,12 @@ public abstract class Screen extends View {
       Gerrit.setWindowTitle(this, windowTitle);
     }
     Gerrit.updateMenus(this);
+    Gerrit.EVENT_BUS.fireEvent(new ScreenLoadEvent(this));
     Gerrit.setQueryString(null);
     registerKeys();
+  }
+
+  public static HandlerRegistration addScreenLoadHandler(ScreenLoadHandler handler) {
+    return Gerrit.EVENT_BUS.addHandler(ScreenLoadEvent.TYPE, handler);
   }
 }

@@ -69,6 +69,24 @@
       "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfGamrhU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-04T15:13:15Z",
+      "side": 1,
+      "message": "double check the logic of \u0027(projectCache.get(nameKey) !\u003d null)\u0027 and test.\n\nthe result is it cannot work. so I will prepare new patchset.",
+      "parentUuid": "MfMZVous",
+      "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

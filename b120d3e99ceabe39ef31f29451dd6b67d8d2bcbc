@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MfOY7fsg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-04T11:05:18Z",
+      "side": 1,
+      "message": "This will get the next patch set ID of the change being reverted, but we need to get a completely new one:\n\n PatchSet.Id id \u003d new PatchSet.Id(change.getId(), Change.INITIAL_PATCH_SET_ID);",
+      "revId": "b120d3e99ceabe39ef31f29451dd6b67d8d2bcbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -53,6 +53,8 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.http.client.URL;
@@ -508,8 +510,8 @@ public class Gerrit implements EntryPoint {
     gTopMenu.add(menuLine);
     final FlowPanel menuRightPanel = new FlowPanel();
     menuRightPanel.setStyleName(RESOURCES.css().topmenuMenuRight());
-    menuRightPanel.add(menuRight);
     menuRightPanel.add(searchPanel);
+    menuRightPanel.add(menuRight);
     menuLine.setWidget(0, 0, menuLeft);
     menuLine.setWidget(0, 1, new FlowPanel());
     menuLine.setWidget(0, 2, menuRightPanel);
@@ -708,11 +710,7 @@ public class Gerrit implements EntryPoint {
     }
 
     if (signedIn) {
-      whoAmI();
-      addLink(menuRight, C.menuSettings(), PageLinks.SETTINGS);
-      if (cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP) {
-        menuRight.add(anchor(C.menuSignOut(), selfRedirect("/logout")));
-      }
+      whoAmI(cfg.getAuthType() != AuthType.CLIENT_SSL_CERT_LDAP);
     } else {
       switch (cfg.getAuthType()) {
         case HTTP:
@@ -777,10 +775,25 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static void whoAmI() {
-    final String name = FormatUtil.nameEmail(getUserAccount());
-    final InlineLabel l = new InlineLabel(name);
+  private static void whoAmI(boolean canLogOut) {
+    Account account = getUserAccount();
+    final CurrentUserPopupPanel userPopup =
+        new CurrentUserPopupPanel(account, canLogOut);
+    final String name = FormatUtil.name(account);
+    String[] names = name.split("\\s+", 2);
+    final InlineLabel l = new InlineLabel(names[0] + " ▾");
     l.setStyleName(RESOURCES.css().menuBarUserName());
+    l.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        if (userPopup.isShowing()) {
+          userPopup.hide();
+        } else {
+          userPopup.showRelativeTo(l);
+        }
+      }
+    });
+    userPopup.addAutoHidePartner(l.getElement());
     menuRight.add(l);
   }
 

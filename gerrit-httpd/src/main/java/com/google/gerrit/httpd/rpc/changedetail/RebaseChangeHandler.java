@@ -45,11 +45,11 @@ class RebaseChangeHandler extends Handler<ChangeDetail> {
   private final PatchSet.Id patchSetId;
 
   @Inject
-  RebaseChangeHandler(final RebaseChange.Factory rebaseChangeFactory,
+  RebaseChangeHandler(final RebaseChange rebaseChange,
       final IdentifiedUser currentUser,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId) {
-    this.rebaseChange = rebaseChangeFactory.create();
+    this.rebaseChange = rebaseChange;
     this.currentUser = currentUser;
     this.changeDetailFactory = changeDetailFactory;
 

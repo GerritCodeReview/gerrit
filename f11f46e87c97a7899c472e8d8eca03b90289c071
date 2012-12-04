@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MfKZYpiQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-04T13:18:03Z",
+      "side": 1,
+      "message": "we cannot guess user always input  \"xxx.git.git\", \nhe also can input \u0027\u0027nam.e.git\" \nso the best way to check the project name valid or not is checking it by projectCache.",
+      "parentUuid": "MfEZiktE",
+      "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MfCZtlsI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-04T11:10:01Z",
       "side": 1,
       "message": "If we\u0027ve stripped all the trailing \".git\" off the name, we can use projectCache.get() to find out if the project exists.\n\n    ProjectControl control \u003d null;\n    try {\n      final Project.NameKey nameKey \u003d new Project.NameKey(projectName);\n      if (projectCache.get(nameKey) !\u003d null) {\n        control \u003d projectControlFactory.validateFor(nameKey, ProjectControl.OWNER | ProjectControl.VISIBLE);\n      }\n    } catch (NoSuchProjectException e) {\n    }\n\n    if (control \u003d\u003d null) {\n      throw new CmdLineException(owner, \"\u0027\" + token + \"\u0027: not a Gerrit project\");\n    }",
+      "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfMZVous",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-04T13:18:03Z",
+      "side": 1,
+      "message": "I will check the logic of \u0027projectCache.get(nameKey)\u0027 which would be a good idea if it can work.\n\n however I still prefer to keep the project name checking related code  to be separately. that would be clear,as \nboth \"projectname.git\" and projectname\" can work on \"control \u003d projectControlFactory.validateFor(nameKey, ProjectControl.OWNER | ProjectControl.VIS\nIBLE);\"",
+      "parentUuid": "MfCZtlsI",
       "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

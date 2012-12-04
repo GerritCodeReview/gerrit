@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MmenyFSw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/CurrentUserPopupPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-04T23:08:16Z",
+      "side": 1,
+      "message": "I don\u0027t think there is a way to specify this in the XML file - but UIBinder experts, please let me know!",
+      "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

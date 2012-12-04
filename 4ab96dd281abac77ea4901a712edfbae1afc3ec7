@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MjLb8iP8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-04T08:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MfCZGdlI",
+      "revId": "4ab96dd281abac77ea4901a712edfbae1afc3ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MfEZLclk",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "MjPbyACw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-04T08:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MfEZLclk",
+      "revId": "4ab96dd281abac77ea4901a712edfbae1afc3ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MfGZQbgU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2012-12-04T07:58:59Z",
       "side": 1,
       "message": "if (!projectExists)",
+      "revId": "4ab96dd281abac77ea4901a712edfbae1afc3ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MjNb3BBo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-04T08:22:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MfGZQbgU",
       "revId": "4ab96dd281abac77ea4901a712edfbae1afc3ec7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -26,7 +28,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.StringUtil;
@@ -57,6 +58,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -133,6 +135,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   @Option(name = "-p", metaVar = "PERFIX", usage = "match project prefix")
   private String matchPrefix;
+
+  @Option(name = "-m", metaVar = "MATCH", usage = "match project substring")
+  private String matchSubstring;
 
   @Option(name = "--has-acl-for", metaVar = "GROUP", usage =
       "displays only projects on which access rights for this group are directly assigned")
@@ -378,9 +383,17 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     }
   }
 
-  private Iterable<NameKey> scan() {
+  private Iterable<Project.NameKey> scan() {
     if (matchPrefix != null) {
       return projectCache.byName(matchPrefix);
+    } else if (matchSubstring != null) {
+      return Iterables.filter(projectCache.all(),
+          new Predicate<Project.NameKey>() {
+            public boolean apply(Project.NameKey in) {
+              return in.get().toLowerCase(Locale.US)
+                  .contains(matchSubstring.toLowerCase(Locale.US));
+            }
+          });
     } else {
       return projectCache.all();
     }

@@ -65,7 +65,7 @@ public abstract class DownloadCommandLink extends Anchor implements ClickHandler
       protected void setCurrentUrl(DownloadUrlLink link) {
         widget.setVisible(true);
         copyLabel.setText("git fetch " + link.getUrlData()
-            + " && git cherry-pick FETCH_HEAD");
+            + " && git cherry-pick -x FETCH_HEAD");
       }
     }
 

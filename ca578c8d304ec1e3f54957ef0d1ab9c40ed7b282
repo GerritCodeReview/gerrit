@@ -33,6 +33,24 @@
       "revId": "ca578c8d304ec1e3f54957ef0d1ab9c40ed7b282",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MjHYHECM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2012-12-04T09:32:14Z",
+      "side": 1,
+      "message": "In TeamForge group is connected to project, there could be hundreds or more projects with tens of groups. Also same group names can occur in multiple projects (but they are not the  same groups), imagine that you want to add \u0027Reviewers\u0027 group and there are 68 project with such group name, then you ends up with 68 suggestions. With this additional parameter we can limit suggestion size down to 1.",
+      "parentUuid": "MfCb4Ngs",
+      "revId": "ca578c8d304ec1e3f54957ef0d1ab9c40ed7b282",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

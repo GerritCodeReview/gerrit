@@ -224,4 +224,6 @@ public interface GerritCss extends CssResource {
   String watchedProjectFilter();
   String selectPatchSetOldVersion();
   String patchCellReverseDiff();
+  String projectFilterPanel();
+  String projectFilterLabel();
 }

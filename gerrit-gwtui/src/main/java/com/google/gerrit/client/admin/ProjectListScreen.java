@@ -24,32 +24,53 @@ import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class ProjectListScreen extends Screen {
   private ProjectsTable projects;
+  private NpTextBox filterTxt;
+  private String subname;
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    ProjectMap.all(new ScreenLoadCallback<ProjectMap>(this) {
-      @Override
-      protected void preDisplay(final ProjectMap result) {
-        projects.display(result);
-        projects.finishDisplay();
-      }
-    });
+    if (subname == null || "".equals(subname)) {
+      ProjectMap.all(new ScreenLoadCallback<ProjectMap>(this) {
+        @Override
+        protected void preDisplay(final ProjectMap result) {
+          display(result);
+        }
+      });
+    } else {
+      ProjectMap.match(subname, new ScreenLoadCallback<ProjectMap>(this) {
+        @Override
+        protected void preDisplay(final ProjectMap result) {
+          display(result);
+        }
+      });
+    }
+  }
+
+  private void display(final ProjectMap result) {
+    projects.display(result);
+    projects.finishDisplay();
   }
 
   @Override
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.C.projectListTitle());
+    initPageHeader();
 
     projects = new ProjectsTable() {
       @Override
@@ -110,6 +131,31 @@ public class ProjectListScreen extends Screen {
     projects.setSavePointerId(PageLinks.ADMIN_PROJECTS);
 
     add(projects);
+  }
+
+  private void initPageHeader() {
+    final HorizontalPanel hp = new HorizontalPanel();
+    hp.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
+    final Label filterLabel = new Label(Util.C.projectFilter());
+    filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
+    hp.add(filterLabel);
+    filterTxt = new NpTextBox();
+    filterTxt.setValue(subname);
+    filterTxt.addKeyUpHandler(new KeyUpHandler() {
+      @Override
+      public void onKeyUp(KeyUpEvent event) {
+        subname = filterTxt.getValue();
+        onLoad();
+      }
+    });
+    hp.add(filterTxt);
+    add(hp);
+  }
+
+  @Override
+  public void onShowView() {
+    super.onShowView();
+    filterTxt.setFocus(true);
   }
 
   @Override

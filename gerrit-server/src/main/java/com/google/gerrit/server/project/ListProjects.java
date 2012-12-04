@@ -134,6 +134,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   @Option(name = "-p", metaVar = "PERFIX", usage = "match project prefix")
   private String matchPrefix;
 
+  @Option(name = "-m", metaVar = "MATCH", usage = "match project substring")
+  private String matchSubstring;
+
   @Option(name = "--has-acl-for", metaVar = "GROUP", usage =
       "displays only projects on which access rights for this group are directly assigned")
   private AccountGroup.UUID groupUuid;
@@ -381,6 +384,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private Iterable<NameKey> scan() {
     if (matchPrefix != null) {
       return projectCache.byName(matchPrefix);
+    } else if (matchSubstring != null) {
+      return projectCache.byMatch(matchSubstring);
     } else {
       return projectCache.all();
     }

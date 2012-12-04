@@ -304,6 +304,11 @@ public class RefControlTest extends TestCase {
       }
 
       @Override
+      public Iterable<Project.NameKey> byMatch(String substring) {
+        return Collections.emptySet();
+      }
+
+      @Override
       public void onCreateProject(Project.NameKey newProjectName) {
       }
     };

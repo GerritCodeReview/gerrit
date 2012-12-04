@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MjfXy.Cs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-04T10:19:49Z",
+      "side": 1,
+      "message": "For push over HTTP there have been a couple of fixes [1,2,3], but still\nit is failing for us when using Jetty. We are now getting a NPE here\nbecause \u0027allRefs\u0027 is null.\n\nWe debugged the problem and found that on push two requests are\nreceived by Gerrit:\n\n1. /myProject/info/refs\n   ReceiveCommits is instantiated, the refs are advertised so that\n   \u0027allRefs\u0027 gets set from the AdvertiseRefsHook\n\n2. /myProject/git-receive-pack\n   Another instance of ReceiveCommits is created, \u0027allRefs\u0027\n   doesn\u0027t get set for this instance, as result we are failing here\n   with an NPE\n\nIs it intended that ReceiveCommits gets instantiated twice?\nWhat would be the best way to fix this NPE?\n\n [1] https://gerrit-review.googlesource.com/39881\n [2] https://gerrit-review.googlesource.com/40030\n [3] https://gerrit-review.googlesource.com/40072",
+      "revId": "2cc3ddd2418b152385cdb8031c4493718b8b29b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "b120d3e99ceabe39ef31f29451dd6b67d8d2bcbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfAaXuqk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-04T14:33:03Z",
+      "side": 1,
+      "message": "Right! thanks David\n\neven with my this patch , revert action still run into a bug which I ever guess should be another one which I plan continue to fix tomorrow.....here the Change.INITIAL_PATCH_SET_ID give me the hint. I am wrong.  \n\nDone",
+      "parentUuid": "MfOY7fsg",
+      "revId": "b120d3e99ceabe39ef31f29451dd6b67d8d2bcbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

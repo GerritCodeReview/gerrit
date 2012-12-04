@@ -164,6 +164,7 @@ public abstract class Screen extends View {
       Gerrit.setWindowTitle(this, windowTitle);
     }
     Gerrit.updateMenus(this);
+    Gerrit.EVENT_BUS.fireEvent(new ScreenLoadEvent(this));
     Gerrit.setQueryString(null);
     registerKeys();
   }

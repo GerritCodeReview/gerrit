@@ -105,6 +105,23 @@
       "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfOaI3nk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-04T17:08:56Z",
+      "side": 1,
+      "message": "This loop is not necessary. First we should not be looping through all of the projects when we know exactly what name we were asked for. Second, validateFor looks for the project in the cache and throws NoSuchProjectException if it is not found. So David\u0027s suggestion to look in the cache isn\u0027t necessary, and this loop should also not be necessary.",
+      "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -247,7 +247,7 @@ public class ChangeUtil {
           changeToRevert.getDest());
       change.setTopic(changeToRevert.getTopic());
 
-      PatchSet.Id id = nextPatchSetId(git, change.currentPatchSetId());
+      PatchSet.Id id = nextPatchSetId(git, changeToRevert.currentPatchSetId());
       final PatchSet ps = new PatchSet(id);
       ps.setCreatedOn(change.getCreatedOn());
       ps.setUploader(change.getOwner());

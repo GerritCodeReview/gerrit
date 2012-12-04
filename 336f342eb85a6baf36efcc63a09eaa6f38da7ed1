@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MX6O-2gA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-04T17:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MZztGd1I",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MZ1tLQ1k",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-03T20:20:56Z",
       "side": 1,
       "message": "config-cla.txt , also missing \".\" in the end.",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MX4O8Xg0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-04T17:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MZ1tLQ1k",
       "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,41 @@
     },
     {
       "key": {
+        "uuid": "MjxMOrDw",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-04T17:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MZ3tQ-wQ",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MX0PLhqA",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-04T17:42:00Z",
+      "side": 1,
+      "message": "Reformat for 72 columns.",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MfGYCLhU",
         "filename": "Documentation/config-cla.txt",
         "patchSetId": 1
@@ -64,6 +135,24 @@
       "writtenOn": "2012-12-04T01:02:09Z",
       "side": 1,
       "message": "- s/appears/appear\n\n- s/will select/selects",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Mj7P8mP8",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-04T17:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MfGYCLhU",
       "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "Mj5MBnBE",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-04T17:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MfIYGSiU",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MfKYDRhQ",
         "filename": "Documentation/config-cla.txt",
         "patchSetId": 1
@@ -98,6 +205,41 @@
       "writtenOn": "2012-12-04T01:02:09Z",
       "side": 1,
       "message": "s/on-line/online",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Mj3MHICM",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-04T17:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MfKYDRhQ",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Mj-MZ8IU",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-04T17:42:00Z",
+      "side": 1,
+      "message": "Incorrect.  groups are used to verify that the cla was accepted.",
       "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +263,24 @@
     },
     {
       "key": {
+        "uuid": "Mj1MEJBw",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-04T17:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MfMYQQlw",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MfOYNPkE",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -132,6 +292,24 @@
       "writtenOn": "2012-12-04T01:02:09Z",
       "side": 1,
       "message": "Add an extra new line before here?  Or, maybe better to put this as a hyperlink on \"contributor-agreement sections\" at line 308?",
+      "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MjzMRqF4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-04T17:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MfOYNPkE",
       "revId": "336f342eb85a6baf36efcc63a09eaa6f38da7ed1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

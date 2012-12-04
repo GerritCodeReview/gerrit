@@ -18,16 +18,20 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gwt.aria.client.Roles;
 import com.google.gwt.dom.client.AnchorElement;
 
-public class LinkMenuItem extends InlineHyperlink {
+public class LinkMenuItem extends InlineHyperlink implements ScreenLoadHandler {
   public LinkMenuItem(final String text, final String targetHistoryToken) {
     super(text, targetHistoryToken);
     setStyleName(Gerrit.RESOURCES.css().menuItem());
     Roles.getMenuitemRole().set(getElement());
+    Gerrit.EVENT_BUS.addHandler(ScreenLoadEvent.TYPE, this);
   }
 
   @Override
   public void go() {
     super.go();
     AnchorElement.as(getElement()).blur();
+  }
+
+  public void onScreenLoad(ScreenLoadEvent event) {
   }
 }

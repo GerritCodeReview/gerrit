@@ -33,6 +33,7 @@ import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.client.ui.ScreenLoadEvent;
 import com.google.gerrit.common.ClientVersion;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
@@ -816,11 +817,13 @@ public class Gerrit implements EntryPoint {
       final String panel) {
     m.addHideableItem(new LinkMenuItem(text, "") {
         @Override
-        public void go() {
-          if (projectKey != null) {
-            display(Dispatcher.toProjectAdmin(projectKey, panel));
+        public void onScreenLoad(ScreenLoadEvent event) {
+          Screen screen = event.getScreen();
+          if (screen instanceof ProjectScreen) {
+            Project.NameKey projectKey = ((ProjectScreen)screen).getProjectKey();
+            setTargetHistoryToken(Dispatcher.toProjectAdmin(projectKey, panel));
           }
-          AnchorElement.as(getElement()).blur();
+          super.onScreenLoad(event);
         }
       });
   }

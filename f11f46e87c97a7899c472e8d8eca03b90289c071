@@ -87,6 +87,24 @@
       "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfKanxgw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-04T15:16:36Z",
+      "side": 1,
+      "message": "(typo . sorry)\n\n...\n\nso I will NOT prepare new patchset.",
+      "parentUuid": "MfGamrhU",
+      "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

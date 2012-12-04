@@ -36,6 +36,42 @@
     },
     {
       "key": {
+        "uuid": "MjbUTYGI",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-04T20:29:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MfAZ.2mE",
+      "revId": "5c26bfe220a3f2a5ef81ba1ccf1e322e8d18e820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MjZUYZH8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectListScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-04T20:29:28Z",
+      "side": 1,
+      "message": "Results are now ignored if the subname has changed in the meantime.\n\nDone.",
+      "parentUuid": "MfGZ9zmE",
+      "revId": "5c26bfe220a3f2a5ef81ba1ccf1e322e8d18e820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MfEZ40nI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
         "patchSetId": 3
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "MjXUu6JQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-04T20:29:28Z",
+      "side": 1,
+      "message": "Agreed, now it\u0027s really short enough so that this method is not needed anymore :-)\n\nDone.",
+      "parentUuid": "MfEZ40nI",
+      "revId": "5c26bfe220a3f2a5ef81ba1ccf1e322e8d18e820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MfOaxvkk",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2012-12-04T15:54:56Z",
       "side": 1,
       "message": "This is a bit shorter:\n\n  return Iterables.filter(\n    src,\n    new Predicate\u003cProject.NameKey\u003e () {\n      public boolean apply(Project.NameKey in) {\n        return in.get().toLowerCase(Locale.US)\n          .contains(substring.toLowerCase(Locale.US));\n      }\n    });\n\n:-)",
+      "revId": "5c26bfe220a3f2a5ef81ba1ccf1e322e8d18e820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MjVUr7II",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-04T20:29:28Z",
+      "side": 1,
+      "message": "Cool! :-)\n\nDone, but now in ListProjects.",
+      "parentUuid": "MfOaxvkk",
       "revId": "5c26bfe220a3f2a5ef81ba1ccf1e322e8d18e820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

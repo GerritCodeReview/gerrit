@@ -57,6 +57,10 @@ public class PageLinks {
     return "/c/" + ps.getParentKey() + "/" + ps.get();
   }
 
+  public static String toProject(final Project.NameKey p) {
+    return ADMIN_PROJECTS + p.get();
+  }
+
   public static String toProjectAcceess(final Project.NameKey p) {
     return "/admin/projects/" + p.get() + ",access";
   }

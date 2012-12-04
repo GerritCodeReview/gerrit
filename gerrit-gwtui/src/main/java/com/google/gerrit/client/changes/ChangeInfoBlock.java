@@ -21,7 +21,8 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountLink;
 import com.google.gerrit.client.ui.BranchLink;
 import com.google.gerrit.client.ui.CommentedActionDialog;
-import com.google.gerrit.client.ui.ProjectLink;
+import com.google.gerrit.client.ui.InlineHyperlink;
+import com.google.gerrit.client.ui.ProjectSearchLink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.ChangeDetail;
@@ -34,6 +35,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -101,7 +103,13 @@ public class ChangeInfoBlock extends Composite {
     table.setWidget(R_CHANGE_ID, 1, changeIdLabel);
 
     table.setWidget(R_OWNER, 1, AccountLink.link(acc, chg.getOwner()));
-    table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
+
+    final HorizontalPanel p = new HorizontalPanel();
+    p.add(new ProjectSearchLink(chg.getProject()));
+    p.add(new InlineHyperlink(chg.getProject().get(),
+        PageLinks.toProject(chg.getProject())));
+    table.setWidget(R_PROJECT, 1, p);
+
     table.setWidget(R_BRANCH, 1, new BranchLink(dst.getShortName(), chg
         .getProject(), chg.getStatus(), dst.get(), null));
     table.setWidget(R_TOPIC, 1, topic(chg));

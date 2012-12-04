@@ -16,6 +16,7 @@ package com.google.gerrit.server.args4j;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -29,14 +30,16 @@ import org.kohsuke.args4j.spi.Setter;
 
 public class ProjectControlHandler extends OptionHandler<ProjectControl> {
   private final ProjectControl.Factory projectControlFactory;
+  private final ProjectCache projectCache;
 
   @Inject
-  public ProjectControlHandler(
+  public ProjectControlHandler(final ProjectCache projectCache,
       final ProjectControl.Factory projectControlFactory,
       @Assisted final CmdLineParser parser, @Assisted final OptionDef option,
       @Assisted final Setter<ProjectControl> setter) {
     super(parser, option, setter);
     this.projectControlFactory = projectControlFactory;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -66,6 +69,17 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
       // leading '/' but users might accidentally include them in Git URLs.
       //
       projectName = projectName.substring(1);
+    }
+
+    boolean projectExists = false;
+    for (Project.NameKey name : projectCache.all()) {
+      if (name.get().equals(projectName)) {
+        projectExists = true;
+        break;
+      }
+    }
+    if (!projectExists) {
+      throw new CmdLineException(owner, "'" + token + "': not a Gerrit project");
     }
 
     final ProjectControl control;

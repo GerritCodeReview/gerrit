@@ -20,6 +20,7 @@ import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
@@ -105,7 +106,7 @@ public class ProjectListScreen extends Screen {
       protected void populate(final int row, final ProjectInfo k) {
         FlowPanel fp = new FlowPanel();
         fp.add(createSearchLink(k));
-        fp.add(new InlineHyperlink(k.name(), link(k)));
+        fp.add(new HighlightingInlineHyperlink(k.name(), link(k), subname));
         table.setWidget(row, 1, fp);
         table.setText(row, 2, k.description());
         GitwebLink l = Gerrit.getGitwebLink();

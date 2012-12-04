@@ -55,6 +55,8 @@ import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;
@@ -90,6 +92,7 @@ public class Gerrit implements EntryPoint {
   public static final GerritResources RESOURCES =
       GWT.create(GerritResources.class);
   public static final SystemInfoService SYSTEM_SVC;
+  public static final EventBus EVENT_BUS = GWT.create(SimpleEventBus.class);
 
   private static String myHost;
   private static GerritConfig myConfig;

@@ -129,6 +129,9 @@ a:hover {
   background: selectionColor;
 }
 
+.menuItem.activeRow {
+  background: selectionColor;
+}
 
 /** CommentPanel **/
 .commentPanelBorder {

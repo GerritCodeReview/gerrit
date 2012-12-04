@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MfCZGdlI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-04T07:58:59Z",
+      "side": 1,
+      "message": "Nit: spaces around \u003d",
+      "revId": "4ab96dd281abac77ea4901a712edfbae1afc3ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfEZLclk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-04T07:58:59Z",
+      "side": 1,
+      "message": "s/projectExit/projectExists",
+      "revId": "4ab96dd281abac77ea4901a712edfbae1afc3ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MfGZQbgU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-04T07:58:59Z",
+      "side": 1,
+      "message": "if (!projectExists)",
+      "revId": "4ab96dd281abac77ea4901a712edfbae1afc3ec7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MeEr9M-o",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-04T09:17:16Z",
+      "side": 1,
+      "message": "The NEW_PATCHSET pattern is also defined in the ReceiveCommits. Forgot to remove it there and use this one?",
+      "revId": "d9fe687ee79b80b2410a4067a2964a1f37a6eef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

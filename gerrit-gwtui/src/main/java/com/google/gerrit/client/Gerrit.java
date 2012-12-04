@@ -27,7 +27,6 @@ import com.google.gerrit.client.changes.ChangeConstants;
 import com.google.gerrit.client.changes.ChangeListScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.HidingMenuBar;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.MorphingTabPanel;
@@ -105,14 +104,13 @@ public class Gerrit implements EntryPoint {
   private static MorphingTabPanel menuLeft;
   private static LinkMenuBar menuRight;
   private static LinkMenuBar diffBar;
-  private static HidingMenuBar projectsBar;
+  private static LinkMenuBar projectsBar;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
   private static SearchPanel searchPanel;
   private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
   private static PatchScreen patchScreen;
-  private static Project.NameKey projectKey;
   private static String lastChangeListToken;
 
   static {
@@ -190,18 +188,12 @@ public class Gerrit implements EntryPoint {
       patchScreen = (PatchScreen) view;
       menuLeft.setVisible(diffBar, true);
       menuLeft.selectTab(menuLeft.getWidgetIndex(diffBar));
-    } else if (view instanceof ProjectScreen) {
-      projectKey = ((ProjectScreen) view).getProjectKey();
-      menuLeft.selectTab(menuLeft.getWidgetIndex(projectsBar));
-      projectsBar.setHideableItemsVisible(true);
     } else {
       if (patchScreen != null && menuLeft.getSelectedWidget() == diffBar) {
         menuLeft.selectTab(isSignedIn() ? 1 : 0);
       }
       patchScreen = null;
       menuLeft.setVisible(diffBar, false);
-      projectKey = null;
-      projectsBar.setHideableItemsVisible(false);
     }
   }
 
@@ -668,14 +660,12 @@ public class Gerrit implements EntryPoint {
     addDiffLink(diffBar, C.menuDiffPatchSets(), PatchScreen.TopView.PATCH_SETS);
     addDiffLink(diffBar, C.menuDiffFiles(), PatchScreen.TopView.FILES);
 
-    projectKey = null;
-    projectsBar = new HidingMenuBar();
+    projectsBar = new LinkMenuBar();
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
     addProjectLink(projectsBar, C.menuProjectsInfo(), ProjectScreen.INFO);
     addProjectLink(projectsBar, C.menuProjectsBranches(), ProjectScreen.BRANCH);
     addProjectLink(projectsBar, C.menuProjectsAccess(), ProjectScreen.ACCESS);
     addProjectLink(projectsBar, C.menuProjectsDashboards(), ProjectScreen.DASHBOARDS);
-    projectsBar.setHideableItemsVisible(false);
     menuLeft.add(projectsBar, C.menuProjects());
 
     if (signedIn) {
@@ -813,15 +803,18 @@ public class Gerrit implements EntryPoint {
       });
   }
 
-  private static void addProjectLink(final HidingMenuBar m, final String text,
+  private static void addProjectLink(final LinkMenuBar m, final String text,
       final String panel) {
-    m.addHideableItem(new LinkMenuItem(text, "") {
+    m.addItem(new LinkMenuItem(text, "") {
         @Override
         public void onScreenLoad(ScreenLoadEvent event) {
           Screen screen = event.getScreen();
           if (screen instanceof ProjectScreen) {
             Project.NameKey projectKey = ((ProjectScreen)screen).getProjectKey();
             setTargetHistoryToken(Dispatcher.toProjectAdmin(projectKey, panel));
+            setVisible(true);
+          } else {
+            setVisible(false);
           }
           super.onScreenLoad(event);
         }

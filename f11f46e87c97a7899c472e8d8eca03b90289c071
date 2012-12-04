@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "MfCbq9gI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-04T17:10:32Z",
+      "side": 1,
+      "message": "The commit message should include a description of the bug. The bug contains a nice explanation of the problem here being \"test.git.git\" turning into \"test.git\" in the Changes table, even though the project name is really \"test\".",
+      "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MfEZiktE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
         "patchSetId": 4

@@ -135,16 +135,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-    if (!names.contains(name)) {
-      // The this.names list does not hold the project-name but it can still exist
-      // on disk; for instance when the project has been created directly on the
-      // file-system through replication.
-      //
-      if (FileKey.resolve(gitDirOf(name), FS.DETECTED) != null) {
-        onCreateProject(name);
-      } else {
-        throw new RepositoryNotFoundException(gitDirOf(name));
-      }
+    if (!exists(name)) {
+      throw new RepositoryNotFoundException(gitDirOf(name));
     }
     final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
     try {
@@ -170,7 +162,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       //
       loc = FileKey.exact(dir, FS.DETECTED);
 
-      if (!names.contains(name)) {
+      if (!exists(name)) {
         throw new RepositoryCaseMismatchException(name);
       }
     } else {
@@ -365,5 +357,30 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     return new Project.NameKey(projectName);
+  }
+
+  @Override
+  public boolean exists(Project.NameKey name) {
+    if (!names.contains(name)) {
+      // The this.names list does not hold the project-name but it can still
+      // exist on disk; for instance when the project has been created directly
+      // on the file-system through replication.
+      //
+      if (FileKey.resolve(gitDirOf(name), FS.DETECTED) == null) {
+        return false;
+      } else {
+        String p = name.get();
+        if (p.endsWith(Constants.DOT_GIT_EXT)) {
+          p = p.substring(0, p.length() - Constants.DOT_GIT_EXT.length());
+          Project.NameKey pkey = new Project.NameKey(p);
+          if (!names.contains(pkey)) {
+            onCreateProject(pkey);
+          }
+        } else {
+          onCreateProject(name);
+        }
+      }
+    }
+    return true;
   }
 }

@@ -33,9 +33,12 @@ import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.lib.Constants;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -72,14 +75,26 @@ public class ProjectControl {
 
   public static class Factory {
     private final Provider<PerRequestProjectControlCache> userCache;
+    private final GitRepositoryManager repoManager;
 
     @Inject
-    Factory(Provider<PerRequestProjectControlCache> uc) {
+    Factory(Provider<PerRequestProjectControlCache> uc, GitRepositoryManager rm) {
       userCache = uc;
+      repoManager = rm;
     }
 
     public ProjectControl controlFor(final Project.NameKey nameKey)
         throws NoSuchProjectException {
+      if (nameKey.get().endsWith(Constants.DOT_GIT_EXT)) {
+        // Before reaching here Gerrit has cut one '.git' if it exists at the end
+        // of project name input by user .
+        // Gerrit do not assume user should input project name end with more
+        // than one '.git'.
+        throw new NoSuchProjectException(nameKey);
+      }
+      if (!repoManager.exists(nameKey)) {
+        throw new NoSuchProjectException(nameKey);
+      }
       return userCache.get().get(nameKey);
     }
 

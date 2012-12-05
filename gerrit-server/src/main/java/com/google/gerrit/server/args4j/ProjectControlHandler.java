@@ -43,34 +43,9 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
   public final int parseArguments(final Parameters params)
       throws CmdLineException {
     final String token = params.getParameter(0);
-    String projectName = token;
-
-    while (projectName.endsWith("/")) {
-      projectName = projectName.substring(0, projectName.length() - 1);
-    }
-
-    if (projectName.endsWith(".git")) {
-      // Be nice and drop the trailing ".git" suffix, which we never keep
-      // in our database, but clients might mistakenly provide anyway.
-      //
-      projectName = projectName.substring(0, projectName.length() - 4);
-      while (projectName.endsWith("/")) {
-        projectName = projectName.substring(0, projectName.length() - 1);
-      }
-    }
-
-    while (projectName.startsWith("/")) {
-      // Be nice and drop the leading "/" if supplied by an absolute path.
-      // We don't have a file system hierarchy, just a flat namespace in
-      // the database's Project entities. We never encode these with a
-      // leading '/' but users might accidentally include them in Git URLs.
-      //
-      projectName = projectName.substring(1);
-    }
-
     final ProjectControl control;
     try {
-      Project.NameKey nameKey = new Project.NameKey(projectName);
+      Project.NameKey nameKey = ProjectNameHandler.parse(token);
       control = projectControlFactory.validateFor(nameKey, ProjectControl.OWNER | ProjectControl.VISIBLE);
     } catch (NoSuchProjectException e) {
       throw new CmdLineException(owner, "'" + token + "': not a Gerrit project");

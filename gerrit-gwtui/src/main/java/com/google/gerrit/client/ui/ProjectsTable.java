@@ -55,16 +55,18 @@ public class ProjectsTable extends NavigationTable<ProjectInfo> {
     while (1 < table.getRowCount())
       table.removeRow(table.getRowCount() - 1);
 
-    List<ProjectInfo> list = projects.values().asList();
-    Collections.sort(list, new Comparator<ProjectInfo>() {
-      @Override
-      public int compare(ProjectInfo a, ProjectInfo b) {
-        return a.name().compareTo(b.name());
+    if (projects != null) {
+      List<ProjectInfo> list = projects.values().asList();
+      Collections.sort(list, new Comparator<ProjectInfo>() {
+        @Override
+        public int compare(ProjectInfo a, ProjectInfo b) {
+          return a.name().compareTo(b.name());
+        }
+      });
+      for(ProjectInfo p : list) {
+        insert(table.getRowCount(), p);
       }
-    });
-    for(ProjectInfo p : list)
-      insert(table.getRowCount(), p);
-
+    }
     finishDisplay();
   }
 

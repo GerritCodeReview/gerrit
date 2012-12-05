@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MocEBYhA",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-05T00:52:50Z",
+      "side": 1,
+      "message": "Missing backticks around project.config and on a couple of other names.",
+      "revId": "8a7f3f91d5df9a3c2f64ef14893866f6e3e67b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MoaH8Xv8",
+        "filename": "Documentation/config-cla.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-05T00:52:50Z",
+      "side": 1,
+      "message": "s/to/is",
+      "revId": "8a7f3f91d5df9a3c2f64ef14893866f6e3e67b45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

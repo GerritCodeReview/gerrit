@@ -54,6 +54,12 @@ public class ProjectDashboardScreen extends ProjectScreen implements ChangeListS
   }
 
   @Override
+  public void onLoad() {
+    super.onLoad();
+    savedPanel = DASHBOARDS;
+  }
+
+  @Override
   public void registerKeys() {
     super.registerKeys();
     table.setRegisterKeys(true);

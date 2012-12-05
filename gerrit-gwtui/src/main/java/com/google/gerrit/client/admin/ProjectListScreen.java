@@ -66,7 +66,7 @@ public class ProjectListScreen extends Screen {
       }
 
       private String link(final ProjectInfo item) {
-        return Dispatcher.toProjectAdmin(item.name_key(), ProjectScreen.INFO);
+        return Dispatcher.toProject(item.name_key());
       }
 
       @Override

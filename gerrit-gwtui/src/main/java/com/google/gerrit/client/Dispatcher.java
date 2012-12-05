@@ -773,6 +773,9 @@ public class Dispatcher {
           String rest = skip(token);
           int c = rest.lastIndexOf(',');
           if (c < 0) {
+            if (rest.endsWith(".git")) {
+              rest = rest.substring(0, rest.length() - ".git".length());
+            }
             return new ProjectInfoScreen(Project.NameKey.parse(rest));
           } else if (c == 0) {
             return new NotFoundScreen();

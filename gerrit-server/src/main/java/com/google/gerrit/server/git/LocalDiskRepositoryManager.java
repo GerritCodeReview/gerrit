@@ -135,7 +135,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-    if (!names.contains(name)) {
+    if (!isExists(name)) {
       // The this.names list does not hold the project-name but it can still exist
       // on disk; for instance when the project has been created directly on the
       // file-system through replication.
@@ -170,7 +170,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       //
       loc = FileKey.exact(dir, FS.DETECTED);
 
-      if (!names.contains(name)) {
+      if (!isExists(name)) {
         throw new RepositoryCaseMismatchException(name);
       }
     } else {
@@ -365,5 +365,10 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     return new Project.NameKey(projectName);
+  }
+
+  @Override
+  public boolean isExists(Project.NameKey name) {
+    return names.contains(name);
   }
 }

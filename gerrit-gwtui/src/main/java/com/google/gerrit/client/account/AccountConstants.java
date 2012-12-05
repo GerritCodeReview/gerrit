@@ -25,6 +25,7 @@ public interface AccountConstants extends Constants {
   String accountId();
 
   String maximumPageSizeFieldLabel();
+  String maxRecentEntriesFieldLabel();
   String dateFormatLabel();
   String contextWholeFile();
   String showSiteHeader();

@@ -19,48 +19,22 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.FilteredUserInterface;
 import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
-import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
 import com.google.gerrit.client.ui.ProjectSearchLink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 
-public class ProjectListScreen extends Screen implements FilteredUserInterface {
+public abstract class ProjectListScreen extends Screen {
   private ProjectsTable projects;
-  private NpTextBox filterTxt;
-  private String subname;
 
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-    refresh();
-  }
+  protected String subname;
 
-  private void refresh() {
-    ProjectMap.match(subname,
-        new IgnoreOutdatedFilterResultsCallbackWrapper<ProjectMap>(this,
-            new ScreenLoadCallback<ProjectMap>(this) {
-              @Override
-              protected void preDisplay(final ProjectMap result) {
-                projects.display(result);
-              }
-            }));
-  }
-
-  @Override
-  public String getCurrentFilter() {
-    return subname;
+  protected void display(final ProjectMap result) {
+    projects.display(result);
   }
 
   @Override
@@ -119,29 +93,7 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
     add(projects);
   }
 
-  private void initPageHeader() {
-    final HorizontalPanel hp = new HorizontalPanel();
-    hp.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
-    final Label filterLabel = new Label(Util.C.projectFilter());
-    filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
-    hp.add(filterLabel);
-    filterTxt = new NpTextBox();
-    filterTxt.setValue(subname);
-    filterTxt.addKeyUpHandler(new KeyUpHandler() {
-      @Override
-      public void onKeyUp(KeyUpEvent event) {
-        subname = filterTxt.getValue();
-        refresh();
-      }
-    });
-    hp.add(filterTxt);
-    add(hp);
-  }
-
-  @Override
-  public void onShowView() {
-    super.onShowView();
-    filterTxt.setFocus(true);
+  protected void initPageHeader() {
   }
 
   @Override

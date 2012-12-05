@@ -137,6 +137,24 @@
       "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Mm2cHciM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-05T01:26:57Z",
+      "side": 1,
+      "message": "Hrm, I\u0027m not sure how best to handle this.  StackOverflow has a \u0027Display Name\u0027 attribute, does anything similar exist for LDAP \u0026 OpenID?\n\nI\u0027d prefer to just show the firstname to save on space.  If we end up showing the full name, I wonder if we could put the name to the left of the search bar and have the search bar expand over it when active, to save on horizontal space.",
+      "parentUuid": "MoWEuVpU",
+      "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

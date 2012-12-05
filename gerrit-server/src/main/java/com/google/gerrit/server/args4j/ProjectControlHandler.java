@@ -73,7 +73,8 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
       Project.NameKey nameKey = new Project.NameKey(projectName);
       control = projectControlFactory.validateFor(nameKey, ProjectControl.OWNER | ProjectControl.VISIBLE);
     } catch (NoSuchProjectException e) {
-      throw new CmdLineException(owner, "'" + token + "': not a Gerrit project");
+      throw new CmdLineException(owner, "'" + projectName
+          + "': is not a Gerrit project");
     }
 
     setter.addValue(control);

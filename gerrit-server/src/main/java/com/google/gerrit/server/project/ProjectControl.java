@@ -33,6 +33,7 @@ import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -72,14 +73,19 @@ public class ProjectControl {
 
   public static class Factory {
     private final Provider<PerRequestProjectControlCache> userCache;
+    private final GitRepositoryManager repoManager;
 
     @Inject
-    Factory(Provider<PerRequestProjectControlCache> uc) {
+    Factory(Provider<PerRequestProjectControlCache> uc, GitRepositoryManager rm) {
       userCache = uc;
+      repoManager = rm;
     }
 
     public ProjectControl controlFor(final Project.NameKey nameKey)
         throws NoSuchProjectException {
+      if (!repoManager.exists(nameKey)) {
+        throw new NoSuchProjectException(nameKey);
+      }
       return userCache.get().get(nameKey);
     }
 
@@ -95,6 +101,10 @@ public class ProjectControl {
 
     public ProjectControl validateFor(final Project.NameKey nameKey,
         final int need) throws NoSuchProjectException {
+      if (!repoManager.exists(nameKey)) {
+        throw new NoSuchProjectException(nameKey);
+      }
+
       final ProjectControl c = controlFor(nameKey);
       if ((need & VISIBLE) == VISIBLE && c.isVisible()) {
         return c;

@@ -105,6 +105,7 @@ public interface AdminConstants extends Constants {
   String projectFilter();
   String createProjectTitle();
   String projectListQueryLink();
+  String clearRecentProjects();
 
   String plugins();
   String pluginEnabled();

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Mpb0B3xA",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-05T10:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MfCbq9gI",
+      "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MfEZiktE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
         "patchSetId": 4
@@ -154,6 +172,24 @@
       "side": 1,
       "message": "\u003e validateFor looks for the project in the cache and throws NoSuchProjectException if it is not found\n\nIn the case of this particular issue though, if the user has pushed to \"project.git.git\" the check at line 55 will cause it to be be changed to \"project.git\" which is then found by validateFor, so no exception is thrown.",
       "parentUuid": "MfOaI3nk",
+      "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MpZ38IwA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-05T10:18:41Z",
+      "side": 1,
+      "message": "David\u0027s feedback is right . that is why the Issue 1699 is reported by user\n\nabout how to carry out, basically Shawn\u0027s idea is right , we should add this check logic in the ProjectControl.java to make it having common sense. and it should not\n be done  by projectCache.all() which has not good performance and is a bit trivial. \n\nI prepare a new patchset today. I think it it dry and better now.",
+      "parentUuid": "MoeHyZiw",
       "revId": "f11f46e87c97a7899c472e8d8eca03b90289c071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

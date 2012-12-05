@@ -40,6 +40,7 @@ public class ProjectDashboardsScreen extends ProjectScreen {
         dashes.display(result);
       }
     });
+    savedPanel = DASHBOARDS;
   }
 
   @Override

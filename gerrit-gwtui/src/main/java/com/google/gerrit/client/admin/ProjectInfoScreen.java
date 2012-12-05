@@ -99,6 +99,7 @@ public class ProjectInfoScreen extends ProjectScreen {
             display(result);
           }
         });
+    savedPanel = INFO;
   }
 
   private void enableForm(final boolean canModifyAgreements,

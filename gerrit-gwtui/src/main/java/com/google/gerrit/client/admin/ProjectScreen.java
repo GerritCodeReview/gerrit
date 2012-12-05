@@ -23,6 +23,12 @@ public abstract class ProjectScreen extends Screen {
   public static final String ACCESS = "access";
   public static final String DASHBOARDS = "dashboards";
 
+  protected static String savedPanel;
+
+  public static String getSavedPanel() {
+    return savedPanel;
+  }
+
   private final Project.NameKey name;
 
   public ProjectScreen(final Project.NameKey toShow) {

@@ -24,9 +24,14 @@ public abstract class ProjectScreen extends Screen {
   public static final String DASHBOARDS = "dashboards";
 
   protected static String savedPanel;
+  protected static Project.NameKey savedKey;
 
   public static String getSavedPanel() {
     return savedPanel;
+  }
+
+  public static Project.NameKey getSavedKey() {
+    return savedKey;
   }
 
   private final Project.NameKey name;
@@ -43,5 +48,11 @@ public abstract class ProjectScreen extends Screen {
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.M.project(name.get()));
+  }
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    savedKey = name;
   }
 }

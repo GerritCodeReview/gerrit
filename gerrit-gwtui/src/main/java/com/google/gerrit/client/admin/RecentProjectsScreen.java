@@ -14,11 +14,15 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.RecentlyAccessed;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 
 import java.util.List;
 
@@ -26,6 +30,10 @@ public class RecentProjectsScreen extends ProjectListScreen {
   @Override
   protected void onLoad() {
     super.onLoad();
+    refresh();
+  }
+
+  private void refresh() {
     final GerritCallback<ProjectMap> callback =
         new ScreenLoadCallback<ProjectMap>(this) {
           @Override
@@ -40,5 +48,19 @@ public class RecentProjectsScreen extends ProjectListScreen {
     } else {
       callback.onSuccess(null);
     }
+  }
+
+  @Override
+  protected void initPageHeader() {
+    final Button clearButton = new Button(Util.C.clearRecentProjects());
+    clearButton.setStyleName(Gerrit.RESOURCES.css().clearRecentProjectsButton());
+    clearButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        RecentlyAccessed.get().clear();
+        refresh();
+      }
+    });
+    add(clearButton);
   }
 }

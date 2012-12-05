@@ -16,16 +16,24 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import java.util.List;
 
 /** Projects available from {@code /projects/}. */
 public class ProjectMap extends NativeMap<ProjectInfo> {
   public static void all(AsyncCallback<ProjectMap> callback) {
-    new RestApi("/projects/")
-        .addParameterRaw("type", "ALL")
-        .addParameterTrue("all")
-        .addParameterTrue("d") // description
-        .get(NativeMap.copyKeysIntoChildren(callback));
+    allApi().get(NativeMap.copyKeysIntoChildren(callback));
+  }
+
+  public static void get(List<Project.NameKey> projectNames,
+      AsyncCallback<ProjectMap> callback) {
+    final RestApi api = allApi();
+    for (final Project.NameKey n : projectNames) {
+      api.addParameter("project", n.get());
+    }
+    api.get(NativeMap.copyKeysIntoChildren(callback));
   }
 
   public static void permissions(AsyncCallback<ProjectMap> callback) {
@@ -63,6 +71,13 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
           .addParameterTrue("d") // description
           .get(NativeMap.copyKeysIntoChildren(cb));
     }
+  }
+
+  private static RestApi allApi() {
+    return new RestApi("/projects/")
+               .addParameterRaw("type", "ALL")
+               .addParameterTrue("all")
+               .addParameterTrue("d"); // description
   }
 
   protected ProjectMap() {

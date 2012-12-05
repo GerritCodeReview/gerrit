@@ -14,74 +14,25 @@
 
 package com.google.gerrit.client.admin;
 
-import static com.google.gerrit.common.PageLinks.ADMIN_PROJECTS;
-
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.GitwebLink;
 import com.google.gerrit.client.projects.ProjectInfo;
 import com.google.gerrit.client.projects.ProjectMap;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.FilteredUserInterface;
-import com.google.gerrit.client.ui.HighlightingInlineHyperlink;
-import com.google.gerrit.client.ui.IgnoreOutdatedFilterResultsCallbackWrapper;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.ProjectSearchLink;
 import com.google.gerrit.client.ui.ProjectsTable;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 
-public class ProjectListScreen extends Screen implements FilteredUserInterface {
+public abstract class ProjectListScreen extends Screen  {
   private ProjectsTable projects;
-  private NpTextBox filterTxt;
-  private String subname;
 
-  public ProjectListScreen() {
-  }
-
-  public ProjectListScreen(String params) {
-    for (String kvPair : params.split("[,;&]")) {
-      String[] kv = kvPair.split("=", 2);
-      if (kv.length != 2 || kv[0].isEmpty()) {
-        continue;
-      }
-
-      if ("filter".equals(kv[0])) {
-        subname = URL.decodeQueryString(kv[1]);
-      }
-    }
-  }
-
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-    refresh();
-  }
-
-  private void refresh() {
-    setToken(subname == null || "".equals(subname) ? ADMIN_PROJECTS
-        : ADMIN_PROJECTS + "?filter=" + URL.encodeQueryString(subname));
-    ProjectMap.match(subname,
-        new IgnoreOutdatedFilterResultsCallbackWrapper<ProjectMap>(this,
-            new ScreenLoadCallback<ProjectMap>(this) {
-              @Override
-              protected void preDisplay(final ProjectMap result) {
-                projects.display(result);
-              }
-            }));
-  }
-
-  @Override
-  public String getCurrentFilter() {
-    return subname;
+  protected void display(final ProjectMap result) {
+    projects.display(result);
   }
 
   @Override
@@ -103,11 +54,7 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
 
       @Override
       protected void onOpenRow(final int row) {
-        History.newItem(link(getRowItem(row)));
-      }
-
-      private String link(final ProjectInfo item) {
-        return Dispatcher.toProject(item.name_key());
+        History.newItem(createProjectLink(getRowItem(row)));
       }
 
       @Override
@@ -123,7 +70,7 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
       protected void populate(final int row, final ProjectInfo k) {
         FlowPanel fp = new FlowPanel();
         fp.add(new ProjectSearchLink(k.name_key()));
-        fp.add(new HighlightingInlineHyperlink(k.name(), link(k), subname));
+        fp.add(createProjectHyperlink(k));
         table.setWidget(row, 1, fp);
         table.setText(row, 2, k.description());
         GitwebLink l = Gerrit.getGitwebLink();
@@ -140,32 +87,15 @@ public class ProjectListScreen extends Screen implements FilteredUserInterface {
     add(projects);
   }
 
-  private void initPageHeader() {
-    final HorizontalPanel hp = new HorizontalPanel();
-    hp.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
-    final Label filterLabel = new Label(Util.C.projectFilter());
-    filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
-    hp.add(filterLabel);
-    filterTxt = new NpTextBox();
-    filterTxt.setValue(subname);
-    filterTxt.addKeyUpHandler(new KeyUpHandler() {
-      @Override
-      public void onKeyUp(KeyUpEvent event) {
-        subname = filterTxt.getValue();
-        refresh();
-      }
-    });
-    hp.add(filterTxt);
-    add(hp);
+  protected String createProjectLink(final ProjectInfo item) {
+    return Dispatcher.toProject(item.name_key());
   }
 
-  @Override
-  public void onShowView() {
-    super.onShowView();
-    if (subname != null) {
-      filterTxt.setCursorPos(subname.length());
-    }
-    filterTxt.setFocus(true);
+  protected InlineHyperlink createProjectHyperlink(final ProjectInfo p) {
+    return new InlineHyperlink(p.name(), createProjectLink(p));
+  }
+
+  protected void initPageHeader() {
   }
 
   @Override

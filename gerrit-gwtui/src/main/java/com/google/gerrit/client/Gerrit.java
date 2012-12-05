@@ -809,10 +809,16 @@ public class Gerrit implements EntryPoint {
         @Override
         public void onScreenLoad(ScreenLoadEvent event) {
           Screen screen = event.getScreen();
+          Project.NameKey projectKey;
           if (screen instanceof ProjectScreen) {
-            Project.NameKey projectKey = ((ProjectScreen)screen).getProjectKey();
-            setTargetHistoryToken(Dispatcher.toProjectAdmin(projectKey, panel));
+            projectKey = ((ProjectScreen)screen).getProjectKey();
+          } else {
+            projectKey = ProjectScreen.getSavedKey();
+          }
+
+          if (projectKey != null) {
             setVisible(true);
+            setTargetHistoryToken(Dispatcher.toProjectAdmin(projectKey, panel));
           } else {
             setVisible(false);
           }

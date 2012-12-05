@@ -215,6 +215,28 @@ public class CreateProject {
       throw new ProjectCreationFailedException("Project name is required");
     }
 
+    if (createProjectArgs.getProjectName().endsWith(
+        Constants.DOT_GIT_EXT + Constants.DOT_GIT_EXT)) {
+      //
+      // Gerrit currently cut one '.git' if it exists at the end of project name
+      // input by user.
+      //
+      // In the case of create project, Gerrit will try to add '.git' to the
+      // end of project name if it is not there', so Gerrit create
+      // 'p.git' in the disk when user input 'p.git' or 'p'. here Gerrit also
+      // sync the cache with project name 'p'.
+      // However if the input is 'p.git.git', Gerrit will create project 'p.git'
+      // too, but sync the cache using 'p.git'. Unfortunaterly once Admin
+      // restart Gerrit or run 'gerrit flush-caches' the cache will only have
+      // 'p'.
+      //
+      // So Gerrit do not assume user should input project name end with more
+      // than one '.git'.
+      //
+      throw new ProjectCreationFailedException(
+          "Project name should not have more than one '.git' at the end.");
+    }
+
     if (createProjectArgs.getProjectName().endsWith(Constants.DOT_GIT_EXT)) {
       createProjectArgs.setProjectName(createProjectArgs.getProjectName()
           .substring(

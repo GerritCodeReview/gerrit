@@ -102,6 +102,7 @@ public class Gerrit implements EntryPoint {
   private static LinkMenuBar menuRight;
   private static LinkMenuBar diffBar;
   private static HidingMenuBar projectsBar;
+  private static LinkMenuItem recentProjectsItem;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
   private static SearchPanel searchPanel;
@@ -667,6 +668,15 @@ public class Gerrit implements EntryPoint {
     projectKey = null;
     projectsBar = new HidingMenuBar();
     addLink(projectsBar, C.menuProjectsList(), PageLinks.ADMIN_PROJECTS);
+
+    recentProjectsItem =
+        new LinkMenuItem(C.menuProjectsRecent(), PageLinks.RECENT_PROJECTS);
+    projectsBar.addItem(recentProjectsItem);
+    if (signedIn) {
+      recentProjectsItem.setVisible(myAccount.getGeneralPreferences()
+          .getMaxRecentEntries() > 0);
+    }
+
     addProjectLink(projectsBar, C.menuProjectsInfo(), ProjectScreen.INFO);
     addProjectLink(projectsBar, C.menuProjectsBranches(), ProjectScreen.BRANCH);
     addProjectLink(projectsBar, C.menuProjectsAccess(), ProjectScreen.ACCESS);
@@ -767,6 +777,9 @@ public class Gerrit implements EntryPoint {
     if (myAccount != null) {
       final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
       CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
+      if (recentProjectsItem != null) {
+        recentProjectsItem.setVisible(p.getMaxRecentEntries() > 0);
+      }
       if (siteHeader != null) {
         siteHeader.setVisible(p.isShowSiteHeader());
       }

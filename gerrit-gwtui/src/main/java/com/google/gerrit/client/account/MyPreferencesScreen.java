@@ -20,10 +20,10 @@ import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESI
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.NpIntTextBox;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -44,6 +44,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox reversePatchSetOrder;
   private CheckBox showUsernameInReviewCategory;
   private ListBox maximumPageSize;
+  private NpIntTextBox maxRecentEntries;
   private ListBox dateFormat;
   private ListBox timeFormat;
   private Button save;
@@ -52,39 +53,16 @@ public class MyPreferencesScreen extends SettingsScreen {
   protected void onInitUI() {
     super.onInitUI();
 
-    final ClickHandler onClickSave = new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        save.setEnabled(true);
-      }
-    };
-    final ChangeHandler onChangeSave = new ChangeHandler() {
-      @Override
-      public void onChange(final ChangeEvent event) {
-        save.setEnabled(true);
-      }
-    };
-
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
-    showSiteHeader.addClickHandler(onClickSave);
-
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
-    useFlashClipboard.addClickHandler(onClickSave);
-
     copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
-    copySelfOnEmails.addClickHandler(onClickSave);
-
     reversePatchSetOrder = new CheckBox(Util.C.reversePatchSetOrder());
-    reversePatchSetOrder.addClickHandler(onClickSave);
-
     showUsernameInReviewCategory = new CheckBox(Util.C.showUsernameInReviewCategory());
-    showUsernameInReviewCategory.addClickHandler(onClickSave);
-
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
     }
-    maximumPageSize.addChangeHandler(onChangeSave);
+    maxRecentEntries = new NpIntTextBox();
 
     Date now = new Date();
     dateFormat = new ListBox();
@@ -96,7 +74,6 @@ public class MyPreferencesScreen extends SettingsScreen {
       r.append(DateTimeFormat.getFormat(fmt.getLongFormat()).format(now));
       dateFormat.addItem(r.toString(), fmt.name());
     }
-    dateFormat.addChangeHandler(onChangeSave);
 
     timeFormat = new ListBox();
     for (AccountGeneralPreferences.TimeFormat fmt : AccountGeneralPreferences.TimeFormat
@@ -105,7 +82,6 @@ public class MyPreferencesScreen extends SettingsScreen {
       r.append(DateTimeFormat.getFormat(fmt.getFormat()).format(now));
       timeFormat.addItem(r.toString(), fmt.name());
     }
-    timeFormat.addChangeHandler(onChangeSave);
 
     FlowPanel dateTimePanel = new FlowPanel();
 
@@ -121,7 +97,7 @@ public class MyPreferencesScreen extends SettingsScreen {
       dateTimePanel.add(dateFormat);
       dateTimePanel.add(timeFormat);
     }
-    final Grid formGrid = new Grid(7, 2);
+    final Grid formGrid = new Grid(8, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -148,6 +124,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, maximumPageSize);
     row++;
 
+    formGrid.setText(row, labelIdx, Util.C.maxRecentEntriesFieldLabel());
+    formGrid.setWidget(row, fieldIdx, maxRecentEntries);
+    row++;
+
     formGrid.setText(row, labelIdx, Util.C.dateFormatLabel());
     formGrid.setWidget(row, fieldIdx, dateTimePanel);
     row++;
@@ -163,6 +143,17 @@ public class MyPreferencesScreen extends SettingsScreen {
       }
     });
     add(save);
+
+    final OnEditEnabler e = new OnEditEnabler(save);
+    e.listenTo(showSiteHeader);
+    e.listenTo(useFlashClipboard);
+    e.listenTo(copySelfOnEmails);
+    e.listenTo(reversePatchSetOrder);
+    e.listenTo(showUsernameInReviewCategory);
+    e.listenTo(maximumPageSize);
+    e.listenTo(maxRecentEntries);
+    e.listenTo(dateFormat);
+    e.listenTo(timeFormat);
   }
 
   @Override
@@ -182,6 +173,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     reversePatchSetOrder.setEnabled(on);
     showUsernameInReviewCategory.setEnabled(on);
     maximumPageSize.setEnabled(on);
+    maxRecentEntries.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
   }
@@ -193,6 +185,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     reversePatchSetOrder.setValue(p.isReversePatchSetOrder());
     showUsernameInReviewCategory.setValue(p.isShowUsernameInReviewCategory());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
+    maxRecentEntries.setValue(String.valueOf(p.getMaxRecentEntries()));
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
         p.getDateFormat());
     setListBox(timeFormat, AccountGeneralPreferences.TimeFormat.HHMM_12, //
@@ -254,6 +247,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setReversePatchSetOrder(reversePatchSetOrder.getValue());
     p.setShowUsernameInReviewCategory(showUsernameInReviewCategory.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
+    p.setMaxRecentEntries(maxRecentEntries.getIntValue());
     p.setDateFormat(getListBox(dateFormat,
         AccountGeneralPreferences.DateFormat.STD,
         AccountGeneralPreferences.DateFormat.values()));

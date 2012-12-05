@@ -16,7 +16,10 @@ package com.google.gerrit.client.projects;
 
 import com.google.gerrit.client.rpc.NativeMap;
 import com.google.gerrit.client.rpc.RestApi;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import java.util.List;
 
 /** Projects available from {@code /projects/}. */
 public class ProjectMap extends NativeMap<ProjectInfo> {
@@ -26,6 +29,18 @@ public class ProjectMap extends NativeMap<ProjectInfo> {
         .addParameterTrue("all")
         .addParameterTrue("d") // description
         .get(NativeMap.copyKeysIntoChildren(callback));
+  }
+
+  public static void get(List<Project.NameKey> projectNames,
+      AsyncCallback<ProjectMap> callback) {
+    final RestApi restApi = new RestApi("/projects/")
+                                .addParameterRaw("type", "ALL")
+                                .addParameterTrue("all")
+                                .addParameterTrue("d"); // description
+    for (final Project.NameKey n : projectNames) {
+      restApi.addParameter("project", n.get());
+    }
+    restApi.get(NativeMap.copyKeysIntoChildren(callback));
   }
 
   public static void permissions(AsyncCallback<ProjectMap> callback) {

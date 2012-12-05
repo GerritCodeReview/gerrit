@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.RecentlyAccessed;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.reviewdb.client.Project;
 
@@ -48,6 +49,7 @@ public abstract class ProjectScreen extends Screen {
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.M.project(name.get()));
+    RecentlyAccessed.get().add(name);
   }
 
   @Override

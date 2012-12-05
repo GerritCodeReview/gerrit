@@ -15,12 +15,16 @@
 package com.google.gerrit.reviewdb.client;
 
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.IntDefault;
 
 /** Preferences about a single user. */
 public final class AccountGeneralPreferences {
 
   /** Default number of items to display per page. */
   public static final short DEFAULT_PAGESIZE = 25;
+
+  /** Default number of max recent entries. */
+  private static final short DEFAULT_MAX_RECENT_ENTRIES = 10;
 
   /** Valid choices for the page size. */
   public static final short[] PAGESIZE_CHOICES = {10, 25, 50, 100};
@@ -122,6 +126,10 @@ public final class AccountGeneralPreferences {
 
   @Column(id = 11)
   protected boolean showUsernameInReviewCategory;
+
+  @Column(id = 12)
+  @IntDefault(defaultValue = DEFAULT_MAX_RECENT_ENTRIES)
+  protected int maxRecentEntries;
 
   public AccountGeneralPreferences() {
   }
@@ -226,6 +234,14 @@ public final class AccountGeneralPreferences {
     timeFormat = fmt.name();
   }
 
+  public int getMaxRecentEntries() {
+    return maxRecentEntries;
+  }
+
+  public void setMaxRecentEntries(final int maxRecentEntries) {
+    this.maxRecentEntries = maxRecentEntries;
+  }
+
   public void resetToDefaults() {
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
@@ -237,5 +253,6 @@ public final class AccountGeneralPreferences {
     downloadCommand = null;
     dateFormat = null;
     timeFormat = null;
+    maxRecentEntries = DEFAULT_MAX_RECENT_ENTRIES;
   }
 }

@@ -169,6 +169,10 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
                   ok++;
                 }
                 break;
+
+              case IMPOSSIBLE:
+              case REJECT:
+                break;
             }
           }
 

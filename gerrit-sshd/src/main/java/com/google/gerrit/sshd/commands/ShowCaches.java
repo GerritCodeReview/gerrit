@@ -250,6 +250,10 @@ final class ShowCaches extends CacheCommand {
         case RUNNING: tasksRunning++; break;
         case READY: tasksReady++; break;
         case SLEEPING: tasksSleeping++; break;
+        case CANCELLED:
+        case DONE:
+        case OTHER:
+          break;
       }
     }
     stdout.format(

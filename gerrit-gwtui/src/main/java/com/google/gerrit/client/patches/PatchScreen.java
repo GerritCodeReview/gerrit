@@ -514,6 +514,8 @@ public abstract class PatchScreen extends Screen implements
         break;
       case FILES:       topPanel.add(fileList);
         break;
+      case MAIN:
+        break;
     }
   }
 

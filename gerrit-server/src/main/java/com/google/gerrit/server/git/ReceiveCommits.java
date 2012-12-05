@@ -581,6 +581,9 @@ public class ReceiveCommits {
               autoCloseChanges(c);
             }
             break;
+
+          case DELETE:
+            break;
         }
 
         if (isConfig(c)) {

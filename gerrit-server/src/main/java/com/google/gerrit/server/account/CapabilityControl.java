@@ -159,6 +159,11 @@ public class CapabilityControl {
           case BATCH:
             batch = true;
             break;
+
+          case ALLOW:
+          case BLOCK:
+          case DENY:
+            break;
         }
       }
     }

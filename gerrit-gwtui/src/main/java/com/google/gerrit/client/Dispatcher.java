@@ -650,6 +650,8 @@ public class Dispatcher {
               return QueryScreen.forQuery("status:open");
             case LINK_IDENTIY:
               return new MyIdentitiesScreen();
+            case REGISTER:
+              break;
           }
         }
 

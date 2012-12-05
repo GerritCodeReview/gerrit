@@ -63,6 +63,10 @@ public class OpenIdSsoPanel extends FlowPanel {
         FormElement.as(redirectForm.getElement()).setTarget("_top");
         redirectForm.submit();
         break;
+      case ERROR:
+      case NO_PROVIDER:
+      case NOT_ALLOWED:
+        break;
     }
   }
 }

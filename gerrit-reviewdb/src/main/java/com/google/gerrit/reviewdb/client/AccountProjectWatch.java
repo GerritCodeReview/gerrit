@@ -142,6 +142,9 @@ public final class AccountProjectWatch {
 
       case SUBMITTED_CHANGES:
         return notifySubmittedChanges;
+
+      case ALL:
+        break;
     }
     return false;
   }

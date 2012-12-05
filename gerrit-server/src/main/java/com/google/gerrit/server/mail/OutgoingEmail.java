@@ -332,6 +332,8 @@ public abstract class OutgoingEmail {
             case CC:
               ((EmailHeader.AddressList) headers.get(HDR_CC)).add(addr);
               break;
+            case BCC:
+              break;
           }
         }
       } else {

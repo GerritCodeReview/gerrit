@@ -143,6 +143,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       "displays only projects on which access rights for this group are directly assigned")
   private AccountGroup.UUID groupUuid;
 
+  @Option(name = "--project", metaVar = "PROJECT", usage = "the name of a project that should be returned")
+  private List<Project.NameKey> projects;
+
   @Inject
   protected ListProjects(CurrentUser currentUser, ProjectCache projectCache,
       GroupCache groupCache, GroupControl.Factory groupControlFactory,
@@ -384,7 +387,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private Iterable<Project.NameKey> scan() {
-    if (matchPrefix != null) {
+    if (projects != null) {
+      return projects;
+    } else if (matchPrefix != null) {
       return projectCache.byName(matchPrefix);
     } else if (matchSubstring != null) {
       return Iterables.filter(projectCache.all(),

@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.args4j.AccountGroupIdHandler;
@@ -27,6 +28,7 @@ import com.google.gerrit.server.args4j.ChangeIdHandler;
 import com.google.gerrit.server.args4j.ObjectIdHandler;
 import com.google.gerrit.server.args4j.PatchSetIdHandler;
 import com.google.gerrit.server.args4j.ProjectControlHandler;
+import com.google.gerrit.server.args4j.ProjectNameHandler;
 import com.google.gerrit.server.args4j.SocketAddressHandler;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
@@ -52,6 +54,7 @@ public class CmdLineParserModule extends FactoryModule {
     registerOptionHandler(ObjectId.class, ObjectIdHandler.class);
     registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
     registerOptionHandler(ProjectControl.class, ProjectControlHandler.class);
+    registerOptionHandler(Project.NameKey.class, ProjectNameHandler.class);
     registerOptionHandler(SocketAddress.class, SocketAddressHandler.class);
   }
 

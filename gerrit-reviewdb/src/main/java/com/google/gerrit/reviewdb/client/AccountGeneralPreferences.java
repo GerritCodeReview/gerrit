@@ -123,6 +123,9 @@ public final class AccountGeneralPreferences {
   @Column(id = 11)
   protected boolean showUsernameInReviewCategory;
 
+  @Column(id = 12)
+  protected int maxRecentEntries;
+
   public AccountGeneralPreferences() {
   }
 
@@ -224,6 +227,14 @@ public final class AccountGeneralPreferences {
 
   public void setTimeFormat(TimeFormat fmt) {
     timeFormat = fmt.name();
+  }
+
+  public int getMaxRecentEntries() {
+    return maxRecentEntries;
+  }
+
+  public void setMaxRecentEntries(final int maxRecentEntries) {
+    this.maxRecentEntries = maxRecentEntries;
   }
 
   public void resetToDefaults() {

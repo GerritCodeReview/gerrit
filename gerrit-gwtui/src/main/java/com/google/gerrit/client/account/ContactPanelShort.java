@@ -383,6 +383,7 @@ class ContactPanelShort extends Composite {
     me.setFullName(result.getFullName());
     me.setPreferredEmail(result.getPreferredEmail());
     Gerrit.refreshMenuBar();
+    display(me);
   }
 
   ContactInformation toContactInformation() {

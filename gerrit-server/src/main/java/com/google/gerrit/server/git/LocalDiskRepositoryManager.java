@@ -135,16 +135,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
-    if (!names.contains(name)) {
-      // The this.names list does not hold the project-name but it can still exist
-      // on disk; for instance when the project has been created directly on the
-      // file-system through replication.
-      //
-      if (FileKey.resolve(gitDirOf(name), FS.DETECTED) != null) {
-        onCreateProject(name);
-      } else {
-        throw new RepositoryNotFoundException(gitDirOf(name));
-      }
+    if (name.get().endsWith(Constants.DOT_GIT_EXT) || !exists(name)) {
+      // Before reaching here, Gerrit assume the trailing ".git" suffix has been
+      // dropped: 'p'-> 'p'; 'p.git' -> 'p'; 'p/.git' -> 'p'.
+      // Project name ending with more than one '.git' is forbidden.
+      throw new RepositoryNotFoundException(gitDirOf(name));
     }
     final FileKey loc = FileKey.lenient(gitDirOf(name), FS.DETECTED);
     try {
@@ -170,7 +165,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       //
       loc = FileKey.exact(dir, FS.DETECTED);
 
-      if (!names.contains(name)) {
+      if (!exists(name)) {
         throw new RepositoryCaseMismatchException(name);
       }
     } else {
@@ -365,5 +360,21 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     }
 
     return new Project.NameKey(projectName);
+  }
+
+  @Override
+  public boolean exists(Project.NameKey name) {
+    if (!names.contains(name)) {
+      // The this.names list does not hold the project-name but it can still
+      // exist on disk; for instance when the project has been created directly
+      // on the file-system through replication.
+      //
+      if (FileKey.resolve(gitDirOf(name), FS.DETECTED) == null) {
+        return false;
+      } else {
+        onCreateProject(name);
+      }
+    }
+    return true;
   }
 }

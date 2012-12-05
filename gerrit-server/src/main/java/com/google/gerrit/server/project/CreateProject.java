@@ -215,6 +215,12 @@ public class CreateProject {
       throw new ProjectCreationFailedException("Project name is required");
     }
 
+    if (createProjectArgs.getProjectName().endsWith(
+        Constants.DOT_GIT_EXT + Constants.DOT_GIT_EXT)) {
+      throw new ProjectCreationFailedException(
+          "Project name should not have more than one '.git' at the end.");
+    }
+
     if (createProjectArgs.getProjectName().endsWith(Constants.DOT_GIT_EXT)) {
       createProjectArgs.setProjectName(createProjectArgs.getProjectName()
           .substring(

@@ -112,4 +112,11 @@ public interface GitRepositoryManager {
    */
   public abstract void setProjectDescription(Project.NameKey name,
       final String description);
+
+  /**
+   *
+   * @param name the repository name, relative to the base directory.
+   * @return if the repository exists return true, else return false.
+   */
+  public abstract boolean exists(Project.NameKey name);
 }

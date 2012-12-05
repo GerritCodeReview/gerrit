@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MoUElUqk",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-05T01:30:23Z",
+      "side": 1,
+      "message": "I\u0027ve been working on simplifying that interface [1].  Maybe that can be combined with your refactoring?\n\n[1] Idada034feaeef1524a607fd8b31d108c1b14ab8d",
+      "revId": "f7d3d47cbff8d9d1f2bf1926efa8ab5c231bdc5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MoSEoToQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-05T01:30:23Z",
+      "side": 1,
+      "message": "\"to control\"",
+      "revId": "f7d3d47cbff8d9d1f2bf1926efa8ab5c231bdc5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MoeFAJjg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-05T01:30:23Z",
+      "side": 1,
+      "message": "CommitValidationMessages",
+      "revId": "f7d3d47cbff8d9d1f2bf1926efa8ab5c231bdc5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MoQFGalE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-05T01:30:23Z",
+      "side": 1,
+      "message": "This does not seem to be used.",
+      "revId": "f7d3d47cbff8d9d1f2bf1926efa8ab5c231bdc5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MoaFKHlQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-05T01:30:23Z",
+      "side": 1,
+      "message": "This is not used any more.",
+      "revId": "f7d3d47cbff8d9d1f2bf1926efa8ab5c231bdc5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

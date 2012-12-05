@@ -86,6 +86,7 @@ public class ProjectBranchesScreen extends ProjectScreen {
             }
           }
         });
+    savedPanel = BRANCH;
   }
 
   private void display(final List<Branch> listBranches) {

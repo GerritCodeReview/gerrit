@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "Mm.cZIoY",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-05T02:47:37Z",
+      "side": 1,
+      "message": "why the regex?  Won\u0027t trim() handle all of your needs?",
+      "revId": "487a071743212934e9bd9e5b8be6009b9da4f697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

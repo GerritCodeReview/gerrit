@@ -1482,3 +1482,8 @@ a:hover.downloadLink {
 .projectFilterLabel {
   margin-right: 5px;
 }
+
+/** RecentProjectsScreen **/
+.clearRecentProjectsButton {
+  margin-bottom: 10px;
+}

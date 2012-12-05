@@ -81,6 +81,11 @@ public class RecentlyAccessed implements Serializable {
     return new ArrayList<Project.NameKey>(projects);
   }
 
+  public synchronized void clear() {
+    projects.clear();
+    save();
+  }
+
   /**
    * If there are more recently accessed objects stored than the given
    * maxEntries, remove the oldest entries so that maxEntries stay stored.

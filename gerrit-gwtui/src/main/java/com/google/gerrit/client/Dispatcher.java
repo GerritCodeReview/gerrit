@@ -153,8 +153,12 @@ public class Dispatcher {
     return "/admin/groups/uuid-" + uuid.toString() + "," + panel;
   }
 
+  public static String toProject(Project.NameKey n) {
+    return toProjectAdmin(n, ProjectScreen.getSavedPanel());
+  }
+
   public static String toProjectAdmin(Project.NameKey n, String panel) {
-    if (ProjectScreen.INFO.equals(panel)) {
+    if (panel == null || ProjectScreen.INFO.equals(panel)) {
       return "/admin/projects/" + n.toString();
     }
     return "/admin/projects/" + n.toString() + "," + panel;

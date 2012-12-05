@@ -70,6 +70,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         case INSERT:
           createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1);
           break;
+        case REPLACE:
+          break;
       }
     }
   }
@@ -158,6 +160,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         break;
       case INSERT:
         createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1);
+        break;
+      case REPLACE:
         break;
     }
   }
@@ -536,6 +540,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         }
         m.append("+");
         m.append(text);
+        break;
+      case REPLACE:
         break;
     }
     m.closeTd();

@@ -593,6 +593,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
           m.addStyleName("wdi");
         }
         break;
+      case REPLACE:
+        break;
     }
     m.append(lineHtml);
     m.closeTd();

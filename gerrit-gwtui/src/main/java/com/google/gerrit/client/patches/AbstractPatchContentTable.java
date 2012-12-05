@@ -295,6 +295,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         case INSERT:
         case REPLACE:
           return true;
+        case CONTEXT:
+          break;
       }
     } else if (o instanceof CommentList) {
       return true;

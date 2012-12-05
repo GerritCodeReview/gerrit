@@ -155,6 +155,24 @@
       "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MoWE19tY",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-05T01:44:23Z",
+      "side": 1,
+      "message": "As far as I know LDAP has a display name attribute.  However, using that isn\u0027t going to help if it\u0027s set to \"Surname, Firstname\".\n\nMaybe add a new method `FormatUtil.getFirstname()`, and In there add handling of both cases \"Firstname Surname\" and \"Surname, Firstname\"?",
+      "parentUuid": "Mm2cHciM",
+      "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

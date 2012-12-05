@@ -20,7 +20,6 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.eclipse.jgit.lib.Constants;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -43,37 +42,10 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
   @Override
   public final int parseArguments(final Parameters params)
       throws CmdLineException {
-    String projectName = params.getParameter(0);
-
-    while (projectName.endsWith("/")) {
-      projectName = projectName.substring(0, projectName.length() - 1);
-    }
-
-    while (projectName.startsWith("/")) {
-      // Be nice and drop the leading "/" if supplied by an absolute path.
-      // We don't have a file system hierarchy, just a flat namespace in
-      // the database's Project entities. We never encode these with a
-      // leading '/' but users might accidentally include them in Git URLs.
-      //
-      projectName = projectName.substring(1);
-    }
-
-    String nameWithoutSuffix = projectName;
-    if (nameWithoutSuffix.endsWith(Constants.DOT_GIT_EXT)) {
-      // Be nice and drop the trailing ".git" suffix, which we never keep
-      // in our database, but clients might mistakenly provide anyway.
-      //
-      nameWithoutSuffix = nameWithoutSuffix.substring(0, //
-          nameWithoutSuffix.length() - Constants.DOT_GIT_EXT.length());
-      while (nameWithoutSuffix.endsWith("/")) {
-        nameWithoutSuffix =
-            nameWithoutSuffix.substring(0, nameWithoutSuffix.length() - 1);
-      }
-    }
-
+    final String projectName = params.getParameter(0);
     final ProjectControl control;
     try {
-      Project.NameKey nameKey = new Project.NameKey(nameWithoutSuffix);
+      Project.NameKey nameKey = ProjectNameHandler.parse(projectName);
       control = projectControlFactory.validateFor(nameKey, ProjectControl.OWNER | ProjectControl.VISIBLE);
     } catch (NoSuchProjectException e) {
       throw new CmdLineException(owner, "'" + projectName + "': is not a Gerrit project");

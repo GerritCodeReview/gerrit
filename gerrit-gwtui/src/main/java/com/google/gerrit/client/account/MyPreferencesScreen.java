@@ -20,6 +20,7 @@ import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESI
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.NpIntTextBox;
 import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
@@ -43,6 +44,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox reversePatchSetOrder;
   private CheckBox showUsernameInReviewCategory;
   private ListBox maximumPageSize;
+  private NpIntTextBox maxRecentEntries;
   private ListBox dateFormat;
   private ListBox timeFormat;
   private Button save;
@@ -60,6 +62,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
     }
+    maxRecentEntries = new NpIntTextBox();
 
     Date now = new Date();
     dateFormat = new ListBox();
@@ -94,7 +97,7 @@ public class MyPreferencesScreen extends SettingsScreen {
       dateTimePanel.add(dateFormat);
       dateTimePanel.add(timeFormat);
     }
-    final Grid formGrid = new Grid(7, 2);
+    final Grid formGrid = new Grid(8, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -121,6 +124,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, maximumPageSize);
     row++;
 
+    formGrid.setText(row, labelIdx, Util.C.maxRecentEntriesFieldLabel());
+    formGrid.setWidget(row, fieldIdx, maxRecentEntries);
+    row++;
+
     formGrid.setText(row, labelIdx, Util.C.dateFormatLabel());
     formGrid.setWidget(row, fieldIdx, dateTimePanel);
     row++;
@@ -144,6 +151,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(reversePatchSetOrder);
     e.listenTo(showUsernameInReviewCategory);
     e.listenTo(maximumPageSize);
+    e.listenTo(maxRecentEntries);
     e.listenTo(dateFormat);
     e.listenTo(timeFormat);
   }
@@ -165,6 +173,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     reversePatchSetOrder.setEnabled(on);
     showUsernameInReviewCategory.setEnabled(on);
     maximumPageSize.setEnabled(on);
+    maxRecentEntries.setEnabled(on);
     dateFormat.setEnabled(on);
     timeFormat.setEnabled(on);
   }
@@ -176,6 +185,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     reversePatchSetOrder.setValue(p.isReversePatchSetOrder());
     showUsernameInReviewCategory.setValue(p.isShowUsernameInReviewCategory());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
+    maxRecentEntries.setValue(String.valueOf(p.getMaxRecentEntries()));
     setListBox(dateFormat, AccountGeneralPreferences.DateFormat.STD, //
         p.getDateFormat());
     setListBox(timeFormat, AccountGeneralPreferences.TimeFormat.HHMM_12, //
@@ -237,6 +247,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.setReversePatchSetOrder(reversePatchSetOrder.getValue());
     p.setShowUsernameInReviewCategory(showUsernameInReviewCategory.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
+    p.setMaxRecentEntries(maxRecentEntries.getIntValue());
     p.setDateFormat(getListBox(dateFormat,
         AccountGeneralPreferences.DateFormat.STD,
         AccountGeneralPreferences.DateFormat.values()));

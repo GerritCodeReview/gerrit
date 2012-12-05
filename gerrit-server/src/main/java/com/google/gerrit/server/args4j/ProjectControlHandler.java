@@ -20,6 +20,7 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.Constants;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
@@ -42,21 +43,9 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
   @Override
   public final int parseArguments(final Parameters params)
       throws CmdLineException {
-    final String token = params.getParameter(0);
-    String projectName = token;
-
+    String projectName = params.getParameter(0);
     while (projectName.endsWith("/")) {
       projectName = projectName.substring(0, projectName.length() - 1);
-    }
-
-    if (projectName.endsWith(".git")) {
-      // Be nice and drop the trailing ".git" suffix, which we never keep
-      // in our database, but clients might mistakenly provide anyway.
-      //
-      projectName = projectName.substring(0, projectName.length() - 4);
-      while (projectName.endsWith("/")) {
-        projectName = projectName.substring(0, projectName.length() - 1);
-      }
     }
 
     while (projectName.startsWith("/")) {
@@ -67,13 +56,27 @@ public class ProjectControlHandler extends OptionHandler<ProjectControl> {
       //
       projectName = projectName.substring(1);
     }
+    String projectNameWithoutSuffix = projectName;
+    if (projectName.endsWith(Constants.DOT_GIT_EXT)) {
+      // Be nice and drop the trailing ".git" suffix, which we never keep
+      // in our database, but clients might mistakenly provide anyway.
+      // 'p'-> 'p'; 'p.git' -> 'p'; 'p/.git' -> 'p'.
+      //
+      //
+      projectNameWithoutSuffix =
+          projectName.substring(0, projectName.length() - 4);
+      while (projectNameWithoutSuffix.endsWith("/")) {
+        projectNameWithoutSuffix =
+            projectName.substring(0, projectName.length() - 1);
+      }
+    }
 
     final ProjectControl control;
     try {
-      Project.NameKey nameKey = new Project.NameKey(projectName);
+      Project.NameKey nameKey = new Project.NameKey(projectNameWithoutSuffix);
       control = projectControlFactory.validateFor(nameKey, ProjectControl.OWNER | ProjectControl.VISIBLE);
     } catch (NoSuchProjectException e) {
-      throw new CmdLineException(owner, "'" + token + "': not a Gerrit project");
+      throw new CmdLineException(owner, "'" + projectName + "': is not a Gerrit project");
     }
 
     setter.addValue(control);

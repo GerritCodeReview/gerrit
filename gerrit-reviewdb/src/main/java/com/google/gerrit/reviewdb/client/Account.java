@@ -169,7 +169,7 @@ public final class Account {
 
   /** Set the full name of the user ("Given-name Surname" style). */
   public void setFullName(final String name) {
-    fullName = name;
+    fullName = name != null ? name.replaceAll("^\\s+", "").trim() : null;
   }
 
   /** Email address the user prefers to be contacted through. */

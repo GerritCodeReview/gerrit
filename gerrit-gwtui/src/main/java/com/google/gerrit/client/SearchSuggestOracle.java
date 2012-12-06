@@ -30,7 +30,35 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
   private static final List<ParamSuggester> paramSuggester = Arrays.asList(
       new ParamSuggester("project:", new ProjectNameSuggestOracle()),
       new ParamSuggester(Arrays.asList("owner:", "reviewer:"),
-          new AccountSuggestOracle()),
+          new AccountSuggestOracle() {
+            @Override
+            public void onRequestSuggestions(final Request request, final Callback done) {
+              super.onRequestSuggestions(request, new Callback() {
+                @Override
+                public void onSuggestionsReady(final Request request,
+                    final Response response) {
+                  if ("self".startsWith(request.getQuery())) {
+                    final ArrayList<SuggestOracle.Suggestion> r =
+                        new ArrayList<SuggestOracle.Suggestion>(response
+                            .getSuggestions().size() + 1);
+                    r.addAll(response.getSuggestions());
+                    r.add(new SuggestOracle.Suggestion() {
+                      @Override
+                      public String getDisplayString() {
+                        return getReplacementString();
+                      }
+                      @Override
+                      public String getReplacementString() {
+                        return "self";
+                      }
+                    });
+                    response.setSuggestions(r);
+                  }
+                  done.onSuggestionsReady(request, response);
+                }
+              });
+            }
+          }),
       new ParamSuggester(Arrays.asList("ownerin:", "reviewerin:"),
           new AccountGroupSuggestOracle()));
 

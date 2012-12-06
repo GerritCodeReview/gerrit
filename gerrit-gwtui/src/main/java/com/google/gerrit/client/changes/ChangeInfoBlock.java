@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -104,7 +103,7 @@ public class ChangeInfoBlock extends Composite {
 
     table.setWidget(R_OWNER, 1, AccountLink.link(acc, chg.getOwner()));
 
-    final HorizontalPanel p = new HorizontalPanel();
+    final FlowPanel p = new FlowPanel();
     p.add(new ProjectSearchLink(chg.getProject()));
     p.add(new InlineHyperlink(chg.getProject().get(),
         PageLinks.toProject(chg.getProject())));

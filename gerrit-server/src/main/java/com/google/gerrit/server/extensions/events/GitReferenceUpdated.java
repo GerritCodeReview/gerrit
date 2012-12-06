@@ -38,8 +38,9 @@ public class GitReferenceUpdated {
     this.listeners = listeners;
   }
 
-  public void fire(Project.NameKey project, String ref) {
-    Event event = new Event(project, ref);
+  public void fire(Project.NameKey project, String ref,
+      String oldObjectId, String newObjectId) {
+    Event event = new Event(project, ref, oldObjectId, newObjectId);
     for (GitReferenceUpdatedListener l : listeners) {
       l.onGitReferenceUpdated(event);
     }
@@ -48,10 +49,15 @@ public class GitReferenceUpdated {
   private static class Event implements GitReferenceUpdatedListener.Event {
     private final String projectName;
     private final String ref;
+    private final String oldObjectId;
+    private final String newObjectId;
 
-    Event(Project.NameKey project, String ref) {
+    Event(Project.NameKey project, String ref,
+        String oldObjectId, String newObjectId) {
       this.projectName = project.get();
       this.ref = ref;
+      this.oldObjectId = oldObjectId;
+      this.newObjectId = newObjectId;
     }
 
     @Override
@@ -65,6 +71,16 @@ public class GitReferenceUpdated {
           new GitReferenceUpdatedListener.Update() {
             public String getRefName() {
               return ref;
+            }
+
+            @Override
+            public String getOldObjectId() {
+              return oldObjectId;
+            }
+
+            @Override
+            public String getNewObjectId() {
+              return newObjectId;
             }
           };
       return ImmutableList.of(update);

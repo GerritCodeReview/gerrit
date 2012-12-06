@@ -636,7 +636,9 @@ public class MergeOp {
                   destProject.getProject().getDescription());
             }
 
-            replication.fire(destBranch.getParentKey(), branchUpdate.getName());
+            replication.fire(destBranch.getParentKey(), branchUpdate.getName(),
+                branchUpdate.getOldObjectId().name(),
+                branchUpdate.getNewObjectId().name());
 
             Account account = null;
             final PatchSetApproval submitter = getSubmitter(db, mergeTip.patchsetId);
@@ -728,8 +730,13 @@ public class MergeOp {
     } catch (CodeReviewNoteCreationException e) {
       log.error(e.getMessage());
     }
+    // NOTE: this "fire" call will move to the reviewnotes plugin which will
+    // provide correct values for old/new objectId. To provide the values
+    // I need to rework a bit the CreateCodeReviewNotes which I would rather do
+    // when it gets moved to the reviewnotes plugin
     replication.fire(destBranch.getParentKey(),
-        GitRepositoryManager.REFS_NOTES_REVIEW);
+        GitRepositoryManager.REFS_NOTES_REVIEW,
+        ObjectId.zeroId().name(), ObjectId.zeroId().name());
   }
 
   private void updateSubscriptions(final List<Change> submitted) {

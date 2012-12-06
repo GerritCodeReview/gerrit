@@ -261,7 +261,7 @@ public class NotesBranchUtil {
         throw new IOException("Couldn't update " + notesBranch + ". "
             + result.name());
       } else {
-        gitRefUpdated.fire(project, notesBranch);
+        gitRefUpdated.fire(project, refUpdate);
         break;
       }
     }

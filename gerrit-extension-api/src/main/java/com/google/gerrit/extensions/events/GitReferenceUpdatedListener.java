@@ -23,6 +23,8 @@ import java.util.List;
 public interface GitReferenceUpdatedListener {
   public interface Update {
     String getRefName();
+    String getOldObjectId();
+    String getNewObjectId();
   }
 
   public interface Event {

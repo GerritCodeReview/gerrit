@@ -597,7 +597,8 @@ public class ReceiveCommits {
           // We only schedule direct refs updates for replication.
           // Change refs are scheduled when they are created.
           //
-          replication.fire(project.getNameKey(), c.getRefName());
+          replication.fire(project.getNameKey(), c.getRefName(),
+              c.getOldId(), c.getNewId());
           hooks.doRefUpdatedHook(
               new Branch.NameKey(project.getNameKey(), c.getRefName()),
               c.getOldId(),
@@ -1390,7 +1391,8 @@ public class ReceiveCommits {
       }
 
       created = true;
-      replication.fire(project.getNameKey(), ps.getRefName());
+      replication.fire(project.getNameKey(), ps.getRefName(),
+          ObjectId.zeroId(), commit);
       hooks.doPatchsetCreatedHook(change, ps, db);
       workQueue.getDefaultQueue()
           .submit(requestScopePropagator.wrap(new Runnable() {
@@ -1782,7 +1784,8 @@ public class ReceiveCommits {
         markChangeMergedByPush(db, this);
       }
 
-      replication.fire(project.getNameKey(), newPatchSet.getRefName());
+      replication.fire(project.getNameKey(), newPatchSet.getRefName(),
+          ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {
         hooks.doChangeMergedHook(

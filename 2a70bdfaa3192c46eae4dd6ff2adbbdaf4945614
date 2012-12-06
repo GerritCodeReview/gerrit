@@ -127,6 +127,42 @@
     },
     {
       "key": {
+        "uuid": "MsZF3HII",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-06T20:11:18Z",
+      "side": 1,
+      "message": "To me either way to do the registration in LinkMenuItem looks good. But if there is no caller for the static addScreenLoadHandler method of the Screen class I would prefer to remove this method, but I don\u0027t insist on it. Just trying to understand how it should all play together :)",
+      "parentUuid": "MsTGy8E4",
+      "revId": "2a70bdfaa3192c46eae4dd6ff2adbbdaf4945614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MsfGCKF0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-06T20:11:18Z",
+      "side": 1,
+      "message": "I\u0027m fine with having the ScreenLoadEvent as a top level event and if other events define such a Has...Event interface, I\u0027m also fine with having this interface even if it is not used at the moment.",
+      "parentUuid": "MsXGoeN4",
+      "revId": "2a70bdfaa3192c46eae4dd6ff2adbbdaf4945614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MrHYrcIM",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ScreenLoadHandler.java",
         "patchSetId": 1

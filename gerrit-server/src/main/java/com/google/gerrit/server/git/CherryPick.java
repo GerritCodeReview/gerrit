@@ -202,7 +202,7 @@ public class CherryPick extends SubmitStrategy {
           ru.getResult()));
     }
 
-    replication.fire(n.change.getProject(), ru.getName());
+    replication.fire(n.change.getProject(), ru);
 
     newCommit.copyFrom(n);
     newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;

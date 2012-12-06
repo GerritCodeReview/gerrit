@@ -279,7 +279,7 @@ public class ChangeUtil {
             "Failed to create ref %s in %s: %s", ps.getRefName(),
             change.getDest().getParentKey().get(), ru.getResult()));
       }
-      replication.fire(change.getProject(), ru.getName());
+      replication.fire(change.getProject(), ru);
 
       db.changes().beginTransaction(change.getId());
       try {
@@ -397,7 +397,7 @@ public class ChangeUtil {
             "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
             change.getDest().getParentKey().get(), ru.getResult()));
       }
-      replication.fire(change.getProject(), ru.getName());
+      replication.fire(change.getProject(), ru);
 
       db.changes().beginTransaction(change.getId());
       try {
@@ -507,7 +507,7 @@ public class ChangeUtil {
           throw new IOException("Failed to delete ref " + patch.getRefName() +
               " in " + repo.getDirectory() + ": " + update.getResult());
       }
-      replication.fire(change.getProject(), update.getName());
+      replication.fire(change.getProject(), update);
     } finally {
       repo.close();
     }

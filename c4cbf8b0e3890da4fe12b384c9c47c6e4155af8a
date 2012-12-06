@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MxL7y2So",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-06T20:36:55Z",
+      "side": 1,
+      "message": "Copy paste mistake on rebase :) Done.",
+      "parentUuid": "Msy8OCT0",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ms88ZfYY",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetApproval.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-06T18:16:21Z",
       "side": 1,
       "message": "Should this be c.isOpen()?",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MxJ73HRs",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetApproval.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-06T20:36:55Z",
+      "side": 1,
+      "message": "There was no isOpen, this was using package visibility, the end result is same, we can leave it as is, or I can add a convenience API.\n\nSee JavaDoc, in Change.java\n\n/** Is the change currently open? Set to {@link #status}.isOpen(). */\n\t\n@Column(id \u003d 9)\t\t\nprotected boolean open;",
+      "parentUuid": "Ms88ZfYY",
       "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

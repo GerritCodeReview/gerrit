@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.git;
 
+import static org.easymock.EasyMock.capture;
 import static org.easymock.EasyMock.createStrictMock;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -34,6 +37,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StandardKeyEncoder;
 import com.google.inject.Provider;
 
+import org.easymock.Capture;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -43,6 +47,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -639,8 +644,9 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
         .andReturn(targetRepository);
 
-    replication.fire(targetBranchNameKey.getParentKey(),
-        targetBranchNameKey.get());
+    Capture<RefUpdate> ruCapture = new Capture<RefUpdate>();
+    replication.fire(eq(targetBranchNameKey.getParentKey()),
+        capture(ruCapture));
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> emptySubscriptions =
@@ -664,6 +670,8 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     submoduleOp.update();
 
     doVerify();
+    RefUpdate ru = ruCapture.getValue();
+    assertEquals(ru.getName(), targetBranchNameKey.get());
   }
 
   /**
@@ -740,8 +748,9 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
         .andReturn(targetRepository);
 
-    replication.fire(targetBranchNameKey.getParentKey(),
-        targetBranchNameKey.get());
+    Capture<RefUpdate> ruCapture = new Capture<RefUpdate>();
+    replication.fire(eq(targetBranchNameKey.getParentKey()),
+        capture(ruCapture));
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> incorrectSubscriptions =
@@ -767,6 +776,8 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     submoduleOp.update();
 
     doVerify();
+    RefUpdate ru = ruCapture.getValue();
+    assertEquals(ru.getName(), targetBranchNameKey.get());
   }
 
   /**

@@ -34,6 +34,24 @@
       "revId": "ca8fe9f4b8a688adaacd2a7e7a491470096a6f37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MsVGSFK4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-06T20:10:48Z",
+      "side": 1,
+      "message": "I\u0027m not concerned whether it works (I already verified it before), I only was wondering why the method in the Screen class was added if it wasn\u0027t used. The global registration here is ok.",
+      "parentUuid": "MsbGlgAg",
+      "revId": "ca8fe9f4b8a688adaacd2a7e7a491470096a6f37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

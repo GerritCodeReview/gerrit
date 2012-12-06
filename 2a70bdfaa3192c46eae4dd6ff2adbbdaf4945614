@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "MsXFZWCc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-06T18:22:37Z",
+      "side": 1,
+      "message": "Yes.  This event indicates that a new Screen has been loaded in the browser window.   There needs to be some static place to register to capture all such events (every time a new screen is loaded). Listeners cannot register to the Screen being loaded since it doesn\u0027t exist yet.",
+      "parentUuid": "MsbFm4OE",
+      "revId": "2a70bdfaa3192c46eae4dd6ff2adbbdaf4945614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MrHYrcIM",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ScreenLoadHandler.java",
         "patchSetId": 1

@@ -129,7 +129,7 @@ public class MetaDataUpdate {
     return commit;
   }
 
-  void replicate(String ref) {
-    replication.fire(projectName, ref);
+  void replicate(String ref, String oldObjectId, String newObjectId) {
+    replication.fire(projectName, ref, oldObjectId, newObjectId);
   }
 }

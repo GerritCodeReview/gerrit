@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.git;
 
+import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createStrictMock;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
@@ -41,6 +43,7 @@ import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -639,8 +642,9 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     expect(repoManager.openRepository(targetBranchNameKey.getParentKey()))
         .andReturn(targetRepository);
 
-    replication.fire(targetBranchNameKey.getParentKey(),
-        targetBranchNameKey.get());
+    replication.fire(eq(targetBranchNameKey.getParentKey()),
+        eq(targetBranchNameKey.get()),
+        (String) anyObject(), (String) anyObject());
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> emptySubscriptions =
@@ -741,7 +745,8 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         .andReturn(targetRepository);
 
     replication.fire(targetBranchNameKey.getParentKey(),
-        targetBranchNameKey.get());
+        targetBranchNameKey.get(),
+        ObjectId.zeroId().name(), ObjectId.zeroId().name());
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
     final ResultSet<SubmoduleSubscription> incorrectSubscriptions =

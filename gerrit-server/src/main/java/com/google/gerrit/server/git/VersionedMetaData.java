@@ -260,7 +260,8 @@ public abstract class VersionedMetaData {
         switch (result) {
           case NEW:
             revision = rw.parseCommit(ru.getNewObjectId());
-            update.replicate(ru.getName());
+            update.replicate(ru.getName(),
+                ru.getOldObjectId().name(), ru.getNewObjectId().name());
             return revision;
           default:
             throw new IOException("Cannot update " + ru.getName() + " in "
@@ -293,7 +294,8 @@ public abstract class VersionedMetaData {
           case NEW:
           case FAST_FORWARD:
             revision = rw.parseCommit(ru.getNewObjectId());
-            update.replicate(ru.getName());
+            update.replicate(ru.getName(),
+                ru.getOldObjectId().name(), ru.getNewObjectId().name());
             return revision;
 
           default:

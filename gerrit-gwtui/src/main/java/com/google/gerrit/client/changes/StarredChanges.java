@@ -21,8 +21,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -32,7 +30,6 @@ import com.google.web.bindery.event.shared.HandlerRegistration;
 
 /** Supports the star icon displayed on changes and tracking the status. */
 public class StarredChanges {
-  private static final EventBus eventBus = new SimpleEventBus();
   private static final Event.Type<ChangeStarHandler> TYPE =
       new Event.Type<ChangeStarHandler>();
 
@@ -87,7 +84,7 @@ public class StarredChanges {
   public static HandlerRegistration addHandler(
       Change.Id source,
       ChangeStarHandler handler) {
-    return eventBus.addHandlerToSource(TYPE, source, handler);
+    return Gerrit.EVENT_BUS.addHandlerToSource(TYPE, source, handler);
   }
 
   /**
@@ -95,7 +92,7 @@ public class StarredChanges {
    * not RPC to the server and does not alter the starred status of a change.
    */
   public static void fireChangeStarEvent(Change.Id id, boolean starred) {
-    eventBus.fireEventFromSource(
+    Gerrit.EVENT_BUS.fireEventFromSource(
         new ChangeStarEvent(id, starred),
         id);
   }

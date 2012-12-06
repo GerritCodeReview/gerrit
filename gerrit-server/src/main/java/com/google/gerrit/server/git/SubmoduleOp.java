@@ -337,7 +337,8 @@ public class SubmoduleOp {
       switch (rfu.update()) {
         case NEW:
         case FAST_FORWARD:
-          replication.fire(subscriber.getParentKey(), rfu.getName());
+          replication.fire(subscriber.getParentKey(), rfu.getName(),
+              rfu.getOldObjectId(), rfu.getNewObjectId());
           // TODO since this is performed "in the background" no mail will be
           // sent to inform users about the updated branch
           break;

@@ -145,7 +145,8 @@ class AddBranch extends Handler<AddBranchResult> {
           case FAST_FORWARD:
           case NEW:
           case NO_CHANGE:
-            referenceUpdated.fire(name.getParentKey(), refname);
+            referenceUpdated.fire(name.getParentKey(), refname,
+                u.getOldObjectId(), u.getNewObjectId());
             hooks.doRefUpdatedHook(name, u, identifiedUser.getAccount());
             break;
           case LOCK_FAILURE:

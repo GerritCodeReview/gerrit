@@ -23,6 +23,7 @@ import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
@@ -129,7 +130,7 @@ public class MetaDataUpdate {
     return commit;
   }
 
-  void replicate(String ref) {
-    replication.fire(projectName, ref);
+  void replicate(String ref, ObjectId oldObjectId, ObjectId newObjectId) {
+    replication.fire(projectName, ref, oldObjectId, newObjectId);
   }
 }

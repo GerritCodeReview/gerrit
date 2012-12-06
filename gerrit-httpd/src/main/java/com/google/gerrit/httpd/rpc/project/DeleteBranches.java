@@ -121,7 +121,8 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
           case FAST_FORWARD:
           case FORCED:
             deleted.add(branchKey);
-            replication.fire(projectName, refname);
+            replication.fire(projectName, refname,
+                u.getOldObjectId(), u.getNewObjectId());
             hooks.doRefUpdatedHook(branchKey, u, identifiedUser.getAccount());
             break;
 

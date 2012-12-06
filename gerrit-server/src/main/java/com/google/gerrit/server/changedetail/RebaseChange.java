@@ -339,7 +339,8 @@ public class RebaseChange {
           newPatchSet.getRefName(), change.getDest().getParentKey().get(),
           ru.getResult()));
     }
-    replication.fire(change.getProject(), ru.getName());
+    replication.fire(change.getProject(), ru.getName(),
+        ru.getOldObjectId(), ru.getNewObjectId());
 
     db.changes().beginTransaction(change.getId());
     try {

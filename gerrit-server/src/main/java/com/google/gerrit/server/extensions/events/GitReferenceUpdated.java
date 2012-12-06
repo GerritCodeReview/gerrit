@@ -20,6 +20,9 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -38,8 +41,16 @@ public class GitReferenceUpdated {
     this.listeners = listeners;
   }
 
-  public void fire(Project.NameKey project, String ref) {
-    Event event = new Event(project, ref);
+  public void fire(Project.NameKey project, RefUpdate refUpdate) {
+    fire(project, refUpdate.getName(), refUpdate.getOldObjectId(),
+        refUpdate.getNewObjectId());
+  }
+
+  public void fire(Project.NameKey project, String ref,
+      ObjectId oldObjectId, ObjectId newObjectId) {
+    ObjectId o = oldObjectId != null ? oldObjectId : ObjectId.zeroId();
+    ObjectId n = newObjectId != null ? newObjectId : ObjectId.zeroId();
+    Event event = new Event(project, ref, o.name(), n.name());
     for (GitReferenceUpdatedListener l : listeners) {
       l.onGitReferenceUpdated(event);
     }
@@ -48,10 +59,15 @@ public class GitReferenceUpdated {
   private static class Event implements GitReferenceUpdatedListener.Event {
     private final String projectName;
     private final String ref;
+    private final String oldObjectId;
+    private final String newObjectId;
 
-    Event(Project.NameKey project, String ref) {
+    Event(Project.NameKey project, String ref,
+        String oldObjectId, String newObjectId) {
       this.projectName = project.get();
       this.ref = ref;
+      this.oldObjectId = oldObjectId;
+      this.newObjectId = newObjectId;
     }
 
     @Override
@@ -63,8 +79,19 @@ public class GitReferenceUpdated {
     public List<GitReferenceUpdatedListener.Update> getUpdates() {
       GitReferenceUpdatedListener.Update update =
           new GitReferenceUpdatedListener.Update() {
+            @Override
             public String getRefName() {
               return ref;
+            }
+
+            @Override
+            public String getOldObjectId() {
+              return oldObjectId;
+            }
+
+            @Override
+            public String getNewObjectId() {
+              return newObjectId;
             }
           };
       return ImmutableList.of(update);

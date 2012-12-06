@@ -283,7 +283,7 @@ public class CreateProject {
         final Result result = ru.update();
         switch (result) {
           case NEW:
-            referenceUpdated.fire(project, ref);
+            referenceUpdated.fire(project, ru);
             break;
           default: {
             throw new IOException(String.format(

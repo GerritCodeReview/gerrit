@@ -686,7 +686,7 @@ public class MergeOp {
                   destProject.getProject().getDescription());
             }
 
-            replication.fire(destBranch.getParentKey(), branchUpdate.getName());
+            replication.fire(destBranch.getParentKey(), branchUpdate);
 
             Account account = null;
             final PatchSetApproval submitter = getSubmitter(db, mergeTip.patchsetId);

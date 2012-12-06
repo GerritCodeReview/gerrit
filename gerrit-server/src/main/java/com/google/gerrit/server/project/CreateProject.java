@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -283,7 +284,7 @@ public class CreateProject {
         final Result result = ru.update();
         switch (result) {
           case NEW:
-            referenceUpdated.fire(project, ref);
+            referenceUpdated.fire(project, ru);
             break;
           default: {
             throw new IOException(String.format(

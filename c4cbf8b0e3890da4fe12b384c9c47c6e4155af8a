@@ -326,6 +326,24 @@
       "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ms49hNc4",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/PatchSetApproval.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T21:38:10Z",
+      "side": 1,
+      "message": "Ok I get it I think, is just a little confuse to have to ways of determining if the change is open ...",
+      "parentUuid": "MxD4H6SM",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

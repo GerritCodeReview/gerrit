@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "MsTFT0Ac",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-06T18:35:56Z",
+      "side": 1,
+      "message": "Should this rather be Screen.addScreenLoadHandler(this) then?",
+      "revId": "ca8fe9f4b8a688adaacd2a7e7a491470096a6f37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

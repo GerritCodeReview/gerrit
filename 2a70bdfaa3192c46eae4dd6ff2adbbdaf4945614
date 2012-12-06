@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "MsdGWBKw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-06T18:36:42Z",
+      "side": 1,
+      "message": "Ok, I see. Should this static method then be used from [1]?\n\nWill there be any other class then that implements the HasScreenLoadEvents interface? Maybe it\u0027s not needed?\n\n[1] https://gerrit-review.googlesource.com/#/c/40282/2/gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/LinkMenuItem.java",
+      "parentUuid": "MsXFZWCc",
+      "revId": "2a70bdfaa3192c46eae4dd6ff2adbbdaf4945614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MrHYrcIM",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ScreenLoadHandler.java",
         "patchSetId": 1

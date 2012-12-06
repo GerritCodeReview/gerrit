@@ -2,6 +2,176 @@
   "comments": [
     {
       "key": {
+        "uuid": "Ms49KlVQ",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T20:42:46Z",
+      "side": 1,
+      "message": "May be a better name is Reviewable or ReviewableEntity? The reason I say this is when we start talking about workflow and status entity sounds a little odd?",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ms48TdWI",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T20:42:46Z",
+      "side": 1,
+      "message": "This should say AbstractEntity.Id",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ms68YuX4",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T20:42:46Z",
+      "side": 1,
+      "message": "s/change/entity/",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ms08u7ZQ",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T20:42:46Z",
+      "side": 1,
+      "message": "s/Change/AbstractEntity/",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ms28rsYM",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T20:42:46Z",
+      "side": 1,
+      "message": "s/change/entity/",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Msw8o5YM",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T20:42:46Z",
+      "side": 1,
+      "message": "This is Change specific. How about INITIAL_SET_ID? Comment should changed as well.",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Msy8lqao",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T20:42:46Z",
+      "side": 1,
+      "message": "s/change/entity/",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ms89AnTg",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T20:42:46Z",
+      "side": 1,
+      "message": "s/change/entity/",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ms.9FYUU",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T20:42:46Z",
+      "side": 1,
+      "message": "s/Change/Entity/",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Ms69PWWM",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-06T20:42:46Z",
+      "side": 1,
+      "message": "s/change/entity/ many more I think ....",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Msy8OCT0",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
         "patchSetId": 3

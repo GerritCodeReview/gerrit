@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "MsTGJkHw",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-06T22:44:06Z",
+      "side": 1,
+      "message": "Sounds good, removed the method and the interface since it caused some confusion.  I like the idea of just making people register to the global event since it is a global event and it is simpler than forcing them to associate it with the Screen class.  Since we are encouraging listening to the global event, the interface is likely not really needed (so it is different from most events).",
+      "parentUuid": "MsfGCKF0",
+      "revId": "2a70bdfaa3192c46eae4dd6ff2adbbdaf4945614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MrHYrcIM",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ScreenLoadHandler.java",
         "patchSetId": 1

@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "MsXGoeN4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-06T19:44:36Z",
+      "side": 1,
+      "message": "It may not be needed.  I originally used it, but I don\u0027t know that I will now.  It does feel more complete though to have it, it feels like you shouldn\u0027t be defining a generic event without this?   I waivered a bit between making that event an inner class of the Screen class, or making as is a top level event, but it felt like an idea that would be globally applicable to a Gerrit UI and that I didn\u0027t want to fully tie to a Screen, so I went this way.  In other words, if we ever had some other top level class similar to a Screen it might want to share a similar event.  Yes, the event would need to change in that case, but by making it external to the Screen class I felt that it was making it more generic, that it was a message that this was intended to be a global Gerrit UI idea which just happened to currently be tied to the Screen class.",
+      "parentUuid": "MsdGWBKw",
+      "revId": "2a70bdfaa3192c46eae4dd6ff2adbbdaf4945614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MrHYrcIM",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ScreenLoadHandler.java",
         "patchSetId": 1

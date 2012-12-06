@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "MsTE8MME",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/Screen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-06T17:10:42Z",
+      "side": 1,
+      "message": "It can\u0027t, java won\u0027t let static methods implement an interface. :(",
+      "parentUuid": "MsfFFSEU",
+      "revId": "2a70bdfaa3192c46eae4dd6ff2adbbdaf4945614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MrHYrcIM",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ScreenLoadHandler.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-06T02:35:24Z",
       "side": 1,
       "message": "Nit: Extra newlines at the end of the file",
+      "revId": "2a70bdfaa3192c46eae4dd6ff2adbbdaf4945614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MsdFn5OA",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/ScreenLoadHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-06T17:10:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MrHYrcIM",
       "revId": "2a70bdfaa3192c46eae4dd6ff2adbbdaf4945614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

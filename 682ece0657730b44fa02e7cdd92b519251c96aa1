@@ -16,6 +16,24 @@
       "revId": "682ece0657730b44fa02e7cdd92b519251c96aa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "MrNbyhCw",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-06T00:51:02Z",
+      "side": 1,
+      "message": "Copy and paste mistake.  Thanks.\n\nDone.",
+      "parentUuid": "MpnwEuRw",
+      "revId": "682ece0657730b44fa02e7cdd92b519251c96aa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

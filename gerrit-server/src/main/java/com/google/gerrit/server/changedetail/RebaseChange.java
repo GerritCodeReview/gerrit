@@ -68,7 +68,7 @@ public class RebaseChange {
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
   private final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory;
   private final ChangeHookRunner hooks;
   private final ApprovalsUtil approvalsUtil;
@@ -78,7 +78,7 @@ public class RebaseChange {
       final PatchSetInfoFactory patchSetInfoFactory, final ReviewDb db,
       @GerritPersonIdent final PersonIdent myIdent,
       final GitRepositoryManager gitManager,
-      final GitReferenceUpdated replication,
+      final GitReferenceUpdated gitRefUpdated,
       final RebasedPatchSetSender.Factory rebasedPatchSetSenderFactory,
       final ChangeHookRunner hooks, final ApprovalsUtil approvalsUtil) {
     this.changeControlFactory = changeControlFactory;
@@ -86,7 +86,7 @@ public class RebaseChange {
     this.db = db;
     this.gitManager = gitManager;
     this.myIdent = myIdent;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
     this.rebasedPatchSetSenderFactory = rebasedPatchSetSenderFactory;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
@@ -334,7 +334,7 @@ public class RebaseChange {
           newPatchSet.getRefName(), change.getDest().getParentKey().get(),
           ru.getResult()));
     }
-    replication.fire(change.getProject(), ru);
+    gitRefUpdated.fire(change.getProject(), ru);
 
     db.changes().beginTransaction(change.getId());
     try {

@@ -50,7 +50,7 @@ public class SubmitStrategyFactory {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<String> urlProvider;
   private final ApprovalTypes approvalTypes;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
   private final RebaseChange rebaseChange;
 
   @Inject
@@ -59,14 +59,14 @@ public class SubmitStrategyFactory {
       @GerritPersonIdent final PersonIdent myIdent,
       final PatchSetInfoFactory patchSetInfoFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
-      final ApprovalTypes approvalTypes, final GitReferenceUpdated replication,
+      final ApprovalTypes approvalTypes, final GitReferenceUpdated gitRefUpdated,
       final RebaseChange rebaseChange) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
     this.rebaseChange = rebaseChange;
   }
 
@@ -82,7 +82,7 @@ public class SubmitStrategyFactory {
     switch (submitType) {
       case CHERRY_PICK:
         return new CherryPick(args, patchSetInfoFactory, urlProvider,
-            approvalTypes, replication);
+            approvalTypes, gitRefUpdated);
       case FAST_FORWARD_ONLY:
         return new FastForwardOnly(args);
       case MERGE_ALWAYS:

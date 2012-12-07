@@ -38,7 +38,7 @@ class DeleteDraftChange extends Handler<VoidResult> {
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
 
   private final PatchSet.Id patchSetId;
 
@@ -46,12 +46,12 @@ class DeleteDraftChange extends Handler<VoidResult> {
   DeleteDraftChange(final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
       final GitRepositoryManager gitManager,
-      final GitReferenceUpdated replication,
+      final GitReferenceUpdated gitRefUpdated,
       @Assisted final PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.gitManager = gitManager;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
 
     this.patchSetId = patchSetId;
   }
@@ -65,7 +65,7 @@ class DeleteDraftChange extends Handler<VoidResult> {
       throw new NoSuchChangeException(changeId);
     }
 
-    ChangeUtil.deleteDraftChange(patchSetId, gitManager, replication, db);
+    ChangeUtil.deleteDraftChange(patchSetId, gitManager, gitRefUpdated, db);
     return VoidResult.INSTANCE;
   }
 }

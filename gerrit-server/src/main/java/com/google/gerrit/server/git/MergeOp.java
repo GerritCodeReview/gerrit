@@ -122,7 +122,7 @@ public class MergeOp {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ProjectCache projectCache;
   private final FunctionState.Factory functionState;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
   private final ApprovalTypes approvalTypes;
@@ -159,7 +159,7 @@ public class MergeOp {
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
       final ProjectCache pc, final FunctionState.Factory fs,
-      final GitReferenceUpdated rq, final MergedSender.Factory msf,
+      final GitReferenceUpdated gru, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
       final ApprovalTypes approvalTypes, final PatchSetInfoFactory psif,
       final IdentifiedUser.GenericFactory iuf,
@@ -177,7 +177,7 @@ public class MergeOp {
     schemaFactory = sf;
     functionState = fs;
     projectCache = pc;
-    replication = rq;
+    gitRefUpdated = gru;
     mergedSenderFactory = msf;
     mergeFailSenderFactory = mfsf;
     this.approvalTypes = approvalTypes;
@@ -686,7 +686,7 @@ public class MergeOp {
                   destProject.getProject().getDescription());
             }
 
-            replication.fire(destBranch.getParentKey(), branchUpdate);
+            gitRefUpdated.fire(destBranch.getParentKey(), branchUpdate);
 
             Account account = null;
             final PatchSetApproval submitter = getSubmitter(db, mergeTip.patchsetId);

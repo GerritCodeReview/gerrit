@@ -44,7 +44,7 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
   private final ChangeControl.Factory changeControlFactory;
   private final ReviewDb db;
   private final GitRepositoryManager gitManager;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
 
   private final PatchSet.Id patchSetId;
@@ -52,12 +52,12 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
   @Inject
   DeleteDraftPatchSet(ChangeControl.Factory changeControlFactory,
       ReviewDb db, GitRepositoryManager gitManager,
-      GitReferenceUpdated replication, PatchSetInfoFactory patchSetInfoFactory,
+      GitReferenceUpdated gitRefUpdated, PatchSetInfoFactory patchSetInfoFactory,
       @Assisted final PatchSet.Id patchSetId) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.gitManager = gitManager;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
 
     this.patchSetId = patchSetId;
@@ -88,7 +88,7 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
     final Change change = control.getChange();
 
     try {
-      ChangeUtil.deleteOnlyDraftPatchSet(patch, change, gitManager, replication, db);
+      ChangeUtil.deleteOnlyDraftPatchSet(patch, change, gitManager, gitRefUpdated, db);
     } catch (IOException e) {
       result.addError(new ReviewResult.Error(
           ReviewResult.Error.Type.GIT_ERROR, e.getMessage()));
@@ -97,7 +97,7 @@ public class DeleteDraftPatchSet implements Callable<ReviewResult> {
     List<PatchSet> restOfPatches = db.patchSets().byChange(changeId).toList();
     if (restOfPatches.size() == 0) {
       try {
-        ChangeUtil.deleteDraftChange(patchSetId, gitManager, replication, db);
+        ChangeUtil.deleteDraftChange(patchSetId, gitManager, gitRefUpdated, db);
         result.setChangeId(null);
       } catch (IOException e) {
         result.addError(new ReviewResult.Error(

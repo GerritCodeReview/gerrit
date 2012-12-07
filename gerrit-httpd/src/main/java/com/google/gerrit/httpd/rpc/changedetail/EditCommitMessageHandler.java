@@ -60,7 +60,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   private final ChangeDetailFactory.Factory changeDetailFactory;
   private final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory;
 
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
 
   private final PatchSet.Id patchSetId;
   @Nullable
@@ -84,7 +84,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       final CommitValidators.Factory commitValidatorsFactory,
       final GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated replication,
+      final GitReferenceUpdated gitRefUpdated,
       @GerritPersonIdent final PersonIdent myIdent) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
@@ -99,7 +99,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.gitManager = gitManager;
 
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
     this.myIdent = myIdent;
   }
 
@@ -127,7 +127,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
           commitValidatorsFactory.create(control.getRefControl(), new NoSshInfo(), git);
 
       ChangeUtil.editCommitMessage(patchSetId, control.getRefControl(), commitValidators, currentUser, message, db,
-          commitMessageEditedSenderFactory, hooks, git, patchSetInfoFactory, replication, myIdent);
+          commitMessageEditedSenderFactory, hooks, git, patchSetInfoFactory, gitRefUpdated, myIdent);
 
       return changeDetailFactory.create(changeId).call();
     } finally {

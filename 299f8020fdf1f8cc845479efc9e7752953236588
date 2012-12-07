@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "M5R0uk5M",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/CurrentUserPopupPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-07T23:13:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MoeEZBoY",
+      "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MmenyFSw",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/CurrentUserPopupPanel.java",
         "patchSetId": 1
@@ -90,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "M5f0YB4A",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/CurrentUserPopupPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-07T23:13:27Z",
+      "side": 1,
+      "message": "Great, thanks Chris!  Done.",
+      "parentUuid": "Ms68BmRA",
+      "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MoQEfSmk",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/CurrentUserPopupPanel.ui.xml",
         "patchSetId": 1
@@ -101,6 +137,24 @@
       "writtenOn": "2012-12-05T01:13:59Z",
       "side": 1,
       "message": "s/2011/2012",
+      "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M5T0rT4Q",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/CurrentUserPopupPanel.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-07T23:13:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MoQEfSmk",
       "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -124,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "M5V0oG4U",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/CurrentUserPopupPanel.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-07T23:13:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MoaET-mE",
+      "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MocEYgoA",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/CurrentUserPopupPanel.ui.xml",
         "patchSetId": 1
@@ -135,6 +207,24 @@
       "writtenOn": "2012-12-05T01:13:59Z",
       "side": 1,
       "message": "Indentation?",
+      "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M5X0l16k",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/CurrentUserPopupPanel.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-07T23:13:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MocEYgoA",
       "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -224,6 +314,24 @@
       "side": 1,
       "message": "I wonder if it would be safer to just display the full name as it is in the profile.\n\nhttp://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/",
       "parentUuid": "MmycRel4",
+      "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M5Z1A4zc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-07T23:13:27Z",
+      "side": 1,
+      "message": "Yeah I was trying to find that same document to reference in my last reply.  I think the ideal solution is to let the user specify their Display Name, but for now I\u0027ll just show the full name.",
+      "parentUuid": "M0hArBIQ",
       "revId": "299f8020fdf1f8cc845479efc9e7752953236588",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

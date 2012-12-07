@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M0hAEpBs",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T01:29:27Z",
+      "side": 1,
+      "message": "This should be interesting. This is the first plugin we have to have on gerrit-review... where we don\u0027t (yet) support plugins.",
+      "revId": "05c1b1e56c9fef08a790a85a3d860bf259ed3ce7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M0vD8gAA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T01:29:27Z",
+      "side": 1,
+      "message": "It might be cleaner to accept a RefUpdate object here, instead of 3 parameters? Looks like all of the callers of this form are getting the values from a RefUpdate.",
+      "revId": "05c1b1e56c9fef08a790a85a3d860bf259ed3ce7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M0tABfBA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T01:29:27Z",
+      "side": 1,
+      "message": "Instead of duplicating the code:\n\n  fire(project, ref, old.name(), new.name());",
+      "revId": "05c1b1e56c9fef08a790a85a3d860bf259ed3ce7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M0jAHKCQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T01:29:27Z",
+      "side": 1,
+      "message": "So... during a GitReferenceUpdatedListener we are going to have to fire the listener group again. That should be interesting.",
+      "revId": "05c1b1e56c9fef08a790a85a3d860bf259ed3ce7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

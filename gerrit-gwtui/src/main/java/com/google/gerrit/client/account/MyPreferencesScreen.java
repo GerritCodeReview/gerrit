@@ -20,10 +20,9 @@ import static com.google.gerrit.reviewdb.client.AccountGeneralPreferences.PAGESI
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGeneralPreferences;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -52,39 +51,15 @@ public class MyPreferencesScreen extends SettingsScreen {
   protected void onInitUI() {
     super.onInitUI();
 
-    final ClickHandler onClickSave = new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        save.setEnabled(true);
-      }
-    };
-    final ChangeHandler onChangeSave = new ChangeHandler() {
-      @Override
-      public void onChange(final ChangeEvent event) {
-        save.setEnabled(true);
-      }
-    };
-
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
-    showSiteHeader.addClickHandler(onClickSave);
-
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
-    useFlashClipboard.addClickHandler(onClickSave);
-
     copySelfOnEmails = new CheckBox(Util.C.copySelfOnEmails());
-    copySelfOnEmails.addClickHandler(onClickSave);
-
     reversePatchSetOrder = new CheckBox(Util.C.reversePatchSetOrder());
-    reversePatchSetOrder.addClickHandler(onClickSave);
-
     showUsernameInReviewCategory = new CheckBox(Util.C.showUsernameInReviewCategory());
-    showUsernameInReviewCategory.addClickHandler(onClickSave);
-
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
       maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
     }
-    maximumPageSize.addChangeHandler(onChangeSave);
 
     Date now = new Date();
     dateFormat = new ListBox();
@@ -96,7 +71,6 @@ public class MyPreferencesScreen extends SettingsScreen {
       r.append(DateTimeFormat.getFormat(fmt.getLongFormat()).format(now));
       dateFormat.addItem(r.toString(), fmt.name());
     }
-    dateFormat.addChangeHandler(onChangeSave);
 
     timeFormat = new ListBox();
     for (AccountGeneralPreferences.TimeFormat fmt : AccountGeneralPreferences.TimeFormat
@@ -105,7 +79,6 @@ public class MyPreferencesScreen extends SettingsScreen {
       r.append(DateTimeFormat.getFormat(fmt.getFormat()).format(now));
       timeFormat.addItem(r.toString(), fmt.name());
     }
-    timeFormat.addChangeHandler(onChangeSave);
 
     FlowPanel dateTimePanel = new FlowPanel();
 
@@ -163,6 +136,16 @@ public class MyPreferencesScreen extends SettingsScreen {
       }
     });
     add(save);
+
+    final OnEditEnabler e = new OnEditEnabler(save);
+    e.listenTo(showSiteHeader);
+    e.listenTo(useFlashClipboard);
+    e.listenTo(copySelfOnEmails);
+    e.listenTo(reversePatchSetOrder);
+    e.listenTo(showUsernameInReviewCategory);
+    e.listenTo(maximumPageSize);
+    e.listenTo(dateFormat);
+    e.listenTo(timeFormat);
   }
 
   @Override

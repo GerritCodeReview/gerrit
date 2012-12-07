@@ -248,9 +248,16 @@ public class SearchSuggestOracle extends HighlightSuggestOracle {
                   .getSuggestions()) {
                 r.add(new SearchSuggestion(s.getDisplayString(),
                     query.substring(0, query.length() - lastWord.length()) +
-                    operator + "\"" + s.getReplacementString() + "\""));
+                    operator + quoteIfNeeded(s.getReplacementString())));
               }
               done.onSuggestionsReady(request, new Response(r));
+            }
+
+            private String quoteIfNeeded(final String s) {
+              if (!s.matches("^\\S*$")) {
+                return "\"" + s + "\"";
+              }
+              return s;
             }
           });
     }

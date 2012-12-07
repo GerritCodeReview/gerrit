@@ -130,7 +130,7 @@ public class MetaDataUpdate {
     return commit;
   }
 
-  void replicate(RefUpdate ru) {
+  void fireRefUpdatedEvent(RefUpdate ru) {
     replication.fire(projectName, ru);
   }
 }

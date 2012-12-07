@@ -243,7 +243,7 @@ public class ReceiveCommits {
   private final CreateChangeSender.Factory createChangeSenderFactory;
   private final MergedSender.Factory mergedSenderFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeHooks hooks;
   private final ApprovalsUtil approvalsUtil;
@@ -298,7 +298,7 @@ public class ReceiveCommits {
       final CreateChangeSender.Factory createChangeSenderFactory,
       final MergedSender.Factory mergedSenderFactory,
       final ReplacePatchSetSender.Factory replacePatchSetFactory,
-      final GitReferenceUpdated replication,
+      final GitReferenceUpdated gitRefUpdated,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeHooks hooks,
       final ApprovalsUtil approvalsUtil,
@@ -324,7 +324,7 @@ public class ReceiveCommits {
     this.createChangeSenderFactory = createChangeSenderFactory;
     this.mergedSenderFactory = mergedSenderFactory;
     this.replacePatchSetFactory = replacePatchSetFactory;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.hooks = hooks;
     this.approvalsUtil = approvalsUtil;
@@ -594,10 +594,10 @@ public class ReceiveCommits {
         }
 
         if (!MagicBranch.isMagicBranch(c.getRefName())) {
-          // We only schedule direct refs updates for replication.
-          // Change refs are scheduled when they are created.
+          // We only fire gitRefUpdated for direct refs updates.
+          // Events for change refs are fired they are created.
           //
-          replication.fire(project.getNameKey(), c.getRefName(),
+          gitRefUpdated.fire(project.getNameKey(), c.getRefName(),
               c.getOldId(), c.getNewId());
           hooks.doRefUpdatedHook(
               new Branch.NameKey(project.getNameKey(), c.getRefName()),
@@ -1391,7 +1391,7 @@ public class ReceiveCommits {
       }
 
       created = true;
-      replication.fire(project.getNameKey(), ps.getRefName(),
+      gitRefUpdated.fire(project.getNameKey(), ps.getRefName(),
           ObjectId.zeroId(), commit);
       hooks.doPatchsetCreatedHook(change, ps, db);
       workQueue.getDefaultQueue()
@@ -1784,7 +1784,7 @@ public class ReceiveCommits {
         markChangeMergedByPush(db, this);
       }
 
-      replication.fire(project.getNameKey(), newPatchSet.getRefName(),
+      gitRefUpdated.fire(project.getNameKey(), newPatchSet.getRefName(),
           ObjectId.zeroId(), newCommit);
       hooks.doPatchsetCreatedHook(change, newPatchSet, db);
       if (mergedIntoRef != null) {

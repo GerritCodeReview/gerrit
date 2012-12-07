@@ -53,7 +53,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
   private final ChangeDetailFactory.Factory changeDetailFactory;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
 
   private final PatchSet.Id patchSetId;
   @Nullable
@@ -74,7 +74,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
       @Assisted @Nullable final String message, final ChangeHooks hooks,
       final GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated replication,
+      final GitReferenceUpdated gitRefUpdated,
       @GerritPersonIdent final PersonIdent myIdent) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
@@ -87,7 +87,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     this.gitManager = gitManager;
 
     this.patchSetInfoFactory = patchSetInfoFactory;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
     this.myIdent = myIdent;
   }
 
@@ -105,7 +105,7 @@ class EditCommitMessageHandler extends Handler<ChangeDetail> {
     }
 
     ChangeUtil.editCommitMessage(patchSetId, currentUser, message, db,
-        hooks, gitManager, patchSetInfoFactory, replication, myIdent);
+        hooks, gitManager, patchSetInfoFactory, gitRefUpdated, myIdent);
 
     return changeDetailFactory.create(changeId).call();
   }

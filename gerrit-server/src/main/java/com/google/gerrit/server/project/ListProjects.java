@@ -133,7 +133,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   @Option(name = "--limit", aliases = {"-n"}, metaVar = "CNT", usage = "maximum number of projects to list")
   private int limit;
 
-  @Option(name = "-p", metaVar = "PERFIX", usage = "match project prefix")
+  @Option(name = "-p", metaVar = "PREFIX", usage = "match project prefix")
   private String matchPrefix;
 
   @Option(name = "-m", metaVar = "MATCH", usage = "match project substring")

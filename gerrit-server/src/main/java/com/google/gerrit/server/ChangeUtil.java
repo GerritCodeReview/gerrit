@@ -29,6 +29,7 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
+import com.google.gerrit.server.mail.CommitMessageEditedSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RevertedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -305,6 +306,7 @@ public class ChangeUtil {
 
   public static Change.Id editCommitMessage(final PatchSet.Id patchSetId,
       final IdentifiedUser user, final String message, final ReviewDb db,
+      final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
       final ChangeHooks hooks, GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
       final GitReferenceUpdated replication, PersonIdent myIdent)
@@ -426,6 +428,11 @@ public class ChangeUtil {
           cmsg.setMessage(msg);
           db.changeMessages().insert(Collections.singleton(cmsg));
           db.commit();
+
+          final CommitMessageEditedSender cm = commitMessageEditedSenderFactory.create(change);
+          cm.setFrom(user.getAccountId());
+          cm.setChangeMessage(cmsg);
+          cm.send();
         } finally {
           db.rollback();
         }

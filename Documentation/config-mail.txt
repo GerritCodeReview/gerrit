@@ -58,6 +58,13 @@ The `CommentFooter.vm` template will determine the contents of the footer
 text that will be appended to emails related to a user submitting comments on
 changes.  See `ChangeSubject.vm`, `Comment.vm` and `ChangeFooter.vm`.
 
+CommitMessageEdited.vm
+~~~~~~~~~~~~~~~~~~~~~~
+
+The `CommitMessageEdited.vm` template will determine the contents of the email
+related to a user editing the commit message through the Gerrit UI.  It is a
+`ChangeEmail`: see `ChangeSubject.vm` and `ChangeFooter.vm`.
+
 Merged.vm
 ~~~~~~~~~
 

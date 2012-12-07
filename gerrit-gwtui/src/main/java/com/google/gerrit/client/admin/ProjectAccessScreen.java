@@ -110,6 +110,7 @@ public class ProjectAccessScreen extends ProjectScreen {
             displayReadOnly(access);
           }
         });
+    savedPanel = ACCESS;
   }
 
   private void displayReadOnly(ProjectAccess access) {

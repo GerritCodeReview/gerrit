@@ -205,8 +205,6 @@ public class CreateProject {
     projectCache.onCreateProject(createProjectArgs.getProject());
     repoManager.setProjectDescription(createProjectArgs.getProject(),
         createProjectArgs.projectDescription);
-    referenceUpdated.fire(createProjectArgs.getProject(),
-        GitRepositoryManager.REF_CONFIG);
   }
 
   private void validateParameters() throws ProjectCreationFailedException {

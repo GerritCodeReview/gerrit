@@ -36,6 +36,11 @@ public class ProjectDashboardScreen extends ProjectScreen implements ChangeListS
       @Override
       protected void onLoad() {
         super.onLoad();
+      }
+
+      @Override
+      public void finishDisplay() {
+        super.finishDisplay();
         display();
       }
     };

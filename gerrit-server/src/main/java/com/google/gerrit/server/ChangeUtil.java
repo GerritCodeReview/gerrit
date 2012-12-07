@@ -197,7 +197,7 @@ public class ChangeUtil {
       final RevertedSender.Factory revertedSenderFactory,
       final ChangeHooks hooks, GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated replication, PersonIdent myIdent)
+      final GitReferenceUpdated gitRefUpdated, PersonIdent myIdent)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException {
     final Change.Id changeId = patchSetId.getParentKey();
@@ -272,7 +272,7 @@ public class ChangeUtil {
             "Failed to create ref %s in %s: %s", ps.getRefName(),
             change.getDest().getParentKey().get(), ru.getResult()));
       }
-      replication.fire(change.getProject(), ru);
+      gitRefUpdated.fire(change.getProject(), ru);
 
       db.changes().beginTransaction(change.getId());
       try {
@@ -315,7 +315,7 @@ public class ChangeUtil {
       final CommitMessageEditedSender.Factory commitMessageEditedSenderFactory,
       final ChangeHooks hooks, Repository git,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated replication, PersonIdent myIdent)
+      final GitReferenceUpdated gitRefUpdated, PersonIdent myIdent)
       throws NoSuchChangeException, EmailException, OrmException,
       MissingObjectException, IncorrectObjectTypeException, IOException,
       InvalidChangeOperationException, PatchSetInfoNotAvailableException {
@@ -391,7 +391,7 @@ public class ChangeUtil {
             "Failed to create ref %s in %s: %s", newPatchSet.getRefName(),
             change.getDest().getParentKey().get(), ru.getResult()));
       }
-      replication.fire(change.getProject(), ru);
+      gitRefUpdated.fire(change.getProject(), ru);
 
       db.changes().beginTransaction(change.getId());
       try {
@@ -457,7 +457,7 @@ public class ChangeUtil {
 
   public static void deleteDraftChange(final PatchSet.Id patchSetId,
       GitRepositoryManager gitManager,
-      final GitReferenceUpdated replication, final ReviewDb db)
+      final GitReferenceUpdated gitRefUpdated, final ReviewDb db)
       throws NoSuchChangeException, OrmException, IOException {
     final Change.Id changeId = patchSetId.getParentKey();
     final Change change = db.changes().get(changeId);
@@ -467,7 +467,7 @@ public class ChangeUtil {
 
     for (PatchSet ps : db.patchSets().byChange(changeId)) {
       // These should all be draft patch sets.
-      deleteOnlyDraftPatchSet(ps, change, gitManager, replication, db);
+      deleteOnlyDraftPatchSet(ps, change, gitManager, gitRefUpdated, db);
     }
 
     db.changeMessages().delete(db.changeMessages().byChange(changeId));
@@ -478,7 +478,7 @@ public class ChangeUtil {
 
   public static void deleteOnlyDraftPatchSet(final PatchSet patch,
       final Change change, GitRepositoryManager gitManager,
-      final GitReferenceUpdated replication, final ReviewDb db)
+      final GitReferenceUpdated gitRefUpdated, final ReviewDb db)
       throws NoSuchChangeException, OrmException, IOException {
     final PatchSet.Id patchSetId = patch.getId();
     if (patch == null || !patch.isDraft()) {
@@ -501,7 +501,7 @@ public class ChangeUtil {
           throw new IOException("Failed to delete ref " + patch.getRefName() +
               " in " + repo.getDirectory() + ": " + update.getResult());
       }
-      replication.fire(change.getProject(), update);
+      gitRefUpdated.fire(change.getProject(), update);
     } finally {
       repo.close();
     }

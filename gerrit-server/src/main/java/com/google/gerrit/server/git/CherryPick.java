@@ -54,19 +54,19 @@ public class CherryPick extends SubmitStrategy {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final Provider<String> urlProvider;
   private final ApprovalTypes approvalTypes;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
   private final Map<Change.Id, CodeReviewCommit> newCommits;
 
   CherryPick(final SubmitStrategy.Arguments args,
       final PatchSetInfoFactory patchSetInfoFactory,
       final Provider<String> urlProvider, final ApprovalTypes approvalTypes,
-      final GitReferenceUpdated replication) {
+      final GitReferenceUpdated gitRefUpdated) {
     super(args);
 
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
     this.newCommits = new HashMap<Change.Id, CodeReviewCommit>();
   }
 
@@ -202,7 +202,7 @@ public class CherryPick extends SubmitStrategy {
           ru.getResult()));
     }
 
-    replication.fire(n.change.getProject(), ru);
+    gitRefUpdated.fire(n.change.getProject(), ru);
 
     newCommit.copyFrom(n);
     newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;

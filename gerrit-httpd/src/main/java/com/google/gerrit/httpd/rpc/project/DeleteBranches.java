@@ -50,7 +50,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
 
   private final ProjectControl.Factory projectControlFactory;
   private final GitRepositoryManager repoManager;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
   private final IdentifiedUser identifiedUser;
   private final ChangeHooks hooks;
   private final ReviewDb db;
@@ -61,7 +61,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   @Inject
   DeleteBranches(final ProjectControl.Factory projectControlFactory,
       final GitRepositoryManager repoManager,
-      final GitReferenceUpdated replication,
+      final GitReferenceUpdated gitRefUpdated,
       final IdentifiedUser identifiedUser,
       final ChangeHooks hooks,
       final ReviewDb db,
@@ -69,7 +69,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
       @Assisted Project.NameKey name, @Assisted Set<Branch.NameKey> toRemove) {
     this.projectControlFactory = projectControlFactory;
     this.repoManager = repoManager;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
     this.identifiedUser = identifiedUser;
     this.hooks = hooks;
     this.db = db;
@@ -121,7 +121,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
           case FAST_FORWARD:
           case FORCED:
             deleted.add(branchKey);
-            replication.fire(projectName, u);
+            gitRefUpdated.fire(projectName, u);
             hooks.doRefUpdatedHook(branchKey, u, identifiedUser.getAccount());
             break;
 

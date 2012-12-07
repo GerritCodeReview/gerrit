@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.SshdListenAddress;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.gwtorm.server.OrmException;
@@ -78,6 +79,7 @@ public class SubmoduleOp {
   private RevCommit mergeTip;
   private RevWalk rw;
   private final Provider<String> urlProvider;
+  private final Provider<String> sshProvider;
   private ReviewDb schema;
   private Repository db;
   private Project destProject;
@@ -93,6 +95,7 @@ public class SubmoduleOp {
   public SubmoduleOp(@Assisted final Branch.NameKey destBranch,
       @Assisted RevCommit mergeTip, @Assisted RevWalk rw,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
+      @SshdListenAddress @Nullable final Provider<String> sshProvider,
       final SchemaFactory<ReviewDb> sf, @Assisted Repository db,
       @Assisted Project destProject, @Assisted List<Change> submitted,
       @Assisted final Map<Change.Id, CodeReviewCommit> commits,
@@ -102,6 +105,7 @@ public class SubmoduleOp {
     this.mergeTip = mergeTip;
     this.rw = rw;
     this.urlProvider = urlProvider;
+    this.sshProvider = sshProvider;
     this.schemaFactory = sf;
     this.db = db;
     this.destProject = destProject;
@@ -137,6 +141,32 @@ public class SubmoduleOp {
     }
 
     try {
+      String thisServer = null;
+      String sshHostname = null;
+      String webHostname = new URI(urlProvider.get()).getHost();
+
+      // If SSH is disabled on the command line there will be no
+      // sshProvider to ask. Translate this to the gerrit.config
+      // option "off" inside the [sshd] section.
+      if (sshProvider == null) {
+        sshHostname = "off";
+      } else {
+        // Make sure we only remove the port part and not a substring
+        // of an IPv6 address.
+        sshHostname = sshProvider.get().split(":\\d+$")[0];
+      }
+      // Use the web host name (canonical web url) for the following
+      // conditions:
+      // - If the ssh hostname is the same as the web host
+      // - If we listen on all addresses
+      // - If sshd is turned off
+      if (webHostname.equals(sshHostname) || sshHostname.equals("*") ||
+          sshHostname.equals("off")) {
+        thisServer = webHostname;
+      } else {
+        thisServer = sshHostname;
+      }
+
       final TreeWalk tw = TreeWalk.forPath(db, GIT_MODULES, mergeTip.getTree());
       if (tw != null
           && (FileMode.REGULAR_FILE.equals(tw.getRawMode(0)) || FileMode.EXECUTABLE_FILE
@@ -144,8 +174,6 @@ public class SubmoduleOp {
 
         BlobBasedConfig bbc =
             new BlobBasedConfig(null, db, mergeTip, GIT_MODULES);
-
-        final String thisServer = new URI(urlProvider.get()).getHost();
 
         final Branch.NameKey target =
             new Branch.NameKey(new Project.NameKey(destProject.getName()),

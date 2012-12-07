@@ -49,6 +49,7 @@ class GetDashboard implements RestReadView<DashboardResource> {
       throw new ResourceNotFoundException("inherited");
     }
 
+    String project = resource.getControl().getProject().getName();
     if (resource.isProjectDefault()) {
       // The default is not resolved to a definition yet.
       resource = defaultOf(resource.getControl());
@@ -59,6 +60,7 @@ class GetDashboard implements RestReadView<DashboardResource> {
         resource.getRefName().substring(REFS_DASHBOARDS.length()),
         resource.getPathName(),
         resource.getConfig(),
+        project,
         true);
   }
 

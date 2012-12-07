@@ -121,7 +121,6 @@ class DashboardsCollection implements
     }
   }
 
-
   private DashboardResource parse(ProjectControl ctl, String ref, String path,
       ProjectControl myCtl)
       throws ResourceNotFoundException, IOException, AmbiguousObjectException,
@@ -158,26 +157,30 @@ class DashboardsCollection implements
     return views;
   }
 
-  static DashboardInfo parse(Project project, String refName, String path,
-      Config config, boolean setDefault) throws UnsupportedEncodingException {
+  static DashboardInfo parse(Project definingProject, String refName,
+      String path, Config config, String project, boolean setDefault)
+      throws UnsupportedEncodingException {
     DashboardInfo info = new DashboardInfo(refName, path);
-    info.project = project.getName();
+    info.project = definingProject.getName();
     info.title = config.getString("dashboard", null, "title");
     info.description = config.getString("dashboard", null, "description");
-    String id = refName + ":" + path;
-    info.isDefault = setDefault ? (id.equals(defaultOf(project)) ? true : null) : null;
     info.foreach = config.getString("dashboard", null, "foreach");
+
+    if (setDefault) {
+      String id = refName + ":" + path;
+      info.isDefault = id.equals(defaultOf(definingProject)) ? true : null;
+    }
 
     UrlEncoded u = new UrlEncoded("/dashboard/");
     u.put("title", Objects.firstNonNull(info.title, info.path));
     if (info.foreach != null) {
-      u.put("foreach", replace(project.getName(), info.foreach));
+      u.put("foreach", replace(project, info.foreach));
     }
     for (String name : config.getSubsections("section")) {
       Section s = new Section();
       s.name = name;
       s.query = config.getString("section", name, "query");
-      u.put(s.name, replace(project.getName(), s.query));
+      u.put(s.name, replace(project, s.query));
       info.sections.add(s);
     }
     info.url = u.toString().replace("%3A", ":");

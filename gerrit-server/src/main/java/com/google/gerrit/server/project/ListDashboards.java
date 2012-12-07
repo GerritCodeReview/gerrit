@@ -18,9 +18,6 @@ import static com.google.gerrit.server.git.GitRepositoryManager.REFS_DASHBOARDS;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -46,33 +43,32 @@ import java.util.Set;
 
 class ListDashboards implements RestReadView<ProjectResource> {
   private static final Logger log = LoggerFactory.getLogger(DashboardsCollection.class);
+
   private final GitRepositoryManager gitManager;
-  private final ProjectControl.GenericFactory projectFactory;
 
   @Option(name = "--inherited", usage = "include inherited dashboards")
   private boolean inherited;
 
   @Inject
-  ListDashboards(GitRepositoryManager gitManager,
-      ProjectControl.GenericFactory projectFactory) {
+  ListDashboards(GitRepositoryManager gitManager) {
     this.gitManager = gitManager;
-    this.projectFactory = projectFactory;
   }
 
   @Override
-  public Object apply(ProjectResource resource) throws AuthException,
-      BadRequestException, ResourceConflictException, Exception {
+  public Object apply(ProjectResource resource)
+      throws ResourceNotFoundException, IOException {
+  ProjectControl ctl = resource.getControl();
+    String project = ctl.getProject().getName();
     if (!inherited) {
-      return scan(resource.getControl(), true);
+      return scan(resource.getControl(), project, true);
     }
 
     List<List<DashboardInfo>> all = Lists.newArrayList();
-    ProjectControl ctl = resource.getControl();
     Set<Project.NameKey> seen = Sets.newHashSet();
     boolean setDefault = true;
     for (;;) {
       if (ctl.isVisible()) {
-        List<DashboardInfo> list = scan(ctl, setDefault);
+        List<DashboardInfo> list = scan(ctl, project, setDefault);
         for (DashboardInfo d : list) {
           if (d.isDefault != null && Boolean.TRUE.equals(d.isDefault)) {
             setDefault = false;
@@ -84,22 +80,16 @@ class ListDashboards implements RestReadView<ProjectResource> {
       }
 
       ProjectState ps = ctl.getProjectState().getParentState();
-      if (ps == null) {
+      if (ps == null || !seen.add(ps.getProject().getNameKey())) {
         break;
       }
-
-      Project.NameKey name = ps.getProject().getNameKey();
-      if (!seen.add(name)) {
-        break;
-      }
-
-      ctl = projectFactory.controlFor(name, ctl.getCurrentUser());
+      ctl = ps.controlFor(ctl.getCurrentUser());
     }
     return all;
   }
 
-  private List<DashboardInfo> scan(ProjectControl ctl, boolean setDefault) throws AuthException,
-      BadRequestException, ResourceConflictException, Exception {
+  private List<DashboardInfo> scan(ProjectControl ctl, String project,
+      boolean setDefault) throws ResourceNotFoundException, IOException {
     Repository git;
     try {
       git = gitManager.openRepository(ctl.getProject().getNameKey());
@@ -112,7 +102,8 @@ class ListDashboards implements RestReadView<ProjectResource> {
         List<DashboardInfo> all = Lists.newArrayList();
         for (Ref ref : git.getRefDatabase().getRefs(REFS_DASHBOARDS).values()) {
           if (ctl.controlForRef(ref.getName()).canRead()) {
-            all.addAll(scanDashboards(ctl.getProject(), git, rw, ref, setDefault));
+            all.addAll(scanDashboards(ctl.getProject(), git, rw, ref,
+                project, setDefault));
           }
         }
         return all;
@@ -124,8 +115,9 @@ class ListDashboards implements RestReadView<ProjectResource> {
     }
   }
 
-  private List<DashboardInfo> scanDashboards(Project project,
-      Repository git, RevWalk rw, Ref ref, boolean setDefault) throws IOException {
+  private List<DashboardInfo> scanDashboards(Project definingProject,
+      Repository git, RevWalk rw, Ref ref, String project, boolean setDefault)
+      throws IOException {
     List<DashboardInfo> list = Lists.newArrayList();
     TreeWalk tw = new TreeWalk(rw.getObjectReader());
     try {
@@ -135,15 +127,16 @@ class ListDashboards implements RestReadView<ProjectResource> {
         if (tw.getFileMode(0) == FileMode.REGULAR_FILE) {
           try {
             list.add(DashboardsCollection.parse(
-                project,
+                definingProject,
                 ref.getName().substring(REFS_DASHBOARDS.length()),
                 tw.getPathString(),
                 new BlobBasedConfig(null, git, tw.getObjectId(0)),
+                project,
                 setDefault));
           } catch (ConfigInvalidException e) {
             log.warn(String.format(
                 "Cannot parse dashboard %s:%s:%s: %s",
-                project.getName(), ref.getName(), tw.getPathString(),
+                definingProject.getName(), ref.getName(), tw.getPathString(),
                 e.getMessage()));
           }
         }

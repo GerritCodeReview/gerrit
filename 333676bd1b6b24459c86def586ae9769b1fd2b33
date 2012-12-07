@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M0jCrqN0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T19:11:04Z",
+      "side": 1,
+      "message": "You can\u0027t conditionally *not* bind something the server expects elsewhere. Because you need an @SshdListenAddress String, you must always provide this binding even if the sshd server is disabled.",
+      "revId": "333676bd1b6b24459c86def586ae9769b1fd2b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M0lCyrE4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SshdListenAddressModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T19:11:04Z",
+      "side": 1,
+      "message": "Given that this module is only ever used with a single provider implementation, there isn\u0027t any value in defining the module as abstract.",
+      "revId": "333676bd1b6b24459c86def586ae9769b1fd2b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M0nC1MDU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SshdListenAddressProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T19:11:04Z",
+      "side": 1,
+      "message": "Injected constructors are not usually public.",
+      "revId": "333676bd1b6b24459c86def586ae9769b1fd2b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M0hCoJN0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/SshdListenAddressProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T19:11:04Z",
+      "side": 1,
+      "message": "This is shorter:\n\n  sshdAddress \u003d Strings.isNullOrEmpty(advertised) ? listen : advertised;",
+      "revId": "333676bd1b6b24459c86def586ae9769b1fd2b33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

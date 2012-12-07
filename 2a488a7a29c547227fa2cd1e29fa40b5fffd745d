@@ -16,6 +16,24 @@
       "revId": "2a488a7a29c547227fa2cd1e29fa40b5fffd745d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M55vyqys",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/ui/HighlightingInlineHyperlink.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-07T06:52:49Z",
+      "side": 1,
+      "message": "Good idea, but I have to keep the call of highlight(...) in the constructor because setText(...) is not invoked from here and there is no suitable other method which could be overwritten (InlineHyperlink is using a DirectionalTextHelper in its constructor to set the text).\n\nDone.",
+      "parentUuid": "M5T0ELxw",
+      "revId": "2a488a7a29c547227fa2cd1e29fa40b5fffd745d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

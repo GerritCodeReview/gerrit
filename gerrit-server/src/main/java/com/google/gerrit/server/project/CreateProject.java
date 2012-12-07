@@ -47,7 +47,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -168,7 +167,6 @@ public class CreateProject {
   private void createProjectConfig() throws IOException, ConfigInvalidException {
     final MetaDataUpdate md =
         metaDataUpdateFactory.create(createProjectArgs.getProject());
-    final RevCommit cc;
     try {
       final ProjectConfig config = ProjectConfig.read(md);
       config.load(md);
@@ -200,16 +198,13 @@ public class CreateProject {
       }
 
       md.setMessage("Created project\n");
-      cc = config.commit(md);
+      config.commit(md);
     } finally {
       md.close();
     }
     projectCache.onCreateProject(createProjectArgs.getProject());
     repoManager.setProjectDescription(createProjectArgs.getProject(),
         createProjectArgs.projectDescription);
-    referenceUpdated.fire(createProjectArgs.getProject(),
-        GitRepositoryManager.REF_CONFIG,
-        ObjectId.zeroId(), cc);
   }
 
   private void validateParameters() throws ProjectCreationFailedException {

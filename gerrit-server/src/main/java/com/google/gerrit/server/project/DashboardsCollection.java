@@ -161,6 +161,7 @@ class DashboardsCollection implements
   static DashboardInfo parse(Project project, String refName, String path,
       Config config, boolean setDefault) throws UnsupportedEncodingException {
     DashboardInfo info = new DashboardInfo(refName, path);
+    info.project = project.getName();
     info.title = config.getString("dashboard", null, "title");
     info.description = config.getString("dashboard", null, "description");
     String id = refName + ":" + path;

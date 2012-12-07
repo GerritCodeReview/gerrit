@@ -77,7 +77,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
   private ReviewDb schema;
   private Provider<String> urlProvider;
   private GitRepositoryManager repoManager;
-  private GitReferenceUpdated replication;
+  private GitReferenceUpdated gitRefUpdated;
 
   @SuppressWarnings("unchecked")
   @Override
@@ -90,17 +90,17 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
     subscriptions = createStrictMock(SubmoduleSubscriptionAccess.class);
     urlProvider = createStrictMock(Provider.class);
     repoManager = createStrictMock(GitRepositoryManager.class);
-    replication = createStrictMock(GitReferenceUpdated.class);
+    gitRefUpdated = createStrictMock(GitReferenceUpdated.class);
   }
 
   private void doReplay() {
     replay(schemaFactory, schema, subscriptions, urlProvider, repoManager,
-        replication);
+        gitRefUpdated);
   }
 
   private void doVerify() {
     verify(schemaFactory, schema, subscriptions, urlProvider, repoManager,
-        replication);
+        gitRefUpdated);
   }
 
   /**
@@ -645,7 +645,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         .andReturn(targetRepository);
 
     Capture<RefUpdate> ruCapture = new Capture<RefUpdate>();
-    replication.fire(eq(targetBranchNameKey.getParentKey()),
+    gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
         capture(ruCapture));
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
@@ -665,7 +665,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
             sourceRepository), urlProvider, schemaFactory, sourceRepository,
             new Project(sourceBranchNameKey.getParentKey()), submitted,
-            mergedCommits, myIdent, repoManager, replication);
+            mergedCommits, myIdent, repoManager, gitRefUpdated);
 
     submoduleOp.update();
 
@@ -749,7 +749,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         .andReturn(targetRepository);
 
     Capture<RefUpdate> ruCapture = new Capture<RefUpdate>();
-    replication.fire(eq(targetBranchNameKey.getParentKey()),
+    gitRefUpdated.fire(eq(targetBranchNameKey.getParentKey()),
         capture(ruCapture));
 
     expect(schema.submoduleSubscriptions()).andReturn(subscriptions);
@@ -771,7 +771,7 @@ public class SubmoduleOpTest extends LocalDiskRepositoryTestCase {
         new SubmoduleOp(sourceBranchNameKey, sourceMergeTip, new RevWalk(
             sourceRepository), urlProvider, schemaFactory, sourceRepository,
             new Project(sourceBranchNameKey.getParentKey()), submitted,
-            mergedCommits, myIdent, repoManager, replication);
+            mergedCommits, myIdent, repoManager, gitRefUpdated);
 
     submoduleOp.update();
 

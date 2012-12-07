@@ -85,7 +85,7 @@ public class SubmoduleOp {
   private final Map<Change.Id, CodeReviewCommit> commits;
   private final PersonIdent myIdent;
   private final GitRepositoryManager repoManager;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final Set<Branch.NameKey> updatedSubscribers;
 
@@ -97,7 +97,7 @@ public class SubmoduleOp {
       @Assisted Project destProject, @Assisted List<Change> submitted,
       @Assisted final Map<Change.Id, CodeReviewCommit> commits,
       @GerritPersonIdent final PersonIdent myIdent,
-      GitRepositoryManager repoManager, GitReferenceUpdated replication) {
+      GitRepositoryManager repoManager, GitReferenceUpdated gitRefUpdated) {
     this.destBranch = destBranch;
     this.mergeTip = mergeTip;
     this.rw = rw;
@@ -109,7 +109,7 @@ public class SubmoduleOp {
     this.commits = commits;
     this.myIdent = myIdent;
     this.repoManager = repoManager;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
 
     updatedSubscribers = new HashSet<Branch.NameKey>();
   }
@@ -337,7 +337,7 @@ public class SubmoduleOp {
       switch (rfu.update()) {
         case NEW:
         case FAST_FORWARD:
-          replication.fire(subscriber.getParentKey(), rfu);
+          gitRefUpdated.fire(subscriber.getParentKey(), rfu);
           // TODO since this is performed "in the background" no mail will be
           // sent to inform users about the updated branch
           break;

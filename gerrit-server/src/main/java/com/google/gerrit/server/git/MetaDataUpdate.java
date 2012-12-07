@@ -88,15 +88,15 @@ public class MetaDataUpdate {
         @Assisted Repository db);
   }
 
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
   private final Project.NameKey projectName;
   private final Repository db;
   private final CommitBuilder commit;
 
   @Inject
-  public MetaDataUpdate(GitReferenceUpdated replication,
+  public MetaDataUpdate(GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey projectName, @Assisted Repository db) {
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
     this.projectName = projectName;
     this.db = db;
     this.commit = new CommitBuilder();
@@ -130,7 +130,7 @@ public class MetaDataUpdate {
     return commit;
   }
 
-  void replicate(RefUpdate ru) {
-    replication.fire(projectName, ru);
+  void fireGitRefUpdatedEvent(RefUpdate ru) {
+    gitRefUpdated.fire(projectName, ru);
   }
 }

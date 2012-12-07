@@ -51,7 +51,7 @@ public class SubmitStrategyFactory {
   private final Provider<String> urlProvider;
   private final ApprovalTypes approvalTypes;
   private final GitReferenceUpdated replication;
-  private final RebaseChange.Factory rebaseChangeFactory;
+  private final RebaseChange rebaseChange;
 
   @Inject
   SubmitStrategyFactory(
@@ -60,14 +60,14 @@ public class SubmitStrategyFactory {
       final PatchSetInfoFactory patchSetInfoFactory,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final ApprovalTypes approvalTypes, final GitReferenceUpdated replication,
-      final RebaseChange.Factory rebaseChangeFactory) {
+      final RebaseChange rebaseChange) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.myIdent = myIdent;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.urlProvider = urlProvider;
     this.approvalTypes = approvalTypes;
     this.replication = replication;
-    this.rebaseChangeFactory = rebaseChangeFactory;
+    this.rebaseChange = rebaseChange;
   }
 
   public SubmitStrategy create(final SubmitType submitType, final ReviewDb db,
@@ -90,7 +90,7 @@ public class SubmitStrategyFactory {
       case MERGE_IF_NECESSARY:
         return new MergeIfNecessary(args);
       case REBASE_IF_NECESSARY:
-        return new RebaseIfNecessary(args, rebaseChangeFactory);
+        return new RebaseIfNecessary(args, rebaseChange);
       default:
         final String errorMsg = "No submit strategy for: " + submitType;
         log.error(errorMsg);

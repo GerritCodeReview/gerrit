@@ -63,11 +63,6 @@ import java.util.List;
 import java.util.Set;
 
 public class RebaseChange {
-
-  public interface Factory {
-    RebaseChange create();
-  }
-
   private final ChangeControl.Factory changeControlFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;

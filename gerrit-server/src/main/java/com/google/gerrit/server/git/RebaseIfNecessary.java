@@ -43,9 +43,9 @@ public class RebaseIfNecessary extends SubmitStrategy {
   private final Map<Change.Id, CodeReviewCommit> newCommits;
 
   RebaseIfNecessary(final SubmitStrategy.Arguments args,
-      final RebaseChange.Factory rebaseChangeFactory) {
+      final RebaseChange rebaseChange) {
     super(args);
-    this.rebaseChange = rebaseChangeFactory.create();
+    this.rebaseChange = rebaseChange;
     this.newCommits = new HashMap<Change.Id, CodeReviewCommit>();
   }
 

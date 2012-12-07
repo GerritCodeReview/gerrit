@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "M5X0Otz0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-07T14:46:47Z",
+      "side": 1,
+      "message": "I am actually trying to remove custom menu logic from the global classes (dispatcher \u0026 Gerrit) because I think that the menu should be more managed by the classes needing them.  If we do this I think it will be easier to make a generic menuing system which takes entries from elsewhere (project.config, plugins...) and simply registers them.  To support this idea, any live changes in the menus will likely need to happen in the classes which the menus represent.  Putting this in the Dispatcher would be a step away from that.  \n\nI see where you would put it in the Dispatcher, and it would indeed be easy there, but my thougt is that the logic there is on the front side: the decision of where to dispatch, and this feels more like backside logic: \"I was loaded.\" It is a subtle difference, but it allows for decisions to potentially be made and the course to be potentially altered between those 2 points in the future.  It also ties it to the string, and I felt like tying it directly to the constants was better (I think those constants should become an Enum).",
+      "parentUuid": "M57tFp0Y",
+      "revId": "313608bc8628c4f9ac8d7b1f48716f8981b928fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M51soI4U",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ProjectDashboardScreen.java",
         "patchSetId": 3

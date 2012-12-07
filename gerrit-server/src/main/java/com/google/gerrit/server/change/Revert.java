@@ -53,7 +53,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
   private final GitRepositoryManager gitManager;
   private final PersonIdent myIdent;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final GitReferenceUpdated replication;
+  private final GitReferenceUpdated gitRefUpdated;
   private final String canonicalWebUrl;
 
   public static class Input {
@@ -68,7 +68,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
       ChangeJson json,
       GitRepositoryManager gitManager,
       final PatchSetInfoFactory patchSetInfoFactory,
-      final GitReferenceUpdated replication,
+      final GitReferenceUpdated gitRefUpdated,
       @GerritPersonIdent final PersonIdent myIdent,
       @CanonicalWebUrl @Nullable final String canonicalWebUrl) {
     this.hooks = hooks;
@@ -78,7 +78,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
     this.json = json;
     this.gitManager = gitManager;
     this.myIdent = myIdent;
-    this.replication = replication;
+    this.gitRefUpdated = gitRefUpdated;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.canonicalWebUrl = canonicalWebUrl;
   }
@@ -104,7 +104,7 @@ public class Revert implements RestModifyView<ChangeResource, Input> {
               commitValidators,
               Strings.emptyToNull(input.message), dbProvider.get(),
               revertedSenderFactory, hooks, git, patchSetInfoFactory,
-              replication, myIdent, canonicalWebUrl);
+              gitRefUpdated, myIdent, canonicalWebUrl);
 
       return json.format(revertedChangeId);
     } catch (InvalidChangeOperationException e) {

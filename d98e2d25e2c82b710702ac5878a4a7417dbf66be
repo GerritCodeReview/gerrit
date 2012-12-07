@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M0pCbdNQ",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/RecentlyAccessed.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T17:55:03Z",
+      "side": 1,
+      "message": "FYI JavaScript is single threaded. synchronized makes no sense.",
+      "revId": "d98e2d25e2c82b710702ac5878a4a7417dbf66be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M0rCWeKo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/RecentlyAccessed.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T17:55:03Z",
+      "side": 1,
+      "message": "Project names could contain | can\u0027t they? And not all characters are allowed in a  cookie value. We probably need these to be URL escaped at least the way toString() and parse() would do.",
+      "revId": "d98e2d25e2c82b710702ac5878a4a7417dbf66be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M0vCgAPo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectMap.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T17:55:03Z",
+      "side": 1,
+      "message": "Refactor this into a new helper method and reuse with all() above?",
+      "revId": "d98e2d25e2c82b710702ac5878a4a7417dbf66be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M0lBTzAU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-07T17:55:03Z",
+      "side": 1,
+      "message": "So existing users get a default of 10, but new users created after this schema upgrade runs get a default of 0?",
+      "revId": "d98e2d25e2c82b710702ac5878a4a7417dbf66be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

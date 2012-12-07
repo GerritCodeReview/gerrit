@@ -1471,3 +1471,14 @@ a:hover.downloadLink {
 /** PluginListScreen **/
 .pluginsTable {
 }
+
+/** ProjectListScreen **/
+.projectFilterPanel {
+  margin-bottom: 10px;
+}
+.projectFilterPanel input {
+  width: 200px;
+}
+.projectFilterLabel {
+  margin-right: 5px;
+}

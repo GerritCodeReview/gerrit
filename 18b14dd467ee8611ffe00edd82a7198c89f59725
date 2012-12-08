@@ -16,6 +16,24 @@
       "revId": "18b14dd467ee8611ffe00edd82a7198c89f59725",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7bX3gBo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-08T19:48:54Z",
+      "side": 1,
+      "message": "Makes sense. The \"GitReferenceUpdated replication\" string appears in 14 files, will have to rename it in all of them.",
+      "parentUuid": "M7JYZrIc",
+      "revId": "18b14dd467ee8611ffe00edd82a7198c89f59725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

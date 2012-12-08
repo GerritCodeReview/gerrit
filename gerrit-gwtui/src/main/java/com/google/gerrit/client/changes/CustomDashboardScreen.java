@@ -30,6 +30,11 @@ public class CustomDashboardScreen extends Screen implements ChangeListScreen {
       @Override
       protected void onLoad() {
         super.onLoad();
+      }
+
+      @Override
+      public void finishDisplay() {
+        super.finishDisplay();
         display();
       }
     };

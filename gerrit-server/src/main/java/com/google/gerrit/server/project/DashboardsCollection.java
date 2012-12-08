@@ -161,7 +161,7 @@ class DashboardsCollection implements
       String path, Config config, String project, boolean setDefault)
       throws UnsupportedEncodingException {
     DashboardInfo info = new DashboardInfo(refName, path);
-    info.project = definingProject.getName();
+    info.project = project;
     info.title = config.getString("dashboard", null, "title");
     info.description = config.getString("dashboard", null, "description");
     info.foreach = config.getString("dashboard", null, "foreach");

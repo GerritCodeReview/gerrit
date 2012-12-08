@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M6TkETxw",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-08T01:15:05Z",
+      "side": 1,
+      "message": "It might be worth mentioning that this problem only happens when accessing the dash via the default mechanism (as far as I can tell).",
+      "revId": "ff4204e77044de9124c4b4b9fe3e75815b17080a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

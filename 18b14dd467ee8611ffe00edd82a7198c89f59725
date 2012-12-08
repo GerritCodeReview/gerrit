@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M7JYZrIc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MetaDataUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-08T17:24:22Z",
+      "side": 1,
+      "message": "Maybe you should take this further and rename the replication variable too?  (Feels weird as is)",
+      "revId": "18b14dd467ee8611ffe00edd82a7198c89f59725",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

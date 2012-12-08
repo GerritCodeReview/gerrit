@@ -51,6 +51,24 @@
       "revId": "8849859e10605952bd89cddab8bfa29f830b91b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7PYBABA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-08T16:49:31Z",
+      "side": 1,
+      "message": "Ok, then why bother with a list?\n\nThis callback method seems to take a lot of boilerplate code just to get a return value and a string.",
+      "parentUuid": "M6XkOxz0",
+      "revId": "8849859e10605952bd89cddab8bfa29f830b91b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

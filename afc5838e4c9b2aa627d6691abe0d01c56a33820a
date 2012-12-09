@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M6dkTU2E",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/AuthRequest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011097
+      },
+      "writtenOn": "2012-12-09T04:41:10Z",
+      "side": 1,
+      "message": "Misspelled variable, meant to be credentials?",
+      "revId": "afc5838e4c9b2aa627d6691abe0d01c56a33820a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

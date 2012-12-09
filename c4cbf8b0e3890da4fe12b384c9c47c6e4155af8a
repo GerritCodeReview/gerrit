@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "M7fUB.A8",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011487
+      },
+      "writtenOn": "2012-12-09T23:39:08Z",
+      "side": 1,
+      "message": "I agree, Reviewable is a more descriptive name. Another option might be ReviewableUnit in order to emphasize the fact that this class represents the basic and common things of the future reviewable topic and changes.",
+      "parentUuid": "MxN4BpRA",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ms49KlVQ",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
         "patchSetId": 3
@@ -64,6 +82,24 @@
       "writtenOn": "2012-12-06T20:55:15Z",
       "side": 1,
       "message": "This is change specific as its using PatchSet?",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7RUHVCM",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011487
+      },
+      "writtenOn": "2012-12-09T23:39:08Z",
+      "side": 1,
+      "message": "I think the functions \"parse\" and \"fromRef\" are specific for Changes and Topics and shall not be declared in the abstract class.",
+      "parentUuid": "Msy88ycA",
       "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -217,6 +253,24 @@
       "writtenOn": "2012-12-06T20:55:15Z",
       "side": 1,
       "message": "Do we need change specific Id? Code looks the same as the superclass?",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7TUEUBw",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Change.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1011487
+      },
+      "writtenOn": "2012-12-09T23:39:08Z",
+      "side": 1,
+      "message": "Yes. We need to implement the functions \"parse\" and \"fromRef\". I think that functions shall be removed from the superclass.",
+      "parentUuid": "Ms89nPeE",
       "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

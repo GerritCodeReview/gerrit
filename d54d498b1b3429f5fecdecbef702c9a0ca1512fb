@@ -16,6 +16,40 @@
       "revId": "d54d498b1b3429f5fecdecbef702c9a0ca1512fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6ZlA.zc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeEventDeserializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-09T07:56:04Z",
+      "side": 1,
+      "message": "ChangeRestoreEvent has been renamed to ChangeRestoredEvent.",
+      "revId": "d54d498b1b3429f5fecdecbef702c9a0ca1512fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6blFv0Y",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/events/ChangeEventDeserializer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-09T07:56:04Z",
+      "side": 1,
+      "message": "There have been some events added since this change was originally uploaded.",
+      "revId": "d54d498b1b3429f5fecdecbef702c9a0ca1512fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

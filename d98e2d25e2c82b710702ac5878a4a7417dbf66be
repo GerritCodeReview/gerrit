@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "M6jgraYQ",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/RecentlyAccessed.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-10T10:25:53Z",
+      "side": 1,
+      "message": "What about projects that were created before [1] was merged?",
+      "parentUuid": "M6xc1lNc",
+      "revId": "d98e2d25e2c82b710702ac5878a4a7417dbf66be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M0vCgAPo",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectMap.java",
         "patchSetId": 9

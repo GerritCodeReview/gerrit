@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "M63cO0D0",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-10T07:41:16Z",
+      "side": 1,
+      "message": "That\u0027s for explaining. It makes sense to me. My main concern is that new subclasses will likely forget to set this field. Maybe the requirement that subclasses should set it should be more explicit?\n\nE.g. we could have the following here:\n  @Override\n  protected void onLoad() {\n    super.onLoad();\n    savedPanel \u003d getPanel();\n  }\n\n  proteced abstract String getPanel();",
+      "parentUuid": "M5X0Otz0",
+      "revId": "313608bc8628c4f9ac8d7b1f48716f8981b928fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M51soI4U",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ProjectDashboardScreen.java",
         "patchSetId": 3
@@ -100,6 +118,24 @@
       "side": 1,
       "message": "Fixed.   Do we want to eventually add a similar thing here?",
       "parentUuid": "M51soI4U",
+      "revId": "313608bc8628c4f9ac8d7b1f48716f8981b928fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M65cZpIc",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ProjectDashboardScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-10T07:41:16Z",
+      "side": 1,
+      "message": "Good question. At the moment I\u0027m not sure about it...",
+      "parentUuid": "MzDYu.JM",
       "revId": "313608bc8628c4f9ac8d7b1f48716f8981b928fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

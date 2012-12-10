@@ -125,10 +125,9 @@ public class DashboardsTable extends NavigationTable<DashboardInfo> {
     table.setWidget(row, 2, new Anchor(k.path(), "#"
             + PageLinks.toProjectDashboard(new Project.NameKey(k.project()), k.id())));
     table.setText(row, 3, k.description());
-    if (k.project() != null && !project.get().equals(k.project())) {
-      table.setWidget(row, 4, new Anchor(k.project(), "#"
-                  + PageLinks.toProjectDashboards(new Project.NameKey(k
-                      .project()))));
+    if (k.definingProject() != null && !k.definingProject().equals(k.project())) {
+      table.setWidget(row, 4, new Anchor(k.definingProject(), "#"
+          + PageLinks.toProjectDashboards(new Project.NameKey(k.definingProject()))));
     }
     setRowItem(row, k);
   }

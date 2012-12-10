@@ -16,6 +16,24 @@
       "revId": "0af65b32c5fd35bfffc47a9d2833da48b1c11b14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6vhPMWI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2061,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-10T14:29:16Z",
+      "side": 0,
+      "message": "The listener should apply formatting, if any is needed.  Have a look at the commit message length plugin for example.",
+      "parentUuid": "M6zdZuCg",
+      "revId": "0af65b32c5fd35bfffc47a9d2833da48b1c11b14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

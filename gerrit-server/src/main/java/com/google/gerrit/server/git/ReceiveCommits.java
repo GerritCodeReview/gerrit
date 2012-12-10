@@ -2131,10 +2131,10 @@ public class ReceiveCommits {
     }
 
     if (change.getStatus() == Change.Status.MERGED ||
-        change.getStatus() == Change.Status.ABANDONED) {
-      // If its already merged, don't make further updates, it
-      // might just be moving from an experimental branch into
-      // a more stable branch.
+        change.getStatus() == Change.Status.ABANDONED ||
+        !change.getDest().get().equals(refName)) {
+      // If it's already merged or the commit is not aimed for
+      // this change's destination, don't make further updates.
       //
       return null;
     }

@@ -661,7 +661,7 @@ public class ReceiveCommits {
               "Cannot add patch set to %d of %s",
               replace.newPatchSet.getId(), project.getName()), err);
         }
-      } else {
+      } else if (replace.inputCommand.getResult() == NOT_ATTEMPTED) {
         reject(replace.inputCommand, "internal server error");
       }
     }
@@ -1562,19 +1562,19 @@ public class ReceiveCommits {
         try {
           final RevCommit prior = rp.getRevWalk().parseCommit(commitId);
 
+          // Don't allow the same commit to appear twice on the same change
+          //
+          if (newCommit == prior) {
+            reject(inputCommand, "commit already exists");
+            return false;
+          }
+
           // Don't allow a change to directly depend upon itself. This is a
           // very common error due to users making a new commit rather than
           // amending when trying to address review comments.
           //
           if (rp.getRevWalk().isMergedInto(prior, newCommit)) {
             reject(inputCommand, "squash commits first");
-            return false;
-          }
-
-          // Don't allow the same commit to appear twice on the same change
-          //
-          if (newCommit == prior) {
-            reject(inputCommand, "commit already exists");
             return false;
           }
 

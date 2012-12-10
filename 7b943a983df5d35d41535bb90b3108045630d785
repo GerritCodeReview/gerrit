@@ -16,6 +16,24 @@
       "revId": "7b943a983df5d35d41535bb90b3108045630d785",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6Vk-Q7c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-10T16:43:45Z",
+      "side": 1,
+      "message": "Yes it is sufficient, although I didn\u0027t realize it when I made this change.  I am starting to think that it might still be better to have the info for both though: 1) we have iterated so many times cleaning this stuff up that perhaps a little more explictness is a good thing? 2) What if someone was able to request a list of all the dashboards for every project, then it would need this info, and 3) While we can assume in our particular use case that the caller knows the intended \"destination\" project, I am not sure that this will always be the case, why not ensure that this data is always present?",
+      "parentUuid": "M6zcreIQ",
+      "revId": "7b943a983df5d35d41535bb90b3108045630d785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

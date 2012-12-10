@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "M6pgZ1Yc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-10T09:22:12Z",
+      "side": 1,
+      "message": "Most of the messages are not really applicable to the UI operations and instead mostly focus on helping the user to do the right stuff using Git. I was only interested in the actual rejection reason here. \n\nIn the commit message to the validation refactoring I mention that we could benefit from generalizing the messages to fit in a broader scope some time in the future. I do not think it is really super important for this change though.",
+      "parentUuid": "M6ZkZ24c",
+      "revId": "8849859e10605952bd89cddab8bfa29f830b91b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M6rj3eRo",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 4
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Ok, then why bother with a list?\n\nThis callback method seems to take a lot of boilerplate code just to get a return value and a string.",
       "parentUuid": "M6XkOxz0",
+      "revId": "8849859e10605952bd89cddab8bfa29f830b91b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6rgemWo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-10T09:22:12Z",
+      "side": 1,
+      "message": "Because I need to be able to pass the rejection reason out from the anonymous inner class. As you know, you can only pass finals into anonymous classes.",
+      "parentUuid": "M7PYBABA",
       "revId": "8849859e10605952bd89cddab8bfa29f830b91b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

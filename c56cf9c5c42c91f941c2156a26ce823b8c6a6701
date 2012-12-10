@@ -16,6 +16,24 @@
       "revId": "c56cf9c5c42c91f941c2156a26ce823b8c6a6701",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M65dAxDc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-10T09:30:37Z",
+      "side": 1,
+      "message": "Because getRefName didn\u0027t have it already and I thought that fixing it didn\u0027t belong to the intention of this change.\n\nDone.",
+      "parentUuid": "M6hgHhSM",
+      "revId": "c56cf9c5c42c91f941c2156a26ce823b8c6a6701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -226,6 +226,7 @@ a:hover {
   font-size: 9pt;
   display: inline;
   white-space: nowrap;
+  padding-left: 6px;
 }
 .menuItem {
   padding-left: 5px;
@@ -305,9 +306,19 @@ a:hover {
   padding-left: 5px;
   padding-right: 5px;
   white-space: nowrap;
+  cursor: pointer;
+}
+.menuBarUserNameFocusPanel {
+  display: inline;
+}
+.userInfoPopup {
+  border: 1px solid black;
+  background: white;
+  box-shadow: 3px 3px 5px #888;
 }
 .searchPanel {
   white-space: nowrap;
+  display: inline;
 }
 .searchPanel .gwt-TextBox {
   font-size: 9pt;

@@ -161,6 +161,16 @@ public class FormatUtil {
    * If the account has a full name, it returns only the full name. Otherwise it
    * returns a longer form that includes the email address.
    */
+  public static String name(final Account acct) {
+    return name(new AccountInfo(acct));
+  }
+
+  /**
+   * Formats an account name.
+   * <p>
+   * If the account has a full name, it returns only the full name. Otherwise it
+   * returns a longer form that includes the email address.
+   */
   public static String name(final AccountInfo ai) {
     if (ai.getFullName() != null) {
       return ai.getFullName();

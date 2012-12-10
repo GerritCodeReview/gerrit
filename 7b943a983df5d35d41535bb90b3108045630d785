@@ -34,6 +34,24 @@
       "revId": "7b943a983df5d35d41535bb90b3108045630d785",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M69egfPo",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-10T18:27:56Z",
+      "side": 1,
+      "message": "Yes, I guess it makes sense to have this as explicit field.",
+      "parentUuid": "M6Vk-Q7c",
+      "revId": "7b943a983df5d35d41535bb90b3108045630d785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

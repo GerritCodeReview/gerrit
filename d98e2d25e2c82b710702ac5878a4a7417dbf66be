@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "M67ds6MY",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/RecentlyAccessed.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-10T11:51:54Z",
+      "side": 1,
+      "message": "They can\u0027t be opened anymore since LocalDiskRepositoryManager.openRepository(Project.NameKey) is checking the validity of the name and fails with RepositoryNotFoundException if the name is unreasonable. So it\u0027s save to assume here that project names can\u0027t contain |, but even if they do | in the project name would be encoded now.",
+      "parentUuid": "M6jgraYQ",
+      "revId": "d98e2d25e2c82b710702ac5878a4a7417dbf66be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M0vCgAPo",
         "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/projects/ProjectMap.java",
         "patchSetId": 9

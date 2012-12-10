@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M6zcreIQ",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-10T08:31:42Z",
+      "side": 1,
+      "message": "[optional] Do we need this additional field?\n\nIsn\u0027t it sufficient if the project field contains the defining project? The caller already knows for which project he was querying the dashboards so there is no need to return this project with every DashboardInfo.\n\nOn the other side this is much more explicit and easier to understand. Is this the reason why you want to have this additional field?",
+      "revId": "7b943a983df5d35d41535bb90b3108045630d785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

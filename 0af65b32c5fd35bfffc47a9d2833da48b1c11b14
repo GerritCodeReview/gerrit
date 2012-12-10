@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M6zdZuCg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2061,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-10T11:59:59Z",
+      "side": 0,
+      "message": "Since this message formatting is removed, is it now a responsibility of the CommitValidationListener to care about the proper formatting of the message?\nOr should the CommitValidationMessage care about it?",
+      "revId": "0af65b32c5fd35bfffc47a9d2833da48b1c11b14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

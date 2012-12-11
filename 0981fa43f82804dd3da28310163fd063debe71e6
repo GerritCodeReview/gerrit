@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M6xeS9Kw",
+        "filename": "Documentation/error-commit-already-exists.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-11T06:46:27Z",
+      "side": 1,
+      "message": "Is this identical with the \u0027no new changes\u0027 error? Maybe we should get rid of either the \u0027commit already exists\u0027 or the \u0027no new changes\u0027 error?",
+      "revId": "0981fa43f82804dd3da28310163fd063debe71e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

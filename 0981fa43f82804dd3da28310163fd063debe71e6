@@ -34,6 +34,24 @@
       "revId": "0981fa43f82804dd3da28310163fd063debe71e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M65fkRDc",
+        "filename": "Documentation/error-commit-already-exists.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-11T06:53:04Z",
+      "side": 1,
+      "message": "What makes them different? Shouldn\u0027t this difference be understandable from the documentation? If it\u0027s no difference to the user, then I think it should simply be the same error in both cases.",
+      "parentUuid": "M6jhZqSg",
+      "revId": "0981fa43f82804dd3da28310163fd063debe71e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -110,6 +110,8 @@ class DashboardsCollection implements
         throw new ResourceNotFoundException(id);
       } catch (IncorrectObjectTypeException e) {
         throw new ResourceNotFoundException(id);
+      } catch (ConfigInvalidException e) {
+        throw new ResourceNotFoundException(id);
       } catch (ResourceNotFoundException e) {
         ProjectState ps = ctl.getProjectState().getParentState();
         if (ps != null && seen.add(ps.getProject().getNameKey())) {

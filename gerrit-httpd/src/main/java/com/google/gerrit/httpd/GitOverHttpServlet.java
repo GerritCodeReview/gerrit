@@ -289,6 +289,7 @@ public class GitOverHttpServlet extends GitServlet {
 
       ReceiveCommits rc = (ReceiveCommits) request.getAttribute(ATT_RC);
       ReceivePack rp = rc.getReceivePack();
+      rp.getAdvertiseRefsHook().advertiseRefs(rp);
       ProjectControl pc = (ProjectControl) request.getAttribute(ATT_CONTROL);
       Project.NameKey projectName = pc.getProject().getNameKey();
 

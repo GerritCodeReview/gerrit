@@ -2054,6 +2054,7 @@ public class ReceiveCommits {
         messages.addAll(validator.onCommitReceived(new CommitReceivedEvent(
             cmd, project, ctl.getRefName(), c, currentUser)));
       } catch (CommitValidationException error) {
+        messages.addAll(error.getMessages());
         reject(cmd, error.getMessage());
         return false;
       }

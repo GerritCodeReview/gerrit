@@ -14,25 +14,34 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.Util;
 import com.google.gerrit.client.projects.ProjectMap;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.HidePopupPanelCommand;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
 /** It creates a popup containing all the projects. */
 public class ProjectListPopup {
   private ProjectsTable projectsTab;
   private PluginSafeDialogBox popup;
+  private NpTextBox filterTxt;
+  private HorizontalPanel filterPanel;
+  private String subname;
   private Button close;
   private ScrollPanel sp;
   private PopupPanel.PositionCallback popupPosition;
@@ -44,6 +53,7 @@ public class ProjectListPopup {
   public void initPopup(final String popupText, final String currentPageLink) {
     createWidgets(popupText, currentPageLink);
     final FlowPanel pfp = new FlowPanel();
+    pfp.add(filterPanel);
     sp = new ScrollPanel(projectsTab);
     sp.setSize("100%", "100%");
     pfp.add(sp);
@@ -90,6 +100,23 @@ public class ProjectListPopup {
 
   private void createWidgets(final String popupText,
       final String currentPageLink) {
+    filterPanel = new HorizontalPanel();
+    filterPanel.setStyleName(Gerrit.RESOURCES.css().projectFilterPanel());
+    final Label filterLabel =
+        new Label(com.google.gerrit.client.admin.Util.C.projectFilter());
+    filterLabel.setStyleName(Gerrit.RESOURCES.css().projectFilterLabel());
+    filterPanel.add(filterLabel);
+    filterTxt = new NpTextBox();
+    filterTxt.setValue(subname);
+    filterTxt.addKeyUpHandler(new KeyUpHandler() {
+      @Override
+      public void onKeyUp(KeyUpEvent event) {
+        subname = filterTxt.getValue();
+        populateProjects();
+      }
+    });
+    filterPanel.add(filterTxt);
+
     projectsTab = new ProjectsTable() {
       @Override
       protected void movePointerTo(final int row, final boolean scroll) {
@@ -132,6 +159,7 @@ public class ProjectListPopup {
       }
       projectsTab.setRegisterKeys(true);
       projectsTab.finishDisplay();
+      filterTxt.setFocus(true);
       poppingUp = false;
     }
   }
@@ -146,15 +174,27 @@ public class ProjectListPopup {
   }
 
   protected void populateProjects() {
-    ProjectMap.all(new GerritCallback<ProjectMap>() {
+    final String mySubname = subname;
+    ProjectMap.match(subname, new GerritCallback<ProjectMap>() {
       @Override
       public void onSuccess(final ProjectMap result) {
-        projectsTab.display(result);
-        if (firstPopupLoad) { // Display was delayed until table was loaded
-          firstPopupLoad = false;
-          displayPopup();
+        if ((mySubname == null && subname == null)
+            || (mySubname != null && mySubname.equals(subname))) {
+          display(result);
         }
+        // Else ignore the result, the user has already changed subname and
+        // the result is not relevant anymore. If multiple RPC's are fired
+        // the results may come back out-of-order and a non-relevant result
+        // could overwrite the correct result if not ignored.
       }
     });
+  }
+
+  private void display(final ProjectMap result) {
+    projectsTab.display(result);
+    if (firstPopupLoad) { // Display was delayed until table was loaded
+      firstPopupLoad = false;
+      displayPopup();
+    }
   }
 }

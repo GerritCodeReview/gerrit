@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class HighlightingInlineHyperlink extends InlineHyperlink {
 
@@ -34,27 +33,6 @@ public class HighlightingInlineHyperlink extends InlineHyperlink {
   }
 
   private void highlight(final String text, final String toHighlight) {
-    if (toHighlight == null || "".equals(toHighlight)) {
-      return;
-    }
-
-    final SafeHtmlBuilder b = new SafeHtmlBuilder();
-    int pos = 0;
-    int endPos = 0;
-    while ((pos = text.toLowerCase().indexOf(
-        toHighlight.toLowerCase(), pos)) > -1) {
-      if (pos > endPos) {
-        b.append(text.substring(endPos, pos));
-      }
-      endPos = pos + toHighlight.length();
-      b.openElement("b");
-      b.append(text.substring(pos, endPos));
-      b.closeElement("b");
-      pos = endPos;
-    }
-    if (endPos < text.length()) {
-      b.append(text.substring(endPos));
-    }
-    setHTML(b.toSafeHtml().asString());
+    setHTML(Util.highlight(text, toHighlight));
   }
 }

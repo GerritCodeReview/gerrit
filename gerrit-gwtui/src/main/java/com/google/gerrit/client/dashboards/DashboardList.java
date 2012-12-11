@@ -50,11 +50,11 @@ public class DashboardList extends NativeList<DashboardInfo> {
   private static String encodeDashboardId(String dashboardId) {
     int c = dashboardId.indexOf(":");
     if (0 <= c) {
-      final String ref = URL.encode(dashboardId.substring(0, c));
-      final String path = URL.encode(dashboardId.substring(c + 1));
+      final String ref = URL.encodeQueryString(dashboardId.substring(0, c));
+      final String path = URL.encodeQueryString(dashboardId.substring(c + 1));
       return ref + ":" + path;
     } else {
-      return URL.encode(dashboardId);
+      return URL.encodeQueryString(dashboardId);
     }
   }
 

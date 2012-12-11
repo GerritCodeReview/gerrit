@@ -46,31 +46,20 @@ public class ProjectListScreen extends Screen {
   }
 
   private void refresh() {
-    if (subname == null || "".equals(subname)) {
-      ProjectMap.all(new ScreenLoadCallback<ProjectMap>(this) {
-        @Override
-        protected void preDisplay(final ProjectMap result) {
-          if (subname == null || "".equals(subname)) {
-            display(result);
-          }
-          // Else ignore the result, due to the same reason as below.
+    final String mySubname = subname;
+    ProjectMap.match(subname, new ScreenLoadCallback<ProjectMap>(this) {
+      @Override
+      protected void preDisplay(final ProjectMap result) {
+        if ((mySubname == null && subname == null)
+            || (mySubname != null && mySubname.equals(subname))) {
+          display(result);
         }
-      });
-    } else {
-      final String mySubname = subname;
-      ProjectMap.match(subname, new ScreenLoadCallback<ProjectMap>(this) {
-        @Override
-        protected void preDisplay(final ProjectMap result) {
-          if (mySubname.equals(subname)) {
-            display(result);
-          }
-          // Else ignore the result, the user has already changed subname and
-          // the result is not relevant anymore. If multiple RPC's are fired
-          // the results may come back out-of-order and a non-relevant result
-          // could overwrite the correct result if not ignored.
-        }
-      });
-    }
+        // Else ignore the result, the user has already changed subname and
+        // the result is not relevant anymore. If multiple RPC's are fired
+        // the results may come back out-of-order and a non-relevant result
+        // could overwrite the correct result if not ignored.
+      }
+    });
   }
 
   private void display(final ProjectMap result) {

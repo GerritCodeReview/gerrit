@@ -14,14 +14,29 @@
 
 package com.google.gerrit.server.git.validators;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CommitValidationException extends Exception {
   private static final long serialVersionUID = 1L;
+  private final List<CommitValidationMessage> messages;
 
-  public CommitValidationException(String msg) {
-    super(msg);
+  public CommitValidationException(String reason, List<CommitValidationMessage> messages) {
+    super(reason);
+    this.messages = messages;
   }
 
-  public CommitValidationException(String msg, Throwable why) {
-    super(msg, why);
+  public CommitValidationException(String reason) {
+    super(reason);
+    this.messages = new ArrayList<CommitValidationMessage>();
+  }
+
+  public CommitValidationException(String reason, Throwable why) {
+    super(reason, why);
+    this.messages = new ArrayList<CommitValidationMessage>();
+  }
+
+  public List<CommitValidationMessage> getMessages() {
+    return messages;
   }
 }

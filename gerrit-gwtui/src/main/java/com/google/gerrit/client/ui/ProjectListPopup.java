@@ -37,7 +37,7 @@ import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
 /** It creates a popup containing all the projects. */
 public class ProjectListPopup {
-  private ProjectsTable projectsTab;
+  private HighlightingProjectsTable projectsTab;
   private PluginSafeDialogBox popup;
   private NpTextBox filterTxt;
   private HorizontalPanel filterPanel;
@@ -117,7 +117,7 @@ public class ProjectListPopup {
     });
     filterPanel.add(filterTxt);
 
-    projectsTab = new ProjectsTable() {
+    projectsTab = new HighlightingProjectsTable() {
       @Override
       protected void movePointerTo(final int row, final boolean scroll) {
         super.movePointerTo(row, scroll);
@@ -191,7 +191,7 @@ public class ProjectListPopup {
   }
 
   private void display(final ProjectMap result) {
-    projectsTab.display(result);
+    projectsTab.display(result, subname);
     if (firstPopupLoad) { // Display was delayed until table was loaded
       firstPopupLoad = false;
       displayPopup();

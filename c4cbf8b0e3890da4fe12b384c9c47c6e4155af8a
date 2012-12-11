@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "M61e6rBA",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7fUB.A8",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ms49KlVQ",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
         "patchSetId": 3
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "M63e3sCU",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ms49KlVQ",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ms48TdWI",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
         "patchSetId": 3
@@ -65,6 +101,24 @@
       "writtenOn": "2012-12-06T20:42:46Z",
       "side": 1,
       "message": "This should say AbstractEntity.Id",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M65c6hJw",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ms48TdWI",
       "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -106,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "M67c-iIs",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "fromRef, yes, parse, no. These basically construct a Topic.Id or Change.Id from a string. from ref in it\u0027s current state is not useful I think, but in the future we can add the functionality to find a topic given a patchset.",
+      "parentUuid": "M7RUHVCM",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ms68YuX4",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
         "patchSetId": 3
@@ -117,6 +189,24 @@
       "writtenOn": "2012-12-06T20:42:46Z",
       "side": 1,
       "message": "s/change/entity/",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M69dE-Bk",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ms68YuX4",
       "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -140,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "M6-dJADE",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ms08u7ZQ",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ms28rsYM",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
         "patchSetId": 3
@@ -151,6 +259,24 @@
       "writtenOn": "2012-12-06T20:42:46Z",
       "side": 1,
       "message": "s/change/entity/",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6xdPVDQ",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ms28rsYM",
       "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -174,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "M6zdMWD0",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Moved this to Change instead.",
+      "parentUuid": "Msw8o5YM",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Msy8lqao",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
         "patchSetId": 3
@@ -185,6 +329,24 @@
       "writtenOn": "2012-12-06T20:42:46Z",
       "side": 1,
       "message": "s/change/entity/",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M61dZzP0",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Msy8lqao",
       "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -208,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "M63dW0M4",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ms89AnTg",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ms.9FYUU",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
         "patchSetId": 3
@@ -225,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "M65dhpKA",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ms.9FYUU",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "Ms69PWWM",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
         "patchSetId": 3
@@ -236,6 +434,24 @@
       "writtenOn": "2012-12-06T20:42:46Z",
       "side": 1,
       "message": "s/change/entity/ many more I think ....",
+      "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M67dmqLM",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/AbstractEntity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1010030
+      },
+      "writtenOn": "2012-12-11T14:22:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "Ms69PWWM",
       "revId": "c4cbf8b0e3890da4fe12b384c9c47c6e4155af8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

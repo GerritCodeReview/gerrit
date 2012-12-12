@@ -16,6 +16,24 @@
       "revId": "6dbdb14242a66e81c0b0ca7543c8dc7f34b2de43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M8JIZnIc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-12T08:16:55Z",
+      "side": 1,
+      "message": "Ah.  So it should be added then...",
+      "parentUuid": "M67cNyPc",
+      "revId": "6dbdb14242a66e81c0b0ca7543c8dc7f34b2de43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

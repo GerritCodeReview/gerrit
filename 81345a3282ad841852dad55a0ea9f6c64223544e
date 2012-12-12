@@ -2,6 +2,108 @@
   "comments": [
     {
       "key": {
+        "uuid": "M7XU8CMI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1936,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-12T22:59:54Z",
+      "side": 1,
+      "message": "I think that this class (ReceiveCommits) must know which exactly commit validators it needs. It feels strange to delegate that knowledge to the CommitValidators class.\n\nThe CommitValidators class should only provide reusable validators and leave it to the callers to combine the validators as they need.",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7ZVn5OE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-12T22:59:54Z",
+      "side": 1,
+      "message": "As already mentioned in a comment in the ReceiveCommits, it is not responsibility of this class to know which set of validators is needed for each use-case. Let every use-case (ReceiveCommits, Rebase, etc...) combine validators which they need.\n\nYou may expose a factory method for each implementation of the CommitValidationListener provided below or maybe put each implementation into own file.",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7ZVAxDc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-12T22:59:54Z",
+      "side": 1,
+      "message": "this is a different line wrapping style than in the line 92",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7bVFwEY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-12T22:59:54Z",
+      "side": 1,
+      "message": "this is a different line wrapping style than in the line 92",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7dVKPFU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-12T22:59:54Z",
+      "side": 1,
+      "message": "does it make sense to have a public constructor in an private inner class?\nI think no.",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7fVPOGI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-12T22:59:54Z",
+      "side": 1,
+      "message": "remove public here and in all constructors of other private classes below",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M6TmP74M",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 8
@@ -13,6 +115,40 @@
       "writtenOn": "2012-12-12T17:03:08Z",
       "side": 1,
       "message": "Can you use Collections.emptyList() here and in other places where it will always be empty, it will likely make the flow more understandable and also potentially lead to further optimizations since many of these methods may not actually need to define a top level messages variable which should help reduce its scope.",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7VUo7IQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-12T22:59:54Z",
+      "side": 1,
+      "message": "start the variable name with lowercase",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7XUl6Kk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-12T22:59:54Z",
+      "side": 1,
+      "message": "start the variable name with lowercase",
       "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

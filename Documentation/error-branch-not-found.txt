@@ -15,14 +15,14 @@ To fix this problem verify
 * that the branch name in the push specification is typed correctly
   (case sensitive) and
 * that the branch really exists for this project (in the Gerrit WebUI
-  go to 'Admin' -> 'Projects' and browse your project, then click on
+  go to 'Projects' > 'List' and browse your project, then click on
   'Branches' to see all existing branches).
 
 If it was your intention to create a new branch you can either
 
 * bypass code review on push as explained link:user-upload.html#bypass_review[here] or
 * create the new branch in the Gerrit WebUI before pushing (go to
-  'Admin' -> 'Projects' and browse your project, in the 'Branches'
+  'Projects' > 'List' and browse your project, in the 'Branches'
   tab you can then create a new branch).
 
 Please note that you need to be granted the

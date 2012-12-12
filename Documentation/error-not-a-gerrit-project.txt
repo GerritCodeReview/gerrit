@@ -14,7 +14,7 @@ If you are facing this problem, do the following:
 . Verify that the project name specified as git repository in the
   push command is typed correctly (case sensitive).
 . Verify that you are pushing to the correct Gerrit server.
-. Go in the Gerrit WebUI to 'Admin' -> 'Projects' and check that the
+. Go in the Gerrit WebUI to 'Projects' > 'List' and check that the
   project is listed. If the project is not listed the project either
   does not exist or you don't have
   link:access-control.html#category_read['Read'] access for it. This

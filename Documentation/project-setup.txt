@@ -54,8 +54,8 @@ Change Submit Action
 --------------------
 
 The method Gerrit uses to submit a change to a project can be
-modified by any project owner through the project console, `Admin` >
-`Projects`.  The following methods are supported:
+modified by any project owner through the project console, `Projects` >
+`List` > my/project.  The following methods are supported:
 
 * Fast Forward Only
 +
@@ -120,8 +120,8 @@ if the user has been granted the `Create Reference` access right.
 
 Additional branches can also be created through the web UI, assuming
 at least one commit already exists in the project repository.
-A project owner can create additional branches under `Admin` >
-`Projects` > `Branches`.  Enter the new branch name, and the
+A project owner can create additional branches under `Projects` >
+`List` > my/project > `Branches`.  Enter the new branch name, and the
 starting Git revision.  Branch names that don't start with `refs/`
 will automatically have `refs/heads/` prefixed to ensure they are
 a standard Git branch name.  Almost any valid SHA-1 expression can

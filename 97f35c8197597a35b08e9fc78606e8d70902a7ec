@@ -34,6 +34,24 @@
       "revId": "97f35c8197597a35b08e9fc78606e8d70902a7ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7DYymPA",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Reviewable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010041
+      },
+      "writtenOn": "2012-12-12T22:35:51Z",
+      "side": 1,
+      "message": "I understand your concern and in many ways share them. One of the problems with the topic review code is there is quite a lot of duplicate code as in many ways a topic is very similar to a changes. For example we have topic dashboard as you mention. Getting away from this would be great. If the concept of a change could be broadened this might be an elegant solution. \n\nI am just thinking out loud here, so bare with me :-) May be we could create a change type that represents a topic branch that has some sort of composite patchset that is made up of the changes associated with the topic branch...",
+      "parentUuid": "M8PJmaOI",
+      "revId": "97f35c8197597a35b08e9fc78606e8d70902a7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

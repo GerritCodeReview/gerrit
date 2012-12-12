@@ -651,12 +651,18 @@ of merge commits.
 Push Annotated Tag
 ~~~~~~~~~~~~~~~~~~
 
-This category permits users to push an annotated tag object over
-SSH into the project's repository.  Typically this would be done
-with a command line such as:
+This category permits users to push an annotated tag object into the
+project's repository.  Typically this would be done with a command line
+such as:
 
 ====
   git push ssh://USER@HOST:PORT/PROJECT tag v1.0
+====
+
+Or:
+
+====
+  git push https://HOST/PROJECT tag v1.0
 ====
 
 Tags must be annotated (created with `git tag -a`), should exist in
@@ -686,12 +692,18 @@ requires the same permission as deleting a branch.
 Push Signed Tag
 ~~~~~~~~~~~~~~~
 
-This category permits users to push a PGP signed tag object over
-SSH into the project's repository.  Typically this would be done
-with a command line such as:
+This category permits users to push a PGP signed tag object into the
+project's repository.  Typically this would be done with a command
+line such as:
 
 ====
   git push ssh://USER@HOST:PORT/PROJECT tag v1.0
+====
+
+Or:
+
+====
+  git push https://HOST/PROJECT tag v1.0
 ====
 
 Tags must be signed (created with `git tag -s`), should exist in the

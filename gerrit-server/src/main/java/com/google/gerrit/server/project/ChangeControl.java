@@ -189,12 +189,14 @@ public class ChangeControl {
 
   /** Can this user publish this draft change or any draft patch set of this change? */
   public boolean canPublish(final ReviewDb db) throws OrmException {
-    return isOwner() && isVisible(db);
+    return (isOwner() || getRefControl().canPublishDrafts())
+        && isVisible(db);
   }
 
   /** Can this user delete this draft change or any draft patch set of this change? */
   public boolean canDeleteDraft(final ReviewDb db) throws OrmException {
-    return isOwner() && isVisible(db);
+    return (isOwner() || getRefControl().canDeleteDrafts())
+        && isVisible(db);
   }
 
   /** Can this user rebase this change? */

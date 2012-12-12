@@ -13,6 +13,8 @@
 // limitations under the License.
 
 package com.google.gerrit.server.plugins;
+
+import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicItemsOf;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicMapsOf;
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicSetsOf;
 
@@ -22,6 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
@@ -74,6 +77,8 @@ public class PluginGuiceEnvironment {
   private Provider<ModuleGenerator> sshGen;
   private Provider<ModuleGenerator> httpGen;
 
+  private Map<TypeLiteral<?>, DynamicItem<?>> sysItems;
+
   private Map<TypeLiteral<?>, DynamicSet<?>> sysSets;
   private Map<TypeLiteral<?>, DynamicSet<?>> sshSets;
   private Map<TypeLiteral<?>, DynamicSet<?>> httpSets;
@@ -98,12 +103,17 @@ public class PluginGuiceEnvironment {
     onReload = new CopyOnWriteArrayList<ReloadPluginListener>();
     onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
 
+    sysItems = dynamicItemsOf(sysInjector);
     sysSets = dynamicSetsOf(sysInjector);
     sysMaps = dynamicMapsOf(sysInjector);
   }
 
   ServerInformation getServerInformation() {
     return srvInfo;
+  }
+
+  boolean hasDynamicItem(TypeLiteral<?> type) {
+    return sysItems.containsKey(type);
   }
 
   boolean hasDynamicSet(TypeLiteral<?> type) {
@@ -182,6 +192,8 @@ public class PluginGuiceEnvironment {
       l.onStartPlugin(plugin);
     }
 
+    attachItem(sysItems, plugin.getSysInjector(), plugin);
+
     attachSet(sysSets, plugin.getSysInjector(), plugin);
     attachSet(sshSets, plugin.getSshInjector(), plugin);
     attachSet(httpSets, plugin.getHttpInjector(), plugin);
@@ -189,6 +201,15 @@ public class PluginGuiceEnvironment {
     attachMap(sysMaps, plugin.getSysInjector(), plugin);
     attachMap(sshMaps, plugin.getSshInjector(), plugin);
     attachMap(httpMaps, plugin.getHttpInjector(), plugin);
+  }
+
+  private void attachItem(Map<TypeLiteral<?>, DynamicItem<?>> items,
+      @Nullable Injector src,
+      Plugin plugin) {
+    for (RegistrationHandle h : PrivateInternals_DynamicTypes
+        .attachItems(src, items, plugin.getName())) {
+      plugin.add(h);
+    }
   }
 
   private void attachSet(Map<TypeLiteral<?>, DynamicSet<?>> sets,
@@ -230,6 +251,8 @@ public class PluginGuiceEnvironment {
     reattachSet(old, sysSets, newPlugin.getSysInjector(), newPlugin);
     reattachSet(old, sshSets, newPlugin.getSshInjector(), newPlugin);
     reattachSet(old, httpSets, newPlugin.getHttpInjector(), newPlugin);
+
+    reattachItem(old, sysItems, newPlugin.getSysInjector(), newPlugin);
   }
 
   private void reattachMap(
@@ -346,6 +369,72 @@ public class PluginGuiceEnvironment {
           replace(newPlugin, h2, b);
         } else {
           newPlugin.add(set.add(b.getKey(), b.getProvider()));
+        }
+      }
+    }
+  }
+  private void reattachItem(
+      ListMultimap<TypeLiteral<?>, ReloadableRegistrationHandle<?>> oldHandles,
+      Map<TypeLiteral<?>, DynamicItem<?>> items,
+      @Nullable Injector src,
+      Plugin newPlugin) {
+    if (src == null || items == null || items.isEmpty()) {
+      return;
+    }
+
+    for (Map.Entry<TypeLiteral<?>, DynamicItem<?>> e : items.entrySet()) {
+      @SuppressWarnings("unchecked")
+      TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
+
+      @SuppressWarnings("unchecked")
+      DynamicItem<Object> item = (DynamicItem<Object>) e.getValue();
+
+      // Index all old handles that match this DynamicItem<T> keyed by
+      // annotations. Ignore the unique annotations, thereby favoring
+      // the @Named annotations or some other non-unique naming.
+      Map<Annotation, ReloadableRegistrationHandle<?>> am = Maps.newHashMap();
+      List<ReloadableRegistrationHandle<?>> old = oldHandles.get(type);
+      Iterator<ReloadableRegistrationHandle<?>> oi = old.iterator();
+      while (oi.hasNext()) {
+        ReloadableRegistrationHandle<?> h = oi.next();
+        Annotation a = h.getKey().getAnnotation();
+        if (a != null && !UNIQUE_ANNOTATION.isInstance(a)) {
+          am.put(a, h);
+          oi.remove();
+        }
+      }
+
+      // Replace old handles with new bindings, favoring cases where there
+      // is an exact match on an @Named annotation. If there is no match
+      // pick any handle and replace it. We generally expect only one
+      // handle of each DynamicItem type when using unique annotations, but
+      // possibly multiple ones if @Named was used. Plugin authors that want
+      // atomic replacement across reloads should use @Named annotations with
+      // stable names that do not change across plugin versions to ensure the
+      // handles are swapped correctly.
+      oi = old.iterator();
+      for (Binding<?> binding : bindings(src, type)) {
+        @SuppressWarnings("unchecked")
+        Binding<Object> b = (Binding<Object>) binding;
+        Key<Object> key = b.getKey();
+        if (key.getAnnotation() == null) {
+          continue;
+        }
+
+        @SuppressWarnings("unchecked")
+        ReloadableRegistrationHandle<Object> h1 =
+            (ReloadableRegistrationHandle<Object>) am.remove(key.getAnnotation());
+        if (h1 != null) {
+          replace(newPlugin, h1, b);
+        } else if (oi.hasNext()) {
+          @SuppressWarnings("unchecked")
+          ReloadableRegistrationHandle<Object> h2 =
+            (ReloadableRegistrationHandle<Object>) oi.next();
+          oi.remove();
+          replace(newPlugin, h2, b);
+        } else {
+          newPlugin.add(item.set(b.getKey(), b.getProvider(),
+              newPlugin.getName()));
         }
       }
     }

@@ -275,15 +275,7 @@ public class RefControl {
         }
       }
 
-      // If the tag has a PGP signature, allow a lower level of permission
-      // than if it doesn't have a PGP signature.
-      //
-      if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
-        return owner || canPerform(Permission.PUSH_TAG);
-      } else {
-        return owner || canPerform(Permission.PUSH_TAG);
-      }
-
+      return owner || canPerform(Permission.PUSH_TAG);
     } else {
       return false;
     }

@@ -37,7 +37,7 @@ This fix ensures that changes to the `project.config` file that change
 the parent project can only be pushed/submitted by Gerrit
 administrators.
 +
-In addition it is now not possible anymore to
+In addition it is now no longer possible to
 - set a non-existing project as parent (as this would make the project
   be orphaned)
 - set a parent project for the `All-Projects` root project (the root

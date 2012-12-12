@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M8PJmaOI",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Reviewable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-12T20:32:42Z",
+      "side": 1,
+      "message": "Could you explain why a topic branch needs to be something new in Gerrit?  Is there a reason that a change could not represent a topic branch?  In other words, could you not represent a series of changes by one final change (a merge commit perhaps, or some other new change type)?",
+      "revId": "97f35c8197597a35b08e9fc78606e8d70902a7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -236,7 +236,12 @@ class AutoRegisterModules {
 
       if (rawType.getAnnotation(ExtensionPoint.class) != null) {
         TypeLiteral<?> tl = TypeLiteral.get(type);
-        if (env.hasDynamicSet(tl)) {
+        if (env.hasDynamicItem(tl)) {
+          sysSingletons.add(clazz);
+          sysListen.put(tl, clazz);
+          httpGen.listen(tl, clazz);
+          sshGen.listen(tl, clazz);
+        } else if (env.hasDynamicSet(tl)) {
           sysSingletons.add(clazz);
           sysListen.put(tl, clazz);
           httpGen.listen(tl, clazz);

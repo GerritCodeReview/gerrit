@@ -30,6 +30,22 @@ import java.util.Map;
 
 /** <b>DO NOT USE</b> */
 public class PrivateInternals_DynamicTypes {
+  public static Map<TypeLiteral<?>, DynamicItem<?>> dynamicItemsOf(Injector src) {
+    Map<TypeLiteral<?>, DynamicItem<?>> m = newHashMap();
+    for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
+      TypeLiteral<?> type = e.getKey().getTypeLiteral();
+      if (type.getRawType() == DynamicItem.class) {
+        ParameterizedType p = (ParameterizedType) type.getType();
+        m.put(TypeLiteral.get(p.getActualTypeArguments()[0]),
+            (DynamicItem<?>) e.getValue().getProvider().get());
+      }
+    }
+    if (m.isEmpty()) {
+      return Collections.emptyMap();
+    }
+    return Collections.unmodifiableMap(m);
+  }
+
   public static Map<TypeLiteral<?>, DynamicSet<?>> dynamicSetsOf(Injector src) {
     Map<TypeLiteral<?>, DynamicSet<?>> m = newHashMap();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
@@ -60,6 +76,38 @@ public class PrivateInternals_DynamicTypes {
       return Collections.emptyMap();
     }
     return Collections.unmodifiableMap(m);
+  }
+
+  public static List<RegistrationHandle> attachItems(
+      Injector src,
+      Map<TypeLiteral<?>, DynamicItem<?>> items) {
+    if (src == null || items == null || items.isEmpty()) {
+      return Collections.emptyList();
+    }
+
+    List<RegistrationHandle> handles = new ArrayList<RegistrationHandle>(4);
+    try {
+      for (Map.Entry<TypeLiteral<?>, DynamicItem<?>> e : items.entrySet()) {
+        @SuppressWarnings("unchecked")
+        TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
+
+        @SuppressWarnings("unchecked")
+        DynamicItem<Object> item = (DynamicItem<Object>) e.getValue();
+
+        for (Binding<Object> b : bindings(src, type)) {
+          if (b.getKey().getAnnotation() != null) {
+            handles.add(item.set(b.getKey(), b.getProvider()));
+          }
+        }
+      }
+    } catch (RuntimeException e) {
+      remove(handles);
+      throw e;
+    } catch (Error e) {
+      remove(handles);
+      throw e;
+    }
+    return handles;
   }
 
   public static List<RegistrationHandle> attachSets(

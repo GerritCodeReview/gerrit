@@ -787,6 +787,28 @@ draft changes (even without having the `View Drafts` access right
 assigned).
 
 
+[[category_publish_drafts]]
+Publish Drafts
+~~~~~~~~~~~~~~
+
+This category permits users to publish draft changes uploaded by other
+users.
+
+The change owner can always publish draft changes (even without having
+the `Publish Drafts` access right assigned).
+
+
+[[category_delete_drafts]]
+Delete Drafts
+~~~~~~~~~~~~~
+
+This category permits users to delete draft changes uploaded by other
+users.
+
+The change owner can always delete draft changes (even without having
+the `Delete Drafts` access right assigned).
+
+
 [[category_edit_topic_name]]
 Edit Topic Name
 ~~~~~~~~~~~~~~~

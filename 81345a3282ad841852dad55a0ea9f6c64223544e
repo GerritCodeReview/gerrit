@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "M6XmJZ3s",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-12T23:21:43Z",
+      "side": 1,
+      "message": "While I agree that it need not be this classes responsibility, I think it is helpful to see it here.  If we imagine that this represents potentially configurable (at some point) policy for ReceiveCommits, I think it does not belong in ReceiveCommits (this way RC is just asking for its validators and not defining them).  And while there may be a better place at some point to define this policy then here, I think it currently lends to readability to see exactly what these policies actually mean.  Additionally, as new policies are added, perhaps for rebase and revert, it they are added here it will be possible to compare and contrast them.   In fact, I would argue that even if rebase and revert end up using the same set, they should have their own factories here with duplicated code so that it is clear that these are policies that can alter and that one is not depend on the other (imagine if making revert as strict as the others prevents revert from being used, we may find soon that we need to modify its policy slightly).",
+      "parentUuid": "M7ZVn5OE",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7ZVAxDc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 8

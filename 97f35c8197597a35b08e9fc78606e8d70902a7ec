@@ -16,6 +16,24 @@
       "revId": "97f35c8197597a35b08e9fc78606e8d70902a7ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M8DJZ0Cg",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/client/Reviewable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-12T21:48:51Z",
+      "side": 1,
+      "message": "To help clarify my concern about creating a new type.  Currently a Change is the primary object that people review in Gerrit, and many pieces count on a Change being the thing that gets reviewed.  For example, searches are based on changes, if we introduce some new Reviewable object, will we have to create a whole new query engine to support searching for these.  Will we need new user dashboards eventually which can display topics?\n\nWhen Shawn moved the ACLs to the Gerrit repos, he made it possible to suddenly have a change to review ACLs changes.  By using a Change object, suddenly ACLs changes were open to all sorts of cool features already built into Gerrit and we didn\u0027t have to chagne any of Gerrit\u0027s main pieces to get there.  \n\nWe have talked about making more actions available as Changes for review: project and branch creations, group memberships...  If we decided to make these things something other than Changes, we would have to build a lot more infrastructure in Gerrit.  Your topic branch changes are an example of some of that infrastructure:  picture doing that for more things than topic branches, it would get a bit crazy likely.  \n\nSo if possible I would suggest investigating approaches that treat a topic branch as a change.  It may be that you will need to define a special kind of change, but with a bit of creativity this may not be a big deal.",
+      "parentUuid": "M8PJmaOI",
+      "revId": "97f35c8197597a35b08e9fc78606e8d70902a7ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

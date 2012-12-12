@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M8BIujJM",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AdminConstants.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-12T08:42:47Z",
+      "side": 1,
+      "message": "These should be in alphabetical order.",
+      "revId": "3de768f523b67a59ad70907028673e38633a6221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

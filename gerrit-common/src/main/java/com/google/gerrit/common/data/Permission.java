@@ -32,6 +32,7 @@ public class Permission implements Comparable<Permission> {
   public static final String PUSH = "push";
   public static final String PUSH_MERGE = "pushMerge";
   public static final String PUSH_TAG = "pushTag";
+  public static final String PUSH_SIGNED_TAG = "pushSignedTag";
   public static final String READ = "read";
   public static final String REBASE = "rebase";
   public static final String REMOVE_REVIEWER = "removeReviewer";
@@ -53,6 +54,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(PUSH.toLowerCase());
     NAMES_LC.add(PUSH_MERGE.toLowerCase());
     NAMES_LC.add(PUSH_TAG.toLowerCase());
+    NAMES_LC.add(PUSH_SIGNED_TAG.toLowerCase());
     NAMES_LC.add(LABEL.toLowerCase());
     NAMES_LC.add(REBASE.toLowerCase());
     NAMES_LC.add(REMOVE_REVIEWER.toLowerCase());

@@ -659,8 +659,8 @@ with a command line such as:
   git push ssh://USER@HOST:PORT/PROJECT tag v1.0
 ====
 
-Tags must be annotated (created with `git tag -a` or `git tag -s`),
-should exist in the `refs/tags/` namespace, and should be new.
+Tags must be annotated (created with `git tag -a`), should exist in
+the `refs/tags/` namespace, and should be new.
 
 This category is intended to be used to publish tags when a project
 reaches a stable release point worth remembering in history.
@@ -680,6 +680,22 @@ branches in Git.
 To delete or overwrite an existing tag, grant `Push` with the force
 option enabled for reference name `refs/tags/*`, as deleting a tag
 requires the same permission as deleting a branch.
+
+
+[[category_push_signed]]
+Push Signed Tag
+~~~~~~~~~~~~~~~
+
+This category permits users to push a PGP signed tag object over
+SSH into the project's repository.  Typically this would be done
+with a command line such as:
+
+====
+  git push ssh://USER@HOST:PORT/PROJECT tag v1.0
+====
+
+Tags must be signed (created with `git tag -s`), should exist in the
+`refs/tags/` namespace, and should be new.
 
 
 [[category_read]]

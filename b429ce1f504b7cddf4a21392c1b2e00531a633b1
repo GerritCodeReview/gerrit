@@ -16,6 +16,24 @@
       "revId": "b429ce1f504b7cddf4a21392c1b2e00531a633b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M8JJAvDc",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-12T09:52:59Z",
+      "side": 1,
+      "message": "Copy/pasted from the description of push annotated tag (line 654-655).  If it needs to be changed here, it should be changed there too.  Perhaps in a separate change though, since it\u0027s not really related to what is being fixed here?",
+      "parentUuid": "M67c06Jc",
+      "revId": "b429ce1f504b7cddf4a21392c1b2e00531a633b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

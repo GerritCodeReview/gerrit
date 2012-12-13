@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "M6-fZAPM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T16:27:44Z",
+      "side": 1,
+      "message": "having the validateForReceiveCommits here is better than getForReceiveCommits\nas, here, we can write any validation logic instead of just returning a list of validators.\n\nYes, I still don\u0027t like it here. The validate method in the receive commits will do nothing else\nbut call the validateForReceiveCommits. If validation in ReceiveCommits has to change\nthen the CommitValidators class has to be modified instead of the ReceiveCommits class.\n\nI will not block it.",
+      "parentUuid": "M69fxXI8",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7ZVAxDc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 8
@@ -225,6 +243,24 @@
       "side": 1,
       "message": "I changed the class to public. Plugins or other code may want to access a specific validator in the future.",
       "parentUuid": "M7dVKPFU",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6xffVNY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T16:27:44Z",
+      "side": 1,
+      "message": "Ah... so other code that may want to access these validators\nwill use them exactly as I suggested for the ReceiveCommits to do?",
+      "parentUuid": "M7RVctBc",
       "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -193,6 +193,13 @@ public class ReviewCommand extends SshCommand {
     }
   }
 
+  private void applyReview(final ChangeControl ctl, final PatchSet.Id patchSetId,
+      final PostReview.Input review) throws Exception {
+    reviewProvider.get().apply(new RevisionResource(
+        new ChangeResource(ctl),
+        db.patchSets().get(patchSetId)), review);
+  }
+
   private void approveOne(final PatchSet.Id patchSetId) throws Exception {
 
     if (changeComment == null) {
@@ -214,14 +221,12 @@ public class ReviewCommand extends SshCommand {
     try {
       ChangeControl ctl =
           changeControlFactory.controlFor(patchSetId.getParentKey());
-      reviewProvider.get().apply(new RevisionResource(
-          new ChangeResource(ctl),
-          db.patchSets().get(patchSetId)), review);
 
       if (abandonChange) {
         final Abandon abandon = abandonProvider.get();
         final Abandon.Input input = new Abandon.Input();
         input.message = changeComment;
+        applyReview(ctl, patchSetId, review);
         try {
           abandon.apply(new ChangeResource(ctl), input);
         } catch(AuthException e) {
@@ -235,12 +240,16 @@ public class ReviewCommand extends SshCommand {
         input.message = changeComment;
         try {
           restore.apply(new ChangeResource(ctl), input);
+          applyReview(ctl, patchSetId, review);
         } catch(AuthException e) {
           writeError("error: " + parseError(Type.RESTORE_NOT_PERMITTED) + "\n");
         } catch(ResourceConflictException e) {
           writeError("error: " + parseError(Type.CHANGE_NOT_ABANDONED) + "\n");
         }
+      } else {
+        applyReview(ctl, patchSetId, review);
       }
+
       if (submitChange) {
         Submit submit = submitProvider.get();
         Submit.Input input = new Submit.Input();

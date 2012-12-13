@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M7bXpQBA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "Some messages in this file start with uppercase letter and some with lowercase letter.",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7fXzuPs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "Make this javadoc of this class?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7TWP8IM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "All validation errors are nicely collected in the messages List and then ignored here?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7XWJaHs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "Since the validators are intended to be reused from many different contexts I wonder if this message is assuming too much? Are we sure that this validator will always be used when a user *pushes* a commit with project configuration?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7VWMbIw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "This validator only check permission to upload merge commits in case a merge commit is validated. It should be named more precisely, like:\n\n UploadMergesPermissionValidator",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7RXZFIE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "Make this javadoc of this class?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7TXWEFA",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "Make this javadoc of this class?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7ZXkRDc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "\"not\" or \"no\" at the start of the message?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7dXuvBQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "Make this javadoc of this class?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7VXjjCg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "Make this javadoc of this class?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7XXgiBs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "Make this javadoc of this class?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7ZXLZKM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T21:14:54Z",
+      "side": 1,
+      "message": "make this javadoc for this method?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

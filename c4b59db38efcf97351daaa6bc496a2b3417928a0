@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "M7dWgfPo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T16:42:51Z",
+      "side": 1,
+      "message": "Thanks. Nice catch.",
+      "parentUuid": "M7LZs6MY",
+      "revId": "c4b59db38efcf97351daaa6bc496a2b3417928a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7NZhZM0",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 9
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "M7fWleAc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T16:42:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7NZhZM0",
+      "revId": "c4b59db38efcf97351daaa6bc496a2b3417928a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7PZmYOI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 9
@@ -47,6 +83,24 @@
       "writtenOn": "2012-12-13T15:58:31Z",
       "side": 1,
       "message": "I wonder if these two helper functions shouldn\u0027t just create a messages list and return it instead of having to pass in a list of messages?  Or even go one step further and just throw the exception?",
+      "revId": "c4b59db38efcf97351daaa6bc496a2b3417928a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7TWo0N0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T16:42:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7PZmYOI",
       "revId": "c4b59db38efcf97351daaa6bc496a2b3417928a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

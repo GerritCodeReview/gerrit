@@ -34,6 +34,24 @@
       "revId": "4e09f977075a2dafe639e75d505f5f0092b8b14d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6fnzt-s",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-13T13:04:41Z",
+      "side": 1,
+      "message": "By coincidence I was looking at it just a few hours ago :)",
+      "parentUuid": "M6-f2YIQ",
+      "revId": "4e09f977075a2dafe639e75d505f5f0092b8b14d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,9 +19,6 @@ Sample `etc/gerrit.config`:
 
 [cache]
   directory = /var/cache/gerrit2
-
-[cache "diff"]
-  diskbuffer = 10 m
 ----
 
 [[accounts]]Section accounts

@@ -267,6 +267,24 @@
     },
     {
       "key": {
+        "uuid": "M7VW1TDQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T16:42:45Z",
+      "side": 1,
+      "message": "Figured that plugins might want it, and it makes sense that they would get the ability to reach the validation code. But for Gerrit\u0027s core, I like the approach we have in PS9. \n\nBut I certainly have no strong feelings about it. If you want me to change, just come to an agreement with Martin and let me know :) I just don\u0027t want to redo it in the future.",
+      "parentUuid": "M6xffVNY",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7fVPOGI",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 8

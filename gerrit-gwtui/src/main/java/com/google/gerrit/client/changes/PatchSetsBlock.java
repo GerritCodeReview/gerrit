@@ -176,6 +176,7 @@ public class PatchSetsBlock extends Composite {
         PatchSetComplexDisclosurePanel patchSetPanel =
             patchSetPanels.get(patchSetId);
         patchSetPanel.setActive(true);
+        patchSetPanel.setOpen(true);
         activePatchSetId = patchSetId;
       }
     } else {

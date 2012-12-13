@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "M7ZWWBKs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1936,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T14:15:38Z",
+      "side": 1,
+      "message": "See comments in CommitValidators.java",
+      "parentUuid": "M7XU8CMI",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7ZVn5OE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 8
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "M69fxXI8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T14:15:38Z",
+      "side": 1,
+      "message": "I think you both have valid points. Personally I would prefer the validateForReceiveCommits()-way that Sasa mentions (but does not seem to like), since I think we will see more validators in the future. And adding/updating validator logic for various features will probably be a bit tougher if the logic is spread out all over Gerrits codebase.\n\nI will try this approach for the next patchset, if you don\u0027t like it, I can change it (as long as you guys can come to an agreement :) ).",
+      "parentUuid": "M69faPBc",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7ZVAxDc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 8
@@ -83,6 +119,24 @@
       "writtenOn": "2012-12-12T22:59:54Z",
       "side": 1,
       "message": "this is a different line wrapping style than in the line 92",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7dVhXM0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T14:15:38Z",
+      "side": 1,
+      "message": "Yeah. Eclipse source auto formatting. Done.",
+      "parentUuid": "M7ZVAxDc",
       "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -106,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "M7fVmWOI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T14:15:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7bVFwEY",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7dVKPFU",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 8
@@ -117,6 +189,24 @@
       "writtenOn": "2012-12-12T22:59:54Z",
       "side": 1,
       "message": "does it make sense to have a public constructor in an private inner class?\nI think no.",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7RVctBc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T14:15:38Z",
+      "side": 1,
+      "message": "I changed the class to public. Plugins or other code may want to access a specific validator in the future.",
+      "parentUuid": "M7dVKPFU",
       "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -157,6 +247,24 @@
     },
     {
       "key": {
+        "uuid": "M7TVZsCg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T14:15:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M6TmP74M",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7VUo7IQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 8
@@ -174,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "M7VVWLPc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T14:15:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7VUo7IQ",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7XUl6Kk",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 8
@@ -185,6 +311,24 @@
       "writtenOn": "2012-12-12T22:59:54Z",
       "side": 1,
       "message": "start the variable name with lowercase",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M7XVTKAY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-13T14:15:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7XUl6Kk",
       "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

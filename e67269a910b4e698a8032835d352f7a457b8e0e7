@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M63dCUKk",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "nit: this import is now unused",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M61dFTK4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6zc42D8",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/dashboards/DashboardsTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "nit: this import should be next to the other imports from package com.google.gwt.user.client.ui",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M65cNJKE",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "nit: all newly added imports are unused",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M69cHnHo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "nit: this import is now unused",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6-cMoKE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "nit: this import is now unused",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6xci9AY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6xc71D4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "Missing \u0027);\u0027 at the end of the line, looks like it was removed accidentally?",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6zcf.MU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DashboardsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "Is anyone making use of this?",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M69d.vNY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/GetDashboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "I think this would be easier to understand if you would combine the last two line into a single line:\n\n if (Project.DashboardType.fromId(id) !\u003d null) {\n\nI was first confused why you need to re-set the type.",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6-eDwNU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListDashboards.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6xdpFBs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ListDashboards.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "[optional] I know we didn\u0027t have this optimization before, but maybe we should abort the loop when setTypes is empty?",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6zdmGEo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/SetTypedDashboard.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T13:59:33Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "e67269a910b4e698a8032835d352f7a457b8e0e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -33,13 +33,13 @@ public class GroupInfoCache {
     return EMPTY;
   }
 
-  protected Map<AccountGroup.Id, GroupInfo> groups;
+  protected Map<AccountGroup.UUID, GroupInfo> groups;
 
   protected GroupInfoCache() {
   }
 
   public GroupInfoCache(final Iterable<GroupInfo> list) {
-    groups = new HashMap<AccountGroup.Id, GroupInfo>();
+    groups = new HashMap<AccountGroup.UUID, GroupInfo>();
     for (final GroupInfo gi : list) {
       groups.put(gi.getId(), gi);
     }
@@ -58,15 +58,15 @@ public class GroupInfoCache {
    * @param id the id desired.
    * @return info block for the group.
    */
-  public GroupInfo get(final AccountGroup.Id id) {
-    if (id == null) {
+  public GroupInfo get(final AccountGroup.UUID uuid) {
+    if (uuid == null) {
       return null;
     }
 
-    GroupInfo r = groups.get(id);
+    GroupInfo r = groups.get(uuid);
     if (r == null) {
-      r = new GroupInfo(id);
-      groups.put(id, r);
+      r = new GroupInfo(uuid);
+      groups.put(uuid, r);
     }
     return r;
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M63dwkP0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T14:05:37Z",
+      "side": 1,
+      "message": "Assume a Gerrit user is active in several projects. Seeing different change screens (actually different dashboards) in different changes may not be what every user would find helpful.\n\nI think the idea of showing a new dashboard on the change screen would be more useful if every user decides what he wants to see in that dashboard. Therefore, I can ensure that I always see the same dashboard (one which is useful for my reviewing style) on all change screens regardless of the project. A user probably knows better which dashboard is helpful for him than the project owners can assume.",
+      "revId": "3ee85d67242fa038ab60ba1f4ee23a1d122fa415",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

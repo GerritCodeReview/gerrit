@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "M63ee0F8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-13T08:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MrBYR3F0",
+      "revId": "0707100521f05476bf483e5ae4195eaa123273d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MrDYOWD0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-06T02:30:18Z",
       "side": 1,
       "message": "s/machanism/mechanism",
+      "revId": "0707100521f05476bf483e5ae4195eaa123273d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M65eppIE",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-13T08:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MrDYOWD0",
       "revId": "0707100521f05476bf483e5ae4195eaa123273d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "M67euqIQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-13T08:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MrNYZJIY",
+      "revId": "0707100521f05476bf483e5ae4195eaa123273d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MrPYeoGs",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2012-12-06T02:30:18Z",
       "side": 1,
       "message": "s/fix/fixes",
+      "revId": "0707100521f05476bf483e5ae4195eaa123273d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M69ejHJs",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-13T08:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MrPYeoGs",
       "revId": "0707100521f05476bf483e5ae4195eaa123273d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "M6-eoIHo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-13T08:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MrJYTrGI",
+      "revId": "0707100521f05476bf483e5ae4195eaa123273d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MrHYE0Bw",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "M6xe.dLU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-13T08:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MrHYE0Bw",
+      "revId": "0707100521f05476bf483e5ae4195eaa123273d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "MrLYYKH8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
         "patchSetId": 7
@@ -115,6 +223,24 @@
       "writtenOn": "2012-12-06T02:30:18Z",
       "side": 1,
       "message": "Maybe this could just be named `exists`?",
+      "revId": "0707100521f05476bf483e5ae4195eaa123273d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6-eRAFI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-13T08:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "MrLYYKH8",
       "revId": "0707100521f05476bf483e5ae4195eaa123273d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

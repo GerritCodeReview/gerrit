@@ -30,6 +30,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,6 +42,8 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Collections;
 
 public class Schema_57 extends SchemaVersion {
@@ -95,6 +98,11 @@ public class Schema_57 extends SchemaVersion {
 
         // Move the repository.*.createGroup to Create Project.
         String[] createGroupList = cfg.getStringList("repository", "*", "createGroup");
+
+        // Prepare the account_group_includes query
+        PreparedStatement stmt = ((JdbcSchema) db).getConnection().
+            prepareStatement("SELECT * FROM account_group_includes WHERE group_id = ?");
+
         for (String name : createGroupList) {
           AccountGroup.NameKey key = new AccountGroup.NameKey(name);
           AccountGroupName groupName = db.accountGroupNames().get(key);
@@ -117,9 +125,10 @@ public class Schema_57 extends SchemaVersion {
         }
 
         AccountGroup batch = db.accountGroups().get(sc.batchUsersGroupId);
+        stmt.setInt(0, sc.batchUsersGroupId.get());
         if (batch != null
             && db.accountGroupMembers().byGroup(sc.batchUsersGroupId).toList().isEmpty()
-            &&  db.accountGroupIncludes().byGroup(sc.batchUsersGroupId).toList().isEmpty()) {
+            &&  stmt.executeQuery().first() != false) {
           // If the batch user group is not used, delete it.
           //
           db.accountGroups().delete(Collections.singleton(batch));
@@ -136,6 +145,8 @@ public class Schema_57 extends SchemaVersion {
 
         md.setMessage("Upgrade to Gerrit Code Review schema 57\n");
         config.commit(md);
+      } catch (SQLException err) {
+        throw new OrmException( "Cannot read account_group_includes", err);
       } finally {
         git.close();
       }

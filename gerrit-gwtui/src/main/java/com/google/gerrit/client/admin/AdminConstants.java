@@ -127,6 +127,8 @@ public interface AdminConstants extends Constants {
   String refErrorPrintable();
   String errorsMustBeFixed();
 
+  String externalGroup();
+
   Map<String, String> capabilityNames();
 
   String sectionTypeReference();

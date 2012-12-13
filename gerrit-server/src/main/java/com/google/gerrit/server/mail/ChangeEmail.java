@@ -20,7 +20,7 @@ import com.google.gerrit.common.data.GroupDescriptions;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch;
 import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
@@ -59,6 +59,7 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
@@ -480,10 +481,15 @@ public abstract class ChangeEmail extends OutgoingEmail {
           .byGroup(next)) {
         matching.accounts.add(m.getAccountId());
       }
-      for (AccountGroupInclude m : args.db.get().accountGroupIncludes()
+      for (AccountGroupIncludeByUuid m : args.db.get().accountGroupIncludesByUuid()
           .byGroup(next)) {
-        if (seen.add(m.getIncludeId())) {
-          scan.add(m.getIncludeId());
+        List<AccountGroup> incGroup = args.db.get().accountGroups().
+            byUUID(m.getIncludeUUID()).toList();
+        if (incGroup.size() == 1) {
+          AccountGroup.Id includeId = incGroup.get(0).getId();
+          if (seen.add(includeId)) {
+            scan.add(includeId);
+          }
         }
       }
     }

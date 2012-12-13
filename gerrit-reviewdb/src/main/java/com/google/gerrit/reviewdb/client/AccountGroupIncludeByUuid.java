@@ -18,7 +18,7 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
 
 /** Membership of an {@link AccountGroup} in an {@link AccountGroup}. */
-public final class AccountGroupInclude {
+public final class AccountGroupIncludeByUuid {
   public static class Key extends CompoundKey<AccountGroup.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -26,16 +26,16 @@ public final class AccountGroupInclude {
     protected AccountGroup.Id groupId;
 
     @Column(id = 2)
-    protected AccountGroup.Id includeId;
+    protected AccountGroup.UUID includeUUID;
 
     protected Key() {
       groupId = new AccountGroup.Id();
-      includeId = new AccountGroup.Id();
+      includeUUID = new AccountGroup.UUID();
     }
 
-    public Key(final AccountGroup.Id g, final AccountGroup.Id i) {
+    public Key(final AccountGroup.Id g, final AccountGroup.UUID u) {
       groupId = g;
-      includeId = i;
+      includeUUID = u;
     }
 
     @Override
@@ -47,27 +47,27 @@ public final class AccountGroupInclude {
       return groupId;
     }
 
-    public AccountGroup.Id getIncludeId() {
-      return includeId;
+    public AccountGroup.UUID getIncludeUUID() {
+      return includeUUID;
     }
 
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {includeId};
+      return new com.google.gwtorm.client.Key<?>[] {includeUUID};
     }
   }
 
   @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  protected AccountGroupInclude() {
+  protected AccountGroupIncludeByUuid() {
   }
 
-  public AccountGroupInclude(final AccountGroupInclude.Key k) {
+  public AccountGroupIncludeByUuid(final AccountGroupIncludeByUuid.Key k) {
     key = k;
   }
 
-  public AccountGroupInclude.Key getKey() {
+  public AccountGroupIncludeByUuid.Key getKey() {
     return key;
   }
 
@@ -75,7 +75,7 @@ public final class AccountGroupInclude {
     return key.groupId;
   }
 
-  public AccountGroup.Id getIncludeId() {
-    return key.includeId;
+  public AccountGroup.UUID getIncludeUUID() {
+    return key.includeUUID;
   }
 }

@@ -34,10 +34,10 @@ ON account_group_members (group_id);
 
 
 -- *********************************************************************
--- AccountGroupIncludeAccess
+-- AccountGroupIncludeByUuidAccess
 --    @PrimaryKey covers: byGroup
-CREATE INDEX account_group_includes_byInclude
-ON account_group_includes (include_id);
+CREATE INDEX account_group_includes_by_uuid_byInclude
+ON account_group_includes_by_uuid (include_uuid);
 
 
 -- *********************************************************************

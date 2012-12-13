@@ -27,8 +27,8 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeAudit;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -225,7 +225,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   }
 
   public void addGroupInclude(final AccountGroup.Id groupId,
-      final String groupName, final AsyncCallback<GroupDetail> callback) {
+      final AccountGroup.UUID incGroupUUID, final String incGroupName,
+      final AsyncCallback<GroupDetail> callback) {
     run(callback, new Action<GroupDetail>() {
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
@@ -234,21 +235,24 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new NameAlreadyUsedException());
         }
 
-        final AccountGroup a = findGroup(groupName);
-        if (!control.canAddGroup(a.getId())) {
+        if (incGroupUUID == null) {
+          throw new Failure(new NoSuchGroupException(incGroupName));
+        }
+
+        if (!control.canAddGroup(incGroupUUID)) {
           throw new Failure(new NoSuchEntityException());
         }
 
-        final AccountGroupInclude.Key key =
-            new AccountGroupInclude.Key(groupId, a.getId());
-        AccountGroupInclude m = db.accountGroupIncludes().get(key);
+        final AccountGroupIncludeByUuid.Key key =
+            new AccountGroupIncludeByUuid.Key(groupId, incGroupUUID);
+        AccountGroupIncludeByUuid m = db.accountGroupIncludesByUuid().get(key);
         if (m == null) {
-          m = new AccountGroupInclude(key);
-          db.accountGroupIncludesAudit().insert(
-              Collections.singleton(new AccountGroupIncludeAudit(m,
+          m = new AccountGroupIncludeByUuid(key);
+          db.accountGroupIncludesByUuidAudit().insert(
+              Collections.singleton(new AccountGroupIncludeByUuidAudit(m,
                   getAccountId())));
-          db.accountGroupIncludes().insert(Collections.singleton(m));
-          groupIncludeCache.evictInclude(a.getGroupUUID());
+          db.accountGroupIncludesByUuid().insert(Collections.singleton(m));
+          groupIncludeCache.evictInclude(incGroupUUID);
         }
 
         return groupDetailFactory.create(groupId).call();
@@ -311,7 +315,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   }
 
   public void deleteGroupIncludes(final AccountGroup.Id groupId,
-      final Set<AccountGroupInclude.Key> keys,
+      final Set<AccountGroupIncludeByUuid.Key> keys,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException,
@@ -321,26 +325,26 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new NameAlreadyUsedException());
         }
 
-        for (final AccountGroupInclude.Key k : keys) {
+        for (final AccountGroupIncludeByUuid.Key k : keys) {
           if (!groupId.equals(k.getGroupId())) {
             throw new Failure(new NoSuchEntityException());
           }
         }
 
         final Account.Id me = getAccountId();
-        final Set<AccountGroup.Id> groupsToEvict = new HashSet<AccountGroup.Id>();
-        for (final AccountGroupInclude.Key k : keys) {
-          final AccountGroupInclude m =
-              db.accountGroupIncludes().get(k);
+        final Set<AccountGroup.UUID> groupsToEvict = new HashSet<AccountGroup.UUID>();
+        for (final AccountGroupIncludeByUuid.Key k : keys) {
+          final AccountGroupIncludeByUuid m =
+              db.accountGroupIncludesByUuid().get(k);
           if (m != null) {
-            if (!control.canRemoveGroup(m.getIncludeId())) {
+            if (!control.canRemoveGroup(m.getIncludeUUID())) {
               throw new Failure(new NoSuchEntityException());
             }
 
-            AccountGroupIncludeAudit audit = null;
-            for (AccountGroupIncludeAudit a : db
-                .accountGroupIncludesAudit().byGroupInclude(
-                    m.getGroupId(), m.getIncludeId())) {
+            AccountGroupIncludeByUuidAudit audit = null;
+            for (AccountGroupIncludeByUuidAudit a : db
+                .accountGroupIncludesByUuidAudit().byGroupInclude(
+                    m.getGroupId(), m.getIncludeUUID())) {
               if (a.isActive()) {
                 audit = a;
                 break;
@@ -349,15 +353,15 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
             if (audit != null) {
               audit.removed(me);
-              db.accountGroupIncludesAudit().update(
+              db.accountGroupIncludesByUuidAudit().update(
                   Collections.singleton(audit));
             }
-            db.accountGroupIncludes().delete(Collections.singleton(m));
-            groupsToEvict.add(k.getIncludeId());
+            db.accountGroupIncludesByUuid().delete(Collections.singleton(m));
+            groupsToEvict.add(k.getIncludeUUID());
           }
         }
-        for (AccountGroup group : db.accountGroups().get(groupsToEvict)) {
-          groupIncludeCache.evictInclude(group.getGroupUUID());
+        for (AccountGroup.UUID uuid : groupsToEvict) {
+          groupIncludeCache.evictInclude(uuid);
         }
         return VoidResult.INSTANCE;
       }
@@ -408,14 +412,4 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       return null;
     }
   }
-
-  private AccountGroup findGroup(final String name) throws OrmException,
-      Failure {
-    final AccountGroup g = groupCache.get(new AccountGroup.NameKey(name));
-    if (g == null) {
-      throw new Failure(new NoSuchGroupException(name));
-    }
-    return g;
-  }
-
 }

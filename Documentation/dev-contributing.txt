@@ -238,6 +238,19 @@ especially if changing one without the other will break something!
     and it also makes "git revert" more useful.
   * Use topic branches to link your separate changes together.
 
+Process
+-------
+
+Backporting to stable branches
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+From time to time bug fix release are made for existing stable branches.
+
+Because new bug fix releases are not always announced ahead of time (e.g.
+because of security fixes), developers concerned with stable branches are
+encouraged to backport or push patchsets to these branches, even if no new
+release is planned.
+
 
 GERRIT
 ------

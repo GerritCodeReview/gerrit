@@ -195,9 +195,11 @@ public class ReviewCommand extends SshCommand {
 
   private void applyReview(final ChangeControl ctl, final PatchSet.Id patchSetId,
       final PostReview.Input review) throws Exception {
-    reviewProvider.get().apply(new RevisionResource(
-        new ChangeResource(ctl),
-        db.patchSets().get(patchSetId)), review);
+    if (!review.labels.isEmpty()) {
+      reviewProvider.get().apply(new RevisionResource(
+          new ChangeResource(ctl),
+          db.patchSets().get(patchSetId)), review);
+    }
   }
 
   private void approveOne(final PatchSet.Id patchSetId) throws Exception {
@@ -216,6 +218,13 @@ public class ReviewCommand extends SshCommand {
       if (v != null) {
         review.labels.put(ao.getLabelName(), v);
       }
+    }
+
+    // If review labels are being applied, the comment will be included
+    // on the review note. We don't need to add it again on the abandon
+    // or restore comment.
+    if (!review.labels.isEmpty()) {
+      changeComment = null;
     }
 
     try {

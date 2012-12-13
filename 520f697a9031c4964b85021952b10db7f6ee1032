@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "M65dbZIU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T14:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M61ccbM4",
+      "revId": "520f697a9031c4964b85021952b10db7f6ee1032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M63cZcN0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "M67dgaCo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T14:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M63cZcN0",
+      "revId": "520f697a9031c4964b85021952b10db7f6ee1032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M65d0RPk",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2012-12-13T13:51:23Z",
       "side": 1,
       "message": "I think refs are only advertised during the first request.\n\nThis bugfix only ensures that ReceiveCommits.allRefs is set but the second request doesn\u0027t really advertise refs to the client.",
+      "revId": "520f697a9031c4964b85021952b10db7f6ee1032",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6xdQNFs",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-13T14:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M65d0RPk",
       "revId": "520f697a9031c4964b85021952b10db7f6ee1032",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

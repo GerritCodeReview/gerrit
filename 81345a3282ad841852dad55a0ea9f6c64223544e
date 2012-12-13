@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "M69faPBc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-13T09:58:33Z",
+      "side": 1,
+      "message": "Look at what ReceiveCommits is doing: ask for its validators and then iterate over them and execute one by one. If this is the only thing it is doing about validation then it could also ask this class to perform the validation since looping over validators and executing each is nothing specific for ReceiveCommits. So, if this method should be here (on which I still disagree) then name it: \"validateForReceiveCommits\" and finish the validation here.\n\n\u003e I think it does not belong in ReceiveCommits (this way RC is just asking for its validators and not defining them).\n\nThis way the validation in RC is restricted to executing a flat list of validators. This may be too restrictive. Imagine\nwe need a conditional logic in commit validation, something like:\n\n a \u003d CommitValidators.getValidatorA();\n if (a validates cleanly) {\n   CommitValidators.getValidatorB().onCommitReceived(...)\n   ... do something even more specific which is not available in any validator from CommitValidator ...\n } else {\n   CommitValidators.getValidatorC().onCommitReceived(...);\n   CommitValidators.getValidatorD().onCommitReceived(...);\n }\n\nIf something like that is ever necessary then a flat list of validators is too limited.\n\nI would summarize my concerns as: yes we need reuse of validation logic as much as possible but the users of these reusable parts should still be able to leverage full power of Java language in their validation logic if ever necessary.",
+      "parentUuid": "M6XmJZ3s",
+      "revId": "81345a3282ad841852dad55a0ea9f6c64223544e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7ZVAxDc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 8

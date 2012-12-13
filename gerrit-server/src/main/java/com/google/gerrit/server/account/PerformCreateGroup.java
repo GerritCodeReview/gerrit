@@ -18,8 +18,8 @@ import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupInclude;
-import com.google.gerrit.reviewdb.client.AccountGroupIncludeAudit;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuid;
+import com.google.gerrit.reviewdb.client.AccountGroupIncludeByUuidAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.AccountGroupName;
@@ -35,7 +35,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 public class PerformCreateGroup {
@@ -89,7 +88,7 @@ public class PerformCreateGroup {
       final String groupDescription, final boolean visibleToAll,
       final AccountGroup.Id ownerGroupId,
       final Collection<? extends Account.Id> initialMembers,
-      final Collection<? extends AccountGroup.Id> initialGroups)
+      final Collection<? extends AccountGroup.UUID> initialGroups)
       throws OrmException, NameAlreadyUsedException, PermissionDeniedException {
     if (!currentUser.getCapabilities().canCreateGroup()) {
       throw new PermissionDeniedException(String.format(
@@ -160,26 +159,25 @@ public class PerformCreateGroup {
   }
 
   private void addGroups(final AccountGroup.Id groupId,
-      final Collection<? extends AccountGroup.Id> groups) throws OrmException {
-    final List<AccountGroupInclude> includeList =
-      new ArrayList<AccountGroupInclude>();
-    final List<AccountGroupIncludeAudit> includesAudit =
-      new ArrayList<AccountGroupIncludeAudit>();
-    for (AccountGroup.Id includeId : groups) {
-      final AccountGroupInclude groupInclude =
-        new AccountGroupInclude(new AccountGroupInclude.Key(groupId, includeId));
+      final Collection<? extends AccountGroup.UUID> groups) throws OrmException {
+    final List<AccountGroupIncludeByUuid> includeList =
+      new ArrayList<AccountGroupIncludeByUuid>();
+    final List<AccountGroupIncludeByUuidAudit> includesAudit =
+      new ArrayList<AccountGroupIncludeByUuidAudit>();
+    for (AccountGroup.UUID includeUUID : groups) {
+      final AccountGroupIncludeByUuid groupInclude =
+        new AccountGroupIncludeByUuid(new AccountGroupIncludeByUuid.Key(groupId, includeUUID));
       includeList.add(groupInclude);
 
-      final AccountGroupIncludeAudit audit =
-        new AccountGroupIncludeAudit(groupInclude, currentUser.getAccountId());
+      final AccountGroupIncludeByUuidAudit audit =
+        new AccountGroupIncludeByUuidAudit(groupInclude, currentUser.getAccountId());
       includesAudit.add(audit);
     }
-    db.accountGroupIncludes().insert(includeList);
-    db.accountGroupIncludesAudit().insert(includesAudit);
+    db.accountGroupIncludesByUuid().insert(includeList);
+    db.accountGroupIncludesByUuidAudit().insert(includesAudit);
 
-    for (AccountGroup group : db.accountGroups().get(
-        new HashSet<AccountGroup.Id>(groups))) {
-      groupIncludeCache.evictInclude(group.getGroupUUID());
+    for (AccountGroup.UUID uuid : groups) {
+      groupIncludeCache.evictInclude(uuid);
     }
   }
 }

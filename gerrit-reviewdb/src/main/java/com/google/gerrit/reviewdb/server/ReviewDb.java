@@ -70,12 +70,6 @@ public interface ReviewDb extends Schema {
   @Relation(id = 13)
   AccountGroupMemberAuditAccess accountGroupMembersAudit();
 
-  @Relation(id = 14)
-  AccountGroupIncludeAccess accountGroupIncludes();
-
-  @Relation(id = 15)
-  AccountGroupIncludeAuditAccess accountGroupIncludesAudit();
-
   @Relation(id = 17)
   AccountDiffPreferenceAccess accountDiffPreferences();
 
@@ -111,6 +105,12 @@ public interface ReviewDb extends Schema {
 
   @Relation(id = 28)
   SubmoduleSubscriptionAccess submoduleSubscriptions();
+
+  @Relation(id = 29)
+  AccountGroupIncludeByUuidAccess accountGroupIncludesByUuid();
+
+  @Relation(id = 30)
+  AccountGroupIncludeByUuidAuditAccess accountGroupIncludesByUuidAudit();
 
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)

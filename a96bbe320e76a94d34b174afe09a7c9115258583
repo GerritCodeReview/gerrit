@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M8FK1dDQ",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-14T01:25:30Z",
+      "side": 1,
+      "message": "- s/bug fixes release/bug fix releases\n- Add a blank line after this paragraph.",
+      "revId": "a96bbe320e76a94d34b174afe09a7c9115258583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M8JJ9HGc",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-14T01:25:30Z",
+      "side": 1,
+      "message": "- Please wrap the text with manual line breaks\n- s/bugs releases/bug fix releases\n- s/should/are encouraged to\n- s/released/release",
+      "revId": "a96bbe320e76a94d34b174afe09a7c9115258583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "M61fpzHc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "Since it is already a big refactoring of core code, I wanted to keep as much as possible of the validator code untouched. It was just not the purpose of this change to update the actual messages. I plan to generalize and clean up the actual warnings in other changes.",
+      "parentUuid": "M7bXpQBA",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7fXzuPs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 10
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-13T21:14:54Z",
       "side": 1,
       "message": "Make this javadoc of this class?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M63fm0Kg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "The same thing applies as before, I wanted to keep as much as possible of the validator code untouched, and allow this change to focus more on moving/breaking out the code (inc. comments). But ok.",
+      "parentUuid": "M7fXzuPs",
       "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "M65fxpGI",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "No. The try/catch below will still pass them upwards in the calling stack.",
+      "parentUuid": "M7TWP8IM",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7XWJaHs",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 10
@@ -64,6 +118,24 @@
       "writtenOn": "2012-12-13T21:14:54Z",
       "side": 1,
       "message": "Since the validators are intended to be reused from many different contexts I wonder if this message is assuming too much? Are we sure that this validator will always be used when a user *pushes* a commit with project configuration?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M67f2qFU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "From the commit message:\n\n  In the future, some generalization of the error messages will\n  probably be needed so they fit a broader scope and not only\n  when the user is pushing the change using Git.",
+      "parentUuid": "M7XWJaHs",
       "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "M69frHGw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7VWMbIw",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7RXZFIE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 10
@@ -98,6 +188,24 @@
       "writtenOn": "2012-12-13T21:14:54Z",
       "side": 1,
       "message": "Make this javadoc of this class?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6xcGdF4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7RXZFIE",
       "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "M6zcDeE8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7TXWEFA",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7ZXkRDc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 10
@@ -132,6 +258,24 @@
       "writtenOn": "2012-12-13T21:14:54Z",
       "side": 1,
       "message": "\"not\" or \"no\" at the start of the message?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6-fwIFs",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "I don\u0027t want to change the actual messages in this change for reasons stated above.",
+      "parentUuid": "M7ZXkRDc",
       "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "M63f98Cw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7dXuvBQ",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7VXjjCg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 10
@@ -166,6 +328,24 @@
       "writtenOn": "2012-12-13T21:14:54Z",
       "side": 1,
       "message": "Make this javadoc of this class?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M65eYxCo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7VXjjCg",
       "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "M67edyBk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7XXgiBs",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M7ZXLZKM",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 10
@@ -200,6 +398,24 @@
       "writtenOn": "2012-12-13T21:14:54Z",
       "side": 1,
       "message": "make this javadoc for this method?",
+      "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M61cA7D8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1006454
+      },
+      "writtenOn": "2012-12-14T10:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M7ZXLZKM",
       "revId": "36c63ebd042aa512dc8cd6453fd10bce9eb338de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

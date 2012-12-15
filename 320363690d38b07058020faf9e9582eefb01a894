@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "M6flJ9zA",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003092
+      },
+      "writtenOn": "2012-12-15T16:12:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "M6bk-f4s",
+      "revId": "320363690d38b07058020faf9e9582eefb01a894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "M69e5XIA",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 2

@@ -1,4 +1,4 @@
-Gerrit Code Review - Contributor Aggreements
+Gerrit Code Review - Contributor Agreements
 ============================================
 
 Users can be required to sign one or more contributor agreements before

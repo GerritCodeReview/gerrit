@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M6bk-f4s",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-15T01:26:28Z",
+      "side": 1,
+      "message": "s/release/releases",
+      "revId": "320363690d38b07058020faf9e9582eefb01a894",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -18,7 +18,6 @@ limitations under the License.
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
   xmlns:g='urn:import:com.google.gwt.user.client.ui'>
   <ui:with field='constants' type='com.google.gerrit.client.GerritConstants'/>
-  <ui:import field='com.google.gerrit.common.PageLinks.SETTINGS'/>
 
   <ui:style>
     .panel {
@@ -39,7 +38,7 @@ limitations under the License.
   <g:FlowPanel styleName="{style.panel}">
     <g:Label ui:field='userName' styleName="{style.userName}" />
     <g:Label ui:field='userEmail' styleName="{style.email}" />
-    <g:Anchor href='{SETTINGS}'>
+    <g:Anchor ui:field='settings'>
       <ui:text from='{constants.menuSettings}' />
     </g:Anchor>
     <g:Anchor ui:field='logout' styleName="{style.logout}">

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -35,11 +36,14 @@ public class CurrentUserPopupPanel extends PluginSafePopupPanel {
   Label userEmail;
   @UiField
   Anchor logout;
+  @UiField
+  Anchor settings;
 
   public CurrentUserPopupPanel(Account account, boolean canLogOut) {
     super(/* auto hide */true, /* modal */false);
     setWidget(binder.createAndBindUi(this));
     setStyleName(Gerrit.RESOURCES.css().userInfoPopup());
+    settings.setHref(Gerrit.selfRedirect(PageLinks.SETTINGS));
     if (account.getFullName() != null) {
       userName.setText(account.getFullName());
     }

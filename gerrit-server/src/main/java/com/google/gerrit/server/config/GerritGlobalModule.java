@@ -60,6 +60,7 @@ import com.google.gerrit.server.git.ChangeCache;
 import com.google.gerrit.server.git.ChangeMergeQueue;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.MergeQueue;
+import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
@@ -204,5 +205,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), CommitValidationListener.class);
 
     bind(AnonymousUser.class);
+
+    factory(NotesBranchUtil.Factory.class);
   }
 }

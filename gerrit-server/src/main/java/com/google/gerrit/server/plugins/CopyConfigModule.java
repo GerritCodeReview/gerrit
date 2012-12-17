@@ -15,6 +15,9 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -27,6 +30,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.io.File;
 
@@ -90,6 +94,25 @@ class CopyConfigModule extends AbstractModule {
   @Provides
   GitRepositoryManager getGitRepositoryManager() {
     return gitRepositoryManager;
+  }
+
+  @Inject
+  @AnonymousCowardName
+  private String anonymousCowardName;
+
+  @Provides
+  @AnonymousCowardName
+  String getAnonymousCowardName() {
+    return anonymousCowardName;
+  }
+
+  @Inject
+  private GerritPersonIdentProvider serverIdentProvider;
+
+  @Provides
+  @GerritPersonIdent
+  PersonIdent getServerIdent() {
+    return serverIdentProvider.get();
   }
 
   @Inject

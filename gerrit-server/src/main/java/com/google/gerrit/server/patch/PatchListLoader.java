@@ -278,7 +278,11 @@ class PatchListLoader extends CacheLoader<PatchListKey, PatchList> {
       try {
         couldMerge = m.merge(b.getParents());
       } catch (IOException e) {
-        //
+        // It is not safe to continue further down in this method as throwing
+        // an exception most likely means that the merge tree was not created
+        // and m.getMergeResults() is empty. This would mean that all paths are
+        // unmerged and Gerrit UI would show all paths in the patch list.
+        return null;
       }
 
       if (couldMerge) {

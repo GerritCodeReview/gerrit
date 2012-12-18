@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M69d4fL0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-18T15:27:44Z",
+      "side": 1,
+      "message": "The rest of this method used the ctl.getRefName() inline where it needs it. I proposed to remove this variable and use ctl.getRefName() to match the style in the rest of this method.",
+      "revId": "abbf2152252b8d17684c784f9e3de6285de35445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M6-d9gKo",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-18T15:27:44Z",
+      "side": 1,
+      "message": "this is incomplete. If you wanted to use that variable then there is one more occurrence at the line 961.\nEither use ctl.getRefName() everywhere or replace all occurrences with the local variable. I prefer the former.",
+      "revId": "abbf2152252b8d17684c784f9e3de6285de35445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

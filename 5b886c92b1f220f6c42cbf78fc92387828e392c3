@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "M8PLK6Js",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-18T12:17:19Z",
+      "side": 1,
+      "message": "This is now comparing to the value from cmd.getRefName but before it was ctl.getRefName.",
+      "revId": "5b886c92b1f220f6c42cbf78fc92387828e392c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

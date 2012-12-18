@@ -74,8 +74,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 class OpenIdServiceImpl implements OpenIdService {
-  private static final Logger log =
-      LoggerFactory.getLogger(OpenIdServiceImpl.class);
+  private static final Logger log = LoggerFactory
+      .getLogger(OpenIdServiceImpl.class);
 
   static final String RETURN_URL = "OpenID";
 
@@ -101,6 +101,7 @@ class OpenIdServiceImpl implements OpenIdService {
   private final AccountManager accountManager;
   private final ConsumerManager manager;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
+  private final List<String> openIdDomains;
 
   /** Maximum age, in seconds, before forcing re-authentication of account. */
   private final int papeMaxAuthAge;
@@ -142,6 +143,7 @@ class OpenIdServiceImpl implements OpenIdService {
     accountManager = am;
     manager = new ConsumerManager();
     allowedOpenIDs = ac.getAllowedOpenIDs();
+    openIdDomains = ac.getOpenIdDomains();
     papeMaxAuthAge = (int) ConfigUtil.getTimeUnit(config, //
         "auth", null, "maxOpenIdSessionAge", -1, TimeUnit.SECONDS);
   }
@@ -265,8 +267,8 @@ class OpenIdServiceImpl implements OpenIdService {
     }
 
     final VerificationResult result =
-        manager.verify(state.retTo.toString(), new ParameterList(req
-            .getParameterMap()), state.discovered);
+        manager.verify(state.retTo.toString(),
+            new ParameterList(req.getParameterMap()), state.discovered);
     if (result.getVerifiedId() == null /* authentication failure */) {
       if ("Nonce verification failed.".equals(result.getStatusMsg())) {
         // We might be suffering from clock skew on this system.
@@ -353,6 +355,35 @@ class OpenIdServiceImpl implements OpenIdService {
       }
       areq.setDisplayName(n.length() > 0 ? n.toString() : null);
       areq.setEmailAddress(fetchRsp.getAttributeValue("Email"));
+    }
+
+    if (openIdDomains != null && openIdDomains.size() > 0) {
+      // Administrator limited email domains, which can be used for OpenID.
+      // and login process will only work if the passed email matches one
+      // of these domains.
+      //
+      String email = areq.getEmailAddress();
+      int emailAtIndex = email.lastIndexOf("@");
+      String emailDomain;
+      if (emailAtIndex >= 0 && emailAtIndex < email.length() - 1) {
+        emailDomain = email.substring(emailAtIndex);
+      } else {
+        emailDomain = "";
+      }
+
+      boolean match = false;
+      for (String domain : openIdDomains) {
+        if (emailDomain.equalsIgnoreCase(domain)) {
+          match = true;
+          break;
+        }
+      }
+
+      if (!match) {
+        log.error("Domain disallowed: " + emailDomain);
+        cancelWithError(req, rsp, "Domain disallowed");
+        return;
+      }
     }
 
     if (claimedIdentifier != null) {

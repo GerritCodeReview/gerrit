@@ -155,8 +155,8 @@ public class Daemon extends SiteProgram {
       dbInjector = createDbInjector(MULTI_USER);
       cfgInjector = createCfgInjector();
       sysInjector = createSysInjector();
-      sysInjector.getInstance(PluginGuiceEnvironment.class)
-        .setCfgInjector(cfgInjector);
+      sysInjector.getInstance(PluginGuiceEnvironment.class).setCfgInjector(
+          cfgInjector);
       sysInjector.getInstance(SchemaUpgrade.class).upgradeSchema();
       manager.add(dbInjector, cfgInjector, sysInjector);
 
@@ -318,8 +318,8 @@ public class Daemon extends SiteProgram {
 
   private void initSshd() {
     sshInjector = createSshInjector();
-    sysInjector.getInstance(PluginGuiceEnvironment.class)
-        .setSshInjector(sshInjector);
+    sysInjector.getInstance(PluginGuiceEnvironment.class).setSshInjector(
+        sshInjector);
     manager.add(sshInjector);
   }
 
@@ -341,8 +341,8 @@ public class Daemon extends SiteProgram {
   private void initHttpd() {
     webInjector = createWebInjector();
 
-    sysInjector.getInstance(PluginGuiceEnvironment.class)
-        .setHttpInjector(webInjector);
+    sysInjector.getInstance(PluginGuiceEnvironment.class).setHttpInjector(
+        webInjector);
 
     sysInjector.getInstance(HttpCanonicalWebUrlProvider.class)
         .setHttpServletRequest(
@@ -371,8 +371,8 @@ public class Daemon extends SiteProgram {
     }
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
-    if (authConfig.getAuthType() == AuthType.OPENID ||
-        authConfig.getAuthType() == AuthType.OPENID_SSO) {
+    if (authConfig.getAuthType() == AuthType.OPENID
+        || authConfig.getAuthType() == AuthType.OPENID_SSO) {
       modules.add(new OpenIdModule());
     }
     modules.add(sysInjector.getInstance(GetUserFilter.Module.class));

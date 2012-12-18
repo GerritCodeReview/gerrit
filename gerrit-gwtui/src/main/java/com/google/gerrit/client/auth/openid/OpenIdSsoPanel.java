@@ -19,6 +19,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.auth.openid.DiscoveryResult;
 import com.google.gwt.dom.client.FormElement;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Hidden;
@@ -43,7 +44,7 @@ public class OpenIdSsoPanel extends FlowPanel {
   }
 
   public void authenticate(SignInMode requestedMode, final String token) {
-    OpenIdUtil.SVC.discover(ssoUrl, requestedMode, /* remember */ false, token,
+    OpenIdUtil.SVC.discover(ssoUrl, requestedMode, /* remember */false, token,
         new GerritCallback<DiscoveryResult>() {
           public void onSuccess(final DiscoveryResult result) {
             onDiscovery(result);
@@ -54,6 +55,7 @@ public class OpenIdSsoPanel extends FlowPanel {
   private void onDiscovery(final DiscoveryResult result) {
     switch (result.status) {
       case VALID:
+        result.providerArgs.get("");
         redirectForm.setMethod(FormPanel.METHOD_POST);
         redirectForm.setAction(result.providerUrl);
         redirectBody.clear();

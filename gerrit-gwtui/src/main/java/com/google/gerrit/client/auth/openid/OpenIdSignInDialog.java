@@ -96,10 +96,10 @@ public class OpenIdSignInDialog extends SignInDialog implements
     createErrorBox();
     createIdentBox();
 
-    link(OpenIdUrls.URL_GOOGLE, OpenIdUtil.C.nameGoogle(), OpenIdResources.I
-        .iconGoogle());
-    link(OpenIdUrls.URL_YAHOO, OpenIdUtil.C.nameYahoo(), OpenIdResources.I
-        .iconYahoo());
+    link(OpenIdUrls.URL_GOOGLE, OpenIdUtil.C.nameGoogle(),
+        OpenIdResources.I.iconGoogle());
+    link(OpenIdUrls.URL_YAHOO, OpenIdUtil.C.nameYahoo(),
+        OpenIdResources.I.iconYahoo());
 
     if (initialErrorMsg != null) {
       showError(initialErrorMsg);
@@ -166,7 +166,8 @@ public class OpenIdSignInDialog extends SignInDialog implements
   }
 
   private void createIdentBox() {
-    boolean remember = mode == SignInMode.SIGN_IN || mode == SignInMode.REGISTER;
+    boolean remember =
+        mode == SignInMode.SIGN_IN || mode == SignInMode.REGISTER;
 
     final FlowPanel group = new FlowPanel();
     group.setStyleName(OpenIdResources.I.css().loginLine());

@@ -25,6 +25,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -40,6 +41,7 @@ public class AuthConfig {
   private final boolean gitBasicAuth;
   private final String logoutUrl;
   private final String openIdSsoUrl;
+  private final List<String> openIdDomains;
   private final List<OpenIdProviderPattern> trustedOpenIDs;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
   private final String cookiePath;
@@ -50,12 +52,13 @@ public class AuthConfig {
   private final boolean allowGoogleAccountUpgrade;
 
   @Inject
-  AuthConfig(@GerritServerConfig final Config cfg)
-      throws XsrfException {
+  AuthConfig(@GerritServerConfig final Config cfg) throws XsrfException {
     authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     logoutUrl = cfg.getString("auth", null, "logouturl");
     openIdSsoUrl = cfg.getString("auth", null, "openidssourl");
+    openIdDomains =
+        Arrays.asList(cfg.getStringList("auth", null, "openIdDomain"));
     trustedOpenIDs = toPatterns(cfg, "trustedOpenID");
     allowedOpenIDs = toPatterns(cfg, "allowedOpenID");
     cookiePath = cfg.getString("auth", null, "cookiepath");
@@ -67,10 +70,10 @@ public class AuthConfig {
 
     String key = cfg.getString("auth", null, "registerEmailPrivateKey");
     if (key != null && !key.isEmpty()) {
-      int age = (int) ConfigUtil.getTimeUnit(cfg,
-          "auth", null, "maxRegisterEmailTokenAge",
-          TimeUnit.SECONDS.convert(12, TimeUnit.HOURS),
-          TimeUnit.SECONDS);
+      int age =
+          (int) ConfigUtil.getTimeUnit(cfg, "auth", null,
+              "maxRegisterEmailTokenAge",
+              TimeUnit.SECONDS.convert(12, TimeUnit.HOURS), TimeUnit.SECONDS);
       emailReg = new SignedToken(age, key);
     } else {
       emailReg = null;
@@ -78,8 +81,9 @@ public class AuthConfig {
 
     key = cfg.getString("auth", null, "restTokenPrivateKey");
     if (key != null && !key.isEmpty()) {
-      int age = (int) ConfigUtil.getTimeUnit(cfg,
-          "auth", null, "maxRestTokenAge", 60, TimeUnit.SECONDS);
+      int age =
+          (int) ConfigUtil.getTimeUnit(cfg, "auth", null, "maxRestTokenAge",
+              60, TimeUnit.SECONDS);
       restToken = new SignedToken(age, key);
     } else {
       restToken = null;
@@ -125,6 +129,10 @@ public class AuthConfig {
 
   public String getOpenIdSsoUrl() {
     return openIdSsoUrl;
+  }
+
+  public List<String> getOpenIdDomains() {
+    return openIdDomains;
   }
 
   public String getCookiePath() {

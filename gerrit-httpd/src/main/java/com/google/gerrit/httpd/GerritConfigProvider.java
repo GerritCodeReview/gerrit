@@ -92,6 +92,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
       case OPENID_SSO:
         config.setOpenIdSsoUrl(authConfig.getOpenIdSsoUrl());
+        config.setOpenIdDomains(authConfig.getOpenIdDomains());
         break;
 
       case LDAP:

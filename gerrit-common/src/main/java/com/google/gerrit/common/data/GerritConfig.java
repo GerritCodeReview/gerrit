@@ -33,6 +33,7 @@ public class GerritConfig implements Cloneable {
   protected String reportBugUrl;
   protected String openIdSsoUrl;
   protected List<OpenIdProviderPattern> allowedOpenIDs;
+  protected List<String> openIdDomains;
 
   protected GitwebConfig gitweb;
   protected boolean useContributorAgreements;
@@ -108,6 +109,14 @@ public class GerritConfig implements Cloneable {
 
   public void setAllowedOpenIDs(List<OpenIdProviderPattern> l) {
     allowedOpenIDs = l;
+  }
+
+  public List<String> getOpenIdDomains() {
+    return openIdDomains;
+  }
+
+  public void setOpenIdDomains(List<String> openIdDomains) {
+    this.openIdDomains = openIdDomains;
   }
 
   public AuthType getAuthType() {

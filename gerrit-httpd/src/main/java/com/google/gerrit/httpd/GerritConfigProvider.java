@@ -88,10 +88,12 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     switch (authConfig.getAuthType()) {
       case OPENID:
         config.setAllowedOpenIDs(authConfig.getAllowedOpenIDs());
+        config.setOpenIdDomains(authConfig.getOpenIdDomains());
         break;
 
       case OPENID_SSO:
         config.setOpenIdSsoUrl(authConfig.getOpenIdSsoUrl());
+        config.setOpenIdDomains(authConfig.getOpenIdDomains());
         break;
 
       case LDAP:

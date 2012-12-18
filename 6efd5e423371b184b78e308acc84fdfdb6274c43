@@ -34,6 +34,24 @@
       "revId": "6efd5e423371b184b78e308acc84fdfdb6274c43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "M67dzCN8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-18T15:27:37Z",
+      "side": 1,
+      "message": "I think no. My comment was about consistency with the\ncode around your change. See [1] about recommendations for the coding style especially this one:\n\n\"It is generally more important to match the style of the nearby code which you are modifying than it is to match the style in the formatting guidelines. This is especially true within the same file.\"\n\n\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#_style",
+      "parentUuid": "M9.sBERA",
+      "revId": "6efd5e423371b184b78e308acc84fdfdb6274c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

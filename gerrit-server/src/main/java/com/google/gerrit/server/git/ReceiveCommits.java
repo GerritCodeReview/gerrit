@@ -159,6 +159,7 @@ public class ReceiveCommits {
         + "To push into this reference you need 'Push' rights."),
         DELETE("You need 'Push' rights with the 'Force Push'\n"
             + "flag set to delete references."),
+        DELETE_CHANGES("Cannot delete from 'refs/changes'"),
         CODE_REVIEW("You need 'Push' rights to upload code review requests.\n"
             + "Verify that you are pushing to the right branch."),
         CREATE("You are not allowed to perform this operation.\n"
@@ -947,10 +948,14 @@ public class ReceiveCommits {
 
   private void parseDelete(final ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
-    if (ctl.canDelete()) {
+    String refName = ctl.getRefName();
+    if (refName.startsWith("refs/changes/")) {
+      errors.put(Error.DELETE_CHANGES, refName);
+      reject(cmd, "cannot delete changes");
+    } else if (ctl.canDelete()) {
       batch.addCommand(cmd);
     } else {
-      if (GitRepositoryManager.REF_CONFIG.equals(ctl.getRefName())) {
+      if (GitRepositoryManager.REF_CONFIG.equals(refName)) {
         reject(cmd, "cannot delete project configuration");
       } else {
         errors.put(Error.DELETE, ctl.getRefName());

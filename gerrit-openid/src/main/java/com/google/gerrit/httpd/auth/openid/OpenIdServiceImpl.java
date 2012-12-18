@@ -101,6 +101,7 @@ class OpenIdServiceImpl implements OpenIdService {
   private final AccountManager accountManager;
   private final ConsumerManager manager;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
+  private final List<String> openIdDomains;
 
   /** Maximum age, in seconds, before forcing re-authentication of account. */
   private final int papeMaxAuthAge;
@@ -142,6 +143,7 @@ class OpenIdServiceImpl implements OpenIdService {
     accountManager = am;
     manager = new ConsumerManager();
     allowedOpenIDs = ac.getAllowedOpenIDs();
+    openIdDomains = ac.getOpenIdDomains();
     papeMaxAuthAge = (int) ConfigUtil.getTimeUnit(config, //
         "auth", null, "maxOpenIdSessionAge", -1, TimeUnit.SECONDS);
   }
@@ -353,6 +355,32 @@ class OpenIdServiceImpl implements OpenIdService {
       }
       areq.setDisplayName(n.length() > 0 ? n.toString() : null);
       areq.setEmailAddress(fetchRsp.getAttributeValue("Email"));
+    }
+
+    if (openIdDomains != null && openIdDomains.size() > 0) {
+      // Administrator limited email domains, which can be used for OpenID.
+      // Login process will only work if the passed email matches one
+      // of these domains.
+      //
+      final String email = areq.getEmailAddress();
+      int emailAtIndex = email.lastIndexOf("@");
+      if (emailAtIndex >= 0 && emailAtIndex < email.length() - 1) {
+        final String emailDomain = email.substring(emailAtIndex);
+
+        boolean match = false;
+        for (String domain : openIdDomains) {
+          if (emailDomain.equalsIgnoreCase(domain)) {
+            match = true;
+            break;
+          }
+        }
+
+        if (!match) {
+          log.error("Domain disallowed: " + emailDomain);
+          cancelWithError(req, rsp, "Domain disallowed");
+          return;
+        }
+      }
     }
 
     if (claimedIdentifier != null) {

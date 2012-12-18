@@ -25,6 +25,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -40,6 +41,7 @@ public class AuthConfig {
   private final boolean gitBasicAuth;
   private final String logoutUrl;
   private final String openIdSsoUrl;
+  private final List<String> openIdDomains;
   private final List<OpenIdProviderPattern> trustedOpenIDs;
   private final List<OpenIdProviderPattern> allowedOpenIDs;
   private final String cookiePath;
@@ -56,6 +58,7 @@ public class AuthConfig {
     httpHeader = cfg.getString("auth", null, "httpheader");
     logoutUrl = cfg.getString("auth", null, "logouturl");
     openIdSsoUrl = cfg.getString("auth", null, "openidssourl");
+    openIdDomains = Arrays.asList(cfg.getStringList("auth", null, "openIdDomain"));
     trustedOpenIDs = toPatterns(cfg, "trustedOpenID");
     allowedOpenIDs = toPatterns(cfg, "allowedOpenID");
     cookiePath = cfg.getString("auth", null, "cookiepath");
@@ -125,6 +128,10 @@ public class AuthConfig {
 
   public String getOpenIdSsoUrl() {
     return openIdSsoUrl;
+  }
+
+  public List<String> getOpenIdDomains() {
+    return openIdDomains;
   }
 
   public String getCookiePath() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NEpA6FMQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MostSpecificComparator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T14:52:27Z",
+      "side": 0,
+      "message": "I think this and the other two empty lines were intentional (to decrease code density) and wouldn\u0027t remove them. The follow up methods also use the same style.",
+      "revId": "fe7060bbc1005995f73c8f21052279949a4a5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

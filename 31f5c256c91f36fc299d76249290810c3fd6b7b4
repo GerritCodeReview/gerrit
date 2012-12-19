@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NB9sCExI",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Gerrit.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 1011624
+      },
+      "writtenOn": "2012-12-19T15:57:35Z",
+      "side": 1,
+      "message": "whoAmI now needs a boolean parameter, this prevents a clean rebase onto master.",
+      "revId": "31f5c256c91f36fc299d76249290810c3fd6b7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

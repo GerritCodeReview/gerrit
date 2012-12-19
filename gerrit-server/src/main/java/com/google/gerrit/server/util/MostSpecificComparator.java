@@ -20,6 +20,8 @@ import com.google.gerrit.server.project.RefControl;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Comparator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Order the Ref Pattern by the most specific. This sort is done by:
@@ -46,6 +48,10 @@ import java.util.Comparator;
  */
 public final class MostSpecificComparator implements
     Comparator<RefConfigSection> {
+
+  private static final Map<String, String> shortestExampleCache =
+      new ConcurrentHashMap<String, String>();
+
   private final String refName;
 
   public MostSpecificComparator(String refName) {
@@ -83,14 +89,15 @@ public final class MostSpecificComparator implements
   private int distance(String pattern) {
     String example;
     if (RefControl.isRE(pattern)) {
-      example = RefControl.shortestExample(pattern);
-
+      example = shortestExampleCache.get(pattern);
+      if (example == null) {
+        example = RefControl.shortestExample(pattern);
+        shortestExampleCache.put(pattern, example);
+      }
     } else if (pattern.endsWith("/*")) {
       example = pattern.substring(0, pattern.length() - 1) + '1';
-
     } else if (pattern.equals(refName)) {
       return 0;
-
     } else {
       return Math.max(pattern.length(), refName.length());
     }

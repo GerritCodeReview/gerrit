@@ -81,7 +81,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
       final Change c, final String mc) {
     super(ea, anonymousCowardName, mc);
     change = c;
-    changeData = change != null ? new ChangeData(change) : null;
+    changeData = new ChangeData(change);
     emailOnlyAuthors = false;
   }
 
@@ -208,7 +208,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Get a link to the change; null if the server doesn't know its own address. */
   public String getChangeUrl() {
-    if (change != null && getGerritUrl() != null) {
+    if (getGerritUrl() != null) {
       final StringBuilder r = new StringBuilder();
       r.append(getGerritUrl());
       r.append(change.getChangeId());
@@ -356,10 +356,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
   /** Returns all watches that are relevant */
   protected final Watchers getWatches(NotifyType type) throws OrmException {
     Watchers matching = new Watchers();
-    if (changeData == null) {
-      return matching;
-    }
-
     Set<Account.Id> projectWatchers = new HashSet<Account.Id>();
 
     for (AccountProjectWatch w : args.db.get().accountProjectWatches()
@@ -545,7 +541,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   protected boolean isVisibleTo(final Account.Id to) throws OrmException {
     return projectState == null
-        || change == null
         || projectState.controlFor(args.identifiedUserFactory.create(to))
             .controlFor(change).isVisible(args.db.get());
   }

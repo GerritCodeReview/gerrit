@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NEpAMVEQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T13:44:26Z",
+      "side": 1,
+      "message": "maybe s/non-consistent/inconsistent ?\n\ns/in email classes/in the ChangeEmail class",
+      "revId": "a9dd22c2a54d8b5ca53f42e6ec60287ec0858dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NEnAbMH0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T13:44:26Z",
+      "side": 1,
+      "message": "Are you removing the null check because the variable really can never be null or just because there are some places which don\u0027t check for null?",
+      "revId": "a9dd22c2a54d8b5ca53f42e6ec60287ec0858dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NElAgLKE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T13:44:26Z",
+      "side": 1,
+      "message": "Based on the change in line 84 the changeData will never be null.",
+      "revId": "a9dd22c2a54d8b5ca53f42e6ec60287ec0858dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NHmTySi8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MostSpecificComparator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T22:08:04Z",
+      "side": 1,
+      "message": "this empty line should not be here but just above the line 97",
+      "revId": "8fc7dbf0cf2ad1b7abdc2fe5a001c9fdde03b518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

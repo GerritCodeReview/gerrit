@@ -22,6 +22,7 @@ import static com.google.gerrit.common.data.Permission.SUBMIT;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.common.data.GroupReference;
@@ -42,6 +43,7 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.util.MostSpecificComparator;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -332,9 +334,18 @@ public class RefControlTest extends TestCase {
     local = new ProjectConfig(new Project.NameKey("local"));
     local.createInMemory();
 
+    final LoadingCache<String, String> e = CacheBuilder.newBuilder()
+        .build(new MostSpecificComparator.ExampleComputer());
     Cache<SectionSortCache.EntryKey, SectionSortCache.EntryVal> c =
         CacheBuilder.newBuilder().build();
-    sectionSorter = new PermissionCollection.Factory(new SectionSortCache(c));
+    sectionSorter = new PermissionCollection.Factory(new SectionSortCache(
+        c,
+        new MostSpecificComparator.Factory() {
+          @Override
+          public MostSpecificComparator create(String refName) {
+            return new MostSpecificComparator(e, refName);
+          }
+        }));
   }
 
   private static void assertOwner(String ref, ProjectControl u) {

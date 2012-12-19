@@ -14,8 +14,17 @@
 
 package com.google.gerrit.server.util;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.gerrit.common.data.RefConfigSection;
+import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.project.RefControl;
+import com.google.inject.Inject;
+import com.google.inject.Module;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -46,9 +55,38 @@ import java.util.Comparator;
  */
 public final class MostSpecificComparator implements
     Comparator<RefConfigSection> {
+  private static final String CACHE_NAME = "ref_example";
+
+  public interface Factory {
+    MostSpecificComparator create(String refName);
+  }
+
+  public static Module module() {
+    return new CacheModule() {
+      @Override
+      protected void configure() {
+        cache(CACHE_NAME, String.class, String.class)
+          .maximumWeight(10000)
+          .loader(ExampleComputer.class);
+        install(new FactoryModule() {
+          @Override
+          protected void configure() {
+            factory(Factory.class);
+          }
+        });
+      }
+    };
+  }
+
+  private final LoadingCache<String, String> cache;
   private final String refName;
 
-  public MostSpecificComparator(String refName) {
+  @Inject
+  @VisibleForTesting
+  public MostSpecificComparator(
+      @Named(CACHE_NAME) LoadingCache<String, String> cache,
+      @Assisted String refName) {
+    this.cache = cache;
     this.refName = refName;
   }
 
@@ -83,7 +121,7 @@ public final class MostSpecificComparator implements
   private int distance(String pattern) {
     String example;
     if (RefControl.isRE(pattern)) {
-      example = RefControl.shortestExample(pattern);
+      example = cache.getUnchecked(pattern);
 
     } else if (pattern.endsWith("/*")) {
       example = pattern.substring(0, pattern.length() - 1) + '1';
@@ -119,6 +157,14 @@ public final class MostSpecificComparator implements
 
     } else {
       return pattern.length();
+    }
+  }
+
+  @VisibleForTesting
+  public static class ExampleComputer extends CacheLoader<String, String> {
+    @Override
+    public String load(String pattern) throws Exception {
+      return RefControl.shortestExample(pattern);
     }
   }
 }

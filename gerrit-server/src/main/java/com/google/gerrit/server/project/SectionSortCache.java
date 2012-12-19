@@ -45,15 +45,19 @@ public class SectionSortCache {
       protected void configure() {
         cache(CACHE_NAME, EntryKey.class, EntryVal.class);
         bind(SectionSortCache.class);
+        install(MostSpecificComparator.module());
       }
     };
   }
 
   private final Cache<EntryKey, EntryVal> cache;
+  private final MostSpecificComparator.Factory comparator;
 
   @Inject
-  SectionSortCache(@Named(CACHE_NAME) Cache<EntryKey, EntryVal> cache) {
+  SectionSortCache(@Named(CACHE_NAME) Cache<EntryKey, EntryVal> cache,
+      MostSpecificComparator.Factory comparator) {
     this.cache = cache;
+    this.comparator = comparator;
   }
 
   void sort(String ref, List<AccessSection> sections) {
@@ -83,7 +87,7 @@ public class SectionSortCache {
         poison |= srcMap.put(sections.get(i), i) != null;
       }
 
-      Collections.sort(sections, new MostSpecificComparator(ref));
+      Collections.sort(sections, comparator.create(ref));
 
       int srcIdx[];
       if (isIdentityTransform(sections, srcMap)) {

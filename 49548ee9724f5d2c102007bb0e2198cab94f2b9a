@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NEvAuAJI",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T14:25:54Z",
+      "side": 1,
+      "message": "optional: s/input/provides",
+      "revId": "49548ee9724f5d2c102007bb0e2198cab94f2b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NEtAr-H8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T14:25:54Z",
+      "side": 1,
+      "message": "s/think it/think of it",
+      "revId": "49548ee9724f5d2c102007bb0e2198cab94f2b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NErAoeIQ",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T14:25:54Z",
+      "side": 1,
+      "message": "optional: s/into cache/into the project cache",
+      "revId": "49548ee9724f5d2c102007bb0e2198cab94f2b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NEhBPRGU",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T14:25:54Z",
+      "side": 1,
+      "message": "s/where/when\n\nWhat about adding \u0027p\u0027 when \u0027p.git\u0027 already exists?",
+      "revId": "49548ee9724f5d2c102007bb0e2198cab94f2b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NEpAldK4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T14:25:54Z",
+      "side": 1,
+      "message": "s/end/ending",
+      "revId": "49548ee9724f5d2c102007bb0e2198cab94f2b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NEvAzoPM",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T14:25:54Z",
+      "side": 1,
+      "message": "s/shift/shifts",
+      "revId": "49548ee9724f5d2c102007bb0e2198cab94f2b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NEjBKSFU",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/Dispatcher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T14:25:54Z",
+      "side": 1,
+      "message": "Use Constants.DOT_GIT_EXT instead of \".git\"",
+      "revId": "49548ee9724f5d2c102007bb0e2198cab94f2b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NElBFzEQ",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T14:25:54Z",
+      "side": 1,
+      "message": "The token should stay final, see the comment below.",
+      "revId": "49548ee9724f5d2c102007bb0e2198cab94f2b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NEnBA0DY",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/args4j/ProjectControlHandler.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-19T14:25:54Z",
+      "side": 1,
+      "message": "I think the purpose of the token variable was to provide the project name in the error message exactly as user entered it, unmodified. Therefore, token shouldn\u0027t be modified after it was set.\n\nOtherwise, we could drop the token variable and use the projectName for the error message.",
+      "revId": "49548ee9724f5d2c102007bb0e2198cab94f2b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

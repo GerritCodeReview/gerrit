@@ -39,6 +39,7 @@ import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 
 import java.io.IOException;
 
@@ -173,8 +174,9 @@ class UrlModule extends ServletModule {
         while (name.endsWith("/")) {
           name = name.substring(0, name.length() - 1);
         }
-        if (name.endsWith(".git")) {
-          name = name.substring(0, name.length() - 4);
+        if (name.endsWith(Constants.DOT_GIT_EXT)) {
+          name = name.substring(0, //
+              name.length() - Constants.DOT_GIT_EXT.length());
         }
         while (name.endsWith("/")) {
           name = name.substring(0, name.length() - 1);

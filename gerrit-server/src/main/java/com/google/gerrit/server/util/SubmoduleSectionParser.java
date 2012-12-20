@@ -103,8 +103,9 @@ public class SubmoduleSectionParser {
             fromIndex = urlExtractedPath.lastIndexOf('/', fromIndex - 1);
             projectName = urlExtractedPath.substring(fromIndex + 1);
 
-            if (projectName.endsWith(".git")) {
-              projectName = projectName.substring(0, projectName.length() - 4);
+            if (projectName.endsWith(Constants.DOT_GIT_EXT)) {
+              projectName = projectName.substring(0, //
+                  projectName.length() - Constants.DOT_GIT_EXT.length());
             }
 
             if (repoManager.list().contains(new Project.NameKey(projectName))) {

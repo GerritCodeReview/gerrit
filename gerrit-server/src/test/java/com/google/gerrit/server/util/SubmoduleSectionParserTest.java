@@ -27,6 +27,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.BlobBasedConfig;
+import org.eclipse.jgit.lib.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -214,8 +215,9 @@ public class SubmoduleSectionParserTest extends LocalDiskRepositoryTestCase {
         while (fromIndex > 0) {
           fromIndex = urlExtractedPath.lastIndexOf('/', fromIndex - 1);
           projectNameCandidate = urlExtractedPath.substring(fromIndex + 1);
-          if (projectNameCandidate.endsWith(".git")) {
-            projectNameCandidate = projectNameCandidate.substring(0, projectNameCandidate.length() - 4);
+          if (projectNameCandidate.endsWith(Constants.DOT_GIT_EXT)) {
+            projectNameCandidate = projectNameCandidate.substring(0, //
+                projectNameCandidate.length() - Constants.DOT_GIT_EXT.length());
           }
           if (projectNameCandidate.equals(reposToBeFound.get(id))) {
             expect(repoManager.list()).andReturn(

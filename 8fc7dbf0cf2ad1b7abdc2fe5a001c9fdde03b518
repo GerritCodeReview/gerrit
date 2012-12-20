@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "NKdlccxo",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-20T06:07:52Z",
+      "side": 1,
+      "message": "Why isn\u0027t the permission_sort cache hiding the bad performance of shortestExample? The code you are caching here is invoked only once for each unique set of references that need to be sorted. Does increasing your server\u0027s permission_sort cache fix the problem too?\n\nOr are you only looking at the initial startup time when the caching is populating?",
+      "revId": "8fc7dbf0cf2ad1b7abdc2fe5a001c9fdde03b518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NKFrylS4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MostSpecificComparator.java",
         "patchSetId": 3

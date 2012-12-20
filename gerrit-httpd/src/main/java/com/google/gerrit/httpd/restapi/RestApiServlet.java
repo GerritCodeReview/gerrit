@@ -655,13 +655,13 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  static void replyError(HttpServletResponse res, int statusCode, String msg)
-      throws IOException {
+  static void replyError(HttpServletResponse res, int statusCode,
+      String msg) throws IOException {
     res.setStatus(statusCode);
     replyText(null, res, msg);
   }
 
-  static void replyText(@Nullable HttpServletRequest req,
+  public static void replyText(@Nullable HttpServletRequest req,
       HttpServletResponse res, String text) throws IOException {
     if ((req == null || "GET".equals(req.getMethod())) && isMaybeHTML(text)) {
       replyJson(req, res, ImmutableMultimap.of("pp", "0"), new JsonPrimitive(text));

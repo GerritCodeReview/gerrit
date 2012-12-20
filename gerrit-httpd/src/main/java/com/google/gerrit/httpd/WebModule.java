@@ -84,6 +84,7 @@ public class WebModule extends FactoryModule {
     if (wantSSL) {
       install(new RequireSslFilter.Module());
     }
+    install(new RunAsFilter.Module());
 
     switch (authConfig.getAuthType()) {
       case HTTP:

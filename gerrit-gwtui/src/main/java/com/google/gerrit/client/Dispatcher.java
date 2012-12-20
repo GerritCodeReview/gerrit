@@ -92,6 +92,8 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwtorm.client.KeyUtil;
 
+import org.eclipse.jgit.lib.Constants;
+
 public class Dispatcher {
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("", null, id);
@@ -773,11 +775,14 @@ public class Dispatcher {
           String rest = skip(token);
           int c = rest.lastIndexOf(',');
           if (c < 0) {
+            if (rest.endsWith(Constants.DOT_GIT_EXT)) {
+              rest = rest.substring(0,//
+                  rest.length() - Constants.DOT_GIT_EXT.length());
+            }
             return new ProjectInfoScreen(Project.NameKey.parse(rest));
           } else if (c == 0) {
             return new NotFoundScreen();
           }
-
           Project.NameKey k = Project.NameKey.parse(rest.substring(0, c));
           String panel = rest.substring(c + 1);
 

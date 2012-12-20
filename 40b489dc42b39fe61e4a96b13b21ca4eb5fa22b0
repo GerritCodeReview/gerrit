@@ -16,6 +16,24 @@
       "revId": "40b489dc42b39fe61e4a96b13b21ca4eb5fa22b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NKxf89Pw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/CopyConfigModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2012-12-20T14:27:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NKbkl-60",
+      "revId": "40b489dc42b39fe61e4a96b13b21ca4eb5fa22b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

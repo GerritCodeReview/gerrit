@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "NKRljy9Y",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MostSpecificComparator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-20T05:41:56Z",
+      "side": 1,
+      "message": "Yes, I care. Please make this a proper cache object using our caching implementation.\n\nSince you want to compute the shortest example for a given regex, it can be a LoadingCache with the loader function accepting the regex, and returning the shortest version.",
+      "parentUuid": "NKFrylS4",
+      "revId": "8fc7dbf0cf2ad1b7abdc2fe5a001c9fdde03b518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NHmTySi8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MostSpecificComparator.java",
         "patchSetId": 3

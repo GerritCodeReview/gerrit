@@ -140,8 +140,17 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       // on disk; for instance when the project has been created directly on the
       // file-system through replication.
       //
-      if (FileKey.resolve(gitDirOf(name), FS.DETECTED) != null) {
-        onCreateProject(name);
+      File dir = FileKey.resolve(gitDirOf(name), FS.DETECTED);
+      if (dir != null) {
+        // Before reaching here it has been done to drop the trailing ".git"
+        // suffix, which we never keep in our database, but clients might
+        // mistakenly provide anyway.
+        //
+        if (dir.getName().equals(name.get() + Constants.DOT_GIT_EXT)) {
+          onCreateProject(name);
+        } else {
+          throw new RepositoryNotFoundException(gitDirOf(name));
+        }
       } else {
         throw new RepositoryNotFoundException(gitDirOf(name));
       }

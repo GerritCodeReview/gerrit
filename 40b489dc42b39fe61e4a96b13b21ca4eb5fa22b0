@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NKbkl-60",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/CopyConfigModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-20T05:18:29Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right. The CopyConfigModule is created once for the server. The @GerritPersonIdent is supposed to be dynamic and create the timestamp each time it is asked for from the Provider. You are pinning the time within a plugin to the time of the server startup.\n\nThis needs to be a dynamic provision to ensure the current time is used when the ident is created.",
+      "revId": "40b489dc42b39fe61e4a96b13b21ca4eb5fa22b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

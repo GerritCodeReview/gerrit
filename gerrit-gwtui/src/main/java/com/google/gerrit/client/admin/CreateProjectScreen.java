@@ -46,6 +46,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.common.VoidResult;
 
+import org.eclipse.jgit.lib.Constants;
+
 public class CreateProjectScreen extends Screen {
   private Grid grid;
   private NpTextBox project;
@@ -235,8 +237,14 @@ public class CreateProjectScreen extends Screen {
         new GerritCallback<VoidResult>() {
           @Override
           public void onSuccess(VoidResult result) {
+            String nameWithoutSuffix = projectName;
+            if (nameWithoutSuffix.endsWith(Constants.DOT_GIT_EXT)) {
+              nameWithoutSuffix = nameWithoutSuffix.substring(0,//
+                  nameWithoutSuffix.length() - Constants.DOT_GIT_EXT.length());
+            }
+
             History.newItem(Dispatcher.toProjectAdmin(new Project.NameKey(
-                projectName), ProjectScreen.INFO));
+                nameWithoutSuffix), ProjectScreen.INFO));
           }
 
           @Override

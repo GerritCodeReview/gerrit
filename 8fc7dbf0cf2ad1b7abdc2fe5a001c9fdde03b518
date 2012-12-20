@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "NKFrylS4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MostSpecificComparator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-20T01:47:04Z",
+      "side": 1,
+      "message": "Since this is static, these will grow indefinitely without an expiry mechanism.  To prevent this, should this be managed by the cache mechanisms allowing time or size restrictions to be configured?  Like you pointed out, it is likely small.  Shawn, do you care?",
+      "revId": "8fc7dbf0cf2ad1b7abdc2fe5a001c9fdde03b518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NHmTySi8",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MostSpecificComparator.java",
         "patchSetId": 3

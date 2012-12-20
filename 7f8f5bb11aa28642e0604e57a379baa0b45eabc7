@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NKBr8Hf0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010015
+      },
+      "writtenOn": "2012-12-20T11:57:44Z",
+      "side": 1,
+      "message": "this patch can fix issue  1699,\n\nbut as anyone of  \u0027p\u0027 ,\u0027p.git\u0027 and \u0027p/.git\u0027  will be converted  to \u0027p\u0027 by Gerrit.\n\nwhen the converted \u0027p\u0027 reaches here,  it can not remember what it ever been.\n\nmay be it ever been \u0027p.git\u0027 but also he can ever been \u0027p/.git\u0027.\n\nso Gerrit cannot distinguish \u0027p\u0027, \u0027p/.git\u0027, \u0027p.git\u0027, or Gerrit will think of them as same.\n\nwith the same logic, Gerrit will think of \u0027m\u0027, \u0027m/.git\u0027, \u0027m.git\u0027,as same.\n\nso when \u0027m\u0027\u003d\u0027p.git\u0027,  on disk we have \u0027p.git\u0027 , user provide \u0027m.git\u0027 , it run into issue 1699. \n\nthat means in fact Gerrit  think \u0027p.git.git\u0027 \u003d\u0027p.git/.git\u0027\u003d\u0027p.git\u0027\u003d\u0027p\u0027\u003d...   I am confused.\n\nI do not know why Gerrit and Jgit support this logic.\n\nI just find this patch can not always work. even I am not sure if the issue  1699 is a bug.\n\nmay be the best way to do is cut all the  \u0027.git\u0027 and \u0027/.git\u0027 , not only one. \n\np.git.git.git -\u003e p\n\np/.git.git -\u003ep\n\np.git.git/.git  -\u003e p\n\nmay be it does NOT deserve we cost more time on it.\n\n it is corner case. \n\nso  will I prefer  to abandon it if there is not further any comments?",
+      "revId": "7f8f5bb11aa28642e0604e57a379baa0b45eabc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

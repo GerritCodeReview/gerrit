@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "NJ3v3Xx0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-12-20T01:43:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NEpAMVEQ",
+      "revId": "a9dd22c2a54d8b5ca53f42e6ec60287ec0858dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NEnAbMH0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "NJxv8G-0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-12-20T01:43:34Z",
+      "side": 1,
+      "message": "I think it is the responsibility of the users of ChangeEmail subclasses to make sure to pass a valid value, if it is null, much of the code in this class and its subclass will not work well, we don\u0027t need check the null value and thrown an exception in this class, because it\u0027s value is unlikely to depend a runtime condition.",
+      "parentUuid": "NEnAbMH0",
+      "revId": "a9dd22c2a54d8b5ca53f42e6ec60287ec0858dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NElAgLKE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2012-12-19T13:44:26Z",
       "side": 1,
       "message": "Based on the change in line 84 the changeData will never be null.",
+      "revId": "a9dd22c2a54d8b5ca53f42e6ec60287ec0858dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NJ1vyoy4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1010992
+      },
+      "writtenOn": "2012-12-20T01:43:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NElAgLKE",
       "revId": "a9dd22c2a54d8b5ca53f42e6ec60287ec0858dc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

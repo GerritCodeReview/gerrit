@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NKXkgx6E",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-20T05:11:37Z",
+      "side": 1,
+      "message": "I thought about defining some sort of new capability that a role account could use to run-as another user, without giving the role administrateServer. But the role might be able to run as an administrator account, and elevate its privileges. Admins might want the role to run as themselves, as maybe the role is doing some useful activity on code reviews. So I think we are stuck with this requirement of giving the role administrateServer.\n\nPerhaps the only sane way to allow giving a role account only run-as permission and not administrateServer permission is to also have some rule about which types of URLs the run-as is permitted on for that account. This would allow an admin to grant the role account permission to use /.*/review for example but not the RPC to edit access controls. That just feels like a lot of code to write.",
+      "revId": "7f6adf11a855b3e68bc0f8d5b85e3692b1f03cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

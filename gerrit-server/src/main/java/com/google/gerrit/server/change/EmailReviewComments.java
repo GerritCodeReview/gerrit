@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.change.PostReview.NotifyHandling;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -46,6 +47,7 @@ class EmailReviewComments implements Runnable, RequestContext {
 
   interface Factory {
     EmailReviewComments create(
+        NotifyHandling notify,
         Change change,
         PatchSet patchSet,
         Account.Id authorId,
@@ -59,6 +61,7 @@ class EmailReviewComments implements Runnable, RequestContext {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ThreadLocalRequestContext requestContext;
 
+  private final PostReview.NotifyHandling notify;
   private final Change change;
   private final PatchSet patchSet;
   private final Account.Id authorId;
@@ -73,6 +76,7 @@ class EmailReviewComments implements Runnable, RequestContext {
       CommentSender.Factory commentSenderFactory,
       SchemaFactory<ReviewDb> schemaFactory,
       ThreadLocalRequestContext requestContext,
+      @Assisted NotifyHandling notify,
       @Assisted Change change,
       @Assisted PatchSet patchSet,
       @Assisted Account.Id authorId,
@@ -83,6 +87,7 @@ class EmailReviewComments implements Runnable, RequestContext {
     this.commentSenderFactory = commentSenderFactory;
     this.schemaFactory = schemaFactory;
     this.requestContext = requestContext;
+    this.notify = notify;
     this.change = change;
     this.patchSet = patchSet;
     this.authorId = authorId;
@@ -122,7 +127,7 @@ class EmailReviewComments implements Runnable, RequestContext {
         }
       });
 
-      CommentSender cm = commentSenderFactory.create(change);
+      CommentSender cm = commentSenderFactory.create(notify, change);
       cm.setFrom(authorId);
       cm.setPatchSet(patchSet, patchSetInfoFactory.get(change, patchSet));
       cm.setChangeMessage(message);

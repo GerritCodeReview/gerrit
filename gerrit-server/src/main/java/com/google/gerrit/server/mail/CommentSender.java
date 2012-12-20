@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.AccountProjectWatch.NotifyType;
+import com.google.gerrit.server.change.PostReview.NotifyHandling;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.PatchList;
@@ -37,15 +38,19 @@ import java.util.Set;
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
   public static interface Factory {
-    public CommentSender create(Change change);
+    public CommentSender create(NotifyHandling notify, Change change);
   }
 
+  private final NotifyHandling notify;
   private List<PatchLineComment> inlineComments = Collections.emptyList();
 
   @Inject
   public CommentSender(EmailArguments ea,
-      @AnonymousCowardName String anonymousCowardName, @Assisted Change c) {
+      @AnonymousCowardName String anonymousCowardName,
+      @Assisted NotifyHandling notify,
+      @Assisted Change c) {
     super(ea, anonymousCowardName, c, "comment");
+    this.notify = notify;
   }
 
   public void setPatchLineComments(final List<PatchLineComment> plc) {
@@ -67,9 +72,13 @@ public class CommentSender extends ReplyToChangeSender {
   protected void init() throws EmailException {
     super.init();
 
-    ccAllApprovals();
-    bccStarredBy();
-    includeWatchers(NotifyType.ALL_COMMENTS);
+    if (notify.compareTo(NotifyHandling.OWNER_REVIEWERS) >= 0) {
+      ccAllApprovals();
+    }
+    if (notify.compareTo(NotifyHandling.ALL) >= 0) {
+      bccStarredBy();
+      includeWatchers(NotifyType.ALL_COMMENTS);
+    }
   }
 
   @Override

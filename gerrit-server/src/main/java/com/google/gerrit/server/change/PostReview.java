@@ -76,10 +76,17 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
      * described in this input request.
      */
     public DraftHandling drafts = DraftHandling.DELETE;
+
+    /** Who to send email notifications to after review is stored. */
+    public NotifyHandling notify = NotifyHandling.ALL;
   }
 
   public static enum DraftHandling {
     DELETE, PUBLISH, KEEP;
+  }
+
+  public static enum NotifyHandling {
+    NONE, OWNER, OWNER_REVIEWERS, ALL;
   }
 
   static class Comment {
@@ -132,6 +139,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
     if (input.comments != null) {
       checkComments(input.comments);
     }
+    if (input.notify == null) {
+      input.notify = NotifyHandling.NONE;
+    }
 
     db.changes().beginTransaction(revision.getChange().getId());
     try {
@@ -151,8 +161,9 @@ public class PostReview implements RestModifyView<RevisionResource, Input> {
       db.rollback();
     }
 
-    if (message != null) {
+    if (input.notify.compareTo(NotifyHandling.NONE) > 0 && message != null) {
       email.create(
+          input.notify,
           change,
           revision.getPatchSet(),
           revision.getAuthorId(),

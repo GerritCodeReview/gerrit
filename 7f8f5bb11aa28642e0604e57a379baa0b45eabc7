@@ -16,6 +16,24 @@
       "revId": "7f8f5bb11aa28642e0604e57a379baa0b45eabc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NK1fybC4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1010038
+      },
+      "writtenOn": "2012-12-20T12:32:41Z",
+      "side": 1,
+      "message": "This case is not so uncommon. I reported it because developers do mistakes in all weird ways. And this type of mistake causes confusion.\n\nIf you push to plain git repo then you will get an error. Gerrit should do the same. Throw an error. So please don\u0027t give up :)",
+      "parentUuid": "NKBr8Hf0",
+      "revId": "7f8f5bb11aa28642e0604e57a379baa0b45eabc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

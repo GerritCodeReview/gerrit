@@ -178,9 +178,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       // of the repository name, so prefer the standard bare name.
       //
       String n = name.get();
-      if (!n.endsWith(Constants.DOT_GIT_EXT)) {
-        n = n + Constants.DOT_GIT_EXT;
-      }
+      n = n + Constants.DOT_GIT_EXT;
       loc = FileKey.exact(new File(basePath, n), FS.DETECTED);
     }
 

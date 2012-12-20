@@ -28,7 +28,7 @@ public class GlobalCapability {
    * has this capability can perform almost any other action, or can grant
    * themselves the power to perform any other action on the site. Most of
    * the other capabilities and permissions fall-back to the predicate
-   * "OR user has capablity ADMINISTRATE_SERVER".
+   * "OR user has capability ADMINISTRATE_SERVER".
    */
   public static final String ADMINISTRATE_SERVER = "administrateServer";
 

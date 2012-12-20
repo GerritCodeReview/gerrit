@@ -58,6 +58,7 @@ public class RefControl {
   private Boolean owner;
   private Boolean canForgeAuthor;
   private Boolean canForgeCommitter;
+  private Boolean isVisible;
 
   RefControl(ProjectControl projectControl, String ref,
       PermissionCollection relevant) {
@@ -103,8 +104,12 @@ public class RefControl {
 
   /** Can this user see this reference exists? */
   public boolean isVisible() {
-    return (getCurrentUser() instanceof InternalUser || canPerform(Permission.READ))
-        && canRead();
+    if (isVisible == null) {
+      isVisible =
+          (getCurrentUser() instanceof InternalUser || canPerform(Permission.READ))
+              && canRead();
+    }
+    return isVisible;
   }
 
   /**

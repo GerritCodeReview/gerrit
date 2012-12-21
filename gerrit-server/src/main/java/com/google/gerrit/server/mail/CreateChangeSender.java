@@ -39,9 +39,10 @@ public class CreateChangeSender extends NewChangeSender {
 
   @Inject
   public CreateChangeSender(EmailArguments ea,
-      @AnonymousCowardName String anonymousCowardName, SshInfo sshInfo,
+      @AnonymousCowardName String anonymousCowardName, SshInfo si,
       @Assisted Change c) {
-    super(ea, anonymousCowardName, sshInfo, c);
+    super(ea, anonymousCowardName, c);
+    setSshInfo(si);
   }
 
   @Override

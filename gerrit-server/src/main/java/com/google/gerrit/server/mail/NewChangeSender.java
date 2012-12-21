@@ -17,9 +17,6 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.ssh.SshInfo;
-
-import com.jcraft.jsch.HostKey;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,14 +26,12 @@ import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
 public abstract class NewChangeSender extends ChangeEmail {
-  private final SshInfo sshInfo;
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
 
   protected NewChangeSender(EmailArguments ea, String anonymousCowardName,
-      SshInfo sshInfo, Change c) {
+      Change c) {
     super(ea, anonymousCowardName, c, "newchange");
-    this.sshInfo = sshInfo;
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {
@@ -72,18 +67,5 @@ public abstract class NewChangeSender extends ChangeEmail {
       names.add(getNameFor(id));
     }
     return names;
-  }
-
-  public String getSshHost() {
-    final List<HostKey> hostKeys = sshInfo.getHostKeys();
-    if (hostKeys.isEmpty()) {
-      return null;
-    }
-
-    final String host = hostKeys.get(0).getHost();
-    if (host.startsWith("*:")) {
-      return getGerritHost() + host.substring(1);
-    }
-    return host;
   }
 }

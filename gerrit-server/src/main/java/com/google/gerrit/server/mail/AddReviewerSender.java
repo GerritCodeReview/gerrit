@@ -29,9 +29,10 @@ public class AddReviewerSender extends NewChangeSender {
 
   @Inject
   public AddReviewerSender(EmailArguments ea,
-      @AnonymousCowardName String anonymousCowardName, SshInfo sshInfo,
+      @AnonymousCowardName String anonymousCowardName, SshInfo si,
       @Assisted Change c) {
-    super(ea, anonymousCowardName, sshInfo, c);
+    super(ea, anonymousCowardName, c);
+    setSshInfo(si);
   }
 
   @Override

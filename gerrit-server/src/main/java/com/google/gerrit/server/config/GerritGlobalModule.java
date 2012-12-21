@@ -21,6 +21,7 @@ import com.google.gerrit.audit.AuditModule;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AuthType;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.InternalAuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
 import com.google.gerrit.server.auth.ldap.LdapModule;
+import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheRemovalListener;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -202,6 +204,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), NewProjectCreatedListener.class);
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ChangeCache.class);
     DynamicSet.setOf(binder(), CommitValidationListener.class);
+    DynamicItem.itemOf(binder(), AvatarProvider.class);
 
     bind(AnonymousUser.class);
   }

@@ -23,6 +23,14 @@ limitations under the License.
     .panel {
       padding: 8px;
     }
+    .avatar {
+      padding-right: 4px;
+      width: 100px;
+      height: 100px;
+    }
+    .infoCell {
+      vertical-align: top;
+    }
     .userName {
       font-weight: bold;
     }
@@ -35,14 +43,18 @@ limitations under the License.
     }
   </ui:style>
 
-  <g:FlowPanel styleName="{style.panel}">
-    <g:Label ui:field='userName' styleName="{style.userName}" />
-    <g:Label ui:field='userEmail' styleName="{style.email}" />
+  <g:HTMLPanel styleName='{style.panel}'>
+    <table><tr><td>
+      <g:Image ui:field='avatar' styleName='{style.avatar}' />
+    </td><td class='{style.infoCell}'>
+      <g:Label ui:field='userName' styleName="{style.userName}" />
+      <g:Label ui:field='userEmail' styleName="{style.email}" />
+    </td></tr></table>
     <g:Anchor ui:field='settings'>
       <ui:text from='{constants.menuSettings}' />
     </g:Anchor>
     <g:Anchor ui:field='logout' styleName="{style.logout}">
       <ui:text from='{constants.menuSignOut}' />
     </g:Anchor>
-  </g:FlowPanel>
+  </g:HTMLPanel>
 </ui:UiBinder>

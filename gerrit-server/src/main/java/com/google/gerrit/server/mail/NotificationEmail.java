@@ -17,6 +17,10 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 
+import com.jcraft.jsch.HostKey;
+
+import java.util.List;
+
 /**
  * Common class for notifications that are related to a project and branch
  */
@@ -30,6 +34,19 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
     this.project = project;
     this.branch = branch;
+  }
+
+  public String getSshHost() {
+    final List<HostKey> hostKeys = args.sshInfo.getHostKeys();
+    if (hostKeys.isEmpty()) {
+      return null;
+    }
+
+    final String host = hostKeys.get(0).getHost();
+    if (host.startsWith("*:")) {
+      return getGerritHost() + host.substring(1);
+    }
+    return host;
   }
 
   @Override

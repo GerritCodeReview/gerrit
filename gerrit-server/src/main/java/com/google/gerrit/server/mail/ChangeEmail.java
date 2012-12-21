@@ -65,7 +65,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /** Sends an email to one or more interested parties. */
-public abstract class ChangeEmail extends OutgoingEmail {
+public abstract class ChangeEmail extends NotificationEmail {
   private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
 
   protected final Change change;
@@ -80,7 +80,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   protected ChangeEmail(EmailArguments ea, final String anonymousCowardName,
       final Change c, final String mc) {
-    super(ea, anonymousCowardName, mc);
+    super(ea, anonymousCowardName, mc, c.getProject(), c.getDest());
     change = c;
     changeData = new ChangeData(change);
     emailOnlyAuthors = false;
@@ -571,10 +571,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     velocityContext.put("change", change);
     velocityContext.put("changeId", change.getKey());
     velocityContext.put("coverLetter", getCoverLetter());
-    velocityContext.put("branch", change.getDest());
     velocityContext.put("fromName", getNameFor(fromId));
-    velocityContext.put("projectName", //
-        projectState != null ? projectState.getProject().getName() : null);
     velocityContext.put("patchSet", patchSet);
     velocityContext.put("patchSetInfo", patchSetInfo);
   }

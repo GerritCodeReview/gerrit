@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NKtgurZI",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-21T23:14:18Z",
+      "side": 1,
+      "message": "Is there a better way to handle this situation?  This code successfully prevents the second plugin from being loaded, but the log message is not as helpful as it could be:\n\n [2012-12-21 14:33:26,777] WARN  com.google.gerrit.server.plugins.PluginLoader : Cannot load plugin static-avatar-provider\njava.lang.RuntimeException: 2Type already provided by FactoryProxy[key\u003dKey[type\u003dcom.google.gerrit.server.avatar.AvatarProvider, annotation\u003d@com.google.inject.internal.UniqueAnnotations$Internal(value\u003d95)], provider\u003dcom.google.inject.internal.ConstructorBindingImpl$Factory@d032cf5[Scopes.SINGLETON]]\n\tat com.google.gerrit.extensions.registration.DynamicItem.set(DynamicItem.java:186)\n\tat com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.attachItems(PrivateInternals_DynamicTypes.java:99)\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.attachItem(PluginGuiceEnvironment.java:209)\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.onStartPlugin(PluginGuiceEnvironment.java:195)\n\tat com.google.gerrit.server.plugins.PluginLoader.runPlugin(PluginLoader.java:356)\n\tat com.google.gerrit.server.plugins.PluginLoader.rescan(PluginLoader.java:325)\n\tat com.google.gerrit.server.plugins.PluginLoader.start(PluginLoader.java:242)\n\tat com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:74)\n\tat com.google.gerrit.pgm.Daemon.run(Daemon.java:171)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:67)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)\n\tat sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)\n\tat java.lang.reflect.Method.invoke(Method.java:597)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:168)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:92)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:50)\n\tat Main.main(Main.java:25)",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NKvgrcX8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-21T23:14:18Z",
+      "side": 1,
+      "message": "Same question as above",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

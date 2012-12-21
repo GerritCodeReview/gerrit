@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "NK5cPpDg",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010362
+      },
+      "writtenOn": "2012-12-21T15:14:27Z",
+      "side": 1,
+      "message": "I ran the tests after the caches was done populating. The tests were made on a isolated test environment, and I am pretty sure I did not fill up the permission_sort-cache (too be fair, I only checked once). \n\nI\u0027m on vacation now, but when I get back to the Office, I will dig a bit deeper to see why the permission sort did not got hit enough.\n\nWhen I wrote this fix, I had just done some quick profiling and saw that Bric\u0027s getShortestExample() killed the performance (and cached it accordingly). As I guessed beforehand, I did see a quite big performance gain after this fix.",
+      "parentUuid": "NKdlccxo",
+      "revId": "8fc7dbf0cf2ad1b7abdc2fe5a001c9fdde03b518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NKFrylS4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/util/MostSpecificComparator.java",
         "patchSetId": 3

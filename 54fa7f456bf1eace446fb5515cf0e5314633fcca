@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NKHoguaE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2304,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2012-12-21T20:37:57Z",
+      "side": 1,
+      "message": "Just a thought for the future:  the whole closeChange() thing feels like policy, perhaps it should just be part of a commitValidator plugin?  (I do realize Shawn can\u0027t run plugins (yet).",
+      "revId": "54fa7f456bf1eace446fb5515cf0e5314633fcca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

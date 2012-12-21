@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NKTmlbwg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1815,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-21T00:33:15Z",
+      "side": 0,
+      "message": "I think you broke something here, and what is why I didn\u0027t try this earlier.\n\nConsider two changes D and E. You write D and upload it for review. Its pending review, but I like D and want to use it to write E. So I download D, create E, and upload it for review.\n\nSo now we have E-\u003eD-\u003eH as the parent chain.\n\nThe old code would only consider E here when I push E. It won\u0027t check D as D is already an existing object.\n\nThe new code will consider both E and D here, and complain that I can\u0027t use your email address as an author/committer in D.",
+      "revId": "cc446ff460d5ca64dda6fe3a232f095b783de47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

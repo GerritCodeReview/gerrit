@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.httpd.raw.AvatarServlet;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
@@ -76,6 +77,7 @@ class UrlModule extends ServletModule {
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);
     serve("/tools/*").with(ToolServlet.class);
+    serve("/avatar/*").with(AvatarServlet.class);
 
     serve("/Main.class").with(notFound());
     serve("/com/google/gerrit/launcher/*").with(notFound());

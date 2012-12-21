@@ -32,7 +32,6 @@ import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.CreateCodeReviewNotes;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MetaDataUpdate;
-import com.google.gerrit.server.git.NotesBranchUtil;
 import com.google.gerrit.server.git.SubmoduleOp;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommitMessageEditedSender;
@@ -68,7 +67,6 @@ public class GerritRequestModule extends FactoryModule {
     factory(SubmoduleOp.Factory.class);
     factory(MergeOp.Factory.class);
     factory(CreateCodeReviewNotes.Factory.class);
-    factory(NotesBranchUtil.Factory.class);
     install(new AsyncReceiveCommits.Module());
 
     // Not really per-request, but dammit, I don't know where else to

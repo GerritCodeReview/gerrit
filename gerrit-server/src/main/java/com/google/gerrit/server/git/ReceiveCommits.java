@@ -275,7 +275,6 @@ public class ReceiveCommits {
   private final Map<RevCommit, ReplaceRequest> replaceByCommit =
       new HashMap<RevCommit, ReplaceRequest>();
 
-  private Collection<ObjectId> existingObjects;
   private Map<ObjectId, Ref> refsById;
   private Map<String, Ref> allRefs;
 
@@ -1190,22 +1189,7 @@ public class ReceiveCommits {
     try {
       Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(newChange.getNewId()));
-      for (Ref ref : allRefs.values()) {
-        if (ref.getObjectId() == null) {
-          continue;
-        } else if (ref.getName().startsWith("refs/changes/")) {
-          existing.add(ref.getObjectId());
-        } else if (ref.getName().startsWith(R_HEADS)
-            || ref.getName().equals(destBranchCtl.getRefName())) {
-          try {
-            walk.markUninteresting(walk.parseCommit(ref.getObjectId()));
-          } catch (IOException e) {
-            log.warn(String.format("Invalid ref %s in %s",
-                ref.getName(), project.getName()), e);
-            continue;
-          }
-        }
-      }
+      markHeadsAsUninteresting(walk, existing);
 
       List<ChangeLookup> pending = Lists.newArrayList();
       final Set<Change.Key> newChangeIds = new HashSet<Change.Key>();
@@ -1301,6 +1285,25 @@ public class ReceiveCommits {
       batch.addCommand(create.cmd);
     }
     return newChanges;
+  }
+
+  private void markHeadsAsUninteresting(final RevWalk walk, Set<ObjectId> existing) {
+    for (Ref ref : allRefs.values()) {
+      if (ref.getObjectId() == null) {
+        continue;
+      } else if (ref.getName().startsWith("refs/changes/")) {
+        existing.add(ref.getObjectId());
+      } else if (ref.getName().startsWith(R_HEADS)
+          || (destBranchCtl != null && ref.getName().equals(destBranchCtl.getRefName()))) {
+        try {
+          walk.markUninteresting(walk.parseCommit(ref.getObjectId()));
+        } catch (IOException e) {
+          log.warn(String.format("Invalid ref %s in %s",
+              ref.getName(), project.getName()), e);
+          continue;
+        }
+      }
+    }
   }
 
   private static boolean isValidChangeId(String idStr) {
@@ -1927,18 +1930,15 @@ public class ReceiveCommits {
     walk.reset();
     walk.sort(RevSort.NONE);
     try {
+      Set<ObjectId> existing = Sets.newHashSet();
       walk.markStart(walk.parseCommit(cmd.getNewId()));
-      for (ObjectId id : existingObjects()) {
-        try {
-          walk.markUninteresting(walk.parseCommit(id));
-        } catch (IOException e) {
-          continue;
-        }
-      }
+      markHeadsAsUninteresting(walk, existing);
 
       RevCommit c;
       while ((c = walk.next()) != null) {
-        if (!validCommit(ctl, cmd, c)) {
+        if (existing.contains(c)) {
+          continue;
+        } else if (!validCommit(ctl, cmd, c)) {
           break;
         }
       }
@@ -1946,16 +1946,6 @@ public class ReceiveCommits {
       cmd.setResult(REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", err);
     }
-  }
-
-  private Collection<ObjectId> existingObjects() {
-    if (existingObjects == null) {
-      existingObjects = new ArrayList<ObjectId>(allRefs.size());
-      for (Ref r : allRefs.values()) {
-        existingObjects.add(r.getObjectId());
-      }
-    }
-    return existingObjects;
   }
 
   private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,

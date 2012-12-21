@@ -16,6 +16,24 @@
       "revId": "cc446ff460d5ca64dda6fe3a232f095b783de47a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NK9cFHBw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1815,
+      "author": {
+        "id": 1004323
+      },
+      "writtenOn": "2012-12-21T06:33:45Z",
+      "side": 0,
+      "message": "yes, that might be a bug in my proposal. But on the other hand we have\na big problem with one of our gerrit instances. If you push to this\ngerrit a commit which the server already knows to a new ref (\"push\ngerrit y:refs/heads/newBranchName\" when y is already on the gerrit\nserver) then this push fails with timeouts. jstack tells that we work\nfor 2 minutes on RevWalk.markUninteresting(). And that is a quite big\nserver with lots of memory.\n\nMy idea idea is: why don\u0027t we put commit id\u0027s of refs/changes/* refs\ninto a simple list and feed only refs/heads/* into the RevWalks as\nuninteresting. Every commit the RevWalk spits out is checked\nadditionally that is is not in this list. This should be more\nperformant, right?",
+      "parentUuid": "NKTmlbwg",
+      "revId": "cc446ff460d5ca64dda6fe3a232f095b783de47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

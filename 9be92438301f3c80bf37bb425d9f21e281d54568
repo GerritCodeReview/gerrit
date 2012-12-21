@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NKbmJf3w",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-21T15:59:21Z",
+      "side": 1,
+      "message": "this is now never null.",
+      "revId": "9be92438301f3c80bf37bb425d9f21e281d54568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NKZmMu40",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1226,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-21T15:59:21Z",
+      "side": 1,
+      "message": "nit: spaces missing around !\u003d",
+      "revId": "9be92438301f3c80bf37bb425d9f21e281d54568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NKfmP938",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-21T15:59:21Z",
+      "side": 1,
+      "message": "nit: curly braces around body",
+      "revId": "9be92438301f3c80bf37bb425d9f21e281d54568",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NLvQreH8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-21T23:09:37Z",
+      "side": 1,
+      "message": "Instead of a cookie, use local storage? Its natively supported in GWT 2.5:\n\nhttp://google-web-toolkit.googlecode.com/svn/javadoc/2.5/com/google/gwt/storage/client/package-summary.html",
+      "revId": "7b49817ac1ef150de37f9a18ebf42a9e972b9d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NLpQoBIU",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-21T23:09:37Z",
+      "side": 1,
+      "message": "These sorts of migrations are painful for me. I guess I had that coming. :-(\n\nWe normally do these things at Google by declaring the field optional in the preferences object, and setting a default value there. Old users will not have the field and get the default value. Users that set the field will then use their value rather than the default.\n\nUnfortunately for me I don\u0027t think gwtorm has good support for this. Maybe we should fix that? In a SQL database it would be adding a \"DEFAULT nnn\" attribute on the field declaration in the table, which would then automatically apply for all old users and mean you don\u0027t need code to handle the field addition.\n\nWhen outputting protobuf data for a field, it would mean adding \"[default \u003d nnn]\" to the declaration of the field.",
+      "revId": "7b49817ac1ef150de37f9a18ebf42a9e972b9d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

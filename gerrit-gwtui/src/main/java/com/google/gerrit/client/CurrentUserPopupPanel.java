@@ -16,9 +16,12 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ErrorEvent;
+import com.google.gwt.event.dom.client.ErrorHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.PluginSafePopupPanel;
@@ -30,6 +33,8 @@ public class CurrentUserPopupPanel extends PluginSafePopupPanel {
   private static final Binder binder = GWT.create(Binder.class);
 
   @UiField
+  Image avatar;
+  @UiField
   Label userName;
   @UiField
   Label userEmail;
@@ -39,7 +44,20 @@ public class CurrentUserPopupPanel extends PluginSafePopupPanel {
   public CurrentUserPopupPanel(Account account, boolean canLogOut) {
     super(/* auto hide */true, /* modal */false);
     setWidget(binder.createAndBindUi(this));
+    // We must show and then hide this popup so that it is part of the DOM.
+    // Otherwise the image does not get any events.  Calling hide() would
+    // remove it from the DOM so we use setVisible(false) instead.
+    show();
+    setVisible(false);
     setStyleName(Gerrit.RESOURCES.css().userInfoPopup());
+    avatar.setUrl("/avatar/" + account.getId() + "?size=100");
+    avatar.addErrorHandler(new ErrorHandler() {
+      @Override
+      public void onError(ErrorEvent event) {
+        // We got a 404, don't bother showing the image.
+        avatar.setVisible(false);
+      }
+    });
     if (account.getFullName() != null) {
       userName.setText(account.getFullName());
     }

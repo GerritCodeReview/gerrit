@@ -17,7 +17,6 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -28,9 +27,9 @@ public class CommitMessageEditedSender extends ReplacePatchSetSender {
 
   @Inject
   public CommitMessageEditedSender(EmailArguments ea,
-      @AnonymousCowardName String anonymousCowardName, SshInfo si,
+      @AnonymousCowardName String anonymousCowardName,
       @Assisted Change c) {
-    super(ea, anonymousCowardName, si, c);
+    super(ea, anonymousCowardName, c);
   }
 
   @Override

@@ -16,6 +16,12 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.ssh.SshInfo;
+import com.google.inject.Inject;
+
+import com.jcraft.jsch.HostKey;
+
+import java.util.List;
 
 /**
  * Common class for notifications that are related to a project and branch
@@ -24,12 +30,35 @@ public abstract class NotificationEmail extends OutgoingEmail {
   protected Project.NameKey project;
   protected Branch.NameKey branch;
 
+  /* Field sshInfo is used in some email sender classes, but not all of them,
+   * and because some of them that don't use this field are injected before
+   * initializing ssh module, such as AbandonedSender class, so make this field
+   * an optional injection. */
+  @Inject(optional=true)
+  protected SshInfo sshInfo;
+
   protected NotificationEmail(EmailArguments ea, String anonymousCowardName,
       String mc, Project.NameKey project, Branch.NameKey branch) {
     super(ea, anonymousCowardName, mc);
 
     this.project = project;
     this.branch = branch;
+  }
+
+  public String getSshHost() {
+    if (sshInfo == null) {
+      return null;
+    }
+    final List<HostKey> hostKeys = sshInfo.getHostKeys();
+    if (hostKeys.isEmpty()) {
+      return null;
+    }
+
+    final String host = hostKeys.get(0).getHost();
+    if (host.startsWith("*:")) {
+      return getGerritHost() + host.substring(1);
+    }
+    return host;
   }
 
   @Override

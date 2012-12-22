@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "NLlRALDY",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-22T01:07:41Z",
+      "side": 1,
+      "message": "nit: if (p !\u003d null)",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NLnRFKEU",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-22T01:07:41Z",
+      "side": 1,
+      "message": "this method can be shorter:\n\n  return p !\u003d null ? p.get() : null;",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NKtgurZI",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
         "patchSetId": 1
@@ -19,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "NLjRPsGU",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-22T01:07:41Z",
+      "side": 1,
+      "message": "I would use ProvisionException maybe instead of RuntimeException, or IllegalStateException, but otherwise I\u0027m not sure you can get a cleaner error here.\n\nMaybe you can pass the Key into the constructor. You have it in the itemOf() method above. Pass it to the Provider, and then the Provider can pass it to the DynamicItem. Then you have the Key available to say what type was already provided.\n\nYou could get better data about which plugin supplied the current Provider if you pass the plugin name into the set() method. This is a bit more work because you need to carry the plugin name when the set method is called from the plugin. But this should be doable in the existing Guice glue code you are already writing to invoke DynamicItem.set.\n\nIf you do that, you need to make a new tiny type to put into the AtomicReference. Instead of a Provider\u003cT\u003e you need something that is a pair of Provider\u003cT\u003e and the description string of who supplied the current value.",
+      "parentUuid": "NKtgurZI",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NKvgrcX8",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
         "patchSetId": 1
@@ -30,6 +82,23 @@
       "writtenOn": "2012-12-21T23:14:18Z",
       "side": 1,
       "message": "Same question as above",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NLhRKtFQ",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItemProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-22T01:07:41Z",
+      "side": 1,
+      "message": "We probably do want to here, that would be an indication the main server is configured wrong in Guice.",
       "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

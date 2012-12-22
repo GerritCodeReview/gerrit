@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NLpQ9ZMA",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/AvatarServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-22T01:13:40Z",
+      "side": 1,
+      "message": "2012?",
+      "revId": "04d460778ce210d5d35284e7f002b30b69f1d1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NLrQ64MM",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/AvatarServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-22T01:13:40Z",
+      "side": 1,
+      "message": "log this",
+      "revId": "04d460778ce210d5d35284e7f002b30b69f1d1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NLvQwWOk",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/avatar/AvatarProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2012-12-22T01:13:40Z",
+      "side": 1,
+      "message": "copyright before package line",
+      "revId": "04d460778ce210d5d35284e7f002b30b69f1d1e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

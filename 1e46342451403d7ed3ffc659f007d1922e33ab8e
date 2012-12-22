@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "NPEby0i4",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/AccountGroupMembersScreen.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-22T06:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLjQaUHY",
+      "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NLpQPpDg",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
         "patchSetId": 8
@@ -47,6 +65,24 @@
       "writtenOn": "2012-12-21T23:02:03Z",
       "side": 1,
       "message": "This name and the name of the other result set are too close to each other. Its hard to follow.",
+      "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NPGb3zh0",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-22T06:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLpQPpDg",
       "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "NPAb82vw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-22T06:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLvQCmBE",
+      "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NLhT89Pw",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
         "patchSetId": 8
@@ -81,6 +135,24 @@
       "writtenOn": "2012-12-21T23:02:03Z",
       "side": 1,
       "message": "These two fields are ints. Use getInt(\"group_id\").",
+      "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NPCYB1g8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-22T06:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLhT89Pw",
       "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "NPMYFYhw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-22T06:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLjQB8A8",
+      "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NLrQMIEQ",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
         "patchSetId": 8
@@ -115,6 +205,24 @@
       "writtenOn": "2012-12-21T23:02:03Z",
       "side": 1,
       "message": "The Statement handle returned by createStatement() should be closed after you are done using it.\n\nYou also have a bug here, you scan through the entire audit table once per include record. I think you mean to only look at the audit records for this old include record. Which means adding a WHERE clause to match the current include record.",
+      "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NPEYbsnw",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-22T06:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLrQMIEQ",
       "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "NPIYPajg",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-22T06:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLtQFHBw",
+      "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NLlQbTHw",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
         "patchSetId": 8
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "NPOYC3hE",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-22T06:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLlQbTHw",
+      "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NLnQgyKE",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
         "patchSetId": 8
@@ -166,6 +310,24 @@
       "writtenOn": "2012-12-21T23:02:03Z",
       "side": 1,
       "message": "Instead of doing one row at a time, make a List of all rows you need to insert and call insert once passing the entire list. This allows us to use database statement batching and will make a larger conversion go faster, if anyone has a lot of nested groups.",
+      "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NPKYM5kM",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_74.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2012-12-22T06:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLnQgyKE",
       "revId": "1e46342451403d7ed3ffc659f007d1922e33ab8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -16,6 +16,24 @@
       "revId": "7f6adf11a855b3e68bc0f8d5b85e3692b1f03cc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NLjRoEK4",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011107
+      },
+      "writtenOn": "2012-12-23T12:48:19Z",
+      "side": 1,
+      "message": "Currently, we have quasi admin for our accounts access.  This is something I\u0027ve been strongly looking to tear down since \"Great access means great damage when someone inevitably does something stupid\" ;)\n\nEither way, if it\u0027s not possible to do ACL limitation of this beyond granting admin rights, that\u0027s fine- it\u0027s not a blocker for us, just a \"Nice to have\".",
+      "parentUuid": "NKXkgx6E",
+      "revId": "7f6adf11a855b3e68bc0f8d5b85e3692b1f03cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

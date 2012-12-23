@@ -126,7 +126,7 @@ EOF
 
     [ -n "$1" ] && info "ERROR $1"
 
-    exit
+    exit ${1+1}
 }
 
 debug() { [ -n "$SW_V" ] && info "$1" ; }

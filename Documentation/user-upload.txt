@@ -316,7 +316,7 @@ repo upload
 
 repo is a multiple repository management tool, most commonly
 used by the Android Open Source Project.  For more details, see
-link:http://source.android.com/download/using-repo[using repo].
+link:http://source.android.com/source/using-repo.html[using repo].
 
 [[repo_create]]
 Create Changes

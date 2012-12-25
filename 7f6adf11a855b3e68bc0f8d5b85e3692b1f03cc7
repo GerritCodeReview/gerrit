@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "NQoD8Vv8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2012-12-25T11:46:50Z",
+      "side": 1,
+      "message": "s/2009/2012",
+      "revId": "7f6adf11a855b3e68bc0f8d5b85e3692b1f03cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NKXkgx6E",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
         "patchSetId": 1

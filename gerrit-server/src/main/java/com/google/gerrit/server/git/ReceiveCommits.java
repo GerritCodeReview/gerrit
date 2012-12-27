@@ -2127,8 +2127,10 @@ public class ReceiveCommits {
 
     // If there are no SSH keys, the commit-msg hook must be installed via HTTP(S)
     if (hostKeys.isEmpty()) {
-      return "$ curl -o .git/hooks/commit-msg " + getGerritUrl() + "/tools/hooks/commit-msg\n"
-          + "$ chmod +x .git/hooks/commit-msg";
+      String p = ".git/hooks/commit-msg";
+      return String.format(
+          "  curl -o %s %s/tools/hooks/commit-msg ; chmod +x %s",
+          p, getGerritUrl(), p);
     }
 
     // SSH keys exist, so the hook can be installed with scp.
@@ -2148,7 +2150,9 @@ public class ReceiveCommits {
       sshPort = 22;
     }
 
-    return "$ scp -p -P " + sshPort + " " + currentUser.getUserName() + "@" + sshHost + ":hooks/commit-msg .git/hooks/";
+    return String.format(
+        "  scp -p -P %d %s@%s:hooks/commit-msg .git/hooks/",
+        sshPort, currentUser.getUserName(), sshHost);
   }
 
   private String getFixedCommitMsgWithChangeId(String errMsg, RevCommit c) {
@@ -2159,12 +2163,12 @@ public class ReceiveCommits {
     final String changeId = "Change-Id:";
     StringBuilder sb = new StringBuilder();
     sb.append("ERROR: ").append(errMsg);
-    sb.append("\n");
+    sb.append('\n');
     sb.append("Suggestion for commit message:\n");
 
     if (c.getFullMessage().indexOf(changeId)==-1) {
       sb.append(c.getFullMessage());
-      sb.append("\n");
+      sb.append('\n');
       sb.append(changeId).append(" I").append(c.name());
     } else {
       String lines[] = c.getFullMessage().trim().split("\n");
@@ -2173,21 +2177,24 @@ public class ReceiveCommits {
       if (lastLine.indexOf(changeId)==0) {
         for (int i = 0; i < lines.length - 1; i++) {
           sb.append(lines[i]);
-          sb.append("\n");
+          sb.append('\n');
         }
 
-        sb.append("\n");
+        sb.append('\n');
         sb.append(lastLine);
       } else {
         sb.append(c.getFullMessage());
-        sb.append("\n");
+        sb.append('\n');
         sb.append(changeId).append(" I").append(c.name());
-        sb.append("\nHint: A potential Change-Id was found, but it was not in the footer of the commit message.");
+        sb.append('\n');
+        sb.append("Hint: A potential Change-Id was found, but it was not in the footer of the commit message.");
       }
     }
-    sb.append("\n");
-    sb.append("Hint: To automatically add a Change-Id to commit messages, install the commit-msg hook:\n");
-    sb.append(getCommitMessageHookInstallationHint());
+    sb.append('\n');
+    sb.append('\n');
+    sb.append("Hint: To automatically insert Change-Id, install the hook:\n");
+    sb.append(getCommitMessageHookInstallationHint()).append('\n');
+    sb.append('\n');
 
     return sb.toString();
   }

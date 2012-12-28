@@ -56,6 +56,8 @@ Stable-Fix
 `stable-fix` releases should likely only contain bug fixes and doc
 updates.
 
+* Propose the release with any plans/objectives to the mailing list
+
 * This type of release does not need any RCs, release when the
 objectives are met
 

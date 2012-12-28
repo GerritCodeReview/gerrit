@@ -274,9 +274,8 @@ public class MergeUtil {
   }
 
   public static List<PatchSetApproval> getApprovalsForCommit(final ReviewDb db, final CodeReviewCommit n) {
-    List<PatchSetApproval> approvalList = null;
     try {
-      approvalList =
+      List<PatchSetApproval> approvalList =
           db.patchSetApprovals().byPatchSet(n.patchsetId).toList();
       Collections.sort(approvalList, new Comparator<PatchSetApproval>() {
         @Override
@@ -284,10 +283,11 @@ public class MergeUtil {
           return a.getGranted().compareTo(b.getGranted());
         }
       });
+      return approvalList;
     } catch (OrmException e) {
       log.error("Can't read approval records for " + n.patchsetId, e);
+      return Collections.emptyList();
     }
-    return approvalList;
   }
 
   private static boolean contains(List<FooterLine> footers, FooterKey key, String val) {

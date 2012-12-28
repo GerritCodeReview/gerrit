@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "NXiTy0i0",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2012-12-28T09:53:58Z",
+      "side": 1,
+      "message": "Can you remove this part of the sentence?\n\nAs commented on the previous patch set, I think it\u0027s better to agree on always announcing stable-fix releases ahead. I\u0027ve adapted the release documentation accordingly [1] and also documented that security releases should only contain fixes for security issues [2].\n\n [1] https://gerrit-review.googlesource.com/40642\n [2] https://gerrit-review.googlesource.com/40643",
+      "revId": "a16d72b569782c46fd1cbb8dc01effbde71e2966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

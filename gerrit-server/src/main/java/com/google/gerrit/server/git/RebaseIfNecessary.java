@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.canCherryPick;
 import static com.google.gerrit.server.git.MergeUtil.canFastForward;
+import static com.google.gerrit.server.git.MergeUtil.getApprovalsForCommit;
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
 import static com.google.gerrit.server.git.MergeUtil.hasMissingDependencies;
 import static com.google.gerrit.server.git.MergeUtil.markCleanMerges;
@@ -33,6 +34,7 @@ import com.google.gwtorm.server.OrmException;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +84,10 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
                     n.patchsetId, n.change, getSubmitter(args.db, n.patchsetId)
                         .getAccountId(), newMergeTip, args.useContentMerge);
+            for (PatchSetApproval a : getApprovalsForCommit(args.db, n)) {
+              args.db.patchSetApprovals().insert(
+                  Collections.singleton(new PatchSetApproval(newPatchSet.getId(), a)));
+            }
             newMergeTip =
                 (CodeReviewCommit) args.rw.parseCommit(ObjectId
                     .fromString(newPatchSet.getRevision().get()));

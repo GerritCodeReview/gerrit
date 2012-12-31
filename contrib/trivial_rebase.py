@@ -142,7 +142,12 @@ def Main():
   usage = "usage: %prog <required options> [--server-port=PORT]"
   parser = OptionParser(usage=usage)
   parser.add_option("--change", dest="changeId", help="Change identifier")
-  parser.add_option("--project", help="Project path in Gerrit")
+  parser.add_option("--change-url", help="Change URL")
+  parser.add_option("--is-draft", help="Is draft")
+  parser.add_option("--project", dest="project", help="Project path in Gerrit")
+  parser.add_option("--branch", help="Branch")
+  parser.add_option("--topic", help="Topic")
+  parser.add_option("--uploader", help="Uploader")
   parser.add_option("--commit", help="Git commit-ish for this patchset")
   parser.add_option("--patchset", type="int", help="The patchset number")
   parser.add_option("--private-key-path", dest="private_key_path",

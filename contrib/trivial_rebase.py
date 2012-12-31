@@ -101,6 +101,13 @@ def GetApprovals(changeId, patchset, server, port):
       approvals.append(data["columns"])
   return approvals
 
+def AppendAcctApproval(acct_approvals, account_id, value):
+  try:
+    newval = acct_approvals[account_id] + ' ' + value
+  except:
+    newval = value
+  acct_approvals[account_id] = newval
+
 def GetEmailFromAcctId(account_id, server, port):
   """Returns the preferred email address associated with the account_id"""
   sql_query = ("\"SELECT preferred_email FROM accounts WHERE account_id = %s\""
@@ -192,15 +199,16 @@ def Main():
   approvals = GetApprovals(changeId, args.patchset, server, args.port)
   gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                         "detection script.\'")
+  acct_approvals = dict()
   for approval in approvals:
     # Note: Sites with different 'copy_min_score' values in the
     # approval_categories DB table might want different behavior here.
     # Additional categories should also be added if desired.
-    if approval["category_id"] == "CRVW":
-      approve_category = '--code-review'
+    if approval["category_id"] == "CRVW" and approval['value'] != '-2':
+      AppendAcctApproval(acct_approvals, approval['account_id'], '--code-review %s' % approval['value'])
     elif approval["category_id"] == "VRIF":
       # Don't re-add verifies
-      #approve_category = '--verified'
+      # AppendAcctApproval(acct_approvals, approval['account_id'], '--verified %s' % approval['value'])
       continue
     elif approval["category_id"] == "SUBM":
       # We don't care about previous submit attempts
@@ -209,12 +217,10 @@ def Main():
       print "Unsupported category: %s" % approval
       exit(0)
 
-    score = approval["value"]
+  for acct, flags in acct_approvals.items():
     gerrit_approve_cmd = ['gerrit', 'approve', '--project', args.project,
-                          '--message', gerrit_approve_msg, approve_category,
-                          score, args.commit]
-    email_addr = GetEmailFromAcctId(approval["account_id"], server,
-                                    args.port)
+                          '--message', gerrit_approve_msg, flags, args.commit]
+    email_addr = GetEmailFromAcctId(acct, server, args.port)
     SuExec(server, args.port, email_addr, ' '.join(gerrit_approve_cmd))
   exit(0)
 

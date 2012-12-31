@@ -140,10 +140,10 @@ class TrivialRebase:
   def GetPatchId(self, revision):
     git_show_cmd = ['git', 'show', revision]
     patch_id_cmd = ['git', 'patch-id']
-    patch_id_process = subprocess.Popen(patch_id_cmd, stdout=subprocess.PIPE,
-                                        stdin=subprocess.PIPE)
     git_show_process = subprocess.Popen(git_show_cmd, stdout=subprocess.PIPE)
-    return patch_id_process.communicate(git_show_process.communicate()[0])[0]
+    patch_id_process = subprocess.Popen(patch_id_cmd, stdout=subprocess.PIPE,
+                                        stdin=git_show_process.stdout)
+    return patch_id_process.communicate()[0]
 
   def SuExec(self, as_user, cmd):
     suexec_cmd = ['ssh', '-l', "Gerrit Code Review", '-p', self.port, self.server, '-i',

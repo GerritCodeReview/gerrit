@@ -39,6 +39,9 @@ from optparse import OptionParser
 import subprocess
 from sys import exit
 
+ssh = 'ssh'
+sshPortFlag = '-p'
+
 class CheckCallError(OSError):
   """CheckCall() returned non-0."""
   def __init__(self, command, cwd, retcode, stdout, stderr=None):
@@ -55,7 +58,7 @@ def CheckCall(command, cwd=None):
   Works on python 2.4
   """
   try:
-    process = subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE)
+    process = subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     std_out, std_err = process.communicate()
   except OSError, e:
     raise CheckCallError(command, cwd, e.errno, None)
@@ -65,8 +68,8 @@ def CheckCall(command, cwd=None):
 
 def GsqlQuery(sql_query, server, port):
   """Runs a gerrit gsql query and returns the result"""
-  gsql_cmd = ['ssh', '-p', port, server, 'gerrit', 'gsql', '--format',
-              'JSON', '-c', sql_query]
+  gsql_cmd = [ssh, sshPortFlag, port, '-l', 'admin', server, 'gerrit',
+              'gsql', '--format', 'JSON', '-c', sql_query]
   try:
     (gsql_out, gsql_stderr) = CheckCall(gsql_cmd)
   except CheckCallError, e:
@@ -121,9 +124,10 @@ def GetPatchId(revision):
   git_show_process = subprocess.Popen(git_show_cmd, stdout=subprocess.PIPE)
   return patch_id_process.communicate(git_show_process.communicate()[0])[0]
 
-def SuExec(server, port, private_key, as_user, cmd):
-  suexec_cmd = ['ssh', '-l', "Gerrit Code Review", '-p', port, server, '-i',
-                private_key, 'suexec', '--as', as_user, '--', cmd]
+def SuExec(server, port, as_user, cmd):
+  suexec_cmd = [ssh, sshPortFlag, port, '-l', "Gerrit Code Review",
+                server, 'suexec', '--as', as_user, '--', cmd]
+  print 'running ' + ' '.join(suexec_cmd)
   CheckCall(suexec_cmd)
 
 def DiffCommitMessages(commit1, commit2):
@@ -138,6 +142,8 @@ def DiffCommitMessages(commit1, commit2):
   return False
 
 def Main():
+  global ssh
+  global sshPortFlag
   server = 'localhost'
   usage = "usage: %prog <required options> [--server-port=PORT]"
   parser = OptionParser(usage=usage)
@@ -150,6 +156,7 @@ def Main():
   parser.add_option("--server-port", dest="port", default='29418',
                     help="Port to connect to Gerrit's SSH daemon "
                          "[default: %default]")
+  parser.add_option("--plink", action="store_true", dest="plink")
 
   (options, args) = parser.parse_args()
 
@@ -160,6 +167,11 @@ def Main():
   if options.patchset == 1:
     # Nothing to detect on first patchset
     exit(0)
+
+  if options.plink:
+    ssh = 'plink'
+    sshPortFlag = '-P'
+
   prev_revision = None
   prev_revision = FindPrevRev(options.changeId, options.patchset, server,
                               options.port)
@@ -180,7 +192,7 @@ def Main():
     # commit message changed
     comment_msg = ("\'--message=New patchset patch-id matches previous patchset"
                    ", but commit message has changed.'")
-    comment_cmd = ['ssh', '-p', options.port, server, 'gerrit', 'approve',
+    comment_cmd = [ssh, sshPortFlag, options.port, server, 'gerrit', 'review',
                    '--project', options.project, comment_msg, options.commit]
     CheckCall(comment_cmd)
     exit(0)

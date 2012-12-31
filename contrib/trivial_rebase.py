@@ -35,6 +35,7 @@
 # Documentation is available here: https://www.codeaurora.org/xwiki/bin/QAEP/Gerrit
 
 import json
+import re
 from optparse import OptionParser
 import subprocess
 from sys import exit
@@ -79,10 +80,8 @@ def GsqlQuery(sql_query, server, port):
 
 def FindPrevRev(changeId, patchset, server, port):
   """Finds the revision of the previous patch set on the change"""
-  sql_query = ("\"SELECT revision FROM patch_sets,changes WHERE "
-               "patch_sets.change_id = changes.change_id AND "
-               "patch_sets.patch_set_id = %s AND "
-               "changes.change_key = \'%s\'\"" % ((patchset - 1), changeId))
+  sql_query = ("\"SELECT revision FROM patch_sets WHERE "
+               "change_id = %s AND patch_set_id = %s\"" % (changeId, (patchset - 1)))
   revisions = GsqlQuery(sql_query, server, port)
 
   json_dict = json.loads(revisions[0], strict=False)
@@ -93,9 +92,8 @@ def GetApprovals(changeId, patchset, server, port):
 
   Returns a list of approval dicts"""
   sql_query = ("\"SELECT value,account_id,category_id FROM patch_set_approvals "
-               "WHERE patch_set_id = %s AND change_id = (SELECT change_id FROM "
-               "changes WHERE change_key = \'%s\') AND value <> 0\""
-               % ((patchset - 1), changeId))
+               "WHERE change_id = %s AND patch_set_id = %s AND value != 0\""
+               % (changeId, (patchset - 1)))
   gsql_out = GsqlQuery(sql_query, server, port)
   approvals = []
   for json_str in gsql_out:
@@ -141,8 +139,8 @@ def Main():
   server = 'localhost'
   usage = "usage: %prog <required options> [--server-port=PORT]"
   parser = OptionParser(usage=usage)
-  parser.add_option("--change", dest="changeId", help="Change identifier")
-  parser.add_option("--change-url", help="Change URL")
+  parser.add_option("--change", help="Change identifier")
+  parser.add_option("--change-url", dest="changeUrl", help="Change URL")
   parser.add_option("--is-draft", help="Is draft")
   parser.add_option("--project", dest="project", help="Project path in Gerrit")
   parser.add_option("--branch", help="Branch")
@@ -157,8 +155,12 @@ def Main():
                          "[default: %default]")
 
   (options, args) = parser.parse_args()
+  try:
+    changeId = re.search('\d+', options.changeUrl).group()
+  except:
+    changeId = None
 
-  if not options.changeId:
+  if changeId is None:
     parser.print_help()
     exit(0)
 
@@ -166,8 +168,7 @@ def Main():
     # Nothing to detect on first patchset
     exit(0)
   prev_revision = None
-  prev_revision = FindPrevRev(options.changeId, options.patchset, server,
-                              options.port)
+  prev_revision = FindPrevRev(changeId, options.patchset, server, options.port)
   if not prev_revision:
     # Couldn't find a previous revision
     exit(0)
@@ -192,8 +193,7 @@ def Main():
 
   # Need to get all approvals on prior patch set, then suexec them onto
   # this patchset.
-  approvals = GetApprovals(options.changeId, options.patchset, server,
-                           options.port)
+  approvals = GetApprovals(changeId, options.patchset, server, options.port)
   gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                         "detection script.\'")
   for approval in approvals:

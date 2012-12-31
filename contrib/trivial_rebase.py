@@ -34,8 +34,8 @@
 # Get usage and help info by running: ./trivial_rebase.py --help
 # Documentation is available here: https://www.codeaurora.org/xwiki/bin/QAEP/Gerrit
 
+import argparse
 import json
-from optparse import OptionParser
 import subprocess
 
 class CheckCallError(OSError):
@@ -138,35 +138,35 @@ def DiffCommitMessages(commit1, commit2):
 
 def Main():
   server = 'localhost'
-  usage = "usage: %prog <required options> [--server-port=PORT]"
-  parser = OptionParser(usage=usage)
-  parser.add_option("--change", dest="changeId", help="Change identifier")
-  parser.add_option("--project", help="Project path in Gerrit")
-  parser.add_option("--commit", help="Git commit-ish for this patchset")
-  parser.add_option("--patchset", type="int", help="The patchset number")
-  parser.add_option("--private-key-path", dest="private_key_path",
-                    help="Full path to Gerrit SSH daemon's private host key")
-  parser.add_option("--server-port", dest="port", default='29418',
-                    help="Port to connect to Gerrit's SSH daemon "
-                         "[default: %default]")
+  usage = "%(prog)s <required options> [--server-port=PORT]"
+  parser = argparse.ArgumentParser(usage=usage)
+  parser.add_argument("--change", dest="changeId", help="Change identifier")
+  parser.add_argument("--project", help="Project path in Gerrit")
+  parser.add_argument("--commit", help="Git commit-ish for this patchset")
+  parser.add_argument("--patchset", type=int, help="The patchset number")
+  parser.add_argument("--private-key-path", dest="private_key_path",
+                      help="Full path to Gerrit SSH daemon's private host key")
+  parser.add_argument("--server-port", dest="port", default='29418',
+                      help="Port to connect to Gerrit's SSH daemon "
+                           "[default: %(default)s]")
 
-  (options, _args) = parser.parse_args()
+  args = parser.parse_known_args()[0]
 
-  if not options.changeId:
+  if not args.changeId:
     parser.print_help()
     exit(0)
 
-  if options.patchset == 1:
+  if args.patchset == 1:
     # Nothing to detect on first patchset
     exit(0)
   prev_revision = None
-  prev_revision = FindPrevRev(options.changeId, options.patchset, server,
-                              options.port)
+  prev_revision = FindPrevRev(args.changeId, args.patchset, server,
+                              args.port)
   if not prev_revision:
     # Couldn't find a previous revision
     exit(0)
   prev_patch_id = GetPatchId(prev_revision)
-  cur_patch_id = GetPatchId(options.commit)
+  cur_patch_id = GetPatchId(args.commit)
   if not (prev_patch_id and cur_patch_id):
     if not prev_patch_id:
       print "GetPatchId failed for commit %s" % (prev_revision)
@@ -179,21 +179,21 @@ def Main():
   # Patch ids match. This is a trivial rebase.
   # In addition to patch-id we should check if the commit message changed. Most
   # approvers would want to re-review changes when the commit message changes.
-  changed = DiffCommitMessages(prev_revision, options.commit)
+  changed = DiffCommitMessages(prev_revision, args.commit)
   if changed:
     # Insert a comment into the change letting the approvers know only the
     # commit message changed
     comment_msg = ("\'--message=New patchset patch-id matches previous patchset"
                    ", but commit message has changed.'")
-    comment_cmd = ['ssh', '-p', options.port, server, 'gerrit', 'approve',
-                   '--project', options.project, comment_msg, options.commit]
+    comment_cmd = ['ssh', '-p', args.port, server, 'gerrit', 'approve',
+                   '--project', args.project, comment_msg, args.commit]
     CheckCall(comment_cmd)
     exit(0)
 
   # Need to get all approvals on prior patch set, then suexec them onto
   # this patchset.
-  approvals = GetApprovals(options.changeId, options.patchset, server,
-                           options.port)
+  approvals = GetApprovals(args.changeId, args.patchset, server,
+                           args.port)
   gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                         "detection script.\'")
   for approval in approvals:
@@ -214,12 +214,12 @@ def Main():
       exit(0)
 
     score = approval["value"]
-    gerrit_approve_cmd = ['gerrit', 'approve', '--project', options.project,
+    gerrit_approve_cmd = ['gerrit', 'approve', '--project', args.project,
                           '--message', gerrit_approve_msg, approve_category,
-                          score, options.commit]
+                          score, args.commit]
     email_addr = GetEmailFromAcctId(approval["account_id"], server,
-                                    options.port)
-    SuExec(server, options.port, options.private_key_path, email_addr,
+                                    args.port)
+    SuExec(server, args.port, args.private_key_path, email_addr,
            ' '.join(gerrit_approve_cmd))
   exit(0)
 

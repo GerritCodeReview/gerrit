@@ -35,7 +35,7 @@
 # Documentation is available here: https://www.codeaurora.org/xwiki/bin/QAEP/Gerrit
 
 import json
-from optparse import OptionParser
+import argparse
 import subprocess
 
 class CheckCallError(OSError):
@@ -138,19 +138,19 @@ def DiffCommitMessages(commit1, commit2):
 
 def Main():
   server = 'localhost'
-  usage = "usage: %prog <required options> [--server-port=PORT]"
-  parser = OptionParser(usage=usage)
-  parser.add_option("--change", dest="changeId", help="Change identifier")
-  parser.add_option("--project", help="Project path in Gerrit")
-  parser.add_option("--commit", help="Git commit-ish for this patchset")
-  parser.add_option("--patchset", type="int", help="The patchset number")
-  parser.add_option("--private-key-path", dest="private_key_path",
-                    help="Full path to Gerrit SSH daemon's private host key")
-  parser.add_option("--server-port", dest="port", default='29418',
-                    help="Port to connect to Gerrit's SSH daemon "
-                         "[default: %default]")
+  usage = "%(prog)s <required options> [--server-port=PORT]"
+  parser = argparse.ArgumentParser(usage=usage)
+  parser.add_argument("--change", dest="changeId", help="Change identifier")
+  parser.add_argument("--project", help="Project path in Gerrit")
+  parser.add_argument("--commit", help="Git commit-ish for this patchset")
+  parser.add_argument("--patchset", type=int, help="The patchset number")
+  parser.add_argument("--private-key-path", dest="private_key_path",
+                      help="Full path to Gerrit SSH daemon's private host key")
+  parser.add_argument("--server-port", dest="port", default='29418',
+                      help="Port to connect to Gerrit's SSH daemon "
+                           "[default: %(default)s]")
 
-  (options, _args) = parser.parse_args()
+  (options, _args) = parser.parse_known_args()
 
   if not options.changeId:
     parser.print_help()

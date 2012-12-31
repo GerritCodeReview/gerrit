@@ -168,6 +168,9 @@ def Main():
     exit(0)
   prev_patch_id = GetPatchId(prev_revision)
   cur_patch_id = GetPatchId(options.commit)
+  if not prev_patch_id or not cur_patch_id:
+    print "GetPatchId failed for commits %s, %s" % (prev_revision, options.commit)
+    exit(0)
   if cur_patch_id.split()[0] != prev_patch_id.split()[0]:
     # patch-ids don't match
     exit(0)

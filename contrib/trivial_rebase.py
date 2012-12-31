@@ -36,6 +36,7 @@
 
 import argparse
 import json
+import re
 import subprocess
 
 class CheckCallError(OSError):
@@ -78,10 +79,8 @@ def GsqlQuery(sql_query, server, port):
 
 def FindPrevRev(changeId, patchset, server, port):
   """Finds the revision of the previous patch set on the change"""
-  sql_query = ("\"SELECT revision FROM patch_sets,changes WHERE "
-               "patch_sets.change_id = changes.change_id AND "
-               "patch_sets.patch_set_id = %s AND "
-               "changes.change_key = \'%s\'\"" % ((patchset - 1), changeId))
+  sql_query = ("\"SELECT revision FROM patch_sets WHERE "
+               "change_id = %s AND patch_set_id = %s\"" % (changeId, (patchset - 1)))
   revisions = GsqlQuery(sql_query, server, port)
 
   json_dict = json.loads(revisions[0], strict=False)
@@ -92,9 +91,8 @@ def GetApprovals(changeId, patchset, server, port):
 
   Returns a list of approval dicts"""
   sql_query = ("\"SELECT value,account_id,category_id FROM patch_set_approvals "
-               "WHERE patch_set_id = %s AND change_id = (SELECT change_id FROM "
-               "changes WHERE change_key = \'%s\') AND value <> 0\""
-               % ((patchset - 1), changeId))
+               "WHERE change_id = %s AND patch_set_id = %s AND value != 0\""
+               % (changeId, (patchset - 1)))
   gsql_out = GsqlQuery(sql_query, server, port)
   approvals = []
   for json_str in gsql_out:
@@ -140,7 +138,7 @@ def Main():
   server = 'localhost'
   usage = "%(prog)s <required options> [--server-port=PORT]"
   parser = argparse.ArgumentParser(usage=usage)
-  parser.add_argument("--change", dest="changeId", help="Change identifier")
+  parser.add_argument("--change-url", dest="changeUrl", help="Change URL")
   parser.add_argument("--project", help="Project path in Gerrit")
   parser.add_argument("--commit", help="Git commit-ish for this patchset")
   parser.add_argument("--patchset", type=int, help="The patchset number")
@@ -151,8 +149,9 @@ def Main():
                            "[default: %(default)s]")
 
   args = parser.parse_known_args()[0]
-
-  if not args.changeId:
+  try:
+    changeId = re.search(r'\d+', args.changeUrl).group()
+  except:
     parser.print_help()
     exit(0)
 
@@ -160,8 +159,7 @@ def Main():
     # Nothing to detect on first patchset
     exit(0)
   prev_revision = None
-  prev_revision = FindPrevRev(args.changeId, args.patchset, server,
-                              args.port)
+  prev_revision = FindPrevRev(changeId, args.patchset, server, args.port)
   if not prev_revision:
     # Couldn't find a previous revision
     exit(0)
@@ -192,8 +190,7 @@ def Main():
 
   # Need to get all approvals on prior patch set, then suexec them onto
   # this patchset.
-  approvals = GetApprovals(args.changeId, args.patchset, server,
-                           args.port)
+  approvals = GetApprovals(changeId, args.patchset, server, args.port)
   gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                         "detection script.\'")
   for approval in approvals:

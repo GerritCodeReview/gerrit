@@ -168,8 +168,14 @@ def Main():
     exit(0)
   prev_patch_id = GetPatchId(prev_revision)
   cur_patch_id = GetPatchId(options.commit)
-  if cur_patch_id.split()[0] != prev_patch_id.split()[0]:
-    # patch-ids don't match
+  try:
+    if cur_patch_id.split()[0] != prev_patch_id.split()[0]:
+      # patch-ids don't match
+      exit(0)
+  except SystemExit:
+    raise
+  except:
+    print "GetPatchId failed for commits %s, %s" % (prev_revision, options.commit)
     exit(0)
   # Patch ids match. This is a trivial rebase.
   # In addition to patch-id we should check if the commit message changed. Most

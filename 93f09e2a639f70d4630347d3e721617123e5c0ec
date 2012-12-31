@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "Ndyv3GR4",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-31T21:40:44Z",
+      "side": 1,
+      "message": "Removed this block following your suggestion below",
+      "parentUuid": "NLlRALDY",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NLnRFKEU",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2012-12-22T01:07:41Z",
       "side": 1,
       "message": "this method can be shorter:\n\n  return p !\u003d null ? p.get() : null;",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NdwvyXS0",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-31T21:40:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "NLnRFKEU",
       "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -65,6 +101,24 @@
       "side": 1,
       "message": "I would use ProvisionException maybe instead of RuntimeException, or IllegalStateException, but otherwise I\u0027m not sure you can get a cleaner error here.\n\nMaybe you can pass the Key into the constructor. You have it in the itemOf() method above. Pass it to the Provider, and then the Provider can pass it to the DynamicItem. Then you have the Key available to say what type was already provided.\n\nYou could get better data about which plugin supplied the current Provider if you pass the plugin name into the set() method. This is a bit more work because you need to carry the plugin name when the set method is called from the plugin. But this should be doable in the existing Guice glue code you are already writing to invoke DynamicItem.set.\n\nIf you do that, you need to make a new tiny type to put into the AtomicReference. Instead of a Provider\u003cT\u003e you need something that is a pair of Provider\u003cT\u003e and the description string of who supplied the current value.",
       "parentUuid": "NKtgurZI",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "Nd2sBIQ8",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2012-12-31T21:40:44Z",
+      "side": 1,
+      "message": "Sorry, my (lack of) guice knowledge is really showing here -\n\nI played around with adding the Key to the Exception String, but don\u0027t see any new or helpful information.  We call itemOf() from the GerritGlobalModule, so how would the Key have information on the type already provided?\n\nMy test code:\n\n throw new ProvisionException(\"Type already provided by \"\n          + this.item.get() + \"\\nUsing key \" + this.key);\n\nlog contents:\n\n [2012-12-31 15:22:32,238] WARN  com.google.gerrit.server.plugins.PluginLoader : Cannot load plugin static-avatar-provider\ncom.google.inject.ProvisionException: Guice provision errors:\n\n 1) Type already provided by FactoryProxy[key\u003dKey[type\u003dcom.google.gerrit.server.avatar.AvatarProvider, annotation\u003d@com.google.inject.internal.UniqueAnnotations$Internal(value\u003d95)], provider\u003dcom.google.inject.internal.ConstructorBindingImpl$Factory@230e2610[Scopes.SINGLETON]]\nUsing key Key[type\u003dcom.google.gerrit.extensions.registration.DynamicItem\u003ccom.google.gerrit.server.avatar.AvatarProvider\u003e, annotation\u003d[none]]\n\nWhat am I missing?",
+      "parentUuid": "NLjRPsGU",
       "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

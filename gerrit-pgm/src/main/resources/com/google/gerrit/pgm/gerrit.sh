@@ -394,7 +394,7 @@ case "$ACTION" in
       if test -f "$GERRIT_PID" ; then
         if running "$GERRIT_PID" ; then
           echo "Already Running!!"
-          exit 1
+          exit 0
         else
           rm -f "$GERRIT_PID" "$GERRIT_RUN"
         fi
@@ -503,7 +503,7 @@ case "$ACTION" in
     if test -f "$GERRIT_PID" ; then
         if running "$GERRIT_PID" ; then
           echo "Already Running!!"
-          exit 1
+          exit 0
         else
           rm -f "$GERRIT_PID"
         fi
@@ -533,7 +533,7 @@ case "$ACTION" in
             exit 0
         fi
     fi
-    exit 1
+    exit 3
   ;;
 
   *)

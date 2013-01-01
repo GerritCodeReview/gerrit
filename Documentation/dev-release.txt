@@ -62,6 +62,24 @@ updates.
 objectives are met
 
 
+Security-Fix
+~~~~~~~~~~~~
+
+`security-fix` releases should only contain bug fixes for security
+issues.
+
+For security issues it is important that they are only announced
+*after* fixed versions for all relevant releases have been published.
+Because of this `security-fix` releases can't be prepared in the public
+`gerrit` project.
+
+`security-fix` releases are prepared in the `gerrit-security-fixes`
+project which is only readable by the Gerrit Maintainers. Only after
+a `security-fix` release has been published the commits/tags done in
+the `gerrit-security-fixes` project will be taken over into the public
+`gerrit` project.
+
+
 Create the Actual Release
 ---------------------------
 

@@ -69,6 +69,7 @@ public interface AccountConstants extends Constants {
   String sshKeyStatus();
 
   String addSshKeyPanelHeader();
+  String addSshKeyHelpTitle();
   String addSshKeyHelp();
   String sshJavaAppletNotAvailable();
   String invalidSshKeyError();

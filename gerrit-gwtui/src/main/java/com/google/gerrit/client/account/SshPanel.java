@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.SshHostKey;
@@ -92,7 +93,11 @@ class SshPanel extends Composite {
     addKeyBlock.setVisible(false);
     addKeyBlock.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
     addKeyBlock.add(new SmallHeading(Util.C.addSshKeyPanelHeader()));
-    addKeyBlock.add(new HTML(Util.C.addSshKeyHelp()));
+
+    final ComplexDisclosurePanel addSshKeyHelp =
+        new ComplexDisclosurePanel(Util.C.addSshKeyHelpTitle(), false);
+    addSshKeyHelp.setContent(new HTML(Util.C.addSshKeyHelp()));
+    addKeyBlock.add(addSshKeyHelp);
 
     addTxt = new NpTextArea();
     addTxt.setVisibleLines(12);

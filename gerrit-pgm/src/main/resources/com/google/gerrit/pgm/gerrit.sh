@@ -47,7 +47,7 @@
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me {start|stop|restart|check|run|supervise} [-d site]"
+    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise} [-d site]"
     exit 1
 }
 
@@ -512,7 +512,7 @@ case "$ACTION" in
     exec "$RUN_EXEC" $RUN_Arg1 "$RUN_Arg2" $RUN_Arg3 $RUN_ARGS --console-log
   ;;
 
-  check)
+  check|status)
     echo "Checking arguments to Gerrit Code Review:"
     echo "  GERRIT_SITE     =  $GERRIT_SITE"
     echo "  GERRIT_CONFIG   =  $GERRIT_CONFIG"

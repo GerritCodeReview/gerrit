@@ -51,6 +51,24 @@
       "revId": "7f6adf11a855b3e68bc0f8d5b85e3692b1f03cc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "NcXFoOK8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/RunAsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-01T17:38:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean here Brian. Do you mean an ACL of which accounts can use the feature? These accounts would need to have that capability and administrateServer, as they could impersonate anyone with administrateServer. But it would allow you to only give a role account access to impersonate and prevent a normal human admin from using the impersonate feature.",
+      "parentUuid": "NLjRoEK4",
+      "revId": "7f6adf11a855b3e68bc0f8d5b85e3692b1f03cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

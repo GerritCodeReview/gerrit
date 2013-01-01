@@ -16,11 +16,13 @@ package com.google.gerrit.server.git;
 
 import static com.google.gerrit.server.git.MergeUtil.canCherryPick;
 import static com.google.gerrit.server.git.MergeUtil.canFastForward;
+import static com.google.gerrit.server.git.MergeUtil.getApprovalsForCommit;
 import static com.google.gerrit.server.git.MergeUtil.getSubmitter;
 import static com.google.gerrit.server.git.MergeUtil.hasMissingDependencies;
 import static com.google.gerrit.server.git.MergeUtil.markCleanMerges;
 import static com.google.gerrit.server.git.MergeUtil.mergeOneCommit;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -33,6 +35,7 @@ import com.google.gwtorm.server.OrmException;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,6 +85,11 @@ public class RebaseIfNecessary extends SubmitStrategy {
                 rebaseChange.rebase(args.repo, args.rw, args.inserter,
                     n.patchsetId, n.change, getSubmitter(args.db, n.patchsetId)
                         .getAccountId(), newMergeTip, args.useContentMerge);
+            List<PatchSetApproval> approvals = Lists.newArrayList();
+            for (PatchSetApproval a : getApprovalsForCommit(args.db, n)) {
+              approvals.add(new PatchSetApproval(newPatchSet.getId(), a));
+            }
+            args.db.patchSetApprovals().insert(approvals);
             newMergeTip =
                 (CodeReviewCommit) args.rw.parseCommit(ObjectId
                     .fromString(newPatchSet.getRevision().get()));

@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "NcXFPWGQ",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2013-01-01T17:32:38Z",
+      "side": 1,
+      "message": "The new error message you have is slightly easier to read than the original error, but still doesn\u0027t tell us which plugin. If you can\u0027t figure out how to get the plugin name in there upload what you have and I\u0027ll see if I can add the plugin name for you.",
+      "parentUuid": "Nd2sBIQ8",
+      "revId": "93f09e2a639f70d4630347d3e721617123e5c0ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "NKvgrcX8",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicItem.java",
         "patchSetId": 1

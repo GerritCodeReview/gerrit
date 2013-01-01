@@ -33,11 +33,14 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -400,6 +403,15 @@ public class ChangeScreen extends Screen
       comments.add(cp);
     }
 
+    final Button b = new Button(Util.C.changeScreenAddComment());
+    b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+            PatchSet.Id currentPatchSetId = patchSetsBlock.getCurrentPatchSet().getId();
+            Gerrit.display(Dispatcher.toPublish(currentPatchSetId));
+        }
+    });
+    comments.add(b);
     comments.setVisible(msgList.size() > 0);
   }
 

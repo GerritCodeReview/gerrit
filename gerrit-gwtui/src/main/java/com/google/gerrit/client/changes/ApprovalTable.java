@@ -383,6 +383,7 @@ public class ApprovalTable extends Composite {
       remove.setTitle(Util.M.removeReviewer( //
           FormatUtil.name(accountCache.get(ad.getAccount()))));
       remove.setStyleName(Gerrit.RESOURCES.css().removeReviewer());
+      remove.addStyleName(Gerrit.RESOURCES.css().link());
       remove.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(ClickEvent event) {

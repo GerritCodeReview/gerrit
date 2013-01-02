@@ -147,6 +147,7 @@ public interface GerritCss extends CssResource {
   String leftMostCell();
   String lineHeader();
   String lineNumber();
+  String link();
   String linkMenuBar();
   String linkMenuItemNotLast();
   String menuBarUserName();

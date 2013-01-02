@@ -123,6 +123,8 @@ public class CommitMessageBlock extends Composite {
           false));
       if (canEditCommitMessage) {
         final Image edit = new Image(Gerrit.RESOURCES.edit());
+        edit.setTitle(Util.C.editCommitMessageToolTip());
+        edit.addStyleName(Gerrit.RESOURCES.css().link());
         edit.addClickHandler(new ClickHandler() {
           @Override
           public void onClick(final ClickEvent event) {

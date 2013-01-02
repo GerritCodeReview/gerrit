@@ -156,6 +156,8 @@ public class ChangeInfoBlock extends Composite {
 
     if (changeDetail.canEditTopicName()) {
       final Image edit = new Image(Gerrit.RESOURCES.edit());
+      edit.addStyleName(Gerrit.RESOURCES.css().link());
+      edit.setTitle(Util.C.changeInfoBlockTopicAlterTopicToolTip());
       edit.addClickHandler(new  ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {

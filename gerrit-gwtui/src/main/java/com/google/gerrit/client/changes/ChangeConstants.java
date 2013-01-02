@@ -92,6 +92,7 @@ public interface ChangeConstants extends Constants {
   String changeInfoBlockProject();
   String changeInfoBlockBranch();
   String changeInfoBlockTopic();
+  String changeInfoBlockTopicAlterTopicToolTip();
   String changeInfoBlockUploaded();
   String changeInfoBlockUpdated();
   String changeInfoBlockStatus();
@@ -132,6 +133,7 @@ public interface ChangeConstants extends Constants {
   String revertChangeTitle();
 
   String headingEditCommitMessage();
+  String editCommitMessageToolTip();
   String titleEditCommitMessage();
 
   String buttonAbandonChangeBegin();

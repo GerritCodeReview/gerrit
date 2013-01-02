@@ -148,6 +148,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     // Prepare icons.
     iconA = new Image(Gerrit.RESOURCES.addFileComment());
     iconA.setTitle(PatchUtil.C.addFileCommentToolTip());
+    iconA.addStyleName(Gerrit.RESOURCES.css().link());
     iconA.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -156,6 +157,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     });
     iconB = new Image(Gerrit.RESOURCES.addFileComment());
     iconB.setTitle(PatchUtil.C.addFileCommentToolTip());
+    iconB.addStyleName(Gerrit.RESOURCES.css().link());
     iconB.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {

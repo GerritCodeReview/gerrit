@@ -106,6 +106,9 @@ a:hover {
   padding: 0.2em 0.2em 0.2em 0.5em;
 }
 
+.link {
+  cursor: pointer;
+}
 
 /** MenuScreen **/
 .menuScreenMenuBar {
@@ -957,7 +960,6 @@ a:hover {
 
 .changeInfoTopicPanel img {
   float: right;
-  cursor: pointer;
 }
 
 .changeInfoTopicPanel a {

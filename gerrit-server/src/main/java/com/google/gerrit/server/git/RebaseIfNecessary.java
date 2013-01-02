@@ -35,7 +35,6 @@ import com.google.gwtorm.server.OrmException;
 import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

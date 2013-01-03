@@ -119,7 +119,6 @@ public class SchemaCreator {
     }
 
     dataSourceType.getIndexScript().run(db);
-    dataSourceType.getNextValScript().run(db);
   }
 
   private AccountGroup newGroup(ReviewDb c, String name, AccountGroup.UUID uuid)

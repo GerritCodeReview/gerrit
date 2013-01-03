@@ -23,8 +23,6 @@ import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
 
-import java.io.IOException;
-
 class MySql extends BaseDataSourceType {
 
   private Config cfg;
@@ -50,10 +48,5 @@ class MySql extends BaseDataSourceType {
   @Override
   public boolean usePool() {
     return false;
-  }
-
-  @Override
-  public ScriptRunner getNextValScript() throws IOException {
-    return getScriptRunner("mysql_nextval.sql");
   }
 }

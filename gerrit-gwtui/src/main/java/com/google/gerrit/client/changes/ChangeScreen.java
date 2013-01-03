@@ -98,14 +98,6 @@ public class ChangeScreen extends Screen
   public ChangeScreen(final Change.Id toShow) {
     changeId = toShow;
     openPatchSetId = null;
-
-    // If we have any diff stored, make sure they are applicable to the
-    // current change, discard them otherwise.
-    //
-    if (currentChangeId != null && !currentChangeId.equals(toShow)) {
-      diffBaseId = null;
-    }
-    currentChangeId = toShow;
   }
 
   public ChangeScreen(final PatchSet.Id toShow) {
@@ -271,6 +263,7 @@ public class ChangeScreen extends Screen
 
   private void display(final ChangeDetail detail) {
     displayTitle(detail.getChange().getKey(), detail.getChange().getSubject());
+    discardDiffBaseIfNotApplicable(detail.getChange().getId());
 
     if (Status.MERGED == detail.getChange().getStatus()) {
       includedInPanel.setVisible(true);
@@ -352,6 +345,13 @@ public class ChangeScreen extends Screen
       display();
     }
     patchSetsBlock.setRegisterKeys(true);
+  }
+
+  private static void discardDiffBaseIfNotApplicable(final Change.Id toShow) {
+    if (currentChangeId != null && !currentChangeId.equals(toShow)) {
+      diffBaseId = null;
+    }
+    currentChangeId = toShow;
   }
 
   private void addComments(final ChangeDetail detail) {
